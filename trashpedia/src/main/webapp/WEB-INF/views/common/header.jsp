@@ -103,6 +103,7 @@
             document.querySelector('.search-pop-up').classList.toggle('active');
         });
 
+     
         // 검색 팝업창 올라가기
         document.getElementById('pop-up-X').addEventListener('click', function() {
             document.querySelector('.search-pop-up').classList.toggle('active');
