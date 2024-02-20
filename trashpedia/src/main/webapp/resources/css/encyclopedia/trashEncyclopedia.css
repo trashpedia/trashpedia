@@ -1,0 +1,604 @@
+@charset "UTF-8";
+input {
+    border: none;
+}
+
+input:focus {
+    outline: none;
+}
+
+.inner {
+    display: block;
+    position: relative;
+    margin: 0 auto;
+    width: 1759.99px;
+    height: 1850px;
+    display: flex;
+    /*   */
+}
+
+
+main {
+    /* position: relative; */
+    /* top: 140px; */
+    display: block;
+    /* text-align: center; */
+    width: 100%;
+    /* background-color: antiquewhite; */
+}
+
+
+.pageDescription {
+    width: 100%;
+    /* height: 1840px;  */
+    margin: 0 auto;
+    position: absolute;
+    background: white;
+    top: 0px;
+}
+
+.Group2122 {
+    width: 100%;
+    padding-top: 15px;
+    height: 100px;
+    left: 0px;
+    top: 80px;
+    position: absolute;
+}
+
+
+.Group2122 .Section {
+    box-sizing: border-box;
+    position: absolute;
+    width: 1760px;
+    /* width: 2760px;  */
+    height: 150px;
+    padding-left: 170px;
+    padding-right: 170px;
+    padding-top: 60px;
+    padding-bottom: 60px;
+    left: 0px;
+    top: 0px;
+    background-color: rgb(100, 179, 152);
+    width: 100%;
+    /* background: rgba(73.31, 68.43, 68.43, 0.62); */
+}
+
+.Group2121 {
+    text-align: center;
+    margin: 0 auto;
+    width: 1760px;
+    height: 150px;
+    position: absolute;
+}
+
+.Group2121 .Container {
+    /* margin: 0 auto; */
+    /* margin-left: calc((1760px - 1110px)/2); */
+    width: 1100px;
+    height: 120px;
+    left: 170px;
+    top: 0px;
+    position: absolute;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 24px;
+    display: inline-flex;
+    box-sizing: border;
+}
+
+
+.Group2121 .Container .Title {
+    /* margin: 0 auto; */
+    margin-left: calc((1110px - 470px)/2);
+    width: 520px;
+    text-align: center;
+    color: white;
+    font-size: 40px;
+    font-family: Roboto;
+    font-weight: 700;
+    line-height: 48px;
+    word-wrap: break-word;
+}
+
+.Group2121 .Container .Description {
+    margin-left: calc((1110px - 470px)/2);
+    width: 520px;
+    text-align: center;
+    color: white;
+    font-size: 16px;
+    font-family: Roboto;
+    font-weight: 400;
+    line-height: 24px;
+    word-wrap: break-word;
+}
+
+.Content {
+    width: 1760px;
+    /* padding-left: 170px;  */
+    /* padding-right: 170px;  */
+    padding-top: 60px;
+    padding-bottom: 60px;
+    left: 0px;
+    top: 230px;
+    position: absolute;
+    justify-content: center;
+    align-items: center;
+    gap: 60px;
+    display: inline-flex;
+}
+
+.Content .Container {
+    width: 1700px;
+    flex: 1 1 0;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 24px;
+    display: inline-flex;
+}
+
+.Content .Container>.Title {
+    width: 520px;
+    text-align: center;
+    color: black;
+    font-size: 40px;
+    font-family: Roboto;
+    font-weight: 700;
+    line-height: 48px;
+    word-wrap: break-word;
+
+}
+
+
+
+/* 검색창 */
+
+main .elementor-widget-container {
+    position: absolute;
+    top: 300px;
+    width: 100%;
+    height: 70px;
+    /* background-color: rgb(138, 255, 114); */
+}
+
+main .elementor-widget-container .probox {
+    margin: 0 auto;
+
+    height: 70px;
+    width: 450px;
+    border: 1px solid #222;
+    box-sizing: border-box;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+main .elementor-widget-container .probox input {
+    margin: 7px auto;
+    margin-left: 20px;
+    height: 50px;
+    width: 400px;
+    font-size: 20px;
+
+}
+
+main .elementor-widget-container .probox span {
+    font-size: 50px;
+    display: block;
+    display: flex;
+    justify-content: center;
+    cursor: pointer;
+}
+
+/* 검색창 끝 */
+
+
+
+
+
+
+/* 쓰레기 이미지 */
+main .elementor-widget-container2 {
+    position: absolute;
+    text-align: center;
+    top: 350px;
+    width: 100%;
+    height: 70px;
+}
+
+main .elementor-widget-container2 img {
+    width: 300px;
+    height: 300px;
+}
+
+/* 쓰레기 이미지 끝*/
+
+
+
+
+
+
+
+
+/* 쓰레기 */
+
+main .select {
+    position: absolute;
+    top: 650px;
+    width: 100%;
+    /* width: 1760px; */
+    height: 270px;
+    /* background-color: aqua; */
+}
+
+
+.swiper-container {
+    width: 1600px;
+    height: 270px;
+    /* flex: 1 1 0;  */
+    /* flex-direction: column;  */
+    /* justify-content: flex-start;  */
+    /* align-items: center;  */
+    /* gap: 24px;  */
+    /* display: inline-flex; */
+    /* border-bottom: 5px solid */
+        /* position: absolute; */
+}
+
+.swiper-container {
+    /* position: absolute; */
+}
+
+.swiper-slide {
+    /* position: absolute; */
+    cursor: pointer;
+    width: 100%;
+    height: 90%;
+    border-radius: 6px;
+    overflow: hidden;
+    /* border: 1px rgba(0, 0, 0, 0.10) solid; */
+    /* flex-direction: column;  */
+    /* justify-content: flex-start;  */
+    /* align-items: center;  */
+    /* display: inline-flex; */
+}
+
+.swiper-slide img {
+    display: block;
+    /* width: 240px; */
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+
+.swiper-container  .Card{
+    display: flex;
+    width: 270px; 
+    height: 370px;
+    border-radius: 6px; 
+    /* overflow: hidden;  */
+    
+    flex-direction: column; 
+    justify-content: flex-start; 
+    align-items: center; 
+    /* display: inline-flex; */
+    box-sizing: border-box;
+   
+    transform-style: preserve-3d;
+    transition: transform 1.5s;
+    perspective: 1000px; /* 3D 효과를 위한 perspective 설정 */
+}
+
+
+
+.swiper-container  .Card .Back {
+    width: 100%; 
+    height: 100%; 
+    backface-visibility: hidden;
+    transform: rotateY(180deg);
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+}
+
+.swiper-container  .Card .Back span{
+    display: block;
+    padding: 20px 10px 10px;
+    font-weight: 500;
+}
+
+
+
+.swiper-container  .Card:hover .Front {
+    transform: rotateY(-180deg); /* 호버 시 앞면이 180도 회전하여 사라지도록 설정 */
+    /* background-color: rgb(107, 199, 168); */
+    border: 2px rgba(0, 0, 0, 0.10) solid; 
+    border-radius: 6px; 
+    cursor: pointer;
+}
+
+.swiper-container  .Card:hover .Back {
+    transform: rotateY(0deg); /* 호버 시 뒷면이 180도 회전하여 나타나도록 설정 */
+    /* background-color: rgb(107, 199, 168); */
+    border: 2px rgba(0, 0, 0, 0.10) solid; 
+    border-radius: 6px; 
+    cursor: pointer;
+}
+
+.swiper-container  .Card .Front,
+.swiper-container  .Card .Back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    transition: transform 1.5s; /* 회전 트랜지션 설정 */
+    /* background-color: rgb(107, 199, 168); */
+}
+
+
+
+
+
+
+.swiper-container  .Card .Image{
+    width: 100%; 
+    height: 240px; 
+    position: relative; 
+    background: rgba(216.75, 216.75, 216.75, 0.50);
+}
+
+
+.swiper-container  .Card .Image img{
+    width: 100%;
+    height: 100%;
+}
+
+
+
+
+
+
+
+
+
+
+
+.today-popular-trash {
+    position: relative;
+    top: 950px;
+    width: 100%;
+    /* height: 700px; */
+}
+
+
+
+.today-popular-trash .Container .Title {
+    position: relative;
+    text-align: center;
+    font-size: 38px;
+    font-weight: 700;
+    margin-bottom: 30px;
+    color: #fff;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* 그림자 속성을 설정합니다. */
+}
+
+
+
+
+
+.today-popular-trash .Container {
+    position: relative;
+    width: 1760px;
+    height: 520px;
+    overflow: hidden;
+    background-image: url('../images/close-up-earth-sign-in-leaves.jpg'); /* 이미지 경로를 지정합니다. */
+    background-size: cover; /* 배경 이미지를 컨테이너에 맞게 조정합니다. */
+    background-repeat: no-repeat; /* 배경 이미지를 반복하지 않도록 설정합니다. */
+    background-position: center; /* 배경 이미지를 가운데 정렬합니다. */
+}
+
+.today-popular-trash .Container .card {
+    position: absolute;
+    padding: 10px 20px;
+    background-color: rgb(106, 220, 110);
+    border-radius: 20px;
+    animation-fill-mode: forwards;
+    /* 애니메이션이 끝난 후 요소의 상태를 유지 */
+    width: 140px;
+    height: 120px;
+    border-radius: 120px;
+    overflow: hidden;
+    border: 1px rgba(0, 0, 0, 0.10) solid;
+    justify-content: flex-start;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+
+    left: 100px;
+    top: 100px;
+    overflow: hidden;
+    /* box-sizing: border-box; */
+    /* background-color: rgb(170, 228, 207); */
+
+    font-weight: 700;
+
+}
+
+
+.today-popular-trash .Container .card img {
+    /* position: absolute; */
+    width: 70%;
+    height: 70%;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+.today-popular-trash .Container .card:hover {
+    width: 160px;
+    height: 140px;
+    background-color: #40A2E3;
+    border: 2px solid #0B60B0;
+    cursor: pointer;
+    /* 호버 시 변화를 천천히 만들기 위한 트랜지션 설정 */
+    transition: width .7s ease, height .7s ease, background-color .7s ease;
+
+}
+
+/* 각 card 요소들에 대한 위치와 애니메이션 설정 */
+.animate-card1 {
+    animation: moveRandom1 7s alternate forwards;
+
+}
+
+.animate-card2 {
+    animation: moveRandom2 5s alternate forwards;
+}
+
+.animate-card3 {
+    animation: moveRandom3 4s alternate forwards;
+}
+
+.animate-card4 {
+    animation: moveRandom4 5s alternate forwards;
+}
+
+.animate-card5 {
+    animation: moveRandom5 6s alternate forwards;
+}
+
+.animate-card6 {
+    animation: moveRandom6 7s alternate forwards;
+}
+
+.animate-card7 {
+    animation: moveRandom7 5s alternate forwards;
+}
+
+.animate-card8 {
+    animation: moveRandom8 5s alternate forwards;
+}
+
+.animate-card9 {
+    animation: moveRandom9 5s alternate forwards;
+}
+
+
+
+@keyframes moveRandom1 {
+    0% {
+        transform: translate(0, 0);
+    }
+
+    100% {
+        transform: translate(370px, 30px);
+    }
+}
+
+@keyframes moveRandom2 {
+    0% {
+        transform: translate(0, 0);
+    }
+
+    100% {
+        transform: translate(610px, 60px);
+    }
+}
+
+@keyframes moveRandom3 {
+    0% {
+        transform: translate(0, 0);
+    }
+
+    100% {
+        transform: translate(430px, 200px);
+    }
+}
+
+@keyframes moveRandom4 {
+    0% {
+        transform: translate(0, 0);
+    }
+
+    100% {
+        transform: translate(670px, 220px);
+    }
+}
+
+@keyframes moveRandom5 {
+    0% {
+        transform: translate(0, 0);
+    }
+
+    100% {
+        transform: translate(870px, 240px);
+    }
+}
+
+@keyframes moveRandom6 {
+    0% {
+        transform: translate(0, 0);
+    }
+
+    100% {
+        transform: translate(920px, 80px);
+    }
+}
+
+@keyframes moveRandom7 {
+    0% {
+        transform: translate(0, 0);
+    }
+
+    100% {
+        transform: translate(1110px, 150px);
+    }
+}
+
+@keyframes moveRandom8 {
+    0% {
+        transform: translate(0, 0);
+    }
+
+    100% {
+        transform: translate(1280px, 250px);
+    }
+}
+
+@keyframes moveRandom9 {
+    0% {
+        transform: translate(0, 0);
+    }
+
+    100% {
+        transform: translate(1370px, 100px);
+    }
+}
+
+
+
+.today-popular-trash .trash-can {
+    position: absolute;
+    width: 450px;
+    top: -50px;
+    left: -25px;
+}
+
+.today-popular-trash .trash-can:hover {
+    position: absolute;
+    /* width: 400px; */
+
+    transform: rotate(70deg);
+    transition: transform 2.3s ease;
+}
+
+.today-popular-trash .trash-can:not(:hover) {
+    transform: rotate(0deg);
+    /* 호버 상태가 아닐 때 이미지를 0도 회전 */
+    transition: transform 2.4s ease;
+}

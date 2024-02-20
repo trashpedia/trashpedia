@@ -1,0 +1,528 @@
+@charset "UTF-8";
+
+/* ----------------- main -----------------*/
+#header{
+    z-index: 5;
+}
+
+/* 메인페이지 이미지 */
+.backgroundImg {
+    /* background-image: url('https://mir-s3-cdn-cf.behance.net/project_modules/1400/eb224995092489.5e8f18ca83e21.jpg'); */
+    background-image: url("../../image/main/mainImg/main3.jpg");
+    position: relative;
+    background-size: cover; 
+    background-position: center; 
+    background-repeat: no-repeat; 
+    width: 100%;
+    height: 1000px;
+    overflow: hidden;
+    z-index: 1;
+    align-items: center;
+}
+main .backgroundImg img{
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 1s ease; 
+} 
+
+.backgroundImg-black{
+    background-color: rgba(0, 0, 0, 0.62);
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+}
+.backgroundImg h2{
+    margin-top: 240px;
+    margin-bottom: 25px;
+    font-size: 100px;
+    text-align: center; 
+    color: #ffffff;
+    z-index: 2;
+    padding: 0;
+}
+.backgroundImg h4{
+    font-family: "Noto Serif KR", Sans-serif;
+    font-size: 33px;
+    margin-top: 3px;
+    margin-bottom: 10px;
+    text-align: center;
+    z-index: 2;
+    font-weight: 400;
+    padding: 0;
+}
+/* 배경 이미지 스크롤버튼 */
+.backgroundImg button{   
+    position: relative;
+    text-align: center;
+    margin-top: 200px;
+    border-radius: 50%;
+    border: 1px solid white;
+    color: white;
+    width: 45px;
+    height: 45px;
+    z-index: 2;
+    cursor: pointer;
+    background-color: transparent;
+}
+.backgroundImg button:hover{
+    background-color: rgb(82, 165, 82);
+    border: 1px solid rgb(82, 165, 82);
+    -webkit-transition: all .4s;
+}
+
+/* 자원순환 실천방법
+main .main-inner{
+    text-align: center;
+    font-weight: 500;
+} 
+main .practice-list{
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 100px;
+    display: flex;
+}
+main .practice-list li{
+    width: 33.33%;
+    margin: 0 0 1%;
+    text-align: center;
+}
+main .practice-list li a i {
+    display: flex;
+    width: 170px;
+    height: 170px;
+    border-radius: 50%;
+    background: #efeff4;
+    margin: 0 auto 10px;
+    transition: all .2s;
+    -webkit-transition: all .2s;
+    align-items: center;
+    justify-content: center;
+} */
+
+/* 지속가능 미래 ul */
+/* .content-tab{
+    max-width: 100%;
+    overflow: hidden;
+    position: absolute;
+    bottom: 0; 
+    text-align: center;
+}
+.temp-tab{
+    display: inline-block; 
+    list-style: none;
+    font-size: 0;
+}
+.temp-tab li{
+    display: inline-block;
+    vertical-align: top;
+    margin: 5px;
+}
+.temp-tab li a{
+    display: block;
+    padding: 0 32px;
+    border-radius: 30px;
+    background: #f5f5f5;
+    font-size: 15px;
+    line-height: 38px;
+    font-weight: 500;
+    letter-spacing: -0.025em;
+    color: #111;
+} */
+
+
+/*  ----- 최근 업데이트된 쓰레기 게시글 부분 ----- */
+.recently-outer{
+    position: relative;
+    padding-top: 40px;
+    margin-top: 80px;
+}
+/* 배경이미지 */
+.recently-outer img{
+    position: absolute;
+    top: 0;
+    z-index: 0;
+    height: 630px;
+    width: auto;
+    max-width: 100%;
+}
+.recently-garbage-inner{
+    display: flex;
+    flex-wrap: wrap;
+    box-sizing: border-box;
+    cursor: pointer;
+    max-width: 1150px; /* 최대 너비 지정 (원하는 최대 너비로 수정) */
+    margin: 0 auto;
+    padding-bottom: 30px;
+    
+}
+/* 최근 쓰레기 슬라이더 */
+main .recently-garbage-outer{
+    z-index: 1;
+    position: relative;
+    top: 0;
+    margin-top: 50px;
+    margin-bottom: 40px;
+    display: flex;
+    flex-direction: column;
+    margin: 5px auto;
+    margin-bottom: 30px !important;
+    
+}
+main #recently-garbage-outer-title{
+    margin-left: 10px;
+    font-size: 34px;
+    font-weight: 550;
+    margin-bottom: 40px;
+    text-align: center;
+}
+main .recently-garbage-inner{
+    display: flex;
+    flex-wrap: wrap;
+    box-sizing: border-box;
+    cursor: pointer;
+}
+/* 쓰레기 게시물 div */
+main .recently-garbage {
+    border-radius: 7px;
+    width: 250px;
+    height: 330px;
+    max-height: 330px;
+    margin: 7px;
+    text-align: center;
+    text-overflow: ellipsis;
+}
+
+/* 슬라이드 이미지 제목 */
+main .recently-garbage-title{  
+    font-weight: 730;
+    font-size: 17px;
+    text-align: left;
+    padding-top: 15px;
+}
+/* 슬라이드 이미지 내용 */
+main .recently-garbage-content{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+main .recently-garbage p {
+    font-size: 14px;
+    margin: 6px;
+    margin-left: 12px;
+    margin-right: 15px;
+}
+
+main .garbage-img-outer{
+    width: 250px;
+    height: 250px;
+    margin: 2px auto;
+    margin-top: 0px;
+    border-radius: 7px;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+}
+/* 최근쓰레기 이미지 */
+main .recently-garbage-img{
+    object-fit: cover;
+    padding: auto;
+    width: 250px;
+    height: 250px;
+    box-sizing: border-box;
+    background-color: rgb(208, 208, 208);
+    margin-bottom: 5px;
+    transition: all 0.4s ease;
+}
+
+.garbage-img-outer:hover img{
+    transform: scale(1.05);
+    transition: transform 0.4s ease-in-out;
+}
+
+
+/* 슬라이더 좌우 화살표 */
+.custom-prev {
+    background: url('../../image/main/mainImg/left-arrow.svg') no-repeat center center;
+    width: 120px; 
+    height: 120px; 
+    position: absolute;
+    left: -110px;
+    top: 40%;
+    transform: translateY(-50%);
+    cursor: pointer;
+}
+
+.custom-next {
+    background: url('../../image/main/mainImg/right-arrow.svg') no-repeat center center;
+    width: 120px;
+    height: 120px; 
+    position: absolute;
+    right: -100px;
+    top: 40%; 
+    transform: translateY(-50%);
+    cursor: pointer;
+}
+
+/* 밴드 이미지 */
+.slide-style-tape {
+    position: absolute;
+    display: inline-block;
+    width: 130px;
+    height: 120px;
+    background-image: url("https://theskinfood.com/design/skinfood/skinfood/images/dev/bg-tape.png");
+    background-repeat: no-repeat;
+    background-size: 100% auto;
+    align-items: center;
+    top: 20%;
+    left: 17%;
+    transform: translate(-20%, -20%);
+    z-index: 3;
+}
+
+/* ----- 환경을 위한 습관 문구 부분 ----- */
+main .content-outer {
+    margin-top: 150px;
+    display: flex;
+    position: relative;
+    width: 100%;
+    flex-wrap: nowrap;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    z-index: 3;
+}
+main .content-outer p{
+    text-align: center; 
+    width: 90%; 
+    font-size: 47px;
+    line-height: 75px;
+    letter-spacing: -0.025em;
+    color: #111;
+    text-align: center;
+    margin-top: 18px;
+    margin-bottom: 0;
+    transition: top 0.5s ease;
+    
+}
+main .content-outer #contentP2 {
+    margin-top: 8px;
+    font-weight: 700;
+}
+main .content-outer #contentP3  {
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 25px;
+    color: #3e3e3e;
+    margin-top: 17px;
+} 
+main .content-outer span {
+    font-weight: 660;
+    color: #0b6648;
+}
+
+
+/* ---------- 공지사항 및 인스타 게시글 부분 ---------- */
+
+/* 배경 이미지 */
+main .green-img {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+    object-position: center;
+    margin: 0;
+    padding: 0;
+    position: relative; 
+    z-index: 2;
+    top: -50px;
+}
+
+/* 배경색 */
+#popularPostBack .backSection {
+    position: absolute;
+    background-color: #147958 ;
+    top: -55px;
+    right: 0;
+    width: 100%;
+    height: 750px;
+    z-index: 1;
+}
+
+#popularPost {
+    display: flex;
+    justify-content: center;
+    margin: auto;
+    margin-bottom: 0;
+    position: relative;
+    box-sizing: border-box;
+    padding-top: 30px;
+}
+
+.posts-container {
+    max-width: 1200px;
+    display: flex;
+    width: 100%;
+    position: relative;
+    top: -200px;
+    z-index: 3;
+}
+
+/* 왼쪽: 공지사항 */
+#noticePostsDiv,
+#instagramPostsDiv {
+    padding: 8px;
+    box-sizing: border-box;
+}
+
+.noticePostImg img {
+    padding: 5px;
+    min-width: 96%;
+    max-width: 96%;
+    min-height: 615px;
+    max-height: 615px;
+    border-radius: 10px;
+}
+
+/* 공지사항 리스트 스타일 */
+#noticePostsDiv {
+    width: 45%;
+    margin-left: 55px;
+    margin-right: 40px;
+}
+
+/* 오른쪽: 인스타 게시글 리스트 스타일 */
+#instagramPostsDiv {
+    width: 55%;
+}
+
+.instagram-posts-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    justify-content: center;
+    padding: 3px;
+}
+
+.instagram-posts-list .post-container {
+    position: relative;
+    width: calc(33.33% - 10px);
+}
+
+.instagram-posts-list .post-container img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+/* 게시글 타이틀 제목 */
+.post-title{
+    font-size: 32px;
+    font-weight: 600;
+    margin-left: 10px;
+    color: white;
+}
+
+/* 더보기 버튼 */
+.more-btn a{
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 8px;
+    margin-right: 13px;
+    color: white;
+    font-size: 14px;
+}
+
+/* 인스타 로고 */
+.instagram-posts-list .post-container .snsimg {
+    position: absolute;
+    top: 7px;
+    right: 7px;
+    width: 25px;
+    height: 25px;
+    border-radius: 40%;
+}
+
+/* 인스타 게시글 내용 */
+.instagram-posts-list .post-container .post-overlay {
+    position: absolute;
+    border-radius: 5px;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background: rgba(0, 0, 0, 0.65);
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+    box-sizing: border-box;
+}
+
+.instagram-posts-list .post-container:hover .post-overlay {
+    opacity: 1;
+}
+
+.instagram-posts-list .post-container .post-overlay p {
+    margin: 14px;
+    font-size: 14px;
+    color: white;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 8;
+    -webkit-box-orient: vertical;
+    white-space: pre-line;
+}
+
+
+/* ------------- 헤더 메인페이지 스타일 적용 ------------- */
+
+header{
+    background-color : none;
+    transition: background-color 0.3s ease-in-out;
+}
+
+#header .header-nav li a{
+    color: rgba(255, 255, 255, 0.8);
+    font-weight: 600;
+}
+
+#header .header-nav li a:hover{
+    color: #6eb76e;
+    -webkit-transition: all .3s;
+}
+
+/* 헤더 오른쪽 부분 */
+#header .header-search-main{
+    color: rgb(190, 190, 190);
+    font-weight: 600;
+    font-size: 13px;
+}
+
+#header .header-right li,.header-right li a {
+    color: rgba(203, 203, 203, 0.9);
+} 
+
+
+
+
+.scroll_wrap {overflow: hidden;}
+.scroll_on {padding:0px 0;font-size: 24px;font-weight:700;text-align: center;opacity: 0;transition: all 1.8s;}
+.scroll_on.active {opacity: 1 !important;transform: translate(0, 0) !important;}
+.scroll_on.type_top {transform: translate(0, -50px);}
+.scroll_on.type_bottom {transform: translate(0, 40px);}
+.scroll_on.type_left {transform: translate(-50px, 0);}
+.scroll_on.type_right {transform: translate(50px, 0);} 
