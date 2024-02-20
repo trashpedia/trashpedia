@@ -24,7 +24,7 @@
 </head>
 <body>
 
-	<jsp:include page="../common/header.jsp" />
+	<jsp:include page="common/header.jsp" />
 
 	<div class="backgroundImg">
 		<div class="backgroundImg-black">
@@ -338,7 +338,7 @@
 
 	</main>
 
-	<jsp:include page="../common/footer.jsp" />
+	<jsp:include page="common/footer.jsp" />
 
 
 	<script>
