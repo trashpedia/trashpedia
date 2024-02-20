@@ -13,7 +13,7 @@
     <header class="header">
         <div class="header-outer">
             <div class="header-logo">
-                <a href="mainPage.html"> TRASHPEDIA </a>
+                <a href="/trashpedia"> TRASHPEDIA </a>
             </div>
             <div class="header-nav">
                 <ul>
@@ -62,7 +62,7 @@
             <div class="header-search header-search-main">
                 <ul class="header-right">
                     <li><span class="material-symbols-outlined icon">login</span><a>login</a> </li>
-                    <li><span class="material-symbols-outlined icon">person </span><a>Signup</a></li>
+                    <li><span class="material-symbols-outlined icon">person </span><a href="insert.me">Signup</a></li>
                     <li id="header-search-icon" ><span class="material-symbols-outlined icon">search</span><a>Search</a></li>
                 </ul>
             </div>
@@ -91,6 +91,7 @@
         </div>
     </div>
     </header>
+    
     <script>
         var header = document.querySelector('.header');
 
@@ -128,79 +129,6 @@
                 }
             }
         });
-        // var headerNav = document.querySelector('.header-nav');
-        // var headerMenuHover = document.querySelectorAll('.header-menu-hover');
-        // var headerMenuUL = document.querySelectorAll('.header-menu-ul');
-        // var headerBack = document.querySelector('.header-nav-background');
-
-        // headerMenuHover.forEach(function (menuItem) {
-        //     menuItem.addEventListener('mouseover', function () {
-        //         // header.classList.add('header-mouseover');
-        //         // header.style.backgroundColor = 'rgba(255, 255, 255, 0.6)';
-        //         if(headerBack.style.display == 'none'){
-        //             headerBack.style.display = 'flex';
-        //         } else {
-        //             headerBack.style.display = 'none';
-        //         }
-        //     });
-
-
-        //     menuItem.addEventListener('mouseout', function () {
-        //         header.classList.remove('header-mouseover');
-        //         headerBack.style.display = 'none';
-        //         if (window.scrollY <= 50) {
-        //             header.style.backgroundColor = '';
-        //         }
-        //     });
-        // });
-    
-
-        //  var menuCommunity = document.querySelector('#menu-community-ul');
-        //  var menuPledge = document.querySelector('#menu-pledge-ul');
-        //  var menuInformation = document.querySelector('#menu-information-ul');
-
-
-
-        // // 메뉴에 대한 mouseover 이벤트 핸들러
-        // function handleMouseOver(menu) {
-        //     menu.style.display = 'flex';
-        //     header.style.backgroundColor = 'rgba(255, 255, 255, 0.6)';
-        // }
-
-        // // 메뉴에 대한 mouseout 이벤트 핸들러
-        // function handleMouseOut(menu) {
-        //     menu.style.display = 'none';
-        //     // 마우스가 벗어났을 때 header의 색상을 설정
-        //     if (window.scrollY <= 50) {
-        //         header.style.backgroundColor = '';
-        //     }
-        // }
-
-
-        // 이벤트 핸들러 등록
-        // document.getElementById('menu-community').addEventListener('mouseover', function() {
-        //     handleMouseOver(menuCommunity);
-        // });
-        // // header.parentElement.addEventListener('mouseout', function() {
-        // //     handleMouseOut(menuCommunity);
-        // // });
-
-        // document.getElementById('menu-pledge').addEventListener('mouseover', function() {
-        //     handleMouseOver(menuPledge);
-        // });
-        // // document.getElementById('menu-pledge').addEventListener('mouseout', function() {
-        // //     handleMouseOut(menuPledge);
-        // // });
-
-        // document.getElementById('menu-information').addEventListener('mouseover', function() {
-        //     handleMouseOver(menuInformation);
-        // });
-
-
-
-        // document.getElementById('menu-information').addEventListener('mouseout', function() {
-        //     handleMouseOut(menuInformation);
-        // });
     </script>
 </body>
 </html>

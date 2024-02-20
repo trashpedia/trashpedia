@@ -19,7 +19,7 @@ body{
 }
 
 ::selection {
-    background-color: #60d460;
+    background-color: rgb(73, 218, 88);
     color: #ffffff; 
 }
 
