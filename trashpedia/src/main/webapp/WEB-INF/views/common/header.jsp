@@ -1,4 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="contextPath" value="<%=request.getContextPath() %>"/>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,6 +13,7 @@
     <link rel="stylesheet" href="resources/css/common/header.css">
 </head>
 <body>
+
     <header class="header">
         <div class="header-outer">
             <div class="header-logo">
@@ -19,7 +23,7 @@
                 <ul>
                     <li id="menu-garbage-dictionary">
                         <div class="header-menu-div">
-                            <a href="dictonary.html">쓰레기사전</a>
+                            <a href="${contextPath}/trashlist">쓰레기사전</a>
                         </div>
                     </li>
                     <li id="menu-community" class="header-menu-hover">
@@ -36,7 +40,7 @@
                     </li>
                     <li id="menu-pledge" class="header-menu-hover">
                         <div class="header-menu-div">
-                            <a href="practiveView.html">실천서약</a>
+                            <a href="${contextPath}/pledgelist">실천서약</a>
                             <ul class="header-menu-ul">
                                 <li><a href="#">실천서약</a></li>
                                 <li><a href="#">실천인증</a></li>
@@ -49,6 +53,7 @@
                             <ul class="header-menu-ul">
                                 <li><a href="#">홍보 교육자료</a></li>
                                 <li><a href="#">제도 정책자료</a></li>
+                                <li><a href="${contextPath}/adminlist"> - </a></li>
                             </ul>
                         </div>
                     </li>
@@ -61,8 +66,8 @@
             </div>
             <div class="header-search header-search-main">
                 <ul class="header-right">
-                    <li><span class="material-symbols-outlined icon">login</span><a>login</a> </li>
-                    <li><span class="material-symbols-outlined icon">person </span><a href="insert.me">Signup</a></li>
+                    <li><span class="material-symbols-outlined icon">login</span><a href="${contextPath}/login.me">login</a> </li>
+                    <li><span class="material-symbols-outlined icon">person </span><a href="${contextPath}/insert.me">Signup</a></li>
                     <li id="header-search-icon" ><span class="material-symbols-outlined icon">search</span><a>Search</a></li>
                 </ul>
             </div>

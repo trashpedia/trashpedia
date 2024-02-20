@@ -22,7 +22,7 @@
             <div class="footer-info">
                 <!-- <span><strong>COMPANY</strong> | </span>  -->
                 <span> (우) 서울특별시 강남구 테헤란로14길 6 남도빌딩 2층 C반  </span>|
-                <span>책임자 : 류은선, 손형우, 오정연, 이준형, 정준식 </span>  <br> 
+                <span> 책임자 : 류은선, 손형우, 오정연, 이준형, 정준식 </span> 
             </div>
             <div class="follow-us">
                 <span>GitHub</span>
