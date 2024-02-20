@@ -11,12 +11,18 @@ public class MemberController {
 	
 	@Autowired
 	private MemberService service;
-	
-	@GetMapping("/insert.me")
-	public String enrollForm(){
-		return "/user/join";
+
+	//로그인페이지 이동
+	@GetMapping("login.me")
+	public String loginForm() {
+		return "/user/login";
 	}
 	
+	//회원가입페이지 이동
+	@GetMapping("/insert.me")
+	public String joinForm(){
+		return "/user/join";
+	}
 	
 	
 }
