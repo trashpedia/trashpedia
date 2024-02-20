@@ -1,0 +1,162 @@
+@charset "UTF-8";
+.body {
+    background: white;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+a{
+    color: black;
+}
+
+.sidebar-wrapper {
+    position: fixed;
+    left: 0;
+    top: 90px;
+    height: 100%;
+}
+
+.sidebar {
+    height: 100%;
+    background: rgba(0, 0, 0, 0.05);
+    flex-direction: column;
+    align-items: flex-start;
+    display: flex;
+}
+
+.sidebar-item {
+    padding: 16px;
+    justify-content: center;
+    align-items: center;
+    display: inline-flex
+}
+
+.sidebar-ul {
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+}
+
+.sidebar-ul li{
+    border-bottom:1px solid gray;
+}
+
+.sidebar-li{
+    height:40px;
+    display:flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.icon {
+    width: 40px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.sidebar-title{
+    width:100px;
+}
+
+.content-wrapper{
+    min-width:1148px;
+    padding-top:90px;
+    padding-bottom:100px;
+}
+
+.content{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+section{
+    width:100%;
+}
+
+.search-section{
+    background-color: gray;
+    padding-bottom: 50px;
+}
+
+.search-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.search-title{
+    width: 100%;
+    font-size: 50px;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    text-align: center;
+    color: white;
+}
+
+.input{
+    display: flex;
+    align-items: center;
+    height: 25px;
+}
+
+.input>#filterSelect{
+    height: 23px;
+}
+
+.input>#search{
+    height: 23px;
+}
+
+.board-section{
+    display: flex;
+    gap: 20px;
+}
+
+.category-container {
+    width: 50%;
+    height: 700px;
+    padding: 20px;
+    margin-top: 20px;
+    border: 1px solid gray;
+    border-radius: 12px;
+    display: flex;
+    justify-content: space-around;
+}
+
+.inner-category-container{
+    height:650px;
+}
+
+.board-container {
+    width: 50%;
+    height: 700px;
+    padding: 20px;
+    margin-top: 20px;
+    border: 1px solid gray;
+    border-radius: 12px;
+}
+
+.board-title-wrapper{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.board-title{
+    font-size: 25px;
+    font-weight: 500;
+}
+
+.list{
+    height: 90%;
+    overflow-x: hidden;
+}
+
+.item{
+    display: flex;
+    align-items: center;
+    height: 70px;
+}
