@@ -1,0 +1,279 @@
+@charset "UTF-8";
+* {
+    font-family: Roboto;
+}
+
+.body {
+    background: white;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+a {
+    color: black;
+}
+
+.sidebar-wrapper {
+    position: fixed;
+    left: 0;
+    top: 90px;
+    height: 100%;
+}
+
+.sidebar {
+    height: 100%;
+    background: rgba(0, 0, 0, 0.05);
+    flex-direction: column;
+    align-items: flex-start;
+    display: flex;
+}
+
+.sidebar-item {
+    padding: 16px;
+    justify-content: center;
+    align-items: center;
+    display: inline-flex
+}
+
+.sidebar-ul {
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+}
+
+.sidebar-ul li {
+    border-bottom: 1px solid gray;
+}
+
+.sidebar-li {
+    height: 40px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.icon {
+    width: 40px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.sidebar-title {
+    width: 100px;
+}
+
+.content-wrapper {
+    min-width: 1148px;
+    padding-top: 90px;
+    padding-bottom: 100px;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+section {
+    width: 100%;
+}
+
+section>div{
+    border-bottom: 3px solid #6eb76e;
+}
+
+.search-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-bottom: none;
+}
+
+.search-title {
+    width: 100%;
+    font-size: 30px;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    text-align: center;
+}
+
+.member-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.member-container {
+    width: 80%;
+    padding: 20px;
+}
+
+.grade-container {
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    display: inline-flex;
+}
+
+.grade-item-wrapper {
+    flex: 1 1 0;
+    justify-content: center;
+    display: flex;
+    align-items: center;
+}
+
+.grade-item {
+    flex: 1 1 0;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    display: inline-flex;
+}
+
+.grade-item-icon {
+    width: 60px;
+    height: 60px;
+    text-align: center;
+    color: black;
+    font-size: 40px;
+    font-weight: 400;
+}
+
+.grade-item-title {
+    align-self: stretch;
+    text-align: center;
+    color: black;
+    font-size: 18px;
+    font-weight: 400;
+}
+
+.grade-item-subtitle {
+    align-self: stretch;
+    text-align: center;
+    color: black;
+    font-size: 17px;
+    font-weight: 600;
+}
+
+.member-info-list {
+    padding: 30px 50px;
+}
+
+.member-item {
+    padding-top: 20px;
+}
+
+.title {
+    color: black;
+    font-size: 15px;
+    font-weight: 400;
+}
+
+.subtitle {
+    color: black;
+    font-size: 13px;
+    font-weight: 500;
+    padding-top: 10px;
+}
+
+.member-board-container {
+    width: 80%;
+    padding: 20px;
+    display: flex;
+    gap: 20px;
+}
+
+.board-container {
+    width: 50%;
+    height: 500px;
+}
+
+.board-title-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.board-title {
+    font-size: 25px;
+    font-weight: 500;
+}
+
+.list {
+    height: 90%;
+    margin-top: 10px;
+    overflow-x: hidden;
+}
+
+.item {
+    display: flex;
+    align-items: center;
+    padding-top: 20px;
+}
+
+.item .icon {
+    width: 10%;
+}
+
+.item .title {
+    width: 30%;
+}
+
+.item .subtitle {
+    width: 60%;
+}
+
+.point-container {
+    width: 80%;
+}
+
+.point-content{
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.point-title-wrapper{
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.point-title-wrapper>.trash-board-title{
+    width: 15%;
+}
+
+.point-title-wrapper>.trash-board-subtitle{
+    width: 70%;
+}
+
+.point-table{
+    width: 100%;
+    height: 80%;
+    padding-top: 20px;
+    font-size: 13px;
+}
+
+.point-table>thead{
+    text-align: center;
+    height: 30px;
+}
+
+.point-table>tbody>tr{
+    text-align: center;
+    height: 30px;
+}
+
+.pageBar{
+    display: flex;
+    padding-top: 10px;
+}
+
+.pageBar div{
+    padding: 5px;
+}

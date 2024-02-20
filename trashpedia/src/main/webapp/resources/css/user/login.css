@@ -1,0 +1,117 @@
+@charset "UTF-8";
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap');
+
+* {
+    font-family: 'Noto Sans KR', sans-serif;
+}
+
+.body-login {
+    background-color: #ffffff;
+}
+
+.content-login{
+    width: 350px;
+    margin: auto;
+    margin-bottom: 100px;
+}
+
+.top-margin{
+    height: 100px;
+}
+
+.div-login {
+    margin: auto;
+    width: 600px;
+    border-radius: 5px;
+    text-align: center;
+    padding: 20px;
+}
+.logo{
+    margin-left: 120px;
+    font-size: 35px;
+    font-weight: 500;
+}
+.input-login{
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+    border-radius: 5px;
+    border: none;
+    border:1.5px solid rgb(226, 226, 226);
+    font-size: 12px;
+    margin-bottom: 10px;
+}  
+.input-pwd{
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+    border-radius: 5px;
+    border: none;
+    border:1.5px solid rgb(226, 226, 226);
+    font-size: 12px;
+    margin-bottom: 10px;
+    background-color: #ffffff;
+}
+
+.in {
+    margin-bottom: 10px;
+}
+
+#btn {
+    margin-top: 10px;
+    background-color: #000000;
+    margin-bottom: 8px;
+    color: white;
+    width: 360px;
+    height: 40px;
+    font-weight: 700;
+    border-radius: 5px;
+}
+
+#go-kakao{
+    background-color: #fbff00;
+    border: none;
+    margin-bottom: 8px;
+    color: rgb(54, 54, 54);
+    font-weight: 700;
+    width: 360px;
+    height: 40px;
+    border-radius: 5px;
+}
+
+#go-naver{
+    background-color:#00D337;
+    border: none;
+    margin-bottom: 8px;
+    color: rgb(255, 255, 255);
+    font-weight: 700;
+    width: 360px;
+    height: 40px;
+    border-radius: 5px;
+}
+
+a {
+    text-decoration: none;
+    font-size: 12px;
+    color:#0000005f;
+    font-weight: 600;
+    padding-right: 3px;
+    padding-left: 3px;
+    text-align: center;
+}
+
+.a-login{
+    text-align: center;
+    width: 350px;
+    margin-top: -20px;
+}
+
+#id-error-message.error-message{
+   padding: 5px;
+   margin-top: -13px;
+}
+
+#pwd-error-message.error-message{
+    padding: 5px;
+    margin-top: -13px;
+}
