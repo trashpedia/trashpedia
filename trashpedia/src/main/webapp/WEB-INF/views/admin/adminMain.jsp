@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<c:set var="contextPath" value="<%=request.getContextPath() %>"/>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -9,7 +11,7 @@
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
-    <link rel="stylesheet" href="resources/css/admin/adminMain.css">
+    <link rel="stylesheet" href="${contextPath}/resources/css/admin/adminMain.css">
 </head>
 <jsp:include page="../common/header.jsp"/>
 <body class="body">
@@ -21,16 +23,30 @@
                     <div class="statistics-list-wrapper">
                         <div class="statistics-list">
                             <div class="statistics-list-title">총 가입자</div>
-                            <div class="list-data">100,000</div>
+                            <div class="list-data"><fmt:formatNumber type="number" pattern="#,##0" value="${allMember}"/></div>
                         </div>
                         <div class="statistics-list">
                             <div class="statistics-list-title">신규 가입자</div>
-                            <div class="list-data">50</div>
-                            <div class="change">+20%</div>
+                            <div class="list-data"><fmt:formatNumber type="number" pattern="#,##0" value="${newMember}"/></div>
+                            <c:set var="difference" value="${allMember - newMember}" />
+							<c:set var="percentChange" value="${(difference / allMember) * 100}" />
+							<div class="change">
+								<c:choose>
+									<c:when test="${difference == 0}">
+							            +<fmt:formatNumber type="number" pattern="0.00" value="${difference}" />%
+							        </c:when>
+									<c:when test="${difference > 0}">
+							            +<fmt:formatNumber type="number" pattern="0.00" value="${percentChange}" />%
+							        </c:when>
+									<c:otherwise>
+							            -<fmt:formatNumber type="number" pattern="0.00" value="${-percentChange}" />%
+							        </c:otherwise>
+								</c:choose>
+							</div>
                         </div>
                         <div class="statistics-list">
                             <div class="statistics-list-title">신규 게시글</div>
-                            <div class="list-data">200</div>
+                            <div class="list-data"><fmt:formatNumber type="number" pattern="#,##0" value="${allBoard}"/></div>
                         </div>
                     </div>
                     <div class="graph-container-wrapper">
@@ -109,13 +125,27 @@
         </div>
     </div>
     <script>
-        $(function () {
-            $("#header").load("header.html");
-            $("#sidebar").load("sidebar.html");
-        });
-        // 유저 가입자 그래프
-        google.charts.load('current', {'packages':['corechart']});
-        google.charts.setOnLoadCallback(drawStuff);
+	    $.ajax({
+	        url: "${contextPath}/admin/getMemberData",
+	        method: "GET",
+	        dataType: "json",
+	        success: function(responseData) {
+	            var data = google.visualization.arrayToDataTable(responseData);
+	            var options = {
+	                title: '가입자 / 탈퇴자 현황',
+	                width: 1100,
+	                height: 400,
+	                vAxis: {title: '유저수'},
+	                hAxis: {title: '일별 가입자 수'},
+	                seriesType: 'bars'
+	            };
+	            var chart = new google.visualization.ComboChart(document.getElementById('member_chart_div'));
+	            chart.draw(data, options);
+	        },
+	        error: function(xhr, status, error) {
+	            console.error("AJAX request error:", status, error);
+	        }
+	    });
 
         function drawStuff() {
         var data = google.visualization.arrayToDataTable([
