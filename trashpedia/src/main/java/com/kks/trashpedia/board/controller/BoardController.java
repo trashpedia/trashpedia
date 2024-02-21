@@ -11,10 +11,10 @@ public class BoardController {
 	@Autowired
 	private BoardService service;
 	
-	//쓰레기사전 페이지 이동
-	@GetMapping("/trashlist")
-	public String encyclopediaFrom() {
-		return "encyclopedia/trashEncyclopedia";
+	// 무료나눔 페이지 이동
+	@GetMapping("/freeShare")
+	public String boardFreeShare() {
+		return "board/freeShare/freeShare";
 	}
 	
 	

@@ -1,206 +1,183 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Dictonary</title>
-	<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-	<!-- Swiper -->
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
-	<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-	<!-- css -->
-	<link rel="stylesheet" href="resources/css/board/freshShare/freeShareDetail.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dictonary</title>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"
+	integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+	crossorigin="anonymous"></script>
+<!-- Swiper -->
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+<script
+	src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<!-- css -->
+<link rel="stylesheet"
+	href="resources/css/board/freshShare/freeShareDetail.css">
 </head>
 <body>
-	<jsp:include page="../../common/header.jsp"/>
+	<jsp:include page="../../common/header.jsp" />
+
+	<div class="practice-section">
+		<p>무료 나눔 상세 페이지</p>
+		<p>Reduce Reuse Recycle Recovery</p>
+	</div>
+
+
+
 	<div class="inner">
-		<div class="pageDescription">
-			<div class="Group2122">
-				<div class="Section"></div>
-				<div class="Group2121">
-					<div class="Container">
-						<div class="Title">커 뮤 니 티</div>
-						<div class="Description">쓰레기, 환경, 라이프스타일에 대한 모두의 커뮤니티. 누구나 글과 댓글을 남길 수 있습니다.</div>
-					</div>
-				</div>
-			</div>
-		</div>
+
 		<main>
-			<div class="Content">
-				<div class="Container">
-					<div class="Title">무료 나눔 게시판</div>
+			<!--view-->
+			<div class="board_wrap">
+				<div class="board_title">
+					<strong>제목</strong>
+					<p>부제목</p>
 				</div>
-			</div>
-			<div class="Section1">
-				<div class="ImageContainer">
-					<div class="Image">
-						<div style="width: 517px; height: 53px; left: 3px; top: 0px; position: absolute; text-align: center; color: black; font-size: 24px; font-family: Roboto; font-weight: 400; line-height: 16px; word-wrap: break-word">상 품 이 미 지</div>
-					</div>
-				</div>
-				<div class="Container">
-					<div class="Title">상품명</div>
-					<div class="Title">(지역)</div>
-					<div class="Description">인증된 참여자의 사진과 함께 상품을 설명인증된 참여자의 사진과
-						함께 상품을 설명인증된 참여자의 사진과 함께 상품을 설명인증된 참여자의 사진과 함께 상품을 설명인증된 참여자의 사진과
-						함께 상품을 설명인증된 참여자의 사진과 함께 상품을 설명인증된 참여자의 사진과 함께 상품을 설명인증된 참여자의 사진과
-						함께 상품을 설명인증된 참여자의 사진과 함께 상품을 설명인증된 참여자의 사진과 함께 상품을 설명</div>
-				</div>
-			</div>
-			<div class="btnGroup">
-				<button class="btn">좋아요 ♥</button>
-				<button class="btn">나눔받기?</button>
-			</div>
-			<div class="Section2">
-				<div class="Container">
-					<div class="Title">다른 무료 나눔</div>
-					<div class="List">
-						<div class="Card">
-							<!-- Front -->
-							<div class="Front">
-								<div class="Image">
-									<img src="https://img.freepik.com/free-photo/cute-puppy-sitting-in-grass-enjoying-nature-playful-beauty-generated-by-artificial-intelligence_188544-84973.jpg" alt="">
-									<div class="Tag">
-										<div class="Text">New</div>
-									</div>
-								</div>
-								<div class="TextContent">
-									<div class="Title">지역</div>
-									<div class="Subtitle">상품명</div>
-									<div class="IconButtons">
-										<div class="Icon">😃</div>
-										<div class="Icon">👍</div>
-										<div class="Icon">🔥</div>
-									</div>
-								</div>
-							</div>
-							<!-- Back -->
-							<div class="Back">
-								<span> 헌법재판소는 법관의 자격을 가진 9인의 재판관으로 구성하며, 재판관은 대통령이 임명한다.
-									국민의 모든 자유와 권리는 국가안전보장·질서유지 또는 공공복리를 위하여 필요한 경우에 한하여 법률로써 제한할 수
-									... 국가는 전통문화의 계승·발전과 민족문화의 창달에 노력하여야 한다. 헌법재판소 재판관은 정당에 가입하거나
-									정치에 관여할 수 없다. 모든 국민은 보건에 관하여 국가의 보호를 받는다.... </span>
-							</div>
+
+				<div class="board_view_wrap">
+					<div class="board_view">
+						<div class="info">
+							<dl>
+								<dt>번호</dt>
+								<dd>1</dd>
+							</dl>
+							<dl>
+								<dt>글쓴이</dt>
+								<dd>김이름</dd>
+							</dl>
+							<dl>
+								<dt>작성일</dt>
+								<dd>2021.1.16</dd>
+							</dl>
+							<dl>
+								<dt>조회</dt>
+								<dd>33</dd>
+							</dl>
 						</div>
-						<div class="Card">
-							<!-- Front -->
-							<div class="Front">
-								<div class="Image">
-									<img src="https://img.freepik.com/free-photo/cute-puppy-sitting-in-grass-enjoying-nature-playful-beauty-generated-by-artificial-intelligence_188544-84973.jpg" alt="">
-									<div class="Tag">
-										<div class="Text">New</div>
+						<div class="cont">
+							<div class="list_wrap">
+								<div class="container">
+									<img
+										src="https://img.freepik.com/free-photo/cute-puppy-sitting-in-grass-enjoying-nature-playful-beauty-generated-by-artificial-intelligence_188544-84973.jpg"
+										alt="">
+									<div class="content">
+										<span>재판의 심리와 판결은 공개한다. 다만, 심리는 국가의 안전보장 또는 안녕질서를 방해하거나
+											선량한 풍속을 해할 염려가 있을 때에는 법원의 결정으로 공개하지 아니할 수 있다.... 대통령은 조국의 평화적
+											통일을 위한 성실한 의무를 진다. 법관은 헌법과 법률에 의하여 그 양심에 따라 독립하여 심판한다.
+											대통령후보자가 1인일 때에는 그 득표수가 선거권자 총수의 3분의 1 이상이 아니면 대통...</span>
 									</div>
+
 								</div>
-								<div class="TextContent">
-									<div class="Title">지역</div>
-									<div class="Subtitle">상품명</div>
-									<div class="IconButtons">
-										<div class="Icon">😃</div>
-										<div class="Icon">👍</div>
-										<div class="Icon">🔥</div>
-									</div>
-								</div>
+
 							</div>
-							<!-- Back -->
-							<div class="Back">
-								<span> 헌법재판소는 법관의 자격을 가진 9인의 재판관으로 구성하며, 재판관은 대통령이 임명한다.
-									국민의 모든 자유와 권리는 국가안전보장·질서유지 또는 공공복리를 위하여 필요한 경우에 한하여 법률로써 제한할 수
-									... 국가는 전통문화의 계승·발전과 민족문화의 창달에 노력하여야 한다. 헌법재판소 재판관은 정당에 가입하거나
-									정치에 관여할 수 없다. 모든 국민은 보건에 관하여 국가의 보호를 받는다.... </span>
-							</div>
-						</div>
-						<div class="Card">
-							<!-- Front -->
-							<div class="Front">
-								<div class="Image">
-									<img src="https://img.freepik.com/free-photo/cute-puppy-sitting-in-grass-enjoying-nature-playful-beauty-generated-by-artificial-intelligence_188544-84973.jpg" alt="">
-									<div class="Tag">
-										<div class="Text">New</div>
-									</div>
-								</div>
-								<div class="TextContent">
-									<div class="Title">지역</div>
-									<div class="Subtitle">상품명</div>
-									<div class="IconButtons">
-										<div class="Icon">😃</div>
-										<div class="Icon">👍</div>
-										<div class="Icon">🔥</div>
-									</div>
-								</div>
-							</div>
-							<!-- Back -->
-							<div class="Back">
-								<span> 헌법재판소는 법관의 자격을 가진 9인의 재판관으로 구성하며, 재판관은 대통령이 임명한다.
-									국민의 모든 자유와 권리는 국가안전보장·질서유지 또는 공공복리를 위하여 필요한 경우에 한하여 법률로써 제한할 수
-									... 국가는 전통문화의 계승·발전과 민족문화의 창달에 노력하여야 한다. 헌법재판소 재판관은 정당에 가입하거나
-									정치에 관여할 수 없다. 모든 국민은 보건에 관하여 국가의 보호를 받는다.... </span>
-							</div>
-						</div>
-						<div class="Card">
-							<!-- Front -->
-							<div class="Front">
-								<div class="Image">
-									<img src="https://img.freepik.com/free-photo/cute-puppy-sitting-in-grass-enjoying-nature-playful-beauty-generated-by-artificial-intelligence_188544-84973.jpg" alt="">
-									<div class="Tag">
-										<div class="Text">New</div>
-									</div>
-								</div>
-								<div class="TextContent">
-									<div class="Title">지역</div>
-									<div class="Subtitle">상품명</div>
-									<div class="IconButtons">
-										<div class="Icon">😃</div>
-										<div class="Icon">👍</div>
-										<div class="Icon">🔥</div>
-									</div>
-								</div>
-							</div>
-							<!-- Back -->
-							<div class="Back">
-								<span> 헌법재판소는 법관의 자격을 가진 9인의 재판관으로 구성하며, 재판관은 대통령이 임명한다.
-									국민의 모든 자유와 권리는 국가안전보장·질서유지 또는 공공복리를 위하여 필요한 경우에 한하여 법률로써 제한할 수
-									... 국가는 전통문화의 계승·발전과 민족문화의 창달에 노력하여야 한다. 헌법재판소 재판관은 정당에 가입하거나
-									정치에 관여할 수 없다. 모든 국민은 보건에 관하여 국가의 보호를 받는다.... </span>
-							</div>
-						</div>
-						<div class="Card">
-							<!-- Front -->
-							<div class="Front">
-								<div class="Image">
-									<img src="https://img.freepik.com/free-photo/cute-puppy-sitting-in-grass-enjoying-nature-playful-beauty-generated-by-artificial-intelligence_188544-84973.jpg" alt="">
-									<div class="Tag">
-										<div class="Text">New</div>
-									</div>
-								</div>
-								<div class="TextContent">
-									<div class="Title">지역</div>
-									<div class="Subtitle">상품명</div>
-									<div class="IconButtons">
-										<div class="Icon">😃</div>
-										<div class="Icon">👍</div>
-										<div class="Icon">🔥</div>
-									</div>
-								</div>
-							</div>
-							<!-- Back -->
-							<div class="Back">
-								<span> 헌법재판소는 법관의 자격을 가진 9인의 재판관으로 구성하며, 재판관은 대통령이 임명한다.
-									국민의 모든 자유와 권리는 국가안전보장·질서유지 또는 공공복리를 위하여 필요한 경우에 한하여 법률로써 제한할 수
-									... 국가는 전통문화의 계승·발전과 민족문화의 창달에 노력하여야 한다. 헌법재판소 재판관은 정당에 가입하거나
-									정치에 관여할 수 없다. 모든 국민은 보건에 관하여 국가의 보호를 받는다.... </span>
-							</div>
+
+
+
 						</div>
 					</div>
+					<div class="bt_wrap">
+						<a href="/community/board_list.html" class="on">목록</a> <a
+							href="/community/board_edit.html">수정</a>
+					</div>
 				</div>
-			</div>
-			<div class="btnGroup2">
-				<button class="btn">이전글</button>
-				<button class="btn">다음글</button>
+
+
+
+
+				<div class="reply-outer">
+					<div class="reply-outer-top-area">
+						<span class="reply_title"> 댓글 </span> | <span class="reply_count">224</span>
+					</div>
+
+					<div class="reply-outer-content-area">
+						<table class="reply-table">
+							<thead>
+								<tr class="reply-table-title">
+									<th>작성자</th>
+									<th>내용</th>
+									<th>작성일</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>User</td>
+									<td>
+										<p>안녕하세요. 반갑습니다.</p>
+										<div class="comment-buttons">
+											<button class="btn-edit">수정</button>
+											<button class="btn-delete">삭제</button>
+										</div>
+									</td>
+									<td>2023-02-18</td>
+								</tr>
+								<tr>
+									<td>User</td>
+									<td>
+										<p>다른사람이 쓴 댓글</p>
+									</td>
+									<td>2023-02-18</td>
+								</tr>
+								<tr>
+									<td>User</td>
+									<td>
+										<p>나랏말싸미 듕귁에 달아 문자와로 서로 사맛디 아니할쎄</p>
+										<div class="comment-buttons">
+											<button class="btn-edit">수정</button>
+											<button class="btn-delete">삭제</button>
+										</div>
+									</td>
+									<td>2023-02-18</td>
+								</tr>
+								<tr>
+									<td>User</td>
+									<td>
+										<p>댓글 내용</p>
+
+									</td>
+									<td>2023-02-18</td>
+								</tr>
+								<tr>
+									<td>User</td>
+									<td>
+										<p>댓글 내용</p>
+									</td>
+									<td>2023-02-18</td>
+								</tr>
+								<tr>
+									<td>User</td>
+									<td>
+										<p>댓글 내용</p>
+
+									</td>
+									<td>2023-02-18</td>
+								</tr>
+
+							</tbody>
+						</table>
+
+						<div class="paging-button">
+							<button class="pagingBtn" id="prevBtn"><</button>
+							<button class="pagingBtn">1</button>
+							<button class="pagingBtn">2</button>
+							<button class="pagingBtn">3</button>
+							<button class="pagingBtn">4</button>
+							<button class="pagingBtn">5</button>
+							<button class="pagingBtn" id="nextBtn">></button>
+						</div>
+
+					</div>
+				</div>
+
 			</div>
 		</main>
 	</div>
-	<jsp:include page="../../common/footer.jsp"/>
+	
+	<jsp:include page="../../common/footer.jsp" />
 	<script>
 		var swiper = new Swiper(".swiper-container", {
 			spaceBetween : 10,
