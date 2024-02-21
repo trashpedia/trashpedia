@@ -1,0 +1,612 @@
+@charset "UTF-8";
+
+a {
+	text-decoration: none; /* 밑줄 제거 */
+	color: inherit; /* 부모 요소의 색상 상속 */
+}
+
+.inner {
+	display: block;
+	position: relative;
+	margin: 0 auto;
+	width: 1759.99px;
+	min-height: 1590px;
+	height: 100%;
+	display: flex;
+	/*   */
+}
+
+input {
+	border: none;
+}
+
+input:focus {
+	outline: none;
+}
+
+main {
+	/* position: absolute; */
+	display: block;
+	text-align: center;
+	width: 100%;
+}
+
+/* ------ 실천서약 타이틀 부분 ------ */
+.practice-section {
+	position: relative;
+	top: 90px;
+	height: 150px;
+	width: 100%;
+	background-color: #73cc73;
+	color: white;
+	font-weight: 700;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+}
+
+.practice-section p:first-child {
+	font-size: 32px;
+	margin-top: 0;
+	margin-bottom: 0px;
+}
+
+.practice-section p:nth-child(2) {
+	margin-top: 10px;
+	font-size: 18px;
+}
+
+/* ------ 실천서약 타이틀 부분 ------ */
+.Content {
+	width: 1760px;
+	/* padding-left: 170px;  */
+	/* padding-right: 170px;  */
+	padding-top: 60px;
+	padding-bottom: 60px;
+	left: 0px;
+	top: 230px;
+	position: absolute;
+	justify-content: center;
+	align-items: center;
+	gap: 60px;
+	display: inline-flex;
+}
+
+.Content .Container {
+	width: 1700px;
+	flex: 1 1 0;
+	flex-direction: column;
+	justify-content: flex-start;
+	align-items: center;
+	gap: 24px;
+	display: inline-flex;
+}
+
+.Content .Container>.Title {
+	width: 520px;
+	text-align: center;
+	color: black;
+	font-size: 40px;
+	font-family: Roboto;
+	font-weight: 700;
+	line-height: 48px;
+	word-wrap: break-word;
+}
+
+.inner main>.Section1 {
+	/* background-color: rgb(193, 225, 118); */
+	width: 1420px;
+	padding-left: 150px;
+	padding-right: 150px;
+	padding-top: 40px;
+	padding-bottom: 40px;
+	left: 0px;
+	top: 158px;
+	position: absolute;
+	justify-content: center;
+	align-items: center;
+	gap: 60px;
+	display: inline-flex;
+}
+
+.Section1 .ImageContainer {
+	flex: 1 1 0;
+	height: 361px;
+	padding-top: 4px;
+	padding-bottom: 4px;
+	justify-content: flex-start;
+	align-items: flex-start;
+	display: flex;
+}
+
+.Section1 .ImageContainer {
+	
+}
+
+.Section1 .ImageContainer .Image {
+	overflow: hidden;
+	width: 620px;
+	height: 453px;
+	position: relative;
+	background: rgba(216.75, 216.75, 216.75, 0.50);
+	border-radius: 6px;
+}
+
+.Section1 .Container {
+	flex: 1 1 0;
+	height: 361px;
+	flex-direction: column;
+	justify-content: flex-start;
+	align-items: flex-start;
+	gap: 24px;
+	display: inline-flex;
+}
+
+.Section1 .Container .Title:nth-child(1) {
+	width: 123px;
+	height: 40px;
+	color: black;
+	font-size: 40px;
+	font-family: Roboto;
+	font-weight: 700;
+	line-height: 48px;
+	word-wrap: break-word;
+}
+
+.Section1 .Container .Title:nth-child(2) {
+	width: 123px;
+	height: 27px;
+	color: black;
+	font-size: 20px;
+	font-family: Roboto;
+	font-weight: 700;
+	line-height: 48px;
+	word-wrap: break-word;
+}
+
+.Section1 .Container .Description {
+	align-self: stretch;
+	color: black;
+	font-size: 16px;
+	font-family: Roboto;
+	font-weight: 400;
+	line-height: 24px;
+	word-wrap: break-word;
+}
+
+.Section2 {
+	/* background-color:  rgb(193, 225, 118); */
+	width: 1420px;
+	padding-left: 170px;
+	padding-right: 170px;
+	padding-top: 60px;
+	padding-bottom: 60px;
+	left: 0px;
+	top: 768px;
+	position: absolute;
+	justify-content: center;
+	align-items: center;
+	gap: 60px;
+	display: inline-flex;
+}
+
+.Section2 .Container {
+	flex: 1 1 0;
+	flex-direction: column;
+	justify-content: flex-start;
+	align-items: center;
+	gap: 24px;
+	display: inline-flex;
+	border-bottom: 5px solid rgb(184, 212, 91);
+}
+
+.Section2 .Container .Title {
+	width: 520px;
+	text-align: center;
+	color: black;
+	font-size: 40px;
+	font-family: Roboto;
+	font-weight: 700;
+	line-height: 48px;
+	word-wrap: break-word;
+}
+
+.Section2 .Container .List {
+	align-self: stretch;
+	padding-top: 20px;
+	padding-bottom: 20px;
+	justify-content: center;
+	align-items: center;
+	gap: 40px;
+	display: inline-flex;
+}
+
+/* .Section2 .Container .List .Card{
+    width: 240px; 
+    border-radius: 6px; 
+    overflow: hidden; 
+    border: 1px rgba(0, 0, 0, 0.10) solid; 
+    flex-direction: column; 
+    justify-content: flex-start; 
+    align-items: center; 
+    display: inline-flex;
+} */
+
+/* Card */
+.Card {
+	display: flex;
+	width: 270px;
+	height: 370px;
+	border-radius: 6px;
+	/* overflow: hidden;  */
+	flex-direction: column;
+	justify-content: flex-start;
+	align-items: center;
+	/* display: inline-flex; */
+	box-sizing: border-box;
+	transform-style: preserve-3d;
+	transition: transform 1.5s;
+	perspective: 1000px; /* 3D 효과를 위한 perspective 설정 */
+	border-radius: 15px;
+}
+
+.Card .Back {
+	width: 100%;
+	height: 100%;
+	backface-visibility: hidden;
+	transform: rotateY(180deg);
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 1;
+	border-radius: 15px;
+}
+
+.Card .Back span {
+	display: block;
+	padding: 20px 10px 10px;
+	font-weight: 500;
+}
+
+.Card:hover .Front {
+	transform: rotateY(-180deg); /* 호버 시 앞면이 180도 회전하여 사라지도록 설정 */
+	background-color: rgb(107, 199, 168);
+	border: 2px rgba(0, 0, 0, 0.10) solid;
+	border-radius: 6px;
+	cursor: pointer;
+	border-radius: 15px;
+}
+
+.Card:hover .Back {
+	transform: rotateY(0deg); /* 호버 시 뒷면이 180도 회전하여 나타나도록 설정 */
+	/* background-color: rgb(107, 199, 168); */
+	background-color: #eee;
+	border: 2px rgba(0, 0, 0, 0.10) solid;
+	border-radius: 6px;
+	cursor: pointer;
+	border-radius: 15px;
+}
+
+.Card .Front {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	backface-visibility: hidden;
+	transition: transform 1.5s; /* 회전 트랜지션 설정 */
+	background-color: rgb(107, 199, 168);
+	border-radius: 15px;
+}
+
+.Card .Back {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	backface-visibility: hidden;
+	transition: transform 1.5s; /* 회전 트랜지션 설정 */
+	background-color: rgb(107, 199, 168);
+	background-color: #f8f8f8;
+	border-radius: 15px;
+}
+
+.Card .Front, .Card .Back {
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	backface-visibility: hidden;
+	transition: opacity 0.1s, z-index 0s;
+	border-radius: 15px;
+}
+
+.Card .Front {
+	background-color: rgb(107, 199, 168);
+	z-index: 2;
+	border-radius: 15px;
+}
+
+.Card .Back {
+	position: relative;
+	/* background-color: #f8f8f8; */
+	opacity: 0;
+	z-index: 1;
+	transition-duration: 1.8s; /* 뒷면이 나타나는 속도를 조정 */
+	border-radius: 15px;
+}
+
+.Card:hover .Front {
+	opacity: 0;
+	border-radius: 15px;
+}
+
+.Card:hover .Back {
+	opacity: 1;
+	border-radius: 15px;
+}
+
+.Back img {
+	border-radius: 15px;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	object-fit: cover; /* 이미지를 가득 채우도록 설정 */
+	z-index: 1; /* 이미지를 텍스트 위에 표시하기 위해 z-index 설정 */
+	border-radius: 15px;
+}
+
+.Back span {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	padding: 20px;
+	box-sizing: border-box;
+	z-index: 2; /* 텍스트를 이미지 위에 표시하기 위해 z-index 설정 */
+	background-color: rgba(255, 255, 255, 0.273);
+}
+
+.Card .Image {
+	width: 100%;
+	height: 240px;
+	position: relative;
+	background: rgba(216.75, 216.75, 216.75, 0.50);
+	border-radius: 15px;
+}
+
+.Card .Image img {
+	border-radius: 15px 15px 0px 0px;
+	width: 100%;
+	height: 100%;
+	border-radius: 15px;
+}
+
+.Card .Image .Tag {
+	padding-left: 8px;
+	padding-right: 8px;
+	padding-top: 4px;
+	padding-bottom: 4px;
+	left: 0px;
+	top: 0px;
+	position: absolute;
+	background: rgba(0, 0, 0, 0.05);
+	border-top-left-radius: 6px;
+	border-top-right-radius: 6px;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	display: inline-flex
+}
+
+.Card .Image .Text {
+	color: black;
+	font-size: 12px;
+	font-family: Roboto;
+	font-weight: 500;
+	line-height: 16px;
+	word-wrap: break-word
+}
+
+.Card .TextContent {
+	margin-top: 10px;
+	align-self: stretch;
+	height: 108px;
+	padding: 12px;
+	flex-direction: column;
+	justify-content: flex-start;
+	align-items: flex-start;
+	gap: 4px;
+	display: flex;
+}
+
+.Card .TextContent .Title {
+	width: 216px;;
+	align-self: stretch;
+	color: black;
+	font-size: 16px;
+	font-family: Roboto;
+	font-weight: 400;
+	line-height: 24px;
+	word-wrap: break-word;
+	text-align: left;
+}
+
+.Card .Subtitle {
+	align-self: stretch;
+	height: 28px;
+	color: black;
+	font-size: 20px;
+	font-family: Roboto;
+	font-weight: 500;
+	line-height: 28px;
+	word-wrap: break-word;
+	text-align: left;
+}
+
+.Card .IconButtons {
+	align-self: stretch;
+	justify-content: flex-start;
+	align-items: center;
+	gap: 8px;
+	display: inline-flex;
+	text-align: left;
+}
+
+.Card .Icon {
+	width: 24px;
+	height: 24px;
+	text-align: center;
+	color: black;
+	font-size: 16px;
+	font-family: Roboto;
+	font-weight: 400;
+	line-height: 24px;
+	word-wrap: break-word;
+}
+
+/* Card 끝 */
+.btnGroup {
+	width: 366px;
+	height: 42.08px;
+	left: 804px;
+	/* margin: 0 auto; */
+	top: 700px;
+	position: absolute;
+}
+
+.btn {
+	border: none;
+	border-radius: 12px;
+}
+
+.btnGroup .btn {
+	width: 159.83px;
+	height: 42.08px;
+	left: 0px;
+	top: 0px;
+	position: absolute;
+	text-align: center;
+	color: black;
+	font-size: 24px;
+	font-family: Roboto;
+	font-weight: 400;
+	line-height: 24px;
+	word-wrap: break-word;
+	color: rgb(67, 121, 103);
+	background-color: rgb(243, 255, 235);
+}
+
+.btnGroup .btn:nth-child(2) {
+	width: 159.83px;
+	height: 42.08px;
+	left: 293px;
+	top: 0px;
+	position: absolute;
+	text-align: center;
+	color: black;
+	font-size: 24px;
+	font-family: Roboto;
+	font-weight: 400;
+	line-height: 24px;
+	word-wrap: break-word;
+	color: rgb(67, 121, 103);
+}
+
+.btnGroup .btn {
+	width: 159.83px;
+	height: 42.08px;
+	left: 0px;
+	top: 0px;
+	position: absolute;
+	text-align: center;
+	color: black;
+	font-size: 24px;
+	font-family: Roboto;
+	font-weight: 400;
+	line-height: 24px;
+	word-wrap: break-word;
+	color: rgb(67, 121, 103);
+	background-color: rgb(243, 255, 235);
+	border-radius: 15px; 
+}
+
+.btnGroup2 {
+	width: 1760px;
+	height: 42.08px;
+	/* left: 1204px;  */
+	top: 1370px;
+	position: absolute;
+}
+
+.btnGroup2 .btn:nth-child(1) {
+	width: 159.83px;
+	height: 42.08px;
+	left: 120px;
+	top: 0px;
+	position: absolute;
+	text-align: center;
+	color: black;
+	font-size: 24px;
+	font-family: Roboto;
+	font-weight: 400;
+	line-height: 24px;
+	word-wrap: break-word;
+	color: rgb(67, 121, 103);
+	background-color: rgb(243, 255, 235);
+}
+
+.btnGroup2 .btn:nth-child(1):hover {
+	background-color: rgb(107, 199, 168);
+	color: #fff;
+	transition: .5s;
+}
+
+.btnGroup2 .btn:nth-child(2) {
+	width: 159.83px;
+	height: 42.08px;
+	left: 1480px;
+	/* right: 150px; */
+	top: 0px;
+	position: absolute;
+	text-align: center;
+	color: black;
+	font-size: 24px;
+	font-family: Roboto;
+	font-weight: 400;
+	line-height: 24px;
+	word-wrap: break-word;
+	color: rgb(67, 121, 103);
+}
+
+.btnGroup2 .btn {
+	width: 159.83px;
+	height: 42.08px;
+	left: 0px;
+	top: 0px;
+	position: absolute;
+	text-align: center;
+	color: black;
+	font-size: 24px;
+	font-family: Roboto;
+	font-weight: 400;
+	line-height: 24px;
+	word-wrap: break-word;
+	color: rgb(67, 121, 103);
+	background-color: rgb(243, 255, 235);
+}
+
+.btn {
+	text-align: center;
+	justify-content: center;
+	font-size: 20px;
+	padding: 10px 20px;
+	padding-bottom: 35px;
+	color: rgb(67, 121, 103);;
+}
+
+.btn:hover, .btn:nth-child(2):hover {
+	background-color: rgb(107, 199, 168);
+	color: #fff;
+	transition: .5s;
+}

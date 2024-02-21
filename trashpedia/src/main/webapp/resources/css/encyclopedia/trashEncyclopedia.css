@@ -1,4 +1,10 @@
 @charset "UTF-8";
+
+a{
+    text-decoration: none; /* 밑줄 제거 */
+    color: inherit; /* 부모 요소의 색상 상속 */
+}
+
 input {
     border: none;
 }
@@ -12,7 +18,8 @@ input:focus {
     position: relative;
     margin: 0 auto;
     width: 1759.99px;
-    height: 1850px;
+    min-height: 1650px;
+    height: 100%;
     display: flex;
     /*   */
 }
@@ -22,134 +29,43 @@ main {
     /* position: relative; */
     /* top: 140px; */
     display: block;
-    /* text-align: center; */
+    text-align: center;
     width: 100%;
     /* background-color: antiquewhite; */
 }
 
-
-.pageDescription {
-    width: 100%;
-    /* height: 1840px;  */
-    margin: 0 auto;
-    position: absolute;
-    background: white;
-    top: 0px;
-}
-
-.Group2122 {
-    width: 100%;
-    padding-top: 15px;
-    height: 100px;
-    left: 0px;
-    top: 80px;
-    position: absolute;
-}
-
-
-.Group2122 .Section {
-    box-sizing: border-box;
-    position: absolute;
-    width: 1760px;
-    /* width: 2760px;  */
+/* ------ 실천서약 타이틀 부분 ------ */
+.practice-section {
+    position: relative;
+    top: 90px;
     height: 150px;
-    padding-left: 170px;
-    padding-right: 170px;
-    padding-top: 60px;
-    padding-bottom: 60px;
-    left: 0px;
-    top: 0px;
-    background-color: rgb(100, 179, 152);
     width: 100%;
-    /* background: rgba(73.31, 68.43, 68.43, 0.62); */
-}
-
-.Group2121 {
-    text-align: center;
-    margin: 0 auto;
-    width: 1760px;
-    height: 150px;
-    position: absolute;
-}
-
-.Group2121 .Container {
-    /* margin: 0 auto; */
-    /* margin-left: calc((1760px - 1110px)/2); */
-    width: 1100px;
-    height: 120px;
-    left: 170px;
-    top: 0px;
-    position: absolute;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-    gap: 24px;
-    display: inline-flex;
-    box-sizing: border;
-}
-
-
-.Group2121 .Container .Title {
-    /* margin: 0 auto; */
-    margin-left: calc((1110px - 470px)/2);
-    width: 520px;
-    text-align: center;
+    background-color: #73cc73;
     color: white;
-    font-size: 40px;
-    font-family: Roboto;
     font-weight: 700;
-    line-height: 48px;
-    word-wrap: break-word;
-}
-
-.Group2121 .Container .Description {
-    margin-left: calc((1110px - 470px)/2);
-    width: 520px;
-    text-align: center;
-    color: white;
-    font-size: 16px;
-    font-family: Roboto;
-    font-weight: 400;
-    line-height: 24px;
-    word-wrap: break-word;
-}
-
-.Content {
-    width: 1760px;
-    /* padding-left: 170px;  */
-    /* padding-right: 170px;  */
-    padding-top: 60px;
-    padding-bottom: 60px;
-    left: 0px;
-    top: 230px;
-    position: absolute;
+    display: flex;
     justify-content: center;
     align-items: center;
-    gap: 60px;
-    display: inline-flex;
-}
-
-.Content .Container {
-    width: 1700px;
-    flex: 1 1 0;
     flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-    gap: 24px;
-    display: inline-flex;
 }
 
-.Content .Container>.Title {
-    width: 520px;
-    text-align: center;
-    color: black;
-    font-size: 40px;
-    font-family: Roboto;
-    font-weight: 700;
-    line-height: 48px;
-    word-wrap: break-word;
-
+.practice-section p:first-child {
+    font-size: 32px;
+    margin-top: 0;
+    margin-bottom: 0px;
 }
+
+.practice-section p:nth-child(2) {
+    margin-top: 10px;
+    font-size: 18px;
+}
+
+/* ------ 실천서약 타이틀 부분 ------ */
+
+
+
+
+
 
 
 
@@ -157,9 +73,10 @@ main {
 
 main .elementor-widget-container {
     position: absolute;
-    top: 300px;
+    /* position: relative; */
+    top: 200px;
     width: 100%;
-    height: 70px;
+    height: 150px;
     /* background-color: rgb(138, 255, 114); */
 }
 
@@ -204,7 +121,7 @@ main .elementor-widget-container .probox span {
 main .elementor-widget-container2 {
     position: absolute;
     text-align: center;
-    top: 350px;
+    top: 250px;
     width: 100%;
     height: 70px;
 }
@@ -220,6 +137,49 @@ main .elementor-widget-container2 img {
 
 
 
+/* 카테고리 */
+
+.dropdown {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 20px;
+}
+
+/* Styling the main categories */
+.main-category {
+    position: absolute;
+    left: 80px;
+    top: 500px;
+}
+
+/* Styling the sub categories */
+.sub-categories {
+    position: absolute;
+    top: 0;
+    left: 100%;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    list-style: none;
+    padding: 10px;
+    /* display: none;s */
+}
+
+.main-category:hover .sub-categories {
+    display: block;
+}
+
+.sub-categories li {
+    cursor: pointer;
+    margin-bottom: 5px;
+}
+
+.sub-categories li:hover {
+    color: blue; /* Change color on hover */
+}
+
+/* 카테고리 */
+
 
 
 
@@ -227,7 +187,7 @@ main .elementor-widget-container2 img {
 
 main .select {
     position: absolute;
-    top: 650px;
+    top: 580px;
     width: 100%;
     /* width: 1760px; */
     height: 270px;
@@ -257,7 +217,7 @@ main .select {
     cursor: pointer;
     width: 100%;
     height: 90%;
-    border-radius: 6px;
+    border-radius: 15px;
     overflow: hidden;
     /* border: 1px rgba(0, 0, 0, 0.10) solid; */
     /* flex-direction: column;  */
@@ -270,17 +230,20 @@ main .select {
     display: block;
     /* width: 240px; */
     width: 100%;
-    height: 100%;
+    height: 90%;
     object-fit: cover;
+    border-radius: 15px;
 }
 
 
-.swiper-container  .Card{
+/* Card */
+
+.swiper-container .Card{
     display: flex;
     width: 270px; 
     height: 370px;
-    border-radius: 6px; 
-    /* overflow: hidden;  */
+    border-radius: 15px; 
+    overflow: hidden; 
     
     flex-direction: column; 
     justify-content: flex-start; 
@@ -290,23 +253,24 @@ main .select {
    
     transform-style: preserve-3d;
     transition: transform 1.5s;
-    perspective: 1000px; /* 3D 효과를 위한 perspective 설정 */
+    border-radius: 15px;
 }
 
 
 
-.swiper-container  .Card .Back {
+.swiper-container .Card .Back {
     width: 100%; 
     height: 100%; 
     backface-visibility: hidden;
-    transform: rotateY(180deg);
+    /* transform: rotateY(180deg); */
     position: absolute;
     top: 0;
     left: 0;
     z-index: 1;
+    border-radius: 15px;
 }
 
-.swiper-container  .Card .Back span{
+.swiper-container .Card .Back span{
     display: block;
     padding: 20px 10px 10px;
     font-weight: 500;
@@ -314,30 +278,43 @@ main .select {
 
 
 
-.swiper-container  .Card:hover .Front {
-    transform: rotateY(-180deg); /* 호버 시 앞면이 180도 회전하여 사라지도록 설정 */
+.swiper-container .Card:hover .Front {
+    /* transform: rotateY(-180deg);  */
     /* background-color: rgb(107, 199, 168); */
     border: 2px rgba(0, 0, 0, 0.10) solid; 
     border-radius: 6px; 
-    cursor: pointer;
+    cursor: pointer;border-radius: 15px;
 }
 
-.swiper-container  .Card:hover .Back {
+.swiper-container .Card:hover .Back {
     transform: rotateY(0deg); /* 호버 시 뒷면이 180도 회전하여 나타나도록 설정 */
     /* background-color: rgb(107, 199, 168); */
+    background-color: #eee;
     border: 2px rgba(0, 0, 0, 0.10) solid; 
     border-radius: 6px; 
     cursor: pointer;
+    border-radius: 15px;
 }
 
-.swiper-container  .Card .Front,
-.swiper-container  .Card .Back {
+.swiper-container .Card .Front {
     position: absolute;
     width: 100%;
     height: 100%;
     backface-visibility: hidden;
     transition: transform 1.5s; /* 회전 트랜지션 설정 */
     /* background-color: rgb(107, 199, 168); */
+    border-radius: 15px;
+}
+
+.swiper-container .Card .Back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    /* transition: transform 1.5s; */
+    /* background-color: rgb(107, 199, 168); */
+    background-color: #f8f8f8;
+    border-radius: 15px;
 }
 
 
@@ -345,18 +322,87 @@ main .select {
 
 
 
-.swiper-container  .Card .Image{
+
+.swiper-container .Card .Front, .Card .Back {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    backface-visibility: hidden;
+    transition: opacity 0.1s, z-index 0s;
+    border-radius: 15px;
+}
+
+.swiper-container .Card .Front {
+    /* background-color: rgb(107, 199, 168); */
+    z-index: 2;border-radius: 15px;
+}
+
+.swiper-container .Card .Back {
+    position: relative;
+    /* background-color: #f8f8f8; */
+    opacity: 0;
+    z-index: 1;
+    transition-duration: 1.8s; /* 뒷면이 나타나는 속도를 조정 */
+    border-radius: 15px;
+}
+
+.swiper-container .Card:hover .Front {
+    opacity: 0;
+    border-radius: 15px;
+}
+
+.swiper-container .Card:hover .Back {
+    opacity: 1;
+    border-radius: 15px;
+}
+
+
+
+.swiper-container .Back img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* 이미지를 가득 채우도록 설정 */
+    z-index: 1; /* 이미지를 텍스트 위에 표시하기 위해 z-index 설정 */
+    border-radius: 15px;
+    overflow: hidden; 
+}
+
+.swiper-container .Back span {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+    z-index: 2; /* 텍스트를 이미지 위에 표시하기 위해 z-index 설정 */
+    background-color: rgba(255, 255, 255, 0.273); 
+}
+
+
+
+
+.swiper-container .Card .Image{
     width: 100%; 
     height: 240px; 
     position: relative; 
     background: rgba(216.75, 216.75, 216.75, 0.50);
+    border-radius: 15px;
+    overflow: hidden; 
 }
 
 
-.swiper-container  .Card .Image img{
+.swiper-container .Card .Image img{
+    border-radius: 15px;
     width: 100%;
     height: 100%;
+    border-radius: 15px;
+    overflow: hidden; 
 }
+
 
 
 
@@ -383,7 +429,8 @@ main .select {
     font-size: 38px;
     font-weight: 700;
     margin-bottom: 30px;
-    color: #fff;
+    /* color: #fff; */
+    color: #222;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* 그림자 속성을 설정합니다. */
 }
 
@@ -396,7 +443,7 @@ main .select {
     width: 1760px;
     height: 520px;
     overflow: hidden;
-    background-image: url('../images/close-up-earth-sign-in-leaves.jpg'); /* 이미지 경로를 지정합니다. */
+    /* background-image: url('../images/close-up-earth-sign-in-leaves.jpg');  */
     background-size: cover; /* 배경 이미지를 컨테이너에 맞게 조정합니다. */
     background-repeat: no-repeat; /* 배경 이미지를 반복하지 않도록 설정합니다. */
     background-position: center; /* 배경 이미지를 가운데 정렬합니다. */
@@ -404,8 +451,8 @@ main .select {
 
 .today-popular-trash .Container .card {
     position: absolute;
-    padding: 10px 20px;
-    background-color: rgb(106, 220, 110);
+    /* padding: 10px 20px;
+    background-color: rgb(106, 220, 110); */
     border-radius: 20px;
     animation-fill-mode: forwards;
     /* 애니메이션이 끝난 후 요소의 상태를 유지 */
@@ -413,7 +460,7 @@ main .select {
     height: 120px;
     border-radius: 120px;
     overflow: hidden;
-    border: 1px rgba(0, 0, 0, 0.10) solid;
+    border: 1px #eee solid;
     justify-content: flex-start;
     display: flex;
     flex-direction: column;
@@ -452,40 +499,40 @@ main .select {
 
 /* 각 card 요소들에 대한 위치와 애니메이션 설정 */
 .animate-card1 {
-    animation: moveRandom1 7s alternate forwards;
+    animation: moveRandom1 6s alternate forwards;
 
 }
 
 .animate-card2 {
-    animation: moveRandom2 5s alternate forwards;
+    animation: moveRandom2 4s alternate forwards;
 }
 
 .animate-card3 {
-    animation: moveRandom3 4s alternate forwards;
+    animation: moveRandom3 3s alternate forwards;
 }
 
 .animate-card4 {
-    animation: moveRandom4 5s alternate forwards;
+    animation: moveRandom4 4s alternate forwards;
 }
 
 .animate-card5 {
-    animation: moveRandom5 6s alternate forwards;
+    animation: moveRandom5 5s alternate forwards;
 }
 
 .animate-card6 {
-    animation: moveRandom6 7s alternate forwards;
+    animation: moveRandom6 6s alternate forwards;
 }
 
 .animate-card7 {
-    animation: moveRandom7 5s alternate forwards;
+    animation: moveRandom7 4s alternate forwards;
 }
 
 .animate-card8 {
-    animation: moveRandom8 5s alternate forwards;
+    animation: moveRandom8 4s alternate forwards;
 }
 
 .animate-card9 {
-    animation: moveRandom9 5s alternate forwards;
+    animation: moveRandom9 4s alternate forwards;
 }
 
 
