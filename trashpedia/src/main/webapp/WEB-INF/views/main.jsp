@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<c:set var="contextPath" value="<%=request.getContextPath() %>"/>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -33,7 +34,7 @@
 			<h4 class="scroll_on type_bottom">잘 버리는 일부터 시작하세요</h4>
 			<h4 class="scroll_on type_bottom">모두를 위한 정보 플랫폼</h4>
 			<!-- <h4> 누구나 쉽게 따라할 수 있는 친환경 라이프스타일을 전파합니다.</h4> -->
-			<button id="scrollButton">
+			<button id="scrollDownButton">
 				<span class="material-symbols-outlined">arrow_downward</span>
 			</button>
 		</div>
@@ -337,6 +338,10 @@
 		</div>
 
 	</main>
+	
+	<button id="scrollUpButton">
+		<span class="material-symbols-outlined">arrow_upward</span>
+	</button>
 
 	<jsp:include page="common/footer.jsp" />
 
@@ -392,15 +397,36 @@
 	            });
 	    });
 	
-	    // 스크롤 버튼 클릭 시  body를 1005px 아래로 스크롤
+	   
 	    $(document).ready(function() {
-	        $("#scrollButton").click(function() {
+	        // 스크롤 다운 버튼 
+	        $("#scrollDownButton").click(function() {
 	            $("body, html").animate({ 
-	                scrollTop: 1105 
+	                scrollTop: 1160 
 	            }, 1100); 
 	        });
+	        
+	        // 상단 이동 버튼
+	        var scrollUpButton = $('#scrollUpButton');
+
+	        $(window).scroll(function() {
+	            if ($(this).scrollTop() > 300) {
+	                scrollUpButton.show();
+	            } else {
+	                scrollUpButton.hide();
+	            }
+	        });
+	        
+	        scrollUpButton.click(function(){
+	        	$('html,body').animate({scrollTop:0},500);
+	        	return false;
+	        });
+	        
 	    });
-	
+	    
+	   
+	    
+
 	    // 스크롤 변화에 따른 header 스타일 변경
 		$(window).scroll(function() {
 		  var header = $('.header');

@@ -253,7 +253,7 @@ header .search-pop-up.active {
     transform: translateY(0);
 }
 /* 팝업 닫기버튼 */
-#pop-up-X {
+header #pop-up-X {
     position: absolute;
     top: 15px; /* 상단 여백 조절 */
     right: 40px; /* 우측 여백 조절 */
@@ -262,7 +262,7 @@ header .search-pop-up.active {
     cursor: pointer;
 }
 /* 팝업 닫기버튼 호버 */
-#pop-up-X:hover {
+header #pop-up-X:hover {
     color: #55a855; 
     transition: color 0.2s ease-in-out;
 }
@@ -285,7 +285,8 @@ header .search-input{
     display: flex;
     text-align: left;
     align-items: center;
-    width: 60%;
+    width: 1000px;
+    margin : auto;
     height: 50px;
     line-height: 21px;
     font-size: 15px;
@@ -317,7 +318,7 @@ header .search-button{
 
 
 /* 지우기 */
-.content-title button{
+header .content-title button{
     display: inline-block;
     border: none;
     text-indent: -999px;
