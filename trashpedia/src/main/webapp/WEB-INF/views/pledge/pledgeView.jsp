@@ -2,6 +2,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:set var="contextPath" value="<%=request.getContextPath() %>"/>
 
+<c:set var="bigCategoryNo" value="<%=2%>"/>
+<c:set var="subCategoryNo" value="<%=5%>"/>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -149,7 +151,7 @@
                 </div>
             </div>
             <div class="insert-area">
-                <a href="${contextPath}/pledge/insert">
+                <a href="${pageContext.request.contextPath}/write?bigCategoryNo=${bigCategoryNo}&subCategoryNo=${subCategoryNo}">
                     <button id="insertButton">게시글 등록하기</button>
                 </a>
             </div>

@@ -11,4 +11,5 @@ public class SubCategory {
 	private int subCategoryNo;
 	private int bigCategoryNo;
 	private String subCategoryName;
+	private String bigCategoryName; //대분류 카테고리 이름 가져오기 위함
 }

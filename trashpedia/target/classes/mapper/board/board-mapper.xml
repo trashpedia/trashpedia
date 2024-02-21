@@ -2,11 +2,26 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="boardMapper">
 
+	<!-- 카테고리 가지고오기  -->
 	<select id="getSubCategory" parameterType="subCategory" resultType='subCategory'>
-		SELECT *
-		FROM SUB_CATEGORY
-		WHERE SUB_CATEGORY_NO = #{subCategoryNo}
-			AND BIG_CATEGORY_NO = #{bigCategoryNo}
+		SELECT SUB_CATEGORY_NO, S.BIG_CATEGORY_NO, SUB_CATEGORY_NAME, BIG_CATEGORY_NAME
+		FROM SUB_CATEGORY S
+		JOIN BIG_CATEGORY B ON S.BIG_CATEGORY_NO = B.BIG_CATEGORY_NO
+		WHERE S.SUB_CATEGORY_NO = #{subCategoryNo}
+			AND S.BIG_CATEGORY_NO = #{bigCategoryNo}
 	</select>
+	
+	<!-- 게시글 등록(POST) -->
+	<insert id="createPost" parameterType="Post" useGeneratedKeys="true" keyProperty="postNo">
+	   INSERT INTO POST (TITLE, CONTENT, CREATE_DATE, MODIFY_DATE, STATUS)
+	   VALUES (#{title}, #{content}, SYSDATE, SYSDATE, 'Y')
+	</insert>
+	
+	<!-- 게시글 등록(BOARD) -->
+	<insert id="createBoard" parameterType="board">
+		INSERT INTO BOARD
+		VALUES (SEQ_BNO.NEXTVAL, #{postNo}, 1, #{subCategoryNo}, 'Y')
+	</insert>
+	
 	
 </mapper>
