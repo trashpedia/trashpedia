@@ -9,11 +9,11 @@
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
     <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css" />
-    <link rel="stylesheet" href="resoutces/css/admin/adminWrite.css">
+    <link rel="stylesheet" href="../resoutces/css/admin/adminWrite.css">
 </head>
-<jsp:include page="../common/header.jsp"/>
+<jsp:include page="../../common/header.jsp"/>
 <body class="body">
-    <jsp:include page="../common/sidebar.jsp"/>
+    <jsp:include page="../../common/sidebar.jsp"/>
     <div class="content-wrapper">
         <div class="content">
             <section class="writeBoard-section">

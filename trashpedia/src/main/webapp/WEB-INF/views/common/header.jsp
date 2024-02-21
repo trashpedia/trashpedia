@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="contextPath" value="<%=request.getContextPath() %>"/>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,7 +9,7 @@
     <title>Header</title>
     <!-- 아이콘 -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-    <link rel="stylesheet" href="resources/css/common/header.css">
+    <link rel="stylesheet" href="${contextPath}/resources/css/common/header.css">
 </head>
 <body>
 
@@ -53,7 +52,7 @@
                             <ul class="header-menu-ul">
                                 <li><a href="#">홍보 교육자료</a></li>
                                 <li><a href="#">제도 정책자료</a></li>
-                                <li><a href="${contextPath}/adminlist"> - </a></li>
+                                <li><a href="${contextPath}/admin"> - </a></li>
                             </ul>
                         </div>
                     </li>
