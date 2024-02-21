@@ -15,6 +15,7 @@
 <body>
 
 	<jsp:include page="../common/header.jsp"/>
+	
     <main>
         <div class="container">
             <div class="content-title-outer">
