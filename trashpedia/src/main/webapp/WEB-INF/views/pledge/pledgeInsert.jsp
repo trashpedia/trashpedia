@@ -17,23 +17,39 @@
 <body>
     <jsp:include page="../common/header.jsp"/>
     
+   	<form action="${contextPath}/write" id="enrollForm" method="post" enctype="enctype="multipart/form-data">
     <main>
-        <div class="container">          
+        <div class="container">
+            <%-- <p class="">${category.subCategoryName}</p> --%>
+            <%-- <input type="text" name="bigCategoryNo" value="${category.bigCategoryNo}" disabled>
+            <input type="text" name="subCategoryNo" value="${category.subCategoryNo}" disabled> --%>
+                  
             <div class="content-title-outer">
-                <input type="text" class="input-title" placeholder="제목을 입력하세요.">
+                <input name="title" type="text" class="input-title" placeholder="제목을 입력하세요." required>
                 <hr>
             </div>
+            
 
             <div class="content-outer">
-                <div id="writeBoard-content"></div>
+	            <!--실천하기/정보자료글  -->
+	            <span>썸네일 이미지 선택 : <input type="file" name="upThumbNailImg"></span>
+	            
+	            <!-- 공지/일반/건의 게시판 -->
+	            <span>파일 선택 : <input type="file" name="upThumbNailImg"></span>
+                
+                <div id="writeBoard-content" name="content">
+                    <input type="hidden" name="content" id="hiddenContentInput">
+                </div>
+                
                 <div class="post-buttons">
-                    <a href="${contextPath}/pledge/list"><button class="btn-list">목록</button></a>
-                    <a href="${contextPath}/pledge/insert"><button class="btn-edit">등록</button></a>
-                    <a href=""><button class="btn-delete">삭제</button></a>
+                    <a href="${contextPath}/pledge/list"><button type='button' class="btn-list">목록</button></a>
+                    <button class="btn-edit" type='submit'>등록</button>
+                    <button class="btn-reset" type="reset">초기화</button>
                 </div>
             </div>
         </div>
     </main>
+    </form>
     
     <jsp:include page="../common/footer.jsp"/>
     
@@ -46,6 +62,14 @@
 	        initialValue: '',
 	        previewStyle: 'vertical'
 	    });
+	    
+	    // editor 내용 hidden input에 설정
+	    function setContent() {
+	        $('#hiddenContentInput').val($('#writeBoard-content').html());
+	    }
+	    
+	    
+	    
     </script>
 </body>
 </html>
