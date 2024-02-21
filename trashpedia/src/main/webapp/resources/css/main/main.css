@@ -1,16 +1,12 @@
 @charset "UTF-8";
 
 /* ----------------- main -----------------*/
-header{
-    z-index: 100;
-}
+header{ z-index: 100; }
+main{ margin-bottom : 0px !important; }
 
 .showEvent{
 	opacity : 0.5;
 	transition : all 1.3s;
-	/* transform : translate(0,50px);
-	 transform: translateY(-40px);	
-	transform: translate(0, 40px); */
 }
 
 
@@ -23,7 +19,7 @@ header{
     background-position: center; 
     background-repeat: no-repeat; 
     width: 100%;
-    height: 1100px;
+    height: 1150px;
     overflow: hidden;
     z-index: 1;
     align-items: center;
@@ -51,8 +47,8 @@ main .backgroundImg img{
     color: white;
 }
 .backgroundImg h2{
-    margin-top: 240px;
-    margin-bottom: 25px;
+    margin-top: 180px;
+    margin-bottom: 23px;
     font-size: 100px;
     text-align: center; 
     color: #ffffff;
@@ -73,7 +69,7 @@ main .backgroundImg img{
 .backgroundImg button{   
     position: relative;
     text-align: center;
-    margin-top: 200px;
+    margin-top: 180px;
     border-radius: 50%;
     border: 1px solid white;
     color: white;
@@ -88,6 +84,7 @@ main .backgroundImg img{
     border: 1px solid rgb(82, 165, 82);
     -webkit-transition: all .4s;
 }
+
 
 /* 자원순환 실천방법
 main .main-inner{
@@ -152,15 +149,15 @@ main .practice-list li a i {
 /*  ----- 최근 업데이트된 쓰레기 게시글 부분 ----- */
 .recently-outer{
     position: relative;
-    padding-top: 40px;
-    margin-top: 80px;
+    padding-top: 45px;
+    margin-top: 120px;
 }
 /* 배경이미지 */
 .recently-outer img{
     position: absolute;
     top: 0;
     z-index: 0;
-    height: 625px;
+    height: 620px;
     width: auto;
     max-width: 100%;
 }
@@ -192,7 +189,7 @@ main .recently-garbage-outer{
 }
 main #recently-garbage-outer-title{
     margin-left: 10px;
-    font-size: 34px;
+    font-size: 30px;
     font-weight: 550;
     margin-bottom: 40px;
     margin-top: 25px;
@@ -297,8 +294,8 @@ main .recently-garbage-img{
     background-repeat: no-repeat;
     background-size: 100% auto;
     align-items: center;
-    top: 20%;
-    left: 20%;
+    top: 15%;
+    left: 18%;
     transform: translate(-20%, -20%);
     z-index: 3;
 }
@@ -348,10 +345,10 @@ main .content-outer span {
 
 /* 정보자료글 부분 */
 .information-outer{
-    width: 1000px;
-    margin: 30px auto;
-    margin-top : 180px;
-    padding : 20px;
+    width: 800px;
+    margin: 35px auto;
+    margin-top : 200px;
+    padding : 25px;
 }
 .information-outer-title{
 	color: black;
@@ -538,6 +535,22 @@ main .green-img {
 }
 
 
+/* 스크롤 업버튼 */
+#scrollUpButton{
+	position: fixed;
+    text-align: center;
+    bottom : 80px;
+    right : 110px;
+    border-radius: 50%;
+    color: white;
+    width: 45px;
+    height: 45px;
+    z-index: 10;
+    cursor: pointer;
+    background-color: black;
+    display : none;
+    -webkit-transition: all .3s;
+}
 
 
 
@@ -549,14 +562,14 @@ header{
     transition: background-color 0.3s ease-in-out;
 }
 
-header .header-nav li a, .header-menu-ul li a{
+header .header-nav li a{
     color: rgba(255, 255, 255, 0.8);
     font-weight: 600;
 }
-.header-nav .header-menu-ul>li>a{
+/* .header-nav .header-menu-ul>li>a{
 	color: inherit !important;
     font-weight: 600;
-}
+} */
 
 header .header-nav li a:hover{
     color: #6eb76e !important;

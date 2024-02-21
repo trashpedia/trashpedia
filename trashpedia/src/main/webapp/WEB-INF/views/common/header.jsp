@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="contextPath" value="<%=request.getContextPath() %>"/>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,7 +9,7 @@
     <title>Header</title>
     <!-- 아이콘 -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-    <link rel="stylesheet" href="resources/css/common/header.css">
+    <link rel="stylesheet" href="${contextPath}/resources/css/common/header.css">
 </head>
 <body>
 
@@ -40,7 +39,7 @@
                     </li>
                     <li id="menu-pledge" class="header-menu-hover">
                         <div class="header-menu-div">
-                            <a href="${contextPath}/pledgelist">실천서약</a>
+                            <a href="${contextPath}/pledge/list">실천하기</a>
                             <ul class="header-menu-ul">
                                 <li><a href="#">실천서약</a></li>
                                 <li><a href="#">실천인증</a></li>
@@ -53,7 +52,7 @@
                             <ul class="header-menu-ul">
                                 <li><a href="#">홍보 교육자료</a></li>
                                 <li><a href="#">제도 정책자료</a></li>
-                                <li><a href="${contextPath}/adminlist"> - </a></li>
+                                <li><a href="${contextPath}/admin"> - </a></li>
                             </ul>
                         </div>
                     </li>
@@ -66,9 +65,15 @@
             </div>
             <div class="header-search header-search-main">
                 <ul class="header-right">
-                    <li><span class="material-symbols-outlined icon">login</span><a href="${contextPath}/login.me">login</a> </li>
+                
+	                <!-- 로그인 안했을 때 보이기 -->
+                    <li><span class="material-symbols-outlined icon">login</span><a href="${contextPath}/login">login</a> </li>
                     <li><span class="material-symbols-outlined icon">person </span><a href="${contextPath}/insert.me">Signup</a></li>
                     <li id="header-search-icon" ><span class="material-symbols-outlined icon">search</span><a>Search</a></li>
+                    
+                    <!-- 로그인 했을 때 보이기 -->
+                    <%-- <li><span class="material-symbols-outlined icon">login</span><a href="${contextPath}/login.me">logout</a> </li> --%>
+                    <%-- <li><span class="material-symbols-outlined icon">person</span><a href="${contextPath}/login.me">MyPage</a> </li> --%>
                 </ul>
             </div>
         </div>

@@ -61,7 +61,7 @@ footer .reserved{
 }
 
 /* 깃허브 아이콘 */
-.github-icon {
+footer .github-icon {
     font-size: 14px;
     color: black; /* 원하는 색상으로 변경 */
     margin-right: 5px;
