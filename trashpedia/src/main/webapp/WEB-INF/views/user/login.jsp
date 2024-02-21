@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<c:set var="contextPath" value="<%=request.getContextPath() %>"/>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -15,7 +16,7 @@
         <div class="top-margin"></div>
         <span class="logo">로그인</span><br>
         <div class="div-login"></div>
-        <form action="#">
+        <form action="login.me">
             <input type="text" class="input-login" id="id" placeholder="아이디를 입력해주세요" class="in">
             <div id="id-error-message" class="error-message"></div>
             <input type="password" class="input-pwd" id="pwd" placeholder="비밀번호를 입력해주세요" class="in">
@@ -37,7 +38,7 @@
     <jsp:include page="../common/footer.jsp"/>
 	<script>
 		function email_check() {
-			var id = document.getElementById("id");
+			var id = document.getElementById("id"); 
 			var pw = document.getElementById("pwd");
 			var idErrorMessage = document.getElementById("id-error-message");
 			var pwdErrorMessage = document.getElementById("pwd-error-message");
