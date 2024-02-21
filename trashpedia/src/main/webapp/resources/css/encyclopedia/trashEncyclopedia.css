@@ -138,45 +138,79 @@ main .elementor-widget-container2 img {
 
 
 /* 카테고리 */
+.dropdown-area{
+	position: relative;
+	text-align: center;
+    top: 760px;
+    width: 100%;
+    height: 70px;
+}
+.dropdown-area .dropdown {
+	
+    position: absolute;
+    text-align: center;
+    display: flex; /* 텍스트를 수직 중앙 정렬하기 위해 Flexbox를 사용 */
+    align-items: center; /* 수직 중앙 정렬 */
+    justify-content: center; /* 수평 중앙 정렬 */
+    height: 70px;
+    width: 231px;
+    left: 73px;
 
-.dropdown {
+
+}
+
+.main-categories {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin: 20px;
 }
 
-/* Styling the main categories */
 .main-category {
-    position: absolute;
-    left: 80px;
-    top: 500px;
-}
-
-/* Styling the sub categories */
-.sub-categories {
-    position: absolute;
-    top: 0;
-    left: 100%;
-    background-color: #fff;
-    border: 1px solid #ccc;
-    list-style: none;
-    padding: 10px;
-    /* display: none;s */
-}
-
-.main-category:hover .sub-categories {
-    display: block;
-}
-
-.sub-categories li {
+    padding: 10px 10px 10px 10px;
     cursor: pointer;
-    margin-bottom: 5px;
+    
 }
 
-.sub-categories li:hover {
-    color: blue; /* Change color on hover */
+.subcategories {
+    position: absolute;
+    top: 72%;
+    left:3px;
+    background-color: #fff;
+    
+    border-radius: 0px 0px 4px 4px;
+    padding: 5px;
+    display: none;
+    z-index:10;
+    background-color: #73cc73;
+    border: 1px solid black;
+    border-top:none;
+    box-sizing:border;
 }
+
+.main-category:hover {
+	border-radius: 4px;
+	box-sizing:border;
+	border: 1px solid black;
+	background-color: #73cc73;
+	color:#fff;
+	box-sizing:border;
+}
+
+
+.subcategory {
+	
+    padding: 5px;
+    width:203px;
+    cursor: pointer;
+    
+    
+}
+
+.subcategory:hover {
+    background-color: #73cc73;
+    border: 1px solid #ddd;
+    color:#fff;
+}
+
+
 
 /* 카테고리 */
 
@@ -187,7 +221,7 @@ main .elementor-widget-container2 img {
 
 main .select {
     position: absolute;
-    top: 580px;
+    top: 600px;
     width: 100%;
     /* width: 1760px; */
     height: 270px;
@@ -496,6 +530,26 @@ main .select {
     transition: width .7s ease, height .7s ease, background-color .7s ease;
 
 }
+
+.today-popular-trash span{
+	position:absolute;
+	display:block;
+	width:330px;
+	height:300px;
+	font-size:58px;
+	font-weight: 900;
+	left: 37px;
+    top: 120px;
+    z-index:10;
+    cursor: pointer;
+    text-shadow: 2px 2px 4px #ccc; /* 그림자 속성을 설정합니다. */
+}
+.today-popular-trash span:hover{
+	color:#fff;
+	cursor: pointer;
+	text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* 그림자 속성을 설정합니다. */
+}
+
 
 /* 각 card 요소들에 대한 위치와 애니메이션 설정 */
 .animate-card1 {
