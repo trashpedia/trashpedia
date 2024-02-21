@@ -1,12 +1,18 @@
 package com.kks.trashpedia.common.model.dao;
 
-import java.util.List;
-
+import com.kks.trashpedia.board.model.vo.Board;
+import com.kks.trashpedia.board.model.vo.Post;
 import com.kks.trashpedia.board.model.vo.SubCategory;
 
 public interface CommonDao {
 
 	//카테고리가지고오기
-	List<SubCategory> getSubCategory(SubCategory subcategory);
+	SubCategory getSubCategory(SubCategory subcategory);
+
+	//게시글등록(post)
+	int createPost(Post p);
+
+	//게시글등록(board)
+	int createBoard(Board b);
 
 }

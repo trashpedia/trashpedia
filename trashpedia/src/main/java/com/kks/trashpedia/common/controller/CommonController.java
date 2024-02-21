@@ -1,7 +1,5 @@
 package com.kks.trashpedia.common.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,8 +10,11 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.kks.trashpedia.board.model.vo.Board;
+import com.kks.trashpedia.board.model.vo.Post;
 import com.kks.trashpedia.board.model.vo.SubCategory;
 import com.kks.trashpedia.common.service.CommonService;
+
+import jakarta.servlet.http.HttpServletRequest;
 
 @RestController
 public class CommonController {
@@ -28,11 +29,8 @@ public class CommonController {
 			) {
 		ModelAndView mv = new ModelAndView();
 		
-		System.out.println("subcategory"+subcategory);
-		List<SubCategory> category = service.getSubCategory(subcategory);
-		
+		SubCategory category = service.getSubCategory(subcategory);
 		System.out.println("category= "+ category);
-		
 		
 		mv.addObject("category",category);
 		mv.setViewName("pledge/pledgeInsert");
@@ -40,23 +38,50 @@ public class CommonController {
 		return mv;
 	}
 	
-	@PostMapping("/write")
-	public String insertBoard(
-			Board b, 
-			RedirectAttributes ra,
-			@RequestParam(value="upThumbNailImg", required=false) MultipartFile upfile
+	
+	@PostMapping("/write/{bigCategoryNo}/{subCategoryNo}")
+	public ModelAndView insertBoard(
+			SubCategory subcategory, Post p,
+			RedirectAttributes ra, @RequestParam("thumbnailImage") MultipartFile thumbnailImage,
+			@RequestParam("upfile") MultipartFile upfile, HttpServletRequest request
 			) {
 
+		ModelAndView mv = new ModelAndView();
+		Board b = new Board();
+		
+		System.out.println(subcategory);
+		System.out.println(p);
 
+		//post 게시글 등록
+		int postNo = service.createPost(p);
+		
+		b.setPostNo(postNo);
+		b.setSubCategoryNo(subcategory.getSubCategoryNo());
+		
+		System.out.println(postNo);
+		
+		if (postNo > 0) {
+			
+			int result = service.createBoard(b);
+			
+			if (result > 0) {
+				mv.addObject("alert", "게시글 작성 성공");
+			} else {
+				mv.addObject("alert", "게시글 작성 실패");
+			}
+			
+		} else {
+			mv.addObject("alert", "게시글 작성 실패");
+			/* return mv; */
+		}
+		
 		//이미지 저장할 경로 얻어오기
 		/* String webPath = '/resources/images/' */
 		
 		
-//		commonService.insertBoard(b);
+		mv.setViewName("pledge/pledgeInsert");
 		
-		System.out.println("여기까지 되는지 확인");
-
-		return "될까";
+		return mv;
 		
 	}
 	
