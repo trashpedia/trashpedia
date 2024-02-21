@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.kks.trashpedia.admin.model.service.adminService;
 
 @RestController
@@ -37,14 +39,22 @@ public class AdminController {
 	}
 	
 	@GetMapping("/getMemberData")
-	public List<Map<String, Object>> getMemberData(@RequestParam String boardId){
-		return service.getMemberData();
-	}
-	
-	@GetMapping("/getBoardData")
-	public List<Map<String, Object>> getBoardData(@RequestParam String boardId){
-		return service.getBoardData();
-	}
+	public String getMemberData() {
+        List<Map<String, Object>> chartData = service.getMemberData();
+        StringBuilder json = new StringBuilder();
+        json.append("[");
+        for (Map<String, Object> data : chartData) {
+            json.append("{");
+            for (Map.Entry<String, Object> entry : data.entrySet()) {
+                json.append("'").append(entry.getKey()).append("': '").append(entry.getValue()).append("', ");
+            }
+            json.deleteCharAt(json.length() - 2);
+            json.append("}, ");
+        }
+        json.deleteCharAt(json.length() - 2);
+        json.append("]");
+        return json.toString();
+    }
 	
 	@GetMapping("/login")
 	public ModelAndView adminLogin() {
