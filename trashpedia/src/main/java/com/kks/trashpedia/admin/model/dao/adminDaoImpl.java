@@ -1,5 +1,7 @@
 package com.kks.trashpedia.admin.model.dao;
 
+import java.sql.ResultSet;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -27,6 +29,16 @@ public class adminDaoImpl implements adminDao{
 	@Override
 	public int oldMember() {
 		return session.selectOne("adminMapper.oldMember");
+	}
+
+	@Override
+	public ResultSet getMemberData() {
+		return (ResultSet) session.selectList("adminMapper.getMemberData");
+	}
+
+	@Override
+	public ResultSet getBoardData() {
+		return null;
 	}
 	
 	

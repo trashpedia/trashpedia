@@ -15,6 +15,6 @@ public interface adminService {
 
 	List<Map<String, Object>> getMemberData();
 
-	List<Map<String, Object>> getBoardData();
+	List<?> getBoardData();
 
 }

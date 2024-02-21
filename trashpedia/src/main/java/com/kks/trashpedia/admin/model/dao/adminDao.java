@@ -1,5 +1,7 @@
 package com.kks.trashpedia.admin.model.dao;
 
+import java.sql.ResultSet;
+
 public interface adminDao {
 
 	int allMember();
@@ -9,5 +11,9 @@ public interface adminDao {
 	int newMember();
 
 	int oldMember();
+
+	ResultSet getMemberData();
+
+	ResultSet getBoardData();
 
 }

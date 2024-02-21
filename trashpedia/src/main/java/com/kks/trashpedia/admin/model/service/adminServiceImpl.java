@@ -37,27 +37,14 @@ public class adminServiceImpl implements adminService{
 
 	@Override
 	public List<Map<String, Object>> getMemberData() {
-		List<Object[]> data = new ArrayList<>();
-//		ResultSet rs = dao.getMemberData();
-//		Object[] row = new Object[3];
-//        row[0] = rs.getString("일");
-//        row[1] = rs.getInt("가입자");
-//        row[2] = rs.getInt("탈퇴자");
-//        data.add(row);
-		return null;
+		return (List<Map<String, Object>>) dao.getMemberData();
 	}
 
 	@Override
-	public List<Map<String, Object>> getBoardData() {
-		List<Object[]> data = new ArrayList<>();
-//		ResultSet rs = dao.getBoardData();
-//		Object[] row = new Object[3];
-//        row[0] = rs.getString("day");
-//        row[1] = rs.getInt("new_member");
-//        row[2] = rs.getInt("deleted_member");
-//        data.add(row);
+	public List<?> getBoardData() {
+		// TODO Auto-generated method stub
 		return null;
 	}
-	
+
 	
 }
