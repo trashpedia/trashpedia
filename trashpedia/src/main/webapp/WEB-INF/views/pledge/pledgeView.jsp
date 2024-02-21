@@ -1,17 +1,21 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<c:set var="contextPath" value="<%=request.getContextPath() %>"/>
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>실천서약</title>
+    <title>실천하기</title>
+	<!-- jQuery -->
+	<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+	<link rel="stylesheet" href="${contextPath}/resources/css/main/pledge.css">
 </head>
-<!-- jQuery -->
-<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-<link rel="stylesheet" href="resources/css/main/practice.css">
 <body>
+
     <jsp:include page="../common/header.jsp"/>
+    
     <main>
         <div class="practice-section">
             <p>실천하기</p>
@@ -34,35 +38,37 @@
                         <span id="searchButton" class="material-symbols-outlined icon">search</span> 
                     </div>
                 </div>
-                <!-- 실천서약 -->
+                
+                  <!-- 실천서약 -->
                 <div class="pledge">
                     <div class="content-outer">
                         <div class="img-area">
-                            <a href="practiceDetailView.html">
-                            <img src="img/testImg/test5.jpg"  class="content-img">
+                            <a href="${contextPath}/pledge/view">
+                            <img src="${contextPath}/resources/image/main/testImg/test5.jpg"  class="content-img">
                             </a>
                         </div>
                         <div class="img-area">
-                            <img src="img/testImg/test4.jpg"  class="content-img">
+                            <img src="${contextPath}/resources/image/main/testImg/test4.jpg"  class="content-img">
                         </div>
                         <div class="img-area">
-                            <img src="img/testImg/test1.jpg"  class="content-img">
+                            <img src="${contextPath}/resources/image/main/testImg/test3.jpg"  class="content-img">
                         </div>
                         <div class="img-area">
-                            <img src="img/testImg/test2.jpg"  class="content-img">
+                            <img src="${contextPath}/resources/image/main/testImg/test2.jpg"  class="content-img">
                         </div>
                         <div class="img-area">
-                            <img src="img/testImg/test3.jpg"  class="content-img">
+                            <img src="${contextPath}/resources/image/main/testImg/test1.jpg"  class="content-img">
                         </div>
                         <div class="img-area">
-                            <img src="img/testImg/test1.jpg"  class="content-img">
+                            <img src="${contextPath}/resources/image/main/testImg/test3.jpg"  class="content-img">
                         </div>
                         <div class="img-area">
-                            <img src="img/testImg/test5.jpg"  class="content-img">
+                            <img src="${contextPath}/resources/image/main/testImg/test2.jpg"  class="content-img">
                         </div>
                         <div class="img-area">
-                            <img src="img/testImg/test3.jpg"  class="content-img">
+                            <img src="${contextPath}/resources/image/main/testImg/test1.jpg"  class="content-img">
                         </div>
+         
                         <!-- <div class="img-area">
                             <img src="https://www.recycling-info.or.kr/act4r/cmm/image/view.do?id=admfileupload_202307121120459250&ext=gif" class="content-img">
                         </div>
@@ -87,6 +93,7 @@
                         <div class="img-area">
                             <img src="https://www.recycling-info.or.kr/act4r/cmm/image/view.do?id=agenfileupload_202211040343223620&ext=GIF" class="content-img">
                         </div> -->
+                        
                         <div class="paging-button">
                             <button class="pagingBtn" id="prevBtn"> < </button>
                             <button class="pagingBtn">1</button>
@@ -98,11 +105,15 @@
                         </div>
                     </div>
                 </div>
+                
+                
                  <!-- 실천인증 -->
                  <div class="certification">
                     <div class="content-outer">
                         <div class="img-area">
-                            <img src="img/testImg/test1.jpg"  class="content-img">
+                            <a href="${contextPath}/pledge/certificationView">
+                            <img src="${contextPath}/resources/image/main/testImg/test1.jpg"  class="content-img">
+                            </a>
                         </div>
                         <div class="img-area">
                             <img src="img/testImg/test2.jpg"  class="content-img">
@@ -138,13 +149,15 @@
                 </div>
             </div>
             <div class="insert-area">
-                <a href="practiceInsert.html">
+                <a href="${contextPath}/pledge/insert">
                     <button id="insertButton">게시글 등록하기</button>
                 </a>
             </div>
         </div>
     </main>
+    
     <jsp:include page="../common/footer.jsp"/>
+    
     <script>
         // 시작 숫자
         let currentCount = 0;
