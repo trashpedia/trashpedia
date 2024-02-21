@@ -1,7 +1,9 @@
 package com.kks.trashpedia.encyclopedia.model.dao;
 
+import java.util.Collections;
 import java.util.List;
 
+import org.mybatis.spring.MyBatisSystemException;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -16,11 +18,23 @@ public class EncyclopediaDaoImpl implements EncyclopediaDao{
 	
     @Override
     public List<Trash> getAllTrashList() {
-        return sqlSession.selectList("trashMapper.getAllTrashList");
+        try {
+            return sqlSession.selectList("trashMapper.getAllTrashList");
+        } catch (MyBatisSystemException e) {
+            // 예외 처리: 로깅하고 사용자에게 오류 메시지 반환
+            e.printStackTrace();
+            return Collections.emptyList(); // 또는 null 등 적절한 값으로 처리
+        }
     }
 
     @Override
     public List<Trash> getTrashListByCategory(String category) {
-        return sqlSession.selectList("trashMapper.getTrashListByCategory", category);
+        try {
+            return sqlSession.selectList("trashMapper.getTrashListByCategory", category);
+        } catch (MyBatisSystemException e) {
+            // 예외 처리: 로깅하고 사용자에게 오류 메시지 반환
+            e.printStackTrace();
+            return Collections.emptyList(); // 또는 null 등 적절한 값으로 처리
+        }
     }
 }

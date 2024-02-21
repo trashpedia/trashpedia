@@ -47,63 +47,79 @@
 					src="resources/image/main/trashEncyclopedia/Pngtree—trash can.png"
 					alt="">
 			</div>
-
-			<div class="dropdown">
-				<div class="main-category">
-					<select class="sub-categories">
-						<optgroup label="역사">
-							<option value="고대">고대</option>
-							<option value="중세">중세</option>
-							<option value="근대">근대</option>
-							<option value="현대">현대</option>
-						</optgroup>
-						<optgroup label="의학">
-							<option value="약학">약학</option>
-							<option value="의료기술">의료기술</option>
-						</optgroup>
-						<optgroup label="음료">
-							<option value="차">차</option>
-							<option value="커피">커피</option>
-							<option value="주스">주스</option>
-						</optgroup>
-					</select>
+			<!-- 드롭다운 -->
+			<div class="dropdown-area">
+				<div class="dropdown">
+					<div class="main-categories">
+						<div class="main-category" data-category="종이류">종이류</div>
+						<div class="main-category" data-category="플라스틱류">플라스틱류</div>
+						<div class="main-category" data-category="금속류">금속류</div>
+					</div>
+					<div class="subcategories"></div>
 				</div>
 			</div>
+			<!-- 드롭다운 -->
 
+
+			<!-- Swiper -->
 			<!-- Swiper -->
 			<div class="select">
 				<div class="swiper-container">
+
 					<div class="swiper-wrapper">
-						<div class="swiper-wrapper">
-							<!-- List가 존재할 경우에만 반복문을 실행하고, 그렇지 않으면 슬라이드를 생성하지 않습니다. -->
-							<c:forEach items="${trashList}" var="trash">
-								<div class="swiper-slide">
-									<div class="Card">
-										<!-- Front -->
-										<div class="Front">
-											<div class="Image">
-												<img
-													src="https://img.freepik.com/free-photo/cute-puppy-sitting-in-grass-enjoying-nature-playful-beauty-generated-by-artificial-intelligence_188544-84973.jpg"
-													alt="">
+						<!-- List가 존재할 경우에만 반복문을 실행하고, 그렇지 않으면 슬라이드를 생성하지 않습니다. -->
+						<!-- 비어있다면 -->
+						<c:choose>
+							<c:when test="${empty trashList}">
+								<c:forEach begin="1" end="5" varStatus="loop">
+									<div class="swiper-slide">
+										<div class="Card">
+											<!-- Front -->
+											<div class="Front">
+												<div class="Image">
+													<img
+														src="https://img.freepik.com/free-photo/cute-puppy-sitting-in-grass-enjoying-nature-playful-beauty-generated-by-artificial-intelligence_188544-84973.jpg"
+														alt="이미지_대체_텍스트">
+												</div>
+											</div>
+											<!-- Back -->
+											<div class="Back">
+												<img src="이미지_경로" alt="이미지_대체_텍스트"> <span>데이터
+													없음</span>
 											</div>
 										</div>
-										<!-- Back -->
-										<div class="Back">
-											<img
-												src="https://img.freepik.com/free-photo/cute-puppy-sitting-in-grass-enjoying-nature-playful-beauty-generated-by-artificial-intelligence_188544-84973.jpg"
-												alt=""> <span>${trash.content}</span>
+									</div>
+								</c:forEach>
+							</c:when>
+
+							<c:otherwise>
+								<c:forEach items="${trashList}" var="trash">
+									<div class="swiper-slide">
+										<div class="Card">
+											<!-- Front -->
+											<div class="Front">
+												<div class="Image">
+													<img src="이미지_경로" alt="이미지_대체_텍스트2">
+												</div>
+											</div>
+											<!-- Back -->
+											<div class="Back">
+												<img src="이미지_경로" alt="이미지_대체_텍스트2"> <span>${trash.content}</span>
+											</div>
 										</div>
 									</div>
-								</div>
-							</c:forEach>
-						</div>
-						<!-- <div class="swiper-button-next"></div> -->
-						<!-- <div class="swiper-button-prev"></div> -->
-						<div class="swiper-pagination"></div>
+								</c:forEach>
+							</c:otherwise>
+						</c:choose>
 					</div>
+					<!-- <div class="swiper-button-next"></div> -->
+					<!-- <div class="swiper-button-prev"></div> -->
+					<div class="swiper-pagination"></div>
 
 				</div>
 			</div>
+			<!-- Swiper -->
+
 			<!-- Swiper -->
 
 
@@ -149,6 +165,7 @@
 				</div>
 				<img class="trash-can"
 					src="resources/image/main/trashEncyclopedia/garbage can.png" alt="">
+					<span>클릭!</span>
 			</div>
 		</main>
 	</div>
@@ -179,6 +196,13 @@
         });
 
 
+
+
+        
+        
+        
+        
+        
         // 쓰레기통 요소를 클릭했을 때 애니메이션을 시작
         $('.trash-can').click(function () {
             setTimeout(startTrashAnimation, 600);
@@ -191,6 +215,92 @@
                 card.classList.add('animate-card' + (index + 1));
             });
         }
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        document.addEventListener("DOMContentLoaded", function () {
+            const mainCategories = document.querySelectorAll(".main-category");
+            const subcategories = document.querySelector(".subcategories");
+
+            mainCategories.forEach(function (mainCategory) {
+                mainCategory.addEventListener("mouseover", function () {
+                    const category = mainCategory.getAttribute("data-category");
+                    const subcategoryItems = getSubcategoriesForCategory(category);
+                    renderSubcategories(subcategoryItems);
+                });
+            });
+
+            function renderSubcategories(subcategoryItems) {
+                subcategories.innerHTML = "";
+                subcategories.style.display = "block";
+                subcategoryItems.forEach(function (subcategory) {
+                    const subcategoryElement = document.createElement("div");
+                    subcategoryElement.classList.add("subcategory");
+                    subcategoryElement.textContent = subcategory;
+                    subcategories.appendChild(subcategoryElement);
+                });
+            }
+
+            function getSubcategoriesForCategory(category) {
+                switch (category) {
+                    case "종이류":
+                        return ["신문", "책", "상자", "노트", "골판지"];
+                    case "플라스틱류":
+                        return ["페트병", "비닐봉지"];
+                    case "금속류":
+                        return ["알류미늄 캔", "철광석", "철제제품"];
+                    default:
+                        return [];
+                }
+            }
+        });
+
+        function sendMainCategoryToServer(mainCategory) {
+            $.ajax({
+                type: "POST",
+                url: "/mainCategory",
+                data: { mainCategory: mainCategory },
+                success: function(response) {
+                    console.log("서버 응답:", response);
+                    // 서버로부터의 응답을 처리하는 코드를 작성합니다.
+                },
+                error: function(xhr, status, error) {
+                    console.error("에러 발생:", error);
+                }
+            });
+        }
+
+        function sendSubCategoryToServer(subCategory) {
+            $.ajax({
+                type: "POST",
+                url: "/subCategory",
+                data: { subCategory: subCategory },
+                success: function(response) {
+                    console.log("서버 응답:", response);
+                    // 서버로부터의 응답을 처리하는 코드를 작성합니다.
+                },
+                error: function(xhr, status, error) {
+                    console.error("에러 발생:", error);
+                }
+            });
+        }
+
+        
+        
     </script>
 </body>
 </html>
