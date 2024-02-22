@@ -23,19 +23,13 @@ public class CommonServiceImpl implements CommonService{
 	//게시글 등록(post)
 	@Override
 	public int createPost(Post p) {
-		
 		dao.createPost(p);
-		System.out.println("commonService postNo찾기");
-		System.out.println(p.getPostNo());
-
-		
 		return p.getPostNo();
 	}
 
 	//게시글 등록(Board)
 	@Override
 	public int createBoard(Board b) {
-		System.out.println("service b : " +b);
 		return  dao.createBoard(b);
 	}
 

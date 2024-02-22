@@ -30,10 +30,6 @@ public class CommonDaoImpl implements CommonDao{
 	//게시글등록(Board)
 	@Override
 	public int createBoard(Board b) {
-		System.out.println("commonDaoImpl실행확인");
-		System.out.println(b);
-		System.out.println(session.insert("boardMapper.createBoard",b));
-		
 		return session.insert("boardMapper.createBoard",b);
 	}
 
