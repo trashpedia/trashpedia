@@ -68,7 +68,7 @@
                 
 	                <!-- 로그인 안했을 때 보이기 -->
                     <li><span class="material-symbols-outlined icon">login</span><a href="${contextPath}/login">login</a> </li>
-                    <li><span class="material-symbols-outlined icon">person </span><a href="${contextPath}/insert.me">Signup</a></li>
+                    <li><span class="material-symbols-outlined icon">person </span><a href="${contextPath}/join">Signup</a></li>
                     <li id="header-search-icon" ><span class="material-symbols-outlined icon">search</span><a>Search</a></li>
                     
                     <!-- 로그인 했을 때 보이기 -->
