@@ -161,3 +161,55 @@ a {
     width: 350px;
     margin: auto;
 }
+
+.ico-possible {
+    margin-top: 0px;
+    margin-bottom: 12px;
+    padding-left: 21px;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 15px;
+    letter-spacing: -0.025em;
+    color: #1f961d;
+    background-image: url('/images/ico_possible.jpg'); /* 이미지 경로 확인 필요 */
+    background-repeat: no-repeat;
+}
+
+.ico-same{
+    margin-top: 0px;
+    margin-bottom: 12px;
+    padding-left: 21px;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 15px;
+    letter-spacing: -0.025em;
+    color: #1f961d;
+    background-image: url('/images/ico_possible.jpg'); /* 이미지 경로 확인 필요 */
+    background-repeat: no-repeat;
+}
+
+
+
+.ico-impossible {
+    margin-top: 0px;
+    margin-bottom: 12px;
+    padding-left: 21px;
+    background: url('/images/ico_notice.png') 0 50% no-repeat; /* 이미지 경로 확인 필요 */
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 15px;
+    color: #f45452;
+    letter-spacing: -0.025em;
+}
+
+.ico-notsame {
+    margin-top: 0px;
+    margin-bottom: 12px;
+    padding-left: 21px;
+    background: url('/images/ico_notice.png') 0 50% no-repeat; /* 이미지 경로 확인 필요 */
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 15px;
+    color: #f45452;
+    letter-spacing: -0.025em;
+}
