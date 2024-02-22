@@ -7,21 +7,35 @@ main{
 
 .container{
     width: 1000px;
-    margin-top: 50px;
-    margin-bottom: 50px;
+    margin-top: 40px;
+    margin-bottom: 40px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    padding: 50px;
+    padding: 40px;
 }
 
+/* 카테고리 부분 */
+.content-category-outer{
+    margin-left: 80px;
+    text-align: left;
+    margin-bottom: 30px;
+}
+.container-title{
+	font-size : 30px;
+    font-weight: 550;
+}
+.categoryName{
+    font-size : 20px;
+    margin-bottom: 50px;
+}
 
-/* 제목 입력 부분 */
-.content-title-outer{
+/* 제목 부분 */
+.content-input-outer{
    text-align: center;
    margin-top: 10px;
    margin-bottom: 10px;
 }
 .input-title{
-    font-size: 30px;
+    font-size: 25px;
     font-weight: 700;
     width: 85%;
     border: 0;
@@ -29,9 +43,9 @@ main{
     /* box-shadow: 0 0 3px rgba(0, 0, 0, 0.3); */
     padding-top: 10px;
 }
-.content-title-outer hr{
-    margin-top: 25px;
-    margin-bottom: 25px;
+.content-input-outer hr{
+    margin-top: 20px;
+    margin-bottom: 20px;
     width: 85%;
 }
 
