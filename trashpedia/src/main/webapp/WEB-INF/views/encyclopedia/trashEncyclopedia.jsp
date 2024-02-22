@@ -51,9 +51,9 @@
 			<div class="dropdown-area">
 				<div class="dropdown">
 					<div class="main-categories">
-						<div class="main-category" data-category="종이류">종이류</div>
-						<div class="main-category" data-category="플라스틱류">플라스틱류</div>
-						<div class="main-category" data-category="금속류">금속류</div>
+						<div class="main-category" data-category="일반쓰레기">일반쓰레기</div>
+						<div class="main-category" data-category="음식물쓰레기">음식물쓰레기</div>
+						<div class="main-category" data-category="대형폐기물">대형폐기물</div>
 					</div>
 					<div class="subcategories"></div>
 				</div>
@@ -61,7 +61,6 @@
 			<!-- 드롭다운 -->
 
 
-			<!-- Swiper -->
 			<!-- Swiper -->
 			<div class="select">
 				<div class="swiper-container">
@@ -83,7 +82,7 @@
 												</div>
 											</div>
 											<!-- Back -->
-											<div class="Back">
+											<div class="Back" >
 												<img src="이미지_경로" alt="이미지_대체_텍스트"> <span>데이터
 													없음</span>
 											</div>
@@ -93,8 +92,8 @@
 							</c:when>
 
 							<c:otherwise>
-								<c:forEach items="${trashList}" var="trash">
-									<div class="swiper-slide">
+								<c:forEach items="${trashList}" var="trash" >
+									<div class="swiper-slide" onclick="showTrashDetail(${trash.trashNo})">
 										<div class="Card">
 											<!-- Front -->
 											<div class="Front">
@@ -103,7 +102,7 @@
 												</div>
 											</div>
 											<!-- Back -->
-											<div class="Back">
+											<div class="Back" onclick="showTrashDetail(${trash.trashNo}">
 												<img src="이미지_경로" alt="이미지_대체_텍스트2"> <span>${trash.content}</span>
 											</div>
 										</div>
@@ -118,8 +117,6 @@
 
 				</div>
 			</div>
-			<!-- Swiper -->
-
 			<!-- Swiper -->
 
 
@@ -173,6 +170,8 @@
 	<jsp:include page="../common/footer.jsp" />
 
 	<script>
+	
+	
         var swiper = new Swiper(".swiper-container", {
             loop: true, // 반복 재생 여부
             slidesPerView: 'auto', // 한 번에 보여줄 슬라이드 개수를 자동으로 조정합니다.
@@ -218,7 +217,18 @@
         
         
         
-        
+        $(document).ready(function() {
+            $(".trash-can").hover(
+                function() {
+                    // 이미지에 마우스를 올렸을 때
+                    $(this).next("span").fadeOut(200); // 0.2초 동안 서서히 사라짐
+                },
+                function() {
+                    // 이미지에서 마우스를 떼었을 때
+                    $(this).next("span").fadeIn(200); // 0.2초 동안 서서히 나타남
+                }
+            );
+        });
         
         
         
@@ -257,12 +267,12 @@
 
             function getSubcategoriesForCategory(category) {
                 switch (category) {
-                    case "종이류":
-                        return ["신문", "책", "상자", "노트", "골판지"];
-                    case "플라스틱류":
-                        return ["페트병", "비닐봉지"];
-                    case "금속류":
-                        return ["알류미늄 캔", "철광석", "철제제품"];
+                    case "일반쓰레기":
+                        return ["종이", "종이팩", "캔", "고철", "비닐","유리","플라스틱","스티로폼","필름","의류"];
+                    case "음식물쓰레기":
+                        return ["채소", "과일","곡류","육류","어패류","동물의 알","기타"];
+                    case "대형폐기물":
+                        return ["가구", "생활용품", "소형가전","대형가전"];
                     default:
                         return [];
                 }
