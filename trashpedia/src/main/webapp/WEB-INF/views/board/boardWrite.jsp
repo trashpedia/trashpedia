@@ -9,6 +9,7 @@
 	<link rel="stylesheet" href="/css/board/css.css">
 	<link rel="stylesheet" href="/css/board/board_common.css">
 	<link rel="stylesheet" href="../css/community/community.css">
+	<link rel="stylesheet" href="/src/main/webapp/resources/css/board/boardWrite.css">
 	<link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css" />
 	<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 	<!-- css -->
