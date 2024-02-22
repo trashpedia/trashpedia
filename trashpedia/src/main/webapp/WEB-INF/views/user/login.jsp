@@ -20,6 +20,7 @@
    <!-- 1. 로그인 페이지 -->
     <div class="content-login" id="loginArea">
         <div class="top-margin"></div>
+        <a href="myPage">마이페이지로 이동</a>
         <span class="logo">로그인</span><br>
         <div class="div-login"></div>
        <form action="login.me">
@@ -29,8 +30,8 @@
             <div id="pwd-error-message" class="error-message"></div>
             <br>
        	<div class="a-login">
-            <a id ="findIdBtn" >아이디찾기</a>
-            <a id ="findPwdBtn">비밀번호찾기</a>
+            <a class ="findIdBtn" >아이디찾기</a>
+            <a class ="findPwdBtn">비밀번호찾기</a>
             <a href="${contextPath}/join">회원가입</a>
         </div>
             <br>
@@ -63,7 +64,7 @@
 				</div>
 				<div class="a-findId-2">
 					<a href="${contextPath}/login">로그인하기</a>
-					<a id="findPwdBtn">비밀번호찾기</a>
+					<a class ="findPwdBtn">비밀번호찾기</a>
 					<a href="${contextPath}/join">회원가입</a>
 				</div>
 				<input type="submit" id="btn" value="아이디 찾기">
@@ -94,10 +95,40 @@
 				<br>
 				<div class="a-findId-2">
 					<a href ="${contextPath}/login">로그인하기</a>
-					<a id ="findIdBtn">아이디찾기</a>
+					 <a class ="findIdBtn" >아이디찾기</a>
 					<a href ="${contextPath}/join">회원가입 </a>
 				</div>
 				<input type="submit" id="btn" value="비밀번호 찾기">
+			</form>
+		</div>
+		
+		<!-- 비밀번호 재설정 -->
+		<div class="content-login" id="resetPwdArea">
+			<div class="top-margin"></div>
+			<span class="logo-find">비밀번호 재설정</span><br>
+			<div class="div-login"></div>
+			<form action="resetPwd.me" onsubmit="return resetPwd()" >
+			
+				<div id="findForm" style="position: relative;">
+						<input type="text" class="input-login in" id="newPassword"
+							placeholder="새로운 비밀번호를 입력해주세요">
+						<input type="text" class="input-login in" id="checkPassword"
+							placeholder="비밀번호를 한번 더 입력해주세요">
+						<div id="passNotice" class="on-cont">
+			                <p class="ico-possible">가능</p>
+			                <p class="ico-impossible">불가능</p>
+			                <p class="ico-same">일치</p>
+			                <p class="ico-notsame">불일치</p>
+			            </div>
+	            </div>
+					</div>
+				<br>
+				<!-- <div id="found-info" style="display: none;">
+					<span id="found-name"></span>님의 아이디는 <span id="found-id"></span>
+					입니다.
+				</div>
+				<div id="no-info-message" style="display: none;">가입된 정보가 없습니다.</div> -->
+				<input type="submit" id="btn" value="비밀번호재설정" onclick="resetPwdForm">
 			</form>
 		</div>
     </main>
@@ -134,117 +165,174 @@
 	</script>
 	
 	<script>
-		function findId() {
-			var phoneNum = document.getElementById("name").value.trim();
-			var pinNum = document.getElementById("phoneNum").value.trim();
-			var nameErrorMessage = document.getElementById("id-error-message");
-			var foundInfo = document.getElementById("found-info");
-			var noInfoMessage = document.getElementById("no-info-message");
-			var foundName = document.getElementById("found-name");
-			var foundId = document.getElementById("found-id");
-			var findForm = document.getElementById("findForm");
+    function findId() {
+        var name = document.getElementById("name").value.trim(); // 변수명 수정
+        var phoneNum = document.getElementById("phoneNum").value.trim();
+        var idErrorMessage = document.getElementById("id-error-message");
+        var foundInfo = document.getElementById("found-info");
+        var noInfoMessage = document.getElementById("no-info-message");
+        var foundName = document.getElementById("found-name");
+        var foundId = document.getElementById("found-id");
+        var findForm = document.getElementById("findForm");
 
-			idErrorMessage.innerHTML = "";
+        idErrorMessage.innerHTML = "";
 
-			if (name === "") {
-				idErrorMessage.innerHTML = "<span style='color: red; font-size:10px;'>이름을 입력해주세요.</span>";
-				return false;
-			}
+        if (name === "") {
+            idErrorMessage.innerHTML = "<span style='color: red; font-size:10px;'>이름을 입력해주세요.</span>";
+            return false;
+        }
 
-			if (email === "") {
-				idErrorMessage.innerHTML = "<span style='color: red; font-size:10px;'>이메일을 입력해주세요.</span>";
-				return false;
-			}
+        if (phoneNum === "") { // 변수명 수정
+            idErrorMessage.innerHTML = "<span style='color: red; font-size:10px;'>휴대폰번호를 입력해주세요.</span>"; // 변수명 수정
+            return false;
+        }
 
-			// 실제로는 이 부분에서 서버에 요청하여 사용자 정보를 찾아오는 로직이 들어가야 합니다.
-			// 임시로 사용자 정보를 하드코딩합니다.
-			var userData = {
-				name : "오정연",
-				email : "ojy***@naver.com",
-				id : "ojy***"
-			};
+        // 실제로는 이 부분에서 서버에 요청하여 사용자 정보를 찾아오는 로직이 들어가야 합니다.
+        // 임시로 사용자 정보를 하드코딩합니다.
 
-			if (userData && userData.id) {
-				foundName.innerText = userData.name;
-				foundId.innerText = userData.id;
-				findForm.style.display = "none";
-				foundInfo.style.display = "block";
-				noInfoMessage.style.display = "none";
-			} else {
-				findForm.style.display = "none";
-				foundInfo.style.display = "none";
-				noInfoMessage.style.display = "block";
-			}
+        if (userData && userData.id) {
+            foundName.innerText = userData.name;
+            foundId.innerText = userData.id;
+            findForm.style.display = "none";
+            foundInfo.style.display = "block";
+            noInfoMessage.style.display = "none";
+        } else {
+            findForm.style.display = "none";
+            foundInfo.style.display = "none";
+            noInfoMessage.style.display = "block";
+        }
 
-			return false; // 폼 제출 방지
-		}
-	</script>
-	
-	<script>
-		function findPwd() {
-			var email = document.getElementById("email").value.trim();
-			var phoneNum = document.getElementById("phoneNum").value.trim();
-			var nameErrorMessage = document.getElementById("id-error-message");
-			var foundInfo = document.getElementById("found-info");
-			var noInfoMessage = document.getElementById("no-info-message");
-			var foundName = document.getElementById("found-name");
-			var foundId = document.getElementById("found-id");
-			var findForm = document.getElementById("findForm");
+        return false; // 폼 제출 방지
+    }
+</script>
 
-			idErrorMessage.innerHTML = "";
+<script>
+    function findPwd() {
+        var email = document.getElementById("email").value.trim();
+        var phoneNum = document.getElementById("phoneNum").value.trim(); // 변수명 수정
+        var idErrorMessage = document.getElementById("id-error-message");
+        var foundInfo = document.getElementById("found-info");
+        var noInfoMessage = document.getElementById("no-info-message");
+        var foundName = document.getElementById("found-name");
+        var foundId = document.getElementById("found-id");
+        var findForm = document.getElementById("findForm");
 
-			if (name === "") {
-				idErrorMessage.innerHTML = "<span style='color: red; font-size:10px;'>이름을 입력해주세요.</span>";
-				return false;
-			}
+        idErrorMessage.innerHTML = "";
 
-			if (email === "") {
-				idErrorMessage.innerHTML = "<span style='color: red; font-size:10px;'>이메일을 입력해주세요.</span>";
-				return false;
-			}
+        if (email === "") {
+            idErrorMessage.innerHTML = "<span style='color: red; font-size:10px;'>아이디를 입력해주세요.</span>";
+            return false;
+        }
 
-			// 실제로는 이 부분에서 서버에 요청하여 사용자 정보를 찾아오는 로직이 들어가야 합니다.
-			// 임시로 사용자 정보를 하드코딩합니다.
-			var userData = {
-				name : "오정연",
-				email : "ojy***@naver.com",
-				id : "ojy***"
-			};
+        if (phoneNum === "") { // 변수명 수정
+            idErrorMessage.innerHTML = "<span style='color: red; font-size:10px;'>휴대폰번호를 입력해주세요.</span>"; // 변수명 수정
+            return false;
+        }
 
-			if (userData && userData.id) {
-				foundName.innerText = userData.name;
-				foundId.innerText = userData.id;
-				findForm.style.display = "none";
-				foundInfo.style.display = "block";
-				noInfoMessage.style.display = "none";
-			} else {
-				findForm.style.display = "none";
-				foundInfo.style.display = "none";
-				noInfoMessage.style.display = "block";
-			}
+        // 실제로는 이 부분에서 서버에 요청하여 사용자 정보를 찾아오는 로직이 들어가야 합니다.
+        // 임시로 사용자 정보를 하드코딩합니다.
+      
+        if (userData && userData.id) {
+            foundName.innerText = userData.name;
+            foundId.innerText = userData.id;
+            findForm.style.display = "none";
+            foundInfo.style.display = "block";
+            noInfoMessage.style.display = "none";
+        } else {
+            findForm.style.display = "none";
+            foundInfo.style.display = "none";
+            noInfoMessage.style.display = "block";
+        }
 
-			return false; // 폼 제출 방지
-		}
-	</script>
+        return false; // 폼 제출 방지
+    }
+</script>
 
 	<script>
 	$(document).ready(function(){
 	    $("#loginArea").show();
 	    $("#findIdArea").hide();
 	    $("#findPwdArea").hide();
+	    $("#resetPwdArea").show();
 	    
-	    $("#findPwdBtn").click(function(){
+	    $(".findPwdBtn").click(function(){
 	        $("#findPwdArea").show();
 	        $("#findIdArea").hide();
 	        $("#loginArea").hide();
 	    });
 
-	    $("#findIdBtn").click(function(){
+	    $(".findIdBtn").click(function(){
 	        $("#findIdArea").show();
 	        $("#findPwdArea").hide();
 	        $("#loginArea").hide();
 	    });
 	});
+</script>
+
+<script>
+	function resetPwdForm(){
+		var newPassword = document.getElementById("newPassword").value.trim();
+        var checkPassword = document.getElementById("checkPassword").value.trim(); // 변수명 수정
+        var idErrorMessage = document.getElementById("id-error-message");
+        
+        idErrorMessage.innerHTML = "";
+
+        if (email === "") {
+            idErrorMessage.innerHTML = "<span style='color: red; font-size:10px;'>아이디를 입력해주세요.</span>";
+            return false;
+        }
+
+        if (phoneNum === "") { // 변수명 수정
+            idErrorMessage.innerHTML = "<span style='color: red; font-size:10px;'>휴대폰번호를 입력해주세요.</span>"; // 변수명 수정
+            return false;
+        }
+        
+        
+		
+	}
+	
+	function resetPwdForm() {
+        var newPassword = document.getElementById('newPassword').value;
+        var checkPassword = document.getElementById('checkPassword').value;
+
+        var passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*])[a-zA-Z\d!@#$%^&*]{6,15}$/;
+        var passwordMatch = passwordInput === checkPassword;
+
+        return { isValid: passwordRegex.test(passwordInput), isMatch: passwordMatch };
+    }
+
+    function updatePasswordNotice() {
+        var passNotice = document.getElementById('passNotice');
+        var passwordValidation = validatePassword();
+        var passwordInput = document.getElementById('passwordInput');
+        var confirmPasswordInput = document.getElementById('confirmPasswordInput');
+
+        // 기본적으로 모든 메시지를 숨김
+        passNotice.querySelectorAll('p').forEach(function (element) {
+            element.style.display = 'none';
+        });
+
+        // 비밀번호 입력란에 입력이 시작될 때 메시지 보이기
+        if (newPassword.value !== "") {
+            // 비밀번호 유효성 검사
+            if (passwordValidation.isValid) {
+                passNotice.querySelector('.ico-possible').style.display = 'block';
+            } else {
+                passNotice.querySelector('.ico-possible').style.display = 'none';
+                passNotice.querySelector('.ico-impossible').style.display = 'block';
+                return; // 비밀번호 유효성 검사를 통과하지 못하면 이후의 검사를 진행하지 않음
+            }
+
+            // 비밀번호 재확인 일치 여부 검사
+            if (passwordValidation.isMatch && confirmPasswordInput.value !== "") {
+                passNotice.querySelector('.ico-same').style.display = 'block';
+                passNotice.querySelector('.ico-possible').style.display = 'none'; // 가능 문구는 지워줌
+            } else if (!passwordValidation.isMatch && confirmPasswordInput.value !== "") {
+                passNotice.querySelector('.ico-notsame').style.display = 'block';
+                passNotice.querySelector('.ico-possible').style.display = 'none';
+            }
+        }
+    }
 </script>
 </body>
 </html>
