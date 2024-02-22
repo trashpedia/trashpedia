@@ -71,7 +71,8 @@
 						<c:choose>
 							<c:when test="${empty trashList}">
 								<c:forEach begin="1" end="5" varStatus="loop">
-									<div class="swiper-slide">
+									<div class="swiper-slide"
+										onclick="goToTrashDetail(${trash.trashNo})">
 										<div class="Card">
 											<!-- Front -->
 											<div class="Front">
@@ -82,7 +83,7 @@
 												</div>
 											</div>
 											<!-- Back -->
-											<div class="Back" >
+											<div class="Back">
 												<img src="이미지_경로" alt="이미지_대체_텍스트"> <span>데이터
 													없음</span>
 											</div>
@@ -92,22 +93,28 @@
 							</c:when>
 
 							<c:otherwise>
-								<c:forEach items="${trashList}" var="trash" >
-									<div class="swiper-slide" onclick="showTrashDetail(${trash.trashNo})">
+								<c:forEach items="${trashList}" var="trash">
+									<div class="swiper-slide"
+										onclick="goToTrashDetail(${trash.trashNo})">
 										<div class="Card">
 											<!-- Front -->
 											<div class="Front">
 												<div class="Image">
-													<img src="이미지_경로" alt="이미지_대체_텍스트2">
+													<!-- 이미지 주소 대신 서버에서 받은 이미지 주소를 사용 -->
+													<img src="${trash.imageUrl}" alt="이미지_대체_텍스트">
 												</div>
 											</div>
 											<!-- Back -->
-											<div class="Back" onclick="showTrashDetail(${trash.trashNo}">
-												<img src="이미지_경로" alt="이미지_대체_텍스트2"> <span>${trash.content}</span>
+											<div class="Back" onclick="showTrashDetail(${trash.trashNo})">
+												<!-- 이미지 주소 대신 서버에서 받은 이미지 주소를 사용 -->
+												<img src="${trash.imageUrl}" alt="이미지_대체_텍스트">
+												<!-- 쓰레기 내용 출력 -->
+												<span>${trash.trashContent}</span>
 											</div>
 										</div>
 									</div>
 								</c:forEach>
+
 							</c:otherwise>
 						</c:choose>
 					</div>
@@ -162,7 +169,7 @@
 				</div>
 				<img class="trash-can"
 					src="resources/image/main/trashEncyclopedia/garbage can.png" alt="">
-					<span>클릭!</span>
+				<span>클릭!</span>
 			</div>
 		</main>
 	</div>
@@ -308,6 +315,11 @@
                 }
             });
         }
+        
+        function goToTrashDetail(trashNo) {
+        	 window.location.href = '/trashpedia/trashDetail?trashNo=' + trashNo;
+        }
+
 
         
         
