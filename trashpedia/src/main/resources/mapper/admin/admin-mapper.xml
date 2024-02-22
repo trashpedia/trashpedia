@@ -117,7 +117,7 @@
 		LEFT JOIN COMMENT C ON C.BOARD_NO = B.BOARD_NO
 		WHERE C.USER_NO = #{userNo}
 	</select>
-	<select id="getMemberBoardDetail" resultType="board">
+	<select id="getMemberCommentDetail" resultType="board">
 		SELECT TITLE, CONTENT, CREATE_DATE, MODIFY_DATE
 		FROM BOARD B
 		LEFT JOIN POST P ON B.POST_NO = P.POST_NO
