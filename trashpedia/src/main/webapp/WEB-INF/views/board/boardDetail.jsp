@@ -10,8 +10,7 @@
     <link rel="stylesheet" href="/css/board/board_common.css">
     <link rel="stylesheet" href="../css/community/community.css">
     <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css" />
-
-
+    <link rel="stylesheet" href="/src/main/webapp/resources/css/board/boardDetail.css" />
 
 
 </head>
