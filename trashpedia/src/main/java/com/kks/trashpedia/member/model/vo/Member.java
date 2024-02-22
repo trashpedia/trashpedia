@@ -25,4 +25,13 @@ public class Member {
 	private Date createDate;
 	private Date modifyDate;
 	private String status;
+	
+//	admin chart
+	private String orderDay;
+	private int countMember;
+	
+//	admin memberManagement Detail
+	private String gradeName;
+	private String roleName;
+	private int point;
 }

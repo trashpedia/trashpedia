@@ -158,6 +158,14 @@ section>div{
     overflow-x: hidden;
 }
 
+.list>.item>.title{
+	padding-right:5px;
+}
+
+.boardList>.item>.subtitle{
+	padding-right:10px;
+}
+
 .item {
     display: flex;
     align-items: center;

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <c:set var="contextPath" value="<%=request.getContextPath() %>"/>
 <!DOCTYPE html>
 <html lang="ko">
@@ -27,50 +28,65 @@
                             <div class="grade-item">
                                 <div class="grade-item-icon">★</div>
                                 <div class="grade-item-title">포인트</div>
-                                <div class="grade-item-subtitle">150,000</div>
+                                <div class="grade-item-subtitle"><fmt:formatNumber type="number" pattern="#,##0" value="${m.point}"/></div>
                             </div>
                             <div class="grade-item">
                                 <div class="grade-item-icon">👑</div>
                                 <div class="grade-item-title">등급</div>
-                                <div class="grade-item-subtitle">일반회원</div>
+                                <div class="grade-item-subtitle">${m.gradeName}</div>
                             </div>
                             <div class="grade-item">
                                 <div class="grade-item-icon">🔒</div>
                                 <div class="grade-item-title">권한</div>
-                                <div class="grade-item-subtitle">일반사용자</div>
+                                <div class="grade-item-subtitle">${m.roleName}</div>
                             </div>
                             <div class="grade-item">
                                 <div class="grade-item-icon"></div>
                                 <div class="grade-item-title">생성일</div>
-                                <div class="grade-item-subtitle">2023/05/01</div>
+                                <div class="grade-item-subtitle">${m.createDate}</div>
                             </div>
                             <div class="grade-item">
                                 <div class="grade-item-icon"></div>
                                 <div class="grade-item-title">수정일</div>
-                                <div class="grade-item-subtitle">2024/01/17</div>
+                                <c:if test="${not empty m.modifyDate}">
+	                                <div class="grade-item-subtitle">${m.modifyDate}</div>
+                                </c:if>
+                                <c:if test="${empty m.modifyDate}">
+	                                <div class="grade-item-subtitle">수정 없음</div>
+                                </c:if>
                             </div>
                         </div>
                     </div>
                     <div class="member-info-list">
                         <div class="member-item">
                             <div class="title">이메일</div>
-                            <div class="subtitle">ghldnjs@trashpedia.com</div>
+                            <div class="subtitle">${m.userEmail}</div>
                         </div>
                         <div class="member-item">
                             <div class="title">이름</div>
-                            <div class="subtitle">이슬이</div>
+                            <div class="subtitle">${m.userName}</div>
                         </div>
                         <div class="member-item">
                             <div class="title">닉네임</div>
-                            <div class="subtitle">참이슬</div>
+                            <div class="subtitle">${m.userNickname}</div>
                         </div>
                         <div class="member-item">
                             <div class="title">전화번호</div>
-                            <div class="subtitle">010-1111-2222</div>
+                            <c:if test="${not empty m.phone}">
+	                            <div class="subtitle">${m.phone}</div>
+                            </c:if>
+                            <c:if test="${empty m.phone}">
+	                            <div class="subtitle">정보 없음</div>
+                            </c:if>
                         </div>
                         <div class="member-item">
                             <div class="title">주소</div>
-                            <div class="subtitle">인천특별시 연수구 송도동 트리플스트리트 5층 롯데시네마</div>
+                            <c:if test="${not empty m.address1}">
+	                            <div class="subtitle"><span>${m.zipcode} ${m.address1} ${m.address2} ${m.address3}</span></div>
+                            </c:if>
+                            <c:if test="${empty m.address1}">
+	                            <div class="subtitle">정보 없음</div>
+                            </c:if>
                         </div>
                     </div>
                 </div>
@@ -78,396 +94,26 @@
                     <div class="board-container">
                         <div class="board-title-wrapper">
                             <div class="board-title">작성 게시글</div>
-                            <div class="board-subtitle">총 22개</div>
+                            <div class="board-subtitle">총 ${b}개</div>
                         </div>
-                        <div class="list">
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글1</div>
-                            </div>
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글2</div>
-                            </div>
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글3</div>
-                            </div>
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글4</div>
-                            </div>
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글5</div>
-                            </div>
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글6</div>
-                            </div>
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글7</div>
-                            </div>
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글8</div>
-                            </div>
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글9</div>
-                            </div>
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글10</div>
-                            </div>
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글11</div>
-                            </div>
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글12</div>
-                            </div>
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글13</div>
-                            </div>
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글14</div>
-                            </div>
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글15</div>
-                            </div>
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글16</div>
-                            </div>
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글17</div>
-                            </div>
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글18</div>
-                            </div>
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글19</div>
-                            </div>
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글20</div>
-                            </div>
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글21</div>
-                            </div>
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글22</div>
-                            </div>
-                        </div>
+                        <div class="boardList list"></div>
                     </div>
                     <div class="board-container">
                         <div class="board-title">게시글 상세</div>
-                        <div class="list">
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">title : </div>
-                                <div class="subtitle">밥 먹었습니까</div>
-                            </div>
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">content : </div>
-                                <div class="subtitle">저는 밥 먹었습니다 아주 맛있게요 냠냠쩝쩝</div>
-                            </div>
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">Created At : </div>
-                                <div class="subtitle">2021-01-01</div>
-                            </div>
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">Updated At : </div>
-                                <div class="subtitle">2021-02-01</div>
-                            </div>
-                            <div class="item">
-                                <input type="button" onclick="boardDetail()" value="상세보기">
-                            </div>
-                        </div>
+                        <div class="boardDetail list"></div>
                     </div>
                 </div>
                 <div class="member-board-container">
                     <div class="board-container">
                         <div class="board-title-wrapper">
                             <div class="board-title">작성 댓글</div>
-                            <div class="board-subtitle">총 87개</div>
+                            <div class="board-subtitle">총 ${c}개</div>
                         </div>
-                        <div class="list">
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글1</div>
-                            </div>
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글2</div>
-                            </div>
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글3</div>
-                            </div>
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글4</div>
-                            </div>
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글5</div>
-                            </div>
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글6</div>
-                            </div>
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글7</div>
-                            </div>
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글8</div>
-                            </div>
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글9</div>
-                            </div>
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글10</div>
-                            </div>
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글11</div>
-                            </div>
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글12</div>
-                            </div>
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글13</div>
-                            </div>
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글14</div>
-                            </div>
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글15</div>
-                            </div>
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글16</div>
-                            </div>
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글17</div>
-                            </div>
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글18</div>
-                            </div>
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글19</div>
-                            </div>
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글20</div>
-                            </div>
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글21</div>
-                            </div>
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글22</div>
-                            </div>
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글17</div>
-                            </div>
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글18</div>
-                            </div>
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글19</div>
-                            </div>
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글20</div>
-                            </div>
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글21</div>
-                            </div>
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글22</div>
-                            </div>
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글17</div>
-                            </div>
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글18</div>
-                            </div>
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글19</div>
-                            </div>
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글20</div>
-                            </div>
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글21</div>
-                            </div>
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글22</div>
-                            </div>
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글17</div>
-                            </div>
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글18</div>
-                            </div>
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글19</div>
-                            </div>
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글20</div>
-                            </div>
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글21</div>
-                            </div>
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글22</div>
-                            </div>
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글17</div>
-                            </div>
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글18</div>
-                            </div>
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글19</div>
-                            </div>
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글20</div>
-                            </div>
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글21</div>
-                            </div>
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글22</div>
-                            </div>
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글17</div>
-                            </div>
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글18</div>
-                            </div>
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글19</div>
-                            </div>
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글20</div>
-                            </div>
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글21</div>
-                            </div>
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글22</div>
-                            </div>
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글17</div>
-                            </div>
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글18</div>
-                            </div>
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글19</div>
-                            </div>
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글20</div>
-                            </div>
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글21</div>
-                            </div>
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글22</div>
-                            </div>
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글17</div>
-                            </div>
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글18</div>
-                            </div>
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글19</div>
-                            </div>
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글20</div>
-                            </div>
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글21</div>
-                            </div>
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글22</div>
-                            </div>
-                        </div>
+                        <div class="commentList list"></div>
                     </div>
                     <div class="board-container">
                         <div class="board-title">댓글 상세</div>
-                        <div class="list">
+                        <div class="commentDetail list">
                             <div class="item">
                                 <div class="icon">😃</div>
                                 <div class="title">title : </div>
@@ -654,8 +300,181 @@
         </div>
     </div>
     <script>
-        function boardDetail(boardNo){
-            location.href="/board/detail="+boardNo;
+	    var isLoading = false;
+	    var offset = 0;
+	
+	    $(document).ready(function() {
+	    	loadData();
+	    });
+	    $('.boardList').scroll(function() {
+	        if($(this).scrollTop() + $(this).innerHeight() + 70 >= $(this)[0].scrollHeight) {
+	            if (!isLoading) {
+	                isLoading = true;
+	                loadBoardData();
+	            }
+	        }
+	    });
+	
+	    function loadBoardData() {
+	        $.ajax({
+	            url: '${contextPath}/admin/getBoardList',
+	            type: 'GET',
+	            dataType: 'json',
+	            data: { page: offset, size: 20, userNo: '${userNo}' },
+	            success: function(data) {
+	            	if(data.content.length != 0){
+		                updateBoardTable(data);
+		                offset += 1;
+		                isLoading = false;
+	            	}
+	            },
+	            error: function(xhr, status, error) {
+	                console.error('Error: ' + error);
+	                isLoading = false;
+	            }
+	        });
+	    }
+	    function updateBoardTable(data) {
+	        let userList = document.querySelector('.boardList');
+	        let list = data.content;
+	        for (let i = 0; i < list.length; i++) {
+	            let row = '<div class="item" onclick="loadDetailData('+list[i].boardNo+')">';
+	            row += '<div class="icon">😃</div>';
+	            row += '<div class="subtitle">'+list[i].bigCategoryName+'</div>';
+	            row += '<div class="subtitle">'+list[i].subCategoryName+'</div>';
+	            row += '<div class="subtitle">'+list[i].title+'</div>';
+	            row += '</div>';
+	            userList.innerHTML += row;
+	        }
+	    }
+	    
+	    function loadBoardDetailData(userNo) {
+	        $.ajax({
+	            url: '${contextPath}/admin/getBoardDetail',
+	            type: 'GET',
+	            dataType: 'json',
+	            data: {userNo},
+	            success: function(data) {
+	            	let userList = document.querySelector('.boardDetail');
+	            	userList.innerHTML = '';
+    	            let row = '<div class="item">';
+    	            row += '<div class="icon">😃</div>';
+    	            row += '<div class="title">title :</div>';
+    	            row += '<div class="subtitle">'+data.title+'</div>';
+    	            row += '</div>';
+    	            row += '<div class="item">';
+    	            row += '<div class="icon">😃</div>';
+    	            row += '<div class="title">content : </div>';
+    	            row += '<div class="subtitle">'+data.content+'</div>';
+    	            row += '</div>';
+    	            row += '<div class="item">';
+    	            row += '<div class="icon">😃</div>';
+    	            row += '<div class="title">Created At : </div>';
+    	            row += '<div class="subtitle">'+data.createDate+'</div>';
+    	            row += '</div>';
+    	            row += '<div class="item">';
+    	            row += '<div class="icon">😃</div>';
+    	            row += '<div class="title">Updated At : </div>';
+    	            row += '<div class="subtitle">'+data.modifyDate+'</div>';
+    	            row += '</div>';
+    	            row += '<div class="item">';
+    	            row += '<div class="icon">😃</div>';
+    	            row += '<input type="button" value="상세보기" onclick="loadBoardDetail('+data.boardNo+')"/>';
+    	            row += '</div>';
+    	            userList.innerHTML += row;
+    	        },
+	            error: function(xhr, status, error) {
+	                console.error('Error: ' + error);
+	                isLoading = false;
+	            }
+	        });
+	    };
+	    $('.commentList').scroll(function() {
+	        if($(this).scrollTop() + $(this).innerHeight() + 70 >= $(this)[0].scrollHeight) {
+	            if (!isLoading) {
+	                isLoading = true;
+	                loadBoardData();
+	            }
+	        }
+	    });
+	
+	    function loadCommentData() {
+	        $.ajax({
+	            url: '${contextPath}/admin/getCommentList',
+	            type: 'GET',
+	            dataType: 'json',
+	            data: { page: offset, size: 20, userNo: '${userNo}' },
+	            success: function(data) {
+	            	if(data.content.length != 0){
+		                updateCommentTable(data);
+		                offset += 1;
+		                isLoading = false;
+	            	}
+	            },
+	            error: function(xhr, status, error) {
+	                console.error('Error: ' + error);
+	                isLoading = false;
+	            }
+	        });
+	    }
+	    function updateCommentTable(data) {
+	        let userList = document.querySelector('.commentList');
+	        let list = data.content;
+	        for (let i = 0; i < list.length; i++) {
+	            let row = '<div class="item" onclick="loadCommentData('+list[i].boardNo+')">';
+	            row += '<div class="icon">😃</div>';
+	            row += '<div class="subtitle">'+list[i].bigCategoryName+'</div>';
+	            row += '<div class="subtitle">'+list[i].subCategoryName+'</div>';
+	            row += '<div class="subtitle">'+list[i].title+'</div>';
+	            row += '</div>';
+	            userList.innerHTML += row;
+	        }
+	    }
+	    
+	    function loadCommentDetailData(userNo) {
+	        $.ajax({
+	            url: '${contextPath}/admin/getBoardDetail',
+	            type: 'GET',
+	            dataType: 'json',
+	            data: {userNo},
+	            success: function(data) {
+	            	let userList = document.querySelector('.boardDetail');
+	            	userList.innerHTML = '';
+    	            let row = '<div class="item">';
+    	            row += '<div class="icon">😃</div>';
+    	            row += '<div class="title">title :</div>';
+    	            row += '<div class="subtitle">'+data.title+'</div>';
+    	            row += '</div>';
+    	            row += '<div class="item">';
+    	            row += '<div class="icon">😃</div>';
+    	            row += '<div class="title">content : </div>';
+    	            row += '<div class="subtitle">'+data.content+'</div>';
+    	            row += '</div>';
+    	            row += '<div class="item">';
+    	            row += '<div class="icon">😃</div>';
+    	            row += '<div class="title">Created At : </div>';
+    	            row += '<div class="subtitle">'+data.createDate+'</div>';
+    	            row += '</div>';
+    	            row += '<div class="item">';
+    	            row += '<div class="icon">😃</div>';
+    	            row += '<div class="title">Updated At : </div>';
+    	            row += '<div class="subtitle">'+data.modifyDate+'</div>';
+    	            row += '</div>';
+    	            row += '<div class="item">';
+    	            row += '<div class="icon">😃</div>';
+    	            row += '<input type="button" value="상세보기" onclick="loadBoardDetail('+data.boardNo+')"/>';
+    	            row += '</div>';
+    	            userList.innerHTML += row;
+    	        },
+	            error: function(xhr, status, error) {
+	                console.error('Error: ' + error);
+	                isLoading = false;
+	            }
+	        });
+	    };
+	    
+        function loadBoardDetail(boardNo){
+            location.href="/board/detail?boardNo="+boardNo;
         }
     </script>
 </body>
