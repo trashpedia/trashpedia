@@ -9,6 +9,8 @@ public interface EncyclopediaService{
 
 	List<Trash> getTrashListByCategory(String category);
 
+	Trash getTrashByNo(int trashNo);
+
 
 
 }
