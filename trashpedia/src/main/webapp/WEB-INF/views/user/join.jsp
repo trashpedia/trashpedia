@@ -14,7 +14,7 @@
 <body>
     <jsp:include page="../common/header.jsp"/>
     <main>
-    <form action="join.me" method="POST">
+    <form action="join.me" method="POST" onsubmit="submitForm();">
 	    <div class="member">
 	        <!-- 1. 로고 -->
 	        <div class="logo">회원가입</div>
@@ -22,13 +22,13 @@
 	        <div class="field">
 	            <b>아이디</b>
 	            <div id="id-1">
-	                <input type="text" id="username" placeholder="아이디를 입력하세요" name="userEmail">
+	                <input type="text" id="username" placeholder="이메일을 입력하세요">
 	                <span class="id-a">@</span>
-	                <input type="text" id="emailDomain" placeholder="">
-	                <!-- 
-	                <input type="hidden" name="userEmail" id="userEmail"> -->
-	                <br>
+	                <input type="text" id="emailDomain">
+	                <input type="hidden" id ="hiddenUserEmail" name="userEmail">
 	            </div>
+	            
+	            
 	            <div>
 	                <select id="emailSelect" onchange="updateEmailDomain()">
 	                    <option value="직접입력" selected>직접입력</option>
@@ -93,35 +93,7 @@
 	                </select>
 	            </div>
 	        </div>
-	        <!-- 4. 필드(성별) -->
-	        <div class="field gender">
-	            <b>성별</b>
-	            <div style="border-radius: 5px;">
-	                <label><input type="radio" name="gender">남자</label>
-	                <label><input type="radio" name="gender">여자</label>
-	                <label><input type="radio" name="gender">선택안함</label>
-	            </div>
-	        </div>
-	        <!-- 5. 이메일_전화번호 -->
-	        <div class="field">
-	            <b>이메일</b>
-	            <div id="email-1">
-	                <input type="text" id="emailUseremail" placeholder="이메일">
-	                <span class="email-a">@</span>
-	                <input type="text" id="email" placeholder="">
-	                <br>
-	            </div>
-	            <div>
-	                <select id="emailSelect2" onchange="updateEmail()">
-	                    <option value="직접입력" selected>직접입력</option>
-	                    <option value="naver.com">@naver.com</option>
-	                    <option value="gmail.com">@gmail.com</option>
-	                    <option value="yahoo.com">@yahoo.com</option>
-	                    <option value="daum.net">@daum.net</option>
-	                    <option value="hanmail.net">@hanmail.net</option>
-	                </select>
-	            </div>
-	        </div>
+	       
 	        <div class="field tel-number">
 	            <b>휴대전화</b>
 	            <select>
@@ -164,7 +136,15 @@
 	</main>
 	<jsp:include page="../common/footer.jsp"/>
 	
-	
+	<script>
+				function submitForm(){
+					var username = document.getElementById("username").value;
+					var emailDomain = document.getElementById("emailDomain").value;
+					let content = username + "@" + emailDomain;
+					alert(content);
+					$('#hiddenUserEmail').val(content);
+				}
+				</script>
 	
 	<script>
 	// 유효성검사
