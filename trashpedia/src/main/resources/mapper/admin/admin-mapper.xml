@@ -21,4 +21,57 @@
 		FROM MEMBER
 		WHERE TRUNC(CREATE_DATE) = TRUNC(SYSDATE - 1) AND STATUS = 'Y'
 	</select>
+	<select id="getMemberData" resultType="member">
+		SELECT dates.orderDay, NVL(COUNT(m.CREATE_DATE), 0) AS countMember
+		FROM (
+		    SELECT TO_CHAR(TRUNC(SYSDATE) - LEVEL + 1, 'YYYY-MM-DD') AS orderDay
+		    FROM DUAL
+		    CONNECT BY LEVEL &lt;= 7
+		) dates
+		LEFT JOIN MEMBER m ON TO_CHAR(m.CREATE_DATE, 'YYYY-MM-DD') = dates.orderDay
+		GROUP BY dates.orderDay
+		ORDER BY dates.orderDay
+	</select>
+	<select id="getCountAllMember" resultType="int">
+		SELECT COUNT(*)
+		FROM MEMBER
+		WHERE STATUS = 'Y'
+	</select>
+	<select id="getMember" resultType="member">
+		SELECT USER_NO, USER_EMAIL, USER_NAME
+		FROM MEMBER
+	</select>
+	<select id="getMemberDetail" resultType="member">
+		SELECT *
+		FROM MEMBER M
+		LEFT JOIN ROLE R ON M.ROLE_NO = R.ROLE_NO
+		LEFT JOIN USER_GRADE UG ON UG.GRADE_NO = M.GRADE_NO
+		LEFT JOIN POINT P ON M.USER_NO = P.USER_NO
+		WHERE M.USER_NO = #{userNo}
+	</select>
+	<select id="getBoardList" resultType="board">
+		SELECT TITLE, ,BIG_CATEGORY_NAME, SUB_CATEGORY_NAME
+		FROM BOARD B
+		LEFT JOIN POST P ON B.POST_NO = P.POST_NO
+		LEFT JOIN SUB_CATEGORY S ON B.SUB_CATEGORY_NO = S.SUB_CATEGORY_NO
+		LEFT JOIN BIG_CATEGORY BC ON S.BIG_CATEGORY_NO = BC.BIG_CATEGORY_NO
+		WHERE B.USER_NO = #{userNo}
+	</select>
+	<select id="countBoard" resultType="int">
+		SELECT COUNT(*)
+		FROM BOARD
+		WHERE USER_NO = #{userNo}
+	</select>
+	<select id="countComment" resultType="int">
+		SELECT COUNT(*)
+		FROM "COMMENT" C
+		JOIN NESTED_COMMENT NC ON C.USER_NO = NC.USER_NO
+		WHERE C.USER_NO = #{userNo}
+	</select>
+	<select id="getBoardDetail" resultType="board">
+		SELECT TITLE, CONTENT, CREATE_DATE, MODIFY_DATE
+		FROM BOARD B
+		LEFT JOIN POST P ON B.POST_NO = P.POST_NO
+		WHERE B.USER_NO = #{userNo}
+	</select>
 </mapper>

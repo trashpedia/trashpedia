@@ -90,6 +90,14 @@ section{
     overflow-x: hidden;
 }
 
+.list>.item>.title{
+	padding-right:5px;
+}
+
+.userList>.item>.subtitle{
+	padding-right:10px;
+}
+
 .item{
     display: flex;
     align-items: center;

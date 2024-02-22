@@ -125,29 +125,36 @@
         </div>
     </div>
     <script>
-	 	// Google Charts 로드
+	    // 회원 그래프
 	    google.charts.load('current', {'packages':['corechart']});
 	    google.charts.setOnLoadCallback(drawChart);
 	
-	    // 차트 그리기 함수
 	    function drawChart() {
-	        // Ajax 요청 보내기
 	        $.ajax({
 	            url: 'admin/getMemberData',
 	            type: 'GET',
 	            dataType: 'json',
 	            success: function(data) {
-	                var chartData = google.visualization.arrayToDataTable(data);
-	
-	                // 차트 옵션 설정
+	                console.log(data);
+	                var chartData = new google.visualization.DataTable();
+	                chartData.addColumn('number', '일'); // 'Order Day' 열을 숫자형으로 변경
+	                chartData.addColumn('number', '회원 수');
+	                
+	                data.forEach(function(item) {
+	                    // orderDay를 정수형으로 파싱하여 추가
+	                    var orderDay = parseInt(item.orderDay);
+	                    chartData.addRow([orderDay, item.countMember]);
+	                });
+
 	                var options = {
-	                    title: '가입자 통계',
-	                    curveType: 'function',
-	                    legend: { position: 'bottom' }
+	                    title : '회원 가입 현황',
+	                    width : 1100,
+	                    height : 400,
+	                    vAxis: {title: '회원수'},
+	                    hAxis: {title: '일별 가입 수'},
 	                };
-	
-	                // 차트 그리기
-	                var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+
+	                var chart = new google.visualization.LineChart(document.getElementById('member_chart_div'));
 	                chart.draw(chartData, options);
 	            },
 	            error: function(xhr, status, error) {
@@ -155,8 +162,6 @@
 	            }
 	        });
 	    }
-        var chart = new google.visualization.ComboChart(document.getElementById('member_chart_div'));
-        chart.draw(data, options);
         // 게시글 그래프
         google.charts.load('current', {'packages':['corechart']});
         google.charts.setOnLoadCallback(drawVisualization);

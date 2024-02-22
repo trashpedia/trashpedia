@@ -1,5 +1,7 @@
 package com.kks.trashpedia.board.model.vo;
 
+import java.sql.Date;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,4 +15,14 @@ public class Board {
 	private int userNo;
 	private int subCategoryNo;
 	private String status;
+	
+	// adminMemberManagement - board
+	private String title;
+	private String subCategoryName;
+	private String bogCategoryName;
+	
+	// adminMemberManagement = boardDetail
+	private String content;
+	private Date createDate;
+	private Date modifyDate;
 }

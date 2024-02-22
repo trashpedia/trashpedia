@@ -17,25 +17,25 @@
                 <li>
                     <div class="sidebar-li">
                         <div class="icon">😃</div>
-                        <div class="sidebar-title"><a href="${contextpath}/admin">메인</a></div>
+                        <div class="sidebar-title"><a href="${contextPath}/admin">메인</a></div>
                     </div>
                 </li>
                 <li>
                     <div class="sidebar-li">
                         <div class="icon">👥</div>
-                        <div class="sidebar-title"><a href="${contextpath}/admin/member">회원 관리</a></div>
+                        <div class="sidebar-title"><a href="${contextPath}/admin/member">회원 관리</a></div>
                     </div>
                 </li>
                 <li>
                     <div class="sidebar-li">
                         <div class="icon">📝</div>
-                        <div class="sidebar-title"><a href="${contextpath}/admin/board">게시글 관리</a></div>
+                        <div class="sidebar-title"><a href="${contextPath}/admin/board">게시글 관리</a></div>
                     </div>
                 </li>
                 <li>
                     <div class="sidebar-li">
                         <div class="icon">🔔</div>
-                        <div class="sidebar-title"><a href="${contextpath}/admin/trash">쓰레기 관리</a></div>
+                        <div class="sidebar-title"><a href="${contextPath}/admin/trash">쓰레기 관리</a></div>
                     </div>
                 </li>
             </ul>
