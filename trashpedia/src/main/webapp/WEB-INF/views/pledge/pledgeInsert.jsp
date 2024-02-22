@@ -16,14 +16,19 @@
 
 <body>
     <jsp:include page="../common/header.jsp"/>
-    
-   	<form action="${contextPath}/write" id="enrollForm" method="post" enctype="enctype="multipart/form-data">
+  
+   	<form action="${contextPath}/write/${category.bigCategoryNo}/${category.subCategoryNo}" id="enrollForm" method="POST" enctype="multipart/form-data" onsubmit="submitForm()">
+    <!-- 폼 내용... -->
+    <!-- 폼 내용... -->
     <main>
         <div class="container">
-            <%-- <p class="">${category.subCategoryName}</p> --%>
-            <%-- <input type="text" name="bigCategoryNo" value="${category.bigCategoryNo}" disabled>
-            <input type="text" name="subCategoryNo" value="${category.subCategoryNo}" disabled> --%>
-                  
+        
+        	<p> 게시글 등록하기 </p>
+            <span class="bigCategoryName">${category.bigCategoryName}</span>_
+            <span class="subCategoryName">${category.subCategoryName}</span>
+            <input type="hidden" name="bigCategoryNo" value="${category.bigCategoryNo}" disabled>
+            <input type="hidden" name="subCategoryNo" value="${category.subCategoryNo}" disabled>
+                     
             <div class="content-title-outer">
                 <input name="title" type="text" class="input-title" placeholder="제목을 입력하세요." required>
                 <hr>
@@ -32,14 +37,13 @@
 
             <div class="content-outer">
 	            <!--실천하기/정보자료글  -->
-	            <span>썸네일 이미지 선택 : <input type="file" name="upThumbNailImg"></span>
+	            <span>썸네일 이미지 선택: <input type="file" name="thumbnailImage"></span>
 	            
 	            <!-- 공지/일반/건의 게시판 -->
-	            <span>파일 선택 : <input type="file" name="upThumbNailImg"></span>
+	             <span>파일 선택: <input type="file" name="upfile"></span>
                 
-                <div id="writeBoard-content" name="content">
-                    <input type="hidden" name="content" id="hiddenContentInput">
-                </div>
+                <div id="writeBoard-content" name="contentBoard"></div>
+                 <input type="hidden" name="content" id="hiddenContentInput">
                 
                 <div class="post-buttons">
                     <a href="${contextPath}/pledge/list"><button type='button' class="btn-list">목록</button></a>
@@ -54,22 +58,22 @@
     <jsp:include page="../common/footer.jsp"/>
     
     <script>
+    
 	    // editor
 	    const editor = new toastui.Editor({
 	        el: document.querySelector('#writeBoard-content'),
-	        height: '600px',
+	        height: '500px',
 	        initialEditType: 'wysiwyg',
 	        initialValue: '',
-	        previewStyle: 'vertical'
+	        previewStyle: 'vertical',
+	        placeholder: '내용을 입력해 주세요.'
 	    });
 	    
-	    // editor 내용 hidden input에 설정
-	    function setContent() {
-	        $('#hiddenContentInput').val($('#writeBoard-content').html());
+	    // editor 내용 hidden input에 담아서 submit    
+	    function submitForm() {
+			let content = editor.getHTML();
+			$('#hiddenContentInput').val(content);
 	    }
-	    
-	    
-	    
     </script>
 </body>
 </html>
