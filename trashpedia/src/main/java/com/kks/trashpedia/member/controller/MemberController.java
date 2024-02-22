@@ -31,6 +31,13 @@ public class MemberController {
 		return mav;
 	}
 	
+	@GetMapping("myPage")
+	public ModelAndView myPage(){
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("user/myPage");
+		return mav;
+	}
+	
 	@PostMapping("join.me")
 	public ModelAndView joinMember(Member m) {
 		ModelAndView mav = new ModelAndView();
