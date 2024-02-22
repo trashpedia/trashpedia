@@ -12,9 +12,12 @@
 	</select>
 	
 	<!-- 게시글 등록(POST) -->
-	<insert id="createPost" parameterType="Post" useGeneratedKeys="true" keyProperty="postNo">
-	   INSERT INTO POST (TITLE, CONTENT, CREATE_DATE, MODIFY_DATE, STATUS)
-	   VALUES (#{title}, #{content}, SYSDATE, SYSDATE, 'Y')
+	<insert id="createPost" parameterType="post" useGeneratedKeys="true">
+		<selectKey keyProperty="postNo" resultType="int" order="BEFORE">
+			SELECT SEQ_POSTNO.NEXTVAL FROM DUAL
+		</selectKey> 
+	    INSERT INTO POST
+	    VALUES (#{postNo}, #{title}, #{content}, SYSDATE, SYSDATE, 'Y')
 	</insert>
 	
 	<!-- 게시글 등록(BOARD) -->
@@ -22,6 +25,9 @@
 		INSERT INTO BOARD
 		VALUES (SEQ_BNO.NEXTVAL, #{postNo}, 1, #{subCategoryNo}, 'Y')
 	</insert>
+	
+	<!--  -->
+
 	
 	
 </mapper>
