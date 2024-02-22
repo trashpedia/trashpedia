@@ -23,13 +23,12 @@
                     <div class="statistics-list-wrapper">
                         <div class="statistics-list">
                             <div class="statistics-list-title">총 가입자</div>
-                            <div class="list-data"><fmt:formatNumber type="number" pattern="#,##0" value="${allMember}"/></div>
+                            <div class="list-data"><fmt:formatNumber type="number" pattern="#,##0" value="${am}"/></div>
                         </div>
                         <div class="statistics-list">
                             <div class="statistics-list-title">신규 가입자</div>
-                            <div class="list-data"><fmt:formatNumber type="number" pattern="#,##0" value="${newMember}"/></div>
-                            <c:set var="difference" value="${allMember - newMember}" />
-							<c:set var="percentChange" value="${(difference / allMember) * 100}" />
+                            <div class="list-data"><fmt:formatNumber type="number" pattern="#,##0" value="${nm}"/></div>
+							<c:set var="percentChange" value="${(nm / om) * 100}" />
 							<div class="change">
 								<c:choose>
 									<c:when test="${difference == 0}">
@@ -39,14 +38,14 @@
 							            +<fmt:formatNumber type="number" pattern="0.00" value="${percentChange}" />%
 							        </c:when>
 									<c:otherwise>
-							            -<fmt:formatNumber type="number" pattern="0.00" value="${-percentChange}" />%
+							            -<fmt:formatNumber type="number" pattern="0.00" value="${percentChange}" />%
 							        </c:otherwise>
 								</c:choose>
 							</div>
                         </div>
                         <div class="statistics-list">
                             <div class="statistics-list-title">신규 게시글</div>
-                            <div class="list-data"><fmt:formatNumber type="number" pattern="#,##0" value="${allBoard}"/></div>
+                            <div class="list-data"><fmt:formatNumber type="number" pattern="#,##0" value="${ab}"/></div>
                         </div>
                     </div>
                     <div class="graph-container-wrapper">
@@ -127,21 +126,20 @@
     <script>
 	    // 회원 그래프
 	    google.charts.load('current', {'packages':['corechart']});
-	    google.charts.setOnLoadCallback(drawChart);
+	    google.charts.setOnLoadCallback(drawMemberChart);
 	
-	    function drawChart() {
+	    function drawMemberChart() {
 	        $.ajax({
-	            url: 'admin/getMemberData',
+	            url: 'admin/getMemberChartsData',
 	            type: 'GET',
 	            dataType: 'json',
 	            success: function(data) {
 	                console.log(data);
 	                var chartData = new google.visualization.DataTable();
-	                chartData.addColumn('number', '일'); // 'Order Day' 열을 숫자형으로 변경
-	                chartData.addColumn('number', '회원 수');
+	                chartData.addColumn('number', '일');
+	                chartData.addColumn('number', '회원');
 	                
 	                data.forEach(function(item) {
-	                    // orderDay를 정수형으로 파싱하여 추가
 	                    var orderDay = parseInt(item.orderDay);
 	                    chartData.addRow([orderDay, item.countMember]);
 	                });
@@ -151,7 +149,7 @@
 	                    width : 1100,
 	                    height : 400,
 	                    vAxis: {title: '회원수'},
-	                    hAxis: {title: '일별 가입 수'},
+	                    hAxis: {title: '일별'},
 	                };
 
 	                var chart = new google.visualization.LineChart(document.getElementById('member_chart_div'));
@@ -162,32 +160,46 @@
 	            }
 	        });
 	    }
-        // 게시글 그래프
-        google.charts.load('current', {'packages':['corechart']});
-        google.charts.setOnLoadCallback(drawVisualization);
+	    // 게시글/댓글 그래프
+	    google.charts.load('current', {'packages':['corechart']});
+	    google.charts.setOnLoadCallback(drawBoardChart);
+	
+	    function drawBoardChart() {
+	    	$.ajax({
+	            url: 'admin/getBoardChartsData',
+	            type: 'GET',
+	            dataType: 'json',
+	            success: function(data) {
+	                console.log(data);
+	                var chartData = new google.visualization.DataTable();
+	                chartData.addColumn('number', '일별 게시 수');
+	                chartData.addColumn('number', '게시글');
+	                chartData.addColumn('number', '댓글');
+	                
+	                data.forEach(function(item) {
+	                    var orderDay = parseInt(item.orderDay);
+	                    chartData.addRow([orderDay, item.countBoard, item.countComment]);
+	                });
 
-        function drawVisualization() {
-        var data = google.visualization.arrayToDataTable([
-            ['일', '게시글', '댓글'],
-            ['1',  165,      614],
-            ['2',  135,      682],
-            ['3',  157,      623],
-            ['4',  139,      609],
-            ['5',  136,      569],
-            ['6',  136,      569]
-        ]);
+	                var options = {
+	                    title : '게시글 및 댓글 수 현황',
+	                    width : 1100,
+	                    height : 400,
+	                    vAxis: {title: '게시수'},
+	                    hAxis: {title: '일별'},
+	                    bars: 'vertical',
+	                    seriesType: 'bars',
+	                    series: {1: {type: 'line'}}
+	                };
 
-        var options = {
-            title : '게시글 / 댓글 작성 현황',
-            width : 1100,
-            height : 400,
-            vAxis: {title: '작성수'},
-            hAxis: {title: '일별 작성 수'},
-            seriesType: 'bars'
-        };
-        var chart = new google.visualization.ComboChart(document.getElementById('board_chart_div'));
-        chart.draw(data, options);
-        };
+	                var chart = new google.visualization.ComboChart(document.getElementById('board_chart_div'));
+	                chart.draw(chartData, options);
+	            },
+	            error: function(xhr, status, error) {
+	                console.error('Error: ' + error);
+	            }
+	        });
+	    }
     </script>
 </body>
 </html>

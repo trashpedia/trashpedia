@@ -1,45 +1,79 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="adminMapper">
-	<select id="allMember" resultType="int">
+	<select id="allMemberCount" resultType="int">
 		SELECT COUNT(*)
 		FROM MEMBER
 		WHERE GRADE_NO != 1 AND STATUS = 'Y'
 	</select>
-	<select id="allBoard" resultType="int">
+	<select id="allBoardCount" resultType="int">
 		SELECT COUNT(*)
 		FROM BOARD
 		WHERE STATUS = 'Y'
 	</select>
-	<select id="newMember" resultType="int">
+	<select id="newMemberCount" resultType="int">
 		SELECT COUNT(*)
 		FROM MEMBER
 		WHERE TRUNC(CREATE_DATE) = TRUNC(SYSDATE) AND STATUS = 'Y'
 	</select>
-	<select id="oldMember" resultType="int">
+	<select id="oldMemberCount" resultType="int">
 		SELECT COUNT(*)
 		FROM MEMBER
 		WHERE TRUNC(CREATE_DATE) = TRUNC(SYSDATE - 1) AND STATUS = 'Y'
 	</select>
-	<select id="getMemberData" resultType="member">
-		SELECT dates.orderDay, NVL(COUNT(m.CREATE_DATE), 0) AS countMember
+	<select id="getMemberChartsData" resultType="member">
+		SELECT dates.orderDay, NVL(COUNT(M.CREATE_DATE), 0) AS countMember
 		FROM (
 		    SELECT TO_CHAR(TRUNC(SYSDATE) - LEVEL + 1, 'YYYY-MM-DD') AS orderDay
 		    FROM DUAL
 		    CONNECT BY LEVEL &lt;= 7
 		) dates
-		LEFT JOIN MEMBER m ON TO_CHAR(m.CREATE_DATE, 'YYYY-MM-DD') = dates.orderDay
+		LEFT JOIN MEMBER M ON TO_CHAR(M.CREATE_DATE, 'YYYY-MM-DD') = dates.orderDay
 		GROUP BY dates.orderDay
 		ORDER BY dates.orderDay
+	</select>
+	<select id="getBoardChartsData" resultType="board">
+		SELECT dates.orderDay, NVL(COUNT(P.CREATE_DATE), 0) AS countBoard
+		FROM (
+		    SELECT TO_CHAR(TRUNC(SYSDATE) - LEVEL + 1, 'YYYY-MM-DD') AS orderDay
+		    FROM DUAL
+		    CONNECT BY LEVEL &lt;= 7
+		) dates
+		LEFT JOIN POST P ON TO_CHAR(P.CREATE_DATE, 'YYYY-MM-DD') = dates.orderDay
+		GROUP BY dates.orderDay
+		ORDER BY dates.orderDay
+	</select>
+	<select id="getCommentChartsData" resultType="comment">
+		SELECT dates.orderDay, NVL(COUNT(C.CREATE_DATE), 0) AS countComment
+		FROM (
+		    SELECT TO_CHAR(TRUNC(SYSDATE) - LEVEL + 1, 'YYYY-MM-DD') AS orderDay
+		    FROM DUAL
+		    CONNECT BY LEVEL &lt;= 7
+		) dates
+		LEFT JOIN "COMMENT" C ON TO_CHAR(C.CREATE_DATE, 'YYYY-MM-DD') = dates.orderDay
+		GROUP BY dates.orderDay
+		ORDER BY dates.orderDay
+	</select>
+	<select id="getNCChartsData" resultType="nestedComment">
+		SELECT dates.orderDay, NVL(COUNT(NC.CREATE_DATE), 0) AS countComment
+		FROM (
+		    SELECT TO_CHAR(TRUNC(SYSDATE) - LEVEL + 1, 'YYYY-MM-DD') AS orderDay
+		    FROM DUAL
+		    CONNECT BY LEVEL &lt;= 7
+		) dates
+		LEFT JOIN NESTED_COMMENT NC ON TO_CHAR(NC.CREATE_DATE, 'YYYY-MM-DD') = dates.orderDay
+		GROUP BY dates.orderDay
+		ORDER BY dates.orderDay
+	</select>
+	
+	<select id="getMemberList" resultType="member">
+		SELECT USER_NO, USER_EMAIL, USER_NAME
+		FROM MEMBER
 	</select>
 	<select id="getCountAllMember" resultType="int">
 		SELECT COUNT(*)
 		FROM MEMBER
 		WHERE STATUS = 'Y'
-	</select>
-	<select id="getMember" resultType="member">
-		SELECT USER_NO, USER_EMAIL, USER_NAME
-		FROM MEMBER
 	</select>
 	<select id="getMemberDetail" resultType="member">
 		SELECT *
@@ -49,29 +83,44 @@
 		LEFT JOIN POINT P ON M.USER_NO = P.USER_NO
 		WHERE M.USER_NO = #{userNo}
 	</select>
-	<select id="getBoardList" resultType="board">
-		SELECT TITLE, ,BIG_CATEGORY_NAME, SUB_CATEGORY_NAME
+	<select id="memberCountBoard" resultType="int">
+		SELECT COUNT(*)
+		FROM BOARD
+		WHERE USER_NO = #{userNo}
+	</select>
+	<select id="memberCountComment" resultType="int">
+		SELECT COUNT(*)
+		FROM "COMMENT" C
+		JOIN NESTED_COMMENT NC ON C.USER_NO = NC.USER_NO
+		WHERE C.USER_NO = #{userNo}
+	</select>
+	<select id="getMemberBoardList" resultType="board">
+		SELECT TITLE, BC.BIG_CATEGORY_NAME, S.SUB_CATEGORY_NAME
 		FROM BOARD B
 		LEFT JOIN POST P ON B.POST_NO = P.POST_NO
 		LEFT JOIN SUB_CATEGORY S ON B.SUB_CATEGORY_NO = S.SUB_CATEGORY_NO
 		LEFT JOIN BIG_CATEGORY BC ON S.BIG_CATEGORY_NO = BC.BIG_CATEGORY_NO
 		WHERE B.USER_NO = #{userNo}
 	</select>
-	<select id="countBoard" resultType="int">
-		SELECT COUNT(*)
-		FROM BOARD
-		WHERE USER_NO = #{userNo}
-	</select>
-	<select id="countComment" resultType="int">
-		SELECT COUNT(*)
-		FROM "COMMENT" C
-		JOIN NESTED_COMMENT NC ON C.USER_NO = NC.USER_NO
-		WHERE C.USER_NO = #{userNo}
-	</select>
-	<select id="getBoardDetail" resultType="board">
+	<select id="getMemberBoardDetail" resultType="board">
 		SELECT TITLE, CONTENT, CREATE_DATE, MODIFY_DATE
 		FROM BOARD B
 		LEFT JOIN POST P ON B.POST_NO = P.POST_NO
-		WHERE B.USER_NO = #{userNo}
+		WHERE B.BOARD_NO = #{boardNo}
+	</select>
+	<select id="getMemberCommentList" resultType="board">
+		SELECT TITLE, BC.BIG_CATEGORY_NAME, S.SUB_CATEGORY_NAME
+		FROM BOARD B
+		LEFT JOIN POST P ON B.POST_NO = P.POST_NO
+		LEFT JOIN SUB_CATEGORY S ON B.SUB_CATEGORY_NO = S.SUB_CATEGORY_NO
+		LEFT JOIN BIG_CATEGORY BC ON S.BIG_CATEGORY_NO = BC.BIG_CATEGORY_NO
+		LEFT JOIN COMMENT C ON C.BOARD_NO = B.BOARD_NO
+		WHERE C.USER_NO = #{userNo}
+	</select>
+	<select id="getMemberBoardDetail" resultType="board">
+		SELECT TITLE, CONTENT, CREATE_DATE, MODIFY_DATE
+		FROM BOARD B
+		LEFT JOIN POST P ON B.POST_NO = P.POST_NO
+		WHERE B.BOARD_NO = #{boardNo}
 	</select>
 </mapper>

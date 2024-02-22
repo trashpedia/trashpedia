@@ -17,4 +17,8 @@ public class NestedComment {
 	private Date createDate;
 	private Date modifyDate;
 	private String status;
+	
+	// adminMain - boardCharts
+	private String orderDay;
+	private int countNestedComment;
 }

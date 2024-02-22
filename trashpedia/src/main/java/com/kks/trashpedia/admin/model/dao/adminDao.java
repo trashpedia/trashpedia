@@ -7,38 +7,47 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import com.kks.trashpedia.board.model.vo.Board;
+import com.kks.trashpedia.board.model.vo.Comment;
 import com.kks.trashpedia.member.model.vo.Member;
 
 public interface adminDao {
 
-	int allMember();
+	int allMemberCount();
 
-	int allBoard();
+	int allBoardCount();
 
-	int newMember();
+	int newMemberCount();
 
-	int oldMember();
+	int oldMemberCount();
 
-	List<Member> getMemberData();
+	List<Member> getMemberChartsData();
+	
+	List<Board> getBoardChartsData();
+
+	List<Comment> getCommentChartsData();
 
 	ResultSet getBoardData();
 
 	int countAllMember();
 
-	Page<Member> getMember(Pageable pageable);
+	Page<Member> getMemberList(Pageable pageable);
+
+	Member getMemberListDetail(int userNo);
 
 	Member getMemberDetail(int userNo);
 
-	Member mmDetailMember(int userNo);
-
 	List<Board> mmDetailBoard(int userNo);
 
-	int countBoard(int userNo);
+	int memberCountBoard(int userNo);
 
-	int countComment(int userNo);
+	int memberCountComment(int userNo);
 
-	Page<Board> getBoardList(Pageable pageable, int userNo);
+	Page<Board> getMemberBoardList(Pageable pageable, int userNo);
 
-	Board getBoardDetail(int boardNo);
+	Board getMemberBoardDetail(int boardNo);
+
+	Page<Board> getMemberCommentList(Pageable pageable, int userNo);
+
+
 
 }

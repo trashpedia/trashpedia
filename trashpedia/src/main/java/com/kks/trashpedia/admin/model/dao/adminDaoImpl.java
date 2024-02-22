@@ -1,6 +1,7 @@
 package com.kks.trashpedia.admin.model.dao;
 
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.ibatis.session.RowBounds;
@@ -12,6 +13,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import com.kks.trashpedia.board.model.vo.Board;
+import com.kks.trashpedia.board.model.vo.Comment;
+import com.kks.trashpedia.board.model.vo.NestedComment;
 import com.kks.trashpedia.member.model.vo.Member;
 
 @Repository
@@ -20,30 +23,53 @@ public class adminDaoImpl implements adminDao{
 	private SqlSessionTemplate session;
 
 	@Override
-	public int allMember() {
-		return session.selectOne("adminMapper.allMember");
+	public int allMemberCount() {
+		return session.selectOne("adminMapper.allMemberCount");
 	}
 
 	@Override
-	public int allBoard() {
-		return session.selectOne("adminMapper.allBoard");
+	public int allBoardCount() {
+		return session.selectOne("adminMapper.allBoardCount");
 	}
 
 	@Override
-	public int newMember() {
-		return session.selectOne("adminMapper.newMember");
+	public int newMemberCount() {
+		return session.selectOne("adminMapper.newMemberCount");
 	}
 
 	@Override
-	public int oldMember() {
-		return session.selectOne("adminMapper.oldMember");
+	public int oldMemberCount() {
+		return session.selectOne("adminMapper.oldMemberCount");
 	}
 
 	@Override
-	public List<Member> getMemberData() {
-		return session.selectList("adminMapper.getMemberData");
+	public List<Member> getMemberChartsData() {
+		return session.selectList("adminMapper.getMemberChartsData");
+	}
+	
+	@Override
+	public List<Board> getBoardChartsData() {
+		return session.selectList("adminMapper.getBoardChartsData");
 	}
 
+	@Override
+	public List<Comment> getCommentChartsData() {
+	    List<Comment> comments = session.selectList("adminMapper.getCommentChartsData");
+	    List<NestedComment> nestedComments = session.selectList("adminMapper.getNCChartsData");
+
+	    List<Comment> mergedList = new ArrayList<>();
+	    for (int i = 0; i < comments.size(); i++) {
+	        Comment comment = comments.get(i);
+	        NestedComment nestedComment = nestedComments.get(i);
+	        
+	        int totalCount = comment.getCountComment() + nestedComment.getCountNestedComment();
+	        comment.setCountComment(totalCount);
+	        
+	        mergedList.add(comment);
+	    }
+	    return mergedList;
+	}
+	
 	@Override
 	public ResultSet getBoardData() {
 		return null;
@@ -55,19 +81,19 @@ public class adminDaoImpl implements adminDao{
 	}
 
 	@Override
-	public Page<Member> getMember(Pageable pageable) {
-		List<Member> members = session.selectList("adminMapper.getMember", null, new RowBounds((int) pageable.getOffset(), pageable.getPageSize()));
+	public Page<Member> getMemberList(Pageable pageable) {
+		List<Member> members = session.selectList("adminMapper.getMemberList", null, new RowBounds((int) pageable.getOffset(), pageable.getPageSize()));
         int totalCount = session.selectOne("adminMapper.getCountAllMember");
         return new PageImpl<>(members, pageable, totalCount);
 	}
 
 	@Override
-	public Member getMemberDetail(int userNo) {
+	public Member getMemberListDetail(int userNo) {
 		return session.selectOne("adminMapper.getMemberDetail",userNo);
 	}
 
 	@Override
-	public Member mmDetailMember(int userNo) {
+	public Member getMemberDetail(int userNo) {
 		return session.selectOne("adminMapper.getMemberDetail",userNo);
 	}
 
@@ -77,25 +103,34 @@ public class adminDaoImpl implements adminDao{
 	}
 
 	@Override
-	public int countBoard(int userNo) {
-		return session.selectOne("adminMapper.countBoard",userNo);
+	public int memberCountBoard(int userNo) {
+		return session.selectOne("adminMapper.memberCountBoard",userNo);
 	}
 
 	@Override
-	public int countComment(int userNo) {
-		return session.selectOne("adminMapper.countComment",userNo);
+	public int memberCountComment(int userNo) {
+		return session.selectOne("adminMapper.memberCountComment",userNo);
 	}
 
 	@Override
-	public Page<Board> getBoardList(Pageable pageable, int userNo) {
-		List<Board> members = session.selectList("adminMapper.getBoardList", userNo, new RowBounds((int) pageable.getOffset(), pageable.getPageSize()));
-        int totalCount = session.selectOne("adminMapper.countBoard", userNo);
+	public Page<Board> getMemberBoardList(Pageable pageable, int userNo) {
+		List<Board> members = session.selectList("adminMapper.getMemberBoardList", userNo, new RowBounds((int) pageable.getOffset(), pageable.getPageSize()));
+        int totalCount = session.selectOne("adminMapper.memberCountBoard", userNo);
         return new PageImpl<>(members, pageable, totalCount);
 	}
 
 	@Override
-	public Board getBoardDetail(int boardNo) {
-		return session.selectOne("adminMapper.getBoardDetail",boardNo);
+	public Board getMemberBoardDetail(int boardNo) {
+		return session.selectOne("adminMapper.getMemberBoardDetail",boardNo);
 	}
+
+	@Override
+	public Page<Board> getMemberCommentList(Pageable pageable, int userNo) {
+		List<Board> comments = session.selectList("adminMapper.getMemberCommentList", userNo, new RowBounds((int)pageable.getOffset(),pageable.getPageSize()));
+		int totalCount = session.selectOne("adminMapper.memberCountComment", userNo);
+		return new PageImpl<>(comments, pageable, totalCount);
+	}
+
+
 	
 }
