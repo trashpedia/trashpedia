@@ -7,6 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>커뮤니티</title>
 <link rel="stylesheet" href="resources/css/board/boardMain.css">
+<link rel="stylesheet" href="/src/main/webapp/resources/css/board/boardMain.css">
 </head>
 <body>
 	<main class="community_html">
