@@ -13,6 +13,10 @@ public interface EncyclopediaDao {
 
 	Trash getTrashByNo(int trashNo);
 
+	String getImageUrlByTrashNo(int trashNo);
+
+	String getTrashContentByTrashNo(int trashNo);
+
 
 
 }

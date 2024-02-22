@@ -11,6 +11,10 @@ public interface EncyclopediaService{
 
 	Trash getTrashByNo(int trashNo);
 
+    // 쓰레기 번호를 기반으로 이미지 주소 가져오기
+    String getImageUrlByTrashNo(int trashNo);
 
+    // 쓰레기 번호를 기반으로 쓰레기 내용 가져오기
+    String getTrashContentByTrashNo(int trashNo);
 
 }
