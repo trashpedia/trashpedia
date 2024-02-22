@@ -7,7 +7,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>실천게시글</title>
-    <link rel="stylesheet" href="${contextPath}/resources/css/main/pledgeModify.css">
+    <link rel="stylesheet" href="${contextPath}/resources/css/main/pledgeInsert.css">
 	<!-- jQuery -->
 	<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 	<link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css" />
@@ -18,18 +18,20 @@
     <jsp:include page="../common/header.jsp"/>
   
    	<form action="${contextPath}/write/${category.bigCategoryNo}/${category.subCategoryNo}" id="enrollForm" method="POST" enctype="multipart/form-data" onsubmit="submitForm()">
-    <!-- 폼 내용... -->
-    <!-- 폼 내용... -->
+
     <main>
-        <div class="container">
         
-        	<p> 게시글 등록하기 </p>
-            <span class="bigCategoryName">${category.bigCategoryName}</span>_
-            <span class="subCategoryName">${category.subCategoryName}</span>
-            <input type="hidden" name="bigCategoryNo" value="${category.bigCategoryNo}" disabled>
-            <input type="hidden" name="subCategoryNo" value="${category.subCategoryNo}" disabled>
-                     
-            <div class="content-title-outer">
+        <div class="container">
+
+            <div class="content-category-outer">
+                <p class="container-title"> 게시글 등록 </p>
+                <span class="categoryName">${category.bigCategoryName}</span>_
+                <span class="categoryName">${category.subCategoryName}</span>
+                <input type="hidden" name="bigCategoryNo" value="${category.bigCategoryNo}" disabled>
+                <input type="hidden" name="subCategoryNo" value="${category.subCategoryNo}" disabled>
+            </div>     
+            
+            <div class="content-input-outer">
                 <input name="title" type="text" class="input-title" placeholder="제목을 입력하세요." required>
                 <hr>
             </div>
