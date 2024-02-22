@@ -1,5 +1,10 @@
 package com.kks.trashpedia.member.model.dao;
 
+import com.kks.trashpedia.member.model.vo.Member;
+
 public interface MemberDao {
+
+	int joinMember(Member m);
+
 
 }

@@ -9,10 +9,12 @@
     <title>네이버 회원가입 폼</title>
 	<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="resources/css/user/join.css">
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 </head>
 <body>
     <jsp:include page="../common/header.jsp"/>
     <main>
+    <form action="join.me" method="POST">
 	    <div class="member">
 	        <!-- 1. 로고 -->
 	        <div class="logo">회원가입</div>
@@ -20,25 +22,27 @@
 	        <div class="field">
 	            <b>아이디</b>
 	            <div id="id-1">
-	                <input type="text" id="username" placeholder="아이디를 입력하세요">
+	                <input type="text" id="username" placeholder="아이디를 입력하세요" name="userEmail">
 	                <span class="id-a">@</span>
 	                <input type="text" id="emailDomain" placeholder="">
+	                <!-- 
+	                <input type="hidden" name="userEmail" id="userEmail"> -->
 	                <br>
 	            </div>
 	            <div>
 	                <select id="emailSelect" onchange="updateEmailDomain()">
 	                    <option value="직접입력" selected>직접입력</option>
-	                    <option value="@naver.com">@naver.com</option>
-	                    <option value="@gmail.com">@gmail.com</option>
-	                    <option value="@yahoo.com">@yahoo.com</option>
-	                    <option value="@daum.net">@daum.net</option>
-	                    <option value="@hanmail.net">@hanmail.net</option>
+	                    <option value="naver.com">naver.com</option>
+	                    <option value="gmail.com">gmail.com</option>
+	                    <option value="yahoo.com">yahoo.com</option>
+	                    <option value="daum.net">daum.net</option>
+	                    <option value="hanmail.net">hanmail.net</option>
 	                </select>
 	            </div>
 	        </div>
 	        <div class="field">
 	            <b>비밀번호</b>
-	            <input class="userpw" type="password" id="passwordInput" oninput="updatePasswordNotice()">
+	            <input class="userpw" type="password" id="passwordInput" oninput="updatePasswordNotice()" name="userPwd">
 	        </div>
 	        <div class="field">
 	            <b>비밀번호 재확인</b>
@@ -54,7 +58,11 @@
 	        </div>
 	        <div class="field">
 	            <b>이름</b>
-	            <input type="text">
+	            <input type="text" name="userName">
+	        </div>
+	        <div class="field">
+	            <b>닉네임</b>
+	            <input type="text" name="userNickname">
 	        </div>
 	        <!-- 3. 필드(생년월일) -->
 	        <div class="field birth">
@@ -106,11 +114,11 @@
 	            <div>
 	                <select id="emailSelect2" onchange="updateEmail()">
 	                    <option value="직접입력" selected>직접입력</option>
-	                    <option value="@naver.com">@naver.com</option>
-	                    <option value="@gmail.com">@gmail.com</option>
-	                    <option value="@yahoo.com">@yahoo.com</option>
-	                    <option value="@daum.net">@daum.net</option>
-	                    <option value="@hanmail.net">@hanmail.net</option>
+	                    <option value="naver.com">@naver.com</option>
+	                    <option value="gmail.com">@gmail.com</option>
+	                    <option value="yahoo.com">@yahoo.com</option>
+	                    <option value="daum.net">@daum.net</option>
+	                    <option value="hanmail.net">@hanmail.net</option>
 	                </select>
 	            </div>
 	        </div>
@@ -120,7 +128,7 @@
 	                <option value="">대한민국 +82</option>
 	            </select>
 	            <div>
-	                <input type="tel" placeholder="전화번호 입력">
+	                <input type="tel" placeholder="전화번호 입력" name="phone">
 	                <input type="button" value="인증번호 받기">
 	            </div>
 	            <input type="number" placeholder="인증번호를 입력하세요">
@@ -129,14 +137,14 @@
 	        <div class="field address">
 	            <div class="zipcode-container">
 	                <input type="text" id="sample6_postcode" placeholder="우편번호" name="zipCode" required readonly>
-	                <input type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기" >
+	                <input type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기" name="zipcode">
 	            </div>
 	            <div class="address-container">
-	                <input type="text" id="sample6_address" name="address1" placeholder="주소" required readonly>
+	                <input type="text" id="sample6_address" name="address1" placeholder="주소" required readonly name="address1">
 	            </div>
 	            <div class="details-container">
-	                <input type="text" id="sample6_detailAddress" name="address3" placeholder="상세주소">
-	                <input type="text" id="sample6_extraAddress" name="address2" placeholder="참고항목" readonly>
+	                <input type="text" id="sample6_detailAddress" name="address3" placeholder="상세주소" name="address2">
+	                <input type="text" id="sample6_extraAddress" name="address2" placeholder="참고항목" readonly name="address3">
 	            </div>
 	        </div>
 	        <!-- 6. 가입하기 버튼 -->
@@ -152,9 +160,12 @@
 	            <span><a href="#none">Trashexpedia Corp.</a></span>
 	        </div>
 	    </div>
+	    </form>
 	</main>
 	<jsp:include page="../common/footer.jsp"/>
-	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+	
+	
+	
 	<script>
 	// 유효성검사
 	    function updateEmailDomain() {

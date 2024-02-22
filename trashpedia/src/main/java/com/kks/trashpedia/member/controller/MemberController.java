@@ -2,13 +2,14 @@ package com.kks.trashpedia.member.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kks.trashpedia.member.model.service.MemberService;
+import com.kks.trashpedia.member.model.vo.Member;
+
 @RestController
-@RequestMapping
 public class MemberController {
 	
 	@Autowired
@@ -29,6 +30,23 @@ public class MemberController {
 		mav.setViewName("user/join");
 		return mav;
 	}
+	
+	@PostMapping("join.me")
+	public ModelAndView joinMember(Member m) {
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("main");
+		System.out.println("되냐?");
+		System.out.println(m);
+		
+	
+		service.joinMember(m);
+		
+		return mav;
+	}
+	
+	
+
+	
 	
 	
 }
