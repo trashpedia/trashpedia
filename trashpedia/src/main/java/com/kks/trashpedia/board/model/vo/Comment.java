@@ -17,4 +17,8 @@ public class Comment {
 	private Date createDate;
 	private Date modifyDate;
 	private String stauts;
+	
+	// adminMain = BoardCharts
+	private String orderDay;
+	private int countComment;
 }

@@ -18,33 +18,38 @@ public class adminServiceImpl implements adminService{
 	private adminDao dao;
 
 	@Override
-	public int allMember() {
-		return dao.allMember();
+	public int allMemberCount() {
+		return dao.allMemberCount();
 	}
 
 	@Override
-	public int allBoard() {
-		return dao.allBoard();
+	public int allBoardCount() {
+		return dao.allBoardCount();
 	}
 
 	@Override
-	public int newMember() {
-		return dao.newMember();
+	public int newMemberCount() {
+		return dao.newMemberCount();
 	}
 
 	@Override
-	public int oldMember() {
-		return dao.oldMember();
+	public int oldMemberCount() {
+		return dao.oldMemberCount();
 	}
 
 	@Override
-	public List<Member> getMemberData() {
-		return dao.getMemberData();
+	public List<Member> getMemberChartsData() {
+		return dao.getMemberChartsData();
+	}
+	
+	@Override
+	public List<Board> getBoardChartsData() {
+		return dao.getBoardChartsData();
 	}
 
 	@Override
-	public List<?> getBoardData() {
-		return null;
+	public List<Comment> getCommentChartsData() {
+		return dao.getCommentChartsData();
 	}
 
 	@Override
@@ -53,8 +58,13 @@ public class adminServiceImpl implements adminService{
 	}
 
 	@Override
-	public Page<Member> getMember(Pageable pageable) {
-		return dao.getMember(pageable);
+	public Page<Member> getMemberList(Pageable pageable) {
+		return dao.getMemberList(pageable);
+	}
+
+	@Override
+	public Member getMemberListDetail(int userNo) {
+		return dao.getMemberListDetail(userNo);
 	}
 
 	@Override
@@ -63,39 +73,33 @@ public class adminServiceImpl implements adminService{
 	}
 
 	@Override
-	public Member mmDetailMember(int userNo) {
-		return dao.mmDetailMember(userNo);
-	}
-
-	@Override
 	public List<Board> mmDetailBoard(int userNo) {
 		return dao.mmDetailBoard(userNo);
 	}
 
 	@Override
-	public int countBoard(int userNo) {
-		return dao.countBoard(userNo);
+	public int memberCountBoard(int userNo) {
+		return dao.memberCountBoard(userNo);
 	}
 
 	@Override
-	public int countComment(int userNo) {
-		return dao.countComment(userNo);
+	public int memberCountComment(int userNo) {
+		return dao.memberCountComment(userNo);
 	}
 
 	@Override
-	public Page<Board> getBoardList(Pageable pageable, int userNo) {
-		return dao.getBoardList(pageable, userNo);
+	public Page<Board> getMemberBoardList(Pageable pageable, int userNo) {
+		return dao.getMemberBoardList(pageable, userNo);
 	}
 
 	@Override
-	public Board getBoardDetail(int boardNo) {
-		return dao.getBoardDetail(boardNo);
+	public Board getMemberBoardDetail(int boardNo) {
+		return dao.getMemberBoardDetail(boardNo);
 	}
 
 	@Override
-	public Page<Comment> getCommentList(Pageable pageable, int userNo) {
-		// TODO Auto-generated method stub
-		return null;
+	public Page<Board> getMemberCommentList(Pageable pageable, int userNo) {
+		return dao.getMemberCommentList(pageable, userNo);
 	}
 
 	@Override
@@ -103,6 +107,8 @@ public class adminServiceImpl implements adminService{
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+
 
 	
 	

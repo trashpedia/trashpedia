@@ -76,7 +76,7 @@
 
 	    function loadData() {
 	        $.ajax({
-	            url: '${contextPath}/admin/getMember',
+	            url: '${contextPath}/admin/getMemberList',
 	            type: 'GET',
 	            dataType: 'json',
 	            data: { page: offset, size: 20 },
@@ -113,7 +113,7 @@
 
 	    function loadDetailData(userNo) {
 	        $.ajax({
-	            url: '${contextPath}/admin/getMemberDetail',
+	            url: '${contextPath}/admin/getMemberListDetail',
 	            type: 'GET',
 	            dataType: 'json',
 	            data: {userNo},

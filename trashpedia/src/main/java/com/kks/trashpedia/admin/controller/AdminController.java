@@ -26,41 +26,7 @@ import com.kks.trashpedia.member.model.vo.Member;
 public class AdminController {
 	@Autowired
 	private adminService service;
-	// 메인페이지
-	@GetMapping("")
-	public ModelAndView adminMain() {
-		int allMember = service.allMember();
-		int allBoard = service.allBoard();
-		int newMember = service.newMember();
-		int oldMember = service.oldMember();
-		
-		ModelAndView mav = new ModelAndView();
-		mav.addObject("allMember", allMember);
-		mav.addObject("allBoard", allBoard);
-		mav.addObject("newMember", newMember);
-		mav.addObject("oldMember", oldMember);
-		mav.setViewName("admin/adminMain");
-		return mav;
-	}
-	// 메인페이지 맴버 차트
-	@GetMapping("/getMemberData")
-	public String getMemberData() {
-	    List<Member> chartData = service.getMemberData();
-	    StringBuilder json = new StringBuilder();
-	    json.append("[");
-	    for (Member data : chartData) {
-	        json.append("{");
-	        int orderDay = Integer.parseInt(data.getOrderDay().substring(data.getOrderDay().length() - 2));
-	        json.append("\"orderDay\": ").append(orderDay).append(", ");
-	        json.append("\"countMember\": ").append(data.getCountMember());
-	        json.append("}, ");
-	    }
-	    if (!chartData.isEmpty()) {
-	        json.delete(json.length() - 2, json.length());
-	    }
-	    json.append("]");
-	    return json.toString();
-	}
+	
 	// 관리자 로그인
 	@GetMapping("/login")
 	public ModelAndView adminLogin() {
@@ -68,6 +34,71 @@ public class AdminController {
 		mav.setViewName("admin/adminLogin");
 		return mav;
 	}
+	// 메인페이지
+	@GetMapping("")
+	public ModelAndView adminMain() {
+		int allMemberCount = service.allMemberCount();
+		int allBoardCount = service.allBoardCount();
+		int newMemberCount = service.newMemberCount();
+		int oldMemberCount = service.oldMemberCount();
+		
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("am", allMemberCount);
+		mav.addObject("ab", allBoardCount);
+		mav.addObject("nm", newMemberCount);
+		mav.addObject("om", oldMemberCount);
+		mav.setViewName("admin/adminMain");
+		return mav;
+	}
+	// 메인페이지 맴버 차트
+	@GetMapping("/getMemberChartsData")
+	public String getMemberChartsData() {
+	    List<Member> memberChartData = service.getMemberChartsData();
+	    StringBuilder json = new StringBuilder();
+	    json.append("[");
+	    for (Member data : memberChartData) {
+	        json.append("{");
+	        int orderDay = Integer.parseInt(data.getOrderDay().substring(data.getOrderDay().length() - 2));
+	        json.append("\"orderDay\": ").append(orderDay).append(", ");
+	        json.append("\"countMember\": ").append(data.getCountMember());
+	        json.append("}, ");
+	    }
+	    if (!memberChartData.isEmpty()) {
+	        json.delete(json.length() - 2, json.length());
+	    }
+	    json.append("]");
+	    return json.toString();
+	}
+	// 메인페이지 보드 차트
+	@GetMapping("/getBoardChartsData")
+	public String getBoardChartsData() {
+	    List<Board> boardChartData = service.getBoardChartsData();
+	    List<Comment> commentChartData = service.getCommentChartsData();
+	    StringBuilder json = new StringBuilder();
+	    json.append("[");
+	    for (Board data : boardChartData) {
+	        json.append("{");
+	        int orderDay = Integer.parseInt(data.getOrderDay().substring(data.getOrderDay().length() - 2));
+	        json.append("\"orderDay\": ").append(orderDay).append(", ");
+	        json.append("\"countBoard\": ").append(data.getCountBoard()).append(", ");
+	        json.append("\"countComment\": 0");
+	        json.append("}, ");
+	    }
+	    for (Comment data : commentChartData) {
+	        json.append("{");
+	        int orderDay = Integer.parseInt(data.getOrderDay().substring(data.getOrderDay().length() - 2));
+	        json.append("\"orderDay\": ").append(orderDay).append(", ");
+	        json.append("\"countBoard\": 0, ");
+	        json.append("\"countComment\": ").append(data.getCountComment());
+	        json.append("}, ");
+	    }
+	    if (!boardChartData.isEmpty() || !commentChartData.isEmpty()) {
+	        json.delete(json.length() - 2, json.length());
+	    }
+	    json.append("]");
+	    return json.toString();
+	}
+	
 	// 관리자 회원 관리
 	@GetMapping("/member")
 	public ModelAndView memberManagement() {
@@ -79,23 +110,22 @@ public class AdminController {
 		return mav;
 	}
 	// 관리자 회원 관리 회원 리스트
-	@GetMapping("/getMember")
+	@GetMapping("/getMemberList")
 	public ResponseEntity<Page<Member>> getMember(@PageableDefault(page = 0, size = 20, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
-		Page<Member> page = service.getMember(pageable);
+		Page<Member> page = service.getMemberList(pageable);
 		return ResponseEntity.status(HttpStatus.OK).body(page);
 	}
 	// 관리자 회원 관리 유저 상세
-	@GetMapping("/getMemberDetail")
-	public Member getMemberDetail(@RequestParam int userNo) {
-		return service.getMemberDetail(userNo);
+	@GetMapping("/getMemberListDetail")
+	public Member getMemberListDetail(@RequestParam int userNo) {
+		return service.getMemberListDetail(userNo);
 	}
-	
 	// 관리자 회원 관리 유저 상세 페이지
 	@GetMapping("/member/detail")
 	public ModelAndView memberManagementDetail(@RequestParam int userNo) {
-		Member m = service.mmDetailMember(userNo);
-		int b = service.countBoard(userNo);
-		int c = service.countComment(userNo);
+		Member m = service.getMemberDetail(userNo);
+		int b = service.memberCountBoard(userNo);
+		int c = service.memberCountComment(userNo);
 		
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("m",m);
@@ -104,34 +134,27 @@ public class AdminController {
 		mav.setViewName("admin/memberManagementDetail");
 		return mav;
 	}
-	// 관리자 회원 관리 게시글 리스트
-	@GetMapping("/getBoardList")
-	public ResponseEntity<Page<Board>> getBoardList(@PageableDefault(page = 0, size = 20, sort = "id", direction = Sort.Direction.DESC) @RequestParam int userNo, Pageable pageable) {
-		Page<Board> page = service.getBoardList(pageable, userNo);
+	// 관리자 회원 관리 유저 상세 게시글 리스트
+	@GetMapping("/getMemberBoardList")
+	public ResponseEntity<Page<Board>> getMemberBoardList(@PageableDefault(page = 0, size = 20, sort = "id", direction = Sort.Direction.DESC) @RequestParam int userNo, Pageable pageable) {
+		Page<Board> page = service.getMemberBoardList(pageable, userNo);
 		return ResponseEntity.status(HttpStatus.OK).body(page);
 	}
-	// 관리자 회원 관리 게시글 상세
-	@GetMapping("/getBoardDetail")
-	public Board getBoardDetail(@RequestParam int boardNo) {
-		return service.getBoardDetail(boardNo);
+	// 관리자 회원 관리 유저 상세 게시글 상세
+	@GetMapping("/getMemberBoardDetail")
+	public Board getMemberBoardDetail(@RequestParam int boardNo) {
+		return service.getMemberBoardDetail(boardNo);
 	}
-	// 관리자 회원 관리 게시글 리스트
-		@GetMapping("/getCommentList")
-		public ResponseEntity<Page<Comment>> getCommentList(@PageableDefault(page = 0, size = 20, sort = "id", direction = Sort.Direction.DESC) @RequestParam int userNo, Pageable pageable) {
-			Page<Comment> page = service.getCommentList(pageable, userNo);
-			return ResponseEntity.status(HttpStatus.OK).body(page);
-		}
-		// 관리자 회원 관리 게시글 상세
-		@GetMapping("/getCommentDetail")
-		public Board getCommentDetail(@RequestParam int boardNo) {
-			return service.getCommentDetail(boardNo);
-		}
-	
-	@GetMapping("/trash")
-	public ModelAndView trashManagement() {
-		ModelAndView mav = new ModelAndView();
-		mav.setViewName("admin/trashManagement");
-		return mav;
+	// 관리자 회원 관리 유저 상세 댓글 리스트
+	@GetMapping("/getCommentList")
+	public ResponseEntity<Page<Board>> getMemberCommentList(@PageableDefault(page = 0, size = 20, sort = "id", direction = Sort.Direction.DESC) @RequestParam int userNo, Pageable pageable) {
+		Page<Board> page = service.getMemberCommentList(pageable, userNo);
+		return ResponseEntity.status(HttpStatus.OK).body(page);
+	}
+	// 관리자 회원 관리 유저 상세 댓글 상세
+	@GetMapping("/getCommentDetail")
+	public Board getCommentDetail(@RequestParam int boardNo) {
+		return service.getCommentDetail(boardNo);
 	}
 	
 	// 관리자 게시판 관리
@@ -141,6 +164,15 @@ public class AdminController {
 		mav.setViewName("admin/boardManagement");
 		return mav;
 	}
+	
+	
+	@GetMapping("/trash")
+	public ModelAndView trashManagement() {
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("admin/trashManagement");
+		return mav;
+	}
+	
 	@GetMapping("/{boardId}")
 	public String boardId(@PathVariable String boardId) {
 		return boardId + "admin";

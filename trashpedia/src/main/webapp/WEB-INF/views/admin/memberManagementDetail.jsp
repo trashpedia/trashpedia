@@ -302,25 +302,25 @@
     <script>
 	    var isLoading = false;
 	    var offset = 0;
-	
+		
 	    $(document).ready(function() {
-	    	loadData();
+	    	loadBoardData();
 	    });
 	    $('.boardList').scroll(function() {
 	        if($(this).scrollTop() + $(this).innerHeight() + 70 >= $(this)[0].scrollHeight) {
 	            if (!isLoading) {
 	                isLoading = true;
-	                loadBoardData();
+	                loadBoardDetailData();
 	            }
 	        }
 	    });
 	
 	    function loadBoardData() {
 	        $.ajax({
-	            url: '${contextPath}/admin/getBoardList',
+	            url: '${contextPath}/admin/getMemberBoardList',
 	            type: 'GET',
 	            dataType: 'json',
-	            data: { page: offset, size: 20, userNo: '${userNo}' },
+	            data: { page: offset, size: 20, userNo: ${m.userNo} },
 	            success: function(data) {
 	            	if(data.content.length != 0){
 		                updateBoardTable(data);
@@ -350,7 +350,7 @@
 	    
 	    function loadBoardDetailData(userNo) {
 	        $.ajax({
-	            url: '${contextPath}/admin/getBoardDetail',
+	            url: '${contextPath}/admin/getMemberBoardDetail',
 	            type: 'GET',
 	            dataType: 'json',
 	            data: {userNo},

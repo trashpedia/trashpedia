@@ -16,6 +16,10 @@ public class Board {
 	private int subCategoryNo;
 	private String status;
 	
+	// adminMain - boardCharts
+	private String orderDay;
+	private int countBoard;
+	
 	// adminMemberManagement - board
 	private String title;
 	private String subCategoryName;
