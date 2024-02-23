@@ -4,6 +4,8 @@ import com.kks.trashpedia.member.model.vo.Member;
 
 public interface MemberService {
 	int joinMember(Member m);
+
+	Member loginMember(Member m);
 	
 	
 }
