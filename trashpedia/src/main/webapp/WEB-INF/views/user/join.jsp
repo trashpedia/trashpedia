@@ -14,7 +14,7 @@
 <body>
     <jsp:include page="../common/header.jsp"/>
     <main>
-    <form action="join.me" method="POST">
+    <form id="enroll-form" action="join.me" method="POST" onsubmit="submitForm();">
 	    <div class="member">
 	        <!-- 1. 로고 -->
 	        <div class="logo">회원가입</div>
@@ -22,13 +22,13 @@
 	        <div class="field">
 	            <b>아이디</b>
 	            <div id="id-1">
-	                <input type="text" id="username" placeholder="아이디를 입력하세요" name="userEmail">
+	                <input type="text" id="username" placeholder="이메일을 입력하세요">
 	                <span class="id-a">@</span>
-	                <input type="text" id="emailDomain" placeholder="">
-	                <!-- 
-	                <input type="hidden" name="userEmail" id="userEmail"> -->
-	                <br>
+	                <input type="text" id="emailDomain">
+	                <input type="hidden" id ="hiddenUserEmail" name="userEmail">
 	            </div>
+	            
+	            
 	            <div>
 	                <select id="emailSelect" onchange="updateEmailDomain()">
 	                    <option value="직접입력" selected>직접입력</option>
@@ -64,64 +64,7 @@
 	            <b>닉네임</b>
 	            <input type="text" name="userNickname">
 	        </div>
-	        <!-- 3. 필드(생년월일) -->
-	        <div class="field birth">
-	            <b>생년월일</b>
-	            <div>
-	                <select id="year" name="year">
-	                    <option value="">연도</option>
-	                    <!-- 1900년부터 현재 연도까지의 옵션을 생성 -->
-	                </select>
-	                <select id="month" name="month" onchange="updateDays()">
-	                    <option value="">월</option>
-	                    <option value="1">1월</option>
-	                    <option value="2">2월</option>
-	                    <option value="3">3월</option>
-	                    <option value="4">4월</option>
-	                    <option value="5">5월</option>
-	                    <option value="6">6월</option>
-	                    <option value="7">7월</option>
-	                    <option value="8">8월</option>
-	                    <option value="9">9월</option>
-	                    <option value="10">10월</option>
-	                    <option value="11">11월</option>
-	                    <option value="12">12월</option>
-	                </select>
-	                <select id="day" name="day">
-	                    <option value="">일</option>
-	                    <!-- 일자는 월이 선택되면 자바스크립트로 동적으로 생성 -->
-	                </select>
-	            </div>
-	        </div>
-	        <!-- 4. 필드(성별) -->
-	        <div class="field gender">
-	            <b>성별</b>
-	            <div style="border-radius: 5px;">
-	                <label><input type="radio" name="gender">남자</label>
-	                <label><input type="radio" name="gender">여자</label>
-	                <label><input type="radio" name="gender">선택안함</label>
-	            </div>
-	        </div>
-	        <!-- 5. 이메일_전화번호 -->
-	        <div class="field">
-	            <b>이메일</b>
-	            <div id="email-1">
-	                <input type="text" id="emailUseremail" placeholder="이메일">
-	                <span class="email-a">@</span>
-	                <input type="text" id="email" placeholder="">
-	                <br>
-	            </div>
-	            <div>
-	                <select id="emailSelect2" onchange="updateEmail()">
-	                    <option value="직접입력" selected>직접입력</option>
-	                    <option value="naver.com">@naver.com</option>
-	                    <option value="gmail.com">@gmail.com</option>
-	                    <option value="yahoo.com">@yahoo.com</option>
-	                    <option value="daum.net">@daum.net</option>
-	                    <option value="hanmail.net">@hanmail.net</option>
-	                </select>
-	            </div>
-	        </div>
+	       
 	        <div class="field tel-number">
 	            <b>휴대전화</b>
 	            <select>
@@ -164,7 +107,15 @@
 	</main>
 	<jsp:include page="../common/footer.jsp"/>
 	
-	
+	<script>
+				function submitForm(){
+					var username = document.getElementById("username").value;
+					var emailDomain = document.getElementById("emailDomain").value;
+					let content = username + "@" + emailDomain;
+					alert(content);
+					$('#hiddenUserEmail').val(content);
+				}
+	</script>
 	
 	<script>
 	// 유효성검사
