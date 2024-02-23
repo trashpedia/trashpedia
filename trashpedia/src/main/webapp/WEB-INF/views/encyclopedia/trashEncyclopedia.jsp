@@ -84,7 +84,7 @@
 											</div>
 											<!-- Back -->
 											<div class="Back">
-												<img src="이미지_경로" alt="이미지_대체_텍스트"> <span>데이터
+												<img src="https://img.freepik.com/free-photo/cute-puppy-sitting-in-grass-enjoying-nature-playful-beauty-generated-by-artificial-intelligence_188544-84973.jpg" alt="이미지_대체_텍스트"> <span>데이터
 													없음</span>
 											</div>
 										</div>
@@ -105,7 +105,7 @@
 												</div>
 											</div>
 											<!-- Back -->
-											<div class="Back" onclick="showTrashDetail(${trash.trashNo})">
+											<div class="Back" onclick="goToTrashDetail(${trash.trashNo})">
 												<!-- 이미지 주소 대신 서버에서 받은 이미지 주소를 사용 -->
 												<img src="${trash.imageUrl}" alt="이미지_대체_텍스트">
 												<!-- 쓰레기 내용 출력 -->
@@ -126,51 +126,23 @@
 			</div>
 			<!-- Swiper -->
 
-
+			<!--오늘의 인기 쓰레기  -->
 			<div class="today-popular-trash">
 				<div class="Container">
 					<div class="Title">오늘의 인기 쓰레기</div>
-					<div class="card">
-						<img src="resources/image/main/trashEncyclopedia/trash1.png"
-							alt=""> 아파야
-					</div>
-					<div class="card">
-						<img src="resources/image/main/trashEncyclopedia/trash2.png"
-							alt=""> 사랑인
-					</div>
-					<div class="card">
-						<img src="resources/image/main/trashEncyclopedia/trash3.png"
-							alt=""> 거죠
-					</div>
-					<div class="card">
-						<img src="resources/image/main/trashEncyclopedia/trash4.png"
-							alt=""> 아프니까
-					</div>
-					<div class="card">
-						<img src="resources/image/main/trashEncyclopedia/trash5.png"
-							alt=""> 사랑인
-					</div>
-					<div class="card">
-						<img src="resources/image/main/trashEncyclopedia/trash6.png"
-							alt=""> 거겠죠
-					</div>
-					<div class="card">
-						<img src="resources/image/main/trashEncyclopedia/trash7.png"
-							alt=""> 이불
-					</div>
-					<div class="card">
-						<img src="resources/image/main/trashEncyclopedia/trash8.png"
-							alt=""> 그릇
-					</div>
-					<div class="card">
-						<img src="resources/image/main/trashEncyclopedia/trash9.png"
-							alt=""> 우산
-					</div>
+					<!-- 인기 쓰레기를 반복문으로 표시 -->
+					<c:forEach var="trash" items="${popularTrashList}">
+						<div class="card"
+							onclick="goToTrashDetail(${trash.trashNo})">
+							<img src="${trash.imageUrl}" alt=""> ${trash.trashTitle}
+						</div>
+					</c:forEach>
 				</div>
 				<img class="trash-can"
 					src="resources/image/main/trashEncyclopedia/garbage can.png" alt="">
 				<span>클릭!</span>
 			</div>
+
 		</main>
 	</div>
 
@@ -236,6 +208,8 @@
                 }
             );
         });
+        
+        
         
         
         

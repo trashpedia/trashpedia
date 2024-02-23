@@ -43,6 +43,18 @@ public class EncyclopediaServiceImpl implements EncyclopediaService{
 		// TODO Auto-generated method stub
 		return encDao.getTrashContentByTrashNo(trashNo);
 	}
+
+	@Override
+	public List<Trash> getPopularTrashList() {
+		// TODO Auto-generated method stub
+		return encDao.getPopularTrashList();
+	}
+
+	@Override
+	public String getTrashTitleByTrashNo(int trashNo) {
+		// TODO Auto-generated method stub
+		return encDao.getTrashTitleByTrashNo(trashNo);
+	}
 	
 
 }
