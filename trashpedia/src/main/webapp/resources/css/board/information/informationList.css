@@ -1,0 +1,251 @@
+@charset "EUC-KR";
+
+/* ------ 실천서약 타이틀 부분 ------ */
+.practice-section {
+    height: 150px;
+    width: 100%;
+    background-color: #73cc73;
+    color: white;
+    font-weight: 700;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.practice-section p:first-child {
+    font-size: 32px;
+    margin-top: 0;
+    margin-bottom: 0px;
+}
+
+.practice-section p:nth-child(2) {
+    margin-top: 10px;
+    font-size: 18px;
+}
+
+/*  ----------   더보기버튼   ---------------*/
+.btn-area {
+    position: relative;
+    padding: 20px 0;
+    text-align: center;
+    /* margin: 0; */
+}
+.btn-default {
+    color: #333 !important;
+    border: 1px solid #ddd;
+    background: #fff;
+}
+.btn-lg {
+    font-size: 17px;
+    height: 50px;
+    line-height: 48px;
+    min-width: 170px;
+    padding: 0 30px;
+    border-radius: 25px;
+    
+}
+.btn{
+    text-align: center;
+    vertical-align: middle;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+
+* {
+    margin: 0;
+    padding :0;
+}
+ 
+a{
+    text-decoration: none;
+    color: black;
+}
+ 
+ul, 
+li{
+    list-style: none;
+}
+ 
+ 
+header 
+{
+     
+    height: 80px; 
+     
+    border-bottom: 1px solid #ddd;
+}
+ 
+header > div
+{
+    width: 90%;
+    min-width: 1000px;
+    max-width: 1200px;
+    height: 80px;
+     
+    margin: 0 auto; 
+}
+ 
+.abcd .logo
+{
+    display: inline-block;
+    margin-top: 28px;
+}
+ 
+ 
+.abcd .gnb
+{
+    float: right;
+} 
+ 
+ 
+.abcd .gnb li 
+{
+    display: inline-block;
+    margin-left: 30px;
+    margin-top: 28px;
+}
+ 
+ 
+#idx_top { 
+     
+    width: 100%; 
+    padding: 150px 0;
+    background-color: black;
+    text-align: center;
+}
+ 
+#idx_top strong, 
+#idx_top p{
+    color: #fff;
+}
+ 
+#idx_top strong 
+{
+    font-size: 40px;
+    letter-spacing: -2px;
+}
+ 
+#idx_top p {
+    margin-top: 20px;
+    font-size: 20px;
+}
+ 
+#idx_top strong span
+{
+    color: yellow;
+}
+ 
+ 
+#footer 
+{
+    width: 100%; 
+    height: 80px;
+    background-color: fff;
+    text-align: center;
+}
+ 
+#footer .copyright
+{
+    float: left;
+    width: 50%;
+}
+ 
+#footer .copyright p
+{
+    font-size: 14px;
+    color: black;
+    padding: 32px 0 0 40px;
+    text-align: left;
+}
+ 
+#footer .address
+{
+    float: right;
+    width: 50%;
+}
+ 
+#footer .address p
+{
+    font-size: 14px;
+    color: black;
+    padding: 32px 40px 0 0;
+    text-align: right;
+}
+ 
+ 
+ 
+ 
+ 
+.list_wrap {
+    width: 1000px;
+    margin: 0 auto;
+    padding: 100px;
+}
+ 
+.list_wrap ul {
+    font-size: 0;
+}
+.list_wrap .item {
+    display: inline-block;
+    width: 30%;
+    margin-top: 40px;
+    margin-left: 5%;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+}
+.list_wrap .item:nth-child(-n+3) {
+    margin-top: 0;
+}
+.list_wrap .item:nth-child(3n-2) {
+    margin-left: 0;
+}
+.list_wrap .item .image {
+    width: 100%;
+    height: 160px;
+    background-color: #ddd;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    background-size: cover;
+}
+ 
+.list_wrap .item1 .image { background-image: url(../../resources/커뮤니티\ 환경보호사진2.avif); }
+.list_wrap .item2 .image { background-image: url(../../resources/커뮤니티\ 환경보호사진2.avif); }
+.list_wrap .item3 .image { background-image: url(../../resources/커뮤니티\ 환경보호사진2.avif); }
+.list_wrap .item4 .image { background-image: url(../../resources/커뮤니티\ 환경보호사진2.avif); }
+.list_wrap .item5 .image { background-image: url(../../resources/커뮤니티\ 환경보호사진2.avif); }
+.list_wrap .item6 .image { background-image: url(../../resources/커뮤니티\ 환경보호사진2.avif); }
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+.list_wrap .item .cont {
+    padding: 20px;
+}
+.list_wrap .item strong {
+    display: block;
+    margin: 0 0 10px 0;
+    font-size: 16px;
+    letter-spacing: -1px;
+}
+.list_wrap .item p {
+    font-size: 13px;
+    letter-spacing: -1px;
+}
+.list_wrap .item a {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 5px 10px;
+    background: #eee;
+    font-size: 13px;
+    letter-spacing: -1px;
+}
+.list_wrap .item a:hover {
+    background: #325cb2;
+    color: #fff;
+}
