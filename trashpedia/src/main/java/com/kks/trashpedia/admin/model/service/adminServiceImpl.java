@@ -8,9 +8,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.kks.trashpedia.admin.model.dao.adminDao;
+import com.kks.trashpedia.board.model.vo.BigCategory;
 import com.kks.trashpedia.board.model.vo.Board;
 import com.kks.trashpedia.board.model.vo.Comment;
 import com.kks.trashpedia.member.model.vo.Member;
+import com.kks.trashpedia.point.model.vo.PointHistory;
+import com.kks.trashpedia.report.model.vo.Report;
 
 @Service
 public class adminServiceImpl implements adminService{
@@ -103,9 +106,28 @@ public class adminServiceImpl implements adminService{
 	}
 
 	@Override
-	public Board getCommentDetail(int boardNo) {
-		// TODO Auto-generated method stub
-		return null;
+	public Board getCommentDetail(int commentNo) {
+		return dao.getCommentDetail(commentNo);
+	}
+
+	@Override
+	public Board getNestedCommentDetail(int nestedCommentNo) {
+		return dao.getNestedCommentDetail(nestedCommentNo);
+	}
+
+	@Override
+	public Page<PointHistory> getMemberPointList(Pageable pageable, int page, int userNo) {
+		return dao.getMemberPointList(pageable, page, userNo);
+	}
+
+	@Override
+	public Page<Report> getMemberReportList(Pageable pageable, int page, int userNo) {
+		return dao.getMemberReportList(pageable, page, userNo);
+	}
+
+	@Override
+	public List<BigCategory> BigCategoryList() {
+		return dao.BigCategoryList();
 	}
 
 

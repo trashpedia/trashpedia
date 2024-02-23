@@ -12,10 +12,13 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
+import com.kks.trashpedia.board.model.vo.BigCategory;
 import com.kks.trashpedia.board.model.vo.Board;
 import com.kks.trashpedia.board.model.vo.Comment;
 import com.kks.trashpedia.board.model.vo.NestedComment;
 import com.kks.trashpedia.member.model.vo.Member;
+import com.kks.trashpedia.point.model.vo.PointHistory;
+import com.kks.trashpedia.report.model.vo.Report;
 
 @Repository
 public class adminDaoImpl implements adminDao{
@@ -129,6 +132,35 @@ public class adminDaoImpl implements adminDao{
 		List<Board> comments = session.selectList("adminMapper.getMemberCommentList", userNo, new RowBounds((int)pageable.getOffset(),pageable.getPageSize()));
 		int totalCount = session.selectOne("adminMapper.memberCountComment", userNo);
 		return new PageImpl<>(comments, pageable, totalCount);
+	}
+
+	@Override
+	public Board getCommentDetail(int commentNo) {
+		return session.selectOne("adminMapper.getCommentDetail",commentNo);
+	}
+
+	@Override
+	public Board getNestedCommentDetail(int nestedCommentNo) {
+		return session.selectOne("adminMapper.getNestedCommentDetail",nestedCommentNo);
+	}
+
+	@Override
+	public Page<PointHistory> getMemberPointList(Pageable pageable, int page, int userNo) {
+		List<PointHistory> ph = session.selectList("adminMapper.getMemberPointList", userNo, new RowBounds(page, pageable.getPageSize()));
+		int totalCount = session.selectOne("adminMapper.memberPointCount", userNo);
+		return new PageImpl<>(ph, pageable, totalCount);
+	}
+
+	@Override
+	public Page<Report> getMemberReportList(Pageable pageable, int page, int userNo) {
+		List<Report> r = session.selectList("adminMapper.getMemberReportList", userNo, new RowBounds(page, pageable.getPageSize()));
+		int totalCount = session.selectOne("adminMapper.memberPointCount", userNo);
+		return new PageImpl<>(r, pageable, totalCount);
+	}
+
+	@Override
+	public List<BigCategory> BigCategoryList() {
+		return session.selectList("adminMapper.BigCategoryList");
 	}
 
 

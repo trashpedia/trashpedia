@@ -25,11 +25,14 @@ public class Board {
 	private String subCategoryName;
 	private String bigCategoryName;
 	
-	// adminMemberManagement = boardDetail
+	// adminMemberManagement - boardDetail
 	private String content;
 	private Date createDate;
 	private Date modifyDate;
 	
+	private List<ImgAttachment> imgAttachment; //첨부이미지
+
 	private ImgAttachment imgAttachment; //첨부이미지
+
 	private Attachment attachment; //첨부파일
 }

@@ -5,9 +5,12 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import com.kks.trashpedia.board.model.vo.BigCategory;
 import com.kks.trashpedia.board.model.vo.Board;
 import com.kks.trashpedia.board.model.vo.Comment;
 import com.kks.trashpedia.member.model.vo.Member;
+import com.kks.trashpedia.point.model.vo.PointHistory;
+import com.kks.trashpedia.report.model.vo.Report;
 
 public interface adminService {
 
@@ -45,7 +48,14 @@ public interface adminService {
 
 	Page<Board> getMemberCommentList(Pageable pageable, int userNo);
 
-	Board getCommentDetail(int boardNo);
+	Board getCommentDetail(int commentNo);
 
+	Board getNestedCommentDetail(int nestedCommentNo);
+
+	Page<PointHistory> getMemberPointList(Pageable pageable, int page, int userNo);
+
+	Page<Report> getMemberReportList(Pageable pageable, int page, int userNo);
+
+	List<BigCategory> BigCategoryList();
 
 }
