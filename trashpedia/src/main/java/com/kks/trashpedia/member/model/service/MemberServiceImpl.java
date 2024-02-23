@@ -16,5 +16,10 @@ public class MemberServiceImpl implements MemberService{
 		return dao.joinMember(m);
 	}
 
+	@Override
+	public Member loginMember(Member m) {
+		return dao.loginMember(m);
+	}
+
 	
 }
