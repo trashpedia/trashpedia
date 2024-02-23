@@ -7,5 +7,29 @@
 		SEQ_MNO.NEXTVAL,1,1,#{userEmail},#{userPwd}, #{userName}, #{userNickname}, #{phone}, #{zipcode}, #{address1}, #{address2}, #{address3}, SYSDATE, SYSDATE, 'Y'
 		)
 	</insert>
+	
+	<select id="loginMember" parameterType="member" resultType="member">
+		SELECT *
+		FROM MEMBER
+		WHERE USER_EMAIL = 'ojy1739@gmail.com'
+			AND USER_PWD = 'asdf1234!'
+			AND STATUS = 'Y'
+	</select>
+	
+	<update id="updateMember" parameterType="member">
+		UPDATE MEMBER
+		SET 
+			USER_EMAIL =#{userEmail},	
+			USER_NAME = #{userName},
+			USER_NICKNAME =#{userNickname},
+			PHONE = #{phone},
+			ZIPCODE = #{zipcode},
+	   		ADDRESS1 = #{address1} ,
+	    	ADDRESS2 = #{address2},
+	    	ADDRESS3 = #{address3},
+	    	MODIFY_DATE = SYSDATE
+	    WHERE USER_EMAIL = #{userEmail} AND STATUS = 'Y'
+	</update>
+	
 </mapper>
 

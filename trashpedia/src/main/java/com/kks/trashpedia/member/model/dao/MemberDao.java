@@ -8,5 +8,9 @@ public interface MemberDao {
 
 	Member loginMember(Member m);
 
+	int updateMember(Member m);
+
+	
+
 
 }
