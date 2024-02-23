@@ -32,13 +32,13 @@
 	<!-- 첨부파일등록 -->
 	<insert id="insertAttachment">
 		INSERT INTO ATTACHMENT
-		VALUES (SEQ_ATTNO.NEXTVAL,#{refBno},#{originName},#{changeName},3,SYSDATE,SYSDATE,'Y')
+		VALUES (SEQ_ATTNO.NEXTVAL,#{refBno},#{originName},#{changeName},#{fileType},SYSDATE,SYSDATE,'Y')
 	</insert>
 
 	<!-- 이미지등록  -->
 	<insert id="insertImgAttachment">
 		INSERT INTO IMG_ATTACHMENT
-		VALUES (SEQ_IATTNO.NEXTVAL, #{refBno},#{originName},#{changeName},1,1,SYSDATE,SYSDATE,'Y')
+		VALUES (SEQ_IATTNO.NEXTVAL, #{refBno},#{originName},#{changeName},1,#{imgType},SYSDATE,SYSDATE,'Y')
 	</insert>
 	
 	

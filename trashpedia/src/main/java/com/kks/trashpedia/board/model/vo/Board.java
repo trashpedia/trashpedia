@@ -30,9 +30,13 @@ public class Board {
 	private Date createDate;
 	private Date modifyDate;
 	
-	private List<ImgAttachment> imgAttachment; //첨부이미지
+	//adminMemberManagement = commentList
+	private String commentContent;
 
+	//adminBoardManagement = boardDetail
+	private String userNickname;
+	
+	
 	private ImgAttachment imgAttachment; //첨부이미지
-
 	private Attachment attachment; //첨부파일
 }

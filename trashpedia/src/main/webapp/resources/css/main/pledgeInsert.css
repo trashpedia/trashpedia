@@ -15,18 +15,25 @@ main{
 
 /* 카테고리 부분 */
 .content-category-outer{
+	margin-top : 20px;
     margin-left: 30px;
     text-align: left;
-    margin-bottom: 50px;
+    margin-bottom: 60px;
+    /* background-color: #73cc73;
+    color: white; */
+    color : #3fab3f;
 }
 .container-title{
-	font-size : 25px;
-    font-weight: 550;
-    margin-bottom : 10px;
+	font-size : 28px;
+    font-weight: 700;
+    margin-right : 5px;
+    /* margin-bottom : 10px; */
 }
 .categoryName{
     font-size : 16px;
     margin-bottom: 30px;
+    font-weight: 530;
+    color : #73cc73;
 }
 
 /* 제목입력 부분 */

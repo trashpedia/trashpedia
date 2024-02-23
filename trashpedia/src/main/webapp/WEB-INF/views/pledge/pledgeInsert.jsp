@@ -16,42 +16,55 @@
 
 <body>
     <jsp:include page="../common/header.jsp"/>
-  
-   	<form action="${contextPath}/write/${category.bigCategoryNo}/${category.subCategoryNo}" id="enrollForm" method="POST" enctype="multipart/form-data" onsubmit="submitForm()">
+	<c:if test="${empty refBno}">
+	   	<form action="${contextPath}/write" id="enrollForm" method="POST" enctype="multipart/form-data" onsubmit="submitForm()">
+	</c:if>  
+	<c:if test="${!empty refBno}">
+	   	<form action="${contextPath}/update" id="enrollForm" method="POST" enctype="multipart/form-data" onsubmit="submitForm()">
+	</c:if>
 
     <main>
 
         <div class="container">
 
             <div class="content-category-outer">
-                <p class="container-title"> 게시글 등록 </p>
-                <span class="categoryName">${category.bigCategoryName}</span>_
-                <span class="categoryName">${category.subCategoryName}</span>
-                <input type="hidden" name="bigCategoryNo" value="${category.bigCategoryNo}" disabled>
-                <input type="hidden" name="subCategoryNo" value="${category.subCategoryNo}" disabled>
+                <span class="container-title"> 게시글 등록 </span>
+                <span class="categoryName">${category.bigCategoryName}_</span>
+                <span class="categoryName">${category.subCategoryName}게시판</span>
+                <input type="hidden" name="bigCategoryNo" value="${category.bigCategoryNo}">
+                <input type="hidden" name="subCategoryNo" value="${category.subCategoryNo}">
+                <input type="hidden" name="type" value="${type}">
+                <input type="hidden" name="refBno" value="${refBno}">
             </div>     
             
             <div class="content-input-outer">
-                <input name="title" type="text" class="input-title" placeholder="제목을 입력하세요." required>
+                <input name="title" type="text" class="input-title" placeholder="제목을 입력하세요." value="${post.title}" required>
                 <hr>
             </div>
             
             <div class="content-outer">
             	<div class="file-input-outer">
-		            <!--실천하기/정보자료글  -->
-		            <span>썸네일 이미지 선택 : <input type="file" name="thumbnail" id="imgAttachment"></span>
-		            <!-- 공지/일반/건의 게시판 -->
+					<span>썸네일 이미지 선택 : <input type="file" name="thumbnail" id="imgAttachment"></span>
+					<div></div>
 					<span>파일 선택 : <input type="file" name="upfile" id="attachment"></span>
             	</div>
                 
                 <div id="writeBoard-content" name="contentBoard"></div>
 				<input type="hidden" name="content" id="hiddenContentInput">
-                
-                <div class="post-buttons">
-                    <a href="${contextPath}/pledge/list"><button type='button' class="btn-list">목록</button></a>
-                    <button class="btn-edit" type='submit'>등록</button>
-                    <button class="btn-reset" type="reset">초기화</button>
-                </div>
+                <c:if test="${!empty refBno}">
+	                <div class="post-buttons">
+	                    <a href="${contextPath}/pledge/list"><button type='button' class="btn-list">목록</button></a>
+	                    <button class="btn-edit" type='submit'>수정</button>
+	                    <button class="btn-reset" type="reset">초기화</button>
+	                </div>
+                </c:if>
+                <c:if test="${empty refBno}">
+	                <div class="post-buttons">
+	                    <a href="${contextPath}/pledge/list"><button type='button' class="btn-list">목록</button></a>
+	                    <button class="btn-edit" type='submit'>등록</button>
+	                    <button class="btn-reset" type="reset">초기화</button>
+	                </div>
+                </c:if>
             </div>
         </div>
     </main>
@@ -70,6 +83,10 @@
 	        previewStyle: 'vertical',
 	        placeholder: '내용을 입력해 주세요.'
 	    });
+	    
+	    //에디터내용 추가(편집때)
+	    let content = document.querySelector('#writeBoard-content');
+	    content.innerHTML("${post.content}");
 	    
 	    // editor 내용 hidden input에 담아서 submit    
 	    function submitForm() {

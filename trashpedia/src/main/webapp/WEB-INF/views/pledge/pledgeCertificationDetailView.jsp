@@ -133,7 +133,7 @@
 	<jsp:include page="../common/footer.jsp"/>
 	
     <script>
-
+alert()
     </script>
 </body>
 </html>

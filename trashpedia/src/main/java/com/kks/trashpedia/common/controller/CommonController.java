@@ -1,10 +1,8 @@
 package com.kks.trashpedia.common.controller;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ResourceLoader;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -21,7 +19,6 @@ import com.kks.trashpedia.board.model.vo.SubCategory;
 import com.kks.trashpedia.common.FileStore;
 import com.kks.trashpedia.common.service.CommonService;
 
-import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpServletRequest;
 
 @RestController
@@ -31,29 +28,26 @@ public class CommonController {
 	private CommonService service;
 	
 	@Autowired
-	private ServletContext application;	//application
-	
-	@Autowired
-	private ResourceLoader resourceLoader;	//리소스 다운로드 객체
-	
-	@Autowired
 	private FileStore fileStore;
-	
 	
 	//카테고리 정보 가지고오기
 	@GetMapping("/write")
-	public ModelAndView getCategory(SubCategory subcategory) {
+	public ModelAndView getCategory(int bigCategoryNo, int subCategoryNo, int type) {
 		
 		ModelAndView mv = new ModelAndView();
+		SubCategory subcategory = new SubCategory();
+		subcategory.setBigCategoryNo(bigCategoryNo);
+		subcategory.setSubCategoryNo(subCategoryNo);
 		SubCategory category = service.getSubCategory(subcategory);
 		mv.addObject("category",category);
+		mv.addObject("type",type);
 		mv.setViewName("pledge/pledgeInsert");
 		
 		return mv;
 	}
 	
 	//게시글 등록
-	@PostMapping("/write/{bigCategoryNo}/{subCategoryNo}")
+	@PostMapping("/write")
 	public ModelAndView insertBoard(
 			SubCategory subcategory, 
 			Post p, 
@@ -61,7 +55,9 @@ public class CommonController {
 			RedirectAttributes ra, 
 			@RequestParam("thumbnail") MultipartFile thumbnailImage,
 			@RequestParam("upfile") MultipartFile upfile,
+			@RequestParam int type,
 			HttpServletRequest request
+			/*,SessionAttribute session*/
 			) throws IOException {
 
 		ModelAndView mv = new ModelAndView();
@@ -84,28 +80,56 @@ public class CommonController {
 				Attachment attachment = fileStore.storeFile(upfile);
 				ImgAttachment image = fileStore.storeImage(thumbnailImage);
 				
-				if(attachment!=null) {attachment.setRefBno(boardNo);}
-				if(image!=null) {image.setRefBno(boardNo);}
+				if(attachment!=null) {
+					attachment.setRefBno(boardNo);
+					attachment.setFileType(type);
+				}
+				if(image!=null) {
+					image.setRefBno(boardNo);
+					image.setImgType(type);
+//					mv.addObject(image);
+					}
 				
 				System.out.println(attachment);
 				System.out.println(image);
 				
 				int result = service.insertFiles(attachment,image);
 				
-				
-				
-				mv.addObject("alert", "게시글 작성 성공"); }
+//				session.("alert", "게시글 작성 성공"); 
+				}
 			else { 
-				mv.addObject("alert", "게시글 작성 실패"); 
+				mv.addObject("alert", "게시글 작성 실패");
 			}
 		} else {
 			mv.addObject("alert", "게시글 작성 실패");
 		}
-
-		
-		mv.setViewName("redirect:../../pledge/list");
+		mv.setViewName("redirect:/pledge/list");
 		return mv;
 	}
+	
+	//이미지출력
+//	@ResponseBody
+//	@GetMapping("/images/{filename}")
+//	public UrlResource showImage(@PathVariable String filename) throws MalformedURLException {
+//		
+//		UrlResource url = new UrlResource("file:" + fileStore.getFullPath2(filename));
+//		
+//	    return url;
+//	}
+//	
+	
+	//첨부파일다운로드
+	//@GetMapping("/attach/{boardNo}")
+	//public ResponseEntity<Resource> downloadAttach(@PathVariable int boardNo) throws MalformedURLException{
+		
+		//Attachment attach = service.getAttachment(boardNo);
+		
+//		String storeFilename = 
+		
+		
+		
+		
+	//}
 	
 	
 	
