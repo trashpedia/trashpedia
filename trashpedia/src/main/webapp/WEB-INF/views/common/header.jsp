@@ -28,12 +28,12 @@
                     <li id="menu-community" class="header-menu-hover">
                         <div class="header-nav-background"></div>
                         <div class="header-menu-div">
-                            <a href="${contextPath}/community">커뮤니티</a>
+                            <a href="${contextPath}/board">커뮤니티</a>
                             <ul class="header-menu-ul">
                                 <li><a href="${contextPath}/board">공지게시판</a></li>
-                                <li><a href="${contextPath}/board">일반게시판</a></li>
+                                <li><a href="${contextPath}/boardInformation">일반게시판</a></li>
                                 <li><a href="${contextPath}/board">건의게시판</a></li>
-                                <li><a href="${contextPath}/freeShare">무료나눔게시판</a></li>
+                                <li><a href="${contextPath}/boardFreeShare">무료나눔게시판</a></li>
                             </ul>
                         </div>
                     </li>

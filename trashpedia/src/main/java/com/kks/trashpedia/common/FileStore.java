@@ -25,7 +25,7 @@ public class FileStore {
 	public String getFullPath(String filename) {return fileDir + filename;}
 	public String getFullPath2(String filename) {return imageDir + filename;}
 	
-	
+	//파일
 	public Attachment storeFile(MultipartFile multipartFile) throws IOException{
 		
 		System.out.println(rootPath);
@@ -52,7 +52,8 @@ public class FileStore {
         
         return a;
 	}
-		
+	
+	//이미지
 	public ImgAttachment storeImage(MultipartFile multipartFile) throws IOException{
 			
 			if(multipartFile.isEmpty()) { return null; }
@@ -76,25 +77,27 @@ public class FileStore {
 	        return img;
 		}
 	
-	//파일 여러개인경우
-	public List<Attachment> storeFiles(List<MultipartFile> multipartFiles) throws IOException{
-		
-		List<Attachment> storeFileResult = new ArrayList<>();
-		
-		for(MultipartFile multipartFile : multipartFiles) {
-			if(!multipartFile.isEmpty()) {
-				storeFileResult.add(storeFile(multipartFile));
-			}
-		}
-		return storeFileResult;
-	}
-	
 	//확장자 추출
 	private String extractExt(String originName) {
 		int pos = originName.lastIndexOf(".");
 		return originName.substring(pos+1);
 	}
 	
+	
+	//파일 여러개인 경우
+//	public List<Attachment> storeFiles(List<MultipartFile> multipartFiles) throws IOException{
+//		
+//		List<Attachment> storeFileResult = new ArrayList<>();
+//		
+//		for(MultipartFile multipartFile : multipartFiles) {
+//			if(!multipartFile.isEmpty()) {
+//				storeFileResult.add(storeFile(multipartFile));
+//			}
+//		}
+//		return storeFileResult;
+//	}
+	
+
 	
 
 }

@@ -16,6 +16,13 @@
 </head>
 <body>
 
+<script>
+//  let msg = '${alert}';
+//  if(msg != null){
+// 	 alert(msg);
+// 	 msg = null;
+//  }
+</script>
     <jsp:include page="../common/header.jsp"/>
     
     <main>
@@ -151,7 +158,7 @@
                 </div>
             </div>
             <div class="insert-area">
-                <a href="${pageContext.request.contextPath}/write?bigCategoryNo=${bigCategoryNo}&subCategoryNo=${subCategoryNo}">
+                <a href="${pageContext.request.contextPath}/write?bigCategoryNo=${bigCategoryNo}&subCategoryNo=${subCategoryNo}&type=1">
                     <button id="insertButton">게시글 등록하기</button>
                 </a>
             </div>
