@@ -17,9 +17,12 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kks.trashpedia.admin.model.service.adminService;
+import com.kks.trashpedia.board.model.vo.BigCategory;
 import com.kks.trashpedia.board.model.vo.Board;
 import com.kks.trashpedia.board.model.vo.Comment;
 import com.kks.trashpedia.member.model.vo.Member;
+import com.kks.trashpedia.point.model.vo.PointHistory;
+import com.kks.trashpedia.report.model.vo.Report;
 
 @RestController
 @RequestMapping("/admin")
@@ -153,18 +156,38 @@ public class AdminController {
 	}
 	// 관리자 회원 관리 유저 상세 댓글 상세
 	@GetMapping("/getCommentDetail")
-	public Board getCommentDetail(@RequestParam int boardNo) {
-		return service.getCommentDetail(boardNo);
+	public Board getCommentDetail(@RequestParam int commentNo) {
+		return service.getCommentDetail(commentNo);
+	}
+	// 관리자 회원 관리 유저 상세 댓글 상세
+	@GetMapping("/getNestedCommentDetail")
+	public Board getNestedCommentDetail(@RequestParam int nestedCommentNo) {
+		return service.getNestedCommentDetail(nestedCommentNo);
+	}
+	// 관리자 회원 관리 유저 상세 포인트 리스트
+	@GetMapping("/getMemberPointList")
+	public ResponseEntity<Page<PointHistory>> getMemberPointList(@PageableDefault(size = 20, sort = "id", direction = Sort.Direction.DESC) @RequestParam int userNo, @RequestParam int page, Pageable pageable) {
+		Page<PointHistory> pages = service.getMemberPointList(pageable, page, userNo);
+		return ResponseEntity.ok(pages);
+	}
+	// 관리자 회원 관리 유저 상세 신고 리스트
+	@GetMapping("/getMemberReportList")
+	public ResponseEntity<Page<Report>> getMemberReportList(@PageableDefault(size = 20, sort = "id", direction = Sort.Direction.DESC) @RequestParam int userNo, @RequestParam int page, Pageable pageable) {
+		Page<Report> pages = service.getMemberReportList(pageable, page, userNo);
+		return ResponseEntity.ok(pages);
 	}
 	
 	// 관리자 게시판 관리
 	@GetMapping("/board")
 	public ModelAndView boardManagement() {
+		List<BigCategory> BigCategoryList = service.BigCategoryList();
+		
 		ModelAndView mav = new ModelAndView();
+		mav.addObject("bcl",BigCategoryList);
 		mav.setViewName("admin/boardManagement");
 		return mav;
 	}
-	
+	// 관리자 게시판 관리 서브카테고리 리스트
 	
 	@GetMapping("/trash")
 	public ModelAndView trashManagement() {

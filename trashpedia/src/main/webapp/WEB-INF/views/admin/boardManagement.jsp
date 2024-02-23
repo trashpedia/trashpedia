@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <c:set var="contextPath" value="<%=request.getContextPath() %>"/>
 <!DOCTYPE html>
 <html lang="ko">
@@ -35,28 +36,27 @@
                     <div class="inner-category-container">
                         <div class="category-title-wrapper">
                             <div class="board-title">빅 카테고리</div>
-                            <div class="board-subtitle">총 3개</div>
+                            <div class="board-subtitle">총 ${fn:length(bcl) + 1}개</div>
                         </div>
                         <div class="bigCategoryList list">
+                        <c:forEach var="bcl" items="${bcl}">
+                            <div class="item" onclick="loadSubCategoryList(${bcl.bigCategoryNo})">
+                                <div class="icon">😃</div>
+                                <div class="title">${bcl.bigCategoryName}</div>
+                            </div>
+                        </c:forEach>
                             <div class="item">
                                 <div class="icon">😃</div>
-                                <div class="title">게시글</div>
-                                <div class="Subtitle">001</div>
+                                <div class="title">관리자</div>
                             </div>
                         </div>
                     </div>
                     <div class="inner-category-container">
-                        <div class="category-title-wrapper">
+                        <div class="category-title-wrapper subCategory-title">
                             <div class="board-title">서브 카테고리</div>
                             <div class="board-subtitle">총 5개</div>
                         </div>
-                        <div class="subCategoryList list">
-                        	<div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글</div>
-                                <div class="Subtitle">001</div>
-                        	</div>
-                        </div>
+                        <div class="subCategoryList list"></div>
                     </div>
                 </div>
                 <div class="board-container">
@@ -64,12 +64,7 @@
                         <div class="board-title">게시글 리스트</div>
                         <div class="board-subtitle">총 300,000개</div>
                     </div>
-                    <div class="list">
-                        <div class="item">
-                            <div class="icon">😃</div>
-                            <div class="title">게시글1</div>
-                        </div>
-                    </div>
+                    <div class="boardList list"></div>
                 </div>
                 <div class="board-container">
                     <div class="board-title">게시글 상세</div>
@@ -115,30 +110,64 @@
         </div>
     </div>
     <script>
-	    var isLoading = false;
+		var isLoading = false;
 	    var offset = 0;
-	
+		
 	    $(document).ready(function() {
-	    	loadData();
+	    	loadSubCategoryList(1);
+	    	loadBoardList();
+	    	loadBoardDetail();
 	    });
-	    $('.userList').scroll(function() {
+	    $('.boardList').scroll(function() {
 	        if($(this).scrollTop() + $(this).innerHeight() + 70 >= $(this)[0].scrollHeight) {
 	            if (!isLoading) {
 	                isLoading = true;
-	                loadData();
+	                loadBoardDetailData();
 	            }
 	        }
 	    });
 	
-	    function loadData() {
+	    function loadSubCategoryList(bigCategoryNo) {
 	        $.ajax({
-	            url: '${contextPath}/admin/getMember',
+	            url: '${contextPath}/admin/getSubCategoryList',
 	            type: 'GET',
 	            dataType: 'json',
-	            data: { page: offset, size: 20 },
+	            data: { bigCategoryNo },
 	            success: function(data) {
 	            	if(data.content.length != 0){
-		                updateTable(data);
+		                updateSubCategoryTable(data);
+		                isLoading = false;
+	            	}
+	            },
+	            error: function(xhr, status, error) {
+	                console.error('Error: ' + error);
+	                isLoading = false;
+	            }
+	        });
+	    }
+	    function updateSubCategoryTable(data) {
+	        let userList = document.querySelector('.boardList');
+	        let list = data.content;
+	        for (let i = 0; i < list.length; i++) {
+	            let row = '<div class="item" onclick="loadBoardDetailData('+list[i].boardNo+')">';
+	            row += '<div class="icon">😃</div>';
+	            row += '<div class="subtitle">'+list[i].bigCategoryName+'</div>';
+	            row += '<div class="subtitle">'+list[i].subCategoryName+'</div>';
+	            row += '<div class="subtitle">'+list[i].title+'</div>';
+	            row += '</div>';
+	            userList.innerHTML += row;
+	        }
+	    }
+	    
+	    function loadSubCategoryList(bigCategoryNo) {
+	        $.ajax({
+	            url: '${contextPath}/admin/getMemberBoardList',
+	            type: 'GET',
+	            dataType: 'json',
+	            data: { page: offset, size: 20, userNo: ${m.userNo} },
+	            success: function(data) {
+	            	if(data.content.length != 0){
+		                updateBoardTable(data);
 		                offset += 1;
 		                isLoading = false;
 	            	}
@@ -149,84 +178,19 @@
 	            }
 	        });
 	    }
-	
-	    function updateTable(data) {
-	        let userList = document.querySelector('.subCategoryList');
+	    function updateBoardTable(data) {
+	        let userList = document.querySelector('.boardList');
 	        let list = data.content;
 	        for (let i = 0; i < list.length; i++) {
-	            let row = '<div class="item" onclick="loadDetailData('+list[i].userNo+')">';
+	            let row = '<div class="item" onclick="loadBoardDetailData('+list[i].boardNo+')">';
 	            row += '<div class="icon">😃</div>';
-	            row += '<div class="title">NO : </div>';
-	            row += '<div class="subtitle">'+list[i].userNo+'</div>';
+	            row += '<div class="subtitle">'+list[i].bigCategoryName+'</div>';
+	            row += '<div class="subtitle">'+list[i].subCategoryName+'</div>';
+	            row += '<div class="subtitle">'+list[i].title+'</div>';
 	            row += '</div>';
 	            userList.innerHTML += row;
-	            <div class="item">
-                <div class="icon">😃</div>
-                <div class="title">게시글</div>
-                <div class="Subtitle">001</div>
-            </div>
 	        }
 	    }
-	
-	    function loadDetailData(userNo) {
-	        $.ajax({
-	            url: '${contextPath}/admin/getMemberDetail',
-	            type: 'GET',
-	            dataType: 'json',
-	            data: {userNo},
-	            success: function(data) {
-	            	let userList = document.querySelector('.userDetailList');
-	            	userList.innerHTML = '';
-		            let row = '<div class="item">';
-		            row += '<div class="icon">😃</div>';
-		            row += '<div class="title">NO :</div>';
-		            row += '<div class="subtitle">'+data.userNo+'</div>';
-		            row += '</div>';
-		            row += '<div class="item">';
-		            row += '<div class="icon">😃</div>';
-		            row += '<div class="title">Email : </div>';
-		            row += '<div class="subtitle">'+data.userEmail+'</div>';
-		            row += '</div>';
-		            row += '<div class="item">';
-		            row += '<div class="icon">😃</div>';
-		            row += '<div class="title">Name : </div>';
-		            row += '<div class="subtitle">'+data.userName+'</div>';
-		            row += '</div>';
-		            row += '<div class="item">';
-		            row += '<div class="icon">😃</div>';
-		            row += '<div class="title">Nickname : </div>';
-		            if(data.userNickname == null){
-	    	            row += '<div class="subtitle">없음</div>';
-		            } else {
-	    	            row += '<div class="subtitle">'+data.userNickname+'</div>';
-		            }
-		            row += '</div>';
-		            row += '<div class="item">';
-		            row += '<div class="icon">😃</div>';
-		            row += '<div class="title">address : </div>';
-		            if(data.address1 == null){
-			            row += '<div class="subtitle">없음</div>';
-		            } else {
-	    	            row += '<div class="subtitle">'+data.address1+list.address2+'</div>';
-		            }
-		            row += '</div>';
-		            row += '<div class="item">';
-		            row += '<div class="icon">😃</div>';
-		            row += '<div class="title">Created At : </div>';
-		            row += '<div class="subtitle">'+data.createDate+'</div>';
-		            row += '</div>';
-		            row += '<div class="item">';
-		            row += '<div class="icon">😃</div>';
-		            row += '<input type="button" value="상세보기" onclick="detailmember('+data.userNo+')"/>';
-		            row += '</div>';
-		            userList.innerHTML += row;
-		        },
-	            error: function(xhr, status, error) {
-	                console.error('Error: ' + error);
-	                isLoading = false;
-	            }
-	        });
-	    };
         function writeBoard(){
             location.href = "adminBoard.html";
         }

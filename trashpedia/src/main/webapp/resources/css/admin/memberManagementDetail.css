@@ -209,19 +209,19 @@ section>div{
     width: 70%;
 }
 
-.point-table{
+.table{
     width: 100%;
     height: 80%;
     padding-top: 20px;
     font-size: 13px;
 }
 
-.point-table>thead{
+.table>thead{
     text-align: center;
     height: 30px;
 }
 
-.point-table>tbody>tr{
+.table>tbody>tr{
     text-align: center;
     height: 30px;
 }

@@ -109,18 +109,53 @@
 		WHERE B.BOARD_NO = #{boardNo}
 	</select>
 	<select id="getMemberCommentList" resultType="board">
-		SELECT TITLE, BC.BIG_CATEGORY_NAME, S.SUB_CATEGORY_NAME
+		SELECT TITLE, BC.BIG_CATEGORY_NAME, S.SUB_CATEGORY_NAME, COMMENT_NO, NESTED_COMMENT_NO
 		FROM BOARD B
 		LEFT JOIN POST P ON B.POST_NO = P.POST_NO
 		LEFT JOIN SUB_CATEGORY S ON B.SUB_CATEGORY_NO = S.SUB_CATEGORY_NO
 		LEFT JOIN BIG_CATEGORY BC ON S.BIG_CATEGORY_NO = BC.BIG_CATEGORY_NO
 		LEFT JOIN COMMENT C ON C.BOARD_NO = B.BOARD_NO
-		WHERE C.USER_NO = #{userNo}
+		JOIN NESTED_COMMENT NC ON NC.COMMENT_NO = C.COMMENT_NO
+		WHERE C.USER_NO = #{userNo} OR NC.USER_NO = #{userNo}
 	</select>
-	<select id="getMemberBoardDetail" resultType="board">
+	<select id="getMemberCommentDetail" resultType="board">
 		SELECT TITLE, CONTENT, CREATE_DATE, MODIFY_DATE
 		FROM BOARD B
 		LEFT JOIN POST P ON B.POST_NO = P.POST_NO
 		WHERE B.BOARD_NO = #{boardNo}
+	</select>
+	<select id="getCommentDetail" resultType="board">
+		SELECT BOARD_NO, TITLE, P.CONTENT, C.CREATE_DATE, C.MODIFY_DATE, C.CONTENT AS commentContent
+		FROM BOARD B
+		LEFT JOIN POST P ON B.POST_NO = P.POST_NO
+		LEFT JOIN COMMENT C ON B.BOARD_NO = C.BOARD_NO
+		WHERE COMMENT_NO = #{commentNo}
+	</select>
+	<select id="getNestedCommentDetail" resultType="board">
+		SELECT BOARD_NO, TITLE, P.CONTENT, NC.CREATE_DATE, NC.MODIFY_DATE, NC.CONTENT AS commentContent
+		FROM BOARD B
+		LEFT JOIN POST P ON B.POST_NO = P.POST_NO
+		LEFT JOIN COMMENT C ON B.BOARD_NO = C.BOARD_NO
+		LEFT JOIN NESTED_COMMENT NC ON C.COMMENT_NO = NC.COMMENT_NO
+		WHERE NESTED_COMMENT_NO = #{nestedCommentNo}
+	</select>
+	<select id="getMemberPointList" resultType="pointHistory">
+		SELECT *
+		FROM POINT_HISTORY
+		WHERE USER_NO = #{userNo}
+	</select>
+	<select id="memberPointCount" resultType="int">
+		SELECT COUNT(*)
+		FROM POINT_HISTORY
+		WHERE USER_NO = #{userNo}
+	</select>
+	<select id="getMemberReportList" resultType="report">
+		SELECT *
+		FROM REPORT
+		WHERE USER_NO = #{userNo)
+	</select>
+	<select id="BigCategoryList" resultType="bigCategory">
+		SELECT *
+		FROM BIG_CATEGORY
 	</select>
 </mapper>

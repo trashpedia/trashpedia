@@ -100,11 +100,11 @@
 	        for (let i = 0; i < list.length; i++) {
 	            let row = '<div class="item" onclick="loadDetailData('+list[i].userNo+')">';
 	            row += '<div class="icon">😃</div>';
-	            row += '<div class="title">NO : </div>';
+	            row += '<div class="title">번호 : </div>';
 	            row += '<div class="subtitle">'+list[i].userNo+'</div>';
-	            row += '<div class="title">Email : </div>';
+	            row += '<div class="title">이메일 : </div>';
 	            row += '<div class="subtitle">'+list[i].userEmail+'</div>';
-	            row += '<div class="title">Name : </div>';
+	            row += '<div class="title">이름 : </div>';
 	            row += '<div class="subtitle">'+list[i].userName+'</div>';
 	            row += '</div>';
 	            userList.innerHTML += row;
@@ -122,22 +122,22 @@
 	            	userList.innerHTML = '';
     	            let row = '<div class="item">';
     	            row += '<div class="icon">😃</div>';
-    	            row += '<div class="title">NO :</div>';
+    	            row += '<div class="title">번호 :</div>';
     	            row += '<div class="subtitle">'+data.userNo+'</div>';
     	            row += '</div>';
     	            row += '<div class="item">';
     	            row += '<div class="icon">😃</div>';
-    	            row += '<div class="title">Email : </div>';
+    	            row += '<div class="title">이메일 : </div>';
     	            row += '<div class="subtitle">'+data.userEmail+'</div>';
     	            row += '</div>';
     	            row += '<div class="item">';
     	            row += '<div class="icon">😃</div>';
-    	            row += '<div class="title">Name : </div>';
+    	            row += '<div class="title">이름 : </div>';
     	            row += '<div class="subtitle">'+data.userName+'</div>';
     	            row += '</div>';
     	            row += '<div class="item">';
     	            row += '<div class="icon">😃</div>';
-    	            row += '<div class="title">Nickname : </div>';
+    	            row += '<div class="title">별명 : </div>';
     	            if(data.userNickname == null){
 	    	            row += '<div class="subtitle">없음</div>';
     	            } else {
@@ -146,7 +146,7 @@
     	            row += '</div>';
     	            row += '<div class="item">';
     	            row += '<div class="icon">😃</div>';
-    	            row += '<div class="title">address : </div>';
+    	            row += '<div class="title">주소 : </div>';
     	            if(data.address1 == null){
     		            row += '<div class="subtitle">없음</div>';
     	            } else {
@@ -155,7 +155,7 @@
     	            row += '</div>';
     	            row += '<div class="item">';
     	            row += '<div class="icon">😃</div>';
-    	            row += '<div class="title">Created At : </div>';
+    	            row += '<div class="title">생성일 : </div>';
     	            row += '<div class="subtitle">'+data.createDate+'</div>';
     	            row += '</div>';
     	            row += '<div class="item">';
