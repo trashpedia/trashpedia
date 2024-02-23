@@ -23,10 +23,10 @@
         <a href="myPage">마이페이지로 이동</a>
         <span class="logo">로그인</span><br>
         <div class="div-login"></div>
-       <form action="login.me">
-            <input type="text" class="input-login" id="id" placeholder="아이디를 입력해주세요" class="in">
+       <form action="login.me" method='post'>
+            <input type="text" class="input-login" id="id" placeholder="아이디를 입력해주세요" class="in" name="">
             <div id="id-error-message" class="error-message"></div>
-            <input type="password" class="input-pwd" id="pwd" placeholder="비밀번호를 입력해주세요" class="in">
+            <input type="password" class="input-pwd" id="pwd" placeholder="비밀번호를 입력해주세요" class="in" name="">
             <div id="pwd-error-message" class="error-message"></div>
             <br>
        	<div class="a-login">

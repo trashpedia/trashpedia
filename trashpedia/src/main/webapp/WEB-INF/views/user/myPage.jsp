@@ -2,13 +2,15 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="com.kks.trashpedia.member.model.vo.*" %>
-<% Member m = (Member)request.getAttribute("m"); %>
+<% Member m = (Member)request.getAttribute("loginUser"); %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
 <title>Login Form</title>
 	<link rel="stylesheet" href="resources/css/user/myPage.css">
+	<link rel="stylesheet" href="resources/css/user/join.css">
+	
 	<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 </head>
 <body class="body-login">
@@ -176,11 +178,7 @@
 	        <div class="field">
 	            <b>아이디</b>
 	            <div id="id-1">
-	                <!-- <input type="text" id="username" placeholder="이메일을 입력하세요">
-	                <span class="id-a">@</span>
-	                <input type="text" id="emailDomain"> -->
-	                <input type="hidden" id ="hiddenUserEmail" name="userEmail">
-	                 <input type="text" name="username" value="<%= m.getUserEmail() %>" readonly>
+	               <input type="text" name="username" value="${loginUser.userEmail}" readonly>
 	            </div>
 	        </div>
 	         <div class="field">
@@ -189,56 +187,41 @@
 	        </div>
 	        <div class="field">
 	            <b>이름</b>
-	            <input type="text" name="userName" value="<%=m.getUserName() %>" required>
+	           <input type="text" name="userName" value="${loginUser.userName}" required>
 	        </div>
 	        <div class="field">
 	            <b>닉네임</b>
-	            <input type="text" name="userNickname" value="<%=m.getUserNickname() %>" required>
+	            <input type="text" name="userNickname" value="${loginUser.userNickname}" required>
 	        </div>
 	        <div class="field tel-number">
 	            <b>휴대전화</b>
-	            <!-- <select>
-	                <option value="">대한민국 +82</option>
-	            </select>
-	            <div>
-	                <input type="tel" placeholder="전화번호 입력" name="phone">
-	                <input type="button" value="인증번호 받기">
-	            </div>
-	            <input type="number" placeholder="인증번호를 입력하세요"> -->
-	            <input type="tel"  name="phone" value="<%= m.getPhone() %>">
+	            <input type="tel" name="phone" value="${loginUser.phone}">
 	        </div>
 	        <!-- 주소입력  -->
 	        <div class="field address">
 	            <div class="zipcode-container">
 	                <input type="text" id="sample6_postcode" placeholder="우편번호" name="zipCode" required readonly>
-	                <input type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기" name="zipcode" value="<%= m.getZipcode()%>"/>
+	                <input type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기" name="zipcode" value="${loginUser.zipcode}">
 	            </div>
 	            <div class="address-container">
-	                <input type="text" id="sample6_address" name="address1" placeholder="주소" required readonly name="address1" value="<%= m.getAddress1()%>">
+	                <input type="text" id="sample6_address" name="address1" placeholder="주소" required readonly name="address1" value="${loginUser.address1}">
 	            </div>
 	            <div class="details-container">
-	                <input type="text" id="sample6_detailAddress" name="address3" placeholder="상세주소" name="address2"  value="<%= m.getAddress2()%>">
-	                <input type="text" id="sample6_extraAddress" name="address2" placeholder="참고항목" readonly name="address3"  value="<%= m.getAddress3()%>">
+	                <input type="text" id="sample6_detailAddress" name="address3" placeholder="상세주소" name="address2" value="${loginUser.address2}">
+	                <input type="text" id="sample6_extraAddress" name="address2" placeholder="참고항목" readonly name="address3" value="${loginUser.address3}">
 	            </div>
 	        </div>
 	        <!-- 6. 수정하기 버튼 -->
-	        <a href="${contextPath}/update.me" class="btn btn-warning btn-sm">수정</a>
-	        <!-- 7. 푸터 -->
-	        <div class="member-footer">
-	            <div>
-	                <a href="#none">이용약관</a>
-	                <a href="#none">개인정보처리방침</a>
-	                <a href="#none">책임의 한계와 법적고지</a>
-	                <a href="#none">회원정보 고객센터</a>
-	            </div>
-	            <span><a href="#none">Trashexpedia Corp.</a></span>
+	        <div class="twoBtn">
+	        <button type="submit" id="updateBtn">등록</button>
 	        </div>
+	        
 	    </div>
 	    </form>
 	    </section>
 	</main>
 	<jsp:include page="../common/footer.jsp"/>
-	<script>
+		<script>
 				function submitForm(){
 					var username = document.getElementById("username").value;
 					var emailDomain = document.getElementById("emailDomain").value;
@@ -246,39 +229,43 @@
 					alert(content);
 					$('#hiddenUserEmail').val(content);
 				}
-	</script>
-	<script>
-	$(document).ready(function(){
-    // 페이지 로드 시 활동 내역 섹션을 보이도록 설정
-    $("#activityList").show();
-    $("#replyList").show();
-    $("#alarmList").hide();
-    $("#memberInfo").hide();
-    
-    // 내활동내역탭을 클릭했을 때
-    $("#activityTab").click(function(){
-        $("#activityList").show();
-        $("#replyList").show();
-        $("#alarmList").hide();
-        $("#memberInfo").hide();
-    });
-    
-    // 내 알림 탭을 클릭했을 때
-    $("#alarmTab").click(function(){
-        $("#alarmList").show();
-        $("#activityList").hide();
-        $("#replyList").hide();
-        $("#memberInfo").hide();
-    });
-    
-    // 회원정보 탭을 클릭했을 때
-    $("#memberInfoTab").click(function(){
-        $("#memberInfo").show();
-        $("#activityList").hide();
-        $("#replyList").hide();
-        $("#alarmList").hide();
-    });
-});
-	</script>
+		</script>
+		
+		
+			<script>
+					$(document).ready(function(){
+				    // 페이지 로드 시 활동 내역 섹션을 보이도록 설정
+				    $("#activityList").show();
+				    $("#replyList").show();
+				    $("#alarmList").hide();
+				    $("#memberInfo").hide();
+				    
+				    // 내활동내역탭을 클릭했을 때
+				    $("#activityTab").click(function(){
+				        $("#activityList").show();
+				        $("#replyList").show();
+				        $("#alarmList").hide();
+				        $("#memberInfo").hide();
+				    });
+				    
+				    // 내 알림 탭을 클릭했을 때
+				    $("#alarmTab").click(function(){
+				        $("#alarmList").show();
+				        $("#activityList").hide();
+				        $("#replyList").hide();
+				        $("#memberInfo").hide();
+				    });
+				    
+				    // 회원정보 탭을 클릭했을 때
+				    $("#memberInfoTab").click(function(){
+				        $("#memberInfo").show();
+				        $("#activityList").hide();
+				        $("#replyList").hide();
+				        $("#alarmList").hide();
+				    });
+				});
+		</script>
+		
+		
 </body>
 </html>

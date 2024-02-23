@@ -48,6 +48,7 @@ section {
     height: 100%;
 }
 
+
 .tabs {
     display: flex;
     justify-content: center;
@@ -191,3 +192,22 @@ tr:last-child {
     background-color: #45a049;
     color: #fff;
 }
+.twoBtn{
+	margin:auto;
+	width:60px;
+	height:50px;
+	
+}
+
+
+
+#updateBtn{
+	margin-top:30px;
+	background-color:orange;
+	border-radius:5px;
+	width:50px;
+	height:35px;
+	font-weight:600;
+}
+
+
