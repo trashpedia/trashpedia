@@ -20,6 +20,8 @@ import com.kks.trashpedia.admin.model.service.adminService;
 import com.kks.trashpedia.board.model.vo.BigCategory;
 import com.kks.trashpedia.board.model.vo.Board;
 import com.kks.trashpedia.board.model.vo.Comment;
+import com.kks.trashpedia.board.model.vo.Post;
+import com.kks.trashpedia.board.model.vo.SubCategory;
 import com.kks.trashpedia.member.model.vo.Member;
 import com.kks.trashpedia.point.model.vo.PointHistory;
 import com.kks.trashpedia.report.model.vo.Report;
@@ -188,6 +190,23 @@ public class AdminController {
 		return mav;
 	}
 	// 관리자 게시판 관리 서브카테고리 리스트
+	@GetMapping("/getSubCategoryList")
+	public ResponseEntity<List<SubCategory>> getSubCategoryList(@RequestParam int bigCategoryNo){
+		List<SubCategory> list = service.getSubCategoryList(bigCategoryNo);
+		return ResponseEntity.ok(list);
+	}
+	// 관리자 게시판 관리 게시글 리스트
+	@GetMapping("/loadBoardListData")
+	public ResponseEntity<List<Board>> loadBoardListData(@RequestParam int subCategoryNo){
+		List<Board> list = service.loadBoardListData(subCategoryNo);
+		return ResponseEntity.ok(list);
+	}
+	// 관리자 게시판 관리 게시글 디테일
+	@GetMapping("/loadBoardDetailData")
+	public ResponseEntity<List<Post>> loadBoardDetailData(@RequestParam int boardNo){
+		List<Post> list = service.loadBoardDetailData(boardNo);
+		return ResponseEntity.ok(list);
+	}
 	
 	@GetMapping("/trash")
 	public ModelAndView trashManagement() {

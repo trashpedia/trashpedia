@@ -35,12 +35,12 @@
                 <div class="category-container">
                     <div class="inner-category-container">
                         <div class="category-title-wrapper">
-                            <div class="board-title">빅 카테고리</div>
-                            <div class="board-subtitle">총 ${fn:length(bcl) + 1}개</div>
+                        	<div class="board-title">서브 카테고리</div>
+            				<div class="board-subtitle">총 ${fn:length(bcl)+1}개</div>
                         </div>
                         <div class="bigCategoryList list">
                         <c:forEach var="bcl" items="${bcl}">
-                            <div class="item" onclick="loadSubCategoryList(${bcl.bigCategoryNo})">
+                            <div class="item" onclick='loadSubCategoryList(${bcl.bigCategoryNo})'>
                                 <div class="icon">😃</div>
                                 <div class="title">${bcl.bigCategoryName}</div>
                             </div>
@@ -52,59 +52,20 @@
                         </div>
                     </div>
                     <div class="inner-category-container">
-                        <div class="category-title-wrapper subCategory-title">
-                            <div class="board-title">서브 카테고리</div>
-                            <div class="board-subtitle">총 5개</div>
-                        </div>
+                        <div class="category-title-wrapper subCategory-title"></div>
                         <div class="subCategoryList list"></div>
                     </div>
                 </div>
                 <div class="board-container">
-                    <div class="board-title-wrapper">
-                        <div class="board-title">게시글 리스트</div>
-                        <div class="board-subtitle">총 300,000개</div>
+                    <div class="board-title-wrapper board-title">
+	                    <div class="board-title">게시글 리스트</div>
+	           			<div class="board-subtitle">총 0개</div>
                     </div>
                     <div class="boardList list"></div>
                 </div>
                 <div class="board-container">
                     <div class="board-title">게시글 상세</div>
-                    <div class="list">
-                        <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">User ID : </div>
-                            <div class="subtitle">001</div>
-                        </div>
-                        <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">Email : </div>
-                            <div class="subtitle">example@example.com</div>
-                        </div>
-                        <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">Name : </div>
-                            <div class="subtitle">John Doe</div>
-                        </div>
-                        <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">Nickname : </div>
-                            <div class="subtitle">johndoe</div>
-                        </div>
-                        <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">title : </div>
-                            <div class="subtitle">밥 먹었습니까</div>
-                        </div>
-                        <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">content : </div>
-                            <div class="subtitle">저는 밥 먹었습니다 아주 맛있게요 냠냠쩝쩝</div>
-                        </div>
-                        <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">Created At : </div>
-                            <div class="subtitle">2021-01-01</div>
-                        </div>
-                    </div>
+                    <div class="boardDetail list"></div>
                 </div>
             </section>
         </div>
@@ -115,8 +76,7 @@
 		
 	    $(document).ready(function() {
 	    	loadSubCategoryList(1);
-	    	loadBoardList();
-	    	loadBoardDetail();
+	    	loadBoardListData(1);
 	    });
 	    $('.boardList').scroll(function() {
 	        if($(this).scrollTop() + $(this).innerHeight() + 70 >= $(this)[0].scrollHeight) {
@@ -134,7 +94,7 @@
 	            dataType: 'json',
 	            data: { bigCategoryNo },
 	            success: function(data) {
-	            	if(data.content.length != 0){
+	            	if(data.length != 0){
 		                updateSubCategoryTable(data);
 		                isLoading = false;
 	            	}
@@ -146,27 +106,30 @@
 	        });
 	    }
 	    function updateSubCategoryTable(data) {
-	        let userList = document.querySelector('.boardList');
-	        let list = data.content;
-	        for (let i = 0; i < list.length; i++) {
-	            let row = '<div class="item" onclick="loadBoardDetailData('+list[i].boardNo+')">';
+	        let count = document.querySelector('.subCategory-title');
+	        let userList = document.querySelector('.subCategoryList');
+	        count.innerHTML = '';
+	        userList.innerHTML = '';
+	        let title = '<div class="board-title">서브 카테고리</div>';
+            title += '<div class="board-subtitle">총 '+data.length+'개</div>';
+            count.innerHTML += title;
+	        for (let i = 0; i < data.length; i++) {
+	            let row = '<div class="item" onclick="loadBoardListData('+data[i].subCategoryNo+')">';
 	            row += '<div class="icon">😃</div>';
-	            row += '<div class="subtitle">'+list[i].bigCategoryName+'</div>';
-	            row += '<div class="subtitle">'+list[i].subCategoryName+'</div>';
-	            row += '<div class="subtitle">'+list[i].title+'</div>';
+	            row += '<div class="subtitle">'+data[i].subCategoryName+'</div>';
 	            row += '</div>';
 	            userList.innerHTML += row;
 	        }
 	    }
 	    
-	    function loadSubCategoryList(bigCategoryNo) {
+	    function loadBoardListData(subCategoryNo) {
 	        $.ajax({
-	            url: '${contextPath}/admin/getMemberBoardList',
+	            url: '${contextPath}/admin/loadBoardListData',
 	            type: 'GET',
 	            dataType: 'json',
-	            data: { page: offset, size: 20, userNo: ${m.userNo} },
+	            data: { subCategoryNo },
 	            success: function(data) {
-	            	if(data.content.length != 0){
+	            	if(data.length != 0){
 		                updateBoardTable(data);
 		                offset += 1;
 		                isLoading = false;
@@ -179,18 +142,72 @@
 	        });
 	    }
 	    function updateBoardTable(data) {
+	        let count = document.querySelector('.board-title');
 	        let userList = document.querySelector('.boardList');
-	        let list = data.content;
-	        for (let i = 0; i < list.length; i++) {
+	        count.innerHTML = '';
+	        userList.innerHTML = '';
+	        let title = '<div class="board-title">게시글 리스트</div>';
+            title += '<div class="board-subtitle">총 '+data.length+'개</div>';
+            count += title;
+	        for (let i = 0; i < data.length; i++) {
 	            let row = '<div class="item" onclick="loadBoardDetailData('+list[i].boardNo+')">';
 	            row += '<div class="icon">😃</div>';
-	            row += '<div class="subtitle">'+list[i].bigCategoryName+'</div>';
-	            row += '<div class="subtitle">'+list[i].subCategoryName+'</div>';
 	            row += '<div class="subtitle">'+list[i].title+'</div>';
 	            row += '</div>';
 	            userList.innerHTML += row;
 	        }
 	    }
+	    
+	    function loadBoardDetailData(boardNo) {
+	        $.ajax({
+	            url: '${contextPath}/admin/loadBoardDetailData',
+	            type: 'GET',
+	            dataType: 'json',
+	            data: { subCategoryNo },
+	            success: function(data) {
+	            	if(data.length != 0){
+		                updateBoardTable(data);
+		                offset += 1;
+		                isLoading = false;
+	            	}
+	            },
+	            error: function(xhr, status, error) {
+	                console.error('Error: ' + error);
+	                isLoading = false;
+	            }
+	        });
+	    }
+	    function updateBoardDetailTable(data) {
+	        let userList = document.querySelector('.boardDetail');
+	        userList.innerHTML = '';
+	        let row = '<div class="item">';
+			row += '<div class="icon">😃</div>';
+			row += '<div class="title">작성자: </div>'
+			row += '<div class="subtitle">'+data.userNickname+'</div>'
+			row += '</div>';
+	        row += '<div class="item">';
+			row += '<div class="icon">😃</div>';
+			row += '<div class="title">제목 : </div>'
+			row += '<div class="subtitle">'+data.title+'</div>'
+			row += '</div>';
+	        row += '<div class="item">';
+			row += '<div class="icon">😃</div>';
+			row += '<div class="title">내용 : </div>'
+			row += '<div class="subtitle">'+data.content+'</div>'
+			row += '</div>';
+	        row += '<div class="item">';
+			row += '<div class="icon">😃</div>';
+			row += '<div class="title">작성일 : </div>'
+			row += '<div class="subtitle">'+data.createDate+'</div>'
+			row += '</div>';
+	        row += '<div class="item">';
+			row += '<div class="icon">😃</div>';
+			row += '<div class="title">수정일 : </div>'
+			row += '<div class="subtitle">'+data.modifyDate+'</div>'
+			row += '</div>';
+            userList.innerHTML += row;
+	    }
+	    
         function writeBoard(){
             location.href = "adminBoard.html";
         }
