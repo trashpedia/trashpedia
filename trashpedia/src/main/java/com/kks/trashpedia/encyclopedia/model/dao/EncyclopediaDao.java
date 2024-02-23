@@ -17,6 +17,10 @@ public interface EncyclopediaDao {
 
 	String getTrashContentByTrashNo(int trashNo);
 
+	List<Trash> getPopularTrashList();
+
+	String getTrashTitleByTrashNo(int trashNo);
+
 
 
 }

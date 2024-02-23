@@ -17,4 +17,8 @@ public interface EncyclopediaService{
     // 쓰레기 번호를 기반으로 쓰레기 내용 가져오기
     String getTrashContentByTrashNo(int trashNo);
 
+	List<Trash> getPopularTrashList();
+
+	String getTrashTitleByTrashNo(int trashNo);
+
 }
