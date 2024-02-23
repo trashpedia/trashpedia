@@ -45,18 +45,14 @@
 			<div class="Section1">
 				<div class="ImageContainer">
 					<div class="Image">
-						<!--  -->
+						<img src="${imageUrl}" alt="Image">
 					</div>
 				</div>
 
 				<div class="Container">
-					<div class="Title">상품명</div>
-					<div class="Description">인증된 참여자의 사진과 함께 상품을 설명인증된 참여자의 사진과
-						함께 상품을 설명인증된 참여자의 사진과 함께 상품을 설명인증된 참여자의 사진과 함께 상품을 설명인증된 참여자의 사진과
-						함께 상품을 설명인증된 참여자의 사진과 함께 상품을 설명인증된 참여자의 사진과 함께 상품을 설명인증된 참여자의 사진과
-						함께 상품을 설명인증된 참여자의 사진과 함께 상품을 설명인증된 참여자의 사진과 함께 상품을 설명</div>
+					<div class="Title">${trashTitle}</div>
+					<div class="Description">${trashContent}</div>
 				</div>
-
 			</div>
 
 			<div class="btnGroup">
