@@ -8,6 +8,8 @@ import org.springframework.data.domain.Pageable;
 import com.kks.trashpedia.board.model.vo.BigCategory;
 import com.kks.trashpedia.board.model.vo.Board;
 import com.kks.trashpedia.board.model.vo.Comment;
+import com.kks.trashpedia.board.model.vo.Post;
+import com.kks.trashpedia.board.model.vo.SubCategory;
 import com.kks.trashpedia.member.model.vo.Member;
 import com.kks.trashpedia.point.model.vo.PointHistory;
 import com.kks.trashpedia.report.model.vo.Report;
@@ -57,5 +59,11 @@ public interface adminService {
 	Page<Report> getMemberReportList(Pageable pageable, int page, int userNo);
 
 	List<BigCategory> BigCategoryList();
+
+	List<SubCategory> getSubCategoryList(int bigCategoryNo);
+
+	List<Board> loadBoardListData(int subCategoryNo);
+
+	List<Post> loadBoardDetailData(int boardNo);
 
 }

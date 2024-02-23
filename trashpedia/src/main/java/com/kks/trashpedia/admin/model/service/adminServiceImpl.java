@@ -11,6 +11,8 @@ import com.kks.trashpedia.admin.model.dao.adminDao;
 import com.kks.trashpedia.board.model.vo.BigCategory;
 import com.kks.trashpedia.board.model.vo.Board;
 import com.kks.trashpedia.board.model.vo.Comment;
+import com.kks.trashpedia.board.model.vo.Post;
+import com.kks.trashpedia.board.model.vo.SubCategory;
 import com.kks.trashpedia.member.model.vo.Member;
 import com.kks.trashpedia.point.model.vo.PointHistory;
 import com.kks.trashpedia.report.model.vo.Report;
@@ -130,30 +132,19 @@ public class adminServiceImpl implements adminService{
 		return dao.BigCategoryList();
 	}
 
+	@Override
+	public List<SubCategory> getSubCategoryList(int bigCategoryNo) {
+		return dao.getSubCategoryList(bigCategoryNo);
+	}
 
+	@Override
+	public List<Board> loadBoardListData(int subCategoryNo) {
+		return dao.loadBoardListData(subCategoryNo);
+	}
 
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	// 절취선
-	
+	@Override
+	public List<Post> loadBoardDetailData(int boardNo) {
+		return dao.loadBoardDetailData(boardNo);
+	}
+
 }

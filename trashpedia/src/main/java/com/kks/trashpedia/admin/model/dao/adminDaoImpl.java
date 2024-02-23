@@ -16,6 +16,8 @@ import com.kks.trashpedia.board.model.vo.BigCategory;
 import com.kks.trashpedia.board.model.vo.Board;
 import com.kks.trashpedia.board.model.vo.Comment;
 import com.kks.trashpedia.board.model.vo.NestedComment;
+import com.kks.trashpedia.board.model.vo.Post;
+import com.kks.trashpedia.board.model.vo.SubCategory;
 import com.kks.trashpedia.member.model.vo.Member;
 import com.kks.trashpedia.point.model.vo.PointHistory;
 import com.kks.trashpedia.report.model.vo.Report;
@@ -161,6 +163,21 @@ public class adminDaoImpl implements adminDao{
 	@Override
 	public List<BigCategory> BigCategoryList() {
 		return session.selectList("adminMapper.BigCategoryList");
+	}
+
+	@Override
+	public List<SubCategory> getSubCategoryList(int bigCategoryNo) {
+		return session.selectList("adminMapper.getSubCategoryList",bigCategoryNo);
+	}
+
+	@Override
+	public List<Board> loadBoardListData(int subCategoryNo) {
+		return session.selectList("adminMapper.loadBoardListData",subCategoryNo);
+	}
+
+	@Override
+	public List<Post> loadBoardDetailData(int boardNo) {
+		return session.selectOne("adminMapper.loadBoardDetailData",boardNo);
 	}
 
 

@@ -38,6 +38,12 @@
                         <div class="sidebar-title"><a href="${contextPath}/admin/trash">쓰레기 관리</a></div>
                     </div>
                 </li>
+                <li>
+                    <div class="sidebar-li">
+                        <div class="icon">🔔</div>
+                        <div class="sidebar-title"><a href="${contextPath}/admin/trash">신고 관리</a></div>
+                    </div>
+                </li>
             </ul>
         </div>
     </div>

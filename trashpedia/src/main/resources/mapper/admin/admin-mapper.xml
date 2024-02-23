@@ -158,4 +158,22 @@
 		SELECT *
 		FROM BIG_CATEGORY
 	</select>
+	<select id="getSubCategoryList" resultType="subCategory">
+		SELECT *
+		FROM SUB_CATEGORY
+		WHERE BIG_CATEGORY_NO = #{bigCategoryNo}
+	</select>
+	<select id="loadBoardListData" resultType="Board">
+		SELECT *
+		FROM BOARD B
+		LEFT JOIN POST P ON P.POST_NO = B.POST_NO
+		WHERE B.SUB_CATEGORY_NO = #{subCategoryNo}
+	</select>
+	<select id="loadBoardDetailData" resultType="post">
+		SELECT *
+		FROM POST P
+		LEFT JOIN BOARD B ON P.BOARD_NO = B.BOARD_NO
+		LEFT JOIN MBMBER M ON M.USER_NO = P.USER_NO
+		WHERE BOARD_NO = #{boardNo}
+	</select>
 </mapper>
