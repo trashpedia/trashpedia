@@ -10,25 +10,26 @@ main{
     margin-top: 40px;
     margin-bottom: 40px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    padding: 40px;
+    padding: 15px;
 }
 
 /* 카테고리 부분 */
 .content-category-outer{
-    margin-left: 80px;
+    margin-left: 30px;
     text-align: left;
-    margin-bottom: 30px;
-}
-.container-title{
-	font-size : 30px;
-    font-weight: 550;
-}
-.categoryName{
-    font-size : 20px;
     margin-bottom: 50px;
 }
+.container-title{
+	font-size : 25px;
+    font-weight: 550;
+    margin-bottom : 10px;
+}
+.categoryName{
+    font-size : 16px;
+    margin-bottom: 30px;
+}
 
-/* 제목 부분 */
+/* 제목입력 부분 */
 .content-input-outer{
    text-align: center;
    margin-top: 10px;
@@ -37,16 +38,16 @@ main{
 .input-title{
     font-size: 25px;
     font-weight: 700;
-    width: 85%;
+    width: 820px;
     border: 0;
     font-weight: 550;
-    /* box-shadow: 0 0 3px rgba(0, 0, 0, 0.3); */
     padding-top: 10px;
 }
 .content-input-outer hr{
     margin-top: 20px;
     margin-bottom: 20px;
-    width: 85%;
+    width: 820px;
+    
 }
 
 /* ---------- 내용 ---------- */
@@ -56,23 +57,23 @@ main{
     flex-direction: column;
     align-items: center;
 }
-/* textarea */
-.content-inner{
-    box-sizing: border-box;
-    width: 85%;
-    padding: 20px;
-    height: 100%;
-    min-height: 300px;
-    font-size: 15px;
-    box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
-    resize: none;
-    border: 0;
 
+/* 파일등록부분  */
+.file-input-outer{
+	display: flex;
+    flex-direction: column;
+    margin : 10px;
+    width : 820px;
+    font-size : 14px;
+    color: rgb(63, 63, 63);
+}
+.file-input-outer span{
+	margin-bottom:10px;
 }
 
 /* 수정 목록 삭제 버튼 */
 .post-buttons{
-    margin-top: 20px;
+    margin-top: 40px;
     margin-bottom: 20px;
 }
 .post-buttons button{

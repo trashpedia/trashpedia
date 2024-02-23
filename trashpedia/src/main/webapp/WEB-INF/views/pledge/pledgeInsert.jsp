@@ -20,7 +20,7 @@
    	<form action="${contextPath}/write/${category.bigCategoryNo}/${category.subCategoryNo}" id="enrollForm" method="POST" enctype="multipart/form-data" onsubmit="submitForm()">
 
     <main>
-        
+
         <div class="container">
 
             <div class="content-category-outer">
@@ -36,16 +36,16 @@
                 <hr>
             </div>
             
-
             <div class="content-outer">
-	            <!--실천하기/정보자료글  -->
-	            <span>썸네일 이미지 선택: <input type="file" name="thumbnailImage"></span>
-	            
-	            <!-- 공지/일반/건의 게시판 -->
-	             <span>파일 선택: <input type="file" name="upfile"></span>
+            	<div class="file-input-outer">
+		            <!--실천하기/정보자료글  -->
+		            <span>썸네일 이미지 선택 : <input type="file" name="thumbnail" id="imgAttachment"></span>
+		            <!-- 공지/일반/건의 게시판 -->
+					<span>파일 선택 : <input type="file" name="upfile" id="attachment"></span>
+            	</div>
                 
                 <div id="writeBoard-content" name="contentBoard"></div>
-                 <input type="hidden" name="content" id="hiddenContentInput">
+				<input type="hidden" name="content" id="hiddenContentInput">
                 
                 <div class="post-buttons">
                     <a href="${contextPath}/pledge/list"><button type='button' class="btn-list">목록</button></a>
