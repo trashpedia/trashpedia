@@ -21,13 +21,28 @@
 	</insert>
 	
 	<!-- 게시글 등록(BOARD) -->
-	<insert id="createBoard" parameterType="board">
+	<insert id="createBoard" parameterType="board" useGeneratedKeys="true">
+		<selectKey keyProperty="boardNo" resultType="int" order="BEFORE">
+			SELECT SEQ_BNO.NEXTVAL FROM DUAL
+		</selectKey> 
 		INSERT INTO BOARD
-		VALUES (SEQ_BNO.NEXTVAL, #{postNo}, 1, #{subCategoryNo}, 'Y')
+		VALUES (#{boardNo}, #{postNo}, 1, #{subCategoryNo}, 'Y')
 	</insert>
 	
-	<!--  -->
+	<!-- 첨부파일등록 -->
+	<insert id="insertAttachment">
+		INSERT INTO ATTACHMENT
+		VALUES (SEQ_ATTNO.NEXTVAL,#{refBno},#{originName},#{changeName},3,SYSDATE,SYSDATE,'Y')
+	</insert>
 
+	<!-- 이미지등록  -->
+	<insert id="insertImgAttachment">
+		INSERT INTO IMG_ATTACHMENT
+		VALUES (SEQ_IATTNO.NEXTVAL, #{refBno},#{originName},#{changeName},1,1,SYSDATE,SYSDATE,'Y')
+	</insert>
+	
+	
+	
 	
 	
 </mapper>

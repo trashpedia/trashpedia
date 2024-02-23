@@ -1,7 +1,6 @@
 package com.kks.trashpedia.board.model.vo;
 
 import java.sql.Date;
-import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -31,9 +30,9 @@ public class Board {
 	private Date createDate;
 	private Date modifyDate;
 	
-	// adminMemberDetail - commentDetail
-	private String commentContent;
-	
 	private List<ImgAttachment> imgAttachment; //첨부이미지
+
+	private ImgAttachment imgAttachment; //첨부이미지
+
 	private Attachment attachment; //첨부파일
 }

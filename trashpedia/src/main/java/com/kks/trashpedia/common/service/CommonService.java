@@ -1,6 +1,8 @@
 package com.kks.trashpedia.common.service;
 
+import com.kks.trashpedia.board.model.vo.Attachment;
 import com.kks.trashpedia.board.model.vo.Board;
+import com.kks.trashpedia.board.model.vo.ImgAttachment;
 import com.kks.trashpedia.board.model.vo.Post;
 import com.kks.trashpedia.board.model.vo.SubCategory;
 
@@ -11,5 +13,7 @@ public interface CommonService {
 	int createPost(Post p);
 
 	int createBoard(Board b);
+
+	int insertFiles(Attachment attachment, ImgAttachment image);
 
 }

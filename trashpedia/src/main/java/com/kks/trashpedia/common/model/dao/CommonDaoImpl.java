@@ -4,7 +4,9 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kks.trashpedia.board.model.vo.Attachment;
 import com.kks.trashpedia.board.model.vo.Board;
+import com.kks.trashpedia.board.model.vo.ImgAttachment;
 import com.kks.trashpedia.board.model.vo.Post;
 import com.kks.trashpedia.board.model.vo.SubCategory;
 
@@ -33,5 +35,20 @@ public class CommonDaoImpl implements CommonDao{
 		return session.insert("boardMapper.createBoard",b);
 	}
 
+	//첨부파일등록
+	@Override
+	public int insertAttachment(Attachment attachment) {
+		return session.insert("boardMapper.insertAttachment",attachment);
+	}
+
+	//이미지등록
+	@Override
+	public int insertImgAttachment(ImgAttachment image) {
+		return session.insert("boardMapper.insertImgAttachment",image);
+	}
+
+	
+	
+	
 	
 }

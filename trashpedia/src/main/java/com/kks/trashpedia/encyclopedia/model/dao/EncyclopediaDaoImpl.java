@@ -70,4 +70,27 @@ public class EncyclopediaDaoImpl implements EncyclopediaDao{
 	        return null; // 또는 적절한 오류 처리
 	    }
 	}
+
+	@Override
+	public List<Trash> getPopularTrashList() {
+	    try {
+	        return sqlSession.selectList("trashMapper.getPopularTrashList");
+	    } catch (MyBatisSystemException e) {
+	        // 예외 처리: 로깅하고 사용자에게 오류 메시지 반환
+	        e.printStackTrace();
+	        return Collections.emptyList(); // 또는 적절한 오류 처리
+	    }
+	}
+
+	@Override
+	public String getTrashTitleByTrashNo(int trashNo) {
+	    try {
+	        return sqlSession.selectOne("trashMapper.getTrashTitleByTrashNo()", trashNo);
+	    } catch (MyBatisSystemException e) {
+	        // 예외 처리: 로깅하고 사용자에게 오류 메시지 반환
+	        e.printStackTrace();
+	        return null; // 또는 적절한 오류 처리
+	    }
+	}
+
 }
