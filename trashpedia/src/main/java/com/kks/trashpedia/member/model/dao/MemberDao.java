@@ -6,5 +6,7 @@ public interface MemberDao {
 
 	int joinMember(Member m);
 
+	Member loginMember(Member m);
+
 
 }

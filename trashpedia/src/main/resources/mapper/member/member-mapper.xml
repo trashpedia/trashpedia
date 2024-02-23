@@ -7,5 +7,14 @@
 		SEQ_MNO.NEXTVAL,1,1,#{userEmail},#{userPwd}, #{userName}, #{userNickname}, #{phone}, #{zipcode}, #{address1}, #{address2}, #{address3}, SYSDATE, SYSDATE, 'Y'
 		)
 	</insert>
+	
+	<select id ="loginUser" parameterType="String" resultType="member">
+		SELECT *
+		FROM MEMBER
+		WHERE USER_ID = #{userId}
+		And STATUS = 'Y'
+	</select>
+	
+	
 </mapper>
 
