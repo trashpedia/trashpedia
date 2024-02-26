@@ -31,8 +31,8 @@
                             <a href="${contextPath}/board">커뮤니티</a>
                             <ul class="header-menu-ul">
                                 <li><a href="${contextPath}/boardNotice">공지게시판</a></li>
-                                <li><a href="${contextPath}/boardGeneral">일반게시판</a></li>
-                                <li><a href="${contextPath}/boardSuggestion">건의게시판</a></li>
+                                <li><a href="${contextPath}/boardNotice">일반게시판</a></li>
+                                <li><a href="${contextPath}/boardNotice">건의게시판</a></li>
                                 <li><a href="${contextPath}/boardFreeShare">무료나눔게시판</a></li>
                             </ul>
                         </div>

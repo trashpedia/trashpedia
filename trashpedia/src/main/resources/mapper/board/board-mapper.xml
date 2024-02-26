@@ -50,7 +50,7 @@
 	</select>
 	
 	<!-- 상세페이지 -->
-	<select id="findBoardByPostNo" parameterType="long" resultType="com.kks.trashpedia.board.model.vo.Board">
+	<select id="boardDetail" parameterType="long" resultType="com.kks.trashpedia.board.model.vo.Board">
     SELECT *
     FROM POST
     WHERE POST_NO = #{postNo} AND STATUS = 'Y'
