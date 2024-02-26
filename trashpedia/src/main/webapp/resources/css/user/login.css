@@ -118,13 +118,14 @@ a {
 
 .a-findId-2{
 	text-align:center;
+	
 }
 
 
 .a-login{
     text-align: center;
     width: 350px;
-    margin-top: -20px;
+    margin-top: -10px;
 }
 
 #id-error-message.error-message{

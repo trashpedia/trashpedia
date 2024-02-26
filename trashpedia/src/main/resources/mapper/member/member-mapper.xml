@@ -19,17 +19,23 @@
 	<update id="updateMember" parameterType="member">
 		UPDATE MEMBER
 		SET 
-			USER_EMAIL =#{userEmail},	
+			USER_EMAIL = #{userEmail},	
 			USER_NAME = #{userName},
 			USER_NICKNAME =#{userNickname},
 			PHONE = #{phone},
 			ZIPCODE = #{zipcode},
-	   		ADDRESS1 = #{address1} ,
+	   		ADDRESS1 = #{address1},
 	    	ADDRESS2 = #{address2},
 	    	ADDRESS3 = #{address3},
 	    	MODIFY_DATE = SYSDATE
 	    WHERE USER_EMAIL = #{userEmail} AND STATUS = 'Y'
 	</update>
+	
+	<update id="deleteMember" parameterType="string">
+    UPDATE MEMBER
+    SET STATUS = 'N'
+    WHERE USER_EMAIL = #{userEmail} AND STATUS = 'Y'
+</update>
 	
 </mapper>
 

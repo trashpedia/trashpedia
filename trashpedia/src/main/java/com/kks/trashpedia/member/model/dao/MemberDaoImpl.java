@@ -25,4 +25,9 @@ public class MemberDaoImpl implements MemberDao{
 	public int updateMember(Member m) {
 		return session.update("memberMapper.updateMember", m);
 	}
+
+	@Override
+	public int deleteMember(Member m) {
+		return session.update("memberMapper.deleteMember", m);
+	}
 }

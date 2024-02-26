@@ -79,7 +79,7 @@
 	        <!-- 주소입력  -->
 	        <div class="field address">
 	            <div class="zipcode-container">
-	                <input type="text" id="sample6_postcode" placeholder="우편번호" name="zipCode" required readonly>
+	                <input type="text" id="sample6_postcode" placeholder="우편번호" name="zipcode" required readonly>
 	                <input type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기" name="zipcode">
 	            </div>
 	            <div class="address-container">
