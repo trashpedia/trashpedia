@@ -1,19 +1,15 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<c:set var="contextPath" value="<%=request.getContextPath() %>" />
 <!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>공지사항</title>
-    <link rel="stylesheet" href="/css/board/css.css">
-    <link rel="stylesheet" href="/css/board/board_common.css">
-    <link rel="stylesheet" href="../css/community/community.css">
-    <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css" />
-    <link rel="stylesheet" href="/src/main/webapp/resources/css/board/boardList.css"/>
-
-
-
+    <link rel="stylesheet" href="/준식이 파이널/css/board/style.css">
+    <link rel="stylesheet" href="${contextPath}/resources/css/board/boardList.css">
 
 </head>
 
@@ -32,40 +28,17 @@
 
 <body>
 
-    <!-- 나중에 include로 바꿔야함 -->
-    <header id="header"></header>
+   <jsp:include page="../../common/header.jsp" />
 
-    <main class="information_html">
-                
-        <div id="container">
-
-            <section class="main_top_banner">
-                <div id="idx_top">
-                    <strong>커<span>뮤</span>니<span>티</span></strong>
-                    <p>안녕하세요. 감사합니다.</p>
-                </div>
-            </section>
-
-            <section class="main_nav">
-                <header>
-                    <div>
-                        <ul class="gnb">
-                            <li><a href="/community/board_list.html">공지사항</a></li>
-                            <li><a href="#">무료나눔게시판</a></li>
-                            <li><a href="board_list.html">일반게시판</a></li>
-                            <li><a href="/information/information_list.html">정보자료실</a></li>
-                            <li><a href="#">건의게시글</a></li>
-                        </ul>
-                    </div>
-                </header>
-            </section>
-
-            
-            
-        </div>
-    </main>
+    
 
     <main class="board_html">   
+       
+        <!--실천서약 타이틀 부분-->
+        <div class="practice-section">
+            <p>공지사항</p>
+            <p>Reduce Reuse Recycle Recovery</p>
+        </div>
        
         <!--list-->
         <div class="board_wrap">
@@ -82,16 +55,27 @@
                         <div class="date">작성일</div>
                         <div class="count">조회</div>
                     </div>
+                    
+                    <c:forEach var="board" items="${boardList}" varStatus="status">
+	                    <div>
+	                        <div class="num">${status.count}</div>
+	                        <div class="title"><a href="${contextPath}/boardDetail/${board.postNo}">${board.title}</a></div>
+	                        <div class="writer">${board.writer}</div>
+	                        <div class="date">${board.date}</div>
+	                        <div class="count">${board.viewCount}</div>
+	                    </div>
+               		</c:forEach>
+               		
                     <div>
                         <div class="num">5</div>
-                        <div class="title"><a href="/community/board_view.html">글 제목이 들어갑니다.</a></div>
+                        <div class="title"><a href="${contextPath}/boardDetail">${board.title}</a></div>
                         <div class="writer">김이름</div>
                         <div class="date">2021.1.15</div>
                         <div class="count">33</div>
                     </div>
                     <div>
                         <div class="num">5</div>
-                        <div class="title"><a href="/community/board_view.html">글 제목이 들어갑니다.</a></div>
+                        <div class="title"><a href="/boardDetail/{postNo}">글 제목이 들어갑니다.</a></div>
                         <div class="writer">김이름</div>
                         <div class="date">2021.1.15</div>
                         <div class="count">33</div>
@@ -154,8 +138,7 @@
 
     </main>
 
-     <!-- 나중에 include로 바꿔야함 -->
-     <footer id="footer"></footer>
+     <jsp:include page="../../common/footer.jsp" />
 
 
      <script>

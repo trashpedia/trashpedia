@@ -116,7 +116,7 @@
             <div class="card my-4">
                 <h5 class="reply-header">댓글</h5>
                 <div class="reply-body">
-                    <form name="comment-form" action="*" method="post" autocomplete="off">
+                    <form name="comment-form" action="/comment" method="post" autocomplete="off">
                         <div class="form-group">
                             <input type="hidden" name="idx" th:value="*{idx}" />
                             <textarea name="content" class="form-control" rows="3"></textarea>

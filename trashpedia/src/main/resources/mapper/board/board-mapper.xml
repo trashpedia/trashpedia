@@ -41,8 +41,20 @@
 		VALUES (SEQ_IATTNO.NEXTVAL, #{refBno},#{originName},#{changeName},1,#{imgType},SYSDATE,SYSDATE,'Y')
 	</insert>
 	
+	<!-- 목록 띄우기 -->
+	<select id="boardList" resultType="com.kks.trashpedia.board.model.vo.Board">
+	    SELECT * 
+		FROM POST 
+	    WHERE STATUS='Y' 
+	    ORDER BY POST_NO DESC
+	</select>
 	
-	
+	<!-- 상세페이지 -->
+	<select id="boardDetail" parameterType="long" resultType="com.kks.trashpedia.board.model.vo.Board">
+    SELECT *
+    FROM POST
+    WHERE POST_NO = #{postNo} AND STATUS = 'Y'
+	</select>
 	
 	
 </mapper>
