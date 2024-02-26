@@ -39,12 +39,12 @@
 				<div id="no-info-message" style="display: none;">가입된 정보가 없습니다.
 				</div>
 				<br>
-				<div class="a-findId">
+				<div class="a-findId-2">
 					<a id="findIdBtn">로그인하기</a>
 					<a id="findPwdBtn">비밀번호찾기</a>
 					<a href="${contextPath}/join">회원가입 </a>
 				</div>
-				<br> <br> <input type="submit" id="btn" value="아이디 찾기">
+				<input type="submit" id="btn" value="아이디 찾기">
 			</form>
 		</div>
 
@@ -62,20 +62,14 @@
 						<button class="verificationButton" id="verificationBtn">인증하기</button>
 						<div id="id-error-message" class="error-message"></div>
 					</div>
-				<br>
-				<div id="found-info" style="display: none;">
-					<span id="found-name"></span>님의 아이디는 <span id="found-id"></span>
-					입니다.
+				
+				<<div class="a-findId-2">
+					<a href="login.html">로그인하기</a>
+					<a id="findIdBtn">아이디찾기</a>
+						<a href="joinMembership.html">회원가입 </a>
 				</div>
-				<div id="no-info-message" style="display: none;">가입된 정보가 없습니다.
-				</div>
-				<br>
-				<div class="a-findId">
-					<span><a href="login.html">로그인하기</a></span> <span>
-						<a id="findIdBtn">아이디찾기</a></span> <span><a
-						href="joinMembership.html">회원가입 </a></span>
-				</div>
-				<br> <br> <input type="submit" id="btn" value="비밀번호 찾기">
+				<input type="submit" id="btn" value="비밀번호 찾기">
+				
 			</form>
 		</div>
 	</main>

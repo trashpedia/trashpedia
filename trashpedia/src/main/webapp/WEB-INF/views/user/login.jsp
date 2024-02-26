@@ -17,10 +17,11 @@
 <body class="body-login">
    <jsp:include page="../common/header.jsp"/>
    <main>
+   <a href="myPage">마이페이지로 이동</a>
    <!-- 1. 로그인 페이지 -->
     <div class="content-login" id="loginArea">
         <div class="top-margin"></div>
-        <a href="myPage">마이페이지로 이동</a>
+        
         <span class="logo">로그인</span><br>
         <div class="div-login"></div>
        <form action="login.me" method='post'>
@@ -121,15 +122,16 @@
 			                <p class="ico-notsame">불일치</p>
 			            </div>
 	            </div>
-					</div>
+					
 				<br>
+				<input type="submit" id="btn" value="비밀번호재설정" onclick="resetPwdForm">
+			</form>
 				<!-- <div id="found-info" style="display: none;">
 					<span id="found-name"></span>님의 아이디는 <span id="found-id"></span>
 					입니다.
 				</div>
-				<div id="no-info-message" style="display: none;">가입된 정보가 없습니다.</div> -->
-				<input type="submit" id="btn" value="비밀번호재설정" onclick="resetPwdForm">
-			</form>
+				<div id="no-info-message" style="display: none;">가입된 정보가 없습니다.</div> 
+		 -->
 		</div>
     </main>
     <jsp:include page="../common/footer.jsp"/>
@@ -253,7 +255,8 @@
 	    $("#loginArea").show();
 	    $("#findIdArea").hide();
 	    $("#findPwdArea").hide();
-	    $("#resetPwdArea").show();
+	    $("#resetPwdArea").hide();
+	    
 	    
 	    $(".findPwdBtn").click(function(){
 	        $("#findPwdArea").show();

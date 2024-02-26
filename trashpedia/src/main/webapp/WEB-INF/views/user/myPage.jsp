@@ -12,6 +12,50 @@
 	<link rel="stylesheet" href="resources/css/user/join.css">
 	
 	<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+	<style>
+.panel {
+    border-radius: 0;
+}
+
+.panel-body-content {
+    padding: 20px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-control {
+    border-radius: 0;
+}
+
+.btn {
+    border-radius: 0;
+    margin-right: 10px;
+}
+
+#deletee {
+    background-color: #d9534f; /* 버튼 배경색 */
+    border-color: #d43f3a; /* 버튼 테두리 색 */
+    color: #fff; /* 버튼 텍스트 색상 */
+}
+
+#deletee:hover {
+    background-color: #c9302c; /* 버튼 hover 배경색 */
+    border-color: #ac2925; /* 버튼 hover 테두리 색 */
+}
+
+.btn-default {
+    color: #333; /* 버튼 텍스트 색상 */
+    background-color: #fff; /* 버튼 배경색 */
+    border-color: #ccc; /* 버튼 테두리 색 */
+}
+
+.btn-default:hover {
+    color: #333; /* 버튼 hover 텍스트 색상 */
+    background-color: #e6e6e6; /* 버튼 hover 배경색 */
+    border-color: #adadad; /* 버튼 hover 테두리 색 */
+}</style>
 </head>
 <body class="body-login">
 	<jsp:include page="../common/header.jsp"/>
@@ -170,7 +214,7 @@
 		</section>
 		
 <section id="memberInfo">
-	<form id="enroll-form" action="update.me" method="POST" id="profileForm" >
+		<form id="enroll-form" action="update.me" method="POST" id="profileForm" >
 	    <div class="member">
 	        <!-- 1. 로고 -->
 	        <div class="logo">프로필수정</div>
@@ -178,7 +222,7 @@
 	        <div class="field">
 	            <b>아이디</b>
 	            <div id="id-1">
-	               <input type="text" name="username" value="${loginUser.userEmail}" readonly>
+	               <input type="text" name="userEmail" value="${loginUser.userEmail}" readonly>
 	            </div>
 	        </div>
 	         <div class="field">
@@ -200,8 +244,8 @@
 	        <!-- 주소입력  -->
 	        <div class="field address">
 	            <div class="zipcode-container">
-	                <input type="text" id="sample6_postcode" placeholder="우편번호" name="zipCode" required readonly>
-	                <input type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기" name="zipcode" value="${loginUser.zipcode}">
+	                <input type="text" id="sample6_postcode" placeholder="우편번호" name="zipcode" value="${loginUser.zipcode}" required readonly>
+	                <input type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기" name="zipcodeButton">
 	            </div>
 	            <div class="address-container">
 	                <input type="text" id="sample6_address" name="address1" placeholder="주소" required readonly name="address1" value="${loginUser.address1}">
@@ -214,11 +258,55 @@
 	        <!-- 6. 수정하기 버튼 -->
 	        <div class="twoBtn">
 	        <button type="submit" id="updateBtn">등록</button>
-	        </div>
-	        
+	        <a href="${contextPath}/delete.me"><button>회원탈퇴</button></a>
+	        </div> 
 	    </div>
 	    </form>
 	    </section>
+			<%-- <form action="/member/delete" method="post" id="deleteForm" name="deleteForm">
+			                       <input type="hidden" id="memberId" name="memberId" value="${login.memberId}">
+			    <div class="col-sm-8 col-sm-offset-2">
+			        <div class="panel panel-default panel-margin-10">
+			            <div class="panel-body panel-body-content text-center">
+			                <p class="lead">회원탈퇴를 하려면 비밀번호를 입력해주세요.</p>
+			                <div class="form-group">
+			                    <input type="password" id = "memberPw" name="memberPw" class="form-control form-control-inline text-center" placeholder="비밀번호" />
+			                </div>
+			                <div class="form-group">
+			                    <input type="password" id="memberPw2" name="memberPw2"  class="form-control form-control-inline text-center" placeholder="비밀번호 확인" />
+			                </div>
+			                <button type="button" id="deletee" name="delete" class="btn btn-primary">회원탈퇴</button> <a href="/member/infoView" class="btn btn-default">취소</a>
+			            </div>
+			        </div>
+			    </div>
+			    </form> --%>
+	    <!-- The Modal -->
+		<!--     <div class="modal" id="deleteForm">
+		      <div class="modal-dialog">
+		        <div class="modal-content">
+		          Modal Header
+		          <div class="modal-header">
+		            <h4 class="modal-title">회원탈퇴</h4>
+		            <button type="button" class="close" data-dismiss="modal">&times;</button>
+		          </div>
+		          Modal body
+		          <div class="modal-body" align="center">
+		            <b>탈퇴 후 복구가 불가능합니다. <br>정말로 탈퇴하시겠습니까?</b><br><br>
+		            <form action="delete.me" method="post">
+		                <table>
+		                    <tr>
+		                        <td>비밀번호</td>
+		                        <td><input type="password" name="userPwd" required></td>
+		                    </tr>
+		                </table>
+		                <br>
+		                <button type="submit" class="btn btn-danger btn-sm">탈퇴하기</button>
+		            </form>
+		            </div>
+		        </div>
+		      </div>
+		    </div> -->
+
 	</main>
 	<jsp:include page="../common/footer.jsp"/>
 		<script>
@@ -266,6 +354,89 @@
 				});
 		</script>
 		
+		<script>
+		function sample6_execDaumPostcode() {
+	        new daum.Postcode({
+	            oncomplete: function(data) {
+	                let addr = '';
+	                let extraAddr = '';
+	
+	                if (data.userSelectedType === 'R') {
+	                    addr = data.roadAddress;
+	                } else {
+	                    addr = data.jibunAddress;
+	                }
+	
+	                if(data.userSelectedType === 'R'){
+	                    if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+	                        extraAddr += data.bname;
+	                    }
+	                    if(data.buildingName !== '' && data.apartment === 'Y'){
+	                        extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+	                    }
+	                    if(extraAddr !== ''){
+	                        extraAddr = ' (' + extraAddr + ')';
+	                    }
+	                    document.getElementById("sample6_extraAddress").value = extraAddr;
+	                } else {
+	                    document.getElementById("sample6_extraAddress").value = '';
+	                }
+	                document.getElementById('sample6_postcode').value = data.zonecode;
+	                document.getElementById("sample6_address").value = addr;
+	                document.getElementById("sample6_detailAddress").focus();
+	            }
+	        }).open();
+	    }
+		</script>
 		
-</body>
-</html>
+		<script type="text/javascript">
+		$(document).ready(function(){
+		
+			$("#deletee").on("click", function(){
+				
+				if($("#memberPw").val()==""){
+					alert("비밀번호를 입력해주세요");
+					$("#memberPw").focus();
+					return false
+				}
+				
+				if($("#memberPw2").val()==""){
+					alert("비밀번호 확인을 입력해주세요");
+					$("#memberPw2").focus();
+					return false
+				}
+				
+				if ($("#memberPw").val() != $("#memberPw2").val()) {
+					alert("비밀번호가 일치하지 않습니다.");
+					$("#memberPw").focus();
+					 
+					return false;
+					}
+				
+				$.ajax({
+					url : "/member/pwCheck",
+					type : "POST",
+					dataType : "json",
+					data : $("#deleteForm").serializeArray(),
+					success: function(data){
+						
+						if(data==0){
+							alert("비밀번호를 확인해주세요.");
+							return;
+						}else{
+							if(confirm("탈퇴하시겠습니까?")){
+								$("#deleteForm").submit();
+							}
+							
+						}
+					}
+				})
+			});
+		})
+	</script>
+
+
+
+		</body>
+		</html>
+	

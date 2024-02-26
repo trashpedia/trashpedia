@@ -84,7 +84,11 @@ a {
 .a-findId{
     text-align: center;
     width: 350px;
-    margin-top: -40px;
+    margin-top: -30px;
+}
+
+.a-findId-2{
+	margin-top:-30px;
 }
 
 #id-error-message.error-message{
