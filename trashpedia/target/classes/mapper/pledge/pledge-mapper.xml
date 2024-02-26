@@ -2,4 +2,47 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="pledgeMapper">
 	
+	<!-- 실천서약 게시글조회  -->
+	<select id="pledgeList" parameterType="int" resultType="post">
+		SELECT POST_NO, TITLE, CONTENT, P.CREATE_DATE, P.MODIFY_DATE,
+	           USER_NO, BOARD_NO, SC.SUB_CATEGORY_NO, SC.BIG_CATEGORY_NO, IA.CHANGE_NAME
+		FROM POST P
+		LEFT JOIN BOARD B USING (POST_NO)
+		LEFT JOIN IMG_ATTACHMENT IA ON (B.BOARD_NO = IA.REF_BNO)
+		LEFT JOIN SUB_CATEGORY SC ON B.SUB_CATEGORY_NO = SC.SUB_CATEGORY_NO
+		WHERE B. SUB_CATEGORY_NO = #{subCategoryNo}
+		    AND IMG_LEVEL = 1
+		    AND P.STATUS = 'Y'
+		ORDER BY POST_NO DESC
+	</select>
+	
+	<!-- 게시글 상세조회  -->
+	<select id="pledgeDetail" parameterType="int" resultType="post">
+		SELECT P.POST_NO, P.TITLE, P.CONTENT, P.CREATE_DATE, P.MODIFY_DATE, B.USER_NO, B.BOARD_NO,
+		(SELECT COUNT(*)FROM HITS WHERE BOARD_NO = ( SELECT BOARD_NO FROM BOARD WHERE POST_NO = #{postNo} ))AS HITS_NO
+		FROM POST P
+		LEFT JOIN BOARD B ON P.POST_NO = B.POST_NO
+		WHERE P.POST_NO = #{postNo}
+	</select>
+
+	<!-- 조회일 조회 -->
+	<select id="pledgeHitDate" parameterType="board" resultType="java.util.Date">
+		SELECT CREATE_DATE
+		FROM (
+		    SELECT CREATE_DATE
+		    FROM HITS
+		    WHERE BOARD_NO = #{boardNo} AND USER_NO = #{userNo}
+		    ORDER BY CREATE_DATE DESC
+		) 
+		WHERE ROWNUM = 1
+	</select>
+	
+	<!-- 게시글 조회수 증가 -->
+	<insert id="increaseCount" parameterType="board">
+		INSERT INTO HITS (HITS_NO, BOARD_NO, USER_NO, CREATE_DATE)
+		VALUES (SEQ_HITNO.NEXTVAL, #{boardNo}, #{userNo}, SYSDATE);
+	</insert>
+	
+
+	
 </mapper>

@@ -1,9 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:set var="contextPath" value="<%=request.getContextPath() %>"/>
-
-<c:set var="bigCategoryNo" value="<%=2%>"/>
-<c:set var="subCategoryNo" value="<%=5%>"/>
+<c:url var="currentUrl" value="/trashpedia/pledge/list">
+    <c:param name="subCategoryNo" value="${currentSubCategoryNo}" />
+    <c:param name="bigCategoryNo" value="${currentBigCategoryNo}" />
+</c:url>
+<c:set var="subCategoryNo" value="${param.subCategoryNo}" />
+<c:set var="bigCategoryNo" value="${param.bigCategoryNo}" />
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -16,13 +19,13 @@
 </head>
 <body>
 
-<script>
-//  let msg = '${alert}';
-//  if(msg != null){
-// 	 alert(msg);
-// 	 msg = null;
-//  }
-</script>
+	<c:if test="${not empty alert}">
+		<script>
+		    alert("${alert}");
+		</script>
+		<c:remove var="alert" />
+	</c:if>
+
     <jsp:include page="../common/header.jsp"/>
     
     <main>
@@ -39,8 +42,12 @@
             <div class="content-section-outer">
                 <div class="content-title"> 
                     <div class="content-tab">
-                        <span id="pledgeBtn" onclick="pledgeShow">실천서약</span>
-                        <span id="certificationBtn" onclick="certificationShow">실천인증</span>
+                    	<a href="${contextPath}/pledge/list?bigCategoryNo=2&subCategoryNo=5">
+                        	<span id="pledgeBtn" onclick="pledgeShow"> 실천서약 </span>
+                        </a>
+                        <a href="${contextPath}/pledge/list?bigCategoryNo=2&subCategoryNo=6">
+                        	<span id="certificationBtn" onclick="certificationShow"> 실천인증 </span>
+                        </a>
                     </div>
                     <div class="content-search">
                         <input type="text" name="keyword" id="keyword" placeholder="작성자/제목">
@@ -48,62 +55,18 @@
                     </div>
                 </div>
                 
-                  <!-- 실천서약 -->
+                <!-- 실천서약 -->
                 <div class="pledge">
                     <div class="content-outer">
-                        <div class="img-area">
-                            <a href="${contextPath}/pledge/view">
-                            <img src="${contextPath}/resources/image/main/testImg/test5.jpg"  class="content-img">
-                            </a>
-                        </div>
-                        <div class="img-area">
-                            <img src="${contextPath}/resources/image/main/testImg/test4.jpg"  class="content-img">
-                        </div>
-                        <div class="img-area">
-                            <img src="${contextPath}/resources/image/main/testImg/test3.jpg"  class="content-img">
-                        </div>
-                        <div class="img-area">
-                            <img src="${contextPath}/resources/image/main/testImg/test2.jpg"  class="content-img">
-                        </div>
-                        <div class="img-area">
-                            <img src="${contextPath}/resources/image/main/testImg/test1.jpg"  class="content-img">
-                        </div>
-                        <div class="img-area">
-                            <img src="${contextPath}/resources/image/main/testImg/test3.jpg"  class="content-img">
-                        </div>
-                        <div class="img-area">
-                            <img src="${contextPath}/resources/image/main/testImg/test2.jpg"  class="content-img">
-                        </div>
-                        <div class="img-area">
-                            <img src="${contextPath}/resources/image/main/testImg/test1.jpg"  class="content-img">
-                        </div>
-         
-                        <!-- <div class="img-area">
-                            <img src="https://www.recycling-info.or.kr/act4r/cmm/image/view.do?id=admfileupload_202307121120459250&ext=gif" class="content-img">
-                        </div>
-                        <div class="img-area">
-                            <img src="https://www.recycling-info.or.kr/act4r/cmm/image/view.do?id=agenfileupload_202211180935033920&ext=GIF" class="content-img">
-                        </div>
-                        <div class="img-area">
-                            <img src="https://www.recycling-info.or.kr/act4r/cmm/image/view.do?id=agenfileupload_202211040343223620&ext=GIF" class="content-img">
-                        </div>
-                        <div class="img-area">
-                            <img src="https://www.recycling-info.or.kr/act4r/cmm/image/view.do?id=agenfileupload_202210241002323550&ext=GIF" class="content-img">
-                        </div>
-                        <div class="img-area">
-                            <img src="https://www.recycling-info.or.kr/act4r/cmm/image/view.do?id=agenfileupload_202110190523524070&ext=gif" class="content-img">
-                        </div>
-                        <div class="img-area">
-                            <img src="https://www.recycling-info.or.kr/act4r/cmm/image/view.do?id=admfileupload_202307121120459250&ext=gif" class="content-img">
-                        </div>
-                        <div class="img-area">
-                            <img src="https://www.recycling-info.or.kr/act4r/cmm/image/view.do?id=agenfileupload_202211180935033920&ext=GIF" class="content-img">
-                        </div>
-                        <div class="img-area">
-                            <img src="https://www.recycling-info.or.kr/act4r/cmm/image/view.do?id=agenfileupload_202211040343223620&ext=GIF" class="content-img">
-                        </div> -->
-                        
-                        <div class="paging-button">
+                    	<c:forEach var="post" items="${list}">
+							<div class="img-area" onclick ="pledgeDetail(${post.postNo})">
+							 	<input type="hidden" value="${post.title}">
+							 	<input type="hidden" name="subCategoryNo"value="${post.subCategoryNo} ">
+							 	<img src="<c:url value='/resources/attachFile/image/${post.changeName}'/>"  class="content-img">
+                        	</div>
+                    	</c:forEach>
+
+						<div class="paging-button">
                             <button class="pagingBtn" id="prevBtn"> < </button>
                             <button class="pagingBtn">1</button>
                             <button class="pagingBtn">2</button>
@@ -117,34 +80,17 @@
                 
                 
                  <!-- 실천인증 -->
-                 <div class="certification">
+                 <div class="certification">                 	
                     <div class="content-outer">
-                        <div class="img-area">
-                            <a href="${contextPath}/pledge/certificationView">
-                            <img src="${contextPath}/resources/image/main/testImg/test1.jpg"  class="content-img">
-                            </a>
-                        </div>
-                        <div class="img-area">
-                            <img src="img/testImg/test2.jpg"  class="content-img">
-                        </div>
-                        <div class="img-area">
-                            <img src="img/testImg/test3.jpg"  class="content-img">
-                        </div>
-                        <div class="img-area">
-                            <img src="img/testImg/test4.jpg"  class="content-img">
-                        </div>
-                        <div class="img-area">
-                            <img src="img/testImg/test5.jpg"  class="content-img">
-                        </div>
-                        <div class="img-area">
-                            <img src="img/testImg/test4.jpg"  class="content-img">
-                        </div>
-                        <div class="img-area">
-                            <img src="img/testImg/test3.jpg"  class="content-img">
-                        </div>
-                        <div class="img-area">
-                            <img src="img/testImg/test2.jpg"  class="content-img">
-                        </div>
+						<c:forEach var="post" items="${list}">
+							<div class="img-area">
+							 	<input type="hidden" value="${post.title}">
+							 	<input type="hidden" name="subCategoryNo"value="${post.subCategoryNo} ">
+							 	<input type="hidden" name="postNo" value="${post.postNo}">
+							 	<img src="<c:url value='/resources/attachFile/image/${post.changeName}'/>"  class="content-img">
+                        	</div>
+                    	</c:forEach>
+                    
                         <div class="paging-button">
                             <button class="pagingBtn" id="prevBtn"> < </button>
                             <button class="pagingBtn">1</button>
@@ -197,28 +143,37 @@
         updateCount();
 
         // 실천서약, 실천인증 클릭
-        $(document).ready(function(){
-            // 초기에 실천서약 보이도록 설정
-            $(".pledge").show();
-            $(".certification").hide();
-            $("#pledgeBtn").css("background-color", "#5bbf5b");
-            
-            // '실천서약' 버튼 클릭 시
-            $("#pledgeBtn").click(function(){
-                $(".pledge").show();
-                $(".certification").hide();
-                $("#pledgeBtn").css("background-color", "#5bbf5b");
-                $("#certificationBtn").css("background-color", "rgb(200, 200, 200)");
-            });
-
-            // '실천인증' 버튼 클릭 시
-            $("#certificationBtn").click(function(){
-                $(".certification").show();
-                $(".pledge").hide();
-                $("#certificationBtn").css("background-color", "#5bbf5b");
-                $("#pledgeBtn").css("background-color", "rgb(200, 200, 200)");
-            });
-        })
+		$(document).ready(function(){
+		    <c:choose>
+		        <c:when test="${subCategoryNo eq 5}">
+		            $(".pledge").show();
+		            $(".certification").hide();
+		            $("#pledgeBtn").css("background-color", "#5bbf5b");
+		            $("#certificationBtn").css("background-color", "rgb(200, 200, 200)");
+		        </c:when>
+		        <c:when test="${subCategoryNo eq 6}">
+		            $(".certification").show();
+		            $(".pledge").hide();
+		            $("#certificationBtn").css("background-color", "#5bbf5b");
+		            $("#pledgeBtn").css("background-color", "rgb(200, 200, 200)");
+		        </c:when>
+		        <c:otherwise>
+		            <!-- 기본적으로 보여질 탭 설정 -->
+		            $(".pledge").show();
+		            $(".certification").hide();
+		            $("#pledgeBtn").css("background-color", "#5bbf5b");
+		            $("#certificationBtn").css("background-color", "rgb(200, 200, 200)");
+		        </c:otherwise>
+		    </c:choose>
+		})
+		
+		//상세보기 이동
+		function pledgeDetail(postNo){
+        	location.href= "${contextPath}/pledge/detail/${postNo}"+postNo;
+        }
+		
+		
+		
     </script>
 </body>
 </html>

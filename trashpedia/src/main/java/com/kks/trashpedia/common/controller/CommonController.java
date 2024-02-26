@@ -1,11 +1,15 @@
 package com.kks.trashpedia.common.controller;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.UrlResource;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
@@ -36,8 +40,10 @@ public class CommonController {
 		
 		ModelAndView mv = new ModelAndView();
 		SubCategory subcategory = new SubCategory();
+		
 		subcategory.setBigCategoryNo(bigCategoryNo);
 		subcategory.setSubCategoryNo(subCategoryNo);
+		
 		SubCategory category = service.getSubCategory(subcategory);
 		mv.addObject("category",category);
 		mv.addObject("type",type);
@@ -87,7 +93,6 @@ public class CommonController {
 				if(image!=null) {
 					image.setRefBno(boardNo);
 					image.setImgType(type);
-//					mv.addObject(image);
 					}
 				
 				System.out.println(attachment);
@@ -95,28 +100,28 @@ public class CommonController {
 				
 				int result = service.insertFiles(attachment,image);
 				
-//				session.("alert", "게시글 작성 성공"); 
+				ra.addFlashAttribute("alert","게시글이 작성되었습니다."); 
 				}
 			else { 
-				mv.addObject("alert", "게시글 작성 실패");
+				ra.addFlashAttribute("alert", "게시글 작성에 실패하셨습니다.");
 			}
 		} else {
-			mv.addObject("alert", "게시글 작성 실패");
+			ra.addFlashAttribute("alert", "게시글 작성에 실패하셨습니다.");
 		}
-		mv.setViewName("redirect:/pledge/list");
+		mv.setViewName("redirect:/");
 		return mv;
 	}
 	
 	//이미지출력
-//	@ResponseBody
-//	@GetMapping("/images/{filename}")
-//	public UrlResource showImage(@PathVariable String filename) throws MalformedURLException {
-//		
-//		UrlResource url = new UrlResource("file:" + fileStore.getFullPath2(filename));
-//		
-//	    return url;
-//	}
-//	
+	@ResponseBody
+	@GetMapping("/image/{filename}")
+	public UrlResource showImage(@PathVariable String filename) throws MalformedURLException {
+		
+		UrlResource url = new UrlResource("file:" + fileStore.getFullPath2(filename));
+		
+	    return url;
+	}
+	
 	
 	//첨부파일다운로드
 	//@GetMapping("/attach/{boardNo}")

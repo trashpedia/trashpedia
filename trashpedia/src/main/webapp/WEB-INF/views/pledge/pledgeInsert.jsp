@@ -28,7 +28,13 @@
         <div class="container">
 
             <div class="content-category-outer">
-                <span class="container-title"> 게시글 등록 </span>
+            	<c:if test="${empty refBno}">
+                	<span class="container-title"> 게시글 등록 </span>
+                </c:if>
+            	<c:if test="${!empty refBno}">
+                	<span class="container-title"> 게시글 편집 </span>
+                </c:if>
+                
                 <span class="categoryName">${category.bigCategoryName}_</span>
                 <span class="categoryName">${category.subCategoryName}게시판</span>
                 <input type="hidden" name="bigCategoryNo" value="${category.bigCategoryNo}">
@@ -85,8 +91,8 @@
 	    });
 	    
 	    //에디터내용 추가(편집때)
-	    let content = document.querySelector('#writeBoard-content');
-	    content.innerHTML("${post.content}");
+// 	    let content = document.querySelector('#writeBoard-content');
+// 	    content.innerHTML("${post.content}");
 	    
 	    // editor 내용 hidden input에 담아서 submit    
 	    function submitForm() {

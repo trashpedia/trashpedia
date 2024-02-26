@@ -384,6 +384,7 @@ main .content-outer span {
 
 /* 배경 이미지 */
 main .green-img {
+/* 	background: url('../../image/main/mainImg/greenBackImg.jpg') no-repeat center center; */
     width: 100%;
     height: 400px;
     object-fit: cover;

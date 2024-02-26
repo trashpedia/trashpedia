@@ -39,10 +39,10 @@
                     </li>
                     <li id="menu-pledge" class="header-menu-hover">
                         <div class="header-menu-div">
-                            <a href="${contextPath}/pledge/list">실천하기</a>
+                            <a href="${contextPath}/pledge/list?bigCategoryNo=2&subCategoryNo=5">실천하기</a>
                             <ul class="header-menu-ul">
-                                <li><a href="#">실천서약</a></li>
-                                <li><a href="#">실천인증</a></li>
+                                <li><a href="${contextPath}/pledge/list?bigCategoryNo=2&subCategoryNo=5">실천서약</a></li>
+                                <li><a href="${contextPath}/pledge/list?bigCategoryNo=2&subCategoryNo=6">실천인증</a></li>
                             </ul>
                         </div>
                     </li>
