@@ -1,121 +1,272 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<c:set var="contextPath" value="<%=request.getContextPath() %>"/>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="EUC-KR">
-<title>Á¤º¸ÀÚ·á½Ç</title>
+<title>ì •ë³´ìë£Œì‹¤</title>
+<!-- <link rel="stylesheet" href ="resources/css/information/informationList.css"> -->
+<!-- <link rel="stylesheet" href ="resources/css/information/informationDeatil.css"> -->
+<link rel="stylesheet" href ="${contextPath}/resources/css/board/information/informationList.css">
 
-<link rel="stylesheet" href ="resources/css/information/informationList.css">
-<link rel="stylesheet" href ="resources/css/information/informationDeatil.css">
-
-
-
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"
+	integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+	crossorigin="anonymous"></script>
+<!-- css -->
+<link rel="stylesheet" href="resources/css/main/main.css">
+<!-- slick ë¼ì´ë¸ŒëŸ¬ë¦¬ CSS -->
+<link rel="stylesheet" type="text/css"
+	href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
+<!-- slick ë¼ì´ë¸ŒëŸ¬ë¦¬ í…Œë§ˆ CSS (ì„ íƒì‚¬í•­) -->
+<link rel="stylesheet" type="text/css"
+	href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css" />
+<!-- slick ë¼ì´ë¸ŒëŸ¬ë¦¬ JS -->
+<script type="text/javascript"
+	src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
 </head>
 <body>
+        
+	<jsp:include page="../../common/header.jsp" />
         
         <div id="menu-bar">
             
             <div id="container">
-                <!--½ÇÃµ¼­¾à Å¸ÀÌÆ² ºÎºĞ-->
+                <!--ì‹¤ì²œì„œì•½ íƒ€ì´í‹€ ë¶€ë¶„-->
                 <div class="practice-section">
-                    <p>Á¤º¸ÀÚ·á½Ç</p>
+                    <p>ì •ë³´ìë£Œì‹¤</p>
                     <p>Reduce Reuse Recycle Recovery</p>
                 </div>
  
                 <div class="list_wrap">
                     <ul>
                         <li class="item item1">
-                            <div class="image">»çÁø</div>
+                            <div class="image">ì‚¬ì§„</div>
                             <div class="cont">
-                                <strong>Á¦¸ñÀÌ µé¾î°©´Ï´Ù.</strong>
-                                <p>³»¿ëÀÌ µé¾î°©´Ï´Ù.</p>
-                                <a href="#">¹Ù·Î°¡±â</a>
+                                <strong>ì œëª©ì´ ë“¤ì–´ê°‘ë‹ˆë‹¤.</strong>
+                                <p>ë‚´ìš©ì´ ë“¤ì–´ê°‘ë‹ˆë‹¤.</p>
+                                <a href="#">ë°”ë¡œê°€ê¸°</a>
                             </div>
                         </li>
                         <li class="item item2">
-                            <div class="image">»çÁø</div>
+                            <div class="image">ì‚¬ì§„</div>
                             <div class="cont">
-                                <strong>Á¦¸ñÀÌ µé¾î°©´Ï´Ù.</strong>
-                                <p>³»¿ëÀÌ µé¾î°©´Ï´Ù.</p>
-                                <a href="#">¹Ù·Î°¡±â</a>
+                                <strong>ì œëª©ì´ ë“¤ì–´ê°‘ë‹ˆë‹¤.</strong>
+                                <p>ë‚´ìš©ì´ ë“¤ì–´ê°‘ë‹ˆë‹¤.</p>
+                                <a href="#">ë°”ë¡œê°€ê¸°</a>
                             </div>
                         </li>
                         <li class="item item3">
-                            <div class="image">»çÁø</div>
+                            <div class="image">ì‚¬ì§„</div>
                             <div class="cont">
-                                <strong>Á¦¸ñÀÌ µé¾î°©´Ï´Ù.</strong>
-                                <p>³»¿ëÀÌ µé¾î°©´Ï´Ù.</p>
-                                <a href="#">¹Ù·Î°¡±â</a>
+                                <strong>ì œëª©ì´ ë“¤ì–´ê°‘ë‹ˆë‹¤.</strong>
+                                <p>ë‚´ìš©ì´ ë“¤ì–´ê°‘ë‹ˆë‹¤.</p>
+                                <a href="#">ë°”ë¡œê°€ê¸°</a>
                             </div>
                         </li>
                         <li class="item item4">
-                            <div class="image">»çÁø</div>
+                            <div class="image">ì‚¬ì§„</div>
                             <div class="cont">
-                                <strong>Á¦¸ñÀÌ µé¾î°©´Ï´Ù.</strong>
-                                <p>³»¿ëÀÌ µé¾î°©´Ï´Ù.</p>
-                                <a href="#">¹Ù·Î°¡±â</a>
+                                <strong>ì œëª©ì´ ë“¤ì–´ê°‘ë‹ˆë‹¤.</strong>
+                                <p>ë‚´ìš©ì´ ë“¤ì–´ê°‘ë‹ˆë‹¤.</p>
+                                <a href="#">ë°”ë¡œê°€ê¸°</a>
                             </div>
                         </li>
                         <li class="item item5">
-                            <div class="image">»çÁø</div>
+                            <div class="image">ì‚¬ì§„</div>
                             <div class="cont">
-                                <strong>Á¦¸ñÀÌ µé¾î°©´Ï´Ù.</strong>
-                                <p>³»¿ëÀÌ µé¾î°©´Ï´Ù.</p>
-                                <a href="#">¹Ù·Î°¡±â</a>
+                                <strong>ì œëª©ì´ ë“¤ì–´ê°‘ë‹ˆë‹¤.</strong>
+                                <p>ë‚´ìš©ì´ ë“¤ì–´ê°‘ë‹ˆë‹¤.</p>
+                                <a href="#">ë°”ë¡œê°€ê¸°</a>
                             </div>
                         </li>
                         <li class="item item6">
-                            <div class="image">»çÁø</div>
+                            <div class="image">ì‚¬ì§„</div>
                             <div class="cont">
-                                <strong>Á¦¸ñÀÌ µé¾î°©´Ï´Ù.</strong>
-                                <p>³»¿ëÀÌ µé¾î°©´Ï´Ù.</p>
-                                <a href="#">¹Ù·Î°¡±â</a>
+                                <strong>ì œëª©ì´ ë“¤ì–´ê°‘ë‹ˆë‹¤.</strong>
+                                <p>ë‚´ìš©ì´ ë“¤ì–´ê°‘ë‹ˆë‹¤.</p>
+                                <a href="#">ë°”ë¡œê°€ê¸°</a>
                             </div>
                         </li>
                         <li class="item item7">
-                            <div class="image">»çÁø</div>
+                            <div class="image">ì‚¬ì§„</div>
                             <div class="cont">
-                                <strong>Á¦¸ñÀÌ µé¾î°©´Ï´Ù.</strong>
-                                <p>³»¿ëÀÌ µé¾î°©´Ï´Ù.</p>
-                                <a href="#">¹Ù·Î°¡±â</a>
+                                <strong>ì œëª©ì´ ë“¤ì–´ê°‘ë‹ˆë‹¤.</strong>
+                                <p>ë‚´ìš©ì´ ë“¤ì–´ê°‘ë‹ˆë‹¤.</p>
+                                <a href="#">ë°”ë¡œê°€ê¸°</a>
                             </div>
                         </li>
                         <li class="item item8">
-                            <div class="image">»çÁø</div>
+                            <div class="image">ì‚¬ì§„</div>
                             <div class="cont">
-                                <strong>Á¦¸ñÀÌ µé¾î°©´Ï´Ù.</strong>
-                                <p>³»¿ëÀÌ µé¾î°©´Ï´Ù.</p>
-                                <a href="#">¹Ù·Î°¡±â</a>
+                                <strong>ì œëª©ì´ ë“¤ì–´ê°‘ë‹ˆë‹¤.</strong>
+                                <p>ë‚´ìš©ì´ ë“¤ì–´ê°‘ë‹ˆë‹¤.</p>
+                                <a href="#">ë°”ë¡œê°€ê¸°</a>
                             </div>
                         </li>
                         <li class="item item9">
-                            <div class="image">»çÁø</div>
+                            <div class="image">ì‚¬ì§„</div>
                             <div class="cont">
-                                <strong>Á¦¸ñÀÌ µé¾î°©´Ï´Ù.</strong>
-                                <p>³»¿ëÀÌ µé¾î°©´Ï´Ù.</p>
-                                <a href="#">¹Ù·Î°¡±â</a>
+                                <strong>ì œëª©ì´ ë“¤ì–´ê°‘ë‹ˆë‹¤.</strong>
+                                <p>ë‚´ìš©ì´ ë“¤ì–´ê°‘ë‹ˆë‹¤.</p>
+                                <a href="#">ë°”ë¡œê°€ê¸°</a>
                             </div>
                         </li>
                     </ul>
                 </div>
 
                 <div class="btn-area">
-                    <button type="button" id="moreButton" class="btn btn-lg btn-default">´õº¸±â</button>
+                    <button type="button" id="moreButton" class="btn btn-lg btn-default">ë”ë³´ê¸°</button>
                 </div>
                  
             </div>
         </div>
-        <!-- ¸Ç ¾Æ·¡ ¿µ¿ª -->
-        <div>
-            <footer id="footer">
-                <div id="copyright">
-                    
-                </div>
-                <div id="address">
-              
-                </div>
-            </footer>
-        </div>
+        
+	<jsp:include page="../../common/footer.jsp" />
+        
+        <script>
+		// IntersectionObserver ì„¤ì •
+		let observer = new IntersectionObserver((entries) => {
+		  entries.forEach((entry) => {
+		    if (entry.isIntersecting) { // í™”ë©´ì— ë‚˜íƒ€ë‚  ë•Œ
+		      $(entry.target).css({
+		        opacity: 1,
+		        transform: 'translate(0, -60px)'
+		      });
+		    } else { // í™”ë©´ì— ë‚˜íƒ€ë‚˜ì§€ ì•Šì„ ë•Œ
+		      $(entry.target).css({
+		        opacity: 0,
+		        transform: 'none' // ê¸°ì¡´ì˜ íŠ¸ëœìŠ¤í¼ íš¨ê³¼ ì œê±°
+		      });
+		    }
+		  });
+		});
+	
+		$('.showEvent').each(function() {
+		  observer.observe(this);
+		});
+	    
+    
+	    // ìŠ¬ë¼ì´ë“œ
+	    $(document).ready(function(){
+	    		//ìµœê·¼ ì—…ë°ì´íŠ¸ ëœ ì“°ë ˆê¸°
+	            $('#recently-garbage-slider .recently-garbage-inner').slick({
+	                slidesToShow: 4,
+	                slidesToScroll: 1,
+	                autoplay: true,
+	                autoplaySpeed: 2000, // 2ì´ˆë§ˆë‹¤ ìŠ¬ë¼ì´ë“œ ì „í™˜
+	                arrows : true,
+	                dots: true,
+	                prevArrow: '<div class="custom-prev"></div>',
+	                nextArrow: '<div class="custom-next"></div>'
+	                // prevArrow: '<button type="button" class="slick-prev">&#9665;</button>',
+	                // nextArrow: '<button type="button" class="slick-next">&#9655;</button>'
+	            });
+	    		//ì •ë³´ìë£Œê¸€
+	            $('#information-content-slider').slick({
+	                slidesToShow: 1,
+	                slidesToScroll: 1,
+	                autoplay: true,
+	                autoplaySpeed: 3000, // 2ì´ˆë§ˆë‹¤ ìŠ¬ë¼ì´ë“œ ì „í™˜
+	                arrows : true,
+	                dots: true,
+	                prevArrow: '<div class="custom-prev"></div>',
+	                nextArrow: '<div class="custom-next"></div>'
+	            });
+	    });
+	
+	   
+	    $(document).ready(function() {
+	        // ìŠ¤í¬ë¡¤ ë‹¤ìš´ ë²„íŠ¼ 
+	        $("#scrollDownButton").click(function() {
+	            $("body, html").animate({ 
+	                scrollTop: 1160 
+	            }, 1100); 
+	        });
+	        
+	        // ìƒë‹¨ ì´ë™ ë²„íŠ¼
+	        var scrollUpButton = $('#scrollUpButton');
+
+	        $(window).scroll(function() {
+	            if ($(this).scrollTop() > 300) {
+	                scrollUpButton.show();
+	            } else {
+	                scrollUpButton.hide();
+	            }
+	        });
+	        
+	        scrollUpButton.click(function(){
+	        	$('html,body').animate({scrollTop:0},500);
+	        	return false;
+	        });
+	        
+	    });
+	    
+	   
+	    
+
+	    // ìŠ¤í¬ë¡¤ ë³€í™”ì— ë”°ë¥¸ header ìŠ¤íƒ€ì¼ ë³€ê²½
+		$(window).scroll(function() {
+		  var header = $('.header');
+		  var headerLinks = $('.header-nav ul li a');
+		  var headerRightLink = $('.header-right li a, .header-right li span');
+		
+		  if ($(window).scrollTop() > 100) {
+		    header.addClass('header-scroll');
+		    headerLinks.css({
+		      color: 'black',
+		      fontWeight: '650'
+		    });
+		    headerRightLink.css({
+		      color: 'rgb(88, 88, 88)',
+		      fontWeight: '650'
+		    });
+		  } else {
+		    header.removeClass('header-scroll');
+		    headerLinks.css({
+		      color: '',
+		      fontWeight: ''
+		    });
+		    headerRightLink.css({
+		      color: '',
+		      fontWeight: ''
+		    });
+		  }
+		});
+	    
+	    
+	    // ë©”ì¸ ì´ë¯¸ì§€ ìŠ¤í¬ë¡¤ íš¨ê³¼
+	    $(document).ready(function() {
+	        const $counters = $(".scroll_on");
+	        const exposurePercentage = 100; // ex) ìŠ¤í¬ë¡¤ í–ˆì„ ë•Œ $counters ì»¨í…ì¸ ê°€ í™”ë©´ì— 100% ë…¸ì¶œë˜ë©´ ìˆ«ìê°€ ì˜¬ë¼ê°
+	        const loop = true; // ì• ë‹ˆë©”ì´ì…˜ ë°˜ë³µ ì—¬ë¶€ì„¤ì • (trueë¡œ ì„¤ì •í•  ê²½ìš°, ìš”ì†Œê°€ í™”ë©´ì—ì„œ ì‚¬ë¼ì§ˆ ë•Œ ë‹¤ì‹œ ìˆ¨ê²¨ì§)
+	
+	        // ìœˆë„ìš°ì˜ ìŠ¤í¬ë¡¤ ì´ë²¤íŠ¸ ëª¨ë‹ˆí„°ë§
+	        $(window).on('scroll', function() {
+	            // ê° "scroll_on" í´ë˜ìŠ¤ë¥¼ ê°€ì§„ ìš”ì†Œì— ëŒ€í•´ ë°˜ë³µ
+	            $counters.each(function() {
+	                const $el = $(this);
+	        
+	                // ìš”ì†Œì˜ ìœ„ì¹˜ ì •ë³´ë¥¼ ê°€ì ¸ì˜´
+	                const rect = $el[0].getBoundingClientRect();
+	                const winHeight = window.innerHeight; // í˜„ì¬ ë¸Œë¼ìš°ì € ì°½ì˜ ë†’ì´
+	                const contentHeight = rect.bottom - rect.top; // ìš”ì†Œì˜ ë†’ì´
+	                
+	                // ìš”ì†Œê°€ í™”ë©´ì— íŠ¹ì • ë¹„ìœ¨ë§Œí¼ ë…¸ì¶œë  ë•Œ ì²˜ë¦¬
+	                if (rect.top <= winHeight - (contentHeight * exposurePercentage / 100) && rect.bottom >= (contentHeight * exposurePercentage / 100)) {
+	                    $el.addClass('active');
+	                }
+	                // ìš”ì†Œê°€ í™”ë©´ì—ì„œ ì™„ì „íˆ ì‚¬ë¼ì¡Œì„ ë•Œ ì²˜ë¦¬
+	                if (loop && (rect.bottom <= 0 || rect.top >= window.innerHeight)) {
+	                    $el.removeClass('active');
+	                }
+	            });
+	        }).scroll();
+	    });
+	    
+	    
+	    
+    </script>
     </body>
 </html>

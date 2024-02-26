@@ -30,9 +30,9 @@
                         <div class="header-menu-div">
                             <a href="${contextPath}/board">커뮤니티</a>
                             <ul class="header-menu-ul">
-                                <li><a href="${contextPath}/board">공지게시판</a></li>
-                                <li><a href="${contextPath}/boardInformation">일반게시판</a></li>
-                                <li><a href="${contextPath}/board">건의게시판</a></li>
+                                <li><a href="${contextPath}/boardNotice">공지게시판</a></li>
+                                <li><a href="${contextPath}/boardGeneral">일반게시판</a></li>
+                                <li><a href="${contextPath}/boardSuggestion">건의게시판</a></li>
                                 <li><a href="${contextPath}/boardFreeShare">무료나눔게시판</a></li>
                             </ul>
                         </div>
@@ -48,7 +48,7 @@
                     </li>
                     <li id="menu-information" class="header-menu-hover">
                         <div class="header-menu-div">
-                            <a href="#">정보자료글</a>
+                            <a href="${contextPath}/boardInformation">정보자료글</a>
                             <ul class="header-menu-ul">
                                 <li><a href="#">홍보 교육자료</a></li>
                                 <li><a href="#">제도 정책자료</a></li>
