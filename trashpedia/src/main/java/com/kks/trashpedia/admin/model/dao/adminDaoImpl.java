@@ -21,6 +21,8 @@ import com.kks.trashpedia.board.model.vo.SubCategory;
 import com.kks.trashpedia.member.model.vo.Member;
 import com.kks.trashpedia.point.model.vo.PointHistory;
 import com.kks.trashpedia.report.model.vo.Report;
+import com.kks.trashpedia.trash.model.vo.Request;
+import com.kks.trashpedia.trash.model.vo.Suggestion;
 
 @Repository
 public class adminDaoImpl implements adminDao{
@@ -176,8 +178,18 @@ public class adminDaoImpl implements adminDao{
 	}
 
 	@Override
-	public List<Post> loadBoardDetailData(int boardNo) {
+	public Post loadBoardDetailData(int boardNo) {
 		return session.selectOne("adminMapper.loadBoardDetailData",boardNo);
+	}
+
+	@Override
+	public List<Request> getRequestList() {
+		return session.selectList("adminMapper.getRequestList");
+	}
+
+	@Override
+	public List<Suggestion> getSuggestionList() {
+		return session.selectList("adminMapper.getSuggestionList");
 	}
 
 

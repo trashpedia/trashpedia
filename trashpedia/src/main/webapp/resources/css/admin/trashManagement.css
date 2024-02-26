@@ -169,3 +169,7 @@ section{
     display: flex;
     gap: 20px;
 }
+
+.button{
+	z-index: 3;
+}

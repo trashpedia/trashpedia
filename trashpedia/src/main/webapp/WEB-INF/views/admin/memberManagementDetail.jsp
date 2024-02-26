@@ -188,6 +188,7 @@
 	        });
 	    }
 	    function updateBoardTable(data) {
+	    	console.log(data);
 	        let userList = document.querySelector('.boardList');
 	        let list = data.content;
 	        for (let i = 0; i < list.length; i++) {

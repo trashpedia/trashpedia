@@ -16,6 +16,8 @@ import com.kks.trashpedia.board.model.vo.SubCategory;
 import com.kks.trashpedia.member.model.vo.Member;
 import com.kks.trashpedia.point.model.vo.PointHistory;
 import com.kks.trashpedia.report.model.vo.Report;
+import com.kks.trashpedia.trash.model.vo.Request;
+import com.kks.trashpedia.trash.model.vo.Suggestion;
 
 @Service
 public class adminServiceImpl implements adminService{
@@ -143,8 +145,18 @@ public class adminServiceImpl implements adminService{
 	}
 
 	@Override
-	public List<Post> loadBoardDetailData(int boardNo) {
+	public Post loadBoardDetailData(int boardNo) {
 		return dao.loadBoardDetailData(boardNo);
+	}
+
+	@Override
+	public List<Request> getRequestList() {
+		return dao.getRequestList();
+	}
+
+	@Override
+	public List<Suggestion> getSuggestionList() {
+		return dao.getSuggestionList();
 	}
 
 }

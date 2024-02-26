@@ -25,6 +25,8 @@ import com.kks.trashpedia.board.model.vo.SubCategory;
 import com.kks.trashpedia.member.model.vo.Member;
 import com.kks.trashpedia.point.model.vo.PointHistory;
 import com.kks.trashpedia.report.model.vo.Report;
+import com.kks.trashpedia.trash.model.vo.Request;
+import com.kks.trashpedia.trash.model.vo.Suggestion;
 
 @RestController
 @RequestMapping("/admin")
@@ -147,13 +149,15 @@ public class AdminController {
 	}
 	// 관리자 회원 관리 유저 상세 게시글 상세
 	@GetMapping("/getMemberBoardDetail")
-	public Board getMemberBoardDetail(@RequestParam int boardNo) {
-		return service.getMemberBoardDetail(boardNo);
+	public ResponseEntity<Board> getMemberBoardDetail(@RequestParam int boardNo) {
+		Board board = service.getMemberBoardDetail(boardNo);
+		return ResponseEntity.status(HttpStatus.OK).body(board);
 	}
 	// 관리자 회원 관리 유저 상세 댓글 리스트
 	@GetMapping("/getCommentList")
 	public ResponseEntity<Page<Board>> getMemberCommentList(@PageableDefault(page = 0, size = 20, sort = "id", direction = Sort.Direction.DESC) @RequestParam int userNo, Pageable pageable) {
 		Page<Board> page = service.getMemberCommentList(pageable, userNo);
+		System.out.println(page);
 		return ResponseEntity.status(HttpStatus.OK).body(page);
 	}
 	// 관리자 회원 관리 유저 상세 댓글 상세
@@ -203,14 +207,19 @@ public class AdminController {
 	}
 	// 관리자 게시판 관리 게시글 디테일
 	@GetMapping("/loadBoardDetailData")
-	public ResponseEntity<List<Post>> loadBoardDetailData(@RequestParam int boardNo){
-		List<Post> list = service.loadBoardDetailData(boardNo);
+	public ResponseEntity<Post> loadBoardDetailData(@RequestParam int boardNo){
+		Post list = service.loadBoardDetailData(boardNo);
 		return ResponseEntity.ok(list);
 	}
 	
 	@GetMapping("/trash")
 	public ModelAndView trashManagement() {
+		List<Request> rl = service.getRequestList();
+		List<Suggestion> sl = service.getSuggestionList();
+		
 		ModelAndView mav = new ModelAndView();
+		mav.addObject("rl",rl);
+		mav.addObject("sl",sl);
 		mav.setViewName("admin/trashManagement");
 		return mav;
 	}

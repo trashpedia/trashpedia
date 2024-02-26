@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <c:set var="contextPath" value="<%=request.getContextPath() %>"/>
 <!DOCTYPE html>
 <html lang="ko">
@@ -31,9 +32,9 @@
             <section class="trash-section">
                 <div class="trash-board-container">
                     <div class="trash-content">
-                        <div class="trash-board-title-wrapper">
+                        <div class="trash-board-title-wrapper board-title">
                             <div class="trash-board-title">쓰레기 게시글</div>
-                            <div class="trash-board-subtitle">총 150개</div>
+                            <div class="trash-board-subtitle">총 개</div>
                             <input class="trash-write" type="button" onclick="writeTrash()" value="글쓰기">
                         </div>
                         <table class="trash-table">
@@ -45,291 +46,41 @@
                                     <th>쓰레기 이름</th>
                                     <th>쓰레기 작성일</th>
                                     <th>쓰레기 수정일</th>
-                                </th>
+                                    <th>비고</th>
+                                </tr>
                             </thead>
-                            <tbody>
-                                <tr onclick="detailPage(1)">
-                                    <td>1</td>
-                                    <td>가전</td>
-                                    <td>냉장고</td>
-                                    <td>700L 냉장고</td>
-                                    <td>2024/01/01</td>
-                                    <td>2024/02/01</td>
-                                </tr>
-                                <tr onclick="detailPage(1)">
-                                    <td>1</td>
-                                    <td>가전</td>
-                                    <td>냉장고</td>
-                                    <td>700L 냉장고</td>
-                                    <td>2024/01/01</td>
-                                    <td>2024/02/01</td>
-                                </tr>
-                                <tr onclick="detailPage(1)">
-                                    <td>1</td>
-                                    <td>가전</td>
-                                    <td>냉장고</td>
-                                    <td>700L 냉장고</td>
-                                    <td>2024/01/01</td>
-                                    <td>2024/02/01</td>
-                                </tr>
-                                <tr onclick="detailPage(1)">
-                                    <td>1</td>
-                                    <td>가전</td>
-                                    <td>냉장고</td>
-                                    <td>700L 냉장고</td>
-                                    <td>2024/01/01</td>
-                                    <td>2024/02/01</td>
-                                </tr>
-                                <tr onclick="detailPage(1)">
-                                    <td>1</td>
-                                    <td>가전</td>
-                                    <td>냉장고</td>
-                                    <td>700L 냉장고</td>
-                                    <td>2024/01/01</td>
-                                    <td>2024/02/01</td>
-                                </tr>
-                                <tr onclick="detailPage(1)">
-                                    <td>1</td>
-                                    <td>가전</td>
-                                    <td>냉장고</td>
-                                    <td>700L 냉장고</td>
-                                    <td>2024/01/01</td>
-                                    <td>2024/02/01</td>
-                                </tr>
-                                <tr onclick="detailPage(1)">
-                                    <td>1</td>
-                                    <td>가전</td>
-                                    <td>냉장고</td>
-                                    <td>700L 냉장고</td>
-                                    <td>2024/01/01</td>
-                                    <td>2024/02/01</td>
-                                </tr>
-                                <tr onclick="detailPage(1)">
-                                    <td>1</td>
-                                    <td>가전</td>
-                                    <td>냉장고</td>
-                                    <td>700L 냉장고</td>
-                                    <td>2024/01/01</td>
-                                    <td>2024/02/01</td>
-                                </tr>
-                                <tr onclick="detailPage(1)">
-                                    <td>1</td>
-                                    <td>가전</td>
-                                    <td>냉장고</td>
-                                    <td>700L 냉장고</td>
-                                    <td>2024/01/01</td>
-                                    <td>2024/02/01</td>
-                                </tr>
-                                <tr onclick="detailPage(1)">
-                                    <td>1</td>
-                                    <td>가전</td>
-                                    <td>냉장고</td>
-                                    <td>700L 냉장고</td>
-                                    <td>2024/01/01</td>
-                                    <td>2024/02/01</td>
-                                </tr>
-                            </tbody>
+                            <tbody class="trash-tbody"></tbody>
                         </table>
-                        <div class="pageBar">
-                            <div>&lt;&lt;</div>
-                            <div>1</div>
-                            <div>2</div>
-                            <div>3</div>
-                            <div>&gt;&gt;</div>
-                        </div>
+                        <div class="pageBar"></div>
                     </div>
                 </div>
                 <div class="trash-request-container">
                     <div class="trash-container">
                         <div class="trash-title-wrapper">
                             <div class="trash-title">신청 리스트</div>
-                            <div class="trash-subtitle">총 5,000개</div>
+                            <div class="trash-subtitle">총 ${fn:length(sl)}개</div>
                         </div>
                         <div class="list">
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글1</div>
-                            </div>
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글2</div>
-                            </div>
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글3</div>
-                            </div>
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글4</div>
-                            </div>
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글5</div>
-                            </div>
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글6</div>
-                            </div>
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글7</div>
-                            </div>
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글8</div>
-                            </div>
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글9</div>
-                            </div>
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글10</div>
-                            </div>
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글11</div>
-                            </div>
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글12</div>
-                            </div>
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글13</div>
-                            </div>
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글14</div>
-                            </div>
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글15</div>
-                            </div>
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글16</div>
-                            </div>
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글17</div>
-                            </div>
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글18</div>
-                            </div>
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글19</div>
-                            </div>
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글20</div>
-                            </div>
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글21</div>
-                            </div>
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글22</div>
-                            </div>
+                        	<c:forEach var="sl" items="${sl}">
+	                            <div class="item">
+	                                <div class="icon">😃</div>
+	                                <div class="title">${sl.title}</div>
+	                            </div>
+                        	</c:forEach>
                         </div>
                     </div>
                     <div class="trash-container">
                         <div class="trash-title-wrapper">
                             <div class="trash-title">수정 요청 리스트</div>
-                            <div class="trash-subtitle">총 3,000개</div>
+                            <div class="trash-subtitle">총 ${fn:length(rl)}개</div>
                         </div>
                         <div class="list">
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글1</div>
-                            </div>
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글2</div>
-                            </div>
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글3</div>
-                            </div>
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글4</div>
-                            </div>
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글5</div>
-                            </div>
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글6</div>
-                            </div>
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글7</div>
-                            </div>
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글8</div>
-                            </div>
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글9</div>
-                            </div>
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글10</div>
-                            </div>
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글11</div>
-                            </div>
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글12</div>
-                            </div>
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글13</div>
-                            </div>
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글14</div>
-                            </div>
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글15</div>
-                            </div>
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글16</div>
-                            </div>
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글17</div>
-                            </div>
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글18</div>
-                            </div>
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글19</div>
-                            </div>
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글20</div>
-                            </div>
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글21</div>
-                            </div>
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="title">게시글22</div>
-                            </div>
+                        	<c:forEach var="rl" items="${rl}">
+	                            <div class="item">
+	                                <div class="icon">😃</div>
+	                                <div class="title">${rl.title}</div>
+	                            </div>
+                        	</c:forEach>
                         </div>
                     </div>
                 </div>
@@ -337,11 +88,80 @@
         </div>
     </div>
     <script>
-        function detailPage(trashNo){
-            location.href="/detail=" + trashNo;
-        }
-        function writeTrash(){
-            location.href="/adminBoard.html";
-        }
+	    var isLoading = false;
+		
+	    $(document).ready(function() {
+	    	getTrashList();
+	    });
+    
+	    function getTrashList(page) {
+	        $.ajax({
+	            url: '${contextPath}/admin/getTrashList',
+	            type: 'GET',
+	            dataType: 'json',
+	            data: { page: page, size: 20},
+	            success: function(data) {
+	            	console.log(data);
+	                if(data.content.length != 0){
+	                	updateTrashTable(data);
+	                    updateTrashPagination(data);
+	                }
+	            },
+	            error: function(xhr, status, error) {
+	                console.error('Error: ' + error);
+	            }
+	        });
+	    }
+	
+	    function updateTrashTable(data) {
+	        let userList = document.querySelector('.trash-tbody');
+	        userList.innerHTML = '';	
+	        let list = data.content;
+	        for (let i = 0; i < list.length; i++) {
+	            let row = '<tr onclick="trashDetail('+list[i].trashNo+')">';
+	            row += '<td>'+list[i].trashBigCategoryName+'</td>';
+	            row += '<td>'+list[i].trashSubCategoryName+'</td>';
+	            row += '<td>'+list[i].trashTitle+'</td>';
+	            row += '<td>'+list[i].createDate+'</td>';
+	            row += '<td>'+list[i].modifyDate+'</td>';
+	            row += '<td class="button"><input type="button" onclick="modify('+list[i].trashNo+')" value="수정"/><input type="button" onclick="delete('+list[i].trashNo+')" value="삭제"/></td>';
+	            row += '</tr>';
+	            userList.innerHTML += row;
+	        }
+	    }
+	
+	    function updateTrashPagination(data) {
+	        let userPaging = document.querySelector('.pageBar');
+	        let pagination = '';
+	        if (!data.empty) {
+	            if (!data.first) {
+	                pagination += '<td><a class="page-link" href="#" onclick="loadReportData(' + (data.number - 1) + ')">이전</a></td>';
+	            }
+	            for (let i = 0; i < data.totalPages; i++) {
+	                if (i >= data.number - 5 && i <= data.number + 5) {
+	                    pagination += '<td';
+	                    if (i === data.number) {
+	                        pagination += ' class="active"';
+	                    }
+	                    pagination += '><a href="#" onclick="loadReportData(' + i + ')">' + (i + 1) + '</a></td>';
+	                }
+	            }
+	            if (!data.last) {
+	                pagination += '<td><a href="#" onclick="loadReportData(' + (data.number + 1) + ')">다음</a></td>';
+	            }
+	        }
+	        userPaging.innerHTML = '<tr>' + pagination + '</tr>';
+	    }
+	    
+	    function trashDetail(trashNo){
+	        location.href="/board/detail?boardNo="+trashNo;
+	    }
+	    function trashUpdate(trashNo){
+	        location.href="/trash/update/detail?boardNo="+trashNo;
+	    }
+	    function trashDelete(trashNo){
+	        location.href="/trash/delete/detail?boardNo="+trashNo;
+	    }
     </script>
 </body>
+</html>
