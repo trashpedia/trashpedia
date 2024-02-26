@@ -11,7 +11,6 @@
 	<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 	<link rel="stylesheet" href="${contextPath}/resources/css/main/pledgeDetail.css">
 </head>
-
 <body>
 
 	<jsp:include page="../common/header.jsp"/>
@@ -19,13 +18,13 @@
     <main>
         <div class="container">
             <div class="content-title-outer">
-                <p> 실천서약 게시글 상세페이지 제목 </p>
+                <p> ${post.title} </p>
                 <span id="">작성일</span>
-                <span id="">2024/02/01</span>
+                <span id=""> ${post.createDate} </span>
+                <span id="">수정일</span>
+                <span id=""> ${post.modifyDate} </span>
                 <span id="view">조회수</span>
-                <span id="view-count">1,234</span>
-<!--                 <span id="like">추천수</span>
-                <span id="like-count">5</span> -->
+                <span id="view-count">${post.hitsNo}</span>
                 <hr>
             </div>
             <div class="content-outer">

@@ -8,20 +8,15 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>TRASHPEDIA</title>
-<script src="https://code.jquery.com/jquery-3.7.1.min.js"
-	integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
-	crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 <!-- css -->
 <link rel="stylesheet" href="resources/css/main/main.css">
 <!-- slick 라이브러리 CSS -->
-<link rel="stylesheet" type="text/css"
-	href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
 <!-- slick 라이브러리 테마 CSS (선택사항) -->
-<link rel="stylesheet" type="text/css"
-	href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css" />
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css" />
 <!-- slick 라이브러리 JS -->
-<script type="text/javascript"
-	src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
 </head>
 <body>
 
@@ -178,8 +173,10 @@
 		</div>
 
 		<!-- 배경이미지 -->
-		<img class="green-img" src="https://www.recycling-info.or.kr/act4r/images/main/main_2023/btmSection.jpg">
-
+<!-- 		<img class="green-img" src="https://www.recycling-info.or.kr/act4r/images/main/main_2023/btmSection.jpg"> -->
+		<!-- <img class="green-img" src="../../image/main/mainImg/greenBackImg.jpg'"> -->
+		<img class="green-img" src="<c:url value='/resources/image/main/mainImg/greenBackImg.jpg' />" alt="Green Background Image">
+		
 		<!-- 공지사항 / 실천서약 -->
 		<div id="popularPost">
 
@@ -202,8 +199,8 @@
 
 				<!-- 오른쪽: 인스타 게시글 리스트 -->
 				<div id="instagramPostsDiv">
-					<span class="post-title">SNS 실천인증</span> <span class="more-btn"><a
-						href="#">더보기</a></span>
+					<span class="post-title">SNS 실천인증</span> <span class="more-btn">
+					 <a href="${contextPath}/pledge/list?bigCategoryNo=2&subCategoryNo=6">더보기</a></span>
 					<div class="instagram-posts-list">
 						<div class="post-container">
 							<img

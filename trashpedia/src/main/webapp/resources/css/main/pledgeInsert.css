@@ -6,7 +6,7 @@ main{
 }
 
 .container{
-    width: 1000px;
+    width: 950px;
     margin-top: 40px;
     margin-bottom: 40px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -15,22 +15,26 @@ main{
 
 /* 카테고리 부분 */
 .content-category-outer{
-	margin-top : 20px;
-    margin-left: 30px;
+	margin-top : 30px;
+	padding-left : 35px;
     text-align: left;
-    margin-bottom: 60px;
-    /* background-color: #73cc73;
-    color: white; */
+    display: flex;
+    justify-content: flex-start;
+    align-items: baseline;
+    width : 910px;
+    min-width : 820px;
+    height: 40px;
     color : #3fab3f;
 }
 .container-title{
-	font-size : 28px;
+	margin-left :27px;
+	font-size : 20px;
     font-weight: 700;
     margin-right : 5px;
     /* margin-bottom : 10px; */
 }
 .categoryName{
-    font-size : 16px;
+    font-size : 13px;
     margin-bottom: 30px;
     font-weight: 530;
     color : #73cc73;
@@ -39,20 +43,24 @@ main{
 /* 제목입력 부분 */
 .content-input-outer{
    text-align: center;
-   margin-top: 10px;
-   margin-bottom: 10px;
+   margin-top: 20px;
+   margin-bottom: 5px;
 }
 .input-title{
-    font-size: 25px;
+    font-size: 22px;
     font-weight: 700;
     width: 820px;
     border: 0;
     font-weight: 550;
     padding-top: 10px;
 }
+.input-title:focus{
+	outline : none;
+}
+
 .content-input-outer hr{
-    margin-top: 20px;
-    margin-bottom: 20px;
+    margin-top: 10px;
+    margin-bottom: 15px;
     width: 820px;
     
 }
