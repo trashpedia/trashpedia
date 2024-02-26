@@ -94,7 +94,7 @@ section{
     justify-content: space-between;
 }
 
-.board-title{
+.title{
     font-size: 25px;
     font-weight: 500;
 }
@@ -108,12 +108,29 @@ section{
 	padding-right:5px;
 }
 
-.userList>.item>.subtitle{
-	padding-right:10px;
+.subtitle{
+    display: grid;
+    align-items: center;
+	height: 100%;
+	overflow: hidden;
 }
 
 .item{
     display: flex;
     align-items: center;
     height: 70px;
+}
+
+.content-item{
+	height: 300px;
+	display: flex;
+    align-items: flex-start;
+}
+
+.content-icon{
+    width: 40px;
+    height: 100%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
 }

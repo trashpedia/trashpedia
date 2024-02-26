@@ -95,7 +95,7 @@
 		WHERE C.USER_NO = #{userNo}
 	</select>
 	<select id="getMemberBoardList" resultType="board">
-		SELECT TITLE, BC.BIG_CATEGORY_NAME, S.SUB_CATEGORY_NAME
+		SELECT TITLE, BC.BIG_CATEGORY_NAME, S.SUB_CATEGORY_NAME, B.BOARD_NO
 		FROM BOARD B
 		LEFT JOIN POST P ON B.POST_NO = P.POST_NO
 		LEFT JOIN SUB_CATEGORY S ON B.SUB_CATEGORY_NO = S.SUB_CATEGORY_NO
@@ -149,7 +149,7 @@
 		FROM POINT_HISTORY
 		WHERE USER_NO = #{userNo}
 	</select>
-	<select id="getMemberReportList" resultType="report">
+	<select id="getMemberReportList" parameterType="int" resultType="report">
 		SELECT *
 		FROM REPORT
 		WHERE USER_NO = #{userNo)
@@ -169,11 +169,19 @@
 		LEFT JOIN POST P ON P.POST_NO = B.POST_NO
 		WHERE B.SUB_CATEGORY_NO = #{subCategoryNo}
 	</select>
-	<select id="loadBoardDetailData" resultType="post">
-		SELECT *
+	<select id="loadBoardDetailData" parameterType="int" resultType="post">
+		SELECT M.USER_NICKNAME, P.TITLE, P.CONTENT, P.CREATE_DATE, P.MODIFY_DATE, B.POST_NO
 		FROM POST P
-		LEFT JOIN BOARD B ON P.BOARD_NO = B.BOARD_NO
-		LEFT JOIN MBMBER M ON M.USER_NO = P.USER_NO
-		WHERE BOARD_NO = #{boardNo}
+		LEFT JOIN BOARD B ON P.POST_NO = B.POST_NO
+		LEFT JOIN MEMBER M ON M.USER_NO = B.USER_NO
+		WHERE B.BOARD_NO = #{boardNo}
+	</select>
+	<select id="getRequestList" resultType="request">
+		SELECT *
+		FROM REQUEST
+	</select>
+	<select id="getSuggestionList" resultType="suggestion">
+		SELECT *
+		FROM SUGGESTION
 	</select>
 </mapper>

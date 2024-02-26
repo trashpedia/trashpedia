@@ -13,6 +13,8 @@ import com.kks.trashpedia.board.model.vo.SubCategory;
 import com.kks.trashpedia.member.model.vo.Member;
 import com.kks.trashpedia.point.model.vo.PointHistory;
 import com.kks.trashpedia.report.model.vo.Report;
+import com.kks.trashpedia.trash.model.vo.Request;
+import com.kks.trashpedia.trash.model.vo.Suggestion;
 
 public interface adminService {
 
@@ -64,6 +66,10 @@ public interface adminService {
 
 	List<Board> loadBoardListData(int subCategoryNo);
 
-	List<Post> loadBoardDetailData(int boardNo);
+	Post loadBoardDetailData(int boardNo);
+
+	List<Request> getRequestList();
+
+	List<Suggestion> getSuggestionList();
 
 }
