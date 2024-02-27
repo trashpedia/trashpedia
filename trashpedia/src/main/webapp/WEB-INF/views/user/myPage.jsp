@@ -10,7 +10,15 @@
 <title>Login Form</title>
 	<link rel="stylesheet" href="resources/css/user/myPage.css">
 	<link rel="stylesheet" href="resources/css/user/join.css">
-	
+	<!-- CSS -->
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<!-- Popper JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 	<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 	<style>
 .panel {
@@ -258,65 +266,88 @@
 	        <!-- 6. 수정하기 버튼 -->
 	        <div class="twoBtn">
 	        <button type="submit" id="updateBtn">등록</button>
-	        <a href="${contextPath}/delete.me"><button>회원탈퇴</button></a>
+	        <a href="${contextPath}/delete.me"><button type="button" data-toggle="modal" data-target="#deleteForm">회원탈퇴</button></a>
 	        </div> 
 	    </div>
 	    </form>
 	    </section>
-			<%-- <form action="/member/delete" method="post" id="deleteForm" name="deleteForm">
-			                       <input type="hidden" id="memberId" name="memberId" value="${login.memberId}">
-			    <div class="col-sm-8 col-sm-offset-2">
-			        <div class="panel panel-default panel-margin-10">
-			            <div class="panel-body panel-body-content text-center">
-			                <p class="lead">회원탈퇴를 하려면 비밀번호를 입력해주세요.</p>
-			                <div class="form-group">
-			                    <input type="password" id = "memberPw" name="memberPw" class="form-control form-control-inline text-center" placeholder="비밀번호" />
-			                </div>
-			                <div class="form-group">
-			                    <input type="password" id="memberPw2" name="memberPw2"  class="form-control form-control-inline text-center" placeholder="비밀번호 확인" />
-			                </div>
-			                <button type="button" id="deletee" name="delete" class="btn btn-primary">회원탈퇴</button> <a href="/member/infoView" class="btn btn-default">취소</a>
-			            </div>
-			        </div>
-			    </div>
-			    </form> --%>
-	    <!-- The Modal -->
-		<!--     <div class="modal" id="deleteForm">
-		      <div class="modal-dialog">
-		        <div class="modal-content">
-		          Modal Header
-		          <div class="modal-header">
-		            <h4 class="modal-title">회원탈퇴</h4>
-		            <button type="button" class="close" data-dismiss="modal">&times;</button>
-		          </div>
-		          Modal body
-		          <div class="modal-body" align="center">
-		            <b>탈퇴 후 복구가 불가능합니다. <br>정말로 탈퇴하시겠습니까?</b><br><br>
-		            <form action="delete.me" method="post">
-		                <table>
-		                    <tr>
-		                        <td>비밀번호</td>
-		                        <td><input type="password" name="userPwd" required></td>
-		                    </tr>
-		                </table>
-		                <br>
-		                <button type="submit" class="btn btn-danger btn-sm">탈퇴하기</button>
-		            </form>
-		            </div>
-		        </div>
-		      </div>
-		    </div> -->
+		
+		<!-- 탈퇴 Modal -->
+		<div class="modal" id="deleteForm">
+		
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<!-- Modal Header -->
+					<div class="modal-header">
+						<h4 class="modal-title">회원탈퇴</h4>
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+					</div>
+					<!-- Modal body -->
+						<form action="delete.me" method="post">
+							<div class="modal-body" align="center">
+								탈퇴 후 복구가 불가능합니다. 
+								정말로 탈퇴하시겠습니까?
+							</div>
+						
+							<input type="hidden" name="userNo" value="${loginUser.userNo}" readonly>
+							<table>
+								<tr>
+									<td>비밀번호</td>
+									<td><input type="password" name="userPwd" required></td>
+								</tr>
+							</table>
+							<br>
+							<button type="submit" class="btn btn-danger btn-sm">탈퇴하기</button>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		
+	
 
+<!-- 회원탈퇴 버튼 클릭 시 보여질 Modal -->
+<div class="modal fade" id="deleteForm">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">회원탈퇴</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <form action="delete.me" method="post">
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <div align="center">
+                        탈퇴 후 복구가 불가능합니다. <br>
+                        정말로 탈퇴 하시겠습니까? <br>
+                    </div>
+                    <br>
+                        <label for="userPwd" class="mr-sm-2">Password : </label>
+                        <input type="text" class="form-control mb-2 mr-sm-2" placeholder="Enter Password" id="userPwd" name="userPwd"> <br>
+                        <input type="hidden" name="userId" value="${userId}">
+                </div>
+                <!-- Modal footer -->
+                <div class="modal-footer" align="center">
+                    <button type="submit" class="btn btn-danger">탈퇴하기</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 	</main>
 	<jsp:include page="../common/footer.jsp"/>
 		<script>
-				function submitForm(){
-					var username = document.getElementById("username").value;
-					var emailDomain = document.getElementById("emailDomain").value;
-					let content = username + "@" + emailDomain;
-					alert(content);
-					$('#hiddenUserEmail').val(content);
-				}
+			function submitForm() {
+				var username = document.getElementById("username").value;
+				var emailDomain = document.getElementById("emailDomain").value;
+				let content = username + "@" + emailDomain;
+				alert(content);
+				$('#hiddenUserEmail').val(content);
+			}
 		</script>
 		
 		

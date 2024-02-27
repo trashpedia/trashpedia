@@ -78,9 +78,9 @@ public class MemberController {
 	    	
 	    	
 	        System.out.println("로그인기능확인");
-		    System.out.println(loginUser);
+		    System.out.println(m);
 	        // 로그인 성공 후 이동할 페이지로 ModelAndView 설정
-	        mv.setViewName("redirect:/"); // 예시: home 페이지로 이동
+	        mv.setViewName("main"); // 예시: home 페이지로 이동
 	    } else {
 	        // 로그인 실패 처리
 	        // 예를 들어 로그인 실패 메시지를 모델에 추가하고 다시 로그인 페이지로 이동
@@ -116,9 +116,9 @@ public class MemberController {
 	    }
 	    return url;
 	}
-	@GetMapping("delete.me")
+	@PostMapping("delete.me")
 	public String deleteMember( Member m, HttpSession session) {
-		
+		Member loginUser = service.loginMember(m);
 		System.out.println(m);
 		
 	    int result = service.deleteMember(m);
@@ -131,7 +131,7 @@ public class MemberController {
 	    } else {
 	        // 탈퇴 실패 시 처리할 내용
 	        System.out.println("실패유~");
-	        return "error"; // 에러 페이지로 이동 또는 다른 적절한 경로로 이동
+	        return "login"; // 에러 페이지로 이동 또는 다른 적절한 경로로 이동
 	    }
 		
 	}
