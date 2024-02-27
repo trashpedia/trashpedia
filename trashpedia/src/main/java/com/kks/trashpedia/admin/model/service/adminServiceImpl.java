@@ -116,8 +116,8 @@ public class adminServiceImpl implements adminService{
 	}
 
 	@Override
-	public Page<Board> getMemberCommentList(Pageable pageable, int userNo) {
-		return dao.getMemberCommentList(pageable, userNo);
+	public Page<Board> getMemberCommentList(Pageable pageable, int userNo, String sort, String searchSelect, String searchValue) {
+		return dao.getMemberCommentList(pageable, userNo, sort, searchSelect, searchValue);
 	}
 
 	@Override
@@ -151,8 +151,8 @@ public class adminServiceImpl implements adminService{
 	}
 
 	@Override
-	public List<Board> loadBoardListData(int subCategoryNo) {
-		return dao.loadBoardListData(subCategoryNo);
+	public Page<Board> loadBoardListData(Pageable pageable, int subCategoryNo, String sort, String searchSelect, String searchValue) {
+		return dao.loadBoardListData(pageable, subCategoryNo, sort, searchSelect, searchValue);
 	}
 
 	@Override

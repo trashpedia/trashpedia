@@ -58,7 +58,7 @@ public interface AdminDao {
 
 	Board getMemberBoardDetail(int boardNo);
 
-	Page<Board> getMemberCommentList(Pageable pageable, int userNo);
+	Page<Board> getMemberCommentList(Pageable pageable, int userNo, String sort, String searchSelect, String searchValue);
 
 	Board getCommentDetail(int commentNo);
 
@@ -72,7 +72,7 @@ public interface AdminDao {
 
 	List<SubCategory> getSubCategoryList(int bigCategoryNo);
 
-	List<Board> loadBoardListData(int subCategoryNo);
+	Page<Board> loadBoardListData(Pageable pageable, int subCategoryNo, String sort, String searchSelect, String searchValue);
 
 	Post loadBoardDetailData(int boardNo);
 

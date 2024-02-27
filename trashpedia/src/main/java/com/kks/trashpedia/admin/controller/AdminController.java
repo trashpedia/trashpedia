@@ -154,11 +154,12 @@ public class AdminController {
 	}
 	// 관리자 회원 관리 유저 상세 게시글 리스트
 	@GetMapping("/getMemberBoardList")
-	public ResponseEntity<Page<Board>> getMemberBoardList(@PageableDefault(page = 0, size = 20, sort = "id", direction = Sort.Direction.DESC) Pageable pageable,
-	@RequestParam int userNo,
-	@RequestParam String sort,
-	@RequestParam String searchSelect,
-	@RequestParam String searchValue) {
+	public ResponseEntity<Page<Board>> getMemberBoardList(
+			@PageableDefault(page = 0, size = 20, sort = "id", direction = Sort.Direction.DESC) Pageable pageable,
+			@RequestParam int userNo,
+			@RequestParam String sort,
+			@RequestParam String searchSelect,
+			@RequestParam String searchValue) {
 		Page<Board> page = service.getMemberBoardList(pageable, userNo, sort, searchSelect, searchValue);
 		return ResponseEntity.ok(page);
 	}
@@ -170,18 +171,22 @@ public class AdminController {
 	}
 	// 관리자 회원 관리 유저 상세 댓글 리스트
 	@GetMapping("/getMemberCommentList")
-	public ResponseEntity<Page<Board>> getMemberCommentList(@PageableDefault(page = 0, size = 20, sort = "id", direction = Sort.Direction.DESC) @RequestParam int userNo, Pageable pageable) {
-		Page<Board> page = service.getMemberCommentList(pageable, userNo);
-		System.out.println(page);
+	public ResponseEntity<Page<Board>> getMemberCommentList(@PageableDefault(page = 0, size = 20, sort = "id", direction = Sort.Direction.DESC) Pageable pageable, 
+			@RequestParam int userNo,
+			@RequestParam String sort,
+			@RequestParam String searchSelect,
+			@RequestParam String searchValue
+			) {
+		Page<Board> page = service.getMemberCommentList(pageable, userNo, sort, searchSelect, searchValue);
 		return ResponseEntity.ok(page);
 	}
 	// 관리자 회원 관리 유저 상세 댓글 상세
-	@GetMapping("/getCommentDetail")
+	@GetMapping("/getCommentDetailData")
 	public Board getCommentDetail(@RequestParam int commentNo) {
 		return service.getCommentDetail(commentNo);
 	}
 	// 관리자 회원 관리 유저 상세 댓글 상세
-	@GetMapping("/getNestedCommentDetail")
+	@GetMapping("/getNestedCommentDetailData")
 	public Board getNestedCommentDetail(@RequestParam int nestedCommentNo) {
 		return service.getNestedCommentDetail(nestedCommentNo);
 	}
@@ -216,9 +221,13 @@ public class AdminController {
 	}
 	// 관리자 게시판 관리 게시글 리스트
 	@GetMapping("/loadBoardListData")
-	public ResponseEntity<List<Board>> loadBoardListData(@RequestParam int subCategoryNo){
-		List<Board> list = service.loadBoardListData(subCategoryNo);
-		return ResponseEntity.ok(list);
+	public ResponseEntity<Page<Board>> loadBoardListData(@PageableDefault(size = 20, sort = "id", direction = Sort.Direction.DESC) Pageable pageable,
+			@RequestParam int subCategoryNo,
+			@RequestParam String sort,
+			@RequestParam String searchSelect,
+			@RequestParam String searchValue){
+		Page<Board> pages = service.loadBoardListData(pageable, subCategoryNo, sort, searchSelect, searchValue);
+		return ResponseEntity.ok(pages);
 	}
 	// 관리자 게시판 관리 게시글 디테일
 	@GetMapping("/loadBoardDetailData")

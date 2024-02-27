@@ -1,15 +1,15 @@
 -- 회원 가입
 DECLARE
-    a NUMBER; -- 변수 선언
+    a NUMBER;
 BEGIN
-    FOR i IN 1..100 LOOP
-        a := SEQ_MNO.NEXTVAL; -- 변수에 현재 시퀀스 값 할당
+    FOR i IN 1..50 LOOP
+        a := SEQ_MNO.NEXTVAL;
         INSERT INTO MEMBER VALUES (
             a,
             DEFAULT,
             DEFAULT,
-            'user' || a || '@a.com', -- userEmail을 'user'와 시퀀스 값의 조합으로 설정
-            'user' || a, -- USER_PWD와 USER_NAME을 'user'와 시퀀스 값의 조합으로 설정
+            'user' || a || '@a.com',
+            'user' || a,
             'user' || a,
             'userName' || a,
             '010-1111-2222',
@@ -21,8 +21,7 @@ BEGIN
             NULL,
             'Y'
         );
-        
-        INSERT INTO POINT VALUES (
+        INSERT INTO POINT VALUES(
             a,
             DEFAULT
         );
@@ -33,12 +32,13 @@ END;
 
 -- 게시글 작성
 DECLARE
-    a NUMBER; -- 변수 선언
+    a NUMBER;
     b NUMBER := 2;
     c NUMBER;
+    d NUMBER := 1;
 BEGIN
-    FOR i IN 1..50 LOOP
-        a := SEQ_POSTNO.NEXTVAL; -- 변수에 현재 시퀀스 값 할당
+    FOR i IN 1..35 LOOP
+        a := SEQ_POSTNO.NEXTVAL;
         c := SEQ_BNO.NEXTVAL;
         INSERT INTO POST VALUES (
             a,
@@ -52,13 +52,104 @@ BEGIN
         INSERT INTO BOARD VALUES (
             c,
             a,
-            a,
+            d,
             b,
             DEFAULT
         );
-        b := b + 1; -- 변수 b 증가
-        IF b > 4 THEN -- b 값이 4를 초과하면 2로 초기화
+        b := b + 1;
+        IF b > 4 THEN
             b := 2;
+        END IF;
+        d := d + 1;
+        IF d > 10 THEN
+            d := 1;
+        END IF;
+    END LOOP;
+    COMMIT;
+END;
+
+-- 댓글 작성
+DECLARE
+    a NUMBER;
+    b NUMBER := 1;
+    c NUMBER;
+    d NUMBER := 1;
+BEGIN
+    FOR i IN 1..50 LOOP
+        a := SEQ_CNO.NEXTVAL;
+        INSERT INTO "COMMENT" VALUES (
+            a,
+            b,
+            d,
+            '<h2>댓글 입니다</h2><h1>test</h1>',
+            SYSDATE,
+            NULL,
+            'Y'
+        );
+        b := b + 1;
+        IF b > 4 THEN
+            b := 2;
+        END IF;
+        d := d + 1;
+        IF d > 10 THEN
+            d := 1;
+        END IF;
+    END LOOP;
+    COMMIT;
+END;
+
+-- 대댓글 작성
+DECLARE
+    c NUMBER;
+    b NUMBER := 1;
+    d NUMBER := 1;
+BEGIN
+    FOR i IN 1..50 LOOP
+        c := SEQ_NCNO.NEXTVAL;
+        INSERT INTO NESTED_COMMENT VALUES (
+            c,
+            d,
+            b,
+            '<h2>대댓글 입니다</h2><h1>test</h1>',
+            SYSDATE,
+            NULL,
+            'Y'
+        );
+         b := b + 1;
+        IF b > 4 THEN
+            b := 2;
+        END IF;
+        d := d + 1;
+        IF d > 10 THEN
+            d := 1;
+        END IF;
+    END LOOP;
+    COMMIT;
+END;
+
+-- 포인트 적립
+DECLARE
+    a NUMBER;
+    b NUMBER := 1;
+    c NUMBER;
+    d NUMBER := 1;
+BEGIN
+    FOR i IN 1..100 LOOP
+        a := SEQ_PHNO.NEXTVAL;
+        INSERT INTO POINT_HISTORY VALUES (
+            a,
+            d,
+            SYSDATE,
+            b,
+            '<h2>출석체크</h2>'
+        );
+         b := b + 1;
+        IF b > 4 THEN
+            b := 2;
+        END IF;
+        d := d + 1;
+        IF d > 10 THEN
+            d := 1;
         END IF;
     END LOOP;
     COMMIT;
