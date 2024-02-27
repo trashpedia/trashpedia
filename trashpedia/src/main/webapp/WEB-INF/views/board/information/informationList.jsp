@@ -14,8 +14,6 @@
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"
 	integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
 	crossorigin="anonymous"></script>
-<!-- css -->
-<link rel="stylesheet" href="resources/css/main/main.css">
 <!-- slick 라이브러리 CSS -->
 <link rel="stylesheet" type="text/css"
 	href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />

@@ -1,18 +1,19 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="contextPath" value="<%=request.getContextPath() %>"/>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>공지사항</title>
-    <link rel="stylesheet" href="/css/board/css.css">
-    <link rel="stylesheet" href="/css/board/board_common.css">
-    <link rel="stylesheet" href="../css/community/community.css">
+<!--     <link rel="stylesheet" href="/css/board/css.css"> -->
+<!--     <link rel="stylesheet" href="/css/board/board_common.css"> -->
+<!--     <link rel="stylesheet" href="../css/community/community.css"> -->
     <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css" />
-    <link rel="stylesheet" href="/src/main/webapp/resources/css/board/boardDetail.css" />
-
-
+    <link rel="stylesheet" href="${contextPath}/trashpedia/src/main/webapp/resources/css/board/boardDetail.css" />
+	<link rel="stylesheet" href="${contextPath}/resources/css/board/boardList.css">
+	<link rel="stylesheet" href="https://uicdn.toast.com/editor/3.0.2/toastui-editor.min.css" >
 </head>
 
 <!-- jQuery -->
@@ -30,37 +31,9 @@
 
 <body>
 
-    <!-- 나중에 include로 바꿔야함 -->
-    <header id="header"></header>
+    <jsp:include page="../../common/header.jsp" />
 
-    <main class="information_html">
-                
-        <div id="container">
-
-            <section class="main_top_banner">
-                <div id="idx_top">
-                    <strong>커<span>뮤</span>니<span>티</span></strong>
-                    <p>안녕하세요. 감사합니다.</p>
-                </div>
-            </section>
-
-            <section class="main_nav">
-                <header>
-                    <div>
-                        <ul class="gnb">
-                            <li><a href="/community/board_list.html">공지사항</a></li>
-                            <li><a href="#">무료나눔게시판</a></li>
-                            <li><a href="board_list.html">일반게시판</a></li>
-                            <li><a href="/information/information_list.html">정보자료실</a></li>
-                        </ul>
-                    </div>
-                </header>
-            </section>
-
-            
-            
-        </div>
-    </main>
+    
 
     <main class="board_html">   
         
@@ -72,22 +45,23 @@
                 <p>분리수거잘합시다</p>
             </div>
             <div class="board_view_wrap">
+            <c:forEach var="board" items="${boardList}" varStatus="status">
                 <div class="board_view">
                     <div class="title">
-                        글 제목이 들어갑니다.
+                        ${board.title}
                     </div>
                     <div class="info">
                         <dl>
                             <dt>번호</dt>
-                            <dd>1</dd>
+                            <dd>${board.postNo}</dd>
                         </dl>
                         <dl>
                             <dt>글쓴이</dt>
-                            <dd>김이름</dd>
+                            <dd>${board.userName}</dd>
                         </dl>
                         <dl>
                             <dt>작성일</dt>
-                            <dd>2021.1.16</dd>
+                            <dd>${board.createDate}</dd>
                         </dl>
                         <dl>
                             <dt>조회</dt>
@@ -95,16 +69,10 @@
                         </dl>
                     </div>
                     <div class="cont">
-                        글 내용이 들어갑니다<br>
-                        글 내용이 들어갑니다<br>
-                        글 내용이 들어갑니다<br>
-                        글 내용이 들어갑니다<br>
-                        글 내용이 들어갑니다<br>
-                        글 내용이 들어갑니다<br>
-                        글 내용이 들어갑니다<br>
-                        글 내용이 들어갑니다
+                        ${board.content}
                     </div>
                 </div>
+                </c:forEach>
                 <div class="bt_wrap">
                     <a href="/community/board_list.html" class="on">목록</a>
                     <a href="/community/board_edit.html">수정</a>
@@ -132,8 +100,7 @@
 
     </main>
 
-     <!-- 나중에 include로 바꿔야함 -->
-     <footer id="footer"></footer>
+     <jsp:include page="../../common/footer.jsp" />
 
 
      <script>

@@ -28,7 +28,17 @@
 				<p>커뮤니티</p>
 				<p>Reduce Reuse Recycle Recovery</p>
 			</div>
-
+				
+			    <c:forEach var="s" items="${sc}">
+			        <c:if test="${s.bigCategoryNo == 1}">
+			            <li>
+			                <a href="${contextPath}/boardList?subCategoryNo=${s.subCategoryNo}&filter=createDate&searchSelect=&searchValue=&page=0">
+			                    ${s.subCategoryName} <!-- 예시로 소분류 이름을 링크 텍스트로 사용 -->
+			                </a>
+<%-- 			                <span>${boardList.date}</span>  --%>
+			            </li>
+			        </c:if>
+			    </c:forEach>
 
 
 
@@ -37,13 +47,13 @@
 					<!-- 공지사항 섹션 -->
 					<div class="idx_board">
 						<div class="title">
-							<a href="${contextPath}/boardNotice?bigCategoryNo=1&subCategoryNo=1" class="name">공지사항</a> 
+							<a href="${contextPath}/boardList?subCategoryNo=${board.subCategoryNo}&filter=createDate&searchSelect=&searchValue=&page=0" class="name">공지사항</a> 
 						</div>
 						<div class="list">
 							<ul>
-								<c:forEach var="notice" items="${boardList}">
+								<c:forEach var="board" items="${boardList}">
 									<li><a
-										href="${contextPath}/boardNotice/${boardList.postNo}">${boardList.title}</a>
+										href="${contextPath}/boardList?subCategoryNo=${board.subCategoryNo}&filter=createDate&searchSelect=&searchValue=&page=0"></a>
 										<span>${boardList.date}</span></li>
 								</c:forEach>
 							</ul>
@@ -53,9 +63,7 @@
 					<!-- 일반게시판 섹션 -->
 					<div class="idx_board">
 						<div class="title">
-							<a href="${contextPath}/boardNotice" class="name">일반게시판</a> <a
-								href="#" class="more"><img src="${contextPath}/img/more.png"
-								alt="더 보기"></a>
+							<a href="${contextPath}/boardNotice?bigCategoryNo=1&subCategoryNo=2" class="name">일반게시판</a> 
 						</div>
 						<div class="list">
 							<ul>
@@ -71,9 +79,7 @@
 					<!-- 무료나눔게시판 섹션 -->
 					<div class="idx_board">
 						<div class="title">
-							<a href="${contextPath}/boardFreeShare" class="name">무료나눔게시판</a> <a
-								href="#" class="more"><img src="${contextPath}/img/more.png"
-								alt="더 보기"></a>
+							<a href="${contextPath}/boardNotice?bigCategoryNo=1&subCategoryNo=4" class="name">무료나눔게시판</a> 
 						</div>
 						<div class="list">
 							<ul>
@@ -89,16 +95,15 @@
 					<!-- 건의게시판 섹션 -->
 					<div class="idx_board">
 						<div class="title">
-							<a href="${contextPath}/boardNotice" class="name">건의게시판</a>
-							<a href="#" class="more"><img
-								src="${contextPath}/img/more.png" alt="더 보기"></a>
+							<a href="${contextPath}/boardNotice?bigCategory=1&subCategory=3" class="name">건의게시판</a>
+							
 						</div>
 						<div class="list">
 							<ul>
 								<c:forEach var="suggestion" items="${suggestionList}">
 									<li><a
-										href="${contextPath}/board/suggestion/detail/${suggestion.postNo}">${suggestion.title}</a>
-										<span>${suggestion.date}</span></li>
+										href="${contextPath}/board/suggestion/detail/${post.postNo}">${post.title}</a>
+										<span>${post.date}</span></li>
 								</c:forEach>
 							</ul>
 						</div>

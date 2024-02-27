@@ -36,6 +36,7 @@ public class Board {
 	//adminBoardManagement = boardDetail
 	private String userNickname;
 	
+	private String userName;
 	
 	private ImgAttachment imgAttachment; //첨부이미지
 	private Attachment attachment; //첨부파일
