@@ -7,7 +7,9 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kks.trashpedia.board.model.vo.Attachment;
 import com.kks.trashpedia.board.model.vo.Board;
+import com.kks.trashpedia.board.model.vo.ImgAttachment;
 import com.kks.trashpedia.board.model.vo.Post;
 
 @Repository
@@ -28,14 +30,22 @@ public class PledgeDaoImpl implements PledgeDao{
 		return session.selectOne("pledgeMapper.pledgeDetail", postNo);
 	}
 	
+	//게시글 상세-이미지
+	@Override
+	public ImgAttachment pledgeDetailImg(int boardNo) {
+		return session.selectOne("pledgeMapper.pledgeDetailImg", boardNo);
+	}
+	
+	//게시글 상세-첨부파일
+	@Override
+	public Attachment pledgeDetailAttach(int boardNo) {
+		return  session.selectOne("pledgeMapper.pledgeDetailAttach", boardNo);
+	}
+	
 	//처음 조회일 조회
 	@Override
-	public List<Date> pledgeHitDate(Board b) {
-		
-		System.out.println(session.selectList("pledgeMapper.pledgeHitDate", b));
-		
-		System.out.println("SDfasdjafdsjlasfd");
-		return session.selectList("pledgeMapper.pledgeHitDate", b);
+	public Date pledgeHitDate(Board b) {
+		return session.selectOne("pledgeMapper.pledgeHitDate", b);
 	}
 	
 	//게시글 조회수 증가
@@ -43,6 +53,7 @@ public class PledgeDaoImpl implements PledgeDao{
 	public int increaseCount(Board b) {
 		return session.update("pledgeMapper.increaseCount", b);
 	}
+
 
 
 	

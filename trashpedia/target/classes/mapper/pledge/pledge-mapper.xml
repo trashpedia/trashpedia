@@ -18,15 +18,33 @@
 	
 	<!-- 게시글 상세조회  -->
 	<select id="pledgeDetail" parameterType="int" resultType="post">
-		SELECT P.POST_NO, P.TITLE, P.CONTENT, P.CREATE_DATE, P.MODIFY_DATE, B.USER_NO, B.BOARD_NO,
-		(SELECT COUNT(*)FROM HITS WHERE BOARD_NO = ( SELECT BOARD_NO FROM BOARD WHERE POST_NO = #{postNo} ))AS HITS_NO
+		SELECT P.POST_NO, P.TITLE, P.CONTENT, P.CREATE_DATE, P.MODIFY_DATE, B.USER_NO, 
+			B.BOARD_NO, 
+			(SELECT COUNT(*)FROM HITS WHERE BOARD_NO = ( SELECT BOARD_NO FROM BOARD WHERE POST_NO = #{postNo} ))AS HITS_NO
 		FROM POST P
 		LEFT JOIN BOARD B ON P.POST_NO = B.POST_NO
+	
 		WHERE P.POST_NO = #{postNo}
 	</select>
+	
+	<!-- 게시글 상세조회 - 이미지  -->
+	<select id="pledgeDetailImg" parameterType="int" resultType="imgAttachment">
+		SELECT *
+		FROM IMG_ATTACHMENT IA
+		JOIN BOARD ON BOARD_NO = REF_BNO
+		WHERE REF_BNO = #{boardNo} AND IA.STATUS='Y'
+	</select>
+
+	<!-- 게시글 상세조회 - 첨부파일 -->
+	<select id="pledgeDetailAttach" parameterType="int" resultType="Attachment">
+		SELECT *
+		FROM ATTACHMENT A
+		JOIN BOARD ON BOARD_NO = REF_BNO
+		WHERE REF_BNO = #{boardNo} AND A.STATUS='Y'
+	</select>	
 
 	<!-- 조회일 조회 -->
-	<select id="pledgeHitDate" parameterType="board" resultType="java.util.Date">
+	<select id="pledgeHitDate" parameterType="board" resultType="java.sql.Date">
 		SELECT CREATE_DATE
 		FROM (
 		    SELECT CREATE_DATE
@@ -40,7 +58,7 @@
 	<!-- 게시글 조회수 증가 -->
 	<insert id="increaseCount" parameterType="board">
 		INSERT INTO HITS (HITS_NO, BOARD_NO, USER_NO, CREATE_DATE)
-		VALUES (SEQ_HITNO.NEXTVAL, #{boardNo}, #{userNo}, SYSDATE);
+		VALUES (SEQ_HITNO.NEXTVAL, #{boardNo}, #{userNo}, SYSDATE)
 	</insert>
 	
 

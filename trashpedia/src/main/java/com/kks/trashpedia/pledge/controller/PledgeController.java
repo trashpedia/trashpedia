@@ -1,6 +1,7 @@
 package com.kks.trashpedia.pledge.controller;
 
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.kks.trashpedia.board.model.vo.Attachment;
 import com.kks.trashpedia.board.model.vo.Board;
+import com.kks.trashpedia.board.model.vo.ImgAttachment;
 import com.kks.trashpedia.board.model.vo.Post;
 import com.kks.trashpedia.pledge.model.service.PledgeService;
 
@@ -93,13 +96,23 @@ public class PledgeController {
 			) {
 		
 		ModelAndView mav = new ModelAndView();
+		//글내용 조회
 		Post post = service.pledgeDetail(postNo); 
 		Board b = new Board();
+		
+		//이미지,첨부파일,카테고리
+		ImgAttachment img = service.pledgeDetailImg(post.getBoardNo());
+		Attachment attach = service.pledgeDetailAttach(post.getBoardNo());
+		
+		b.setImgAttachment(img);
+		b.setAttachment(attach);
+		
+		System.out.println(img);
+		System.out.println(attach);		
 		
 		b.setBoardNo(post.getBoardNo());
 		b.setUserNo(post.getUserNo());
 		
-		System.out.println(b);
 		
 		//Member loginUser = (Member) session.getAttribute("loginUser");  
 
@@ -142,13 +155,31 @@ public class PledgeController {
 //			System.out.println("조회실패");
 //		}
 //		
-		//처음 조회일 조회
-		List<Date> hitsDate = service.pledgeHitDate(b);
-		System.out.println(hitsDate);
-
+		int result = 0;
 		
-		//int result = service.increaseCount(b);
+		// 처음 조회일 조회 -> LocalDate로 변환
+		Date hitsDate = service.pledgeHitDate(b);
 		
+		// 조회일이 있을 때
+		if(hitsDate !=null) {
+			LocalDate hitsLocalDate = hitsDate.toLocalDate();
+			// 현재 날짜
+			LocalDate currentDate = LocalDate.now();
+			// 비교
+			int comparisonResult = hitsLocalDate.compareTo(currentDate); // 적으면 -, 같으면 0, 많으면 +값 
+			// 현재날짜보다 조회날짜가 작을 때
+			if(comparisonResult<0) {
+				System.out.println("조회날짜보다 클 때");
+				result = service.increaseCount(b);
+				post.setHitsNo(post.getHitsNo()+1);
+			}
+		}else {
+			result = service.increaseCount(b);
+			post.setHitsNo(post.getHitsNo()+1);
+		}
+		
+		mav.addObject("attachment", attach);
+		mav.addObject("img", img);
 		mav.addObject("post", post);
 		mav.setViewName("pledge/pledgeDetailView");
 		
