@@ -2,7 +2,9 @@ package com.kks.trashpedia.admin.model.dao;
 
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -23,9 +25,10 @@ import com.kks.trashpedia.point.model.vo.PointHistory;
 import com.kks.trashpedia.report.model.vo.Report;
 import com.kks.trashpedia.trash.model.vo.Request;
 import com.kks.trashpedia.trash.model.vo.Suggestion;
+import com.kks.trashpedia.trash.model.vo.Trash;
 
 @Repository
-public class adminDaoImpl implements adminDao{
+public class AdminDaoImpl implements AdminDao{
 	@Autowired
 	private SqlSessionTemplate session;
 
@@ -47,6 +50,16 @@ public class adminDaoImpl implements adminDao{
 	@Override
 	public int oldMemberCount() {
 		return session.selectOne("adminMapper.oldMemberCount");
+	}
+	
+	@Override
+	public int newBoardCount() {
+		return session.selectOne("adminMapper.newBoardCount");
+	}
+
+	@Override
+	public int oldBoardCount() {
+		return session.selectOne("adminMapper.oldBoardCount");
 	}
 
 	@Override
@@ -88,9 +101,18 @@ public class adminDaoImpl implements adminDao{
 	}
 
 	@Override
-	public Page<Member> getMemberList(Pageable pageable) {
-		List<Member> members = session.selectList("adminMapper.getMemberList", null, new RowBounds((int) pageable.getOffset(), pageable.getPageSize()));
-        int totalCount = session.selectOne("adminMapper.getCountAllMember");
+	public Page<Member> getMemberList(Pageable pageable, String sort, String searchSelect, String searchValue) {
+		Map<String, Object> param = new HashMap<>();
+		param.put("sort", sort);
+		param.put("searchSelect", searchSelect);
+		if(searchSelect == "userNo") {
+			int intValue = Integer.parseInt(searchValue);
+			param.put("searchValue", intValue);
+		} else {
+			param.put("searchValue", searchValue);
+		}
+		List<Member> members = session.selectList("adminMapper.getMemberList", param, new RowBounds((int) pageable.getOffset(), pageable.getPageSize()));
+        int totalCount = session.selectOne("adminMapper.getCountAllMember", param);
         return new PageImpl<>(members, pageable, totalCount);
 	}
 
@@ -120,8 +142,23 @@ public class adminDaoImpl implements adminDao{
 	}
 
 	@Override
-	public Page<Board> getMemberBoardList(Pageable pageable, int userNo) {
+	public Page<Board> getMemberBoardList(Pageable pageable, int userNo, String sort, String searchSelect, String searchValue) {
+		System.out.println(userNo);
+		System.out.println(sort);
+		System.out.println(searchSelect);
+		System.out.println(searchValue);
+		Map<String, Object> param = new HashMap<>();
+		param.put("userNo", userNo);
+		param.put("sort", sort);
+		param.put("searchSelect", searchSelect);
+		if(searchSelect == "userNo") {
+			int intValue = Integer.parseInt(searchValue);
+			param.put("searchValue", intValue);
+		} else {
+			param.put("searchValue", searchValue);
+		}
 		List<Board> members = session.selectList("adminMapper.getMemberBoardList", userNo, new RowBounds((int) pageable.getOffset(), pageable.getPageSize()));
+		System.out.println(members);
         int totalCount = session.selectOne("adminMapper.memberCountBoard", userNo);
         return new PageImpl<>(members, pageable, totalCount);
 	}
@@ -183,14 +220,27 @@ public class adminDaoImpl implements adminDao{
 	}
 
 	@Override
-	public List<Request> getRequestList() {
-		return session.selectList("adminMapper.getRequestList");
+	public Page<Trash> getTrashList(Pageable pageable, int page) {
+		List<Trash> t = session.selectList("adminMapper.getTrashList", null, new RowBounds(page, pageable.getPageSize()));
+		int totalCount = session.selectOne("adminMapper.trashCount");
+		return new PageImpl<>(t, pageable, totalCount);
 	}
 
 	@Override
-	public List<Suggestion> getSuggestionList() {
-		return session.selectList("adminMapper.getSuggestionList");
+	public Page<Suggestion> loadSuggestionListData(Pageable pageable) {
+		List<Suggestion> s = session.selectList("adminMapper.loadSuggestionListData");
+		int totalCount = session.selectOne("adminMapper.suggestionCount");
+		return new PageImpl<>(s, pageable, totalCount);
 	}
+
+	@Override
+	public Page<Request> loadRequestListData(Pageable pageable) {
+		List<Request> r = session.selectList("adminMapper.loadRequestListData");
+		int totalCount = session.selectOne("adminMapper.requestCount");
+		return new PageImpl<>(r, pageable, totalCount);
+	}
+
+
 
 
 	

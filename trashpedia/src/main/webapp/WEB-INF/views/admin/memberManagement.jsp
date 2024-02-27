@@ -19,15 +19,6 @@
             <section class="search-section">
                 <div class="search-container">
                     <div class="search-title">회원 관리</div>
-                    <div class="input">
-                        <select name="condition" id="searchFilterSelect">
-                            <option value="userNo" selected>번호</option>
-                            <option value="userName">이름</option>
-                            <option value="userNickname">닉네임</option>
-                        </select>
-                        <input type="search" name="search" id="search" placeholder="Search">
-                        <input type="button" id="search" value="검색">
-                    </div>
                 </div>
             </section>
             <section class="member-section">
@@ -39,47 +30,74 @@
                     <div class="input">
                         <select name="condition" id="filterSelect">
                             <option value="userNo" selected>번호</option>
+                            <option value="userEmail">이메일</option>
                             <option value="userName">이름</option>
                             <option value="userNickname">닉네임</option>
-                            <option value="createDate">생성일</option>
-                            <option value="modifyDate">수정일</option>
                         </select>
                     </div>
-                    <div class="userList list">
-						
-                    </div>
-                </div>
+					<table>
+					    <thead class="user-thead"></thead>
+					    <tbody class="userList list"></tbody>
+					</table>
+					<select name="condition" id="searchFilterSelect">
+                        <option value="userNo" selected>번호</option>
+                        <option value="userName">이메일</option>
+                        <option value="userName">이름</option>
+                        <option value="userNickname">닉네임</option>
+                    </select>
+                    <input type="search" name="search" id="search" placeholder="Search">
+                    <input type="button" id="search" value="검색" onclick="search()">
+	            </div>
                 <div class="member-container">
                     <div class="member-title">회원 상세</div>
-                    <div class="userDetailList list">
-                        
-                    </div>
+                    <div class="userDetailList list"></div>
                 </div>
-            </section>
+           </section>
         </div>
     </div>
     <script>
 	    var isLoading = false;
 	    var offset = 0;
+	    var selectedValue = 'userNo';
+	    var searchSelect = '';
+	    var searchValue = '';
 
 	    $(document).ready(function() {
-	    	loadData();
+	    	loadData(searchSelect, searchValue);
 	    });
 	    $('.userList').scroll(function() {
 	        if($(this).scrollTop() + $(this).innerHeight() + 70 >= $(this)[0].scrollHeight) {
 	            if (!isLoading) {
 	                isLoading = true;
-	                loadData();
+	                loadData(searchSelect, searchValue);
 	            }
 	        }
 	    });
+	    $('#filterSelect').change(function(){
+	    	selectedValue = $(this).val();
+	    	$('.userList').empty();
+	    	offset = 0;
+	    	loadData(searchSelect, searchValue);
+	    });
+	    function search(){
+	    	searchSelect = $('#searchFilterSelect').val();
+	    	searchValue = $('#search').val();
+	    	$('#search').val('');
+	    	$('.userList').empty();
+	    	offset = 0;
+	    	loadData(searchSelect, searchValue);
+	    }
 
-	    function loadData() {
+	    function loadData(searchSelect, searchValue) {
+	    	if(searchSelect == undefined){
+	    		searchSelect = null;
+	    		searchValue = null;
+	    	}
 	        $.ajax({
 	            url: '${contextPath}/admin/getMemberList',
 	            type: 'GET',
 	            dataType: 'json',
-	            data: { page: offset, size: 20 },
+	            data: { page: offset, size: 20, sort: selectedValue, searchSelect, searchValue},
 	            success: function(data) {
 	            	if(data.content.length != 0){
 		                updateTable(data);
@@ -95,19 +113,33 @@
 	    }
 
 	    function updateTable(data) {
+	    	let thead = document.querySelector('.user-thead');
 	        let userList = document.querySelector('.userList');
 	        let list = data.content;
 	        for (let i = 0; i < list.length; i++) {
-	            let row = '<div class="item" onclick="loadDetailData('+list[i].userNo+')">';
-	            row += '<div class="icon">😃</div>';
-	            row += '<div class="title">번호 : </div>';
-	            row += '<div class="subtitle">'+list[i].userNo+'</div>';
-	            row += '<div class="title">이메일 : </div>';
-	            row += '<div class="subtitle">'+list[i].userEmail+'</div>';
-	            row += '<div class="title">이름 : </div>';
-	            row += '<div class="subtitle">'+list[i].userName+'</div>';
-	            row += '</div>';
-	            userList.innerHTML += row;
+	            let row = document.createElement('tr');
+	            
+	            let cell1 = document.createElement('td');
+	            cell1.textContent = list[i].userNo;
+	            
+	            let cell2 = document.createElement('td');
+	            cell2.textContent = list[i].userEmail;
+	            
+	            let cell3 = document.createElement('td');
+	            cell3.textContent = list[i].userName;
+	            
+	            let cell4 = document.createElement('td');
+	            cell4.textContent = list[i].userNickname;
+	            
+	            row.appendChild(cell1);
+	            row.appendChild(cell2);
+	            row.appendChild(cell3);
+	            row.appendChild(cell4);
+	            
+	            row.addEventListener('click', function() {
+	                loadDetailData(list[i].userNo);
+	            });
+	            userList.appendChild(row);
 	        }
 	    }
 
@@ -150,7 +182,7 @@
     	            if(data.address1 == null){
     		            row += '<div class="subtitle">없음</div>';
     	            } else {
-	    	            row += '<div class="subtitle">'+data.address1+list.address2+'</div>';
+	    	            row += '<div class="subtitle">'+data.address1+data.address2+'</div>';
     	            }
     	            row += '</div>';
     	            row += '<div class="item">';
@@ -176,3 +208,4 @@
         }
     </script>
 </body>
+</html>

@@ -1,0 +1,160 @@
+@charset "UTF-8";
+.body {
+    background: white;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+a{
+    color: black;
+}
+
+.content-wrapper{
+    min-width:1148px;
+    padding-top:90px;
+    padding-bottom:100px;
+}
+
+.content{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+section{
+    width:100%;
+}
+
+.search-section{
+    background-color: gray;
+    padding-bottom: 50px;
+}
+
+.search-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.search-title{
+    width: 100%;
+    font-size: 50px;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    text-align: center;
+    color: white;
+}
+
+.input{
+    display: flex;
+    align-items: center;
+    height: 25px;
+}
+
+.input>#filterSelect{
+    height: 23px;
+}
+
+.input>#search{
+    height: 23px;
+}
+
+.report-section{
+    gap: 20px;
+}
+
+.report-board-container {
+    width: 100%;
+    margin-top: 20px;
+    border: 1px solid gray;
+    border-radius: 12px;
+}
+
+.report-content{
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.report-board-title-wrapper{
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.board-table{
+    width: 100%;
+    height: 80%;
+    padding-top: 20px;
+}
+
+.comment-table{
+    width: 100%;
+    height: 80%;
+    padding-top: 20px;
+}
+
+.board-table>thead{
+    text-align: center;
+    height: 40px;
+}
+
+.board-table>tbody>tr{
+    text-align: center;
+    height: 40px;
+}
+
+.board-pageBar{
+    display: flex;
+    padding-top: 10px;
+}
+
+.comment-pageBar{
+    display: flex;
+    padding-top: 10px;
+}
+
+.pageBar div{
+    padding: 5px;
+}
+
+.report-board-title{
+    font-size: 25px;
+    font-weight: 500;
+}
+
+.report-board-subtitle{
+    padding-right: 50px;
+}
+
+.report-title-wrapper{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.report-title{
+    font-size: 25px;
+    font-weight: 500;
+}
+
+.list{
+    height: 90%;
+    overflow-x: hidden;
+}
+
+.item{
+    display: flex;
+    align-items: center;
+    height: 50px;
+}
+
+.report-request-container{
+    display: flex;
+    gap: 20px;
+}
+
+.button{
+	z-index: 3;
+}

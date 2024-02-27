@@ -7,7 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.kks.trashpedia.admin.model.dao.adminDao;
+import com.kks.trashpedia.admin.model.dao.AdminDao;
 import com.kks.trashpedia.board.model.vo.BigCategory;
 import com.kks.trashpedia.board.model.vo.Board;
 import com.kks.trashpedia.board.model.vo.Comment;
@@ -18,11 +18,12 @@ import com.kks.trashpedia.point.model.vo.PointHistory;
 import com.kks.trashpedia.report.model.vo.Report;
 import com.kks.trashpedia.trash.model.vo.Request;
 import com.kks.trashpedia.trash.model.vo.Suggestion;
+import com.kks.trashpedia.trash.model.vo.Trash;
 
 @Service
 public class adminServiceImpl implements adminService{
 	@Autowired
-	private adminDao dao;
+	private AdminDao dao;
 
 	@Override
 	public int allMemberCount() {
@@ -45,6 +46,16 @@ public class adminServiceImpl implements adminService{
 	}
 
 	@Override
+	public int newBoardCount() {
+		return dao.newBoardCount();
+	}
+
+	@Override
+	public int oldBoardCount() {
+		return dao.oldBoardCount();
+	}
+	
+	@Override
 	public List<Member> getMemberChartsData() {
 		return dao.getMemberChartsData();
 	}
@@ -65,8 +76,8 @@ public class adminServiceImpl implements adminService{
 	}
 
 	@Override
-	public Page<Member> getMemberList(Pageable pageable) {
-		return dao.getMemberList(pageable);
+	public Page<Member> getMemberList(Pageable pageable, String sort, String searchSelect, String searchValue) {
+		return dao.getMemberList(pageable, sort, searchSelect, searchValue);
 	}
 
 	@Override
@@ -95,8 +106,8 @@ public class adminServiceImpl implements adminService{
 	}
 
 	@Override
-	public Page<Board> getMemberBoardList(Pageable pageable, int userNo) {
-		return dao.getMemberBoardList(pageable, userNo);
+	public Page<Board> getMemberBoardList(Pageable pageable, int userNo, String sort, String searchSelect, String searchValue) {
+		return dao.getMemberBoardList(pageable, userNo, sort, searchSelect, searchValue);
 	}
 
 	@Override
@@ -150,13 +161,19 @@ public class adminServiceImpl implements adminService{
 	}
 
 	@Override
-	public List<Request> getRequestList() {
-		return dao.getRequestList();
+	public Page<Trash> getTrashList(Pageable pageable, int page) {
+		return dao.getTrashList(pageable, page);
 	}
 
 	@Override
-	public List<Suggestion> getSuggestionList() {
-		return dao.getSuggestionList();
+	public Page<Suggestion> loadSuggestionListData(Pageable pageable) {
+		return dao.loadSuggestionListData(pageable);
 	}
+
+	@Override
+	public Page<Request> loadRequestListData(Pageable pageable) {
+		return dao.loadRequestListData(pageable);
+	}
+
 
 }

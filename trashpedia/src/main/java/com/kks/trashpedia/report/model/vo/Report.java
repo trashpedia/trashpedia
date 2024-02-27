@@ -19,4 +19,8 @@ public class Report {
 	private String processingContent;
 	private Date processingDate;
 	private String status;
+	
+	// 관리자 페이지 신고 관리
+	private String title;
+	private int boardNo;
 }

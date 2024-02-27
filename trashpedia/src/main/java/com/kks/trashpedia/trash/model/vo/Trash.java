@@ -1,5 +1,7 @@
 package com.kks.trashpedia.trash.model.vo;
 
+import java.sql.Date;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,48 +11,15 @@ import lombok.NoArgsConstructor;
 @Data
 public class Trash {
 	private int trashNo;
-	private int imgNo;
-	private int postNo;
+	private int trashPostNo;
 	private int userNo;
 	private int subCategoryNo;
 	private String status;
-	public int getTrashNo() {
-		return trashNo;
-	}
-	public void setTrashNo(int trashNo) {
-		this.trashNo = trashNo;
-	}
-	public int getImgNo() {
-		return imgNo;
-	}
-	public void setImgNo(int imgNo) {
-		this.imgNo = imgNo;
-	}
-	public int getPostNo() {
-		return postNo;
-	}
-	public void setPostNo(int postNo) {
-		this.postNo = postNo;
-	}
-	public int getUserNo() {
-		return userNo;
-	}
-	public void setUserNo(int userNo) {
-		this.userNo = userNo;
-	}
-	public int getSubCategoryNo() {
-		return subCategoryNo;
-	}
-	public void setSubCategoryNo(int subCategoryNo) {
-		this.subCategoryNo = subCategoryNo;
-	}
-	public String getStatus() {
-		return status;
-	}
-	public void setStatus(String status) {
-		this.status = status;
-	}
-	
-	
-	
+
+	// 관리자 페이지 쓰레기 관리 - 쓰레기 조회
+	private String bigCategoryName;
+	private String subCategoryName;
+	private String trashTitle;
+	private Date createDate;
+	private Date modifyDate;
 }

@@ -86,7 +86,25 @@
                             <div class="board-title">작성 게시글</div>
                             <div class="board-subtitle">총 ${b}개</div>
                         </div>
-                        <div class="boardList list"></div>
+                        <div class="input">
+	                        <select name="condition" id="boardFilterSelect">
+	                            <option value="boardNo" selected>번호</option>
+	                            <option value="bigCategoryName">빅카테고리</option>
+	                            <option value="subCategoryName">서브카테고리</option>
+	                            <option value="title">제목</option>
+	                        </select>
+	                    </div>
+                        <table>
+						    <thead class="board-thead"></thead>
+						    <tbody class="boardList list"></tbody>
+						</table>
+						<select name="condition" id="boardSearchFilterSelect">
+	                        <option value="boardNo" selected>번호</option>
+	                        <option value="title">제목</option>
+	                        <option value="content">내용</option>
+	                    </select>
+	                    <input type="search" name="boardSearch" id="boardSearch" placeholder="Search">
+	                    <input type="button" id="search" value="검색" onclick="boardSearch()">
                     </div>
                     <div class="board-container">
                         <div class="board-title">게시글 상세</div>
@@ -99,6 +117,14 @@
                             <div class="board-title">작성 댓글</div>
                             <div class="board-subtitle">총 ${c}개</div>
                         </div>
+                        <div class="input">
+	                        <select name="condition" id="filterSelect">
+	                            <option value="userNo" selected>번호</option>
+	                            <option value="userEmail">이메일</option>
+	                            <option value="userName">이름</option>
+	                            <option value="userNickname">닉네임</option>
+	                        </select>
+	                    </div>
                         <div class="commentList list"></div>
                     </div>
                     <div class="board-container">
@@ -151,30 +177,50 @@
     <script>
 	    var isLoading = false;
 	    var boardOffset = 0;
-	    var commentOffset = 0;
-		
+	    var boardSelectedValue = 'boardNo';
+	    var boardSearchSelect = '';
+	    var boardSearchValue = '';
+	
 	    $(document).ready(function() {
-	    	loadBoardData();
-	    	loadCommentData();
-	    	loadPointData(1);
-	    	loadReportData(1);
+	    	loadBoardData(boardSearchSelect, boardSearchValue);
 	    });
 	    $('.boardList').scroll(function() {
 	        if($(this).scrollTop() + $(this).innerHeight() + 70 >= $(this)[0].scrollHeight) {
 	            if (!isLoading) {
 	                isLoading = true;
-	                loadBoardDetailData();
+	                loadBoardData(boardSearchSelect, boardSearchValue);
 	            }
 	        }
 	    });
+	    $('#boardFilterSelect').change(function(){
+	    	selectedValue = $(this).val();
+	    	$('.boardList').empty();
+	    	boardOffset = 0;
+	    	loadBoardData(boardSearchSelect, boardSearchValue);
+	    });
+	    function boardSearch(){
+	    	searchSelect = $('#boardSearchFilterSelect').val();
+	    	searchValue = $('#boardSearch').val();
+	    	$('#boardSearch').val('');
+	    	$('.boardList').empty();
+	    	offset = 0;
+	    	loadBoardData(boardSearchSelect, boardSearchValue);
+	    }
 	
-	    function loadBoardData() {
+	    function loadBoardData(boardSearchSelect, boardSearchValue) {
+	    	console.log("시작");
+	    	console.log(boardSearchSelect, boardSearchValue);
+	    	if(boardSearchSelect == undefined){
+	    		boardSearchSelect = null;
+	    		boardSearchValue = null;
+	    	}
 	        $.ajax({
 	            url: '${contextPath}/admin/getMemberBoardList',
 	            type: 'GET',
 	            dataType: 'json',
-	            data: { page: boardOffset, size: 20, userNo: ${m.userNo} },
+	            data: { page: boardOffset, size: 20, sort: boardSelectedValue, searchSelect: boardSearchSelect, searchValue: boardSearchValue},
 	            success: function(data) {
+	            	console.log(data);
 	            	if(data.content.length != 0){
 		                updateBoardTable(data);
 		                boardOffset += 1;
@@ -187,18 +233,35 @@
 	            }
 	        });
 	    }
+	
 	    function updateBoardTable(data) {
-	    	console.log(data);
+	    	let thead = document.querySelector('.board-thead');
 	        let userList = document.querySelector('.boardList');
 	        let list = data.content;
 	        for (let i = 0; i < list.length; i++) {
-	            let row = '<div class="item" onclick="loadBoardDetailData('+list[i].boardNo+')">';
-	            row += '<div class="icon">😃</div>';
-	            row += '<div class="subtitle">'+list[i].bigCategoryName+'</div>';
-	            row += '<div class="subtitle">'+list[i].subCategoryName+'</div>';
-	            row += '<div class="subtitle">'+list[i].title+'</div>';
-	            row += '</div>';
-	            userList.innerHTML += row;
+	            let row = document.createElement('tr');
+	            
+	            let cell1 = document.createElement('td');
+	            cell1.textContent = list[i].boardNo;
+	            
+	            let cell2 = document.createElement('td');
+	            cell2.textContent = list[i].bigCategoryName;
+	            
+	            let cell3 = document.createElement('td');
+	            cell3.textContent = list[i].subCategoryName;
+	            
+	            let cell4 = document.createElement('td');
+	            cell4.textContent = list[i].title;
+	            
+	            row.appendChild(cell1);
+	            row.appendChild(cell2);
+	            row.appendChild(cell3);
+	            row.appendChild(cell4);
+	            
+	            row.addEventListener('click', function() {
+	                loadBoardDetailData(list[i].userNo);
+	            });
+	            userList.appendChild(row);
 	        }
 	    }
 	    
@@ -247,21 +310,13 @@
 	            }
 	        });
 	    };
-	    $('.commentList').scroll(function() {
-	        if($(this).scrollTop() + $(this).innerHeight() + 70 >= $(this)[0].scrollHeight) {
-	            if (!isLoading) {
-	                isLoading = true;
-	                loadBoardData();
-	            }
-	        }
-	    });
 	
 	    function loadCommentData() {
 	        $.ajax({
 	            url: '${contextPath}/admin/getMemberCommentList',
 	            type: 'GET',
 	            dataType: 'json',
-	            data: { page: commentOffset, size: 20, userNo: '${userNo}' },
+	            data: { page: commentOffset, size: 20, userNo: ${m.userNo} },
 	            success: function(data) {
 	            	if(data.content.length != 0){
 		                updateCommentTable(data);
@@ -392,7 +447,6 @@
 	            dataType: 'json',
 	            data: { page: page, size: 20, userNo: ${m.userNo} },
 	            success: function(data) {
-	            	console.log(data);
 	                if(data.content.length != 0){
 	                    updatePointTable(data);
 	                    updatePointPagination(data);

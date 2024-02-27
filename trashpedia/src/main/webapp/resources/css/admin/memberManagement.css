@@ -51,12 +51,29 @@ section{
     height: 25px;
 }
 
-.input>#filterSelect{
+.input>select{
     height: 23px;
 }
 
 .input>#search{
     height: 23px;
+}
+
+table{
+	height: 90%;
+	width: 100%;
+}
+
+tbody{
+	width: 100%;
+}
+
+tr{
+	height: 70px;
+}
+
+tr>th, tr>td{
+	width: 25%;
 }
 
 .member-section{
@@ -86,8 +103,9 @@ section{
 }
 
 .list{
-    height: 90%;
-    overflow-x: hidden;
+    height: 100%;
+    display:block;
+    overflow:auto;
 }
 
 .list>.item>.title{
