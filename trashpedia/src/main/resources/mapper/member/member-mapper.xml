@@ -11,8 +11,8 @@
 	<select id="loginMember" parameterType="member" resultType="member">
 		SELECT *
 		FROM MEMBER
-		WHERE USER_EMAIL = 'ojy1739@gmail.com'
-			AND USER_PWD = 'asdf1234!'
+		WHERE USER_EMAIL = 'USER1'
+			AND USER_PWD = '1234'
 			AND STATUS = 'Y'
 	</select>
 	
@@ -36,6 +36,8 @@
 	    SET STATUS = 'N'
 	    WHERE USER_NO = #{userNo} AND STATUS = 'Y'
 	</update>
+	
+	
 		
 </mapper>
 
