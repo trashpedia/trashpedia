@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="/준식이 파이널/css/board/style.css">
     <link rel="stylesheet" href="${contextPath}/resources/css/board/boardList.css">
 
+
 </head>
 
 <!-- jQuery -->
@@ -35,7 +36,7 @@
        
         <!--실천서약 타이틀 부분-->
         <div class="practice-section">
-            <p>공지사항</p>
+            <p>커뮤니티</p>
             <p>Reduce Reuse Recycle Recovery</p>
         </div>
        
@@ -60,23 +61,23 @@
 	                    <div>
 	                        <%-- <div class="num">${board.count}</div> --%>
 	                        <div class="num">${board.postNo}</div>
-	                        <div class="title"><a href="${contextPath}/boardDetail?postNo=1">${board.title}</a></div>
+	                        <div class="title"><a href="${contextPath}/boardDetail/${board.postNo}">${board.title}</a></div>
 	                        <div class="writer">${board.userName}</div>
 	                        <div class="date">${board.createDate}</div>
-	                       <%--  <div class="count">${board.viewCount}</div> --%>
+	                        <%--  <div class="count">${board.viewCount}</div> --%>
 	                    </div>
                		</c:forEach>
                		
                     <div>
                         <div class="num">5</div>
-                        <div class="title"><a href="${contextPath}/boardDetail">${board.title}</a></div>
+                        <div class="title"><a href="${contextPath}/boardDetail/${board.postNo}">${board.title}</a></div>
                         <div class="writer">김이름</div>
                         <div class="date">2021.1.15</div>
                         <div class="count">33</div>
                     </div>
                     <div>
                         <div class="num">3</div>
-                        <div class="title"><a href="${contextPath}/boardDetail">글 제목이 들어갑니다.</a></div>
+                        <div class="title"><a href="${contextPath}/boardDetail/${board.postNo}">글 제목이 들어갑니다.</a></div>
                         <div class="writer">김이름</div>
                         <div class="date">2021.1.15</div>
                         <div class="count">33</div>

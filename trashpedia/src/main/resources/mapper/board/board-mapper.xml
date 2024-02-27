@@ -43,27 +43,63 @@
 	
 	<!-- 목록 띄우기 -->
 	<select id="boardList" resultType="post">
-	    SELECT P.POST_NO, P.TITLE, P.CONTENT, P.CREATE_DATE, P.MODIFY_DATE, P.STATUS, B.BOARD_NO, SC.SUB_CATEGORY_NAME, M.USER_NAME 
-	    FROM POST P
-	    LEFT JOIN BOARD B ON (P.POST_NO = B.POST_NO)
+	    SELECT P.POST_NO, P.TITLE, P.CONTENT, P.CREATE_DATE, P.MODIFY_DATE, P.STATUS, B.BOARD_NO, SC.SUB_CATEGORY_NAME, M.USER_NAME, COUNT(H.HITS_NO) AS hitCount
+	    FROM BOARD B
+	    LEFT JOIN POST P ON (P.POST_NO = B.POST_NO)
 	    LEFT JOIN SUB_CATEGORY SC ON B.SUB_CATEGORY_NO = SC.SUB_CATEGORY_NO
 	    LEFT JOIN MEMBER M ON B.USER_NO = M.USER_NO
-	    WHERE 
+	    LEFT JOIN HITS H ON B.BOARD_NO = H.BOARD_NO
+	    WHERE
 	        B.SUB_CATEGORY_NO = #{subCategoryNo}
 	        AND P.STATUS='Y'
-	    ORDER BY P.CREATE_DATE DESC
+	    <if test="searchSelect != null}">
+	    	<if test="searchSelect == 'boardNo'">
+	    		AND B.BOARD_NO = #{searchValue}
+	    	</if>
+	    	<if test="searchSelect == 'title'">
+	    		AND P.TITLE = #{searchValue}
+	    	</if>
+	    	<if test="searchSelect == 'content'">
+	    		AND P.CONTENT = #{searchValue}
+	    	</if>
+	    </if>
+	    GROUP BY P.POST_NO, P.TITLE, P.CONTENT, P.CREATE_DATE, P.MODIFY_DATE, P.STATUS, B.BOARD_NO, SC.SUB_CATEGORY_NAME, M.USER_NAME
+	    ORDER BY
+	    <if test="filter == 'createDate'">
+	    	CREATE_DATE DESC
+	    </if>
+	    <if test="filter == 'hitCount'">
+	    	hitCount DESC
+	    </if>
 	</select>
 
 	
 	<!-- 상세페이지 -->
-	<select id="boardDetail" parameterType="long" resultType="board">    
-		SELECT P.*
-	    FROM POST P
-	    LEFT JOIN BOARD B ON P.POST_NO = B.POST_NO
-	    LEFT JOIN MEMBER M ON P.USER_NO = M.USER_NO
-	    WHERE POST_NO = #{postNo} 
-	    	AND STATUS = 'Y'
+	<select id="boardDetail" parameterType="int" resultType="post">    
+		SELECT P.POST_NO, P.TITLE, P.CONTENT, P.CREATE_DATE, P.MODIFY_DATE, B.USER_NO, B.BOARD_NO
+		FROM POST P
+		LEFT JOIN BOARD B ON P.POST_NO = B.POST_NO
+		LEFT JOIN MEMBER M ON B.USER_NO = M.USER_NO
+		WHERE P.POST_NO = #{postNo} AND P.STATUS = 'Y'
 	</select>
+	
+	<!-- 대분류 카테고리 -->
+	<select id="bigCategory" resultType="bigCategory">
+		SELECT *
+		FROM BIG_CATEGORY
+	</select>
+	
+	<!-- 소분류 카테고리 -->
+	<select id="subCategory" resultType="subCategory">
+		SELECT *
+		FROM SUB_CATEGORY
+	</select>
+	
+	
+	
+	
+	
+	
 	
 	
 </mapper>
