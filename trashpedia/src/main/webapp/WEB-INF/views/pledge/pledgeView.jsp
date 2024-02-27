@@ -83,14 +83,14 @@
                  <div class="certification">                 	
                     <div class="content-outer">
 						<c:forEach var="post" items="${list}">
-							<div class="img-area">
+							<div class="img-area" onclick ="pledgeDetail(${post.postNo})">
 							 	<input type="hidden" value="${post.title}">
 							 	<input type="hidden" name="subCategoryNo"value="${post.subCategoryNo} ">
 							 	<input type="hidden" name="postNo" value="${post.postNo}">
 							 	<img src="<c:url value='/resources/attachFile/image/${post.changeName}'/>"  class="content-img">
                         	</div>
                     	</c:forEach>
-                    
+                     
                         <div class="paging-button">
                             <button class="pagingBtn" id="prevBtn"> < </button>
                             <button class="pagingBtn">1</button>

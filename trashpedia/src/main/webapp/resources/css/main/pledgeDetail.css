@@ -19,49 +19,70 @@ main{
    text-align: end;
    margin-top: 20px;
    margin-bottom: 20px;
+   padding :0 25px;
 }
 .content-title-outer p{
-    font-size: 30px;
-    font-weight: 700;
+    font-size: 28px;
+    font-weight: 650;
     text-align: center;
 }
 .content-title-outer span{
     text-align: end;
     margin: 2px;
-    font-size : 14px;
+    font-size : 13px;
     font-weight : 450;
-    color :  rgb(63, 63, 63);
+    color : rgb(63, 63, 63);
+}
+.content-title-outer .title-count{
+	margin-right : 8px;
 }
 .content-title-outer hr{
-    margin-top: 25px;
+    margin-top: 20px;
     margin-bottom: 30px;
-    width : 95%;
-}
-#view{
-	margin-left : 15px;
-}
-#view-count{
-	margin-right : 30px;
+    width : 100%;
 }
 
 
 /* ---------- 내용 ---------- */
+.toast-custom-viewer{
+	font-family: 'Noto Sans KR', sans-serif;
+    box-sizing: border-box;
+    width: 80%;
+    padding: 20px;
+    height: 100%;
+    min-height: 300px;
+    border: 0;
+    font-size: 15px;
+    /* resize: none; */
+}
+.toast-custom-viewer img{
+	max-width : 100%;
+	height : auto;
+}
+
 .content-outer {
     margin-bottom: 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
 }
-.content-inner{
-    font-family: 'Noto Sans KR', sans-serif;
-    box-sizing: border-box;
-    width: 85%;
+
+/* 이미지-첨부파일 부분 */
+.content-attach-outer{
+	box-sizing: border-box;
+	width: 80%;
     padding: 20px;
-    height: 100%;
-    min-height: 300px;
-    border: 0;
-    font-size: 15px;
-    resize: none;
+    display: flex;
+}
+.content-attach-inner{
+	display: flex;
+    flex-direction: column;
+    margin-left : 50px;
+}
+
+#thumbNailImg{
+	max-width : 100px;
+	max-height : 100px;
 }
 
 /* 수정 목록 삭제 버튼 */

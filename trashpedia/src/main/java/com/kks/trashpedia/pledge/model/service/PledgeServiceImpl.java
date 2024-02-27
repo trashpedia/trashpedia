@@ -6,7 +6,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kks.trashpedia.board.model.vo.Attachment;
 import com.kks.trashpedia.board.model.vo.Board;
+import com.kks.trashpedia.board.model.vo.ImgAttachment;
 import com.kks.trashpedia.board.model.vo.Post;
 import com.kks.trashpedia.pledge.model.dao.PledgeDao;
 
@@ -27,17 +29,33 @@ public class PledgeServiceImpl implements PledgeService{
 	public Post pledgeDetail(int postNo) {
 		return dao.pledgeDetail(postNo);
 	}
+	
+	//게시글 상세-첨부파일
+	@Override
+	public Attachment pledgeDetailAttach(int boardNo) {
+		return dao.pledgeDetailAttach(boardNo);
+	}
 
+	//게시글 상세-이미지
+	@Override
+	public ImgAttachment pledgeDetailImg(int boardNo) {
+		return dao.pledgeDetailImg(boardNo);
+	}
+	
 	// 처음 조회일 조회
 	@Override
-	public List<Date> pledgeHitDate(Board b) {
+	public Date pledgeHitDate(Board b) {
 		return dao.pledgeHitDate(b);
 	}
+	
 	//게시글 조회수 증가
 	@Override
 	public int increaseCount(Board b) {
 		return dao.increaseCount(b);
 	}
+
+
+	
 
 
 

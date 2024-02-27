@@ -10,6 +10,9 @@
 	<!-- jQuery -->
 	<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 	<link rel="stylesheet" href="${contextPath}/resources/css/main/pledgeDetail.css">
+	<!-- toast ui editor css -->
+    <link rel="stylesheet" href="https://uicdn.toast.com/editor/3.0.2/toastui-editor.min.css" >
+</head>
 </head>
 <body>
 
@@ -17,30 +20,49 @@
 	
     <main>
         <div class="container">
+            <!-- 제목 -->
             <div class="content-title-outer">
                 <p> ${post.title} </p>
-                <span id="">작성일</span>
-                <span id=""> ${post.createDate} </span>
-                <span id="">수정일</span>
-                <span id=""> ${post.modifyDate} </span>
-                <span id="view">조회수</span>
-                <span id="view-count">${post.hitsNo}</span>
+                <span>작성일</span>
+                <span class="title-count"> ${post.createDate} </span>
+                <span>수정일</span>
+                <span class="title-count"> ${post.modifyDate} </span>
+                <span>조회수</span>
+                <span class="title-count">${post.hitsNo}</span>
                 <hr>
             </div>
+            
+            <!-- 이미지/첨부파일  -->
+            <div class="content-attach-outer">
+            	<div class="content-attach-inner">
+	            	<span>썸네일</span>
+	            	<img id="thumbNailImg" src="<c:url value='/resources/attachFile/image/${img.changeName}'/>" >
+            	</div>
+            	<div class="content-attach-inner">
+	            	<span>첨부파일</span>
+	            	<c:if test="${attachment eq null}">
+	            		<p>첨부파일 없음</p>
+	            	</c:if>
+	            	<c:if test="${not empty attachment}">
+						<a href="<c:url value='/resources/attachFile/file/${attachment.changeName}'/>" download="${attachment.changeName}">${attachment.originName}</a>
+					</c:if> 
+            	</div>
+            </div>
+            
+            <!-- 내용  -->
             <div class="content-outer">
-                <textarea class="content-inner">
-내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용apfhdap
-내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용
-내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용
-내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용
-내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용
-                </textarea>
+            	<div class="toast-custom-viewer">
+            	${post.content}
+            	</div>
+               <!--  <textarea class="content-inner"></textarea> -->
                 <div class="post-buttons">
-                    <a href="${contextPath}/pledge/list"><button class="btn-list">목록</button></a>
+                    <a href="${contextPath}/pledge/list?bigCategoryNo=${post.bigCategoryNo}&subCategoryNo=${post.subCategoryNo}"><button class="btn-list">목록</button></a>
                     <a href="${contextPath}/pledge/modify"><button class="btn-edit">수정(삭)</button></a>
                     <!--<a href=""><button class="btn-delete">삭제</button></a> -->
                 </div>
             </div>
+            
+            <!-- 댓글  -->
             <div class="reply-outer">
                 <div class="reply-outer-top-area">
                     <span class="reply_title"> 댓글 </span> |
@@ -107,13 +129,6 @@
                                 </td>
                                 <td>2023-02-18</td>
                             </tr>
-                            <tr>
-                                <td>User</td>
-                                <td>
-                                    <p>댓글 내용 </p>
-                                </td>
-                                <td>2023-02-18</td>
-                            </tr>
                         </tbody>
                     </table>
                     <div class="paging-button">
@@ -133,7 +148,13 @@
 	<jsp:include page="../common/footer.jsp"/>
 	
     <script>
-
+	    //Viewer용 CDN을 사용할 경우
+	    const editor = new toastui.Editor({
+	        el : document.querySelector(".toast-custom-viewer"),
+	        initialValue: '글내용이 없습니다.'
+	    });
+    
+    
     </script>
 </body>
 </html>

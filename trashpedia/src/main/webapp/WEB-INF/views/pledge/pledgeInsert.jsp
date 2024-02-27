@@ -56,6 +56,7 @@
             	</div>
                 
                 <div id="writeBoard-content" name="contentBoard"></div>
+                
 				<input type="hidden" name="content" id="hiddenContentInput">
                 <c:if test="${!empty refBno}">
 	                <div class="post-buttons">
