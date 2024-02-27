@@ -36,7 +36,6 @@
 			<div class="board_wrap">
 				<div class="board_title">
 					<strong>제목</strong>
-					<p>부제목</p>
 				</div>
 
 				<div class="board_view_wrap">
@@ -44,32 +43,29 @@
 						<div class="info">
 							<dl>
 								<dt>번호</dt>
-								<dd>1</dd>
+								<dd>${trashNo}</dd>
 							</dl>
 							<dl>
 								<dt>글쓴이</dt>
-								<dd>김이름</dd>
+								<dd>${trashWriter}</dd>
 							</dl>
 							<dl>
 								<dt>작성일</dt>
-								<dd>2021.1.16</dd>
+								<dd>${trashCreate}</dd>
 							</dl>
 							<dl>
 								<dt>조회</dt>
-								<dd>33</dd>
+								<dd>${trashViews}</dd>
 							</dl>
 						</div>
 						<div class="cont">
 							<div class="list_wrap">
 								<div class="container">
 									<img
-										src="https://img.freepik.com/free-photo/cute-puppy-sitting-in-grass-enjoying-nature-playful-beauty-generated-by-artificial-intelligence_188544-84973.jpg"
+										src="${imageUrl}"
 										alt="">
 									<div class="content">
-										<span>재판의 심리와 판결은 공개한다. 다만, 심리는 국가의 안전보장 또는 안녕질서를 방해하거나
-											선량한 풍속을 해할 염려가 있을 때에는 법원의 결정으로 공개하지 아니할 수 있다.... 대통령은 조국의 평화적
-											통일을 위한 성실한 의무를 진다. 법관은 헌법과 법률에 의하여 그 양심에 따라 독립하여 심판한다.
-											대통령후보자가 1인일 때에는 그 득표수가 선거권자 총수의 3분의 1 이상이 아니면 대통...</span>
+										<span>${trashContent}</span>
 									</div>
 
 								</div>

@@ -33,7 +33,7 @@
                                 <li><a href="${contextPath}/boardNotice">공지게시판</a></li>
                                 <li><a href="${contextPath}/boardNotice">일반게시판</a></li>
                                 <li><a href="${contextPath}/boardNotice">건의게시판</a></li>
-                                <li><a href="${contextPath}/boardFreeShare">무료나눔게시판</a></li>
+                                <li><a href="${contextPath}/boardFreeShare?bigCategoryNo=1&subCategoryNo=4">무료나눔게시판</a></li>
                             </ul>
                         </div>
                     </li>
