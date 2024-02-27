@@ -142,7 +142,6 @@
 	        });
 	    }
 	    function updateBoardTable(data) {
-	    	console.log(data);
 	        let count = document.querySelector('.boardList-title');
 	        let userList = document.querySelector('.boardList');
 	        count.innerHTML = '';

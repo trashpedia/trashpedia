@@ -32,11 +32,7 @@
             <section class="trash-section">
                 <div class="trash-board-container">
                     <div class="trash-content">
-                        <div class="trash-board-title-wrapper board-title">
-                            <div class="trash-board-title">쓰레기 게시글</div>
-                            <div class="trash-board-subtitle">총 개</div>
-                            <input class="trash-write" type="button" onclick="writeTrash()" value="글쓰기">
-                        </div>
+                        <div class="trash-board-title-wrapper trash-board-title"></div>
                         <table class="trash-table">
                             <thead>
                                 <tr>
@@ -56,32 +52,12 @@
                 </div>
                 <div class="trash-request-container">
                     <div class="trash-container">
-                        <div class="trash-title-wrapper">
-                            <div class="trash-title">신청 리스트</div>
-                            <div class="trash-subtitle">총 ${fn:length(sl)}개</div>
-                        </div>
-                        <div class="list">
-                        	<c:forEach var="sl" items="${sl}">
-	                            <div class="item">
-	                                <div class="icon">😃</div>
-	                                <div class="title">${sl.title}</div>
-	                            </div>
-                        	</c:forEach>
-                        </div>
+                        <div class="trash-title-wrapper suggestion-title"></div>
+                        <div class="suggestion-list list"></div>
                     </div>
                     <div class="trash-container">
-                        <div class="trash-title-wrapper">
-                            <div class="trash-title">수정 요청 리스트</div>
-                            <div class="trash-subtitle">총 ${fn:length(rl)}개</div>
-                        </div>
-                        <div class="list">
-                        	<c:forEach var="rl" items="${rl}">
-	                            <div class="item">
-	                                <div class="icon">😃</div>
-	                                <div class="title">${rl.title}</div>
-	                            </div>
-                        	</c:forEach>
-                        </div>
+                        <div class="trash-title-wrapper request-title"></div>
+                        <div class="request-list list"></div>
                     </div>
                 </div>
             </section>
@@ -89,9 +65,13 @@
     </div>
     <script>
 	    var isLoading = false;
+	    var suggestionOffset = 0;
+	    var requestOffset = 0;
 		
 	    $(document).ready(function() {
-	    	getTrashList();
+	    	getTrashList(1);
+	    	loadSuggestionListData();
+	    	loadRequestListData();
 	    });
     
 	    function getTrashList(page) {
@@ -101,11 +81,8 @@
 	            dataType: 'json',
 	            data: { page: page, size: 20},
 	            success: function(data) {
-	            	console.log(data);
-	                if(data.content.length != 0){
-	                	updateTrashTable(data);
-	                    updateTrashPagination(data);
-	                }
+                	updateTrashTable(data);
+                    updateTrashPagination(data);
 	            },
 	            error: function(xhr, status, error) {
 	                console.error('Error: ' + error);
@@ -114,13 +91,20 @@
 	    }
 	
 	    function updateTrashTable(data) {
-	        let userList = document.querySelector('.trash-tbody');
-	        userList.innerHTML = '';	
+	    	console.log(data);
+			let title = document.querySelector('.trash-board-title');
+	    	let userList = document.querySelector('.trash-tbody');
+	        title.innerHTML = '';
+	    	userList.innerHTML = '';
+	    	let r = '<div class="trash-board-title">쓰레기 게시글</div>';
+	    	r += '<div class="trash-board-subtitle">총 '+data.content.length+'개</div>';
+	    	r += '<input class="trash-write" type="button" onclick="writeTrash()" value="글쓰기">';
+	    	title.innerHTML += r;
 	        let list = data.content;
 	        for (let i = 0; i < list.length; i++) {
 	            let row = '<tr onclick="trashDetail('+list[i].trashNo+')">';
-	            row += '<td>'+list[i].trashBigCategoryName+'</td>';
-	            row += '<td>'+list[i].trashSubCategoryName+'</td>';
+	            row += '<td>'+list[i].bigCategoryName+'</td>';
+	            row += '<td>'+list[i].subCategoryName+'</td>';
 	            row += '<td>'+list[i].trashTitle+'</td>';
 	            row += '<td>'+list[i].createDate+'</td>';
 	            row += '<td>'+list[i].modifyDate+'</td>';
@@ -151,6 +135,72 @@
 	            }
 	        }
 	        userPaging.innerHTML = '<tr>' + pagination + '</tr>';
+	    }
+	    
+	    function loadSuggestionListData() {
+	        $.ajax({
+	            url: '${contextPath}/admin/loadSuggestionListData',
+	            type: 'GET',
+	            dataType: 'json',
+	            success: function(data) {
+	                updateSuggestionTable(data);
+	                suggestionOffset += 1;
+	                isLoading = false;
+	            },
+	            error: function(xhr, status, error) {
+	                console.error('Error: ' + error);
+	                isLoading = false;
+	            }
+	        });
+	    }
+	    function updateSuggestionTable(data) {
+	    	var list = data.content;
+	        let count = document.querySelector('.suggestion-title');
+	        let userList = document.querySelector('.suggestion-list');
+	        count.innerHTML = '';
+	        let title = '<div class="trash-title">신청 리스트</div>';
+            title += '<div class="trash-subtitle">총 '+list.length+'개</div>';
+            count.innerHTML += title;
+	        for (let i = 0; i < list.length; i++) {
+	            let row = '<div class="item" onclick="loadSuggestionDetailData('+list[i].suggestionNo+')">';
+	            row += '<div class="icon">😃</div>';
+	            row += '<div class="subtitle">'+list[i].suggestionTitle+'</div>';
+	            row += '</div>';
+	            userList.innerHTML += row;
+	        }
+	    }
+	    
+	    function loadRequestListData() {
+	        $.ajax({
+	            url: '${contextPath}/admin/loadRequestListData',
+	            type: 'GET',
+	            dataType: 'json',
+	            success: function(data) {
+	                updateRequestTable(data);
+	                requestOffset += 1;
+	                isLoading = false;
+	            },
+	            error: function(xhr, status, error) {
+	                console.error('Error: ' + error);
+	                isLoading = false;
+	            }
+	        });
+	    }
+	    function updateRequestTable(data) {
+	    	var list = data.content;
+	        let count = document.querySelector('.request-title');
+	        let userList = document.querySelector('.request-list');
+	        count.innerHTML = '';
+	        let title = '<div class="trash-title">요청 리스트</div>';
+            title += '<div class="trash-subtitle">총 '+list.length+'개</div>';
+            count.innerHTML += title;
+	        for (let i = 0; i < list.length; i++) {
+	            let row = '<div class="item" onclick="loadRequestDetailData('+list[i].requestNo+')">';
+	            row += '<div class="icon">😃</div>';
+	            row += '<div class="subtitle">'+list[i].requestTitle+'</div>';
+	            row += '</div>';
+	            userList.innerHTML += row;
+	        }
 	    }
 	    
 	    function trashDetail(trashNo){

@@ -16,8 +16,9 @@ import com.kks.trashpedia.point.model.vo.PointHistory;
 import com.kks.trashpedia.report.model.vo.Report;
 import com.kks.trashpedia.trash.model.vo.Request;
 import com.kks.trashpedia.trash.model.vo.Suggestion;
+import com.kks.trashpedia.trash.model.vo.Trash;
 
-public interface adminDao {
+public interface AdminDao {
 
 	int allMemberCount();
 
@@ -27,6 +28,10 @@ public interface adminDao {
 
 	int oldMemberCount();
 
+	int newBoardCount();
+
+	int oldBoardCount();
+	
 	List<Member> getMemberChartsData();
 	
 	List<Board> getBoardChartsData();
@@ -37,7 +42,7 @@ public interface adminDao {
 
 	int countAllMember();
 
-	Page<Member> getMemberList(Pageable pageable);
+	Page<Member> getMemberList(Pageable pageable, String sort, String searchSelect, String searchValue);
 
 	Member getMemberListDetail(int userNo);
 
@@ -49,7 +54,7 @@ public interface adminDao {
 
 	int memberCountComment(int userNo);
 
-	Page<Board> getMemberBoardList(Pageable pageable, int userNo);
+	Page<Board> getMemberBoardList(Pageable pageable, int userNo, String sort, String searchSelect, String searchValue);
 
 	Board getMemberBoardDetail(int boardNo);
 
@@ -71,9 +76,12 @@ public interface adminDao {
 
 	Post loadBoardDetailData(int boardNo);
 
-	List<Request> getRequestList();
+	Page<Trash> getTrashList(Pageable pageable, int page);
 
-	List<Suggestion> getSuggestionList();
+	Page<Suggestion> loadSuggestionListData(Pageable pageable);
+
+	Page<Request> loadRequestListData(Pageable pageable);
+
 
 
 

@@ -21,6 +21,16 @@
 		FROM MEMBER
 		WHERE TRUNC(CREATE_DATE) = TRUNC(SYSDATE - 1) AND STATUS = 'Y'
 	</select>
+	<select id="newBoardCount" resultType="int">
+		SELECT COUNT(*)
+		FROM POST
+		WHERE TRUNC(CREATE_DATE) = TRUNC(SYSDATE) AND STATUS = 'Y'
+	</select>
+	<select id="oldBoardCount" resultType="int">
+		SELECT COUNT(*)
+		FROM POST
+		WHERE TRUNC(CREATE_DATE) = TRUNC(SYSDATE - 1) AND STATUS = 'Y'
+	</select>
 	<select id="getMemberChartsData" resultType="member">
 		SELECT dates.orderDay, NVL(COUNT(M.CREATE_DATE), 0) AS countMember
 		FROM (
@@ -67,8 +77,35 @@
 	</select>
 	
 	<select id="getMemberList" resultType="member">
-		SELECT USER_NO, USER_EMAIL, USER_NAME
+		SELECT USER_NO, USER_EMAIL, USER_NAME, USER_NICKNAME
 		FROM MEMBER
+			<if test="searchSelect == 'userNo'">
+				WHERE USER_NO LIKE '%' || #{searchValue} || '%'
+			</if>
+			<if test="searchSelect == 'userEmail'">
+				WHERE USER_EMAIL LIKE '%' || #{searchValue} || '%'
+			</if>
+			<if test="searchSelect == 'userName'">
+				WHERE USER_NAME LIKE '%' || #{searchValue} || '%'
+			</if>
+			<if test="searchSelect == 'userNickname'">
+				WHERE USER_NICKNAME LIKE '%' || #{searchValue} || '%'
+			</if>
+		ORDER BY
+			<choose>
+				<when test="sort == 'userNo'">
+					USER_NO
+				</when>
+				<when test="sort == 'userEmail'">
+					USER_EMAIL
+				</when>
+				<when test="sort == 'userName'">
+					USER_NAME
+				</when>
+				<when test="sort == 'userNickname'">
+					USER_NICKNAME
+				</when>
+			</choose>
 	</select>
 	<select id="getCountAllMember" resultType="int">
 		SELECT COUNT(*)
@@ -95,12 +132,36 @@
 		WHERE C.USER_NO = #{userNo}
 	</select>
 	<select id="getMemberBoardList" resultType="board">
-		SELECT TITLE, BC.BIG_CATEGORY_NAME, S.SUB_CATEGORY_NAME, B.BOARD_NO
+		SELECT TITLE, BC.BIG_CATEGORY_NAME, SC.SUB_CATEGORY_NAME, B.BOARD_NO
 		FROM BOARD B
 		LEFT JOIN POST P ON B.POST_NO = P.POST_NO
-		LEFT JOIN SUB_CATEGORY S ON B.SUB_CATEGORY_NO = S.SUB_CATEGORY_NO
-		LEFT JOIN BIG_CATEGORY BC ON S.BIG_CATEGORY_NO = BC.BIG_CATEGORY_NO
+		LEFT JOIN SUB_CATEGORY SC ON B.SUB_CATEGORY_NO = SC.SUB_CATEGORY_NO
+		LEFT JOIN BIG_CATEGORY BC ON SC.BIG_CATEGORY_NO = BC.BIG_CATEGORY_NO
 		WHERE B.USER_NO = #{userNo}
+		<if test="searchSelect == 'boardNo'">
+				AND B.BOARD_NO LIKE '%' || #{searchValue} || '%'
+			</if>
+			<if test="searchSelect == 'title'">
+				AND P.TITLE LIKE '%' || #{searchValue} || '%'
+			</if>
+			<if test="searchSelect == 'content'">
+				AND P.CONTENT LIKE '%' || #{searchValue} || '%'
+			</if>
+		ORDER BY
+			<choose>
+				<when test="sort == 'boardNo'">
+					B.BOARD_NO
+				</when>
+				<when test="sort == 'bigCategoryName'">
+					BC.BIG_CATEGORY_NAME
+				</when>
+				<when test="sort == 'subCategoryName'">
+					BC.SUB_CATEGORY_NAME
+				</when>
+				<when test="sort == 'title'">
+					P.TITLE
+				</when>
+			</choose>
 	</select>
 	<select id="getMemberBoardDetail" resultType="board">
 		SELECT TITLE, CONTENT, CREATE_DATE, MODIFY_DATE
@@ -109,12 +170,12 @@
 		WHERE B.BOARD_NO = #{boardNo}
 	</select>
 	<select id="getMemberCommentList" resultType="board">
-		SELECT TITLE, BC.BIG_CATEGORY_NAME, S.SUB_CATEGORY_NAME, COMMENT_NO, NESTED_COMMENT_NO
+		SELECT TITLE, BC.BIG_CATEGORY_NAME, S.SUB_CATEGORY_NAME, C.COMMENT_NO, NESTED_COMMENT_NO
 		FROM BOARD B
 		LEFT JOIN POST P ON B.POST_NO = P.POST_NO
 		LEFT JOIN SUB_CATEGORY S ON B.SUB_CATEGORY_NO = S.SUB_CATEGORY_NO
 		LEFT JOIN BIG_CATEGORY BC ON S.BIG_CATEGORY_NO = BC.BIG_CATEGORY_NO
-		LEFT JOIN COMMENT C ON C.BOARD_NO = B.BOARD_NO
+		LEFT JOIN "COMMENT" C ON C.BOARD_NO = B.BOARD_NO
 		JOIN NESTED_COMMENT NC ON NC.COMMENT_NO = C.COMMENT_NO
 		WHERE C.USER_NO = #{userNo} OR NC.USER_NO = #{userNo}
 	</select>
@@ -135,7 +196,7 @@
 		SELECT BOARD_NO, TITLE, P.CONTENT, NC.CREATE_DATE, NC.MODIFY_DATE, NC.CONTENT AS commentContent
 		FROM BOARD B
 		LEFT JOIN POST P ON B.POST_NO = P.POST_NO
-		LEFT JOIN COMMENT C ON B.BOARD_NO = C.BOARD_NO
+		LEFT JOIN "COMMENT" C ON B.BOARD_NO = C.BOARD_NO
 		LEFT JOIN NESTED_COMMENT NC ON C.COMMENT_NO = NC.COMMENT_NO
 		WHERE NESTED_COMMENT_NO = #{nestedCommentNo}
 	</select>
@@ -152,7 +213,7 @@
 	<select id="getMemberReportList" parameterType="int" resultType="report">
 		SELECT *
 		FROM REPORT
-		WHERE USER_NO = #{userNo)
+		WHERE USER_NO = #{userNo}
 	</select>
 	<select id="BigCategoryList" resultType="bigCategory">
 		SELECT *
@@ -176,12 +237,31 @@
 		LEFT JOIN MEMBER M ON M.USER_NO = B.USER_NO
 		WHERE B.BOARD_NO = #{boardNo}
 	</select>
-	<select id="getRequestList" resultType="request">
+	<select id="getTrashList" resultType="trash">
+		SELECT T.TRASH_NO, TBC.BIG_CATEGORY_NAME,TSC.SUB_CATEGORY_NAME, TP.TRASH_TITLE, TP.CREATE_DATE, TP.MODIFY_DATE
+		FROM TRASH T
+		LEFT JOIN TRASH_SUB_CATEGORY TSC ON T.SUB_CATEGORY_NO = TSC.SUB_CATEGORY_NO 
+		LEFT JOIN TRASH_BIG_CATEGORY TBC ON TSC.BIG_CATEGORY_NO = TBC.BIG_CATEGORY_NO
+		LEFT JOIN TRASH_POST TP ON T.TRASH_POST_NO = TP.TRASH_POST_NO
+	</select>
+	<select id="trashCount" resultType="int">
+		SELECT COUNT(*)
+		FROM TRASH
+	</select>
+	<select id="loadSuggestionListData" resultType="suggestion">
+		SELECT *
+		FROM SUGGESTION
+	</select>
+	<select id="suggestionCount" resultType="int">
+		SELECT COUNT(*)
+		FROM SUGGESTION
+	</select>
+	<select id="loadRequestListData" resultType="request">
 		SELECT *
 		FROM REQUEST
 	</select>
-	<select id="getSuggestionList" resultType="suggestion">
-		SELECT *
-		FROM SUGGESTION
+	<select id="requestCount" resultType="int">
+		SELECT COUNT(*)
+		FROM REQUEST
 	</select>
 </mapper>

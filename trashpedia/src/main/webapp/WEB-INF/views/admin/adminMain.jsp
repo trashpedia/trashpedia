@@ -28,24 +28,36 @@
                         <div class="statistics-list">
                             <div class="statistics-list-title">신규 가입자</div>
                             <div class="list-data"><fmt:formatNumber type="number" pattern="#,##0" value="${nm}"/></div>
-							<c:set var="percentChange" value="${(nm / om) * 100}" />
 							<div class="change">
+								<c:set var="m" value="${nm - om}" />
 								<c:choose>
-									<c:when test="${difference == 0}">
-							            +<fmt:formatNumber type="number" pattern="0.00" value="${difference}" />%
-							        </c:when>
-									<c:when test="${difference > 0}">
-							            +<fmt:formatNumber type="number" pattern="0.00" value="${percentChange}" />%
-							        </c:when>
-									<c:otherwise>
-							            -<fmt:formatNumber type="number" pattern="0.00" value="${percentChange}" />%
-							        </c:otherwise>
+								    <c:when test="${m >= 0}">
+								        +<fmt:formatNumber type="number" pattern="#,##0" value="${Math.abs(m)}" />
+								    </c:when>
+								    <c:otherwise>
+								       -<fmt:formatNumber type="number" pattern="#,##0" value="${Math.abs(m)}" />
+								    </c:otherwise>
 								</c:choose>
 							</div>
                         </div>
                         <div class="statistics-list">
+                            <div class="statistics-list-title">총 게시글</div>
+                            <div class="list-data"><fmt:formatNumber type="number" pattern="#,##0" value="${ab}"/></div>
+                        </div>
+                        <div class="statistics-list">
                             <div class="statistics-list-title">신규 게시글</div>
                             <div class="list-data"><fmt:formatNumber type="number" pattern="#,##0" value="${ab}"/></div>
+                            <div class="change">
+								<c:set var="b" value="${nb - ob}" />
+								<c:choose>
+								    <c:when test="${b >= 0}">
+								        +<fmt:formatNumber type="number" pattern="#,##0" value="${Math.abs(b)}" />
+								    </c:when>
+								    <c:otherwise>
+								       -<fmt:formatNumber type="number" pattern="#,##0" value="${Math.abs(b)}" />
+								    </c:otherwise>
+								</c:choose>
+							</div>
                         </div>
                     </div>
                     <div class="graph-container-wrapper">
@@ -134,7 +146,6 @@
 	            type: 'GET',
 	            dataType: 'json',
 	            success: function(data) {
-	                console.log(data);
 	                var chartData = new google.visualization.DataTable();
 	                chartData.addColumn('number', '일');
 	                chartData.addColumn('number', '회원');
@@ -170,7 +181,6 @@
 	            type: 'GET',
 	            dataType: 'json',
 	            success: function(data) {
-	                console.log(data);
 	                var chartData = new google.visualization.DataTable();
 	                chartData.addColumn('number', '일별 게시 수');
 	                chartData.addColumn('number', '게시글');

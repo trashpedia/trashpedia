@@ -7,7 +7,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,15 +23,19 @@ import com.kks.trashpedia.board.model.vo.Post;
 import com.kks.trashpedia.board.model.vo.SubCategory;
 import com.kks.trashpedia.member.model.vo.Member;
 import com.kks.trashpedia.point.model.vo.PointHistory;
+import com.kks.trashpedia.report.model.service.ReportService;
 import com.kks.trashpedia.report.model.vo.Report;
 import com.kks.trashpedia.trash.model.vo.Request;
 import com.kks.trashpedia.trash.model.vo.Suggestion;
+import com.kks.trashpedia.trash.model.vo.Trash;
 
 @RestController
 @RequestMapping("/admin")
 public class AdminController {
 	@Autowired
 	private adminService service;
+	@Autowired
+	private ReportService rService;
 	
 	// 관리자 로그인
 	@GetMapping("/login")
@@ -48,12 +51,16 @@ public class AdminController {
 		int allBoardCount = service.allBoardCount();
 		int newMemberCount = service.newMemberCount();
 		int oldMemberCount = service.oldMemberCount();
+		int newBoardCount = service.newBoardCount();
+		int oldBoardCount = service.oldBoardCount();
 		
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("am", allMemberCount);
 		mav.addObject("ab", allBoardCount);
 		mav.addObject("nm", newMemberCount);
 		mav.addObject("om", oldMemberCount);
+		mav.addObject("nb", newBoardCount);
+		mav.addObject("ob", oldBoardCount);
 		mav.setViewName("admin/adminMain");
 		return mav;
 	}
@@ -118,9 +125,13 @@ public class AdminController {
 	}
 	// 관리자 회원 관리 회원 리스트
 	@GetMapping("/getMemberList")
-	public ResponseEntity<Page<Member>> getMember(@PageableDefault(page = 0, size = 20, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
-		Page<Member> page = service.getMemberList(pageable);
-		return ResponseEntity.status(HttpStatus.OK).body(page);
+	public ResponseEntity<Page<Member>> getMember(
+			@PageableDefault(page = 0, size = 20, sort = "id", direction = Sort.Direction.DESC) Pageable pageable,
+			@RequestParam String sort,
+			@RequestParam String searchSelect,
+			@RequestParam String searchValue) {
+		Page<Member> page = service.getMemberList(pageable, sort, searchSelect, searchValue);
+		return ResponseEntity.ok(page);
 	}
 	// 관리자 회원 관리 유저 상세
 	@GetMapping("/getMemberListDetail")
@@ -143,22 +154,26 @@ public class AdminController {
 	}
 	// 관리자 회원 관리 유저 상세 게시글 리스트
 	@GetMapping("/getMemberBoardList")
-	public ResponseEntity<Page<Board>> getMemberBoardList(@PageableDefault(page = 0, size = 20, sort = "id", direction = Sort.Direction.DESC) @RequestParam int userNo, Pageable pageable) {
-		Page<Board> page = service.getMemberBoardList(pageable, userNo);
-		return ResponseEntity.status(HttpStatus.OK).body(page);
+	public ResponseEntity<Page<Board>> getMemberBoardList(@PageableDefault(page = 0, size = 20, sort = "id", direction = Sort.Direction.DESC) Pageable pageable,
+	@RequestParam int userNo,
+	@RequestParam String sort,
+	@RequestParam String searchSelect,
+	@RequestParam String searchValue) {
+		Page<Board> page = service.getMemberBoardList(pageable, userNo, sort, searchSelect, searchValue);
+		return ResponseEntity.ok(page);
 	}
 	// 관리자 회원 관리 유저 상세 게시글 상세
 	@GetMapping("/getMemberBoardDetail")
 	public ResponseEntity<Board> getMemberBoardDetail(@RequestParam int boardNo) {
 		Board board = service.getMemberBoardDetail(boardNo);
-		return ResponseEntity.status(HttpStatus.OK).body(board);
+		return ResponseEntity.ok(board);
 	}
 	// 관리자 회원 관리 유저 상세 댓글 리스트
-	@GetMapping("/getCommentList")
+	@GetMapping("/getMemberCommentList")
 	public ResponseEntity<Page<Board>> getMemberCommentList(@PageableDefault(page = 0, size = 20, sort = "id", direction = Sort.Direction.DESC) @RequestParam int userNo, Pageable pageable) {
 		Page<Board> page = service.getMemberCommentList(pageable, userNo);
 		System.out.println(page);
-		return ResponseEntity.status(HttpStatus.OK).body(page);
+		return ResponseEntity.ok(page);
 	}
 	// 관리자 회원 관리 유저 상세 댓글 상세
 	@GetMapping("/getCommentDetail")
@@ -214,15 +229,49 @@ public class AdminController {
 	
 	@GetMapping("/trash")
 	public ModelAndView trashManagement() {
-		List<Request> rl = service.getRequestList();
-		List<Suggestion> sl = service.getSuggestionList();
 		
 		ModelAndView mav = new ModelAndView();
-		mav.addObject("rl",rl);
-		mav.addObject("sl",sl);
 		mav.setViewName("admin/trashManagement");
 		return mav;
 	}
+	
+	@GetMapping("/getTrashList")
+	public ResponseEntity<Page<Trash>> getTrashList(@PageableDefault(size = 20, sort = "id", direction = Sort.Direction.DESC) @RequestParam int page, Pageable pageable) {
+		Page<Trash> pages = service.getTrashList(pageable, page);
+		return ResponseEntity.ok(pages);
+	}
+	
+	@GetMapping("/loadSuggestionListData")
+	public ResponseEntity<Page<Suggestion>> loadSuggestionListData(@PageableDefault(size = 20, sort = "id", direction = Sort.Direction.DESC) Pageable pageable){
+		Page<Suggestion> pages = service.loadSuggestionListData(pageable);
+		return ResponseEntity.ok(pages);
+	}
+	
+	@GetMapping("/loadRequestListData")
+	public ResponseEntity<Page<Request>> loadRequestListData(@PageableDefault(size = 20, sort = "id", direction = Sort.Direction.DESC) Pageable pageable){
+		Page<Request> pages = service.loadRequestListData(pageable);
+		return ResponseEntity.ok(pages);
+	}
+	
+	@GetMapping("/report")
+	public ModelAndView reportManagement(){
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("/admin/reportManagement");
+		return mav;
+	}
+	
+	@GetMapping("/getBoardReportList")
+	public ResponseEntity<Page<Report>> getBoardReportList(@PageableDefault(size = 20, sort = "id", direction = Sort.Direction.DESC) Pageable pageable){
+		Page<Report> pages = rService.getBoardReportList(pageable);
+		return ResponseEntity.ok(pages);
+	}
+	
+	@GetMapping("/getCommentReportList")
+	public ResponseEntity<Page<Report>> getCommentReportList(@PageableDefault(size = 20, sort = "id", direction = Sort.Direction.DESC) Pageable pageable){
+		Page<Report> pages = rService.getCommentReportList(pageable);
+		return ResponseEntity.ok(pages);
+	}
+	
 	
 	@GetMapping("/{boardId}")
 	public String boardId(@PathVariable String boardId) {

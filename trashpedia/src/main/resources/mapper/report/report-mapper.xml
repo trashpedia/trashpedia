@@ -1,5 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="reportMapper">
-	
+	<select id="getBoardReportList" resultType="Report">
+		SELECT R.REPORT_NO, BC.BIG_CATEGORY_NAME, SC.SUB_CATEGORY_NAME, P.TITLE, R.REPORT_DATE, R.PROCESSING_DATE, R.REPORT_TARGET_NO
+		FROM REPORT R
+		LEFT JOIN BOARD B ON R.REPORT_TARGET_NO = B.BOARD_NO
+		LEFT JOIN POST P ON P.POST_NO = B.POST_NO
+		LEFT JOIN SUB_CATEGORY SC ON B.SUB_CATEGORY_NO = SC.SUB_CATEGORY_NO
+		LEFT JOIN BIG_CATEGORY BC ON SC.BIG_CATEGORY_NO = BC.BIG_CATEGORY_NO
+		WHERE REPORT_TYPE = 1		
+	</select>
+	<select id="boardReportCount" resultType="int">
+		SELECT COUNT(*)
+		FROM REPORT R
+		WHERE REPORT_TYPE = 1
+	</select>
+	<select id="getCommentReportList" resultType="Report">
+		SELECT R.REPORT_NO, SC.SUB_CATEGORY_NAME, P.TITLE, C.CONTENT, R.REPORT_DATE, R.PROCESSING_DATE, R.REPORT_TARGET_NO, B.BOARD_NO
+		FROM REPORT R
+		LEFT JOIN "COMMENT" C ON R.REPORT_TARGET_NO = C.COMMENT_NO
+		LEFT JOIN BOARD B ON B.BOARD_NO = C.BOARD_NO
+		LEFT JOIN POST P ON P.POST_NO = B.POST_NO
+		LEFT JOIN SUB_CATEGORY SC ON B.SUB_CATEGORY_NO = SC.SUB_CATEGORY_NO
+		WHERE REPORT_TYPE = 2		
+	</select>
+	<select id="commentReportCount" resultType="int">
+		SELECT COUNT(*)
+		FROM REPORT R
+		WHERE REPORT_TYPE = 2
+	</select>
 </mapper>
