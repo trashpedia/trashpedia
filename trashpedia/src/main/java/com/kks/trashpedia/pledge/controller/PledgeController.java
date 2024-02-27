@@ -10,11 +10,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.kks.trashpedia.board.model.vo.Attachment;
 import com.kks.trashpedia.board.model.vo.Board;
 import com.kks.trashpedia.board.model.vo.ImgAttachment;
 import com.kks.trashpedia.board.model.vo.Post;
+import com.kks.trashpedia.board.model.vo.SubCategory;
 import com.kks.trashpedia.pledge.model.service.PledgeService;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -41,18 +43,6 @@ public class PledgeController {
 		return mav;
 	}
 	
-
-	
-	// 게시글 등록하기 페이지 이동
-	@GetMapping("/insert")
-	public ModelAndView pledgeInsert() {
-		
-		ModelAndView mav = new ModelAndView();
-		mav.setViewName("pledge/pledgeInsert");
-		
-		return mav;
-	}
-	
 	// 게시글 수정 페이지 이동
 	@GetMapping("/modify")
 	public ModelAndView pledgeModify() {
@@ -62,29 +52,6 @@ public class PledgeController {
 		
 		return mav;
 	}
-
-	
-	
-//	//실천서약 상세 페이지 이동
-//	@GetMapping("/view")
-//	public ModelAndView pledgeDetilaView() {
-//				
-//		ModelAndView mav = new ModelAndView();
-//		mav.setViewName("pledge/pledgeDetailView");
-//		
-//		return mav;
-//	}	
-//	
-//	
-//	// 실천인증 상세페이지 이동
-//	@GetMapping("/certificationView")
-//	public ModelAndView pledgeCertificationDetailView() {
-//		
-//		ModelAndView mav = new ModelAndView();
-//		mav.setViewName("pledge/pledgeCertificationDetailView");
-//		
-//		return mav;
-//	}
 	
 	//실천 상세 페이지 이동
 	@GetMapping("/detail/{postNo}")
@@ -107,12 +74,8 @@ public class PledgeController {
 		b.setImgAttachment(img);
 		b.setAttachment(attach);
 		
-		System.out.println(img);
-		System.out.println(attach);		
-		
 		b.setBoardNo(post.getBoardNo());
 		b.setUserNo(post.getUserNo());
-		
 		
 		//Member loginUser = (Member) session.getAttribute("loginUser");  
 
@@ -162,14 +125,12 @@ public class PledgeController {
 		
 		// 조회일이 있을 때
 		if(hitsDate !=null) {
+			//조회날짜와 현재날짜 비교
 			LocalDate hitsLocalDate = hitsDate.toLocalDate();
-			// 현재 날짜
 			LocalDate currentDate = LocalDate.now();
-			// 비교
 			int comparisonResult = hitsLocalDate.compareTo(currentDate); // 적으면 -, 같으면 0, 많으면 +값 
 			// 현재날짜보다 조회날짜가 작을 때
 			if(comparisonResult<0) {
-				System.out.println("조회날짜보다 클 때");
 				result = service.increaseCount(b);
 				post.setHitsNo(post.getHitsNo()+1);
 			}
@@ -187,6 +148,34 @@ public class PledgeController {
 		
 	}
 	
+	
+	// 게시글 삭제
+	@GetMapping("/delete/{postNo}")
+	public ModelAndView pledgeDelete(Post p, HttpSession session, RedirectAttributes ra) {
+
+		ModelAndView mav = new ModelAndView();
+		SubCategory subCategory = service.getCategoryNo(p);
+		
+		int subCategoryNo = subCategory.getSubCategoryNo();
+		int bigCategoryNo = subCategory.getBigCategoryNo();
+		
+		//게시글삭제- post & board
+		int result = 0;
+		int result1 = service.pledgeDeletePost(p);
+		int result2 = service.pledgeDeleteBoard(p);
+		
+		if(result1*result2>0) {
+			ra.addFlashAttribute("alert", "게시글이 삭제되었습니다.");
+		}else {
+			ra.addFlashAttribute("alert", "게시글 삭제에 실패했습니다.");
+		}
+
+		mav.setViewName("redirect:/pledge/list?bigCategoryNo="+bigCategoryNo+"&subCategoryNo="+subCategoryNo);
+		
+		return mav;
+		
+	}
+
 	
 	
 	

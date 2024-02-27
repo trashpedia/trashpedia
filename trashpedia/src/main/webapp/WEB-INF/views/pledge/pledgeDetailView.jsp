@@ -29,36 +29,35 @@
                 <span class="title-count"> ${post.modifyDate} </span>
                 <span>조회수</span>
                 <span class="title-count">${post.hitsNo}</span>
-                <hr>
+               <!--  <hr> -->
             </div>
             
             <!-- 이미지/첨부파일  -->
             <div class="content-attach-outer">
-            	<div class="content-attach-inner">
+            <%-- 	<div class="content-attach-inner">
 	            	<span>썸네일</span>
 	            	<img id="thumbNailImg" src="<c:url value='/resources/attachFile/image/${img.changeName}'/>" >
-            	</div>
+            	</div> --%> 
             	<div class="content-attach-inner">
-	            	<span>첨부파일</span>
+	            	<span><strong>첨부파일</strong></span>
 	            	<c:if test="${attachment eq null}">
-	            		<p>첨부파일 없음</p>
+	            		<span>첨부파일 없음</span>
 	            	</c:if>
 	            	<c:if test="${not empty attachment}">
-						<a href="<c:url value='/resources/attachFile/file/${attachment.changeName}'/>" download="${attachment.changeName}">${attachment.originName}</a>
+	            		<span>
+							<a href="<c:url value='/resources/attachFile/file/${attachment.changeName}'/>" download="${attachment.originName}">${attachment.originName}</a>
+						</span>
 					</c:if> 
             	</div>
             </div>
             
             <!-- 내용  -->
             <div class="content-outer">
-            	<div class="toast-custom-viewer">
-            	${post.content}
-            	</div>
-               <!--  <textarea class="content-inner"></textarea> -->
+            	<div class="toast-custom-viewer"> ${post.content} </div>
                 <div class="post-buttons">
                     <a href="${contextPath}/pledge/list?bigCategoryNo=${post.bigCategoryNo}&subCategoryNo=${post.subCategoryNo}"><button class="btn-list">목록</button></a>
-                    <a href="${contextPath}/pledge/modify"><button class="btn-edit">수정(삭)</button></a>
-                    <!--<a href=""><button class="btn-delete">삭제</button></a> -->
+                    <a href="${contextPath}/pledge/modify"><button class="btn-edit">수정</button></a>
+                    <button onclick="confirmDelete(${post.postNo}, ${post.boardNo}, ${post.bigCategoryNo}, ${post.subCategoryNo})">삭제</button>
                 </div>
             </div>
             
@@ -148,12 +147,22 @@
 	<jsp:include page="../common/footer.jsp"/>
 	
     <script>
+    
 	    //Viewer용 CDN을 사용할 경우
 	    const editor = new toastui.Editor({
 	        el : document.querySelector(".toast-custom-viewer"),
 	        initialValue: '글내용이 없습니다.'
 	    });
     
+	    
+	    // 삭제확인
+	    function confirmDelete(postNo, boardNo, bigCategoryNo, subCategoryNo) {
+	        var result = confirm("게시글을 삭제하시겠습니까?");
+	        if (result) {
+	            var deleteUrl = "${contextPath}/pledge/delete/" + postNo + "?boardNo=" + boardNo;
+	            window.location.href = deleteUrl;
+	        } 
+	    }
     
     </script>
 </body>

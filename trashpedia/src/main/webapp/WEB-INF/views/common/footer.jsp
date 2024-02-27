@@ -16,10 +16,10 @@
         <div class="footer-outer">
             <div class="quick-links">
                 <span><strong><a href="#">TRASHPEDIA</a></strong></span> 
-                <span><a href="/">공지사항</a></span> |
-                <span><a href="/">이용약관</a></span> |
-                <span><a href="/">개인정보처리방침</a></span> |
-                <span><a href="/">영상정보처리방침</a></span>
+                <span><a href="#">공지사항</a></span> |
+                <span><a href="#">이용약관</a></span> |
+                <span><a href="#">개인정보처리방침</a></span> |
+                <span><a href="#">영상정보처리방침</a></span>
             </div>
             <div class="footer-info">
                 <!-- <span><strong>COMPANY</strong> | </span>  -->

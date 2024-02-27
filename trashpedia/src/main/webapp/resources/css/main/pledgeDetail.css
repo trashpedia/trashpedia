@@ -4,44 +4,43 @@ main{
     align-items: center;
     justify-content: center;
 }
-
+button{
+	 font-family: 'Noto Sans KR', sans-serif; 
+}
 .container{
     width: 1000px;
-    margin-top: 50px;
-    margin-bottom: 50px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    padding: 40px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
+    padding: 50px;
 }
 
 
 /* 제목 부분 */
 .content-title-outer{
    text-align: end;
-   margin-top: 20px;
-   margin-bottom: 20px;
-   padding :0 25px;
+   margin-top: 25px;
+   padding : 7px 40px;
 }
 .content-title-outer p{
     font-size: 28px;
     font-weight: 650;
     text-align: center;
+    margin-bottom : 45px;
+    margin-top : 2px;
 }
 .content-title-outer span{
-    text-align: end;
+    text-align: left;
     margin: 2px;
     font-size : 13px;
     font-weight : 450;
-    color : rgb(63, 63, 63);
+    color : rgb(79, 79, 79);
+    font-weight : 700;
 }
 .content-title-outer .title-count{
-	margin-right : 8px;
+	margin-right : 7px;
+	font-weight : 400;
 }
-.content-title-outer hr{
-    margin-top: 20px;
-    margin-bottom: 30px;
-    width : 100%;
-}
-
 
 /* ---------- 내용 ---------- */
 .toast-custom-viewer{
@@ -70,19 +69,20 @@ main{
 /* 이미지-첨부파일 부분 */
 .content-attach-outer{
 	box-sizing: border-box;
-	width: 80%;
-    padding: 20px;
+	font-size : 14px;
+	width: 95%;
+	height : 60px;
+    margin: 13px auto;
     display: flex;
+    background-color: #f4f4f4;
+    align-items: center;
 }
-.content-attach-inner{
-	display: flex;
-    flex-direction: column;
-    margin-left : 50px;
-}
-
-#thumbNailImg{
-	max-width : 100px;
-	max-height : 100px;
+.content-attach-inner{ margin-left : 40px; }
+.content-attach-inner a{ color : #575757; }
+.content-attach-inner span:first-child{ color : #353535; }
+.content-attach-inner span{
+	margin-left : 7px;
+	color : #575757;
 }
 
 /* 수정 목록 삭제 버튼 */
@@ -98,15 +98,13 @@ main{
     border: 0;
     margin: 5px;
 }
-.post-buttons button a{
-    color: rgb(63, 63, 63);
-}
+.post-buttons button a { color: rgb(63, 63, 63); }
 
 /* ---------- 댓글 ---------- */
 .reply-outer-top-area{
     height: 30px;
     line-height: 30px;
-    margin-left: 35px;
+    margin-left: 25px;
     font-size: 20px;
 }
 
@@ -133,13 +131,12 @@ main{
     text-align: center;
     vertical-align: middle;
     font-size: 14px;
-    width: 950px;
+    width: 935px;
     margin : 10px auto;
 }
 .reply-table-title{
     background-color: #73cc73;
     color: white;
-   
 }
 .reply-table tr th{
     padding-top: 10px;
@@ -147,23 +144,19 @@ main{
     vertical-align: middle;
 }
 .reply-table tr,td{ 
-    padding: 10px;
+    padding: 8px;
     border-bottom: 1px solid rgb(227, 227, 227);
 }
 .reply-table th:nth-child(1){  width: 200px; }
 .reply-table th:nth-child(2){  width: 600px; }
 .reply-table th:nth-child(3){  width: 200px; }
-
-.reply-table p{
-    white-space: pre-line;
-}
-
+.reply-table p{ white-space: pre-line; }
 
 /* 댓글 작성 */
 .comment-section {
     box-sizing: border-box;
     display: flex;
-    margin-top: 20px;
+    margin-top: 12px;
     margin-bottom: 20px;
     border: 1px solid #ddd;
     border-radius: 3px;
@@ -171,14 +164,13 @@ main{
     background-color: #f9f9f9;
     flex-wrap: wrap;
     justify-content: flex-end;
-    width: 95%;
+    width: 97%;
     margin-left: auto;
     margin-right: auto;
 }
 .comment-section textarea{
     border-radius: 1px;
     border: 1px solid #b3b3b3;
-   
 }
 .comment-input {
     margin-bottom: 10px;
@@ -186,8 +178,9 @@ main{
     width: calc(100% - 90px); /* 등록 버튼의 너비를 고려하여 입력 필드의 너비를 조정합니다. */
     display: inline-block;
 }
+/* 댓글 등록  */
 .comment-button {
-    padding: 6px 15px;
+    padding: 5px 15px;
     background-color: #82d782;
     color: #fff;
     border: none;
@@ -200,7 +193,7 @@ main{
 /* 댓글 수정삭제버튼 */
 .comment-buttons{
     display: flex;
-    padding: 6px 15px;
+    /* padding: 6px 15px; */
     justify-content: flex-end;
     margin-top: 0;
 }
@@ -218,7 +211,7 @@ main{
 
 /* ----- 페이징 버튼 ----- */
 .paging-button{
-    margin-top: 22px;
+    margin-top: 23px;
     margin-bottom: 5px;
     display: flex;
     justify-content: center;
@@ -228,14 +221,13 @@ main{
     border-radius: 50%;
     width: 33px;
     height: 33px;
-    font-size: 13px;
+    font-size: 14px;
     border: 0;
     cursor: pointer;
-    margin: 3px;
-    font-weight: 520;
-    border: 1px solid #73cc73;
-    background-color: white;
-    color: rgb(106, 106, 106);
+    margin: 4px;
+    font-weight: 550;
+    background-color: #a2dda2;
+    color : white;
 }
 .pagingBtn:hover{
     background-color:  #73cc73;

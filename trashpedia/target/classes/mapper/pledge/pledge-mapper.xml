@@ -19,11 +19,11 @@
 	<!-- 게시글 상세조회  -->
 	<select id="pledgeDetail" parameterType="int" resultType="post">
 		SELECT P.POST_NO, P.TITLE, P.CONTENT, P.CREATE_DATE, P.MODIFY_DATE, B.USER_NO, 
-			B.BOARD_NO, 
+			B.BOARD_NO, SC.SUB_CATEGORY_NO, SC.BIG_CATEGORY_NO,
 			(SELECT COUNT(*)FROM HITS WHERE BOARD_NO = ( SELECT BOARD_NO FROM BOARD WHERE POST_NO = #{postNo} ))AS HITS_NO
 		FROM POST P
 		LEFT JOIN BOARD B ON P.POST_NO = B.POST_NO
-	
+		LEFT JOIN SUB_CATEGORY SC ON B.SUB_CATEGORY_NO = SC.SUB_CATEGORY_NO 
 		WHERE P.POST_NO = #{postNo}
 	</select>
 	
@@ -61,6 +61,25 @@
 		VALUES (SEQ_HITNO.NEXTVAL, #{boardNo}, #{userNo}, SYSDATE)
 	</insert>
 	
+	<!-- 게시글 삭제 -->
+	<update id="pledgeDeletePost" parameterType="post">
+		UPDATE POST
+		SET STATUS = 'N'
+		WHERE POST_NO = #{postNo}
+	</update>
+	<update id="pledgeDeleteBoard" parameterType="post">
+		UPDATE BOARD
+		SET STATUS = 'N'
+		WHERE POST_NO = #{postNo}
+	</update>
+	
+	<!-- 카테고리 정보 가져오기  -->
+ 	<select id="getCategoryNo" parameterType="post" resultType="subCategory">
+		SELECT SUB_CATEGORY_NO, BIG_cATEGORY_NO
+		FROM SUB_CATEGORY
+		JOIN BOARD USING (SUB_CATEGORY_NO)
+		WHERE BOARD_NO = #{boardNo}
+	</select> 
 
 	
 </mapper>
