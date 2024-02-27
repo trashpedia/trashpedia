@@ -132,7 +132,7 @@
 		WHERE C.USER_NO = #{userNo}
 	</select>
 	<select id="getMemberBoardList" resultType="board">
-		SELECT TITLE, BC.BIG_CATEGORY_NAME, SC.SUB_CATEGORY_NAME, B.BOARD_NO
+		SELECT P.TITLE, BC.BIG_CATEGORY_NAME, SC.SUB_CATEGORY_NAME, B.BOARD_NO
 		FROM BOARD B
 		LEFT JOIN POST P ON B.POST_NO = P.POST_NO
 		LEFT JOIN SUB_CATEGORY SC ON B.SUB_CATEGORY_NO = SC.SUB_CATEGORY_NO
@@ -156,7 +156,7 @@
 					BC.BIG_CATEGORY_NAME
 				</when>
 				<when test="sort == 'subCategoryName'">
-					BC.SUB_CATEGORY_NAME
+					SC.SUB_CATEGORY_NAME
 				</when>
 				<when test="sort == 'title'">
 					P.TITLE
@@ -170,14 +170,35 @@
 		WHERE B.BOARD_NO = #{boardNo}
 	</select>
 	<select id="getMemberCommentList" resultType="board">
-		SELECT TITLE, BC.BIG_CATEGORY_NAME, S.SUB_CATEGORY_NAME, C.COMMENT_NO, NESTED_COMMENT_NO
+		SELECT P.TITLE, BC.BIG_CATEGORY_NAME, SC.SUB_CATEGORY_NAME, C.COMMENT_NO, NESTED_COMMENT_NO, B.BOARD_NO
 		FROM BOARD B
 		LEFT JOIN POST P ON B.POST_NO = P.POST_NO
-		LEFT JOIN SUB_CATEGORY S ON B.SUB_CATEGORY_NO = S.SUB_CATEGORY_NO
-		LEFT JOIN BIG_CATEGORY BC ON S.BIG_CATEGORY_NO = BC.BIG_CATEGORY_NO
+		LEFT JOIN SUB_CATEGORY SC ON B.SUB_CATEGORY_NO = SC.SUB_CATEGORY_NO
+		LEFT JOIN BIG_CATEGORY BC ON SC.BIG_CATEGORY_NO = BC.BIG_CATEGORY_NO
 		LEFT JOIN "COMMENT" C ON C.BOARD_NO = B.BOARD_NO
 		JOIN NESTED_COMMENT NC ON NC.COMMENT_NO = C.COMMENT_NO
 		WHERE C.USER_NO = #{userNo} OR NC.USER_NO = #{userNo}
+		<if test="searchSelect == 'boardNo'">
+				AND B.BOARD_NO LIKE '%' || #{searchValue} || '%'
+			</if>
+			<if test="searchSelect == 'content'">
+				AND P.CONTENT LIKE '%' || #{searchValue} || '%'
+			</if>
+		ORDER BY
+			<choose>
+				<when test="sort == 'boardNo'">
+					B.BOARD_NO
+				</when>
+				<when test="sort == 'bigCategoryName'">
+					BC.BIG_CATEGORY_NAME
+				</when>
+				<when test="sort == 'subCategoryName'">
+					SC.SUB_CATEGORY_NAME
+				</when>
+				<when test="sort == 'title'">
+					P.TITLE
+				</when>
+			</choose>
 	</select>
 	<select id="getMemberCommentDetail" resultType="board">
 		SELECT TITLE, CONTENT, CREATE_DATE, MODIFY_DATE
@@ -229,6 +250,30 @@
 		FROM BOARD B
 		LEFT JOIN POST P ON P.POST_NO = B.POST_NO
 		WHERE B.SUB_CATEGORY_NO = #{subCategoryNo}
+		<if test="searchSelect == 'boardNo'">
+				AND B.BOARD_NO LIKE '%' || #{searchValue} || '%'
+			</if>
+			<if test="searchSelect == 'title'">
+				AND P.TITLE LIKE '%' || #{searchValue} || '%'
+			</if>
+			<if test="searchSelect == 'content'">
+				AND P.CONTENT LIKE '%' || #{searchValue} || '%'
+			</if>
+		ORDER BY
+			<choose>
+				<when test="sort == 'boardNo'">
+					B.BOARD_NO
+				</when>
+				<when test="sort == 'title'">
+					P.TITLE
+				</when>
+			</choose>
+	</select>
+	<select id="boardListCount" resultType="int">
+		SELECT COUNT(*)
+		FROM BOARD B
+		LEFT JOIN POST P ON P.POST_NO = B.POST_NO
+		
 	</select>
 	<select id="loadBoardDetailData" parameterType="int" resultType="post">
 		SELECT M.USER_NICKNAME, P.TITLE, P.CONTENT, P.CREATE_DATE, P.MODIFY_DATE, B.POST_NO

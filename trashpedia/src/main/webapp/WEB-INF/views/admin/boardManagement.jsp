@@ -19,15 +19,6 @@
             <section class="search-section">
                 <div class="search-container">
                     <div class="search-title">게시글 관리</div>
-                    <div class="input">
-                        <select name="condition" id="filterSelect">
-                            <option value="userNo" selected>번호</option>
-                            <option value="userName">제목</option>
-                            <option value="userNickName">작성자</option>
-                        </select>
-                        <input type="search" name="search" id="search" placeholder="Search">
-                        <input type="button" id="search" value="검색">
-                    </div>
                 </div>
             </section>
             <input class="trash-write" type="button" onclick="writeBoard()" value="글쓰기">
@@ -57,11 +48,27 @@
                     </div>
                 </div>
                 <div class="board-container">
-                    <div class="board-title-wrapper boardList-title">
+                    <div class="board-title-wrapper board-List-title">
 	                    <div class="boardList-title title">게시글 리스트</div>
 	           			<div class="boardList-subtitle">총 0개</div>
                     </div>
-                    <div class="boardList list"></div>
+                    <div class="input">
+                        <select name="condition" id="boardFilterSelect">
+                            <option value="boardNo" selected>번호</option>
+                            <option value="title">제목</option>
+                        </select>
+                    </div>
+                    <table>
+					    <thead class="board-thead"></thead>
+					    <tbody class="boardList list"></tbody>
+					</table>
+					<select name="condition" id="boardSearchFilterSelect">
+                        <option value="boardNo" selected>번호</option>
+                        <option value="title">제목</option>
+                        <option value="content">내용</option>
+                    </select>
+                    <input type="search" name="boardSearch" id="boardSearch" placeholder="Search">
+                    <input type="button" id="search" value="검색" onclick="boardSearch()">
                 </div>
                 <div class="board-container">
                     <div class="board-title title">게시글 상세</div>
@@ -71,21 +78,41 @@
         </div>
     </div>
     <script>
-		var isLoading = false;
+	    var isLoading = false;
 	    var offset = 0;
+	    var boardSelectedValue = 'boardNo';
+	    var boardSearchSelect = '';
+	    var boardSearchValue = '';
+	    var subCategoryNo = 2;
 		
 	    $(document).ready(function() {
 	    	loadSubCategoryList(1);
-	    	loadBoardListData(1);
+	    	loadBoardListData(subCategoryNo, boardSearchSelect, boardSearchValue);
 	    });
 	    $('.boardList').scroll(function() {
 	        if($(this).scrollTop() + $(this).innerHeight() + 70 >= $(this)[0].scrollHeight) {
 	            if (!isLoading) {
 	                isLoading = true;
-	                loadBoardDetailData();
+	                loadBoardDetailData(subCategoryNo, boardSearchSelect, boardSearchValue);
 	            }
 	        }
 	    });
+	    
+	    $('#boardFilterSelect').change(function(){
+	    	boardSelectedValue = $(this).val();
+	    	$('.boardList').empty();
+	    	boardOffset = 0;
+	    	loadBoardListData(subCategoryNo, boardSearchSelect, boardSearchValue);
+	    });
+	    
+	    function boardSearch(){
+	    	boardSearchSelect = $('#boardSearchFilterSelect').val();
+	    	boardSearchValue = $('#boardSearch').val();
+	    	$('#boardSearch').val('');
+	    	$('.boardList').empty();
+	    	offset = 0;
+	    	loadBoardListData(subCategoryNo, boardSearchSelect, boardSearchValue);
+	    }
 	
 	    function loadSubCategoryList(bigCategoryNo) {
 	        $.ajax({
@@ -115,21 +142,25 @@
             count.innerHTML += title;
 	        for (let i = 0; i < data.length; i++) {
 	            let row = '<div class="item" onclick="loadBoardListData('+data[i].subCategoryNo+')">';
-	            row += '<div class="icon">😃</div>';
 	            row += '<div class="subtitle">'+data[i].subCategoryName+'</div>';
 	            row += '</div>';
 	            userList.innerHTML += row;
 	        }
 	    }
 	    
-	    function loadBoardListData(subCategoryNo) {
+	    function loadBoardListData(subCategoryNo, boardSearchSelect, boardSearchValue) {
+	    	subCategoryNo = subCategoryNo;
+	    	if(boardSearchSelect == undefined){
+	    		boardSearchSelect = null;
+	    		boardSearchValue = null;
+	    	}
 	        $.ajax({
 	            url: '${contextPath}/admin/loadBoardListData',
 	            type: 'GET',
 	            dataType: 'json',
-	            data: { subCategoryNo },
+	            data: { page: offset, size: 20, subCategoryNo, sort: boardSelectedValue, searchSelect: boardSearchSelect, searchValue: boardSearchValue},
 	            success: function(data) {
-	            	if(data.length != 0){
+	            	if(data.content.length != 0){
 		                updateBoardTable(data);
 		                offset += 1;
 		                isLoading = false;
@@ -141,19 +172,22 @@
 	            }
 	        });
 	    }
+
 	    function updateBoardTable(data) {
-	        let count = document.querySelector('.boardList-title');
+	        let count = document.querySelector('.board-List-title');
 	        let userList = document.querySelector('.boardList');
+	        let list = data.content;
 	        count.innerHTML = '';
 	        userList.innerHTML = '';
 	        let title = '<div class="boardList-title title">게시글 리스트</div>';
-            title += '<div class="boardList-subtitle">총 '+data.length+'개</div>';
+            title += '<div class="boardList-subtitle">총 '+list.length+'개</div>';
             count.innerHTML += title;
-	        for (let i = 0; i < data.length; i++) {
-	            let row = '<div class="item" onclick="loadBoardDetailData('+data[i].boardNo+')">';
-	            row += '<div class="icon">😃</div>';
-	            row += '<div class="subtitle">'+data[i].title+'</div>';
-	            row += '</div>';
+	        for (let i = 0; i < list.length; i++) {
+	            let row = '<tr class="item" onclick="loadBoardDetailData('+list[i].boardNo+')">';
+	            row += '<td class="subtitle">'+list[i].boardNo+'</td>';
+	            row += '<td class="subtitle">'+list[i].title+'</td>';
+	            row += '<td class="subtitle">'+list[i].createDate+'</td>';
+	            row += '</tr>';
 	            userList.innerHTML += row;
 	        }
 	    }

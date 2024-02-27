@@ -118,14 +118,23 @@
                             <div class="board-subtitle">총 ${c}개</div>
                         </div>
                         <div class="input">
-	                        <select name="condition" id="filterSelect">
-	                            <option value="userNo" selected>번호</option>
-	                            <option value="userEmail">이메일</option>
-	                            <option value="userName">이름</option>
-	                            <option value="userNickname">닉네임</option>
+	                        <select name="condition" id="commentFilterSelect">
+	                            <option value="boardNo" selected>번호</option>
+	                            <option value="bigCategoryName">빅카테고리</option>
+	                            <option value="subCategoryName">서브카테고리</option>
+	                            <option value="title">제목</option>
 	                        </select>
 	                    </div>
-                        <div class="commentList list"></div>
+	                    <table>
+						    <thead class="comment-thead"></thead>
+						    <tbody class="commentList list"></tbody>
+						</table>
+                        <select name="condition" id="commentSearchFilterSelect">
+	                        <option value="boardNo" selected>번호</option>
+	                        <option value="content">내용</option>
+	                    </select>
+	                    <input type="search" name="commentSearch" id="commentSearch" placeholder="Search">
+	                    <input type="button" id="search" value="검색" onclick="commentSearch()">
                     </div>
                     <div class="board-container">
                         <div class="board-title">댓글 상세</div>
@@ -136,6 +145,14 @@
                     <div class="point-content">
                         <div class="point-title-wrapper">
                             <div class="board-title">포인트 적립 내역</div>
+                            <div class="input">
+	                        <select name="condition" id="pointFilterSelect">
+	                            <option value="pointNo" selected>번호</option>
+	                            <option value="pointCount">내역</option>
+	                            <option value="amount">증감</option>
+	                            <option value="pointDate">날짜</option>
+	                        </select>
+	                    	</div>
                         </div>
                         <table class="point-table table">
                             <thead>
@@ -148,6 +165,14 @@
                             </thead>
                             <tbody class="point-tbody"></tbody>
                         </table>
+                        <div>
+	                        <select name="condition" id="pointSearchFilterSelect">
+		                        <option value="pointNo" selected>번호</option>
+		                        <option value="pointContent">내용</option>
+		                    </select>
+		                    <input type="search" name="pointSearch" id="pointSearch" placeholder="Search">
+		                    <input type="button" id="search" value="검색" onclick="pointSearch()">
+	                    </div>
                         <div class="point-pageBar pageBar"></div>
                     </div>
                 </div>
@@ -155,19 +180,38 @@
                     <div class="point-content">
                         <div class="point-title-wrapper">
                             <div class="board-title">신고 접수 내역</div>
+                            <div class="input">
+	                        <select name="condition" id="reportFilterSelect">
+	                            <option value="reportNo" selected>번호</option>
+	                            <option value="reportType">유형</option>
+	                            <option value="reportContent">신고내용</option>
+	                            <option value="processingContent">처리내용</option>
+	                            <option value="reportDate">날짜</option>
+	                            <option value="status">처리상태</option>
+	                        </select>
+	                    	</div>
                         </div>
                         <table class="report-table table">
                             <thead>
                                 <tr>
                                     <th>번호</th>
                                     <th>신고 유형</th>
-                                    <th>신고 제목</th>
                                     <th>신고 내용</th>
+                                    <th>처리 내용</th>
                                     <th>날짜</th>
+                                    <th>처리상태</th>
                                 </tr>
                             </thead>
                             <tbody class="report-tbody"></tbody>
                         </table>
+                        <div>
+	                        <select name="condition" id="reportSearchFilterSelect">
+		                        <option value="reportNo" selected>번호</option>
+		                        <option value="reportContent">내용</option>
+		                    </select>
+		                    <input type="search" name="reportSearch" id="reportSearch" placeholder="Search">
+		                    <input type="button" id="search" value="검색" onclick="reportSearch()">
+	                    </div>
                         <div class="report-pageBar pageBar"></div>
                     </div>
                 </div>
@@ -177,13 +221,27 @@
     <script>
 	    var isLoading = false;
 	    var boardOffset = 0;
+	    var commentOffset = 0;
 	    var boardSelectedValue = 'boardNo';
 	    var boardSearchSelect = '';
 	    var boardSearchValue = '';
+	    var commentSelectedValue = 'boardNo';
+	    var commentSearchSelect = '';
+	    var commentSearchValue = '';
+	    var pointSelectedValue = 'pointNo';
+	    var pointSearchSelect = '';
+	    var pointSearchValue = '';
+	    var reportSelectedValue = 'reportNo';
+	    var reportSearchSelect = '';
+	    var reportSearchValue = '';
 	
 	    $(document).ready(function() {
 	    	loadBoardData(boardSearchSelect, boardSearchValue);
+	    	loadCommentData(commentSearchSelect, commentSearchValue);
+	    	loadPointData(0, pointSearchSelect, pointSearchValue);
+	    	loadReportData(0, reportSearchSelect, reportSearchValue);
 	    });
+	    
 	    $('.boardList').scroll(function() {
 	        if($(this).scrollTop() + $(this).innerHeight() + 70 >= $(this)[0].scrollHeight) {
 	            if (!isLoading) {
@@ -192,24 +250,52 @@
 	            }
 	        }
 	    });
+	    
+	    $('.commentList').scroll(function() {
+	        if($(this).scrollTop() + $(this).innerHeight() + 70 >= $(this)[0].scrollHeight) {
+	            if (!isLoading) {
+	                isLoading = true;
+	                loadCommentData(commentSearchSelect, commentSearchValue);
+	            }
+	        }
+	    });
+	    
 	    $('#boardFilterSelect').change(function(){
-	    	selectedValue = $(this).val();
+	    	boardSelectedValue = $(this).val();
 	    	$('.boardList').empty();
 	    	boardOffset = 0;
 	    	loadBoardData(boardSearchSelect, boardSearchValue);
 	    });
+
+	    $('#commentFilterSelect').change(function(){
+	    	commentSelectedValue = $(this).val();
+	    	$('.commentList').empty();
+	    	commentOffset = 0;
+	    	loadCommentData(commentSearchSelect, commentSearchValue);
+	    });
+	    
+	    $('#pointFilterSelect').change(function(){
+	    	pointSelectedValue = $(this).val();
+	    	$('.point-tbody').empty();
+	    	loadPointData(0, pointSearchSelect, pointSearchValue);
+	    });
+	    
+	    $('#reportFilterSelect').change(function(){
+	    	reportSelectedValue = $(this).val();
+	    	$('.report-tbody').empty();
+	    	loadReportData(0, reportSearchSelect, reportSearchValue);
+	    });
+	    
 	    function boardSearch(){
-	    	searchSelect = $('#boardSearchFilterSelect').val();
-	    	searchValue = $('#boardSearch').val();
+	    	boardSearchSelect = $('#boardSearchFilterSelect').val();
+	    	boardSearchValue = $('#boardSearch').val();
 	    	$('#boardSearch').val('');
 	    	$('.boardList').empty();
-	    	offset = 0;
+	    	boardOffset = 0;
 	    	loadBoardData(boardSearchSelect, boardSearchValue);
 	    }
 	
 	    function loadBoardData(boardSearchSelect, boardSearchValue) {
-	    	console.log("시작");
-	    	console.log(boardSearchSelect, boardSearchValue);
 	    	if(boardSearchSelect == undefined){
 	    		boardSearchSelect = null;
 	    		boardSearchValue = null;
@@ -218,9 +304,8 @@
 	            url: '${contextPath}/admin/getMemberBoardList',
 	            type: 'GET',
 	            dataType: 'json',
-	            data: { page: boardOffset, size: 20, sort: boardSelectedValue, searchSelect: boardSearchSelect, searchValue: boardSearchValue},
+	            data: { page: boardOffset, size: 20, userNo: ${m.userNo}, sort: boardSelectedValue, searchSelect: boardSearchSelect, searchValue: boardSearchValue},
 	            success: function(data) {
-	            	console.log(data);
 	            	if(data.content.length != 0){
 		                updateBoardTable(data);
 		                boardOffset += 1;
@@ -259,7 +344,7 @@
 	            row.appendChild(cell4);
 	            
 	            row.addEventListener('click', function() {
-	                loadBoardDetailData(list[i].userNo);
+	                loadBoardDetailData(list[i].boardNo);
 	            });
 	            userList.appendChild(row);
 	        }
@@ -310,13 +395,26 @@
 	            }
 	        });
 	    };
+	    
+	    function commentSearch(){
+	    	commentSearchSelect = $('#commentSearchFilterSelect').val();
+	    	commentSearchValue = $('#commentSearch').val();
+	    	$('#commentSearch').val('');
+	    	$('.commentList').empty();
+	    	commentOffset = 0;
+	    	loadCommentData(commentSearchSelect, commentSearchValue);
+	    }
 	
-	    function loadCommentData() {
+	    function loadCommentData(commentSearchSelect, commentSearchValue) {
+	    	if(commentSearchSelect == undefined){
+	    		commentSearchSelect = null;
+	    		commentSearchValue = null;
+	    	}
 	        $.ajax({
 	            url: '${contextPath}/admin/getMemberCommentList',
 	            type: 'GET',
 	            dataType: 'json',
-	            data: { page: commentOffset, size: 20, userNo: ${m.userNo} },
+	            data: { page: commentOffset, size: 20, userNo: ${m.userNo}, sort: commentSelectedValue, searchSelect: commentSearchSelect, searchValue: commentSearchValue},
 	            success: function(data) {
 	            	if(data.content.length != 0){
 		                updateCommentTable(data);
@@ -330,23 +428,42 @@
 	            }
 	        });
 	    }
+	
 	    function updateCommentTable(data) {
+	    	let thead = document.querySelector('.comment-thead');
 	        let userList = document.querySelector('.commentList');
 	        let list = data.content;
 	        for (let i = 0; i < list.length; i++) {
-	        	if(list[i].commentNo != null){
-		            let row = '<div class="item" onclick="loadCommentDetailData('+list[i].commentNo+')">';
-	        	} else {
-		            let row = '<div class="item" onclick="loadNestedCommentDetailData('+list[i].nestedCommentNo+')">';
-	        	}
-	            row += '<div class="icon">😃</div>';
-	            row += '<div class="subtitle">'+list[i].bigCategoryName+'</div>';
-	            row += '<div class="subtitle">'+list[i].subCategoryName+'</div>';
-	            row += '<div class="subtitle">'+list[i].title+'</div>';
-	            row += '</div>';
-	            userList.innerHTML += row;
+	            let row = document.createElement('tr');
+	            
+	            let cell1 = document.createElement('td');
+	            cell1.textContent = list[i].boardNo;
+	            
+	            let cell2 = document.createElement('td');
+	            cell2.textContent = list[i].bigCategoryName;
+	            
+	            let cell3 = document.createElement('td');
+	            cell3.textContent = list[i].subCategoryName;
+	            
+	            let cell4 = document.createElement('td');
+	            cell4.textContent = list[i].title;
+	            
+	            row.appendChild(cell1);
+	            row.appendChild(cell2);
+	            row.appendChild(cell3);
+	            row.appendChild(cell4);
+	            
+	            row.addEventListener('click', function() {
+	            	if(nestedCommentNo != null){
+		                loadCommentDetailData(list[i].commentNo);
+	            	} else {
+		                loadNestedCommentDetailData(list[i].nestedCommentNo);
+	            	}
+	            });
+	            userList.appendChild(row);
 	        }
 	    }
+	    
 	    function loadCommentDetailData(commentNo) {
 	        $.ajax({
 	            url: '${contextPath}/admin/getCommentDetailData',
@@ -393,12 +510,12 @@
 	            }
 	        });
 	    };
-	    function loadNestedCommentDetailData(userNo) {
+	    function loadNestedCommentDetailData(nestedCommentNo) {
 	        $.ajax({
 	            url: '${contextPath}/admin/getNestedCommentDetailData',
 	            type: 'GET',
 	            dataType: 'json',
-	            data: {userNo},
+	            data: {nestedCommentNo},
 	            success: function(data) {
 	            	let userList = document.querySelector('.commentDetail');
 	            	userList.innerHTML = '';
@@ -440,12 +557,20 @@
 	        });
 	    };
 	    
-	    function loadPointData(page) {
+	    function pointSearch(){
+	    	commentSearchSelect = $('#pointSearchFilterSelect').val();
+	    	commentSearchValue = $('#pointSearch').val();
+	    	$('#pointSearch').val('');
+	    	$('.pointtList').empty();
+	    	loadPointData(0, pointSearchSelect, pointSearchValue);
+	    }
+	    
+	    function loadPointData(page, pointSearchSelect, pointSearchValue) {
 	        $.ajax({
 	            url: '${contextPath}/admin/getMemberPointList',
 	            type: 'GET',
 	            dataType: 'json',
-	            data: { page: page, size: 20, userNo: ${m.userNo} },
+	            data: { page: page, size: 10, userNo: ${m.userNo}, searchSelect: pointSearchSelect, searchValue: pointSearchValue },
 	            success: function(data) {
 	                if(data.content.length != 0){
 	                    updatePointTable(data);
@@ -476,9 +601,10 @@
 	    function updatePointPagination(data) {
 	        let userPaging = document.querySelector('.point-pageBar');
 	        let pagination = '';
+	        
 	        if (!data.empty) {
 	            if (!data.first) {
-	                pagination += '<td><a class="page-link" href="#" onclick="loadPointData(' + (data.number - 1) + ')">이전</a></td>';
+	                pagination += '<td><a class="page-link" href="#" onclick="loadPointData(' + (data.number - 1) + ','+pointSearchSelect+','+pointSearchValue+')">이전</a></td>';
 	            }
 	            for (let i = 0; i < data.totalPages; i++) {
 	                if (i >= data.number - 5 && i <= data.number + 5) {
@@ -501,9 +627,8 @@
 	            url: '${contextPath}/admin/getMemberReportList',
 	            type: 'GET',
 	            dataType: 'json',
-	            data: { page: page, size: 20, userNo: ${m.userNo} },
+	            data: { page: page, size: 10, userNo: ${m.userNo} },
 	            success: function(data) {
-	            	console.log(data);
 	                if(data.content.length != 0){
 	                	updateReportTable(data);
 	                    updateReportPagination(data);
@@ -558,3 +683,4 @@
         }
     </script>
 </body>
+</html>

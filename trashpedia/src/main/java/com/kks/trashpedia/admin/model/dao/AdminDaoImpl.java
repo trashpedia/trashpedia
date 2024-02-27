@@ -143,24 +143,19 @@ public class AdminDaoImpl implements AdminDao{
 
 	@Override
 	public Page<Board> getMemberBoardList(Pageable pageable, int userNo, String sort, String searchSelect, String searchValue) {
-		System.out.println(userNo);
-		System.out.println(sort);
-		System.out.println(searchSelect);
-		System.out.println(searchValue);
 		Map<String, Object> param = new HashMap<>();
 		param.put("userNo", userNo);
 		param.put("sort", sort);
 		param.put("searchSelect", searchSelect);
-		if(searchSelect == "userNo") {
+		if(searchSelect == "boardNo") {
 			int intValue = Integer.parseInt(searchValue);
 			param.put("searchValue", intValue);
 		} else {
 			param.put("searchValue", searchValue);
 		}
-		List<Board> members = session.selectList("adminMapper.getMemberBoardList", userNo, new RowBounds((int) pageable.getOffset(), pageable.getPageSize()));
-		System.out.println(members);
+		List<Board> boards = session.selectList("adminMapper.getMemberBoardList", param, new RowBounds((int) pageable.getOffset(), pageable.getPageSize()));
         int totalCount = session.selectOne("adminMapper.memberCountBoard", userNo);
-        return new PageImpl<>(members, pageable, totalCount);
+        return new PageImpl<>(boards, pageable, totalCount);
 	}
 
 	@Override
@@ -169,8 +164,18 @@ public class AdminDaoImpl implements AdminDao{
 	}
 
 	@Override
-	public Page<Board> getMemberCommentList(Pageable pageable, int userNo) {
-		List<Board> comments = session.selectList("adminMapper.getMemberCommentList", userNo, new RowBounds((int)pageable.getOffset(),pageable.getPageSize()));
+	public Page<Board> getMemberCommentList(Pageable pageable, int userNo, String sort, String searchSelect, String searchValue) {
+		Map<String, Object> param = new HashMap<>();
+		param.put("userNo", userNo);
+		param.put("sort", sort);
+		param.put("searchSelect", searchSelect);
+		if(searchSelect == "boardNo") {
+			int intValue = Integer.parseInt(searchValue);
+			param.put("searchValue", intValue);
+		} else {
+			param.put("searchValue", searchValue);
+		}
+		List<Board> comments = session.selectList("adminMapper.getMemberCommentList", param, new RowBounds((int)pageable.getOffset(),pageable.getPageSize()));
 		int totalCount = session.selectOne("adminMapper.memberCountComment", userNo);
 		return new PageImpl<>(comments, pageable, totalCount);
 	}
@@ -210,8 +215,15 @@ public class AdminDaoImpl implements AdminDao{
 	}
 
 	@Override
-	public List<Board> loadBoardListData(int subCategoryNo) {
-		return session.selectList("adminMapper.loadBoardListData",subCategoryNo);
+	public Page<Board> loadBoardListData(Pageable pageable, int subCategoryNo, String sort, String searchSelect, String searchValue) {
+		Map<String, Object> param = new HashMap<>();
+		param.put("subCategoryNo", subCategoryNo);
+		param.put("sort", sort);
+		param.put("searchSelect", searchSelect);
+		param.put("searchValue", searchValue);
+		List<Board> boards = session.selectList("adminMapper.loadBoardListData",param, new RowBounds((int) pageable.getOffset(), pageable.getPageSize()));
+		int totalCount = session.selectOne("adminMapper.boardListCount",param);
+		return new PageImpl<>(boards, pageable, totalCount);
 	}
 
 	@Override
