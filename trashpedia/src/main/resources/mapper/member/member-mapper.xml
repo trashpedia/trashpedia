@@ -31,11 +31,11 @@
 	    WHERE USER_EMAIL = #{userEmail} AND STATUS = 'Y'
 	</update>
 	
-	<update id="deleteMember" parameterType="string">
-    UPDATE MEMBER
-    SET STATUS = 'N'
-    WHERE USER_EMAIL = #{userEmail} AND STATUS = 'Y'
-</update>
-	
+	<update id="deleteMember" parameterType="member">
+	    UPDATE MEMBER
+	    SET STATUS = 'N'
+	    WHERE USER_NO = #{userNo} AND STATUS = 'Y'
+	</update>
+		
 </mapper>
 
