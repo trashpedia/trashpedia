@@ -9,7 +9,7 @@
 <meta charset="UTF-8">
 <title>Login Form</title>
 	<link rel="stylesheet" href="resources/css/user/myPage.css">
-	<link rel="stylesheet" href="resources/css/user/join.css">
+	<link rel="stylesheet" href="resources/css/user/Update.css">
 	<!-- CSS -->
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
@@ -80,7 +80,7 @@
 		
 <!-- 내 게시글 리스트 -->
 		<section id="activityList">
-			<h2>활동 내역(내 게시글)</h2>
+			<h3>활동 내역(내 게시글)</h3>
 			<table>
 				<thead>
 					<tr>
@@ -128,7 +128,7 @@
 		</section>
 		<!-- 댓글리스트  -->
 		<section id="replyList">
-			<h2>활동 내역(내 댓글)</h2>
+			<h3>활동 내역(내 댓글)</h3>
 			<table>
 				<thead>
 					<tr>
@@ -175,7 +175,7 @@
 		</section>
 		
 		<section id="alarmList">
-			<h2>활동 내역(내 댓글)</h2>
+			<h3>활동 내역(내 댓글)</h3>
 			<table>
 				<thead>
 					<tr>
@@ -251,9 +251,10 @@
 	        </div>
 	        <!-- 주소입력  -->
 	        <div class="field address">
+	         	<b>주소</b>
 	            <div class="zipcode-container">
 	                <input type="text" id="sample6_postcode" placeholder="우편번호" name="zipcode" value="${loginUser.zipcode}" required readonly>
-	                <input type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기" name="zipcodeButton">
+	                <input type="button" onclick="sample6_execDaumPostcode();" value="우편번호 찾기" name="zipcodeButton" id="findZipBtn">
 	            </div>
 	            <div class="address-container">
 	                <input type="text" id="sample6_address" name="address1" placeholder="주소" required readonly name="address1" value="${loginUser.address1}">
@@ -266,7 +267,7 @@
 	        <!-- 6. 수정하기 버튼 -->
 	        <div class="twoBtn">
 	        <button type="submit" id="updateBtn">등록</button>
-	        <a href="${contextPath}/delete.me"><button type="button" data-toggle="modal" data-target="#deleteForm">회원탈퇴</button></a>
+           <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteForm" id="deleteBtn">회원탈퇴</button>
 	        </div> 
 	    </div>
 	    </form>
@@ -274,66 +275,32 @@
 		
 		<!-- 탈퇴 Modal -->
 		<div class="modal" id="deleteForm">
-		
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<!-- Modal Header -->
-					<div class="modal-header">
-						<h4 class="modal-title">회원탈퇴</h4>
-						<button type="button" class="close" data-dismiss="modal">&times;</button>
-					</div>
-					<!-- Modal body -->
-						<form action="delete.me" method="post">
-							<div class="modal-body" align="center">
-								탈퇴 후 복구가 불가능합니다. 
-								정말로 탈퇴하시겠습니까?
-							</div>
-						
-							<input type="hidden" name="userNo" value="${loginUser.userNo}" readonly>
-							<table>
-								<tr>
-									<td>비밀번호</td>
-									<td><input type="password" name="userPwd" required></td>
-								</tr>
-							</table>
-							<br>
-							<button type="submit" class="btn btn-danger btn-sm">탈퇴하기</button>
-						</form>
-					</div>
-				</div>
-			</div>
-		</div>
-		
-		
-	
-
-<!-- 회원탈퇴 버튼 클릭 시 보여질 Modal -->
-<div class="modal fade" id="deleteForm">
-    <div class="modal-dialog modal-sm">
+    <div class="modal-dialog">
         <div class="modal-content">
-
             <!-- Modal Header -->
             <div class="modal-header">
                 <h4 class="modal-title">회원탈퇴</h4>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
-
+            <!-- Modal body -->
             <form action="delete.me" method="post">
-                <!-- Modal body -->
-                <div class="modal-body">
-                    <div align="center">
-                        탈퇴 후 복구가 불가능합니다. <br>
-                        정말로 탈퇴 하시겠습니까? <br>
-                    </div>
+                <div class="modal-body" align="center">
+                    <div>탈퇴 후 복구가 불가능합니다.</div>
+                    <div>정말로 탈퇴하시겠습니까?</div>
                     <br>
-                        <label for="userPwd" class="mr-sm-2">Password : </label>
-                        <input type="text" class="form-control mb-2 mr-sm-2" placeholder="Enter Password" id="userPwd" name="userPwd"> <br>
-                        <input type="hidden" name="userId" value="${userId}">
+                    <label for="reasonInput">탈퇴 사유:</label>
+                    <textarea id="reasonInput" name="reason" rows="4" cols="50" required></textarea>
                 </div>
-                <!-- Modal footer -->
-                <div class="modal-footer" align="center">
-                    <button type="submit" class="btn btn-danger">탈퇴하기</button>
-                </div>
+
+                <input type="hidden" name="userNo" value="${loginUser.userNo}" readonly>
+                <table class="modalTable">
+                    <tr>
+                        <td id="tdPwd">비밀번호</td>
+                        <td><input type="password" name="userPwd" required id="pwdInput"></td>
+                    </tr>
+                </table>
+                <br>
+                <button type="submit" id="realDelete">탈퇴하기</button>
             </form>
         </div>
     </div>
@@ -385,40 +352,42 @@
 				});
 		</script>
 		
-		<script>
-		function sample6_execDaumPostcode() {
-	        new daum.Postcode({
-	            oncomplete: function(data) {
-	                let addr = '';
-	                let extraAddr = '';
-	
-	                if (data.userSelectedType === 'R') {
-	                    addr = data.roadAddress;
-	                } else {
-	                    addr = data.jibunAddress;
-	                }
-	
-	                if(data.userSelectedType === 'R'){
-	                    if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
-	                        extraAddr += data.bname;
-	                    }
-	                    if(data.buildingName !== '' && data.apartment === 'Y'){
-	                        extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
-	                    }
-	                    if(extraAddr !== ''){
-	                        extraAddr = ' (' + extraAddr + ')';
-	                    }
-	                    document.getElementById("sample6_extraAddress").value = extraAddr;
-	                } else {
-	                    document.getElementById("sample6_extraAddress").value = '';
-	                }
-	                document.getElementById('sample6_postcode').value = data.zonecode;
-	                document.getElementById("sample6_address").value = addr;
-	                document.getElementById("sample6_detailAddress").focus();
-	            }
-	        }).open();
-	    }
+	<script>
+	function sample6_execDaumPostcode() {
+        new daum.Postcode({
+            oncomplete: function(data) {
+                let addr = '';
+                let extraAddr = '';
+
+                if (data.userSelectedType === 'R') {
+                    addr = data.roadAddress;
+                } else {
+                    addr = data.jibunAddress;
+                }
+
+                if(data.userSelectedType === 'R'){
+                    if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+                        extraAddr += data.bname;
+                    }
+                    if(data.buildingName !== '' && data.apartment === 'Y'){
+                        extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+                    }
+                    if(extraAddr !== ''){
+                        extraAddr = ' (' + extraAddr + ')';
+                    }
+                    document.getElementById("sample6_extraAddress").value = extraAddr;
+                } else {
+                    document.getElementById("sample6_extraAddress").value = '';
+                }
+                document.getElementById('sample6_postcode').value = data.zonecode;
+                document.getElementById("sample6_address").value = addr;
+                document.getElementById("sample6_detailAddress").focus();
+            }
+        }).open();
+    }
 		</script>
+		
+			<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 		
 		<script type="text/javascript">
 		$(document).ready(function(){
@@ -465,6 +434,8 @@
 			});
 		})
 	</script>
+	
+	
 
 
 

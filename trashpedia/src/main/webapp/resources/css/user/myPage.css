@@ -36,8 +36,7 @@ body {
 
 
 section {
-    padding: 20px;
-    padding-bottom: 20px;
+    padding: 40px;
     margin: auto;
     background-color: #fff;
     border-radius: 15px;
@@ -46,6 +45,23 @@ section {
     overflow: hidden;
     width: 70%;
     height: 100%;
+}
+#findZipBtn{
+	margin-left:5px;
+}
+#sample6_extraAddress{
+	margin-left:5px;
+}
+#memberInfo{
+    padding: 40px;
+    margin: auto;
+ 	background-color: #fff;
+    border-radius: 15px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 40px;
+    overflow: hidden;
+    width: 45%;
+    height: 900px;
 }
 
 
@@ -61,7 +77,8 @@ section {
 }
 
 .tab {
-    width: 100px;
+	font-size:15px;
+    width: 120px;
     color: rgb(50, 50, 50);
     padding: 10px;
     text-align: center;
@@ -96,9 +113,9 @@ section {
     justify-content: center;
 }
 
-h2 {
+h3 {
     color: #555;
-    padding: 20px;
+    padding: 10px;
     margin: 0;
     margin-left: 50px;
 }
@@ -144,10 +161,12 @@ th:first-child {
 
 th:nth-of-type(1){
     width: 10%;
+    padding-left:40px;
 }
 
 th:nth-of-type(2){
     width: 20%;
+    padding-left:85px;
 }
 
 th:nth-of-type(3){
@@ -156,7 +175,8 @@ th:nth-of-type(3){
 }
 
 th:nth-of-type(4){
-    width: 50%;
+	padding-left:85px;
+    width: 60%;
     
 }
 
@@ -194,8 +214,11 @@ tr:last-child {
 }
 .twoBtn{
 	margin:auto;
-	width:60px;
+	width:500px;
 	height:50px;
+	display:flex;
+	padding:20px;
+	
 	
 }
 
@@ -205,9 +228,57 @@ tr:last-child {
 	margin-top:30px;
 	background-color:orange;
 	border-radius:5px;
-	width:50px;
-	height:35px;
-	font-weight:600;
+	border: 1px solid orange;
+	width:80px;
+	height:30px;
+	font-weight:500;
+	padding:5px;
+	margin-right:10px;
+	margin-left:90px;
+	line-height:1;
+	font-size:13px;
+}
+
+#deleteBtn{
+	margin-top:30px;
+	background-color:red;
+	border-radius:5px;
+	border: 1px solid red;
+	width:80px;
+	height:30px;
+	font-weight:500;
+	padding:5px;
+	color:white;
+	line-height:1;
+	font-size:13px;
+}
+
+.modal-body{
+	margin-bottom:20px;
+}
+
+
+
+#realDelete{
+	margin-left:200px;
+	margin-top:20px;
+	background-color:red;
+	border-radius:5px;
+	border: 1px solid red;
+	width:80px;
+	height:30px;
+	font-weight:500;
+	padding:5px;
+	color:white;
+	line-height:1;
+	font-size:13px;
+	margin-bottom:20px;
+}
+
+/* 모달창 */
+.modalTable{
+	margin-bottom:30px;
+	padding:30px;
 }
 
 
