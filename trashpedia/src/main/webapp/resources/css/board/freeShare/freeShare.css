@@ -384,7 +384,7 @@ main{
     width: 361px; 
     height: 40px; 
     /* left: 539px;  */
-    top: 1557px; 
+    top: 1627px; 
     position: absolute;
     display: flex;
     flex-direction: row;
@@ -445,7 +445,7 @@ main{
 #searchPlace {
     left:calc( (1759px - 346.13px)/2); 
     margin-left: 10px;
-    top: 1650px;
+    top: 1700px;
     position: absolute;
     height: 40px;
     width: 100px;

@@ -1,6 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<c:set var="contextPath" value="<%=request.getContextPath() %>"/>
+<c:url var="currentUrl" value="/trashpedia/pledge/list">
+    <c:param name="subCategoryNo" value="${currentSubCategoryNo}" />
+    <c:param name="bigCategoryNo" value="${currentBigCategoryNo}" />
+</c:url>
+<c:set var="subCategoryNo" value="${param.subCategoryNo}" />
+<c:set var="bigCategoryNo" value="${param.bigCategoryNo}" />
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -10,11 +17,13 @@
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"
 	integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
 	crossorigin="anonymous"></script>
-	
-<!-- css -->
-<link rel="stylesheet" href="resources/css/board/freeShare/freeShare.css">
 
-	
+<!-- css -->
+<link rel="stylesheet"
+	href="resources/css/board/freeShare/freeShare.css">
+<link rel="stylesheet" href="resources/css/main/pledge.css">
+
+
 <!-- slick 라이브러리 CSS -->
 <link rel="stylesheet" type="text/css"
 	href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
@@ -51,488 +60,57 @@
 						<!-- 무료 나눔 게시판 -->
 					</div>
 					<button class="btn">
-						<a href="./information_write.html">글쓰기</a>
+					<!-- big==1 sub==4 -->
+						<a href="${pageContext.request.contextPath}/write?bigCategoryNo=${bigCategoryNo}&subCategoryNo=${subCategoryNo}&type=1">글쓰기</a>
 					</button>
 
-					<div class="List">
-
-						<div class="Card">
-							<!-- Front -->
-							<div class="Front">
-								<div class="Image">
-									<img
-										src="https://img.freepik.com/free-photo/cute-puppy-sitting-in-grass-enjoying-nature-playful-beauty-generated-by-artificial-intelligence_188544-84973.jpg"
-										alt="">
-									<div class="Tag">
-										<div class="Text">New</div>
+					<!-- 3개의 리스트 -->
+					<c:forEach var="list" begin="0" end="2">
+						<div class="List">
+							<c:forEach var="index" begin="${list * 4}" end="${list * 4 + 3}"
+								varStatus="status">
+								<c:if test="${status.index < freeTrashList.size()}">
+									<c:set var="trash" value="${freeTrashList[status.index]}" />
+									<div class="Card"
+										onclick="goToFreeShareDetail(${trash.trashNo})">
+										<!-- Front -->
+										<div class="Front">
+											<div class="Image">
+												<img src="${trash.imageUrl}" alt="">
+											</div>
+											<div class="TextContent">
+												<div class="Title">지역</div>
+												<div class="Subtitle">${trash.trashTitle}</div>
+												<div class="IconButtons">
+													<div class="Icon">😃</div>
+													<div class="Icon">👍</div>
+													<div class="Icon">🔥</div>
+												</div>
+											</div>
+										</div>
+										<!-- Back -->
+										<div class="Back">
+											<img src="${trash.imageUrl}" alt=""> <span>${trash.trashContent}</span>
+										</div>
 									</div>
-								</div>
-								<div class="TextContent">
-									<!-- <div class="Title">
-                                        지역
-                                    </div> -->
-									<div class="Subtitle">상품명</div>
-									<div class="IconButtons">
-										<div class="Icon">😃</div>
-										<div class="Icon">👍</div>
-										<div class="Icon">🔥</div>
-									</div>
-								</div>
-							</div>
-
-
-							<!-- Back -->
-							<div class="Back">
-								<img
-									src="https://img.freepik.com/free-photo/cute-puppy-sitting-in-grass-enjoying-nature-playful-beauty-generated-by-artificial-intelligence_188544-84973.jpg"
-									alt=""> <span> 헌법재판소는 법관의 자격을 가진 9인의 재판관으로 구성하며,
-									재판관은 대통령이 임명한다. 국민의 모든 자유와 권리는 국가안전보장·질서유지 또는 공공복리를 위하여 필요한 경우에
-									한하여 법률로써 제한할 수 ... 국가는 전통문화의 계승·발전과 민족문화의 창달에 노력하여야 한다. 헌법재판소
-									재판관은 정당에 가입하거나 정치에 관여할 수 없다. 모든 국민은 보건에 관하여 국가의 보호를 받는다.... </span>
-							</div>
-
-
+								</c:if>
+							</c:forEach>
 						</div>
-						<div class="Card">
-							<!-- Front -->
-							<div class="Front">
-								<div class="Image">
-									<img
-										src="https://img.freepik.com/free-photo/cute-puppy-sitting-in-grass-enjoying-nature-playful-beauty-generated-by-artificial-intelligence_188544-84973.jpg"
-										alt="">
-									<div class="Tag">
-										<div class="Text">New</div>
-									</div>
-								</div>
-								<div class="TextContent">
-									<!-- <div class="Title">
-                                        지역
-                                    </div> -->
-									<div class="Subtitle">상품명</div>
-									<div class="IconButtons">
-										<div class="Icon">😃</div>
-										<div class="Icon">👍</div>
-										<div class="Icon">🔥</div>
-									</div>
-								</div>
-							</div>
-
-
-							<!-- Back -->
-							<div class="Back">
-								<img
-									src="https://img.freepik.com/free-photo/cute-puppy-sitting-in-grass-enjoying-nature-playful-beauty-generated-by-artificial-intelligence_188544-84973.jpg"
-									alt=""> <span> 헌법재판소는 법관의 자격을 가진 9인의 재판관으로 구성하며,
-									재판관은 대통령이 임명한다. 국민의 모든 자유와 권리는 국가안전보장·질서유지 또는 공공복리를 위하여 필요한 경우에
-									한하여 법률로써 제한할 수 ... 국가는 전통문화의 계승·발전과 민족문화의 창달에 노력하여야 한다. 헌법재판소
-									재판관은 정당에 가입하거나 정치에 관여할 수 없다. 모든 국민은 보건에 관하여 국가의 보호를 받는다.... </span>
-							</div>
-
-
-						</div>
-						<div class="Card">
-							<!-- Front -->
-							<div class="Front">
-								<div class="Image">
-									<img
-										src="https://img.freepik.com/free-photo/cute-puppy-sitting-in-grass-enjoying-nature-playful-beauty-generated-by-artificial-intelligence_188544-84973.jpg"
-										alt="">
-									<div class="Tag">
-										<div class="Text">New</div>
-									</div>
-								</div>
-								<div class="TextContent">
-									<!-- <div class="Title">
-                                        지역
-                                    </div> -->
-									<div class="Subtitle">상품명</div>
-									<div class="IconButtons">
-										<div class="Icon">😃</div>
-										<div class="Icon">👍</div>
-										<div class="Icon">🔥</div>
-									</div>
-								</div>
-							</div>
-
-
-							<!-- Back -->
-							<div class="Back">
-								<img
-									src="https://img.freepik.com/free-photo/cute-puppy-sitting-in-grass-enjoying-nature-playful-beauty-generated-by-artificial-intelligence_188544-84973.jpg"
-									alt=""> <span> 헌법재판소는 법관의 자격을 가진 9인의 재판관으로 구성하며,
-									재판관은 대통령이 임명한다. 국민의 모든 자유와 권리는 국가안전보장·질서유지 또는 공공복리를 위하여 필요한 경우에
-									한하여 법률로써 제한할 수 ... 국가는 전통문화의 계승·발전과 민족문화의 창달에 노력하여야 한다. 헌법재판소
-									재판관은 정당에 가입하거나 정치에 관여할 수 없다. 모든 국민은 보건에 관하여 국가의 보호를 받는다.... </span>
-							</div>
-
-
-						</div>
-						<div class="Card">
-							<!-- Front -->
-							<div class="Front">
-								<div class="Image">
-									<img
-										src="https://img.freepik.com/free-photo/cute-puppy-sitting-in-grass-enjoying-nature-playful-beauty-generated-by-artificial-intelligence_188544-84973.jpg"
-										alt="">
-									<div class="Tag">
-										<div class="Text">New</div>
-									</div>
-								</div>
-								<div class="TextContent">
-									<!-- <div class="Title">
-                                        지역
-                                    </div> -->
-									<div class="Subtitle">상품명</div>
-									<div class="IconButtons">
-										<div class="Icon">😃</div>
-										<div class="Icon">👍</div>
-										<div class="Icon">🔥</div>
-									</div>
-								</div>
-							</div>
-
-
-							<!-- Back -->
-							<div class="Back">
-								<img
-									src="https://img.freepik.com/free-photo/cute-puppy-sitting-in-grass-enjoying-nature-playful-beauty-generated-by-artificial-intelligence_188544-84973.jpg"
-									alt=""> <span> 헌법재판소는 법관의 자격을 가진 9인의 재판관으로 구성하며,
-									재판관은 대통령이 임명한다. 국민의 모든 자유와 권리는 국가안전보장·질서유지 또는 공공복리를 위하여 필요한 경우에
-									한하여 법률로써 제한할 수 ... 국가는 전통문화의 계승·발전과 민족문화의 창달에 노력하여야 한다. 헌법재판소
-									재판관은 정당에 가입하거나 정치에 관여할 수 없다. 모든 국민은 보건에 관하여 국가의 보호를 받는다.... </span>
-							</div>
-
-
-						</div>
-
-
-
-
-
-					</div>
-					<div class="List">
-
-						<div class="Card">
-							<!-- Front -->
-							<div class="Front">
-								<div class="Image">
-									<img
-										src="https://img.freepik.com/free-photo/cute-puppy-sitting-in-grass-enjoying-nature-playful-beauty-generated-by-artificial-intelligence_188544-84973.jpg"
-										alt="">
-									<div class="Tag">
-										<div class="Text">New</div>
-									</div>
-								</div>
-								<div class="TextContent">
-									<div class="Title">지역</div>
-									<div class="Subtitle">상품명</div>
-									<div class="IconButtons">
-										<div class="Icon">😃</div>
-										<div class="Icon">👍</div>
-										<div class="Icon">🔥</div>
-									</div>
-								</div>
-							</div>
-
-
-							<!-- Back -->
-							<div class="Back">
-								<img
-									src="https://img.freepik.com/free-photo/cute-puppy-sitting-in-grass-enjoying-nature-playful-beauty-generated-by-artificial-intelligence_188544-84973.jpg"
-									alt=""> <span> 헌법재판소는 법관의 자격을 가진 9인의 재판관으로 구성하며,
-									재판관은 대통령이 임명한다. 국민의 모든 자유와 권리는 국가안전보장·질서유지 또는 공공복리를 위하여 필요한 경우에
-									한하여 법률로써 제한할 수 ... 국가는 전통문화의 계승·발전과 민족문화의 창달에 노력하여야 한다. 헌법재판소
-									재판관은 정당에 가입하거나 정치에 관여할 수 없다. 모든 국민은 보건에 관하여 국가의 보호를 받는다.... </span>
-							</div>
-
-
-						</div>
-						<div class="Card">
-							<!-- Front -->
-							<div class="Front">
-								<div class="Image">
-									<img
-										src="https://img.freepik.com/free-photo/cute-puppy-sitting-in-grass-enjoying-nature-playful-beauty-generated-by-artificial-intelligence_188544-84973.jpg"
-										alt="">
-									<div class="Tag">
-										<div class="Text">New</div>
-									</div>
-								</div>
-								<div class="TextContent">
-									<div class="Title">지역</div>
-									<div class="Subtitle">상품명</div>
-									<div class="IconButtons">
-										<div class="Icon">😃</div>
-										<div class="Icon">👍</div>
-										<div class="Icon">🔥</div>
-									</div>
-								</div>
-							</div>
-
-
-							<!-- Back -->
-							<div class="Back">
-								<img
-									src="https://img.freepik.com/free-photo/cute-puppy-sitting-in-grass-enjoying-nature-playful-beauty-generated-by-artificial-intelligence_188544-84973.jpg"
-									alt=""> <span> 헌법재판소는 법관의 자격을 가진 9인의 재판관으로 구성하며,
-									재판관은 대통령이 임명한다. 국민의 모든 자유와 권리는 국가안전보장·질서유지 또는 공공복리를 위하여 필요한 경우에
-									한하여 법률로써 제한할 수 ... 국가는 전통문화의 계승·발전과 민족문화의 창달에 노력하여야 한다. 헌법재판소
-									재판관은 정당에 가입하거나 정치에 관여할 수 없다. 모든 국민은 보건에 관하여 국가의 보호를 받는다.... </span>
-							</div>
-
-
-						</div>
-						<div class="Card">
-							<!-- Front -->
-							<div class="Front">
-								<div class="Image">
-									<img
-										src="https://img.freepik.com/free-photo/cute-puppy-sitting-in-grass-enjoying-nature-playful-beauty-generated-by-artificial-intelligence_188544-84973.jpg"
-										alt="">
-									<div class="Tag">
-										<div class="Text">New</div>
-									</div>
-								</div>
-								<div class="TextContent">
-									<div class="Title">지역</div>
-									<div class="Subtitle">상품명</div>
-									<div class="IconButtons">
-										<div class="Icon">😃</div>
-										<div class="Icon">👍</div>
-										<div class="Icon">🔥</div>
-									</div>
-								</div>
-							</div>
-
-
-							<!-- Back -->
-							<div class="Back">
-								<img
-									src="https://img.freepik.com/free-photo/cute-puppy-sitting-in-grass-enjoying-nature-playful-beauty-generated-by-artificial-intelligence_188544-84973.jpg"
-									alt=""> <span> 헌법재판소는 법관의 자격을 가진 9인의 재판관으로 구성하며,
-									재판관은 대통령이 임명한다. 국민의 모든 자유와 권리는 국가안전보장·질서유지 또는 공공복리를 위하여 필요한 경우에
-									한하여 법률로써 제한할 수 ... 국가는 전통문화의 계승·발전과 민족문화의 창달에 노력하여야 한다. 헌법재판소
-									재판관은 정당에 가입하거나 정치에 관여할 수 없다. 모든 국민은 보건에 관하여 국가의 보호를 받는다.... </span>
-							</div>
-
-
-						</div>
-						<div class="Card">
-							<!-- Front -->
-							<div class="Front">
-								<div class="Image">
-									<img
-										src="https://img.freepik.com/free-photo/cute-puppy-sitting-in-grass-enjoying-nature-playful-beauty-generated-by-artificial-intelligence_188544-84973.jpg"
-										alt="">
-									<div class="Tag">
-										<div class="Text">New</div>
-									</div>
-								</div>
-								<div class="TextContent">
-									<div class="Title">지역</div>
-									<div class="Subtitle">상품명</div>
-									<div class="IconButtons">
-										<div class="Icon">😃</div>
-										<div class="Icon">👍</div>
-										<div class="Icon">🔥</div>
-									</div>
-								</div>
-							</div>
-
-
-							<!-- Back -->
-							<div class="Back">
-								<img
-									src="https://img.freepik.com/free-photo/cute-puppy-sitting-in-grass-enjoying-nature-playful-beauty-generated-by-artificial-intelligence_188544-84973.jpg"
-									alt=""> <span> 헌법재판소는 법관의 자격을 가진 9인의 재판관으로 구성하며,
-									재판관은 대통령이 임명한다. 국민의 모든 자유와 권리는 국가안전보장·질서유지 또는 공공복리를 위하여 필요한 경우에
-									한하여 법률로써 제한할 수 ... 국가는 전통문화의 계승·발전과 민족문화의 창달에 노력하여야 한다. 헌법재판소
-									재판관은 정당에 가입하거나 정치에 관여할 수 없다. 모든 국민은 보건에 관하여 국가의 보호를 받는다.... </span>
-							</div>
-
-
-						</div>
-
-
-
-
-
-					</div>
-					<div class="List">
-
-						<div class="Card">
-							<!-- Front -->
-							<div class="Front">
-								<div class="Image">
-									<img
-										src="https://img.freepik.com/free-photo/cute-puppy-sitting-in-grass-enjoying-nature-playful-beauty-generated-by-artificial-intelligence_188544-84973.jpg"
-										alt="">
-									<div class="Tag">
-										<div class="Text">New</div>
-									</div>
-								</div>
-								<div class="TextContent">
-									<div class="Title">지역</div>
-									<div class="Subtitle">상품명</div>
-									<div class="IconButtons">
-										<div class="Icon">😃</div>
-										<div class="Icon">👍</div>
-										<div class="Icon">🔥</div>
-									</div>
-								</div>
-							</div>
-
-
-							<!-- Back -->
-							<div class="Back">
-								<img
-									src="https://img.freepik.com/free-photo/cute-puppy-sitting-in-grass-enjoying-nature-playful-beauty-generated-by-artificial-intelligence_188544-84973.jpg"
-									alt=""> <span> 헌법재판소는 법관의 자격을 가진 9인의 재판관으로 구성하며,
-									재판관은 대통령이 임명한다. 국민의 모든 자유와 권리는 국가안전보장·질서유지 또는 공공복리를 위하여 필요한 경우에
-									한하여 법률로써 제한할 수 ... 국가는 전통문화의 계승·발전과 민족문화의 창달에 노력하여야 한다. 헌법재판소
-									재판관은 정당에 가입하거나 정치에 관여할 수 없다. 모든 국민은 보건에 관하여 국가의 보호를 받는다.... </span>
-							</div>
-
-
-						</div>
-						<div class="Card">
-							<!-- Front -->
-							<div class="Front">
-								<div class="Image">
-									<img
-										src="https://img.freepik.com/free-photo/cute-puppy-sitting-in-grass-enjoying-nature-playful-beauty-generated-by-artificial-intelligence_188544-84973.jpg"
-										alt="">
-									<div class="Tag">
-										<div class="Text">New</div>
-									</div>
-								</div>
-								<div class="TextContent">
-									<div class="Title">지역</div>
-									<div class="Subtitle">상품명</div>
-									<div class="IconButtons">
-										<div class="Icon">😃</div>
-										<div class="Icon">👍</div>
-										<div class="Icon">🔥</div>
-									</div>
-								</div>
-							</div>
-
-
-							<!-- Back -->
-							<div class="Back">
-								<img
-									src="https://img.freepik.com/free-photo/cute-puppy-sitting-in-grass-enjoying-nature-playful-beauty-generated-by-artificial-intelligence_188544-84973.jpg"
-									alt=""> <span> 헌법재판소는 법관의 자격을 가진 9인의 재판관으로 구성하며,
-									재판관은 대통령이 임명한다. 국민의 모든 자유와 권리는 국가안전보장·질서유지 또는 공공복리를 위하여 필요한 경우에
-									한하여 법률로써 제한할 수 ... 국가는 전통문화의 계승·발전과 민족문화의 창달에 노력하여야 한다. 헌법재판소
-									재판관은 정당에 가입하거나 정치에 관여할 수 없다. 모든 국민은 보건에 관하여 국가의 보호를 받는다.... </span>
-							</div>
-
-
-						</div>
-						<div class="Card">
-							<!-- Front -->
-							<div class="Front">
-								<div class="Image">
-									<img
-										src="https://img.freepik.com/free-photo/cute-puppy-sitting-in-grass-enjoying-nature-playful-beauty-generated-by-artificial-intelligence_188544-84973.jpg"
-										alt="">
-									<div class="Tag">
-										<div class="Text">New</div>
-									</div>
-								</div>
-								<div class="TextContent">
-									<div class="Title">지역</div>
-									<div class="Subtitle">상품명</div>
-									<div class="IconButtons">
-										<div class="Icon">😃</div>
-										<div class="Icon">👍</div>
-										<div class="Icon">🔥</div>
-									</div>
-								</div>
-							</div>
-
-
-							<!-- Back -->
-							<div class="Back">
-								<img
-									src="https://img.freepik.com/free-photo/cute-puppy-sitting-in-grass-enjoying-nature-playful-beauty-generated-by-artificial-intelligence_188544-84973.jpg"
-									alt=""> <span> 헌법재판소는 법관의 자격을 가진 9인의 재판관으로 구성하며,
-									재판관은 대통령이 임명한다. 국민의 모든 자유와 권리는 국가안전보장·질서유지 또는 공공복리를 위하여 필요한 경우에
-									한하여 법률로써 제한할 수 ... 국가는 전통문화의 계승·발전과 민족문화의 창달에 노력하여야 한다. 헌법재판소
-									재판관은 정당에 가입하거나 정치에 관여할 수 없다. 모든 국민은 보건에 관하여 국가의 보호를 받는다.... </span>
-							</div>
-
-
-						</div>
-						<div class="Card">
-							<!-- Front -->
-							<div class="Front">
-								<div class="Image">
-									<img
-										src="https://img.freepik.com/free-photo/cute-puppy-sitting-in-grass-enjoying-nature-playful-beauty-generated-by-artificial-intelligence_188544-84973.jpg"
-										alt="">
-									<div class="Tag">
-										<div class="Text">New</div>
-									</div>
-								</div>
-								<div class="TextContent">
-									<div class="Title">지역</div>
-									<div class="Subtitle">상품명</div>
-									<div class="IconButtons">
-										<div class="Icon">😃</div>
-										<div class="Icon">👍</div>
-										<div class="Icon">🔥</div>
-									</div>
-								</div>
-							</div>
-
-
-							<!-- Back -->
-							<div class="Back">
-								<img
-									src="https://img.freepik.com/free-photo/cute-puppy-sitting-in-grass-enjoying-nature-playful-beauty-generated-by-artificial-intelligence_188544-84973.jpg"
-									alt=""> <span> 헌법재판소는 법관의 자격을 가진 9인의 재판관으로 구성하며,
-									재판관은 대통령이 임명한다. 국민의 모든 자유와 권리는 국가안전보장·질서유지 또는 공공복리를 위하여 필요한 경우에
-									한하여 법률로써 제한할 수 ... 국가는 전통문화의 계승·발전과 민족문화의 창달에 노력하여야 한다. 헌법재판소
-									재판관은 정당에 가입하거나 정치에 관여할 수 없다. 모든 국민은 보건에 관하여 국가의 보호를 받는다.... </span>
-							</div>
-
-
-						</div>
-
-
-
-
-
-					</div>
-
-
-
-
-
-
-
-
-
-
-
+					</c:forEach>
 				</div>
-
 			</div>
 
+
+
+
 			<div class="PagingArea">
-				<button id="btn">prev</button>
-				<div class="Number">
-					<span>1</span>
-				</div>
-				<div class="Number">
-					<span>1</span>
-				</div>
-				<div class="Number">
-					<span>1</span>
-				</div>
-				<button id="btn">next</button>
+				<button class="pagingBtn" id="prevBtn"><</button>
+				<button class="pagingBtn">1</button>
+				<button class="pagingBtn">2</button>
+				<button class="pagingBtn">3</button>
+				<button class="pagingBtn">4</button>
+				<button class="pagingBtn">5</button>
+				<button class="pagingBtn" id="nextBtn">></button>
 			</div>
 
 			<div id="searchPlace">
@@ -541,10 +119,69 @@
 			</div>
 		</main>
 	</div>
-	
-	<jsp:include page="../../common/footer.jsp" />
-	<script>
 
-    </script>
+	<jsp:include page="../../common/footer.jsp" />
+
+
+
+	<script>
+    $(document).ready(function() {
+        var currentPage = 1; // 현재 페이지 초기값
+        var totalPages = ${totalPages}; // 전체 페이지 수
+        var pageSize = 4; // 페이지당 보여줄 항목 수
+
+        // 페이지를 초기화하는 함수
+        function initializePage() {
+            changePage(currentPage); // 초기 페이지 설정
+        }
+
+        // 페이지를 변경하는 함수
+        function changePage(pageNumber) {
+            // 페이지 번호를 변경할 때마다 trashList의 해당 페이지에 맞는 데이터를 요청하고 받아와서 페이지에 출력하는 작업을 수행해야 합니다.
+            // 여기서는 예시 코드이므로 실제로 데이터를 요청하는 부분은 생략하고 페이지 번호만 변경하는 작업만 수행합니다.
+            
+            // 현재 페이지에 해당하는 데이터를 요청하는 Ajax 호출을 추가해야 합니다.
+            // Ajax 호출을 통해 받아온 데이터를 사용하여 페이지에 표시하는 작업을 수행합니다.
+
+            // 예시: trashList의 해당 페이지에 맞는 데이터를 요청하고 받아온다고 가정합니다.
+            // 받아온 데이터를 사용하여 페이지에 표시하는 작업을 한다고 가정합니다.
+            
+            // 페이지 번호에 해당하는 데이터를 받아온 후에는 페이지에 출력하는 작업을 수행합니다.
+            // 여기서는 받아온 데이터를 사용하여 페이지에 표시하는 코드를 추가합니다.
+            
+            // 여기서는 예시로 currentPage를 출력하는 것으로 대체합니다.
+            console.log("현재 페이지: " + currentPage);
+        }
+
+        // 'prev' 버튼 클릭 시 이전 페이지로 이동하는 함수
+        $('#prevBtn').click(function() {
+            if (currentPage > 1) {
+                currentPage--; // 현재 페이지를 1 감소
+                changePage(currentPage); // 페이지 변경 함수 호출
+            }
+        });
+
+        // 'next' 버튼 클릭 시 다음 페이지로 이동하는 함수
+        $('#nextBtn').click(function() {
+            if (currentPage < totalPages) {
+                currentPage++; // 현재 페이지를 1 증가
+                changePage(currentPage); // 페이지 변경 함수 호출
+            }
+        });
+
+        // 페이지 번호를 클릭할 때 해당 페이지로 이동하는 이벤트 핸들러
+        $('.pagingBtn').click(function() {
+            var pageNumber = parseInt($(this).text()); // 클릭한 버튼의 페이지 번호 가져오기
+            if (pageNumber !== currentPage) {
+                currentPage = pageNumber; // 현재 페이지를 클릭한 페이지로 변경
+                changePage(currentPage); // 페이지 변경 함수 호출
+            }
+        });
+
+        // 페이지 초기화
+        initializePage();
+    });
+
+	</script>
 </body>
-</html>	
+</html>
