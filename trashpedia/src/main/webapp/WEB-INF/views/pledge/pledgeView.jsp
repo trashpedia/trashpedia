@@ -50,7 +50,7 @@
                         </a>
                     </div>
                     <div class="content-search">
-                        <input type="text" name="keyword" id="keyword" placeholder="작성자/제목">
+                        <input type="text" name="keyword" id="keyword" placeholder="제목검색">
                         <span id="searchButton" class="material-symbols-outlined icon">search</span> 
                     </div>
                 </div>

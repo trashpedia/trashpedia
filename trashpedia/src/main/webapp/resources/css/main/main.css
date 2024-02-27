@@ -3,6 +3,7 @@
 /* ----------------- main -----------------*/
 header{ z-index: 100; }
 main{ margin-bottom : 0px !important; }
+footer{ margin-top : -115px;}
 
 .showEvent{
 	opacity : 0.5;
@@ -149,8 +150,8 @@ main .practice-list li a i {
 /*  ----- 최근 업데이트된 쓰레기 게시글 부분 ----- */
 .recently-outer{
     position: relative;
-    padding-top: 45px;
-    margin-top: 120px;
+    padding-top: 50px;
+    margin-top: 130px;
 }
 /* 배경이미지 */
 .recently-outer img{

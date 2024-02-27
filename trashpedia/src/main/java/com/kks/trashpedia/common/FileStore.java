@@ -25,15 +25,10 @@ public class FileStore {
 	public String getFullPath(String filename) {return fileDir + filename;}
 	public String getFullPath2(String filename) {return imageDir + filename;}
 	
-	//파일
+	//파일저장
 	public Attachment storeFile(MultipartFile multipartFile) throws IOException{
 		
-		System.out.println(rootPath);
-		System.out.println("filestore실행");
-		
 		if(multipartFile.isEmpty()) { return null; }
-		
-		System.out.println("filestore실행2");
 		
 	    // 파일 디렉토리 생성
         File directory = new File(fileDir);
@@ -53,7 +48,7 @@ public class FileStore {
         return a;
 	}
 	
-	//이미지
+	//이미지저장
 	public ImgAttachment storeImage(MultipartFile multipartFile) throws IOException{
 			
 			if(multipartFile.isEmpty()) { return null; }

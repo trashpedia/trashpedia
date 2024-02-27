@@ -11,6 +11,7 @@ import com.kks.trashpedia.board.model.vo.Attachment;
 import com.kks.trashpedia.board.model.vo.Board;
 import com.kks.trashpedia.board.model.vo.ImgAttachment;
 import com.kks.trashpedia.board.model.vo.Post;
+import com.kks.trashpedia.board.model.vo.SubCategory;
 
 @Repository
 public class PledgeDaoImpl implements PledgeDao{
@@ -52,6 +53,22 @@ public class PledgeDaoImpl implements PledgeDao{
 	@Override
 	public int increaseCount(Board b) {
 		return session.update("pledgeMapper.increaseCount", b);
+	}
+
+	//게시글 삭제
+	@Override
+	public int pledgeDeletePost(Post p) {
+		return session.update("pledgeMapper.pledgeDeletePost",p);
+	}
+	@Override
+	public int pledgeDeleteBoard(Post p) {
+		return session.update("pledgeMapper.pledgeDeleteBoard",p);
+	}
+
+	//카테고리 정보 가져오기
+	@Override
+	public SubCategory getCategoryNo(Post p) {
+		return session.selectOne("pledgeMapper.getCategoryNo",p);
 	}
 
 

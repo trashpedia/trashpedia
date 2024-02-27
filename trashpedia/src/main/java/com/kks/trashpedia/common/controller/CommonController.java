@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 import com.kks.trashpedia.board.model.vo.Attachment;
 import com.kks.trashpedia.board.model.vo.Board;
 import com.kks.trashpedia.board.model.vo.ImgAttachment;
@@ -22,8 +21,7 @@ import com.kks.trashpedia.board.model.vo.Post;
 import com.kks.trashpedia.board.model.vo.SubCategory;
 import com.kks.trashpedia.common.FileStore;
 import com.kks.trashpedia.common.service.CommonService;
-
-import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 
 @RestController
 public class CommonController {
@@ -47,7 +45,7 @@ public class CommonController {
 		SubCategory category = service.getSubCategory(subcategory);
 		mv.addObject("category",category);
 		mv.addObject("type",type);
-		mv.setViewName("pledge/pledgeInsert");
+		mv.setViewName("common/boardInsert");
 		
 		return mv;
 	}
@@ -59,11 +57,10 @@ public class CommonController {
 			Post p, 
 			Board b,
 			RedirectAttributes ra, 
+			HttpSession session,
 			@RequestParam("thumbnail") MultipartFile thumbnailImage,
 			@RequestParam("upfile") MultipartFile upfile,
-			@RequestParam int type,
-			HttpServletRequest request
-			/*,SessionAttribute session*/
+			@RequestParam int type
 			) throws IOException {
 
 		ModelAndView mv = new ModelAndView();
@@ -73,69 +70,54 @@ public class CommonController {
 
 		b.setPostNo(postNo);
 		b.setSubCategoryNo(subcategory.getSubCategoryNo());
-			
+		
 		// board 등록
 		if (postNo > 0) {
 			
 			int boardNo = service.createBoard(b);
-			System.out.println(boardNo);
 			
 			if (boardNo > 0) { 		
-				
-				//첨부파일, 이미지 파일 저장
+				// 첨부파일, 이미지 파일 저장
 				Attachment attachment = fileStore.storeFile(upfile);
 				ImgAttachment image = fileStore.storeImage(thumbnailImage);
-				
-				if(attachment!=null) {
+
+				if (attachment != null) {
 					attachment.setRefBno(boardNo);
 					attachment.setFileType(type);
 				}
-				if(image!=null) {
+				if (image != null) {
 					image.setRefBno(boardNo);
 					image.setImgType(type);
-					}
-				
-				System.out.println(attachment);
-				System.out.println(image);
-				
-				int result = service.insertFiles(attachment,image);
-				
-				ra.addFlashAttribute("alert","게시글이 작성되었습니다."); 
 				}
-			else { 
+				service.insertFiles(attachment, image);
+				ra.addFlashAttribute("alert", "게시글이 작성되었습니다.");
+			} else {
 				ra.addFlashAttribute("alert", "게시글 작성에 실패하셨습니다.");
 			}
 		} else {
 			ra.addFlashAttribute("alert", "게시글 작성에 실패하셨습니다.");
 		}
+
+		String nextUrl = (String) session.getAttribute("lastUrl");
+
 		mv.setViewName("redirect:/");
+
+
+		if (nextUrl != null) {
+			mv.setViewName("redirect:" + nextUrl + "?bigCategoryNo=" + subcategory.getBigCategoryNo()
+					+ "&subCategoryNo=" + b.getSubCategoryNo());
+		}
 		return mv;
 	}
-	
-	//이미지출력
+
+	// 이미지출력
 	@ResponseBody
 	@GetMapping("/image/{filename}")
 	public UrlResource showImage(@PathVariable String filename) throws MalformedURLException {
 		
 		UrlResource url = new UrlResource("file:" + fileStore.getFullPath2(filename));
-		
 	    return url;
 	}
-	
-	
-	//첨부파일다운로드
-	//@GetMapping("/attach/{boardNo}")
-	//public ResponseEntity<Resource> downloadAttach(@PathVariable int boardNo) throws MalformedURLException{
-		
-		//Attachment attach = service.getAttachment(boardNo);
-		
-//		String storeFilename = 
-		
-		
-		
-		
-	//}
-	
 	
 	
 	//수정날짜 바꿀때 사용할거
@@ -145,9 +127,6 @@ public class CommonController {
 //	System.out.println("date = "  +date);
 		
 
-		
-	
-	
 	
 	
 }

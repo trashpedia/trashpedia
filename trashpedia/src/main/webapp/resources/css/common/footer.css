@@ -6,13 +6,13 @@ main{
 
 footer {
     box-sizing: border-box;
-    background-color: #f6f6f6;
+    background-color: rgb(249, 249, 249);
     color: #8a8a8a;
     display: flex;
     flex-direction: column;
     width: 100%;
     font-size: 13px;
-    padding: 13px;
+    padding: 20px;
     align-items: left;
 }
 
@@ -22,7 +22,7 @@ footer .footer-outer{
     margin-left: 50px;
 }
 footer div{
-    margin: 10px;
+    margin: 12px;
 }
 
 footer span{
@@ -43,7 +43,6 @@ footer a:hover {
 
 /* 공지사항, 이용약관 */
 footer .footer-logo>span>strong>a{
-    /* color:  rgb(82, 165, 82); */
     margin-right: 20px;
 }
 footer .quick-links{
@@ -57,7 +56,7 @@ footer strong {
 }
 
 footer .reserved{
-    margin-top: 20px;
+    margin-top: 25px;
 }
 
 /* 깃허브 아이콘 */
