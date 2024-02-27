@@ -25,4 +25,5 @@ public class Post {
 	private String changeName;
 	
 	private int hitsNo;
+	private String userName;
 }

@@ -30,7 +30,8 @@
         
 	<jsp:include page="../../common/header.jsp" />
         
-        <div id="menu-bar">
+        <main>
+        	<div id="menu-bar">
             
             <div id="container">
                 <!--실천서약 타이틀 부분-->
@@ -122,6 +123,7 @@
                  
             </div>
         </div>
+        </main>
         
 	<jsp:include page="../../common/footer.jsp" />
         

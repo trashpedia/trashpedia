@@ -37,7 +37,7 @@
 					<!-- 공지사항 섹션 -->
 					<div class="idx_board">
 						<div class="title">
-							<a href="${contextPath}/boardNotice" class="name">공지사항</a> 
+							<a href="${contextPath}/boardNotice?bigCategoryNo=1&subCategoryNo=1" class="name">공지사항</a> 
 						</div>
 						<div class="list">
 							<ul>

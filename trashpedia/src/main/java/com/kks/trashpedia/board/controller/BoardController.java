@@ -10,6 +10,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.kks.trashpedia.board.model.service.BoardService;
 import com.kks.trashpedia.board.model.vo.Board;
+import com.kks.trashpedia.board.model.vo.Post;
+import com.kks.trashpedia.member.model.vo.Member;
 
 @RestController
 public class BoardController {
@@ -41,13 +43,14 @@ public class BoardController {
 		return mav;
 	}
 	
-	//공지사항 페이지 이동
+	//공지사항 목록페이지 이동
 	@GetMapping("/boardNotice")
-	public ModelAndView boardNotice() {
+	public ModelAndView boardNotice(int subCategoryNo ) {
 		ModelAndView mav = new ModelAndView();
-		List<Board> boardList = service.boardList();
+		List<Post> boardList = service.boardList(subCategoryNo);
 		mav.addObject("boardList", boardList);
-		mav.setViewName("/board/notice/boardList");
+		System.out.println("boardList"+boardList);
+		mav.setViewName("board/notice/boardList");
 		return mav;
 	}
 	
@@ -55,16 +58,17 @@ public class BoardController {
 	@GetMapping("/boardSuggestion")
 	public ModelAndView boardSuggestion() {
 		ModelAndView mav = new ModelAndView();
-		mav.setViewName("/board/suggestion/boardList");
+		mav.setViewName("board/suggestion/boardList");
 		return mav;
 	}
 	
-	 //게시판 상세페이지 이동
+	//공지사항 상세페이지 이동
 	 @GetMapping("/boardDetail")
 	    public ModelAndView boardDetail(@PathVariable int postNo) {
 	        ModelAndView mav = new ModelAndView();
 	        Board board = service.boardDetail(postNo);
 	        mav.addObject("board", board);
+	        System.out.println("board" + board);
 	        mav.setViewName("board/notice/boardDetail");
 	        return mav;
 	    }

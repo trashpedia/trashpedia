@@ -1,7 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<c:set var="contextPath" value="<%=request.getContextPath() %>" />
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="contextPath" value="<%=request.getContextPath() %>"/>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -56,13 +55,15 @@
                         <div class="count">조회</div>
                     </div>
                     
+                  
                     <c:forEach var="board" items="${boardList}" varStatus="status">
 	                    <div>
-	                        <div class="num">${status.count}</div>
-	                        <div class="title"><a href="${contextPath}/boardDetail/${board.postNo}">${board.title}</a></div>
-	                        <div class="writer">${board.writer}</div>
-	                        <div class="date">${board.date}</div>
-	                        <div class="count">${board.viewCount}</div>
+	                        <%-- <div class="num">${board.count}</div> --%>
+	                        <div class="num">${board.postNo}</div>
+	                        <div class="title"><a href="${contextPath}/boardDetail?postNo=1">${board.title}</a></div>
+	                        <div class="writer">${board.userName}</div>
+	                        <div class="date">${board.createDate}</div>
+	                       <%--  <div class="count">${board.viewCount}</div> --%>
 	                    </div>
                		</c:forEach>
                		
@@ -74,8 +75,8 @@
                         <div class="count">33</div>
                     </div>
                     <div>
-                        <div class="num">5</div>
-                        <div class="title"><a href="/boardDetail/{postNo}">글 제목이 들어갑니다.</a></div>
+                        <div class="num">3</div>
+                        <div class="title"><a href="${contextPath}/boardDetail">글 제목이 들어갑니다.</a></div>
                         <div class="writer">김이름</div>
                         <div class="date">2021.1.15</div>
                         <div class="count">33</div>
