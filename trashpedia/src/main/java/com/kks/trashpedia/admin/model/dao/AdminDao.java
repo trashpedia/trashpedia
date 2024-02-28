@@ -72,7 +72,7 @@ public interface AdminDao {
 
 	List<SubCategory> getSubCategoryList(int bigCategoryNo);
 
-	Page<Board> loadBoardListData(Pageable pageable, int subCategoryNo, String sort, String searchSelect, String searchValue);
+	Page<Board> loadBoardListData(Pageable pageable, int page, int subCategoryNo, String sort, String searchSelect, String searchValue);
 
 	Post loadBoardDetailData(int boardNo);
 
@@ -81,6 +81,8 @@ public interface AdminDao {
 	Page<Suggestion> loadSuggestionListData(Pageable pageable);
 
 	Page<Request> loadRequestListData(Pageable pageable);
+
+	int loadBoardCount(int subCategoryNo);
 
 
 

@@ -223,11 +223,16 @@ public class AdminController {
 	@GetMapping("/loadBoardListData")
 	public ResponseEntity<Page<Board>> loadBoardListData(@PageableDefault(size = 20, sort = "id", direction = Sort.Direction.DESC) Pageable pageable,
 			@RequestParam int subCategoryNo,
+			@RequestParam int page,
 			@RequestParam String sort,
 			@RequestParam String searchSelect,
 			@RequestParam String searchValue){
-		Page<Board> pages = service.loadBoardListData(pageable, subCategoryNo, sort, searchSelect, searchValue);
+		Page<Board> pages = service.loadBoardListData(pageable, page, subCategoryNo, sort, searchSelect, searchValue);
 		return ResponseEntity.ok(pages);
+	}
+	@GetMapping("/loadBoardCount")
+	public int loadBoardCount(@RequestParam int subCategoryNo) {
+		return service.loadBoardCount(subCategoryNo);
 	}
 	// 관리자 게시판 관리 게시글 디테일
 	@GetMapping("/loadBoardDetailData")
@@ -245,7 +250,11 @@ public class AdminController {
 	}
 	
 	@GetMapping("/getTrashList")
-	public ResponseEntity<Page<Trash>> getTrashList(@PageableDefault(size = 20, sort = "id", direction = Sort.Direction.DESC) @RequestParam int page, Pageable pageable) {
+	public ResponseEntity<Page<Trash>> getTrashList(@PageableDefault(size = 20, sort = "id", direction = Sort.Direction.DESC) Pageable pageable,
+	@RequestParam int page,
+	@RequestParam String sort,
+	@RequestParam String searchSelect,
+	@RequestParam String searchValue){
 		Page<Trash> pages = service.getTrashList(pageable, page);
 		return ResponseEntity.ok(pages);
 	}

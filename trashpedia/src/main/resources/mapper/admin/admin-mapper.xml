@@ -129,7 +129,7 @@
 		SELECT COUNT(*)
 		FROM "COMMENT" C
 		JOIN NESTED_COMMENT NC ON C.USER_NO = NC.USER_NO
-		WHERE C.USER_NO = #{userNo}
+		WHERE C.USER_NO = #{userNo} OR NC.USER_NO = #{userNo}
 	</select>
 	<select id="getMemberBoardList" resultType="board">
 		SELECT P.TITLE, BC.BIG_CATEGORY_NAME, SC.SUB_CATEGORY_NAME, B.BOARD_NO
@@ -273,6 +273,7 @@
 		SELECT COUNT(*)
 		FROM BOARD B
 		LEFT JOIN POST P ON P.POST_NO = B.POST_NO
+		WHERE B.SUB_CATEGORY_NO = #{subcategoryNo}
 		
 	</select>
 	<select id="loadBoardDetailData" parameterType="int" resultType="post">

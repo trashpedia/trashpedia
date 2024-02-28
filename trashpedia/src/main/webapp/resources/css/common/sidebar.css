@@ -1,18 +1,82 @@
 @charset "EUC-KR";
 
+/* 관리자 공통 부분 */
+.body {
+    background: white;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+a{
+    color: black;
+}
+
+.content-wrapper{
+    min-width:1148px;
+    padding-top:90px;
+    padding-bottom:100px;
+}
+
+.content{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.practice-section {
+    height: 150px;
+    width: 100%;
+    background-color: #73cc73;
+    color: white;
+    font-weight: 700;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.practice-section p:first-child {
+    font-size: 32px;
+    margin-top: 0;
+    margin-bottom: 0px;
+}
+
+.practice-section p:nth-child(2) {
+    margin-top: 10px;
+    font-size: 18px;
+}
+
+.content-section{
+    width:100%;
+    display: flex;
+    gap: 20px;
+}
+
+:root {
+  --side-bar-width: 130px;
+  --side-bar-height: 90vh;
+}
+
 .sidebar-wrapper {
     position: fixed;
     left: 0;
     top: 90px;
-    height: 100%;
+    height: 100%
 }
 
 .sidebar {
     height: 100%;
-    background: rgba(0, 0, 0, 0.05);
+    background: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(12px);
     flex-direction: column;
     align-items: flex-start;
     display: flex;
+	transform: translate(calc(var(--side-bar-width) * -0.8), 0);
+	transition: .5s;
+}
+
+.sidebar:hover{
+	transform: translate(-10px, 0);
 }
 
 .sidebar-item {
@@ -28,10 +92,6 @@
     padding: 0;
 }
 
-.sidebar-ul li {
-    border-bottom: 1px solid gray;
-}
-
 .sidebar-li {
     height: 40px;
     display: flex;
@@ -39,14 +99,6 @@
     align-items: center;
 }
 
-.icon {
-    width: 40px;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
 .sidebar-title {
-    width: 100px;
+    width: 150px;
 }

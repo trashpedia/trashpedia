@@ -46,7 +46,7 @@
                         </div>
                         <div class="statistics-list">
                             <div class="statistics-list-title">신규 게시글</div>
-                            <div class="list-data"><fmt:formatNumber type="number" pattern="#,##0" value="${ab}"/></div>
+                            <div class="list-data"><fmt:formatNumber type="number" pattern="#,##0" value="${nb}"/></div>
                             <div class="change">
 								<c:set var="b" value="${nb - ob}" />
 								<c:choose>
@@ -63,21 +63,21 @@
                     <div class="graph-container-wrapper">
                         <div class="graph-container">
                             <div id="member_chart_div"></div>
-                            <div class="tab-group">
-                                <input type="button" value="일">
-                                <input type="button" value="주">
-                                <input type="button" value="월">
-                            </div>
+<!--                             <div class="tab-group"> -->
+<!--                                 <input type="button" value="일"> -->
+<!--                                 <input type="button" value="주"> -->
+<!--                                 <input type="button" value="월"> -->
+<!--                             </div> -->
                         </div>
                     </div>
                     <div class="graph-container-wrapper">
                         <div class="graph-container">
                             <div id="board_chart_div"></div>
-                            <div class="tab-group">
-                                <input type="button" value="일">
-                                <input type="button" value="주">
-                                <input type="button" value="월">
-                            </div>
+<!--                             <div class="tab-group"> -->
+<!--                                 <input type="button" value="일"> -->
+<!--                                 <input type="button" value="주"> -->
+<!--                                 <input type="button" value="월"> -->
+<!--                             </div> -->
                         </div>
                     </div>
                 </div>

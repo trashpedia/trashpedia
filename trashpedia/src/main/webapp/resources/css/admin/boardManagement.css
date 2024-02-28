@@ -75,6 +75,10 @@ tr{
     height: 30px;
 }
 
+.boardList>tr>td{
+	width:33%;
+}
+
 .input{
     display: flex;
     align-items: center;
@@ -130,8 +134,9 @@ tr{
 }
 
 .list{
-    height: 90%;
-    overflow-x: hidden;
+    height: 100%;
+    display:block;
+    overflow:auto;
 }
 
 .list>.item>.title{

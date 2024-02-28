@@ -151,8 +151,8 @@ public class adminServiceImpl implements adminService{
 	}
 
 	@Override
-	public Page<Board> loadBoardListData(Pageable pageable, int subCategoryNo, String sort, String searchSelect, String searchValue) {
-		return dao.loadBoardListData(pageable, subCategoryNo, sort, searchSelect, searchValue);
+	public Page<Board> loadBoardListData(Pageable pageable, int page, int subCategoryNo, String sort, String searchSelect, String searchValue) {
+		return dao.loadBoardListData(pageable, page, subCategoryNo, sort, searchSelect, searchValue);
 	}
 
 	@Override
@@ -173,6 +173,11 @@ public class adminServiceImpl implements adminService{
 	@Override
 	public Page<Request> loadRequestListData(Pageable pageable) {
 		return dao.loadRequestListData(pageable);
+	}
+
+	@Override
+	public int loadBoardCount(int subCategoryNo) {
+		return dao.loadBoardCount(subCategoryNo);
 	}
 
 

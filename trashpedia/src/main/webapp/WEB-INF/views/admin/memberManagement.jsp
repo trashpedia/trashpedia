@@ -16,45 +16,46 @@
     <jsp:include page="../common/sidebar.jsp"/>
     <div class="content-wrapper">
         <div class="content">
-            <section class="search-section">
-                <div class="search-container">
-                    <div class="search-title">회원 관리</div>
-                </div>
-            </section>
-            <section class="member-section">
-                <div class="member-container">
-                    <div class="member-title-wrapper">
-                        <div class="member-title">회원 리스트</div>
-                        <div class="member-subtitle">총 <fmt:formatNumber type="number" pattern="#,##0" value="${cam}"/>명</div>
-                    </div>
-                    <div class="input">
-                        <select name="condition" id="filterSelect">
-                            <option value="userNo" selected>번호</option>
-                            <option value="userEmail">이메일</option>
-                            <option value="userName">이름</option>
-                            <option value="userNickname">닉네임</option>
-                        </select>
-                    </div>
-					<table>
-					    <thead class="user-thead"></thead>
-					    <tbody class="userList list"></tbody>
+			<div class="practice-section">
+			    <p>회원관리</p>
+			    <p>member management</p>
+			</div>
+			<section class="content-section">
+				<div class="content-container">
+				    <div class="content-title-wrapper">
+				        <div class="content-title">회원 리스트</div>
+				        <div class="content-subtitle">총 <fmt:formatNumber type="number" pattern="#,##0" value="${cam}"/>명</div>
+					</div>
+					<div class="filter-wrapper">
+					    <select name="condition" id="filterSelect">
+					        <option value="userNo" selected>번호</option>
+					        <option value="userEmail">이메일</option>
+					        <option value="userName">이름</option>
+					        <option value="userNickname">닉네임</option>
+					    </select>
+					</div>
+					<table class="content-table user-table">
+					    <thead class="content-thead user-thead"></thead>
+					    <tbody class="content-tbody user-list"></tbody>
 					</table>
-					<select name="condition" id="searchFilterSelect">
-                        <option value="userNo" selected>번호</option>
-                        <option value="userName">이메일</option>
-                        <option value="userName">이름</option>
-                        <option value="userNickname">닉네임</option>
-                    </select>
-                    <input type="search" name="search" id="search" placeholder="Search">
-                    <input type="button" id="search" value="검색" onclick="search()">
-	            </div>
-                <div class="member-container">
-                    <div class="member-title">회원 상세</div>
-                    <div class="userDetailList list"></div>
-                </div>
-           </section>
-        </div>
-    </div>
+					<div class="search-wrapper">
+						<select name="condition" id="searchFilterSelect">
+			                <option value="userNo" selected>번호</option>
+			                <option value="userName">이메일</option>
+			                <option value="userName">이름</option>
+			                <option value="userNickname">닉네임</option>
+						</select>
+						<input type="search" id="user-search" placeholder="검색어를 입력하세요">
+						<input type="button" id="search" value="검색" onclick="search()">
+					</div>
+				</div>
+				<div class="content-container">
+				    <div class="content-title">회원 상세</div>
+				    <div class="userDetailList list"></div>
+				</div>
+			</section>
+	    </div>
+	</div>
     <script>
 	    var isLoading = false;
 	    var offset = 0;
@@ -65,7 +66,7 @@
 	    $(document).ready(function() {
 	    	loadData(searchSelect, searchValue);
 	    });
-	    $('.userList').scroll(function() {
+	    $('.user-list').scroll(function() {
 	        if($(this).scrollTop() + $(this).innerHeight() + 70 >= $(this)[0].scrollHeight) {
 	            if (!isLoading) {
 	                isLoading = true;
@@ -75,7 +76,7 @@
 	    });
 	    $('#filterSelect').change(function(){
 	    	selectedValue = $(this).val();
-	    	$('.userList').empty();
+	    	$('.user-list').empty();
 	    	offset = 0;
 	    	loadData(searchSelect, searchValue);
 	    });
@@ -83,7 +84,7 @@
 	    	searchSelect = $('#searchFilterSelect').val();
 	    	searchValue = $('#search').val();
 	    	$('#search').val('');
-	    	$('.userList').empty();
+	    	$('.user-list').empty();
 	    	offset = 0;
 	    	loadData(searchSelect, searchValue);
 	    }
@@ -114,13 +115,32 @@
 
 	    function updateTable(data) {
 	    	let thead = document.querySelector('.user-thead');
-	        let userList = document.querySelector('.userList');
+	    	thead.innerHTML = '';
+	    	let tr = document.createElement('tr');
+	    	let th1 = document.createElement('th');
+	    	th1.textContent = '번호';
+	    	let th2 = document.createElement('th');
+	    	th2.textContent = '이메일';
+	    	let th3 = document.createElement('th');
+	    	th3.textContent = '이름';
+	    	let th4 = document.createElement('th');
+	    	th4.textContent = '별명';
+
+	    	tr.appendChild(th1);
+	    	tr.appendChild(th2);
+	    	tr.appendChild(th3);
+	    	tr.appendChild(th4);
+	    	thead.appendChild(tr);
+	    	
+	        let userList = document.querySelector('.user-list');
 	        let list = data.content;
 	        for (let i = 0; i < list.length; i++) {
 	            let row = document.createElement('tr');
+	            row.classList.add('content-tr');
 	            
 	            let cell1 = document.createElement('td');
 	            cell1.textContent = list[i].userNo;
+	            cell1.classList.add('td-no');
 	            
 	            let cell2 = document.createElement('td');
 	            cell2.textContent = list[i].userEmail;
@@ -153,22 +173,18 @@
 	            	let userList = document.querySelector('.userDetailList');
 	            	userList.innerHTML = '';
     	            let row = '<div class="item">';
-    	            row += '<div class="icon">😃</div>';
     	            row += '<div class="title">번호 :</div>';
     	            row += '<div class="subtitle">'+data.userNo+'</div>';
     	            row += '</div>';
     	            row += '<div class="item">';
-    	            row += '<div class="icon">😃</div>';
     	            row += '<div class="title">이메일 : </div>';
     	            row += '<div class="subtitle">'+data.userEmail+'</div>';
     	            row += '</div>';
     	            row += '<div class="item">';
-    	            row += '<div class="icon">😃</div>';
     	            row += '<div class="title">이름 : </div>';
     	            row += '<div class="subtitle">'+data.userName+'</div>';
     	            row += '</div>';
     	            row += '<div class="item">';
-    	            row += '<div class="icon">😃</div>';
     	            row += '<div class="title">별명 : </div>';
     	            if(data.userNickname == null){
 	    	            row += '<div class="subtitle">없음</div>';
@@ -177,7 +193,6 @@
     	            }
     	            row += '</div>';
     	            row += '<div class="item">';
-    	            row += '<div class="icon">😃</div>';
     	            row += '<div class="title">주소 : </div>';
     	            if(data.address1 == null){
     		            row += '<div class="subtitle">없음</div>';
@@ -186,12 +201,10 @@
     	            }
     	            row += '</div>';
     	            row += '<div class="item">';
-    	            row += '<div class="icon">😃</div>';
     	            row += '<div class="title">생성일 : </div>';
     	            row += '<div class="subtitle">'+data.createDate+'</div>';
     	            row += '</div>';
     	            row += '<div class="item">';
-    	            row += '<div class="icon">😃</div>';
     	            row += '<input type="button" value="상세보기" onclick="detailmember('+data.userNo+')"/>';
     	            row += '</div>';
     	            userList.innerHTML += row;
