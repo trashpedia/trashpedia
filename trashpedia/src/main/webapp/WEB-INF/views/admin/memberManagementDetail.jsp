@@ -110,216 +110,208 @@
 			                <option value="title">제목</option>
 			                <option value="content">내용</option>
 						</select>
-						<input type="search" class="search-input user-search-input" placeholder="검색어를 입력하세요">
-						<input type="button" class="search-button user-search-button" value="검색" onclick="search()">
+						<input type="search" class="search-input board-search-input" placeholder="검색어를 입력하세요">
+						<input type="button" class="search-button board-search-button" value="검색" onclick="boardSearch()">
 					</div>
 				</div>
 				<div class="content-container">
 				    <div class="content-title-wrapper">
-				    	<div class="content-title">회원 요약</div>
+				    	<div class="content-title">게시글 요약</div>
 				    </div>
-				    <div class="user-detail-list list"></div>
+				    <div class="board-detail-list list"></div>
 				</div>
 			</section>
-	                    <input type="search" name="boardSearch" id="boardSearch" placeholder="Search">
-	                    <input type="button" id="search" value="검색" onclick="boardSearch()">
-                    </div>
-                    <div class="board-container">
-                        <div class="board-title">게시글 상세</div>
-                        <div class="boardDetail list"></div>
-                    </div>
+			<section class="content-section">
+				<div class="content-container">
+				    <div class="content-title-wrapper">
+				        <div class="content-title">작성 댓글</div>
+				        <div class="content-subtitle">총 <fmt:formatNumber type="number" pattern="#,##0" value="${c}"/>개</div>
+					</div>
+					<div class="filter-wrapper">
+					    <select name="condition" id="comment-filter-select">
+					        <option value="boardNo" selected>번호</option>
+					        <option value="bigCategoryNo">대분류</option>
+					        <option value="subCategoryNo">소분류</option>
+					        <option value="title">제목</option>
+					    </select>
+					</div>
+					<table class="content-table comment-table">
+					    <thead class="content-thead comment-thead">
+					    	<tr class="content-tr">
+					    		<th>번호</th>
+					    		<th>대분류</th>
+					    		<th>소분류</th>
+					    		<th>제목</th>
+					    	</tr>
+					    </thead>
+					    <tbody class="content-tbody comment-list"></tbody>
+					</table>
+					<div class="search-wrapper">
+						<select name="condition" id="comment-search-filter-select">
+			                <option value="boardNo" selected>번호</option>
+			                <option value="content">내용</option>
+						</select>
+						<input type="search" class="search-input comment-search-input" placeholder="검색어를 입력하세요">
+						<input type="button" class="search-button comment-search-button" value="검색" onclick="commentSearch()">
+					</div>
+				</div>
+				<div class="content-container">
+				    <div class="content-title-wrapper">
+				    	<div class="content-title">댓글 요약</div>
+				    </div>
+				    <div class="comment-detail-list list"></div>
+				</div>
+			</section>
+            <section class="content-section">
+                <div class="content-container">
+                	<div class="content-title-wrapper">
+                    	<div class="content-title">포인트 적립 내역</div>
+	                   	<div class="filter-wrapper">
+						    <select name="condition" id="point-filter-select">
+						        <option value="pointNo" selected>번호</option>
+						        <option value="pointCount">내역</option>
+						        <option value="amount">증감</option>
+						        <option value="pointDate">날짜</option>
+						    </select>
+						</div>
+                   	</div>
+					<table class="long-table point-table">
+					    <thead class="long-thead point-thead">
+					    	<tr class="long-tr">
+					    		<th>번호</th>
+					    		<th>포인트 적립 내역</th>
+					    		<th>포인트 증감</th>
+					    		<th>날짜</th>
+					    	</tr>
+					    </thead>
+					    <tbody class="long-tbody point-list"></tbody>
+					</table>
+					<div class="search-wrapper">
+						<select name="condition" id="point-search-filter-select">
+			                <option value="boardNo" selected>번호</option>
+			                <option value="title">제목</option>
+			                <option value="content">내용</option>
+						</select>
+						<input type="search" class="search-input point-search-input" placeholder="검색어를 입력하세요">
+						<input type="button" class="search-button point-search-button" value="검색" onclick="pointSearch()">
+					</div>
+                	<div class="point-pageBar pageBar"></div>
                 </div>
-                </section>
-                <section>
-                <div class="member-board-container">
-                    <div class="board-container">
-                        <div class="board-title-wrapper">
-                            <div class="board-title">작성 댓글</div>
-                            <div class="board-subtitle">총 ${c}개</div>
-                        </div>
-                        <div class="input">
-	                        <select name="condition" id="commentFilterSelect">
-	                            <option value="boardNo" selected>번호</option>
-	                            <option value="bigCategoryName">빅카테고리</option>
-	                            <option value="subCategoryName">서브카테고리</option>
-	                            <option value="title">제목</option>
-	                        </select>
-	                    </div>
-	                    <table>
-						    <thead class="comment-thead"></thead>
-						    <tbody class="commentList list"></tbody>
-						</table>
-                        <select name="condition" id="commentSearchFilterSelect">
-	                        <option value="boardNo" selected>번호</option>
-	                        <option value="content">내용</option>
-	                    </select>
-	                    <input type="search" name="commentSearch" id="commentSearch" placeholder="Search">
-	                    <input type="button" id="search" value="검색" onclick="commentSearch()">
-                    </div>
-                    <div class="board-container">
-                        <div class="board-title">댓글 상세</div>
-                        <div class="commentDetail list"></div>
-                    </div>
-                </div>
-                </section>
-                <section>
-                <div class="point-container">
-                    <div class="point-content">
-                        <div class="point-title-wrapper">
-                            <div class="board-title">포인트 적립 내역</div>
-                            <div class="input">
-	                        <select name="condition" id="pointFilterSelect">
-	                            <option value="pointNo" selected>번호</option>
-	                            <option value="pointCount">내역</option>
-	                            <option value="amount">증감</option>
-	                            <option value="pointDate">날짜</option>
-	                        </select>
-	                    	</div>
-                        </div>
-                        <table class="point-table table">
-                            <thead>
-                                <tr>
-                                    <th>번호</th>
-                                    <th>포인트 적립 내역</th>
-                                    <th>포인트 증감</th>
-                                    <th>날짜</th>
-                                </tr>
-                            </thead>
-                            <tbody class="point-tbody"></tbody>
-                        </table>
-                        <div>
-	                        <select name="condition" id="pointSearchFilterSelect">
-		                        <option value="pointNo" selected>번호</option>
-		                        <option value="pointContent">내용</option>
-		                    </select>
-		                    <input type="search" name="pointSearch" id="pointSearch" placeholder="Search">
-		                    <input type="button" id="search" value="검색" onclick="pointSearch()">
-	                    </div>
-                        <div class="point-pageBar pageBar"></div>
-                    </div>
-                </div>
-                </section>
-                <section>
-                <div class="point-container">
-                    <div class="point-content">
-                        <div class="point-title-wrapper">
-                            <div class="board-title">신고 접수 내역</div>
-                            <div class="input">
-		                        <select name="condition" id="reportFilterSelect">
-		                            <option value="reportNo" selected>번호</option>
+			</section>
+            <section class="content-section">
+                <div class="content-container">
+                	<div class="content-title-wrapper">
+                    	<div class="content-title">신고 내역</div>
+	                   	<div class="filter-wrapper">
+						    <select name="condition" id="report-filter-select">
+						        <option value="reportNo" selected>번호</option>
 		                            <option value="reportType">유형</option>
 		                            <option value="reportContent">신고내용</option>
 		                            <option value="processingContent">처리내용</option>
 		                            <option value="reportDate">날짜</option>
 		                            <option value="status">처리상태</option>
-		                        </select>
-	                    	</div>
-                        </div>
-                        <table class="report-table table">
-                            <thead>
-                                <tr>
-                                    <th>번호</th>
-                                    <th>신고 유형</th>
-                                    <th>신고 내용</th>
-                                    <th>처리 내용</th>
-                                    <th>날짜</th>
-                                    <th>처리상태</th>
-                                </tr>
-                            </thead>
-                            <tbody class="report-tbody"></tbody>
-                        </table>
-                        <div>
-	                        <select name="condition" id="reportSearchFilterSelect">
-		                        <option value="reportNo" selected>번호</option>
-		                        <option value="reportContent">내용</option>
-		                    </select>
-		                    <input type="search" name="reportSearch" id="reportSearch" placeholder="Search">
-		                    <input type="button" id="search" value="검색" onclick="reportSearch()">
-	                    </div>
-                        <div class="report-pageBar pageBar"></div>
-                    </div>
+						    </select>
+						</div>
+                   	</div>
+					<table class="long-table report-table">
+					    <thead class="long-thead report-thead">
+					    	<tr class="long-tr">
+					    		<th>번호</th>
+                                <th>신고 유형</th>
+                                <th>신고 내용</th>
+                                <th>처리 내용</th>
+                                <th>날짜</th>
+                                <th>처리상태</th>
+					    	</tr>
+					    </thead>
+					    <tbody class="long-tbody report-list"></tbody>
+					</table>
+					<div class="search-wrapper">
+						<select name="condition" id="report-search-filter-select">
+			                <option value="boardNo" selected>번호</option>
+			                <option value="content">내용</option>
+						</select>
+						<input type="search" class="search-input report-search-input" placeholder="검색어를 입력하세요">
+						<input type="button" class="search-button report-search-button" value="검색" onclick="pointSearch()">
+					</div>
+                	<div class="report-pageBar pageBar"></div>
                 </div>
-            </section>
+			</section>
         </div>
     </div>
     <script>
-	    var isLoading = false;
 	    var boardOffset = 0;
 	    var commentOffset = 0;
-	    var boardSelectedValue = 'boardNo';
-	    var boardSearchSelect = '';
-	    var boardSearchValue = '';
-	    var commentSelectedValue = 'boardNo';
-	    var commentSearchSelect = '';
-	    var commentSearchValue = '';
-	    var pointSelectedValue = 'pointNo';
-	    var pointSearchSelect = '';
-	    var pointSearchValue = '';
-	    var reportSelectedValue = 'reportNo';
-	    var reportSearchSelect = '';
-	    var reportSearchValue = '';
+	    var pointOffset = 0;
+	    var reportOffset = 0;
+	    var boardFilterValue = 'boardNo';
+	    var commentFilterValue = 'boardNo';
+	    var pointFilterValue = 'pointNo';
+	    var reportFilterValue = 'reportNo';
+	    var boardSearchSelect = null;
+	    var commentSearchSelect = null;
+	    var pointSearchSelect = null;
+	    var reportSearchSelect = null;
+	    var boardSearchValue = null;
+	    var commentSearchValue = null;
+	    var pointSearchValue = null;
+	    var reportSearchValue = null;
 	
 	    $(document).ready(function() {
-	    	loadBoardData(boardSearchSelect, boardSearchValue);
-	    	loadCommentData(commentSearchSelect, commentSearchValue);
-	    	loadPointData(0, pointSearchSelect, pointSearchValue);
-	    	loadReportData(0, reportSearchSelect, reportSearchValue);
+	    	getBoardList(boardSearchSelect, boardSearchValue);
+	    	getCommentList(boardSearchSelect, boardSearchValue);
+	    	getPointList(0, pointSearchSelect, pointSearchValue);
+	    	getReportList(0, reportSearchSelect, reportSearchValue);
 	    });
 	    
-	    $('.boardList').scroll(function() {
+	    $('.board-list').scroll(function() {
 	        if($(this).scrollTop() + $(this).innerHeight() + 70 >= $(this)[0].scrollHeight) {
-	            if (!isLoading) {
-	                isLoading = true;
-	                loadBoardData(boardSearchSelect, boardSearchValue);
-	            }
+            	getBoardList(boardSearchSelect, boardSearchValue);
 	        }
 	    });
 	    
-	    $('.commentList').scroll(function() {
+	    $('.comment-list').scroll(function() {
 	        if($(this).scrollTop() + $(this).innerHeight() + 70 >= $(this)[0].scrollHeight) {
-	            if (!isLoading) {
-	                isLoading = true;
-	                loadCommentData(commentSearchSelect, commentSearchValue);
-	            }
+	        	getCommentList(boardSearchSelect, boardSearchValue);
 	        }
 	    });
 	    
-	    $('#boardFilterSelect').change(function(){
-	    	boardSelectedValue = $(this).val();
-	    	$('.boardList').empty();
+	    $('#board-filter-select').change(function(){
+	    	boardFilterValue = $(this).val();
+	    	$('.board-list').empty();
 	    	boardOffset = 0;
-	    	loadBoardData(boardSearchSelect, boardSearchValue);
+	    	getBoardList(boardSearchSelect, boardSearchValue);
 	    });
 
-	    $('#commentFilterSelect').change(function(){
+	    $('#comment-filter-select').change(function(){
 	    	commentSelectedValue = $(this).val();
-	    	$('.commentList').empty();
+	    	$('.comment-list').empty();
 	    	commentOffset = 0;
-	    	loadCommentData(commentSearchSelect, commentSearchValue);
+	    	getCommentList(commentSearchSelect, commentSearchValue);
 	    });
 	    
-	    $('#pointFilterSelect').change(function(){
+	    $('#point-filter-select').change(function(){
 	    	pointSelectedValue = $(this).val();
 	    	$('.point-tbody').empty();
-	    	loadPointData(0, pointSearchSelect, pointSearchValue);
+	    	getPointList(0, pointSearchSelect, pointSearchValue);
 	    });
 	    
-	    $('#reportFilterSelect').change(function(){
+	    $('#report-filter-select').change(function(){
 	    	reportSelectedValue = $(this).val();
 	    	$('.report-tbody').empty();
-	    	loadReportData(0, reportSearchSelect, reportSearchValue);
+	    	getReportList(0, reportSearchSelect, reportSearchValue);
 	    });
 	    
 	    function boardSearch(){
-	    	boardSearchSelect = $('#boardSearchFilterSelect').val();
-	    	boardSearchValue = $('#boardSearch').val();
-	    	$('#boardSearch').val('');
-	    	$('.boardList').empty();
+	    	boardSearchSelect = $('#board-filter-select').val();
+	    	boardSearchValue = $('#board-search-input').val();
+	    	$('#board-search-input').val('');
+	    	$('.board-list').empty();
 	    	boardOffset = 0;
 	    	loadBoardData(boardSearchSelect, boardSearchValue);
 	    }
 
-	    function loadBoardData(boardSearchSelect, boardSearchValue) {
+	    function getBoardList(boardSearchSelect, boardSearchValue) {
 	    	if(boardSearchSelect == undefined){
 	    		boardSearchSelect = null;
 	    		boardSearchValue = null;
@@ -575,7 +567,7 @@
 	        });
 	    };
 	    
-	    function pointSearch(){
+	    function getPointList(){
 	    	commentSearchSelect = $('#pointSearchFilterSelect').val();
 	    	commentSearchValue = $('#pointSearch').val();
 	    	$('#pointSearch').val('');
@@ -617,6 +609,7 @@
 	    }
 
 	    function updatePointPagination(data) {
+	    	console.log(data);
 	        let userPaging = document.querySelector('.point-pageBar');
 	        let pagination = '';
 	        
