@@ -7,12 +7,8 @@
     <meta charset="UTF-8">
     <title>Login Form</title>
     <link rel="stylesheet" href="resources/css/user/login.css">
-    
-    
-    
-    
-    
 	<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+	<script src="https://t1.kakaocdn.net/kakao_js_sdk/${VERSION}/kakao.min.js" integrity="${INTEGRITY_VALUE}" crossorigin="anonymous"></script>
 </head>
 <body class="body-login">
    <jsp:include page="../common/header.jsp"/>
@@ -29,6 +25,7 @@
             <div id="id-error-message" class="error-message"></div>
             <input type="password" class="input-pwd" id="pwd" placeholder="비밀번호를 입력해주세요" class="in" name="">
             <div id="pwd-error-message" class="error-message"></div>
+            <input type="submit" id="btn" value="이메일 로그인">
             <br>
        	<div class="a-login">
             <a class ="findIdBtn" >아이디찾기</a>
@@ -37,10 +34,9 @@
         </div>
             <br>
             <br>
-            <input type="submit" id="btn" value="이메일 로그인">
-            <button id="go-kakao">카카오로 로그인</button>
-            <button id="go-naver">네이버로 로그인</button>
         </form>
+       <button id="go-kakao" onclick="location.href = '/'">카카오로 로그인</button>
+       <button id="go-naver">네이버로 로그인</button>
     </div>
     
     <!-- 아이디 찾기 페이지  -->
@@ -136,6 +132,10 @@
     </main>
     <jsp:include page="../common/footer.jsp"/>
 	<script>
+		Kakao.init('613219f2943fa9cbe4fff314968bf471');
+		console.log(Kakao.isInitialized());
+		Kakao.isInitialized();
+		
 		function email_check() {
 			var id = document.getElementById("id"); 
 			var pw = document.getElementById("pwd");

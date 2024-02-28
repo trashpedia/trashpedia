@@ -3,6 +3,7 @@ package com.kks.trashpedia.member.model.vo;
 import java.sql.Date;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -10,7 +11,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
+@Builder
 public class Member {
+	private String socialId;	
+	private String socialType;
+	
 	private int userNo;
 	private int roleNo;
 	private int gradeNo;
