@@ -1,6 +1,7 @@
 package com.kks.trashpedia.board.model.dao;
 
 import java.sql.Date;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,7 +22,7 @@ import com.kks.trashpedia.board.model.vo.SubCategory;
 import com.kks.trashpedia.trash.model.vo.Trash;
 
 @Repository
-public class BoardDaoImpl implements BoardDao{
+public class BoardDaoImpl implements BoardDao {
 	@Autowired
 	private SqlSessionTemplate session;
 
@@ -31,12 +32,14 @@ public class BoardDaoImpl implements BoardDao{
 	}
 
 	@Override
-	public Page<Board> boardList(int subCategoryNo, Pageable pageable, int page, String filter, String searchSelect, String searchValue) {
+	public Page<Board> boardList(int subCategoryNo, Pageable pageable, int page, String filter, String searchSelect,
+			String searchValue) {
 		Map<String, Object> param = new HashMap<>();
 		param.put("filter", filter);
 		param.put("searchSelect", searchSelect);
 		param.put("searchValue", searchValue);
-		List<Board> pages = session.selectList("boardMapper.boardList",param, new RowBounds(page, pageable.getPageSize()));
+		List<Board> pages = session.selectList("boardMapper.boardList", param,
+				new RowBounds(page, pageable.getPageSize()));
 		int totalCount = session.selectOne("boardMapper.boardCount", param);
 		return new PageImpl<>(pages, pageable, totalCount);
 	}
@@ -56,100 +59,96 @@ public class BoardDaoImpl implements BoardDao{
 		return session.selectList("boardMapper.categoryList");
 	}
 
-	
-	
 	// 무료 페이지
-			@Override
-			public List<Trash> getFreeTrashList() {
-		        try {
-		            return session.selectList("boardMapper.getFreeTrashList");
-		        } catch (MyBatisSystemException e) {
-		            // 예외 처리: 로깅하고 사용자에게 오류 메시지 반환
-		            e.printStackTrace();
-		            return null;// 또는 null 등 적절한 값으로 처리
-		        }
-			}
+	@Override
+	public List<Trash> getFreeTrashList() {
+	    try {
+	        return session.selectList("boardMapper.getFreeTrashList");
+	    } catch (MyBatisSystemException e) {
+	        // 예외 처리: 로깅하고 사용자에게 오류 메시지 반환 또는 기본값 반환
+	        e.printStackTrace();
+	        return Collections.emptyList(); // 빈 리스트 반환하거나 다른 기본값 반환
+	    }
+	}
 
-			@Override
-			public String getImageUrlByTrashNo(int trashNo) {
-			    try {
-			        return session.selectOne("boardMapper.getImageUrlByTrashNo", trashNo);
-			    } catch (MyBatisSystemException e) {
-			        // 예외 처리: 로깅하고 사용자에게 오류 메시지 반환
-			        e.printStackTrace();
-			        return null; // 또는 적절한 오류 처리
-			    }
-			}
 
-			@Override
-			public String getTrashTitleByTrashNo(int trashNo) {
-			    try {
-			        return session.selectOne("boardMapper.getTrashTitleByTrashNo()", trashNo);
-			    } catch (MyBatisSystemException e) {
-			        // 예외 처리: 로깅하고 사용자에게 오류 메시지 반환
-			        e.printStackTrace();
-			        return null; // 또는 적절한 오류 처리
-			    }
-			}
+	@Override
+	public String getImageUrlByTrashNo(int trashNo) {
+		try {
+			return session.selectOne("boardMapper.getImageUrlByTrashNo", trashNo);
+		} catch (MyBatisSystemException e) {
+			// 예외 처리: 로깅하고 사용자에게 오류 메시지 반환
+			e.printStackTrace();
+			return null; // 또는 적절한 오류 처리
+		}
+	}
 
-			@Override
-			public String getTrashContentByTrashNo(int trashNo) {
-			    try {
-			        return session.selectOne("boardMapper.getTrashContentByTrashNo", trashNo);
-			    } catch (MyBatisSystemException e) {
-			        // 예외 처리: 로깅하고 사용자에게 오류 메시지 반환
-			        e.printStackTrace();
-			        return null; // 또는 적절한 오류 처리
-			    }
-			}
-			
-			
-			// 무료 상세 페이지
+	@Override
+	public String getTrashTitleByTrashNo(int trashNo) {
+		try {
+			return session.selectOne("boardMapper.getTrashTitleByTrashNo()", trashNo);
+		} catch (MyBatisSystemException e) {
+			// 예외 처리: 로깅하고 사용자에게 오류 메시지 반환
+			e.printStackTrace();
+			return null; // 또는 적절한 오류 처리
+		}
+	}
 
-			@Override
-			public Trash getFreeTrashDetail(int trashNo) {
-			    try {
-			        return session.selectOne("boardMapper.getFreeTrashDetail", trashNo);
-			    } catch (MyBatisSystemException e) {
-			        // 예외 처리: 로깅하고 사용자에게 오류 메시지 반환
-			        e.printStackTrace();
-			        return null; // 또는 적절한 오류 처리
-			    }
-			}
+	@Override
+	public String getTrashContentByTrashNo(int trashNo) {
+		try {
+			return session.selectOne("boardMapper.getTrashContentByTrashNo", trashNo);
+		} catch (MyBatisSystemException e) {
+			// 예외 처리: 로깅하고 사용자에게 오류 메시지 반환
+			e.printStackTrace();
+			return null; // 또는 적절한 오류 처리
+		}
+	}
 
-			@Override
-			public String getTrashWriterByTrashNo(int trashNo) {
-			    try {
-			        return session.selectOne("boardMapper.getTrashWriterByTrashNo", trashNo);
-			    } catch (MyBatisSystemException e) {
-			        // 예외 처리: 로깅하고 사용자에게 오류 메시지 반환
-			        e.printStackTrace();
-			        return null; // 또는 적절한 오류 처리
-			    }
-			}
+	// 무료 상세 페이지
 
-			@Override
-			public String getTrashCreateByTrashNo(int trashNo) {
-			    try {
-			        return session.selectOne("boardMapper.getTrashCreateByTrashNo", trashNo);
-			    } catch (MyBatisSystemException e) {
-			        // 예외 처리: 로깅하고 사용자에게 오류 메시지 반환getTrashViewsByTrashNo
-			        e.printStackTrace();
-			        return null; // 또는 적절한 오류 처리
-			    }
-			}
+	@Override
+	public Trash getFreeTrashDetail(int trashNo) {
+		try {
+			return session.selectOne("boardMapper.getFreeTrashDetail", trashNo);
+		} catch (MyBatisSystemException e) {
+			// 예외 처리: 로깅하고 사용자에게 오류 메시지 반환
+			e.printStackTrace();
+			return null; // 또는 적절한 오류 처리
+		}
+	}
 
-			@Override
-			public Date getTrashViewsByTrashNo(int trashNo) {
-			    try {
-			        return session.selectOne("boardMapper.getTrashViewsByTrashNo", trashNo);
-			    } catch (MyBatisSystemException e) {
-			        // 예외 처리: 로깅하고 사용자에게 오류 메시지 반환
-			        e.printStackTrace();
-			        return null; // 또는 적절한 오류 처리
-			    }
-			}
-	
-	
-	
+	@Override
+	public String getTrashWriterByTrashNo(int trashNo) {
+		try {
+			return session.selectOne("boardMapper.getTrashWriterByTrashNo", trashNo);
+		} catch (MyBatisSystemException e) {
+			// 예외 처리: 로깅하고 사용자에게 오류 메시지 반환
+			e.printStackTrace();
+			return null; // 또는 적절한 오류 처리
+		}
+	}
+
+	@Override
+	public String getTrashCreateByTrashNo(int trashNo) {
+		try {
+			return session.selectOne("boardMapper.getTrashCreateByTrashNo", trashNo);
+		} catch (MyBatisSystemException e) {
+			// 예외 처리: 로깅하고 사용자에게 오류 메시지 반환getTrashViewsByTrashNo
+			e.printStackTrace();
+			return null; // 또는 적절한 오류 처리
+		}
+	}
+
+	@Override
+	public Date getTrashViewsByTrashNo(int trashNo) {
+		try {
+			return session.selectOne("boardMapper.getTrashViewsByTrashNo", trashNo);
+		} catch (MyBatisSystemException e) {
+			// 예외 처리: 로깅하고 사용자에게 오류 메시지 반환
+			e.printStackTrace();
+			return null; // 또는 적절한 오류 처리
+		}
+	}
+
 }

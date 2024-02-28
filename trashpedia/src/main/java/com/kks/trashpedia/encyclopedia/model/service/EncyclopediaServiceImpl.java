@@ -16,22 +16,31 @@ public class EncyclopediaServiceImpl implements EncyclopediaService{
 	private EncyclopediaDao encDao;
 	
 
+	// Default 아무거나 가져옴
     @Override
     public List<Trash> getAllTrashList() {
         return encDao.getAllTrashList();
     }
-
+    
+    // 검색 기능
+    @Override
+    public int searchTrash(String searchText) {
+    	return encDao.searchTrash(searchText);
+    }
+    
+    //카테고리 선택시
     @Override
     public List<Trash> getTrashListByCategory(String category) {
         return encDao.getTrashListByCategory(category);
     }
 
+    // Trash정보가져오기
 	@Override
 	public Trash getTrashByNo(int trashNo) {
 		// TODO Auto-generated method stub
 		return encDao.getTrashByNo(trashNo);
 	}
-
+	// Trash 이미지 가져오기
 	@Override
 	public String getImageUrlByTrashNo(int trashNo) {
 		// TODO Auto-generated method stub
@@ -55,6 +64,7 @@ public class EncyclopediaServiceImpl implements EncyclopediaService{
 		// TODO Auto-generated method stub
 		return encDao.getTrashTitleByTrashNo(trashNo);
 	}
+
 	
 
 }
