@@ -10,12 +10,19 @@ public class WebMvcConfig implements WebMvcConfigurer{
 
 	  @Override
 	    public void addInterceptors(InterceptorRegistry registry) {
+		  
 		  	//BoardInterceptor 등록
 	        registry.addInterceptor(new BoardInterceptor())
 	                .addPathPatterns("/trashlist/**")
 	                .addPathPatterns("/board/**")
 	                .addPathPatterns("/pledge/**")
-	        		.addPathPatterns("/boardInformation/**"); 
+	        		.addPathPatterns("/boardInformation/**");
+	        		//.errorPage("/error");
+	        
+	        // 에러페이지 등록예정
+//	        registry.addInterceptor(new CustomInterceptor())
+//	                .addPathPatterns("/customPath/**");
+	        
 	    }
 	    
 	
