@@ -46,6 +46,9 @@ public interface PledgeDao {
 	//댓글수정
 	int updateComment(Comment comment);
 
+	//댓글삭제
+	int deleteComment(Comment comment);
+
 
 
 
