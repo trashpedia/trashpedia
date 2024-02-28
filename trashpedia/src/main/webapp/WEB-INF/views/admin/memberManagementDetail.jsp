@@ -16,93 +16,111 @@
     <jsp:include page="../common/sidebar.jsp"/>
     <div class="content-wrapper">
         <div class="content">
-            <section class="search-section">
-                <div class="search-container">
-                    <div class="search-title">회원 상세 정보</div>
-                </div>
-            </section>
-            <section class="member-section">
-                <div class="member-container">
-                    <div class="grade-container">
-                        <div class="grade-item-wrapper">
-                            <div class="grade-item">
-                                <div class="grade-item-icon">★</div>
-                                <div class="grade-item-title">포인트</div>
-                                <div class="grade-item-subtitle"><fmt:formatNumber type="number" pattern="#,##0" value="${m.point}"/></div>
-                            </div>
-                            <div class="grade-item">
-                                <div class="grade-item-icon">👑</div>
-                                <div class="grade-item-title">등급</div>
-                                <div class="grade-item-subtitle">${m.gradeName}</div>
-                            </div>
-                            <div class="grade-item">
-                                <div class="grade-item-icon">🔒</div>
-                                <div class="grade-item-title">권한</div>
-                                <div class="grade-item-subtitle">${m.roleName}</div>
-                            </div>
-                            <div class="grade-item">
-                                <div class="grade-item-icon"></div>
-                                <div class="grade-item-title">생성일</div>
-                                <div class="grade-item-subtitle">${m.createDate}</div>
-                            </div>
-                            <div class="grade-item">
-                                <div class="grade-item-icon"></div>
-                                <div class="grade-item-title">수정일</div>
-                                <c:if test="${not empty m.modifyDate}">
-	                                <div class="grade-item-subtitle">${m.modifyDate}</div>
-                                </c:if>
-                                <c:if test="${empty m.modifyDate}">
-	                                <div class="grade-item-subtitle">수정 없음</div>
-                                </c:if>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="member-info-list">
-                        <div class="member-item">
-                            <div class="title">이메일</div>
-                            <div class="subtitle">${m.userEmail}</div>
-                        </div>
-                        <div class="member-item">
-                            <div class="title">이름</div>
-                            <div class="subtitle">${m.userName}</div>
-                        </div>
-                        <div class="member-item">
-                            <div class="title">닉네임</div>
-                            <div class="subtitle">${m.userNickname}</div>
-                        </div>
-                        <div class="member-item">
-                            <div class="title">전화번호</div>
-                            <div class="subtitle">${not empty m.phone ? m.phone : '정보 없음'}</div>
-                        </div>
-                        <div class="member-item">
-                            <div class="title">주소</div>
-                            <div class="subtitle">${not empty m.address1 ? m.zipcode + ' ' + m.address1 + ' ' + m.address2 + ' ' + m.address3 : '정보 없음'}</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="member-board-container">
-                    <div class="board-container">
-                        <div class="board-title-wrapper">
-                            <div class="board-title">작성 게시글</div>
-                            <div class="board-subtitle">총 ${b}개</div>
-                        </div>
-                        <div class="input">
-	                        <select name="condition" id="boardFilterSelect">
-	                            <option value="boardNo" selected>번호</option>
-	                            <option value="bigCategoryName">빅카테고리</option>
-	                            <option value="subCategoryName">서브카테고리</option>
-	                            <option value="title">제목</option>
-	                        </select>
+            <div class="practice-section">
+			    <p>회원상세관리</p>
+			    <p>member detail management</p>
+			</div>
+			<section class="content-section">
+                <div class="content-container">
+	                <div class="member-item-wrapper">
+	                    <div class="member-item">
+	                        <div class="member-item-title">포인트</div>
+	                        <div class="member-item-subtitle"><fmt:formatNumber type="number" pattern="#,##0" value="${m.point}"/></div>
 	                    </div>
-                        <table>
-						    <thead class="board-thead"></thead>
-						    <tbody class="boardList list"></tbody>
-						</table>
-						<select name="condition" id="boardSearchFilterSelect">
-	                        <option value="boardNo" selected>번호</option>
-	                        <option value="title">제목</option>
-	                        <option value="content">내용</option>
-	                    </select>
+	                    <div class="member-item">
+	                        <div class="member-item-title">등급</div>
+	                        <div class="member-item-subtitle">${m.gradeName}</div>
+	                    </div>
+	                    <div class="member-item">
+	                        <div class="member-item-title">권한</div>
+	                        <div class="member-item-subtitle">${m.roleName}</div>
+	                    </div>
+	                    <div class="member-item">
+	                        <div class="member-item-title">생성일</div>
+	                        <div class="member-item-subtitle">${m.createDate}</div>
+	                    </div>
+	                    <div class="member-item">
+	                        <div class="member-item-title">수정일</div>
+	                        <c:if test="${not empty m.modifyDate}">
+	                         <div class="member-item-subtitle">${m.modifyDate}</div>
+	                        </c:if>
+	                        <c:if test="${empty m.modifyDate}">
+	                         <div class="member-item-subtitle">수정 없음</div>
+	                        </c:if>
+	                    </div>
+	                </div>
+	                <div class="member-item-wrapper">
+                        <div class="member-item">
+                            <div class="member-item-title">회원번호</div>
+                            <div class="member-item-subtitle">${m.userNo}</div>
+                        </div>
+                        <div class="member-item">
+                            <div class="member-item-title">이메일</div>
+                            <div class="member-item-subtitle">${m.userEmail}</div>
+                        </div>
+                        <div class="member-item">
+                            <div class="member-item-title">이름</div>
+                            <div class="member-item-subtitle">${m.userName}</div>
+                        </div>
+                        <div class="member-item">
+                            <div class="member-item-title">닉네임</div>
+                            <div class="member-item-subtitle">${m.userNickname}</div>
+                        </div>
+                        <div class="member-item">
+                            <div class="member-item-title">전화번호</div>
+                            <div class="member-item-subtitle">${not empty m.phone ? m.phone : '정보 없음'}</div>
+                        </div>
+                    </div>
+	                <div class="member-item-wrapper">
+                        <div class="member-item">
+                            <div class="member-item-title">주소</div>
+                            <div class="member-item-subtitle">${not empty m.address1 ? m.zipcode + ' ' + m.address1 + ' ' + m.address2 + ' ' + m.address3 : '정보 없음'}</div>
+                        </div>
+                    </div>
+            	</div>
+           	</section>
+           	<section class="content-section">
+				<div class="content-container">
+				    <div class="content-title-wrapper">
+				        <div class="content-title">작성 게시글</div>
+				        <div class="content-subtitle">총 <fmt:formatNumber type="number" pattern="#,##0" value="${b}"/>개</div>
+					</div>
+					<div class="filter-wrapper">
+					    <select name="condition" id="board-filter-select">
+					        <option value="boardNo" selected>번호</option>
+					        <option value="bigCategoryNo">대분류</option>
+					        <option value="subCategoryNo">소분류</option>
+					        <option value="title">제목</option>
+					    </select>
+					</div>
+					<table class="content-table board-table">
+					    <thead class="content-thead board-thead">
+					    	<tr class="content-tr">
+					    		<th>번호</th>
+					    		<th>대분류</th>
+					    		<th>소분류</th>
+					    		<th>제목</th>
+					    	</tr>
+					    </thead>
+					    <tbody class="content-tbody board-list"></tbody>
+					</table>
+					<div class="search-wrapper">
+						<select name="condition" id="board-search-filter-select">
+			                <option value="boardNo" selected>번호</option>
+			                <option value="title">제목</option>
+			                <option value="content">내용</option>
+						</select>
+						<input type="search" class="search-input user-search-input" placeholder="검색어를 입력하세요">
+						<input type="button" class="search-button user-search-button" value="검색" onclick="search()">
+					</div>
+				</div>
+				<div class="content-container">
+				    <div class="content-title-wrapper">
+				    	<div class="content-title">회원 요약</div>
+				    </div>
+				    <div class="user-detail-list list"></div>
+				</div>
+			</section>
 	                    <input type="search" name="boardSearch" id="boardSearch" placeholder="Search">
 	                    <input type="button" id="search" value="검색" onclick="boardSearch()">
                     </div>
@@ -111,6 +129,8 @@
                         <div class="boardDetail list"></div>
                     </div>
                 </div>
+                </section>
+                <section>
                 <div class="member-board-container">
                     <div class="board-container">
                         <div class="board-title-wrapper">
@@ -141,6 +161,8 @@
                         <div class="commentDetail list"></div>
                     </div>
                 </div>
+                </section>
+                <section>
                 <div class="point-container">
                     <div class="point-content">
                         <div class="point-title-wrapper">
@@ -176,6 +198,8 @@
                         <div class="point-pageBar pageBar"></div>
                     </div>
                 </div>
+                </section>
+                <section>
                 <div class="point-container">
                     <div class="point-content">
                         <div class="point-title-wrapper">

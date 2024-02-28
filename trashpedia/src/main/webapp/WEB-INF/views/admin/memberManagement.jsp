@@ -27,7 +27,7 @@
 				        <div class="content-subtitle">총 <fmt:formatNumber type="number" pattern="#,##0" value="${cam}"/>명</div>
 					</div>
 					<div class="filter-wrapper">
-					    <select name="condition" id="filterSelect">
+					    <select name="condition" id="filter-select">
 					        <option value="userNo" selected>번호</option>
 					        <option value="userEmail">이메일</option>
 					        <option value="userName">이름</option>
@@ -35,74 +35,75 @@
 					    </select>
 					</div>
 					<table class="content-table user-table">
-					    <thead class="content-thead user-thead"></thead>
+					    <thead class="content-thead user-thead">
+					    	<tr class="content-tr">
+					    		<th>번호</th>
+					    		<th>이메일</th>
+					    		<th>이름</th>
+					    		<th>닉네임</th>
+					    	</tr>
+					    </thead>
 					    <tbody class="content-tbody user-list"></tbody>
 					</table>
 					<div class="search-wrapper">
-						<select name="condition" id="searchFilterSelect">
+						<select name="condition" id="search-filter-select">
 			                <option value="userNo" selected>번호</option>
 			                <option value="userName">이메일</option>
 			                <option value="userName">이름</option>
 			                <option value="userNickname">닉네임</option>
 						</select>
-						<input type="search" id="user-search" placeholder="검색어를 입력하세요">
-						<input type="button" id="search" value="검색" onclick="search()">
+						<input type="search" class="user-search-input" placeholder="검색어를 입력하세요">
+						<input type="button" class="user-search-button" value="검색" onclick="search()">
 					</div>
 				</div>
 				<div class="content-container">
-				    <div class="content-title">회원 상세</div>
-				    <div class="userDetailList list"></div>
+				    <div class="content-title-wrapper">
+				    	<div class="content-title">회원 요약</div>
+				    </div>
+				    <div class="user-detail-list list"></div>
 				</div>
 			</section>
 	    </div>
 	</div>
     <script>
-	    var isLoading = false;
-	    var offset = 0;
-	    var selectedValue = 'userNo';
-	    var searchSelect = '';
-	    var searchValue = '';
+	    var memberOffset = 0;
+	    var filterValue = 'userNo';
+	    var searchSelect = null;
+	    var searchValue = null;
 
 	    $(document).ready(function() {
-	    	loadData(searchSelect, searchValue);
+	    	getMemberList(searchSelect, searchValue);
 	    });
 	    $('.user-list').scroll(function() {
 	        if($(this).scrollTop() + $(this).innerHeight() + 70 >= $(this)[0].scrollHeight) {
-	            if (!isLoading) {
-	                isLoading = true;
-	                loadData(searchSelect, searchValue);
-	            }
+	        	getMemberList(searchSelect, searchValue);
 	        }
 	    });
-	    $('#filterSelect').change(function(){
-	    	selectedValue = $(this).val();
+	    $('#filter-select').change(function(){
+	    	filterValue = $(this).val();
 	    	$('.user-list').empty();
-	    	offset = 0;
-	    	loadData(searchSelect, searchValue);
+	    	memberOffset = 0;
+	    	getMemberList(searchSelect, searchValue);
 	    });
 	    function search(){
-	    	searchSelect = $('#searchFilterSelect').val();
-	    	searchValue = $('#search').val();
-	    	$('#search').val('');
+	    	searchSelect = $('#search-filter-select').val();
+	    	searchValue = $('#user-search-input').val();
+	    	$('#user-search-input').val('');
 	    	$('.user-list').empty();
 	    	offset = 0;
-	    	loadData(searchSelect, searchValue);
+	    	getMemberList(searchSelect, searchValue);
 	    }
 
-	    function loadData(searchSelect, searchValue) {
-	    	if(searchSelect == undefined){
-	    		searchSelect = null;
-	    		searchValue = null;
-	    	}
+	    function getMemberList(searchSelect, searchValue) {
 	        $.ajax({
 	            url: '${contextPath}/admin/getMemberList',
 	            type: 'GET',
 	            dataType: 'json',
-	            data: { page: offset, size: 20, sort: selectedValue, searchSelect, searchValue},
+	            data: { page: memberOffset, size: 20, sort: filterValue, searchSelect: searchSelect, searchValue: searchValue},
 	            success: function(data) {
 	            	if(data.content.length != 0){
-		                updateTable(data);
-		                offset += 1;
+		                updateMemberTable(data.content);
+		                memberOffset += 1;
 		                isLoading = false;
 	            	}
 	            },
@@ -113,43 +114,23 @@
 	        });
 	    }
 
-	    function updateTable(data) {
-	    	let thead = document.querySelector('.user-thead');
-	    	thead.innerHTML = '';
-	    	let tr = document.createElement('tr');
-	    	let th1 = document.createElement('th');
-	    	th1.textContent = '번호';
-	    	let th2 = document.createElement('th');
-	    	th2.textContent = '이메일';
-	    	let th3 = document.createElement('th');
-	    	th3.textContent = '이름';
-	    	let th4 = document.createElement('th');
-	    	th4.textContent = '별명';
-
-	    	tr.appendChild(th1);
-	    	tr.appendChild(th2);
-	    	tr.appendChild(th3);
-	    	tr.appendChild(th4);
-	    	thead.appendChild(tr);
-	    	
+	    function updateMemberTable(data) {
 	        let userList = document.querySelector('.user-list');
-	        let list = data.content;
-	        for (let i = 0; i < list.length; i++) {
+	        for (let i = 0; i < data.length; i++) {
 	            let row = document.createElement('tr');
 	            row.classList.add('content-tr');
 	            
 	            let cell1 = document.createElement('td');
-	            cell1.textContent = list[i].userNo;
-	            cell1.classList.add('td-no');
+	            cell1.textContent = data[i].userNo;
 	            
 	            let cell2 = document.createElement('td');
-	            cell2.textContent = list[i].userEmail;
+	            cell2.textContent = data[i].userEmail;
 	            
 	            let cell3 = document.createElement('td');
-	            cell3.textContent = list[i].userName;
+	            cell3.textContent = data[i].userName;
 	            
 	            let cell4 = document.createElement('td');
-	            cell4.textContent = list[i].userNickname;
+	            cell4.textContent = data[i].userNickname;
 	            
 	            row.appendChild(cell1);
 	            row.appendChild(cell2);
@@ -157,57 +138,111 @@
 	            row.appendChild(cell4);
 	            
 	            row.addEventListener('click', function() {
-	                loadDetailData(list[i].userNo);
+	                loadMemberDetail(data[i].userNo);
 	            });
 	            userList.appendChild(row);
 	        }
 	    }
 
-	    function loadDetailData(userNo) {
+	    function loadMemberDetail(userNo) {
 	        $.ajax({
 	            url: '${contextPath}/admin/getMemberListDetail',
 	            type: 'GET',
 	            dataType: 'json',
 	            data: {userNo},
 	            success: function(data) {
-	            	let userList = document.querySelector('.userDetailList');
+	            	let userList = document.querySelector('.user-detail-list');
 	            	userList.innerHTML = '';
-    	            let row = '<div class="item">';
-    	            row += '<div class="title">번호 :</div>';
-    	            row += '<div class="subtitle">'+data.userNo+'</div>';
-    	            row += '</div>';
-    	            row += '<div class="item">';
-    	            row += '<div class="title">이메일 : </div>';
-    	            row += '<div class="subtitle">'+data.userEmail+'</div>';
-    	            row += '</div>';
-    	            row += '<div class="item">';
-    	            row += '<div class="title">이름 : </div>';
-    	            row += '<div class="subtitle">'+data.userName+'</div>';
-    	            row += '</div>';
-    	            row += '<div class="item">';
-    	            row += '<div class="title">별명 : </div>';
-    	            if(data.userNickname == null){
-	    	            row += '<div class="subtitle">없음</div>';
-    	            } else {
-	    	            row += '<div class="subtitle">'+data.userNickname+'</div>';
-    	            }
-    	            row += '</div>';
-    	            row += '<div class="item">';
-    	            row += '<div class="title">주소 : </div>';
-    	            if(data.address1 == null){
-    		            row += '<div class="subtitle">없음</div>';
-    	            } else {
-	    	            row += '<div class="subtitle">'+data.address1+data.address2+'</div>';
-    	            }
-    	            row += '</div>';
-    	            row += '<div class="item">';
-    	            row += '<div class="title">생성일 : </div>';
-    	            row += '<div class="subtitle">'+data.createDate+'</div>';
-    	            row += '</div>';
-    	            row += '<div class="item">';
-    	            row += '<input type="button" value="상세보기" onclick="detailmember('+data.userNo+')"/>';
-    	            row += '</div>';
-    	            userList.innerHTML += row;
+	            	
+	            	let row1 = document.createElement('div');
+	            	row1.classList.add('item');
+	            	let cell1 = document.createElement('div');
+	            	cell1.classList.add('title');
+	            	cell1.textContent = '번호 : ';
+	            	let cell2 = document.createElement('div');
+	            	cell2.classList.add('subtitle');
+	            	cell2.textContent = data.userNo;
+	            	row1.appendChild(cell1);
+	            	row1.appendChild(cell2);
+	            	
+	            	let row2 = document.createElement('div');
+	            	row2.classList.add('item');
+	            	let cell3 = document.createElement('div');
+	            	cell3.classList.add('title');
+	            	cell3.textContent = '이메일 : ';
+	            	let cell4 = document.createElement('div');
+	            	cell4.classList.add('subtitle');
+	            	cell4.textContent = data.userEmail;
+	            	row2.appendChild(cell3);
+	            	row2.appendChild(cell4);
+
+	            	let row3 = document.createElement('div');
+	            	row3.classList.add('item');
+	            	let cell5 = document.createElement('div');
+	            	cell5.classList.add('title');
+	            	cell5.textContent = '이름 : ';
+	            	let cell6 = document.createElement('div');
+	            	cell6.classList.add('subtitle');
+	            	cell6.textContent = data.userName;
+	            	row3.appendChild(cell5);
+	            	row3.appendChild(cell6);
+
+	            	let row4 = document.createElement('div');
+	            	row4.classList.add('item');
+	            	let cell7 = document.createElement('div');
+	            	cell7.classList.add('title');
+	            	cell7.textContent = '닉네임 : ';
+	            	let cell8 = document.createElement('div');
+	            	cell8.classList.add('subtitle');
+	            	if(data.userNickname == null){
+		            	cell8.textContent = '없음';
+	            	} else {
+		            	cell8.textContent = data.userNickname;
+	            	}
+	            	row4.appendChild(cell7);
+	            	row4.appendChild(cell8);
+	            	
+	            	let row5 = document.createElement('div');
+	            	row5.classList.add('item');
+	            	let cell9 = document.createElement('div');
+	            	cell9.classList.add('title');
+	            	cell9.textContent = '주소 : ';
+	            	let cell10 = document.createElement('div');
+	            	cell10.classList.add('subtitle');
+	            	if(data.address1 == null){
+		            	cell10.textContent = '없음';
+	            	} else{
+		            	cell10.textContent = data.address1 +' '+ data.address2;
+	            	}
+	            	row5.appendChild(cell9);
+	            	row5.appendChild(cell10);
+	            	
+	            	let row6 = document.createElement('div');
+	            	row6.classList.add('item');
+	            	let cell11 = document.createElement('div');
+	            	cell11.classList.add('title');
+	            	cell11.textContent = '생성일 : ';
+	            	let cell12 = document.createElement('div');
+	            	cell12.classList.add('subtitle');
+	            	cell12.textContent = data.createDate;
+	            	row6.appendChild(cell11);
+	            	row6.appendChild(cell12);
+
+	            	let button = document.createElement('input');
+	            	button.setAttribute('type', 'button');
+	            	button.setAttribute('value', '상세보기');
+	            	button.classList.add('detail-button');
+	            	button.addEventListener('click', function() {
+	            	    memberDetail(data.userNo);
+	            	});
+	            	
+    	            userList.appendChild(row1);
+    	            userList.appendChild(row2);
+    	            userList.appendChild(row3);
+    	            userList.appendChild(row4);
+    	            userList.appendChild(row5);
+    	            userList.appendChild(row6);
+    	            userList.appendChild(button);
     	        },
 	            error: function(xhr, status, error) {
 	                console.error('Error: ' + error);
@@ -216,7 +251,7 @@
 	        });
 	    };
 
-        function detailmember(userNo){
+        function memberDetail(userNo){
             location.href="${contextPath}/admin/member/detail?userNo=" + userNo;
         }
     </script>

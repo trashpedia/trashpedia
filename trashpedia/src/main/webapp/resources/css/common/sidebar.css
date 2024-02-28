@@ -1,12 +1,18 @@
 @charset "EUC-KR";
 
 /* 관리자 공통 부분 */
+*{
+	padding:0;
+	font-family: Roboto;
+}
+
 .body {
     background: white;
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
 }
+
 a{
     color: black;
 }
