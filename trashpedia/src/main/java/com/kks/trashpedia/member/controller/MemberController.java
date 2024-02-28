@@ -1,17 +1,14 @@
 package com.kks.trashpedia.member.controller;
 
-import java.security.Provider.Service;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -19,12 +16,15 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.kks.trashpedia.member.model.service.MemberService;
 import com.kks.trashpedia.member.model.vo.Member;
 
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
 @SessionAttributes("loginUser")
 public class MemberController {
-	
+
+	@Autowired
+	private BCryptPasswordEncoder passwordEncoder;
 	
 	@Autowired
 	private MemberService service;
@@ -52,21 +52,26 @@ public class MemberController {
 		return "user/myPage";
 	}
 	
+
+	@CrossOrigin(origins = "http://localhost:8085")
 	@PostMapping("join.me")
-	public ModelAndView joinMember(Member m) {
+	public ModelAndView joinMember(@RequestBody Member m, HttpServletResponse res) {
+		String encodedPassword = passwordEncoder.encode(m.getUserPwd());
+		m.setUserPwd(encodedPassword);
+		
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("main");
 		System.out.println("되냐?");
 		System.out.println(m);
-		
 	
-		service.joinMember(m);
-		
-		return mav;
+
+	service.joinMember(m);
+			return mav;
 	}
 	
 
 	//로그인기능
+	
 	@PostMapping("login.me")
 	public ModelAndView loginMember(@ModelAttribute Member m, HttpSession session, Model model, ModelAndView mv) {
 		
