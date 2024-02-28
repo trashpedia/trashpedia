@@ -8,13 +8,21 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>커뮤니티</title>
-<link rel="stylesheet" href="../css/community/boardMain.css">
-<link rel="stylesheet"
-	href="/src/main/webapp/resources/css/board/boardMain.css">
 <link rel="stylesheet"
 	href="${contextPath}/resources/css/board/boardMain.css">
-
 </head>
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+<!-- css -->
+<link rel="stylesheet" href="css/mainPage.css">
+
+
+<!-- slick 라이브러리 CSS -->
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
+<!-- slick 라이브러리 테마 CSS (선택사항) -->
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css" />
+<!-- slick 라이브러리 JS -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
 <body>
 
 	<jsp:include page="../common/header.jsp" />
@@ -23,92 +31,93 @@
 
 		<div id="container">
 
-
 			<div class="practice-section">
 				<p>커뮤니티</p>
 				<p>Reduce Reuse Recycle Recovery</p>
 			</div>
-				
-			    <c:forEach var="s" items="${sc}">
-			        <c:if test="${s.bigCategoryNo == 1}">
-			            <li>
-			                <a href="${contextPath}/boardList?subCategoryNo=${s.subCategoryNo}&filter=createDate&searchSelect=&searchValue=&page=0">
-			                    ${s.subCategoryName} <!-- 예시로 소분류 이름을 링크 텍스트로 사용 -->
-			                </a>
-<%-- 			                <span>${boardList.date}</span>  --%>
-			            </li>
-			        </c:if>
-			    </c:forEach>
-
-
 
 			<section id="idx_board_wrap">
 				<div>
+
 					<!-- 공지사항 섹션 -->
-					<div class="idx_board">
-						<div class="title">
-							<a href="${contextPath}/boardList?subCategoryNo=${board.subCategoryNo}&filter=createDate&searchSelect=&searchValue=&page=0" class="name">공지사항</a> 
-						</div>
-						<div class="list">
-							<ul>
-								<c:forEach var="board" items="${boardList}">
-									<li><a
-										href="${contextPath}/boardList?subCategoryNo=${board.subCategoryNo}&filter=createDate&searchSelect=&searchValue=&page=0"></a>
-										<span>${boardList.date}</span></li>
-								</c:forEach>
-							</ul>
-						</div>
-					</div>
-					
-					<!-- 일반게시판 섹션 -->
-					<div class="idx_board">
-						<div class="title">
-							<a href="${contextPath}/boardNotice?bigCategoryNo=1&subCategoryNo=2" class="name">일반게시판</a> 
-						</div>
-						<div class="list">
-							<ul>
-								<c:forEach var="post" items="${generalList}">
-									<li><a
-										href="${contextPath}/boardNotice/${post.postNo}">${post.title}</a>
-										<span>${post.date}</span></li>
-								</c:forEach>
-							</ul>
-						</div>
-					</div>
-
-					<!-- 무료나눔게시판 섹션 -->
-					<div class="idx_board">
-						<div class="title">
-							<a href="${contextPath}/boardNotice?bigCategoryNo=1&subCategoryNo=4" class="name">무료나눔게시판</a> 
-						</div>
-						<div class="list">
-							<ul>
-								<c:forEach var="freePost" items="${freeList}">
-									<li><a
-										href="${contextPath}/boardNotice/${freePost.postNo}">${freePost.title}</a>
-										<span>${freePost.date}</span></li>
-								</c:forEach>
-							</ul>
-						</div>
-					</div>
-
-					<!-- 건의게시판 섹션 -->
-					<div class="idx_board">
-						<div class="title">
-							<a href="${contextPath}/boardNotice?bigCategory=1&subCategory=3" class="name">건의게시판</a>
+					<c:forEach var="sc" items="${sc}">
+						<c:if test="${sc.bigCategoryNo == 1}">
+						
+							<div class="idx_board">
 							
-						</div>
-						<div class="list">
-							<ul>
-								<c:forEach var="suggestion" items="${suggestionList}">
-									<li><a
-										href="${contextPath}/board/suggestion/detail/${post.postNo}">${post.title}</a>
-										<span>${post.date}</span></li>
-								</c:forEach>
-							</ul>
-						</div>
-					</div>
-				</div>
+								<div class="title">
+									<a href="${contextPath}/boardList?subCategoryNo=${sc.subCategoryNo}&filter=createDate&searchSelect=&searchValue=&page=0">
+										${sc.subCategoryName} </a>
+								</div>
+								
+								<div class="list">
+									<ul>
+										<c:forEach var="p" items="${post}">
+<%-- 											<c:if test="${p.subCategoryNo == sc.subCategoryNo}"> --%>
+												<li>
+													<a href="${contextPath}/boardNotice/${p.postNo}">${p.title}</a>
+													<span>${p.createDate}</span>
+												</li>
+<%-- 											</c:if> --%>
+										</c:forEach>
+									</ul>
+								</div>
+								
+							</div>
+							
+						</c:if>
+					</c:forEach>
+
+
+					<!-- 					일반게시판 섹션 -->
+					<!-- 					<div class="idx_board"> -->
+					<!-- 						<div class="title"> -->
+					<%-- 							<a href="${contextPath}/boardNotice?bigCategoryNo=1&subCategoryNo=2" class="name">일반게시판</a>  --%>
+					<!-- 						</div> -->
+					<!-- 						<div class="list"> -->
+					<!-- 							<ul> -->
+					<%-- 								<c:forEach var="p" items="${post}"> --%>
+					<!-- 									<li><a -->
+					<%-- 										href="${contextPath}/boardNotice/${p.postNo}">${p.title}</a> --%>
+					<%-- 										<span>${p.createDate}</span></li> --%>
+					<%-- 								</c:forEach> --%>
+					<!-- 							</ul> -->
+					<!-- 						</div> -->
+					<!-- 					</div> -->
+
+					<!-- 					무료나눔게시판 섹션 -->
+					<!-- 					<div class="idx_board"> -->
+					<!-- 						<div class="title"> -->
+					<%-- 							<a href="${contextPath}/boardNotice?bigCategoryNo=1&subCategoryNo=4" class="name">무료나눔게시판</a>  --%>
+					<!-- 						</div> -->
+					<!-- 						<div class="list"> -->
+					<!-- 							<ul> -->
+					<%-- 								<c:forEach var="freePost" items="${freeList}"> --%>
+					<!-- 									<li><a -->
+					<%-- 										href="${contextPath}/boardNotice/${freePost.postNo}">${freePost.title}</a> --%>
+					<%-- 										<span>${freePost.date}</span></li> --%>
+					<%-- 								</c:forEach> --%>
+					<!-- 							</ul> -->
+					<!-- 						</div> -->
+					<!-- 					</div> -->
+
+					<!-- 					건의게시판 섹션 -->
+					<!-- 					<div class="idx_board"> -->
+					<!-- 						<div class="title"> -->
+					<%-- 							<a href="${contextPath}/boardNotice?bigCategory=1&subCategory=3" class="name">건의게시판</a> --%>
+
+					<!-- 						</div> -->
+					<!-- 						<div class="list"> -->
+					<!-- 							<ul> -->
+					<%-- 								<c:forEach var="suggestion" items="${suggestionList}"> --%>
+					<!-- 									<li><a -->
+					<%-- 										href="${contextPath}/board/suggestion/detail/${post.postNo}">${post.title}</a> --%>
+					<%-- 										<span>${post.date}</span></li> --%>
+					<%-- 								</c:forEach> --%>
+					<!-- 							</ul> -->
+					<!-- 						</div> -->
+					<!-- 					</div> -->
+					<!-- 				</div> -->
 			</section>
 
 

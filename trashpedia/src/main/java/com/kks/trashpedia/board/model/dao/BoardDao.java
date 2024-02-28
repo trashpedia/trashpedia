@@ -19,6 +19,8 @@ public interface BoardDao {
 	List<BigCategory> bigCategory();
 
 	List<SubCategory> subCategory();
+
+	List<Post> categoryList();
 	
 
 	

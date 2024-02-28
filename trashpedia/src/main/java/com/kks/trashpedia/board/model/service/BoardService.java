@@ -18,5 +18,7 @@ public interface BoardService {
 	/*카테고리*/
 	List<BigCategory> bigCategory();
 	List<SubCategory> subCategory();
+	List<Post> categoryList();
+	
 	
 }

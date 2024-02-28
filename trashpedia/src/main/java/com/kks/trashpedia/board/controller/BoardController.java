@@ -30,9 +30,13 @@ public class BoardController {
 	public ModelAndView boardMain() {
 		List<BigCategory> bc = service.bigCategory();
 		List<SubCategory> sc = service.subCategory();
+		List<Post> post = service.categoryList();
 		ModelAndView mav = new ModelAndView();
+		System.out.println("subCategory : "+ sc);
+		System.out.println("post : "+post);
 		mav.addObject("bc",bc);
 		mav.addObject("sc",sc);
+		mav.addObject("post",post);
 		mav.setViewName("board/boardMain");
 		return mav;
 	}

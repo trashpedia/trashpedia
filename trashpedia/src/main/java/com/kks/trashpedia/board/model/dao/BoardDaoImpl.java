@@ -48,6 +48,11 @@ public class BoardDaoImpl implements BoardDao{
 		return session.selectList("boardMapper.subCategory");
 	}
 
+	@Override
+	public List<Post> categoryList() {
+		return session.selectList("boardMapper.categoryList");
+	}
+
 	
 	
 	

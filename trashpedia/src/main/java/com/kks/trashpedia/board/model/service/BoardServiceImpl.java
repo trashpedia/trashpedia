@@ -38,6 +38,11 @@ public class BoardServiceImpl implements BoardService{
 	public List<SubCategory> subCategory() {
 		return dao.subCategory();
 	}
+
+	@Override
+	public List<Post> categoryList() {
+		return dao.categoryList();
+	}
 	
 
 	
