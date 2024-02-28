@@ -84,6 +84,8 @@
 	    var boardSearchSelect = '';
 	    var boardSearchValue = '';
 	    var subCategoryNo = 2;
+	    var scCount = 0;
+	    var scChange = false;
 		
 	    $(document).ready(function() {
 	    	loadSubCategoryList(1);
@@ -93,7 +95,7 @@
 	        if($(this).scrollTop() + $(this).innerHeight() + 70 >= $(this)[0].scrollHeight) {
 	            if (!isLoading) {
 	                isLoading = true;
-	                loadBoardDetailData(subCategoryNo, boardSearchSelect, boardSearchValue);
+	                loadBoardListData(subCategoryNo, boardSearchSelect, boardSearchValue);
 	            }
 	        }
 	    });
@@ -119,7 +121,7 @@
 	            url: '${contextPath}/admin/getSubCategoryList',
 	            type: 'GET',
 	            dataType: 'json',
-	            data: { bigCategoryNo },
+	            data: {bigCategoryNo},
 	            success: function(data) {
 	            	if(data.length != 0){
 		                updateSubCategoryTable(data);
@@ -147,9 +149,27 @@
 	            userList.innerHTML += row;
 	        }
 	    }
+	    function loadBoardCount(subCategoryNo){
+	    	$.ajax({
+	    		url: '${contextPath}/admin/loadBoardCount',
+	    		type: 'GET',
+	    		dataType: 'json',
+	    		data:{subCategoryNo},
+	    		success: function(data){
+	    			scCount = data;
+	    		}
+	    	})
+	    }
 	    
-	    function loadBoardListData(subCategoryNo, boardSearchSelect, boardSearchValue) {
-	    	subCategoryNo = subCategoryNo;
+	    function loadBoardListData(sn, boardSearchSelect, boardSearchValue) {
+	    	if(subCategoryNo != sn){
+	    		console.log("초기화");
+		    	subCategoryNo = sn;
+		    	scChange = true;
+		    	offset = 0;
+	    	} else {
+	    		scChange = false;
+	    	}
 	    	if(boardSearchSelect == undefined){
 	    		boardSearchSelect = null;
 	    		boardSearchValue = null;
@@ -158,7 +178,7 @@
 	            url: '${contextPath}/admin/loadBoardListData',
 	            type: 'GET',
 	            dataType: 'json',
-	            data: { page: offset, size: 20, subCategoryNo, sort: boardSelectedValue, searchSelect: boardSearchSelect, searchValue: boardSearchValue},
+	            data: {page: offset, size: 20, subCategoryNo: sn, sort: boardSelectedValue, searchSelect: boardSearchSelect, searchValue: boardSearchValue},
 	            success: function(data) {
 	            	if(data.content.length != 0){
 		                updateBoardTable(data);
@@ -174,13 +194,16 @@
 	    }
 
 	    function updateBoardTable(data) {
+	    	loadBoardCount(subCategoryNo);
 	        let count = document.querySelector('.board-List-title');
 	        let userList = document.querySelector('.boardList');
 	        let list = data.content;
 	        count.innerHTML = '';
-	        userList.innerHTML = '';
+	        if(scChange){
+	        	userList.innerHTML = '';
+	        }
 	        let title = '<div class="boardList-title title">게시글 리스트</div>';
-            title += '<div class="boardList-subtitle">총 '+list.length+'개</div>';
+            title += '<div class="boardList-subtitle">총 '+scCount+'개</div>';
             count.innerHTML += title;
 	        for (let i = 0; i < list.length; i++) {
 	            let row = '<tr class="item" onclick="loadBoardDetailData('+list[i].boardNo+')">';

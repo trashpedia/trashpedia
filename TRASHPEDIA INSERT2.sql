@@ -2,7 +2,7 @@
 DECLARE
     a NUMBER;
 BEGIN
-    FOR i IN 1..50 LOOP
+    FOR i IN 1..70 LOOP
         a := SEQ_MNO.NEXTVAL;
         INSERT INTO MEMBER VALUES (
             a,
@@ -67,7 +67,7 @@ BEGIN
     END LOOP;
     COMMIT;
 END;
-
+/
 -- 댓글 작성
 DECLARE
     a NUMBER;
@@ -97,7 +97,7 @@ BEGIN
     END LOOP;
     COMMIT;
 END;
-
+/
 -- 대댓글 작성
 DECLARE
     c NUMBER;
@@ -126,7 +126,7 @@ BEGIN
     END LOOP;
     COMMIT;
 END;
-
+/
 -- 포인트 적립
 DECLARE
     a NUMBER;
@@ -154,3 +154,4 @@ BEGIN
     END LOOP;
     COMMIT;
 END;
+/

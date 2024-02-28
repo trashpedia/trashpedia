@@ -181,14 +181,14 @@
                         <div class="point-title-wrapper">
                             <div class="board-title">신고 접수 내역</div>
                             <div class="input">
-	                        <select name="condition" id="reportFilterSelect">
-	                            <option value="reportNo" selected>번호</option>
-	                            <option value="reportType">유형</option>
-	                            <option value="reportContent">신고내용</option>
-	                            <option value="processingContent">처리내용</option>
-	                            <option value="reportDate">날짜</option>
-	                            <option value="status">처리상태</option>
-	                        </select>
+		                        <select name="condition" id="reportFilterSelect">
+		                            <option value="reportNo" selected>번호</option>
+		                            <option value="reportType">유형</option>
+		                            <option value="reportContent">신고내용</option>
+		                            <option value="processingContent">처리내용</option>
+		                            <option value="reportDate">날짜</option>
+		                            <option value="status">처리상태</option>
+		                        </select>
 	                    	</div>
                         </div>
                         <table class="report-table table">
@@ -294,7 +294,7 @@
 	    	boardOffset = 0;
 	    	loadBoardData(boardSearchSelect, boardSearchValue);
 	    }
-	
+
 	    function loadBoardData(boardSearchSelect, boardSearchValue) {
 	    	if(boardSearchSelect == undefined){
 	    		boardSearchSelect = null;
@@ -520,32 +520,26 @@
 	            	let userList = document.querySelector('.commentDetail');
 	            	userList.innerHTML = '';
     	            let row = '<div class="item">';
-    	            row += '<div class="icon">😃</div>';
     	            row += '<div class="title">제목 :</div>';
     	            row += '<div class="subtitle">'+data.title+'</div>';
     	            row += '</div>';
     	            row += '<div class="item">';
-    	            row += '<div class="icon">😃</div>';
     	            row += '<div class="title">내용 : </div>';
     	            row += '<div class="subtitle">'+data.content+'</div>';
     	            row += '</div>';
     	            row += '<div class="item">';
-    	            row += '<div class="icon">😃</div>';
     	            row += '<div class="title">댓글 : </div>';
     	            row += '<div class="subtitle">'+data.commentContent+'</div>';
     	            row += '</div>';
     	            row += '<div class="item">';
-    	            row += '<div class="icon">😃</div>';
     	            row += '<div class="title">생성일 : </div>';
     	            row += '<div class="subtitle">'+data.createDate+'</div>';
     	            row += '</div>';
     	            row += '<div class="item">';
-    	            row += '<div class="icon">😃</div>';
     	            row += '<div class="title">수정일 : </div>';
     	            row += '<div class="subtitle">'+data.modifyDate+'</div>';
     	            row += '</div>';
     	            row += '<div class="item">';
-    	            row += '<div class="icon">😃</div>';
     	            row += '<input type="button" value="상세보기" onclick="loadBoardDetail('+data.boardNo+')"/>';
     	            row += '</div>';
     	            userList.innerHTML += row;
@@ -561,7 +555,7 @@
 	    	commentSearchSelect = $('#pointSearchFilterSelect').val();
 	    	commentSearchValue = $('#pointSearch').val();
 	    	$('#pointSearch').val('');
-	    	$('.pointtList').empty();
+	    	$('.pointList').empty();
 	    	loadPointData(0, pointSearchSelect, pointSearchValue);
 	    }
 	    
@@ -589,7 +583,7 @@
 	        let list = data.content;
 	        for (let i = 0; i < list.length; i++) {
 	            let row = '<tr>';
-	            row += '<td>😃</td>';
+	            row += '<td>'+list[i].pointNo+'</td>';
 	            row += '<td>'+list[i].pointContent+'</td>';
 	            row += '<td>'+list[i].amount+'</td>';
 	            row += '<td>'+list[i].pointDate+'</td>';

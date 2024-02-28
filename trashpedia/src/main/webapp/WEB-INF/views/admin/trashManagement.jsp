@@ -19,14 +19,6 @@
             <section class="search-section">
                 <div class="search-container">
                     <div class="search-title">쓰레기 관리</div>
-                    <div class="input">
-                        <select name="condition" id="filterSelect">
-                            <option value="userNo" selected>번호</option>
-                            <option value="userName">제목</option>
-                        </select>
-                        <input type="search" name="search" id="search" placeholder="Search">
-                        <input type="button" id="search" value="검색">
-                    </div>
                 </div>
             </section>
             <section class="trash-section">
@@ -36,17 +28,24 @@
                         <table class="trash-table">
                             <thead>
                                 <tr>
-                                    <th>쓰레기 번호</th>
-                                    <th>쓰레기 대분류</th>
-                                    <th>쓰레기 소분류</th>
-                                    <th>쓰레기 이름</th>
-                                    <th>쓰레기 작성일</th>
-                                    <th>쓰레기 수정일</th>
-                                    <th>비고</th>
+	                                <th>쓰레기 번호</th>
+	                                <th>쓰레기 대분류</th>
+	                                <th>쓰레기 소분류</th>
+	                                <th>쓰레기 이름</th>
+	                                <th>쓰레기 작성일</th>
+	                                <th>쓰레기 수정일</th>
+	                                <th>비고</th>
                                 </tr>
                             </thead>
                             <tbody class="trash-tbody"></tbody>
                         </table>
+                        <div>
+	                        <select name="condition" id="trashSearchFilterSelect">
+		                        <option value="trashTitle">이름</option>
+		                    </select>
+		                    <input type="search" name="trashSearch" id="trashSearch" placeholder="Search">
+		                    <input type="button" id="search" value="검색" onclick="trashSearch()">
+	                    </div>
                         <div class="pageBar"></div>
                     </div>
                 </div>
@@ -65,21 +64,44 @@
     </div>
     <script>
 	    var isLoading = false;
+	    var trashOffset = 0;
 	    var suggestionOffset = 0;
 	    var requestOffset = 0;
 		
 	    $(document).ready(function() {
-	    	getTrashList(1);
+	    	getTrashList(0);
 	    	loadSuggestionListData();
 	    	loadRequestListData();
 	    });
+
+	    $('#trashFilterSelect').change(function(){
+	    	trashSelectedValue = $(this).val();
+	    	$('.trashList').empty();
+	    	trashOffset = 0;
+	    	loadtrashData(trashSearchSelect, trashSelectedValue);
+	    });
+	    
+	    
+	    function trashSearch(){
+	    	trashSearchSelect = $('#trashSearchFilterSelect').val();
+	    	trashSearchValue = $('#trashSearch').val();
+	    	$('#trashSearch').val('');
+	    	$('.trashList').empty();
+	    	getTrashList(0, trashSearchSelect, trashSearchValue);
+	    }
     
-	    function getTrashList(page) {
+	    function getTrashList(page, trashSearchSelect, trashSearchValue) {
+	    	if(trashSearchSelect == undefined){
+	    		trashSearchSelect = null;
+	    	}
+	    	if(trashSearchValue == undefined){
+	    		trashSearchValue == null;
+	    	}
 	        $.ajax({
 	            url: '${contextPath}/admin/getTrashList',
 	            type: 'GET',
 	            dataType: 'json',
-	            data: { page: page, size: 20},
+	            data: {page: page, size: 10, sort: , searchSelect: trashSearchSelect, searchValue: trashSearchValue},
 	            success: function(data) {
                 	updateTrashTable(data);
                     updateTrashPagination(data);
@@ -89,7 +111,7 @@
 	            }
 	        });
 	    }
-	
+	    
 	    function updateTrashTable(data) {
 	    	console.log(data);
 			let title = document.querySelector('.trash-board-title');
@@ -97,8 +119,19 @@
 	        title.innerHTML = '';
 	    	userList.innerHTML = '';
 	    	let r = '<div class="trash-board-title">쓰레기 게시글</div>';
-	    	r += '<div class="trash-board-subtitle">총 '+data.content.length+'개</div>';
-	    	r += '<input class="trash-write" type="button" onclick="writeTrash()" value="글쓰기">';
+		    	r += '<div class="trash-board-subtitle">총 '+data.content.length+'개</div>';
+				r += '<div class="input">';
+				r += '<select name="condition" id="trashFilterSelect">';
+				r += '<option value="trashNo" selected>번호</option>';
+				r += '<option value="bigCategoryNo">대분류</option>';
+				r += '<option value="subCategoryNo">소분류</option>';
+				r += '<option value="trashTitle">이름</option>';
+				r += '<option value="createDate">생성날짜</option>';
+				r += '<option value="modifyDate">수정날짜</option>';
+				r += '<option value="status">처리상태</option>';
+				r += '</select>';
+				r += '</div>';
+		    	r += '<input class="trash-write" type="button" onclick="writeTrash()" value="글쓰기">';
 	    	title.innerHTML += r;
 	        let list = data.content;
 	        for (let i = 0; i < list.length; i++) {
@@ -111,6 +144,8 @@
 	            row += '<td class="button"><input type="button" onclick="modify('+list[i].trashNo+')" value="수정"/><input type="button" onclick="delete('+list[i].trashNo+')" value="삭제"/></td>';
 	            row += '</tr>';
 	            userList.innerHTML += row;
+	            
+	            
 	        }
 	    }
 	

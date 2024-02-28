@@ -215,13 +215,13 @@ public class AdminDaoImpl implements AdminDao{
 	}
 
 	@Override
-	public Page<Board> loadBoardListData(Pageable pageable, int subCategoryNo, String sort, String searchSelect, String searchValue) {
+	public Page<Board> loadBoardListData(Pageable pageable, int page, int subCategoryNo, String sort, String searchSelect, String searchValue) {
 		Map<String, Object> param = new HashMap<>();
 		param.put("subCategoryNo", subCategoryNo);
 		param.put("sort", sort);
 		param.put("searchSelect", searchSelect);
 		param.put("searchValue", searchValue);
-		List<Board> boards = session.selectList("adminMapper.loadBoardListData",param, new RowBounds((int) pageable.getOffset(), pageable.getPageSize()));
+		List<Board> boards = session.selectList("adminMapper.loadBoardListData",param, new RowBounds(page, pageable.getPageSize()));
 		int totalCount = session.selectOne("adminMapper.boardListCount",param);
 		return new PageImpl<>(boards, pageable, totalCount);
 	}
@@ -252,8 +252,8 @@ public class AdminDaoImpl implements AdminDao{
 		return new PageImpl<>(r, pageable, totalCount);
 	}
 
-
-
-
-	
+	@Override
+	public int loadBoardCount(int subCategoryNo) {
+		return session.selectOne("adminMapper.boardListCount",subCategoryNo);
+	}
 }
