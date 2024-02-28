@@ -25,6 +25,10 @@ public interface BoardService {
 	List<SubCategory> subCategory();
 	List<Post> categoryList();
 
+	
+	
+	
+	
 	// 무료 페이지
 	List<Trash> getFreeTrashList();
 	String getImageUrlByTrashNo(int trashNo);

@@ -23,6 +23,9 @@ public interface BoardDao {
 	List<SubCategory> subCategory();
 
 	List<Post> categoryList();
+
+	
+	
 	
 	/* 무료나눔 */
 	List<Trash> getFreeTrashList();

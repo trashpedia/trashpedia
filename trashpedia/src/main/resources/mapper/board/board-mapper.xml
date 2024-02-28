@@ -41,38 +41,77 @@
 		VALUES (SEQ_IATTNO.NEXTVAL, #{refBno},#{originName},#{changeName},1,#{imgType},SYSDATE,SYSDATE,'Y')
 	</insert>
 	
-	<!-- 목록 띄우기 -->
+<!-- 	목록 띄우기 -->
+<!-- 	<select id="boardList" resultType="post"> -->
+<!-- 	    SELECT P.POST_NO, P.TITLE, P.CONTENT, P.CREATE_DATE, P.MODIFY_DATE, P.STATUS, B.BOARD_NO, SC.SUB_CATEGORY_NAME, M.USER_NAME, COUNT(H.HITS_NO) AS hitCount -->
+<!-- 	    FROM BOARD B -->
+<!-- 	    LEFT JOIN POST P ON (P.POST_NO = B.POST_NO) -->
+<!-- 	    LEFT JOIN SUB_CATEGORY SC ON B.SUB_CATEGORY_NO = SC.SUB_CATEGORY_NO -->
+<!-- 	    LEFT JOIN MEMBER M ON B.USER_NO = M.USER_NO -->
+<!-- 	    LEFT JOIN HITS H ON B.BOARD_NO = H.BOARD_NO -->
+<!-- 	    WHERE -->
+<!-- 	        B.SUB_CATEGORY_NO = #{subCategoryNo} -->
+<!-- 	        AND P.STATUS='Y' -->
+<!-- 	    <if test="searchSelect != null"> -->
+<!-- 	    	<if test="searchSelect == 'boardNo'"> -->
+<!-- 	    		AND B.BOARD_NO = #{searchValue} -->
+<!-- 	    	</if> -->
+<!-- 	    	<if test="searchSelect == 'title'"> -->
+<!-- 	    		AND P.TITLE = #{searchValue} -->
+<!-- 	    	</if> -->
+<!-- 	    	<if test="searchSelect == 'content'"> -->
+<!-- 	    		AND P.CONTENT = #{searchValue} -->
+<!-- 	    	</if> -->
+<!-- 	    </if> -->
+<!-- 	    GROUP BY P.POST_NO, P.TITLE, P.CONTENT, P.CREATE_DATE, P.MODIFY_DATE, P.STATUS, B.BOARD_NO, SC.SUB_CATEGORY_NAME, M.USER_NAME -->
+<!-- 	    ORDER BY -->
+<!-- 	    <if test="filter == 'createDate'"> -->
+<!-- 	    	CREATE_DATE DESC -->
+<!-- 	    </if> -->
+<!-- 	    <if test="filter == 'hitCount'"> -->
+<!-- 	    	hitCount DESC -->
+<!-- 	    </if> -->
+<!-- 	</select> -->
+	
+	
 	<select id="boardList" resultType="post">
-	    SELECT P.POST_NO, P.TITLE, P.CONTENT, P.CREATE_DATE, P.MODIFY_DATE, P.STATUS, B.BOARD_NO, SC.SUB_CATEGORY_NAME, M.USER_NAME, COUNT(H.HITS_NO) AS hitCount
+	    SELECT P.POST_NO, P.TITLE, P.CONTENT, P.CREATE_DATE, P.MODIFY_DATE, P.STATUS, B.BOARD_NO, SC.SUB_CATEGORY_NAME, M.USER_NAME
 	    FROM BOARD B
 	    LEFT JOIN POST P ON (P.POST_NO = B.POST_NO)
 	    LEFT JOIN SUB_CATEGORY SC ON B.SUB_CATEGORY_NO = SC.SUB_CATEGORY_NO
 	    LEFT JOIN MEMBER M ON B.USER_NO = M.USER_NO
 	    LEFT JOIN HITS H ON B.BOARD_NO = H.BOARD_NO
-	    WHERE
-	        B.SUB_CATEGORY_NO = #{subCategoryNo}
-	        AND P.STATUS='Y'
-	    <if test="searchSelect != null}">
-	    	<if test="searchSelect == 'boardNo'">
-	    		AND B.BOARD_NO = #{searchValue}
-	    	</if>
-	    	<if test="searchSelect == 'title'">
-	    		AND P.TITLE = #{searchValue}
-	    	</if>
-	    	<if test="searchSelect == 'content'">
-	    		AND P.CONTENT = #{searchValue}
-	    	</if>
-	    </if>
-	    GROUP BY P.POST_NO, P.TITLE, P.CONTENT, P.CREATE_DATE, P.MODIFY_DATE, P.STATUS, B.BOARD_NO, SC.SUB_CATEGORY_NAME, M.USER_NAME
-	    ORDER BY
-	    <if test="filter == 'createDate'">
-	    	CREATE_DATE DESC
-	    </if>
-	    <if test="filter == 'hitCount'">
-	    	hitCount DESC
-	    </if>
+<!-- 	    WHERE -->
+<!-- 	        B.SUB_CATEGORY_NO = #{subCategoryNo} -->
+<!-- 	        AND P.STATUS='Y' -->
+<!-- 	    <if test="searchSelect != null"> -->
+<!-- 	    	<if test="searchSelect == 'boardNo'"> -->
+<!-- 	    		AND B.BOARD_NO = #{searchValue} -->
+<!-- 	    	</if> -->
+<!-- 	    	<if test="searchSelect == 'title'"> -->
+<!-- 	    		AND P.TITLE = #{searchValue} -->
+<!-- 	    	</if> -->
+<!-- 	    	<if test="searchSelect == 'content'"> -->
+<!-- 	    		AND P.CONTENT = #{searchValue} -->
+<!-- 	    	</if> -->
+<!-- 	    </if> -->
+<!-- 	    GROUP BY P.POST_NO, P.TITLE, P.CONTENT, P.CREATE_DATE, P.MODIFY_DATE, P.STATUS, B.BOARD_NO, SC.SUB_CATEGORY_NAME, M.USER_NAME -->
+<!-- 	    ORDER BY -->
+<!-- 	    <if test="filter == 'createDate'"> -->
+<!-- 	    	CREATE_DATE DESC -->
+<!-- 	    </if> -->
+<!-- 	    <if test="filter == 'hitCount'"> -->
+<!-- 	    	hitCount DESC -->
+<!-- 	    </if> -->
 	</select>
+	
+	<select id="boardCount" resultType="int">
+		SELECT COUNT(*) 
+		FROM POST
+	</select>
+	
 
+	
 	
 	<!-- 상세페이지 -->
 	<select id="boardDetail" parameterType="int" resultType="post">    

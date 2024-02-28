@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -131,6 +132,7 @@ public class BoardController {
 			}
 	
 	//공지사항 목록페이지 이동
+	//@PageableDefault 페이지네이션 관련정보 자동추출)		
 	@GetMapping("/boardList")
 	public ModelAndView boardNotice(@PageableDefault(size = 15, sort = "boardNo", direction = Sort.Direction.DESC) Pageable pageable,
 			@RequestParam int subCategoryNo,
@@ -142,10 +144,17 @@ public class BoardController {
 		
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("boardList", pages);
-		System.out.println("boardList"+pages);
+		System.out.println("pages"+pages);
 		mav.setViewName("board/notice/boardList");
 		return mav;
 	}
+	
+	
+
+	
+	
+	
+	
 	
 	//건의게시판 페이지 이동
 	@GetMapping("/boardSuggestion")
