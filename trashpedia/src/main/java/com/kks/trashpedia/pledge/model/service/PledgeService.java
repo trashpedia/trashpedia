@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.kks.trashpedia.board.model.vo.Attachment;
 import com.kks.trashpedia.board.model.vo.Board;
+import com.kks.trashpedia.board.model.vo.Comment;
 import com.kks.trashpedia.board.model.vo.ImgAttachment;
 import com.kks.trashpedia.board.model.vo.Post;
 import com.kks.trashpedia.board.model.vo.SubCategory;
@@ -16,13 +17,17 @@ public interface PledgeService {
 
 	//게시글 상세조회
 	Post pledgeDetail(int postNo);
+	
 	//게시글 상세 이미지
+	
 	ImgAttachment pledgeDetailImg(int boardNo);
+	
 	//게시글 상세 첨부파일
 	Attachment pledgeDetailAttach(int boardNo);
 	
 	//처음 조회일 조회
 	Date pledgeHitDate(Board b);
+	
 	//게시글 조회수 증가
 	int increaseCount(Board b);
 
@@ -32,6 +37,14 @@ public interface PledgeService {
 
 	//카테고리정보 가져오기
 	SubCategory getCategoryNo(Post p);
+
+	
+	
+	//댓글목록조회
+	List<Comment> selectCommentList(Board b);
+	
+	//댓글등록
+	int insertComment(Comment c);
 
 
 

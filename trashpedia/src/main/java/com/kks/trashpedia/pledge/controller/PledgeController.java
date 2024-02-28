@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
@@ -14,6 +15,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.kks.trashpedia.board.model.vo.Attachment;
 import com.kks.trashpedia.board.model.vo.Board;
+import com.kks.trashpedia.board.model.vo.Comment;
 import com.kks.trashpedia.board.model.vo.ImgAttachment;
 import com.kks.trashpedia.board.model.vo.Post;
 import com.kks.trashpedia.board.model.vo.SubCategory;
@@ -76,7 +78,7 @@ public class PledgeController {
 		
 		b.setBoardNo(post.getBoardNo());
 		b.setUserNo(post.getUserNo());
-		
+	
 		//Member loginUser = (Member) session.getAttribute("loginUser");  
 
 		//조회수
@@ -145,7 +147,6 @@ public class PledgeController {
 		mav.setViewName("pledge/pledgeDetailView");
 		
 		return mav;
-		
 	}
 	
 	
@@ -175,7 +176,31 @@ public class PledgeController {
 		return mav;
 		
 	}
+	
+	// 댓글목록 조회
+	@GetMapping("/selectCommentList")
+	public List<Comment> selectCommentList(Board b){
+		List<Comment> commentList = service.selectCommentList(b);
+		return commentList;
+	}
+	
+	// 댓글등록
+	@PostMapping("/insertComment")
+	public int insertComment(Comment c) {
 
+		System.out.println("넘어오나?");
+		int result = 0;
+		System.out.println(c);
+		return service.insertComment(c);
+		
+	}
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	

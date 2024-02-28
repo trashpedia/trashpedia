@@ -63,6 +63,8 @@ public class CommonController {
 			@RequestParam int type
 			) throws IOException {
 
+		System.out.println("게시글 등록");
+		
 		ModelAndView mv = new ModelAndView();
 		
 		// post 등록
@@ -70,6 +72,9 @@ public class CommonController {
 
 		b.setPostNo(postNo);
 		b.setSubCategoryNo(subcategory.getSubCategoryNo());
+		
+		System.out.println(p);
+		System.out.println(b);
 		
 		// board 등록
 		if (postNo > 0) {

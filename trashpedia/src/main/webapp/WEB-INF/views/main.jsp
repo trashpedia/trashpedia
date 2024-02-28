@@ -421,8 +421,6 @@
 	        
 	    });
 	    
-	   
-	    
 
 	    // 스크롤 변화에 따른 header 스타일 변경
 		$(window).scroll(function() {

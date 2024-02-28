@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.kks.trashpedia.board.model.vo.Attachment;
 import com.kks.trashpedia.board.model.vo.Board;
+import com.kks.trashpedia.board.model.vo.Comment;
 import com.kks.trashpedia.board.model.vo.ImgAttachment;
 import com.kks.trashpedia.board.model.vo.Post;
 import com.kks.trashpedia.board.model.vo.SubCategory;
@@ -70,6 +71,19 @@ public class PledgeServiceImpl implements PledgeService{
 	@Override
 	public SubCategory getCategoryNo(Post p) {
 		return dao.getCategoryNo(p);
+	}
+
+	
+	//댓글 조회
+	@Override
+	public List<Comment> selectCommentList(Board b) {
+		return dao.selectCommentList(b);
+	}
+
+	//댓글등록
+	@Override
+	public int insertComment(Comment c) {
+		return dao.insertComment(c);
 	}
 
 

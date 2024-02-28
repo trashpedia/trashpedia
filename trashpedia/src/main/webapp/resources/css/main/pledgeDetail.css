@@ -120,7 +120,8 @@ button{
 }
 
 .reply_count {
-    font-size: 18px;
+	font-weight : 500;
+    font-size: 17px;
     color: #555;
     margin-left: 10px;
 }

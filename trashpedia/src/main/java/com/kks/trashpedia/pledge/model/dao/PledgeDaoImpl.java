@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.kks.trashpedia.board.model.vo.Attachment;
 import com.kks.trashpedia.board.model.vo.Board;
+import com.kks.trashpedia.board.model.vo.Comment;
 import com.kks.trashpedia.board.model.vo.ImgAttachment;
 import com.kks.trashpedia.board.model.vo.Post;
 import com.kks.trashpedia.board.model.vo.SubCategory;
@@ -69,6 +70,18 @@ public class PledgeDaoImpl implements PledgeDao{
 	@Override
 	public SubCategory getCategoryNo(Post p) {
 		return session.selectOne("pledgeMapper.getCategoryNo",p);
+	}
+
+	//댓글조회
+	@Override
+	public List<Comment> selectCommentList(Board b) {
+		return session.selectList("pledgeMapper.selectCommentList",b);
+	}
+
+	//댓글등록
+	@Override
+	public int insertComment(Comment c) {
+		return session.insert("pledgeMapper.insertComment",c);
 	}
 
 

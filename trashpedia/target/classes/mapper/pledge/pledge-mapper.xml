@@ -80,6 +80,20 @@
 		JOIN BOARD USING (SUB_CATEGORY_NO)
 		WHERE BOARD_NO = #{boardNo}
 	</select> 
+	
+	<!-- 댓글조회  -->
+	<select id="selectCommentList" parameterType="board" resultType="comment">
+		SELECT *
+		FROM "COMMENT"
+		WHERE BOARD_NO = #{boardNo} AND USER_NO = #{userNo} AND STATUS = 'Y'
+	</select>
+
+	<!-- 댓글등록 -->
+	<insert id="insertComment" parameterType="comment">
+		INSERT INTO "COMMENT" (COMMENT_NO, BOARD_NO, USER_NO, CONTENT, CREATE_DATE, MODIFY_DATE, STATUS )
+		VALUES (SEQ_CNO, #{boardNo}, #{userNo}, #{content}, SYSDATE, SYSDATE, 'Y')
+	</insert>
+	
 
 	
 </mapper>

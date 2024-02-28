@@ -65,17 +65,17 @@
             <div class="reply-outer">
                 <div class="reply-outer-top-area">
                     <span class="reply_title"> 댓글 </span> |
-                    <span class="reply_count">224</span>
+                    <span class="reply_count" id="rcount">224</span>
                 </div>
                 
                 <!-- 댓글 작성 -->
                 <div class="comment-section">
                     <textarea class="comment-input" name="replyContent" id="replyContent" rows="2" cols="50" style="resize: none; width: 100%;" placeholder="댓글을 입력하세요"></textarea>
-                    <button class="comment-button">등록</button>
+                    <button class="comment-button" onclick="insertComment()">등록</button>
                 </div>
                 
                 <div class="reply-outer-content-area">
-                    <table class="reply-table">
+                    <table class="reply-table" id="replyArea">
                         <thead>
                             <tr class="reply-table-title">
                                 <th>작성자</th>
@@ -84,7 +84,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
+                           <!--  <tr>
                                 <td>User</td>
                                 <td>
                                     <p>안녕하세요. 반갑습니다. </p>
@@ -95,39 +95,14 @@
                                 </td>
                                 <td>2023-02-18</td>
                             </tr>
-                            <tr>
-                                <td>User</td>
-                                <td>
-                                    <p>다른사람이 쓴 댓글 </p>
-                                </td>
-                                <td>2023-02-18</td>
-                            </tr>
-                            <tr>
-                                <td>User</td>
-                                <td>
-                                    <p> 나랏말싸미 듕귁에 달아
-                                        문자와로 서로 사맛디 아니할쎄 </p>
-                                    <div class="comment-buttons">
-                                        <button class="btn-edit">수정</button>
-                                        <button class="btn-delete">삭제</button>
-                                    </div>
-                                </td>
-                                <td>2023-02-18</td>
-                            </tr>
+ 
                             <tr>
                                 <td>User</td>
                                 <td>
                                     <p>댓글 내용 </p>
                                 </td>
                                 <td>2023-02-18</td>
-                            </tr>
-                            <tr>
-                                <td>User</td>
-                                <td>
-                                    <p>댓글 내용 </p>
-                                </td>
-                                <td>2023-02-18</td>
-                            </tr>
+                            </tr> -->
                         </tbody>
                     </table>
                     <div class="paging-button">
@@ -147,14 +122,7 @@
 	<jsp:include page="../common/footer.jsp"/>
 	
     <script>
-    
-	    //Viewer용 CDN을 사용할 경우
-	    const editor = new toastui.Editor({
-	        el : document.querySelector(".toast-custom-viewer"),
-	        initialValue: '글내용이 없습니다.'
-	    });
-    
-	    
+	     
 	    // 삭제확인
 	    function confirmDelete(postNo, boardNo, bigCategoryNo, subCategoryNo) {
 	        var result = confirm("게시글을 삭제하시겠습니까?");
@@ -163,6 +131,61 @@
 	            window.location.href = deleteUrl;
 	        } 
 	    }
+	
+	    //댓글목록조회
+ 	    function selectCommentList(){
+	    	$.ajax({
+    		 	url: "${contextPath}/pledge/selectCommentList",
+    		    data: { boardNo: ${post.boardNo}, userNo: ${post.userNo}},
+    		    success: function (result) {
+    		        let comments = "";
+    		        for (let comment of result) {
+    		            comments += "<tr>";
+    		            comments += "<td>" + comment.userName + "</td>";
+    		            comments += "<td><p>" + comment.content + "</p>";
+    		            comments += "<div class='comment-buttons'>" +
+    		                        "<button class='btn-edit'> 수정 </button>" +
+    		                        "<button class='btn-delete'> 삭제 </button>" +
+    		                        "</div></td>";
+    		            comments += "<td>" + comment.modifyDate + "</td>";
+    		            comments += "</tr>";
+    		        }
+    		        $("#replyArea tbody").html(comments);
+    		        $("#rcount").html(result.length);
+    		    },
+    		    error: function (xhr, status, error) {
+    		        console.log(" 댓글조회에러:", status, error);
+    		    }
+	    	})
+	    }
+ 	   selectCommentList();
+ 	   
+ 	   //댓글등록
+ 	   function insertComment(){
+ 		   console.log("댓글등록..");
+ 		   console.log("${post.boardNo}")
+ 		   $.ajax({
+ 			  url: "${contextPath}/pledge/insertComment",
+ 			  data : {
+ 				 boardNo: ${post.boardNo}, 
+ 				 userNo: ${post.userNo},
+ 				 content : $("#replyContent").val()
+ 			  },
+ 			  type : 'post',
+ 			  success : function(result){
+ 				  if(result>0){
+ 					  alert("댓글이 등록되었습니다.");
+ 				  }else{
+ 					  alert("댓글등록이 실패하였습니다.");
+ 				  }
+ 				  $("#replyContent").val("");
+ 				 selectCommentList();
+ 			  },
+ 			  error: function (xhr, status, error) {
+				console.log(" 댓글등록에러:", status, error);
+				}
+ 		   })
+ 	   }
     
     </script>
 </body>

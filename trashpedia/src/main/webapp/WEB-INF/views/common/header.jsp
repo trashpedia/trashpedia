@@ -58,7 +58,7 @@
                     </li>
                     <li id="menu-garbage-collection">
                         <div class="header-menu-div">
-                            <a href="#">집앞폐가전수거함</a>
+                            <a href="https://www.re.or.kr/comm/searchPickupGISPage.do?enpri_pick_gubun_category1=01#" target="_blank">집앞폐가전수거함</a>
                         </div>
                     </li>
                 </ul>

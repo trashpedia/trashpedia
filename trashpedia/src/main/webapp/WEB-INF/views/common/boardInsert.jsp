@@ -7,7 +7,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>실천게시글</title>
-    <link rel="stylesheet" href="${contextPath}/resources/css/main/pledgeInsert.css">
+    <link rel="stylesheet" href="${contextPath}/resources/css/common/boardInsert.css">
 	<!-- jQuery -->
 	<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 	<link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css" />
@@ -97,6 +97,7 @@
 	    
 	    // editor 내용 hidden input에 담아서 submit    
 	    function submitForm() {
+	    	console.log("보내기")
 			let content = editor.getHTML();
 			$('#hiddenContentInput').val(content);
 	    }
