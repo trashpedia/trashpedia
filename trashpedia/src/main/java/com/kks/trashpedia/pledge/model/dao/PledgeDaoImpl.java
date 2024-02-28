@@ -84,7 +84,10 @@ public class PledgeDaoImpl implements PledgeDao{
 		return session.insert("pledgeMapper.insertComment",c);
 	}
 
-
-
+	//댓글수정
+	@Override
+	public int updateComment(Comment comment) {
+		return session.update("pledgeMapper.updateComment",comment);
+	}
 	
 }

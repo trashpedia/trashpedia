@@ -39,12 +39,14 @@ public interface PledgeService {
 	SubCategory getCategoryNo(Post p);
 
 	
-	
 	//댓글목록조회
 	List<Comment> selectCommentList(Board b);
 	
 	//댓글등록
 	int insertComment(Comment c);
+
+	//댓글수정
+	int updateComment(Comment comment);
 
 
 

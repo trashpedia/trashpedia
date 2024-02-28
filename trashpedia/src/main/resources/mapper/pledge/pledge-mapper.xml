@@ -81,6 +81,7 @@
 		WHERE BOARD_NO = #{boardNo}
 	</select> 
 	
+	
 	<!-- 댓글조회  -->
 	<select id="selectCommentList" parameterType="board" resultType="comment">
 		SELECT *
@@ -91,9 +92,15 @@
 	<!-- 댓글등록 -->
 	<insert id="insertComment" parameterType="comment">
 		INSERT INTO "COMMENT" (COMMENT_NO, BOARD_NO, USER_NO, CONTENT, CREATE_DATE, MODIFY_DATE, STATUS )
-		VALUES (SEQ_CNO, #{boardNo}, #{userNo}, #{content}, SYSDATE, SYSDATE, 'Y')
+		VALUES (SEQ_CNO.NEXTVAL , #{boardNo}, #{userNo}, #{content}, SYSDATE, SYSDATE, 'Y')
 	</insert>
 	
+	<!-- 댓글수정 -->
+	<update id="updateComment" parameterType="comment">
+	    UPDATE "COMMENT"
+	    SET CONTENT=#{content}, MODIFY_DATE = SYSDATE
+	    WHERE COMMENT_NO = #{commentNo}
+	</update>
 
 	
 </mapper>

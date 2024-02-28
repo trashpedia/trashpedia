@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
@@ -187,15 +189,20 @@ public class PledgeController {
 	// 댓글등록
 	@PostMapping("/insertComment")
 	public int insertComment(Comment c) {
-
-		System.out.println("넘어오나?");
 		int result = 0;
-		System.out.println(c);
 		return service.insertComment(c);
-		
 	}
 	
-	
+	// 댓글수정
+	@PutMapping("/updateComment/{commentNo}")
+	public int updateComment(
+			@PathVariable("commentNo") int commentNo, @RequestBody Comment comment
+			) {
+		
+		System.out.println(commentNo);
+		System.out.println(comment);
+		return service.updateComment(comment);
+	}
 	
 	
 	

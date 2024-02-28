@@ -144,7 +144,7 @@
     		            comments += "<td>" + comment.userName + "</td>";
     		            comments += "<td><p>" + comment.content + "</p>";
     		            comments += "<div class='comment-buttons'>" +
-    		                        "<button class='btn-edit'> 수정 </button>" +
+    		                        "<button onClick='showCommentUpdateForm("+comment.commentNo+",this)' class='btn-edit'> 수정 </button>" +
     		                        "<button class='btn-delete'> 삭제 </button>" +
     		                        "</div></td>";
     		            comments += "<td>" + comment.modifyDate + "</td>";
@@ -162,8 +162,6 @@
  	   
  	   //댓글등록
  	   function insertComment(){
- 		   console.log("댓글등록..");
- 		   console.log("${post.boardNo}")
  		   $.ajax({
  			  url: "${contextPath}/pledge/insertComment",
  			  data : {
@@ -186,6 +184,70 @@
 				}
  		   })
  	   }
+ 	   
+ 	   //댓글수정 form 생성
+ 	   function showCommentUpdateForm(commentNo, btn){
+ 		   
+ 		   // 댓글 수정할 수 있는 textarea 생성
+ 		   const textarea = document.createElement("textarea"); 
+ 		   textarea.style.width = "100%"; // 너비 100%로 설정
+ 		   textarea.style.height = "50px"; // 높이 50px로 설정
+ 		   textarea.style.resize = "none"; // 리사이즈 비활성화
+ 		   
+ 		   const button = document.createElement("button");
+ 		   button.innerText = "수정하기";
+ 		   button.style.marginTop = "5px"; 
+ 		   button.style.backgroundColor = "#5acb5a"; 
+ 		   button.style.color = "white";
+ 		   button.style.border = '0';
+           button.style.padding = '3px 15px';
+ 		   
+ 		   //댓글내용 textarea에 복사
+ 		   let td = btn.parentElement.parentElement;
+ 		   let pTag = td.querySelector('p');
+ 		   let content = pTag.innerText;
+ 		   textarea.innerHTML = content; 
+ 		   
+ 		   //td 비우고 새로 추가
+ 		   td.innerHTML = "";
+ 		   td.append(textarea);
+ 		   td.append(button);
+ 		   
+ 		   button.addEventListener("click",function(){
+ 			   updateComment(commentNo,textarea);
+ 			   })
+ 	   }
+ 	   
+ 	   
+ 	   //댓글수정
+ 	   function updateComment(commentNo, textarea){
+ 		   let comment = { commentNo, content : textarea.value };
+ 		   
+ 		   $.ajax({
+				url: "${contextPath}/pledge/updateComment/" + commentNo,
+				data : JSON.stringify(comment),
+				contentType : 'application/json;charset=utf-8',
+ 			  	type : 'put',
+ 			  	success : function(result){
+ 			  		if(result>0){
+						alert("댓글이 수정되었습니다.");
+					}else{
+						alert("댓글수정 실패했습니다.");
+					}
+					selectCommentList(); 
+ 			  	},
+ 			  	error: function (xhr, status, error) {
+ 		            console.error("댓글수정 오류 발생: ", status, error);
+ 		        }
+ 		   })
+ 		   
+ 		   
+ 		   
+ 		   
+ 	   }
+ 	   
+ 	   
+ 	   
     
     </script>
 </body>

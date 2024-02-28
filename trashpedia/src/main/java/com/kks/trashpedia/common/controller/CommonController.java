@@ -32,6 +32,15 @@ public class CommonController {
 	@Autowired
 	private FileStore fileStore;
 	
+	//에러페이지 이동
+	@GetMapping("/errorPage")
+	public ModelAndView errorPage() {
+		
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("common/errorPage/errorPage");
+		return mv;
+	}
+	
 	//카테고리 정보 가지고오기
 	@GetMapping("/write")
 	public ModelAndView getCategory(int bigCategoryNo, int subCategoryNo, int type) {
