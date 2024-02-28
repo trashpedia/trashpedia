@@ -86,6 +86,12 @@ public class PledgeServiceImpl implements PledgeService{
 		return dao.insertComment(c);
 	}
 
+	//댓글수정
+	@Override
+	public int updateComment(Comment comment) {
+		return dao.updateComment(comment);
+	}
+
 
 	
 

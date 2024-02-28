@@ -43,6 +43,9 @@ public interface PledgeDao {
 	//댓글등록
 	int insertComment(Comment c);
 
+	//댓글수정
+	int updateComment(Comment comment);
+
 
 
 
