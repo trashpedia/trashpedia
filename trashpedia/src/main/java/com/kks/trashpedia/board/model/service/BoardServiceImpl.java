@@ -47,6 +47,7 @@ public class BoardServiceImpl implements BoardService{
 	}
 	
 	
+	
 	// 무료 페이지
 		@Override
 		public List<Trash> getFreeTrashList() {

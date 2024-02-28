@@ -40,6 +40,10 @@ public class BoardDaoImpl implements BoardDao{
 		int totalCount = session.selectOne("boardMapper.boardCount", param);
 		return new PageImpl<>(pages, pageable, totalCount);
 	}
+	
+	
+
+	
 
 	@Override
 	public List<BigCategory> bigCategory() {
