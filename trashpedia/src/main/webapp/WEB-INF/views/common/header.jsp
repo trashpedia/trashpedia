@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <c:set var="contextPath" value="<%=request.getContextPath() %>"/>
 <!DOCTYPE html>
 <html lang="en">
@@ -12,7 +13,9 @@
     <link rel="stylesheet" href="${contextPath}/resources/css/common/header.css">
 </head>
 <body>
-
+<script>
+	console.log('${loginUser}')
+</script>
     <header class="header">
         <div class="header-outer">
             <div class="header-logo">
@@ -64,16 +67,18 @@
                 </ul>
             </div>
             <div class="header-search header-search-main">
-                <ul class="header-right">
-                
+               <ul class="header-right">
+              	<sec:authorize access="isAnonymous()">
 	                <!-- 로그인 안했을 때 보이기 -->
                     <li><span class="material-symbols-outlined icon">login</span><a href="${contextPath}/login">login</a> </li>
                     <li><span class="material-symbols-outlined icon">person </span><a href="${contextPath}/join">Signup</a></li>
+               </sec:authorize>
+               	<sec:authorize access="isAuthenticated()">>
+                    <!-- 로그인 했을 때 보이기 1-->
+                    <li><span class="material-symbols-outlined icon">login</span><a href="${contextPath}/logout">logout</a> </li>
+                    <li><span class="material-symbols-outlined icon">person</span><a href="${contextPath}/login.me">MyPage</a> </li>
+             	</sec:authorize> 
                     <li id="header-search-icon" ><span class="material-symbols-outlined icon">search</span><a>Search</a></li>
-                    
-                    <!-- 로그인 했을 때 보이기 -->
-                    <%-- <li><span class="material-symbols-outlined icon">login</span><a href="${contextPath}/login.me">logout</a> </li> --%>
-                    <%-- <li><span class="material-symbols-outlined icon">person</span><a href="${contextPath}/login.me">MyPage</a> </li> --%>
                 </ul>
             </div>
         </div>

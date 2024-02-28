@@ -23,7 +23,7 @@ public class KakaoAuthService {
 	public User login(String token) {
 		KakaoUserInfoResponse userInfo =  kakaoUserInfo.getUserInfo(token);
 		Long socialId = userInfo.getId();
-		User user = dao.loadUserByUsername(socialId , "kakao");// 첫 로그인이라면 무조건 null
+		User user = dao.loadUserByUsername(String.valueOf(socialId));// 첫 로그인이라면 무조건 null
 		// 회원가입이 안된 상태.
 		if(user == null) {
 			//Member, Mebmer_SOCIAL, AUTHROITY테이블들에 데이터 추가.

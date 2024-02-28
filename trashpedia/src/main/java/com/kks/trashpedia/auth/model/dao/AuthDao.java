@@ -16,12 +16,8 @@ public class AuthDao {
 	
 	private final SqlSessionTemplate session;
 	
-	public User loadUserByUsername(long socialId, String socialType) {
-		HashMap<String, Object> param = new HashMap<>();
-		param.put("socialId", socialId);
-		param.put("socialType", socialType);
-
-		return session.selectOne("auth.loadUserByUsername" , param);
+	public User loadUserByUsername(String socialId) {
+		return session.selectOne("auth.loadUserByUsername" , socialId); // userName
 		
 		
 	}
@@ -34,7 +30,7 @@ public class AuthDao {
 		//3) Authroity테이블에 추가
 		session.insert("auth.insertUserAuthorityBySocialLogin" , m);
 		//4) loadUserByUsername함수호출하여 반환값 전달.
-		return this.loadUserByUsername( Long.parseLong(m.getSocialId()) , m.getSocialType());
+		return this.loadUserByUsername( m.getSocialId());
 	}
 	
 }

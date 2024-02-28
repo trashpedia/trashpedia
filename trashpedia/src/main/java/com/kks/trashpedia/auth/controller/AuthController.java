@@ -25,12 +25,12 @@ public class AuthController {
 	private final KakaoAuthService service;
 	private final JwtTokenProvider provider;
 	
-	@GetMapping("/")
-	public ModelAndView login() {
-		ModelAndView mav = new ModelAndView();
-		mav.setViewName("/user/login");
-		return mav;
-	}
+//	@GetMapping("/")
+//	public ModelAndView login() {
+//		ModelAndView mav = new ModelAndView();
+//		mav.setViewName("user/login");
+//		return mav;
+//	}
 	
 	@PostMapping("/login/{sns}")
 	public ResponseEntity<HashMap<String, Object>> authCheck(
