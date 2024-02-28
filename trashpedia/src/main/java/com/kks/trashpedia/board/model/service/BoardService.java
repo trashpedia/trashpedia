@@ -30,16 +30,16 @@ public interface BoardService {
 	
 	
 	// 무료 페이지
-	List<Trash> getFreeTrashList();
-	String getImageUrlByTrashNo(int trashNo);
-	String getTrashTitleByTrashNo(int trashNo);
-	String getTrashContentByTrashNo(int trashNo);
+	List<Board> getFreeTrashList();
+	String getImageUrlByboardNo(int boardNo);
+	String getTrashTitleByboardNo(int boardNo);
+	String getTrashContentByboardNo(int boardNo);
 	// 무료 페이지
 
 	// 무료 상세 페이지
-	Trash getFreeTrashDetail(int trashNo);
-	String getTrashWriterByTrashNo(int trashNo);
-	String getTrashCreateByTrashNo(int trashNo);
-	Date getTrashViewsByTrashNo(int trashNo);
+	Board getFreeTrashDetail(int boardNo);
+	String getTrashWriterByboardNo(int boardNo);
+	String getTrashCreateByboardNo(int boardNo);
+	Date getTrashViewsByboardNo(int boardNo);
 
 }
