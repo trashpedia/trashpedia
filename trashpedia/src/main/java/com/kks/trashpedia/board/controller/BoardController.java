@@ -53,6 +53,32 @@ public class BoardController {
 		return mav;
 	}
 	
+	
+	// 무료나눔 상세페이지 이동
+			@GetMapping("/boardFreeShare")
+			public ModelAndView boardFreeShare() {
+				ModelAndView mav = new ModelAndView();
+				List<Trash> boardFreeTrashList = service.getFreeTrashList(); // 이 메서드는 인기 쓰레기 정보를 가져오는 메서드
+		
+				
+				// popularTrashList의 각 항목에 대해 이미지 URL과 제목을 가져와서 설정
+				// 이미지 주소와 쓰레기 이름 가져오기
+				for (Trash trash : boardFreeTrashList) {
+					String imageUrl = service.getImageUrlByTrashNo(trash.getTrashNo());
+					Image image = new Image();
+					image.setOriginName(imageUrl);
+		
+					String trashTitle = service.getTrashTitleByTrashNo(trash.getTrashNo());
+					TrashPost trashPost = new TrashPost();
+					trashPost.setTrashTitle(trashTitle);
+		
+		
+				}
+		
+				mav.addObject("boardFreeTrashList", boardFreeTrashList);
+				mav.setViewName("board/freeShare/freeShare");
+				return mav;
+			}
 	// 무료나눔 상세페이지 이동
 			@GetMapping("/boardFreeShare/{trashNo}")
 			public ModelAndView boardFreeShareDetail(int trashNo) {

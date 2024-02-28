@@ -21,4 +21,6 @@ public interface EncyclopediaService{
 
 	String getTrashTitleByTrashNo(int trashNo);
 
+	int searchTrash(String searchText);
+
 }

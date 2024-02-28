@@ -99,7 +99,7 @@ main .elementor-widget-container .probox input {
     height: 50px;
     width: 400px;
     font-size: 20px;
-
+	z-index: 9;
 }
 
 main .elementor-widget-container .probox span {

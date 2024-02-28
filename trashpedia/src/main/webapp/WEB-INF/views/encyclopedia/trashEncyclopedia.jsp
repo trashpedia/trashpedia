@@ -37,7 +37,7 @@
 		<main>
 			<div class="elementor-widget-container">
 				<div class="probox">
-					<input class="search" type="text" placeholder="예)우산.형광등.프링글스통">
+					<input id="searchInput" class="search" type="text" placeholder="예)우산.형광등.프링글스통">
 					<span class="material-symbols-outlined"> search</span>
 				</div>
 
@@ -84,8 +84,9 @@
 											</div>
 											<!-- Back -->
 											<div class="Back">
-												<img src="https://img.freepik.com/free-photo/cute-puppy-sitting-in-grass-enjoying-nature-playful-beauty-generated-by-artificial-intelligence_188544-84973.jpg" alt="이미지_대체_텍스트"> <span>데이터
-													없음</span>
+												<img
+													src="https://img.freepik.com/free-photo/cute-puppy-sitting-in-grass-enjoying-nature-playful-beauty-generated-by-artificial-intelligence_188544-84973.jpg"
+													alt="이미지_대체_텍스트"> <span>데이터 없음</span>
 											</div>
 										</div>
 									</div>
@@ -132,8 +133,7 @@
 					<div class="Title">오늘의 인기 쓰레기</div>
 					<!-- 인기 쓰레기를 반복문으로 표시 -->
 					<c:forEach var="trash" items="${popularTrashList}">
-						<div class="card"
-							onclick="goToTrashDetail(${trash.trashNo})">
+						<div class="card" onclick="goToTrashDetail(${trash.trashNo})">
 							<img src="${trash.imageUrl}" alt=""> ${trash.trashTitle}
 						</div>
 					</c:forEach>
@@ -151,6 +151,11 @@
 	<script>
 	
 	
+	
+	
+	
+		// 쓰레기 목록
+		
         var swiper = new Swiper(".swiper-container", {
             loop: true, // 반복 재생 여부
             slidesPerView: 'auto', // 한 번에 보여줄 슬라이드 개수를 자동으로 조정합니다.
@@ -181,33 +186,6 @@
         
         
         
-        // 쓰레기통 요소를 클릭했을 때 애니메이션을 시작
-        $('.trash-can').click(function () {
-            setTimeout(startTrashAnimation, 600);
-        });
-
-        // 쓰레기통을 클릭했을 때 애니메이션을 시작하는 함수
-        function startTrashAnimation() {
-            var cards = document.querySelectorAll('.card');
-            cards.forEach(function (card, index) {
-                card.classList.add('animate-card' + (index + 1));
-            });
-        }
-        
-        
-        
-        $(document).ready(function() {
-            $(".trash-can").hover(
-                function() {
-                    // 이미지에 마우스를 올렸을 때
-                    $(this).next("span").fadeOut(200); // 0.2초 동안 서서히 사라짐
-                },
-                function() {
-                    // 이미지에서 마우스를 떼었을 때
-                    $(this).next("span").fadeIn(200); // 0.2초 동안 서서히 나타남
-                }
-            );
-        });
         
         
         
@@ -216,13 +194,7 @@
         
         
         
-        
-        
-        
-        
-        
-        
-        
+        // 카테고리
         document.addEventListener("DOMContentLoaded", function () {
             const mainCategories = document.querySelectorAll(".main-category");
             const subcategories = document.querySelector(".subcategories");
@@ -293,6 +265,81 @@
         function goToTrashDetail(trashNo) {
         	 window.location.href = '/trashpedia/trashDetail?trashNo=' + trashNo;
         }
+
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        // 쓰레기통 요소를 클릭했을 때 애니메이션을 시작
+        $('.trash-can').click(function () {
+            setTimeout(startTrashAnimation, 600);
+        });
+
+        // 쓰레기통을 클릭했을 때 애니메이션을 시작하는 함수
+        function startTrashAnimation() {
+            var cards = document.querySelectorAll('.card');
+            cards.forEach(function (card, index) {
+                card.classList.add('animate-card' + (index + 1));
+            });
+        }
+        
+        
+        
+        $(document).ready(function() {
+            $(".trash-can").hover(
+                function() {
+                    // 이미지에 마우스를 올렸을 때
+                    $(this).next("span").fadeOut(200); // 0.2초 동안 서서히 사라짐
+                },
+                function() {
+                    // 이미지에서 마우스를 떼었을 때
+                    $(this).next("span").fadeIn(200); // 0.2초 동안 서서히 나타남
+                }
+            );
+        });
+        
+        
+        
+        
+        
+        
+        
+        // 검색 기능
+        document.getElementById("searchInput").addEventListener("keyup", function(event) {
+		    if (event.key === "Enter") {
+		        // Enter 키를 누르면 검색 함수를 호출
+		        performSearch();
+		    }
+		});
+			
+		
+		
+		// JavaScript 코드 - performSearch() 함수 내에 추가
+		function performSearch() {
+		    var searchText = document.getElementById("searchInput").value;
+		    
+		    // AJAX를 사용하여 검색어를 서버로 전송
+		    var xhr = new XMLHttpRequest();
+		    xhr.open("POST", "/search", true);
+		    xhr.setRequestHeader("Content-Type", "application/json");
+		    xhr.onreadystatechange = function() {
+		        if (xhr.readyState === 4 && xhr.status === 200) {
+		            // 검색 결과를 받아온 후 처리
+		            var searchResult = JSON.parse(xhr.responseText);
+		            console.log("검색 결과:", searchResult);
+		            // 여기서 검색 결과를 처리하는 로직을 추가
+		        }
+		    };
+		    xhr.send(JSON.stringify({ searchText: searchText }));
+		}
 
 
         

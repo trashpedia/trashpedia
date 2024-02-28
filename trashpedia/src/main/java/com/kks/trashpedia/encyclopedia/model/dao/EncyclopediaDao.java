@@ -21,6 +21,8 @@ public interface EncyclopediaDao {
 
 	String getTrashTitleByTrashNo(int trashNo);
 
+	int searchTrash(String searchText);
+
 
 
 }
