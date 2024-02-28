@@ -1,5 +1,6 @@
 package com.kks.trashpedia.board.controller;
 
+import java.sql.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,11 +14,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.kks.trashpedia.Image;
 import com.kks.trashpedia.board.model.service.BoardService;
 import com.kks.trashpedia.board.model.vo.BigCategory;
 import com.kks.trashpedia.board.model.vo.Board;
 import com.kks.trashpedia.board.model.vo.Post;
 import com.kks.trashpedia.board.model.vo.SubCategory;
+import com.kks.trashpedia.trash.model.vo.Trash;
+import com.kks.trashpedia.trash.model.vo.TrashPost;
 
 @RestController
 public class BoardController {
@@ -30,9 +34,13 @@ public class BoardController {
 	public ModelAndView boardMain() {
 		List<BigCategory> bc = service.bigCategory();
 		List<SubCategory> sc = service.subCategory();
+		List<Post> post = service.categoryList();
 		ModelAndView mav = new ModelAndView();
+		System.out.println("subCategory : "+ sc);
+		System.out.println("post : "+post);
 		mav.addObject("bc",bc);
 		mav.addObject("sc",sc);
+		mav.addObject("post",post);
 		mav.setViewName("board/boardMain");
 		return mav;
 	}
@@ -45,13 +53,56 @@ public class BoardController {
 		return mav;
 	}
 	
-	// 무료나눔 페이지 이동
-	@GetMapping("/boardFreeShare")
-	public ModelAndView boardFreeShare() {
-		ModelAndView mav = new ModelAndView();
-		mav.setViewName("board/freeShare/freeShare");
-		return mav;
-	}
+	// 무료나눔 상세페이지 이동
+			@GetMapping("/boardFreeShare/{trashNo}")
+			public ModelAndView boardFreeShareDetail(int trashNo) {
+				ModelAndView mav = new ModelAndView();
+
+				// 무료나눔 상세정보를 가져오는 서비스 메서드를 호출하여 해당 쓰레기 번호에 대한 정보를 가져옵니다.
+				Trash trash = service.getFreeTrashDetail(trashNo);
+				// 타이틀
+				String trashTitle = service.getTrashTitleByTrashNo(trash.getTrashNo());
+				TrashPost trashPost = new TrashPost();
+				trashPost.setTrashTitle(trashTitle);
+				// trashNo
+				// 글쓴이
+				String trashWriter=service.getTrashWriterByTrashNo(trash.getTrashNo());
+				// 작성일
+				String trashCreate=service.getTrashCreateByTrashNo(trash.getTrashNo());
+				// 조회수
+				Date trashViews=service.getTrashViewsByTrashNo(trash.getTrashNo());
+				//이미지
+				String imageUrl = service.getImageUrlByTrashNo(trash.getTrashNo());
+				Image image = new Image();  
+				image.setOriginName(imageUrl);
+				// 내용
+				String trashContent = service.getTrashContentByTrashNo(trash.getTrashNo()); // 해당 쓰레기 번호에 따른 쓰레기 정보
+				
+				//댓글
+
+				
+			    // 가져온 정보를 뷰에 전달합니다.
+			    mav.addObject("trash", trash);
+			    mav.addObject("trashWriter", trashWriter);
+			    mav.addObject("trashCreate", trashCreate);
+			    mav.addObject("trashViews", trashViews);
+			    mav.addObject("imageUrl", imageUrl);
+			    mav.addObject("trashContent", trashContent);
+
+				// 뷰의 경로를 설정합니다.
+				mav.setViewName("board/freeShare/freeShareDetail");
+				return mav;
+			}
+			
+			// 게시글 등록하기 페이지 이동
+			@GetMapping("/insert")
+			public ModelAndView pledgeInsert() {
+				
+				ModelAndView mav = new ModelAndView();
+				mav.setViewName("pledge/pledgeInsert");
+				
+				return mav;
+			}
 	
 	//공지사항 목록페이지 이동
 	@GetMapping("/boardList")

@@ -47,7 +47,7 @@
 /* board */
 
 #idx_board_wrap {
-    padding: 50px 0;
+    padding: 50px ;
     background: #ffffff;
 }
 
@@ -87,8 +87,9 @@
 }
 
 .idx_board .title a {
-    display: inline-block;
+    display: -block;
     vertical-align: middle;
+    font-size: 24px;
 }
 
 .idx_board .title .name {
@@ -103,10 +104,10 @@
     right: 20px;
 }
 
-.idx_board .title .more img {
+/* .idx_board .title .more img {
     width: 24px;
     margin-left: 3px;
-}
+} */
 
 .idx_board .list {
     padding: 20px;
@@ -115,7 +116,6 @@
 .idx_board .list ul li {
     margin-top: 10px;
     padding-left: 7px;
-    background: url(../img/dot.gif) no-repeat 0 7px /2px;
     font-size: 0;
 }
 .idx_board .list ul li:first-child {
