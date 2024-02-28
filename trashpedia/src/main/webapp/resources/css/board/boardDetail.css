@@ -47,14 +47,16 @@ a {
 }
 
 .board_wrap {
-    width: 1000px;
+    width: 1100px;
     margin: 100px auto;
     background-color: #fff;
-    border-radius: 20px;
-    box-shadow: 1px 5px 10px 5px rgb(199, 221, 208);
-    padding: 20px;
+    /* border-radius: 20px; */
+    box-shadow: 1px 2px 5px 1px rgb(240, 243, 240);
+    padding: 35px;
     margin-top: 100px;
 }
+
+
 
 .board_title {
     margin-bottom: 30px;
@@ -73,6 +75,8 @@ a {
     margin-top: 30px;
     text-align: center;
     font-size: 0;
+    padding-bottom: 30px;
+    padding-top: 50px;
 }
 
 .bt_wrap a {
@@ -328,6 +332,8 @@ a {
 
 
 
+
+
 /* ---------- 댓글 ---------- */
 .reply-outer-top-area{
     height: 30px;
@@ -339,6 +345,7 @@ a {
 .reply-outer {
     background-color: #fff;
     padding: 30px;
+    box-shadow: 1px 2px 5px 1px rgb(240, 243, 240);
 }
 .reply_title {
     font-size: 20px;

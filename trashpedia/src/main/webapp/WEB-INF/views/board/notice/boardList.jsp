@@ -1,13 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="contextPath" value="<%=request.getContextPath() %>"/>
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>공지사항</title>
-    <link rel="stylesheet" href="/준식이 파이널/css/board/style.css">
     <link rel="stylesheet" href="${contextPath}/resources/css/board/boardList.css">
 
 
@@ -55,9 +55,8 @@
                         <div class="date">작성일</div>
                         <div class="count">조회</div>
                     </div>
-                    
                   
-                    <c:forEach var="board" items="${boardList}" varStatus="status">
+                    <c:forEach var="board" items="${boardList.content}" varStatus="status">
 	                    <div>
 	                        <%-- <div class="num">${board.count}</div> --%>
 	                        <div class="num">${board.postNo}</div>
@@ -67,66 +66,35 @@
 	                        <%--  <div class="count">${board.viewCount}</div> --%>
 	                    </div>
                		</c:forEach>
-               		
-                    <div>
-                        <div class="num">5</div>
-                        <div class="title"><a href="${contextPath}/boardDetail/${board.postNo}">${board.title}</a></div>
-                        <div class="writer">김이름</div>
-                        <div class="date">2021.1.15</div>
-                        <div class="count">33</div>
-                    </div>
-                    <div>
-                        <div class="num">3</div>
-                        <div class="title"><a href="${contextPath}/boardDetail/${board.postNo}">글 제목이 들어갑니다.</a></div>
-                        <div class="writer">김이름</div>
-                        <div class="date">2021.1.15</div>
-                        <div class="count">33</div>
-                    </div>
-                    <div>
-                        <div class="num">5</div>
-                        <div class="title"><a href="/community/board_view.html">글 제목이 들어갑니다.</a></div>
-                        <div class="writer">김이름</div>
-                        <div class="date">2021.1.15</div>
-                        <div class="count">33</div>
-                    </div>
-                    <div>
-                        <div class="num">5</div>
-                        <div class="title"><a href="/community/board_view.html">글 제목이 들어갑니다.</a></div>
-                        <div class="writer">김이름</div>
-                        <div class="date">2021.1.15</div>
-                        <div class="count">33</div>
-                    </div>
-                    <div>
-                        <div class="num">5</div>
-                        <div class="title"><a href="/community/board_view.html">글 제목이 들어갑니다.</a></div>
-                        <div class="writer">김이름</div>
-                        <div class="date">2021.1.15</div>
-                        <div class="count">33</div>
-                    </div>
-                    <div>
-                        <div class="num">5</div>
-                        <div class="title"><a href="/community/board_view.html">글 제목이 들어갑니다.</a></div>
-                        <div class="writer">김이름</div>
-                        <div class="date">2021.1.15</div>
-                        <div class="count">33</div>
-                    </div>
-                    <div>
-                        <div class="num">5</div>
-                        <div class="title"><a href="/community/board_view.html">글 제목이 들어갑니다.</a></div>
-                        <div class="writer">김이름</div>
-                        <div class="date">2021.1.15</div>
-                        <div class="count">33</div>
-                    </div>
                     
                 </div>
+                
+                <div class="board_page">
+				    <c:if test="${boardList.number == 0}">
+				        <a href="${contextPath}/boardList?page=${boardList.number - 1}" class="bt prev">&lt;</a>
+				    </c:if>
+				    
+				    <c:forEach begin="0" end="${boardList.totalPages -1}" items="${boardList.content}" var="pageNum" varStatus="i">
+				        <c:if test="${i.index >= boardList.number - 5 && i.index <= boardList.number + 5}">
+				            <a href="${contextPath}/boardList?page=${i.index}" class="${i.index == boardList.number ? 'num on' : 'num'}">${i.index + 1}</a>
+				        </c:if>
+				    </c:forEach>
+				    
+				    <c:if test="${boardList.number == boardList.totalPages}">
+				        <a href="${contextPath}/boardList?page=${boardList.number + 1}" class="bt next">&gt;</a>
+				    </c:if>
+				</div>
+                
+                
+                
                 <div class="board_page">
                     <a href="#" class="bt first"><<</a>
                     <a href="#" class="bt prev"><</a>
-                    <a href="#" class="num on">1</a>
-                    <a href="#" class="num">2</a>
-                    <a href="#" class="num">3</a>
-                    <a href="#" class="num">4</a>
-                    <a href="#" class="num">5</a>
+                    <a href="/boardList" class="num on">1</a>
+                    <a href="/boardList" class="num">2</a>
+                    <a href="/boardList" class="num">3</a>
+                    <a href="/boardList" class="num">4</a>
+                    <a href="/boardList" class="num">5</a>
                     <a href="#" class="bt next">></a>
                     <a href="#" class="bt last">>></a>
                 </div>
@@ -144,7 +112,6 @@
 
 
      <script>
-        
         //  header footer 로딩 , 나중에 지울거
         $(function(){
             $("#header").load("header.html"); 

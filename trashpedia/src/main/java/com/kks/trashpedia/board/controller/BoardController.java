@@ -37,8 +37,6 @@ public class BoardController {
 		List<SubCategory> sc = service.subCategory();
 		List<Post> post = service.categoryList();
 		ModelAndView mav = new ModelAndView();
-		System.out.println("subCategory : "+ sc);
-		System.out.println("post : "+post);
 		mav.addObject("bc",bc);
 		mav.addObject("sc",sc);
 		mav.addObject("post",post);
@@ -132,19 +130,20 @@ public class BoardController {
 			}
 	
 	//공지사항 목록페이지 이동
-	//@PageableDefault 페이지네이션 관련정보 자동추출)		
+	//'@'PageableDefault' 페이지네이션 관련정보 자동추출)		
 	@GetMapping("/boardList")
 	public ModelAndView boardNotice(@PageableDefault(size = 15, sort = "boardNo", direction = Sort.Direction.DESC) Pageable pageable,
-			@RequestParam int subCategoryNo,
-			@RequestParam int page,
-			@RequestParam String filter,
-			@RequestParam String searchSelect,
-			@RequestParam String searchValue) {
+			@RequestParam(value="subCategoryNo") int subCategoryNo,
+			@RequestParam(value="page", defaultValue = "0") int page,
+			@RequestParam(value="filter", defaultValue="0") String filter,
+			@RequestParam(value="searchSelect", required=false) String searchSelect,
+			@RequestParam(value="searchValue", required=false) String searchValue) {
+		
+		Pageable customPageable = PageRequest.of(page, 15, Sort.Direction.DESC, "boardNo");
 		Page<Board> pages = service.boardList(subCategoryNo, pageable, page, filter, searchSelect, searchValue);
 		
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("boardList", pages);
-		System.out.println("pages"+pages);
 		mav.setViewName("board/notice/boardList");
 		return mav;
 	}
@@ -166,10 +165,14 @@ public class BoardController {
 	
 	//공지사항 상세페이지 이동
 	 @GetMapping("/boardDetail/{postNo}")
-	    public ModelAndView boardDetail(@PathVariable int postNo) {
+	    public ModelAndView boardDetail(
+	    		@PathVariable int postNo, 
+	    		@RequestParam(value="subCategoryNo", defaultValue="1")int subCategoryNo) {
+		 
+//		 	List<Post> board = service.boardDetail(postNo);
 	        ModelAndView mav = new ModelAndView();
 	        Post board = service.boardDetail(postNo);
-	        mav.addObject("board", board);
+	        mav.addObject("b", board);
 	        System.out.println("board" + board);
 	        mav.setViewName("board/notice/boardDetail");
 	        return mav;
