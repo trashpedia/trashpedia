@@ -20,12 +20,12 @@ public class User extends Member implements UserDetails{
 
 	@Override
 	public String getPassword() {
-		return null;
+		return getUserPwd();
 	}
 
 	@Override
 	public String getUsername() {
-		return null;
+		return getUserEmail();
 	}
 
 	@Override
