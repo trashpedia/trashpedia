@@ -36,11 +36,11 @@ public class BoardController {
 		List<SubCategory> sc = service.subCategory();
 		List<Post> post = service.categoryList();
 		ModelAndView mav = new ModelAndView();
-		System.out.println("subCategory : " + sc);
-		System.out.println("post : " + post);
-		mav.addObject("bc", bc);
-		mav.addObject("sc", sc);
-		mav.addObject("post", post);
+
+		mav.addObject("bc",bc);
+		mav.addObject("sc",sc);
+		mav.addObject("post",post);
+
 		mav.setViewName("board/boardMain");
 		return mav;
 	}
@@ -78,66 +78,71 @@ public class BoardController {
 	}
 
 	// 무료나눔 상세페이지 이동
-	@GetMapping("/boardFreeShare/{trashNo}")
-	public ModelAndView boardFreeShareDetail(int BoardNo) {
-		ModelAndView mav = new ModelAndView();
+			@GetMapping("/boardFreeShare/{trashNo}")
+			public ModelAndView boardFreeShareDetail(int trashNo) {
+				ModelAndView mav = new ModelAndView();
 
-		// 무료나눔 상세정보를 가져오는 서비스 메서드를 호출하여 해당 쓰레기 번호에 대한 정보를 가져옵니다.
-		Board trash = service.getFreeTrashDetail(BoardNo);
-		// 타이틀
-		String trashTitle = service.getTrashTitleByboardNo(trash.getBoardNo());
-		TrashPost trashPost = new TrashPost();
-		trashPost.setTrashTitle(trashTitle);
-		// trashNo
-		// 글쓴이
-		String trashWriter = service.getTrashWriterByboardNo(trash.getBoardNo());
-		// 작성일
-		String trashCreate = service.getTrashCreateByboardNo(trash.getBoardNo());
-		// 조회수
-		Date trashViews = service.getTrashViewsByboardNo(trash.getBoardNo());
-		// 이미지
-		String imageUrl = service.getImageUrlByboardNo(trash.getBoardNo());
-		Image image = new Image();
-		image.setOriginName(imageUrl);
-		// 내용
-		String trashContent = service.getTrashContentByboardNo(trash.getBoardNo()); // 해당 쓰레기 번호에 따른 쓰레기 정보
+				// 무료나눔 상세정보를 가져오는 서비스 메서드를 호출하여 해당 쓰레기 번호에 대한 정보를 가져옵니다.
+				Trash trash = service.getFreeTrashDetail(trashNo);
+				// 타이틀
+				String trashTitle = service.getTrashTitleByTrashNo(trash.getTrashNo());
+				TrashPost trashPost = new TrashPost();
+				trashPost.setTrashTitle(trashTitle);
+				// trashNo
+				// 글쓴이
+				String trashWriter=service.getTrashWriterByTrashNo(trash.getTrashNo());
+				// 작성일
+				String trashCreate=service.getTrashCreateByTrashNo(trash.getTrashNo());
+				// 조회수
+				Date trashViews=service.getTrashViewsByTrashNo(trash.getTrashNo());
+				//이미지
+				String imageUrl = service.getImageUrlByTrashNo(trash.getTrashNo());
+				Image image = new Image();  
+				image.setOriginName(imageUrl);
+				// 내용
+				String trashContent = service.getTrashContentByTrashNo(trash.getTrashNo()); // 해당 쓰레기 번호에 따른 쓰레기 정보
+				
+				//댓글
 
-		// 댓글
+				
+			    // 가져온 정보를 뷰에 전달합니다.
+			    mav.addObject("trash", trash);
+			    mav.addObject("trashWriter", trashWriter);
+			    mav.addObject("trashCreate", trashCreate);
+			    mav.addObject("trashViews", trashViews);
+			    mav.addObject("imageUrl", imageUrl);
+			    mav.addObject("trashContent", trashContent);
 
-		// 가져온 정보를 뷰에 전달합니다.
-		mav.addObject("trash", trash);
-		mav.addObject("trashWriter", trashWriter);
-		mav.addObject("trashCreate", trashCreate);
-		mav.addObject("trashViews", trashViews);
-		mav.addObject("imageUrl", imageUrl);
-		mav.addObject("trashContent", trashContent);
-
-		// 뷰의 경로를 설정합니다.
-		mav.setViewName("board/freeShare/freeShareDetail");
-		return mav;
-	}
-
-	// 무료나눔 게시글 등록하기 페이지 이동
-	@GetMapping("/insert")
-	public ModelAndView pledgeInsert() {
-
-		ModelAndView mav = new ModelAndView();
-		mav.setViewName("pledge/pledgeInsert");
-
-		return mav;
-	}
-
-	// 공지사항 목록페이지 이동
+				// 뷰의 경로를 설정합니다.
+				mav.setViewName("board/freeShare/freeShareDetail");
+				return mav;
+			}
+			
+			// 게시글 등록하기 페이지 이동
+			@GetMapping("/insert")
+			public ModelAndView pledgeInsert() {
+				
+				ModelAndView mav = new ModelAndView();
+				mav.setViewName("pledge/pledgeInsert");
+				
+				return mav;
+			}
+	
+	//공지사항 목록페이지 이동
+	//'@'PageableDefault' 페이지네이션 관련정보 자동추출)		
 	@GetMapping("/boardList")
-	public ModelAndView boardNotice(
-			@PageableDefault(size = 15, sort = "boardNo", direction = Sort.Direction.DESC) Pageable pageable,
-			@RequestParam int subCategoryNo, @RequestParam int page, @RequestParam String filter,
-			@RequestParam String searchSelect, @RequestParam String searchValue) {
+	public ModelAndView boardNotice(@PageableDefault(size = 15, sort = "boardNo", direction = Sort.Direction.DESC) Pageable pageable,
+			@RequestParam(value="subCategoryNo") int subCategoryNo,
+			@RequestParam(value="page", defaultValue = "0") int page,
+			@RequestParam(value="filter", defaultValue="0") String filter,
+			@RequestParam(value="searchSelect", required=false) String searchSelect,
+			@RequestParam(value="searchValue", required=false) String searchValue) {
+		
 		Page<Board> pages = service.boardList(subCategoryNo, pageable, page, filter, searchSelect, searchValue);
 
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("boardList", pages);
-		System.out.println("boardList" + pages);
+
 		mav.setViewName("board/notice/boardList");
 		return mav;
 	}
@@ -149,16 +154,19 @@ public class BoardController {
 		mav.setViewName("board/suggestion/boardList");
 		return mav;
 	}
-
-	// 공지사항 상세페이지 이동
-	@GetMapping("/boardDetail/{postNo}")
-	public ModelAndView boardDetail(@PathVariable int postNo) {
-		ModelAndView mav = new ModelAndView();
-		Post board = service.boardDetail(postNo);
-		mav.addObject("board", board);
-		System.out.println("board" + board);
-		mav.setViewName("board/notice/boardDetail");
-		return mav;
-	}
-
+	
+	//공지사항 상세페이지 이동
+	 @GetMapping("/boardDetail/{postNo}")
+	    public ModelAndView boardDetail(
+	    		@PathVariable int postNo, 
+	    		@RequestParam(value="subCategoryNo", defaultValue="1")int subCategoryNo) {
+		 
+//		 	List<Post> board = service.boardDetail(postNo);
+	        ModelAndView mav = new ModelAndView();
+	        Post board = service.boardDetail(postNo);
+	        mav.addObject("b", board);
+	        System.out.println("board" + board);
+	        mav.setViewName("board/notice/boardDetail");
+	        return mav;
+	    }
 }

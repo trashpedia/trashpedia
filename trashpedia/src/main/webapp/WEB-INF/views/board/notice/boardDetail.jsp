@@ -1,19 +1,22 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="contextPath" value="<%=request.getContextPath() %>"/>
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>공지사항</title>
-<!--     <link rel="stylesheet" href="/css/board/css.css"> -->
-<!--     <link rel="stylesheet" href="/css/board/board_common.css"> -->
-<!--     <link rel="stylesheet" href="../css/community/community.css"> -->
+    <link rel="stylesheet" href="/준식이 파이널/css/board/style.css">
+    <link rel="stylesheet" href="/css/board/board_common.css">
+    <link rel="stylesheet" href="../css/community/community.css">
+    <!-- JSP -->
     <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css" />
-    <link rel="stylesheet" href="${contextPath}/trashpedia/src/main/webapp/resources/css/board/boardDetail.css" />
-	<link rel="stylesheet" href="${contextPath}/resources/css/board/boardList.css">
-	<link rel="stylesheet" href="https://uicdn.toast.com/editor/3.0.2/toastui-editor.min.css" >
+    <link rel="stylesheet" href="${contextPath}/resources/css/board/boardDetail.css">
+    
+
+
 </head>
 
 <!-- jQuery -->
@@ -33,10 +36,15 @@
 
     <jsp:include page="../../common/header.jsp" />
 
-    
 
     <main class="board_html">   
         
+
+         <!--실천서약 타이틀 부분-->
+         <div class="practice-section">
+            <p>커뮤니티</p>
+            <p>Reduce Reuse Recycle Recovery</p>
+        </div>
   
         <!--view-->
         <div class="board_wrap">
@@ -45,23 +53,22 @@
                 <p>분리수거잘합시다</p>
             </div>
             <div class="board_view_wrap">
-            <c:forEach var="board" items="${boardList}" varStatus="status">
                 <div class="board_view">
                     <div class="title">
-                        ${board.title}
+                        ${b.title}
                     </div>
                     <div class="info">
                         <dl>
                             <dt>번호</dt>
-                            <dd>${board.postNo}</dd>
+                            <dd>${b.boardNo }</dd>
                         </dl>
                         <dl>
                             <dt>글쓴이</dt>
-                            <dd>${board.userName}</dd>
+                            <dd>${b.userName }</dd>
                         </dl>
                         <dl>
                             <dt>작성일</dt>
-                            <dd>${board.createDate}</dd>
+                            <dd>${b.createDate }</dd>
                         </dl>
                         <dl>
                             <dt>조회</dt>
@@ -69,39 +76,123 @@
                         </dl>
                     </div>
                     <div class="cont">
-                        ${board.content}
+                       ${b.content }
                     </div>
                 </div>
-                </c:forEach>
                 <div class="bt_wrap">
                     <a href="/community/board_list.html" class="on">목록</a>
                     <a href="/community/board_edit.html">수정</a>
+                    <a href="/community/board_edit.html" class="delte">삭제</a>
                 </div>
             </div>
         </div>
 
-        <div class="board_wrap">
+        <div class="reply-outer">
+            <div class="reply-outer-top-area">
+                <span class="reply_title"> 댓글 </span> |
+                <span class="reply_count">224</span>
+            </div>
+
+            <div class="reply-outer-content-area">
+                <table class="reply-table">
+                    <thead>
+                        <tr class="reply-table-title">
+                            <th>작성자</th>
+                            <th>내용</th>
+                            <th>작성일</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>User</td>
+                            <td>
+                                <p>안녕하세요. 반갑습니다. </p>
+                                <div class="comment-buttons">
+                                    <button class="btn-edit">수정</button>
+                                    <button class="btn-delete">삭제</button>
+                                </div>
+                            </td>
+                            <td>2023-02-18</td>
+                        </tr>
+                        <tr>
+                            <td>User</td>
+                            <td>
+                                <p>다른사람이 쓴 댓글 </p>
+                            </td>
+                            <td>2023-02-18</td>
+                        </tr>
+                        <tr>
+                            <td>User</td>
+                            <td>
+                                <p> 나랏말싸미 듕귁에 달아
+                                    문자와로 서로 사맛디 아니할쎄 </p>
+                                <div class="comment-buttons">
+                                    <button class="btn-edit">수정</button>
+                                    <button class="btn-delete">삭제</button>
+                                </div>
+                            </td>
+                            <td>2023-02-18</td>
+                        </tr>
+                        <tr>
+                            <td>User</td>
+                            <td>
+                                <p>댓글 내용 </p>
+
+                            </td>
+                            <td>2023-02-18</td>
+                        </tr>
+                        <tr>
+                            <td>User</td>
+                            <td>
+                                <p>댓글 내용 </p>
+                            </td>
+                            <td>2023-02-18</td>
+                        </tr>
+                        <tr>
+                            <td>User</td>
+                            <td>
+                                <p>댓글 내용 </p>
+    
+                            </td>
+                            <td>2023-02-18</td>
+                        </tr>
+                       
+                    </tbody>
+                </table>
+
+                <div class="paging-button">
+                    <button class="pagingBtn" id="prevBtn"> < </button>
+                    <button class="pagingBtn">1</button>
+                    <button class="pagingBtn">2</button>
+                    <button class="pagingBtn">3</button>
+                    <button class="pagingBtn">4</button>
+                    <button class="pagingBtn">5</button>
+                    <button class="pagingBtn" id="nextBtn"> > </button>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- <div class="board_wrap">
             <div class="card my-4">
                 <h5 class="reply-header">댓글</h5>
                 <div class="reply-body">
-                    <form name="comment-form" action="/comment" method="post" autocomplete="off">
+                    <form name="comment-form" action="*" method="post" autocomplete="off">
                         <div class="form-group">
                             <input type="hidden" name="idx" th:value="*{idx}" />
                             <textarea name="content" class="form-control" rows="3"></textarea>
                         </div>
-                        <button type="submit" class="btn btn-primary">댓글작성</button>
+                        <a type="submit" class="btn-primary">댓글작성</a>
                     </form>
                 </div>
             </div>  
             
-        </div>
+        </div> -->
 
         
 
     </main>
-
      <jsp:include page="../../common/footer.jsp" />
-
 
      <script>
         
