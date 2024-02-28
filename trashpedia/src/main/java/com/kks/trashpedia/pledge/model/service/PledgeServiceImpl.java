@@ -92,6 +92,12 @@ public class PledgeServiceImpl implements PledgeService{
 		return dao.updateComment(comment);
 	}
 
+	//댓글삭제
+	@Override
+	public int deleteComment(Comment comment) {
+		return dao.deleteComment(comment);
+	}
+
 
 	
 

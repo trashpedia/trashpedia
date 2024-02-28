@@ -28,21 +28,21 @@ public interface BoardDao {
 	
 	
 	/* 무료나눔 */
-	List<Trash> getFreeTrashList();
+	List<Board> getFreeTrashList();
 
-	String getImageUrlByTrashNo(int trashNo);
+	String getImageUrlByboardNo(int boardNo);
 
-	String getTrashTitleByTrashNo(int trashNo);
+	String getTrashTitleByboardNo(int boardNo);
 
-	String getTrashContentByTrashNo(int trashNo);
+	String getTrashContentByboardNo(int boardNo);
 
-	Trash getFreeTrashDetail(int trashNo);
+	Board getFreeTrashDetail(int boardNo);
 
-	String getTrashWriterByTrashNo(int trashNo);
+	String getTrashWriterByboardNo(int boardNo);
 
-	String getTrashCreateByTrashNo(int trashNo);
+	String getTrashCreateByboardNo(int boardNo);
 
-	Date getTrashViewsByTrashNo(int trashNo);
+	Date getTrashViewsByboardNo(int boardNo);
 	
 
 }

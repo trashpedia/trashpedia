@@ -1,18 +1,18 @@
 package com.kks.trashpedia.member.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.kks.trashpedia.auth.model.service.AuthService;
 import com.kks.trashpedia.member.model.service.MemberService;
 import com.kks.trashpedia.member.model.vo.Member;
 
@@ -29,8 +29,11 @@ public class MemberController {
 	@Autowired
 	private MemberService service;
 
+	@Autowired
+	private AuthService authService;
+	
 	//로그인페이지 이동
-	@GetMapping("login")
+	@GetMapping("/login")
 	public String loginForm() {
 		return "user/login";
 	}
@@ -40,22 +43,20 @@ public class MemberController {
 	}
 	
 	//회원가입페이지 이동
-	@GetMapping("join")
+	@GetMapping("/join")
 	public String joinForm(){
 		return "user/join";
 	}
 	
 	
 	//마이페이지 이동
-	@GetMapping("myPage")
+	@GetMapping("/myPage")
 	public String myPage(){
 		return "user/myPage";
 	}
-	
 
-	@CrossOrigin(origins = "http://localhost:8085")
-	@PostMapping("join.me")
-	public ModelAndView joinMember(@RequestBody Member m, HttpServletResponse res) {
+	@PostMapping("/join.me")
+	public ModelAndView joinMember(Member m, HttpServletResponse res) {
 		String encodedPassword = passwordEncoder.encode(m.getUserPwd());
 		m.setUserPwd(encodedPassword);
 		
@@ -65,39 +66,36 @@ public class MemberController {
 		System.out.println(m);
 	
 
-	service.joinMember(m);
-			return mav;
+		service.joinMember(m);
+		return mav;
 	}
-	
 
 	//로그인기능
-	
-	@PostMapping("login.me")
-	public ModelAndView loginMember(@ModelAttribute Member m, HttpSession session, Model model, ModelAndView mv) {
+	@GetMapping("/saveUserData")
+	public ModelAndView loginMember(Authentication authentication, HttpSession session, Model model, ModelAndView mv) {
 		
-	    Member loginUser = service.loginMember(m);
+	   // Member loginUser = service.loginMember(m);
+	   // User loginUser = authService.loadUserByUsername(m.getUserEmail());
+	    model.addAttribute("loginUser", authentication.getPrincipal());
 	    
-	    if (loginUser != null) {
-	        // 로그인 성공 시 세션에 loginUser 저장
-	    	model.addAttribute("loginUser", loginUser);
-	    	
-	    	
-	        System.out.println("로그인기능확인");
-		    System.out.println(m);
-	        // 로그인 성공 후 이동할 페이지로 ModelAndView 설정
-	        mv.setViewName("main"); // 예시: home 페이지로 이동
-	    } else {
-	        // 로그인 실패 처리
-	        // 예를 들어 로그인 실패 메시지를 모델에 추가하고 다시 로그인 페이지로 이동
-	        model.addAttribute("loginError", "아이디 또는 비밀번호가 올바르지 않습니다.");
-	        mv.setViewName("login"); // 예시: 로그인 폼 페이지로 이동
-	    }
+		/*
+		 * if (loginUser != null) { // 로그인 성공 시 세션에 loginUser 저장
+		 * model.addAttribute("loginUser", loginUser);
+		 * 
+		 * 
+		 * System.out.println("로그인기능확인"); System.out.println(m); // 로그인 성공 후 이동할 페이지로
+		 * ModelAndView 설정 mv.setViewName("main"); // 예시: home 페이지로 이동 } else { // 로그인
+		 * 실패 처리 // 예를 들어 로그인 실패 메시지를 모델에 추가하고 다시 로그인 페이지로 이동
+		 * model.addAttribute("loginError", "아이디 또는 비밀번호가 올바르지 않습니다.");
+		 * mv.setViewName("login"); // 예시: 로그인 폼 페이지로 이동 }
+		 */
+	    mv.setViewName("redirect:/");
 	    
 	    return mv;
 	}
 	
 	//업데이트기능
-	@PostMapping("update.me")
+	@PostMapping("/update.me")
 	public String updateMember(
 	        Member m,
 	        Model model,
@@ -121,7 +119,7 @@ public class MemberController {
 	    }
 	    return url;
 	}
-	@PostMapping("delete.me")
+	@PostMapping("/delete.me")
 	public String deleteMember( Member m, HttpSession session) {
 		Member loginUser = service.loginMember(m);
 		System.out.println(m);

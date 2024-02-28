@@ -18,7 +18,7 @@
 }
 
 .content-table{
-	height: 90%;
+	height: 500px;
 	width: 100%;	
 }
 
@@ -49,6 +49,10 @@
 }
 .content-tr>*:last-child{
 	width: 100px;
+}
+
+.content-section{
+	padding-bottom: 50px;
 }
 
 .member-item-wrapper {
@@ -99,6 +103,7 @@
 
 .search-wrapper>select{
 	height: 30px;
+	width: 80px;
 }
 
 .search-wrapper>input{
@@ -140,93 +145,19 @@ select{
 	color: white;
 }
 
-.board-container {
-    width: 50%;
-    height: 500px;
-}
-
-.board-title-wrapper {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.board-title {
-    font-size: 25px;
-    font-weight: 500;
-}
-
-.list {
-    height: 90%;
-    margin-top: 10px;
-    display: block;
-    overflow-x: hidden;
-}
-
-.list>.item>.title{
-	padding-right:5px;
-}
-
-.boardList>.item>.subtitle{
-	padding-right:10px;
-}
-
-.item {
-    display: flex;
-    align-items: center;
-    padding-top: 20px;
-}
-
-.item .icon {
-    width: 10%;
-}
-
-.item .title {
-    width: 30%;
-}
-
-.item .subtitle {
-    width: 60%;
-}
-
-.point-container {
-    width: 80%;
-}
-
-.point-content{
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.point-title-wrapper{
-    display: flex;
-    align-items: center;
-    width: 100%;
-}
-
-.point-title-wrapper>.trash-board-title{
-    width: 15%;
-}
-
-.point-title-wrapper>.trash-board-subtitle{
-    width: 70%;
-}
-
-.table{
+.long-table{
     width: 100%;
     height: 80%;
     padding-top: 20px;
     font-size: 13px;
 }
 
-.table>thead{
+.long-thead{
     text-align: center;
     height: 30px;
 }
 
-.table>tbody>tr{
+.long-tbody{
     text-align: center;
     height: 30px;
 }
@@ -238,12 +169,4 @@ select{
 
 .pageBar a{
     padding: 5px;
-}
-
-.point-table>th{
-	width:25%;
-}
-
-.report-table>th{
-	width:15%;
 }

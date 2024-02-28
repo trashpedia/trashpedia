@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -195,13 +196,16 @@ public class PledgeController {
 	
 	// 댓글수정
 	@PutMapping("/updateComment/{commentNo}")
-	public int updateComment(
-			@PathVariable("commentNo") int commentNo, @RequestBody Comment comment
-			) {
-		
-		System.out.println(commentNo);
+	public int updateComment( @RequestBody Comment comment ) {
 		System.out.println(comment);
 		return service.updateComment(comment);
+	}
+	
+	// 댓글삭제
+	@DeleteMapping("/deleteComment/{commentNo}")
+	public int deleteComment(Comment comment) {
+		System.out.println(comment);
+		return service.deleteComment(comment);
 	}
 	
 	

@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.util.UriComponentsBuilder;
+
 import com.kks.trashpedia.board.model.vo.Attachment;
 import com.kks.trashpedia.board.model.vo.Board;
 import com.kks.trashpedia.board.model.vo.ImgAttachment;
@@ -21,6 +23,7 @@ import com.kks.trashpedia.board.model.vo.Post;
 import com.kks.trashpedia.board.model.vo.SubCategory;
 import com.kks.trashpedia.common.FileStore;
 import com.kks.trashpedia.common.service.CommonService;
+
 import jakarta.servlet.http.HttpSession;
 
 @RestController
@@ -43,15 +46,11 @@ public class CommonController {
 	
 	//카테고리 정보 가지고오기
 	@GetMapping("/write")
-	public ModelAndView getCategory(int bigCategoryNo, int subCategoryNo, int type) {
+	public ModelAndView getCategory(SubCategory subcate, int type) {
 		
 		ModelAndView mv = new ModelAndView();
-		SubCategory subcategory = new SubCategory();
+		SubCategory category = service.getSubCategory(subcate);
 		
-		subcategory.setBigCategoryNo(bigCategoryNo);
-		subcategory.setSubCategoryNo(subCategoryNo);
-		
-		SubCategory category = service.getSubCategory(subcategory);
 		mv.addObject("category",category);
 		mv.addObject("type",type);
 		mv.setViewName("common/boardInsert");
@@ -72,8 +71,6 @@ public class CommonController {
 			@RequestParam int type
 			) throws IOException {
 
-		System.out.println("게시글 등록");
-		
 		ModelAndView mv = new ModelAndView();
 		
 		// post 등록
@@ -82,14 +79,10 @@ public class CommonController {
 		b.setPostNo(postNo);
 		b.setSubCategoryNo(subcategory.getSubCategoryNo());
 		
-		System.out.println(p);
-		System.out.println(b);
-		
 		// board 등록
 		if (postNo > 0) {
 			
 			int boardNo = service.createBoard(b);
-			
 			if (boardNo > 0) { 		
 				// 첨부파일, 이미지 파일 저장
 				Attachment attachment = fileStore.storeFile(upfile);
@@ -134,12 +127,71 @@ public class CommonController {
 	}
 	
 	
+	//게시글수정
+	@GetMapping("/update")
+	public ModelAndView updatePost(SubCategory subcate, Board b) {
+		
+		ModelAndView mv = new ModelAndView();
+		SubCategory category = service.getSubCategory(subcate);
+		
+		Post post = service.getPost(b.getPostNo());
+		
+		System.out.println(post);
+		
+		
+		mv.addObject("category",category);
+		mv.addObject("boardNo",b.getBoardNo());
+		mv.addObject("post",post);
+		mv.setViewName("common/boardInsert");
+		
+		return mv;
+	}
+	
 	//수정날짜 바꿀때 사용할거
 //	LocalDateTime nowTime = LocalDateTime.now();
 //	java.sql.Date date = java.sql.Date.valueOf(nowTime.toLocalDate());
 //	b.setModifyDate(date);
 //	System.out.println("date = "  +date);
-		
+
+	
+	// 목록으로 돌아가기
+	@GetMapping("/returnList")
+	public ModelAndView returnList(
+	        SubCategory subcategory, ModelAndView mv, RedirectAttributes ra, HttpSession session) {
+
+	    String nextUrl = (String) session.getAttribute("lastUrl");
+	    System.out.println(nextUrl);
+
+	    mv.setViewName("redirect:/");
+
+	    if (nextUrl != null) {
+	        // 첫 번째 path segment만 추출
+	        UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(nextUrl);
+	        String firstPathSegment = builder.build().getPathSegments().get(0);
+
+	        mv.setViewName("redirect:" + "/" + firstPathSegment
+	        		+ "/list?bigCategoryNo=" + subcategory.getBigCategoryNo()
+	                + "&subCategoryNo=" + subcategory.getSubCategoryNo());
+	    }
+	    return mv;
+//	    
+//	System.out.println(nextUrl);
+//	   if (nextUrl != null) {
+//	        // "/pledge" 부분만 추출
+//	        String prefix = "/pledge";
+//	        if (nextUrl.startsWith(prefix)) {
+//	            nextUrl = nextUrl.substring(prefix.length());
+//	        }
+//	     System.out.println(nextUrl);
+//	        
+//		mv.setViewName("redirect:/");
+//
+//		if (nextUrl != null) {
+//			mv.setViewName("redirect:" + nextUrl + "?bigCategoryNo=" + subcategory.getBigCategoryNo()
+//					+ "&subCategoryNo=" + subcategory.getSubCategoryNo());
+//		}
+//		return mv;
+	}
 
 	
 	

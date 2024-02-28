@@ -50,45 +50,45 @@ public class BoardServiceImpl implements BoardService{
 	
 	// 무료 페이지
 		@Override
-		public List<Trash> getFreeTrashList() {
+		public List<Board> getFreeTrashList() {
 			return dao.getFreeTrashList();
 		}
 
 		@Override
-		public String getImageUrlByTrashNo(int trashNo) {
-			return dao.getImageUrlByTrashNo(trashNo);
+		public String getImageUrlByboardNo(int boardNo) {
+			return dao.getImageUrlByboardNo(boardNo);
 		}
 
 		@Override
-		public String getTrashTitleByTrashNo(int trashNo) {
-			return dao.getTrashTitleByTrashNo(trashNo);
+		public String getTrashTitleByboardNo(int boardNo) {
+			return dao.getTrashTitleByboardNo(boardNo);
 		}
 
 		@Override
-		public String getTrashContentByTrashNo(int trashNo) {
-			return dao.getTrashContentByTrashNo(trashNo);
+		public String getTrashContentByboardNo(int boardNo) {
+			return dao.getTrashContentByboardNo(boardNo);
 		}
 		// 무료 페이지
 
 		// 무료 상세 페이지
 		@Override
-		public Trash getFreeTrashDetail(int trashNo) {
-			return dao.getFreeTrashDetail(trashNo);
+		public Board getFreeTrashDetail(int boardNo) {
+			return dao.getFreeTrashDetail(boardNo);
 		}
 
 		@Override
-		public String getTrashWriterByTrashNo(int trashNo) {
-			return dao.getTrashWriterByTrashNo(trashNo);
+		public String getTrashWriterByboardNo(int boardNo) {
+			return dao.getTrashWriterByboardNo(boardNo);
 		}
 
 		@Override
-		public String getTrashCreateByTrashNo(int trashNo) {
-			return dao.getTrashCreateByTrashNo(trashNo);
+		public String getTrashCreateByboardNo(int boardNo) {
+			return dao.getTrashCreateByboardNo(boardNo);
 		}
 
 		@Override
-		public Date getTrashViewsByTrashNo(int trashNo) {
-			return dao.getTrashViewsByTrashNo(trashNo);
+		public Date getTrashViewsByboardNo(int boardNo) {
+			return dao.getTrashViewsByboardNo(boardNo);
 		}
 	
 	

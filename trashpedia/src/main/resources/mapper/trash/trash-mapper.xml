@@ -44,7 +44,9 @@
 	    <![CDATA[
 		    SELECT ORIGIN_NAME
 		    FROM IMG_ATTACHMENT
-		    WHERE REF_BNO = #{trashNo} 
+		    WHERE REF_BNO = (SELECT POST_NO
+		    				 FROM TRASH
+		    				 WHERE TRASH_NO=#{trashNo})
 		    AND IMG_TYPE = 2 
 		    AND IMG_LEVEL = 1
 	    ]]>
@@ -56,10 +58,22 @@
         <![CDATA[
         	SELECT TRASH_CONTENT
 		    FROM TRASH_POST
-		    WHERE TRASH_POST_NO = #{trashNo}
+		    WHERE TRASH_POST_NO = (SELECT POST_NO
+			    				   FROM TRASH
+			    				   WHERE TRASH_NO=#{trashNo})
         ]]>
 	</select>
 
+	<select id="getTrashTitleByTrashNo" resultType="String"
+		parameterType="int">
+        <![CDATA[
+        	SELECT TRASH_TITLE
+		    FROM TRASH_POST
+		    WHERE TRASH_POST_NO = (SELECT POST_NO
+		    				 		FROM TRASH
+		    				 		WHERE TRASH_NO=#{trashNo})
+        ]]>
+	</select>
 
 
 	<select id="getPopularTrashList" resultType="Trash">
@@ -79,14 +93,6 @@
 
 
 
-	<select id="getTrashTitleByTrashNo" resultType="String"
-		parameterType="int">
-        <![CDATA[
-        	SELECT TRASH_TITLE
-		    FROM TRASH_POST
-		    WHERE TRASH_POST_NO = #{trashNo}
-        ]]>
-	</select>
 
 
 </mapper>

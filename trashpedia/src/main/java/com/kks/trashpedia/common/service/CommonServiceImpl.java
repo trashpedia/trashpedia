@@ -32,7 +32,7 @@ public class CommonServiceImpl implements CommonService{
 	//게시글 등록(Board)
 	@Override
 	public int createBoard(Board b) {
-		 dao.createBoard(b);
+		dao.createBoard(b);
 		return b.getBoardNo();
 	}
 	
@@ -51,6 +51,12 @@ public class CommonServiceImpl implements CommonService{
 		}
 				
 		return result1*result2;
+	}
+
+	// 게시글 수정
+	@Override
+	public Post getPost(int postNo) {
+		return dao.getPost(postNo);
 	}
 
 

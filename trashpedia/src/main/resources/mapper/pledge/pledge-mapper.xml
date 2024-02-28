@@ -87,6 +87,7 @@
 		SELECT *
 		FROM "COMMENT"
 		WHERE BOARD_NO = #{boardNo} AND USER_NO = #{userNo} AND STATUS = 'Y'
+		ORDER BY COMMENT_NO DESC
 	</select>
 
 	<!-- 댓글등록 -->
@@ -101,6 +102,18 @@
 	    SET CONTENT=#{content}, MODIFY_DATE = SYSDATE
 	    WHERE COMMENT_NO = #{commentNo}
 	</update>
+	
+	<!-- 댓글삭제 -->
+	<update id="deleteComment" parameterType="comment">
+		UPDATE "COMMENT"
+		SET STATUS = 'N'
+		WHERE COMMENT_NO = #{commentNo}
+	</update>
+	
+	
+	
+	
+	
 
 	
 </mapper>

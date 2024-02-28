@@ -16,6 +16,7 @@ public class AuthServiceImpl implements AuthService{
 	
 	@Override
 	public User loadUserByUsername(String socialId) throws UsernameNotFoundException {
-		return authDao.loadUserByUsername(Long.parseLong(socialId) ,"kakao");
+		
+		return authDao.loadUserByUsername(socialId);
 	}
 }

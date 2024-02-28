@@ -2,7 +2,6 @@
 
 .content-container {
     width: 50%;
-    height: 700px;
     padding: 20px;
     margin-top: 20px;
     border: 1px solid gray;
@@ -21,7 +20,7 @@
 }
 
 .content-table{
-	height: 90%;
+	height: 600px;
 	width: 100%;	
 }
 

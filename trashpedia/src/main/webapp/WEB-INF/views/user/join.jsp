@@ -14,7 +14,7 @@
 <body>
     <jsp:include page="../common/header.jsp"/>
     <main>
-    <form id="enroll-form" action="join.me" method="POST" onsubmit="submitForm();">
+    <form id="enroll-form" action="join.me" method="post" onsubmit="submitForm();">
 	    <div class="member">
 	        <!-- 1. 로고 -->
 	        <div class="logo">회원가입</div>

@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -26,58 +25,58 @@ import com.kks.trashpedia.trash.model.vo.TrashPost;
 
 @RestController
 public class BoardController {
-	
+
 	@Autowired
 	private BoardService service;
 
-	//게시판 메인페이지 이동
+	// 게시판 메인페이지 이동
 	@GetMapping("/board")
 	public ModelAndView boardMain() {
 		List<BigCategory> bc = service.bigCategory();
 		List<SubCategory> sc = service.subCategory();
 		List<Post> post = service.categoryList();
 		ModelAndView mav = new ModelAndView();
+
 		mav.addObject("bc",bc);
 		mav.addObject("sc",sc);
 		mav.addObject("post",post);
+
 		mav.setViewName("board/boardMain");
 		return mav;
 	}
-	
-	//정보자료글 페이지 이동
+
+	// 정보자료글 페이지 이동
 	@GetMapping("/boardInformation")
 	public ModelAndView boardInformation() {
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("board/information/informationList");
 		return mav;
 	}
-	
-	
-	// 무료나눔 상세페이지 이동
-			@GetMapping("/boardFreeShare")
-			public ModelAndView boardFreeShare() {
-				ModelAndView mav = new ModelAndView();
-				List<Trash> boardFreeTrashList = service.getFreeTrashList(); // 이 메서드는 인기 쓰레기 정보를 가져오는 메서드
-		
-				
-				// popularTrashList의 각 항목에 대해 이미지 URL과 제목을 가져와서 설정
-				// 이미지 주소와 쓰레기 이름 가져오기
-				for (Trash trash : boardFreeTrashList) {
-					String imageUrl = service.getImageUrlByTrashNo(trash.getTrashNo());
-					Image image = new Image();
-					image.setOriginName(imageUrl);
-		
-					String trashTitle = service.getTrashTitleByTrashNo(trash.getTrashNo());
-					TrashPost trashPost = new TrashPost();
-					trashPost.setTrashTitle(trashTitle);
-		
-		
-				}
-		
-				mav.addObject("boardFreeTrashList", boardFreeTrashList);
-				mav.setViewName("board/freeShare/freeShare");
-				return mav;
-			}
+
+	// 무료나눔 페이지 이동
+	@GetMapping("/boardFreeShare")
+	public ModelAndView boardFreeShare() {
+		ModelAndView mav = new ModelAndView();
+		List<Board> boardFreeTrashList = service.getFreeTrashList(); // 이 메서드는 인기 쓰레기 정보를 가져오는 메서드
+
+		// popularTrashList의 각 항목에 대해 이미지 URL과 제목을 가져와서 설정
+		// 이미지 주소와 쓰레기 이름 가져오기
+		for (Board trash : boardFreeTrashList) {
+			String imageUrl = service.getImageUrlByboardNo(trash.getBoardNo());
+			Image image = new Image();
+			image.setOriginName(imageUrl);
+
+			String trashTitle = service.getTrashTitleByboardNo(trash.getBoardNo());
+			TrashPost trashPost = new TrashPost();
+			trashPost.setTrashTitle(trashTitle);
+
+		}
+
+		mav.addObject("boardFreeTrashList", boardFreeTrashList);
+		mav.setViewName("board/freeShare/freeShare");
+		return mav;
+	}
+
 	// 무료나눔 상세페이지 이동
 			@GetMapping("/boardFreeShare/{trashNo}")
 			public ModelAndView boardFreeShareDetail(int trashNo) {
@@ -139,23 +138,16 @@ public class BoardController {
 			@RequestParam(value="searchSelect", required=false) String searchSelect,
 			@RequestParam(value="searchValue", required=false) String searchValue) {
 		
-		Pageable customPageable = PageRequest.of(page, 15, Sort.Direction.DESC, "boardNo");
 		Page<Board> pages = service.boardList(subCategoryNo, pageable, page, filter, searchSelect, searchValue);
-		
+
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("boardList", pages);
+
 		mav.setViewName("board/notice/boardList");
 		return mav;
 	}
-	
-	
 
-	
-	
-	
-	
-	
-	//건의게시판 페이지 이동
+	// 건의게시판 페이지 이동
 	@GetMapping("/boardSuggestion")
 	public ModelAndView boardSuggestion() {
 		ModelAndView mav = new ModelAndView();
@@ -177,12 +169,4 @@ public class BoardController {
 	        mav.setViewName("board/notice/boardDetail");
 	        return mav;
 	    }
-	 
-	 
-	 
-	
-	
-
-	
-	
 }
