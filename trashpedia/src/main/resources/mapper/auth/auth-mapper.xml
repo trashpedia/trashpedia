@@ -17,6 +17,11 @@
 		</constructor>
 	</resultMap>
 	
+	<select id="findMemberByEmail" parameterType="string"
+		resultType="member">
+		SELECT * FROM MEMBER WHERE USER_EMAIL = #{userEmail}
+	</select>
+	
 	<select id="loadUserByUsername" resultMap="userResultSet" >
 		SELECT
 			*

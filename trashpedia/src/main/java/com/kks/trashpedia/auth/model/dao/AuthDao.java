@@ -18,8 +18,6 @@ public class AuthDao {
 	
 	public User loadUserByUsername(String socialId) {
 		return session.selectOne("auth.loadUserByUsername" , socialId); // userName
-		
-		
 	}
 
 	public User insertUserBySocialLogin(Member m) {
@@ -31,6 +29,10 @@ public class AuthDao {
 		session.insert("auth.insertUserAuthorityBySocialLogin" , m);
 		//4) loadUserByUsername함수호출하여 반환값 전달.
 		return this.loadUserByUsername( m.getSocialId());
+	}
+
+	public Member findMemberByEmail(String userEmail) {
+		 return session.selectOne("auth.findMemberByEmail", userEmail);
 	}
 	
 }

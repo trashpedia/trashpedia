@@ -1,4 +1,4 @@
-package com.kks.trashpedia.config;
+package com.kks.trashpedia;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,7 +22,7 @@ import lombok.RequiredArgsConstructor;
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class WebSecurityConfig {
-	
+
 	private final JwtTokenProvider jwtProvider;
 	
 	@Bean
@@ -30,6 +30,7 @@ public class WebSecurityConfig {
 		PasswordEncoder encoder = new BCryptPasswordEncoder();
 		return encoder;
 	}
+	
 	
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
@@ -67,7 +68,3 @@ public class WebSecurityConfig {
     }
 
 }
-
-
-
-

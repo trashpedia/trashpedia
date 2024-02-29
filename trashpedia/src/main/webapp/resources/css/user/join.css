@@ -54,6 +54,20 @@ select{
 }
 #id-1{
     display: flex;
+    width:100%;
+}
+
+#doubleCheckBtn{
+	width:80px;
+	height:30px;
+	background-color:#5cc33a;
+	border:1px solid #5cc33a;
+	border-radius:5px;
+	margin-left:330px;
+	margin-bottom:5px;
+	color:white;
+	font-weight:700;
+	
 }
 
 #email-1{
@@ -199,8 +213,18 @@ border-radius: 5px;
     background-image: url('/images/ico_possible.jpg'); /* 이미지 경로 확인 필요 */
     background-repeat: no-repeat;
 }
+#sample6_postcode{
+	margin-right:5px;
 
+}
 
+#sample6_detailAddress{
+	margin-right:5px;
+}
+
+#phoneBox{
+	margin-right:5px;
+}
 
 .ico-impossible {
     margin-top: 0px;
