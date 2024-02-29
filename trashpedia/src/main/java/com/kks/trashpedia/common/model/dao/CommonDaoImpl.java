@@ -47,10 +47,16 @@ public class CommonDaoImpl implements CommonDao{
 		return session.insert("boardMapper.insertImgAttachment",image);
 	}
 
-	//게시글수정
+	//게시글수정페이지 이동
 	@Override
 	public Post getPost(int postNo) {
 		return session.selectOne("boardMapper.getPost", postNo);
+	}
+
+	//게시글 수정
+	@Override
+	public int updatePost(Post p) {
+		return session.update("boardMapper.updatePost",p);
 	}
 
 	

@@ -53,10 +53,16 @@ public class CommonServiceImpl implements CommonService{
 		return result1*result2;
 	}
 
-	// 게시글 수정
+	// 게시글 수정페이지 이동
 	@Override
 	public Post getPost(int postNo) {
 		return dao.getPost(postNo);
+	}
+
+	//게시글 수정
+	@Override
+	public int updatePost(Post p) {
+		return dao.updatePost(p);
 	}
 
 

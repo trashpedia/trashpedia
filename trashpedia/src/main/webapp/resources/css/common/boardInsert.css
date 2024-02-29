@@ -18,7 +18,7 @@ main{
 /* 카테고리 부분 */
 .content-category-outer{
 	margin-top : 30px;
-	padding-left : 35px;
+	padding-left: 44px; 
     text-align: left;
     display: flex;
     justify-content: flex-start;
@@ -46,7 +46,6 @@ main{
 .content-input-outer{
    text-align: center;
    margin-top: 22px;
-   /* margin-bottom: 10px; */
    padding-left : 10px;
 }
 .input-title{
@@ -56,6 +55,7 @@ main{
     border: 0;
     font-weight: 550;
     padding-top: 10px;
+    padding-left : 20px;
     height : 40px;
 }
 .input-title:focus{
@@ -64,26 +64,56 @@ main{
 
 .content-input-outer hr{
     margin-top: 10px;
-    width: 820px;
+    width: 818px;
 }
 
 /* 파일 등록 부분  */
 .file-input-outer{
     box-sizing: border-box;
-	background-color : rgb(243, 243, 243);
+	background-color : rgb(246, 246, 246);
 	display: flex;
     flex-direction: column;
     padding : 15px;
     padding-left : 30px;
+    padding-bottom: 17px;
     width : 820px;
-    font-size : 13px;
+    font-size : 14px;
     color: rgb(63, 63, 63);
-    margin-top : -7px;
+    margin-top : -8px;
     margin-bottom : 20px;
     margin-left : 6px;
 }
-.file-input-outer span{
-	margin-bottom : 6px;
+
+.content-attach-inner td{
+	padding : 2px;
+	vertical-align : top;
+}
+.thumbnailBox{
+	display : flex;
+	flex-direction: column;
+}
+.thumbnailBox input{
+	margin-bottom : 5px;
+} 
+.thumbnailBox #thumbNailImg{
+	height : 95px;
+	width : 95px;
+}
+
+#attachFile{
+	margin-left : 6px;
+}
+
+.xButton{
+	border : 0;
+	width : 20px;
+	padding : 0;
+	margin-left : 5px;
+	text-align : center;
+	font-size : 15px;
+	font-weight : 600;
+	border-radius: 3px;
+	background-color: transparent; 
 }
 
 /* ---------- 내용 ---------- */
@@ -92,9 +122,22 @@ main{
     display: flex;
     flex-direction: column;
     align-items: center;
+    
 }
-
-
+/* 최대글자수 */
+#maxLength{
+	display: flex;
+    justify-content: flex-end;
+    margin-top : 8px;
+	margin-bottom : 6px;
+	width : 86%;
+	font-size : 14px;
+	font-weight : 420;
+	color: rgb(63, 63, 63);
+}
+#charCount{
+	margin-right : 5px;
+}
 /* 수정 목록 삭제 버튼 */
 .post-buttons{
     margin-top: 40px;
