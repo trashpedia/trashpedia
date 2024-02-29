@@ -38,8 +38,9 @@ public class BoardDaoImpl implements BoardDao {
 		param.put("filter", filter);
 		param.put("searchSelect", searchSelect);
 		param.put("searchValue", searchValue);
+		param.put("subCategoryNo", subCategoryNo);
 		List<Board> pages = session.selectList("boardMapper.boardList", param,
-				new RowBounds(page, pageable.getPageSize()));
+				new RowBounds(page*pageable.getPageSize(), pageable.getPageSize()));
 		int totalCount = session.selectOne("boardMapper.boardCount", param);
 		return new PageImpl<>(pages, pageable, totalCount);
 	}
@@ -62,7 +63,7 @@ public class BoardDaoImpl implements BoardDao {
 	public List<Post> categoryList() {
 		return session.selectList("boardMapper.categoryList");
 	}
-
+	
 	
 	
 	

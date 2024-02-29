@@ -1,32 +1,32 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="contextPath" value="<%=request.getContextPath() %>"/>
+<c:url var="currentUrl" value="/trashpedia/pledge/list">
+    <c:param name="subCategoryNo" value="${currentSubCategoryNo}" />
+    <c:param name="bigCategoryNo" value="${currentBigCategoryNo}" />
+</c:url>
+<c:set var="subCategoryNo" value="${param.subCategoryNo}" />
+<c:set var="bigCategoryNo" value="${param.bigCategoryNo}" />
 
 <!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>공지사항</title>
+    <title>커뮤니티</title>
     <link rel="stylesheet" href="${contextPath}/resources/css/board/boardList.css">
-
-
+	<!-- jQuery -->
+	<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 </head>
 
-<!-- jQuery -->
-<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-<!-- css -->
-<link rel="stylesheet" href="css/mainPage.css">
-
-
-<!-- slick 라이브러리 CSS -->
-<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
-<!-- slick 라이브러리 테마 CSS (선택사항) -->
-<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css" />
-<!-- slick 라이브러리 JS -->
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
 
 <body>
+	<c:if test="${not empty alert}">
+		<script>
+		    alert("${alert}");
+		</script>
+		<c:remove var="alert" />
+	</c:if>
 
    <jsp:include page="../../common/header.jsp" />
 
@@ -43,9 +43,57 @@
         <!--list-->
         <div class="board_wrap">
             <div class="board_title">
-                <strong>공지사항</strong>
+            	<c:choose>
+            		<c:when test="${subCategoryNo == 1 }">
+            			<strong>공지사항</strong>
+            		</c:when>
+            		<c:when test="${subCategoryNo == 2 }">
+            			<strong>일반게시판</strong>
+            		</c:when>
+            		<c:when test="${subCategoryNo == 3 }">
+            			<strong>건의게시판</strong>
+            		</c:when>
+            		<c:when test="${subCategoryNo == 4 }">
+            			<strong>무료나눔게시판</strong>
+            		</c:when>
+            	</c:choose>
+				               
                 <p>공지사항을 빠르고 정확하게 안내해드립니다.</p>
             </div>
+
+<%-- ${contextPath}/board/list?subCategoryNo=${sc.subCategoryNo}&filter=createDate&searchSelect=&searchValue=&page=0 --%>
+			<!-- 검색 폼 추가 -->
+<!-- 			<div class="search-form"> -->
+<%-- 				<form action="${contextPath}/board/list" method="get"> --%>
+<%-- 					<input type="hidden" name="subCategoryNo" value="${subCategoryNo}"> --%>
+<!-- 					<input type="text" name="searchValue" placeholder="검색어를 입력하세요" aria-label="검색"> -->
+<!-- 					<button type="submit">검색</button> -->
+<!-- 				</form> -->
+<!-- 			</div> -->
+
+
+			<form action="${contextPath}/board/list
+				?subCategoryNo=${subCategoryNo}
+				&filter=${filter}
+				&searchSelect=${searchSelect}
+				&searchValue=${searchValue}
+				&page=0" method="get">
+			    <select name="searchSelect">
+			        <option value="boardNo">게시글 번호</option>
+			        <option value="title">제목</option>
+			        <option value="content">내용</option>
+			    </select>
+			    <input type="text" name="searchValue" placeholder="검색어를 입력하세요">
+			    
+<!-- 			    <select name="filter"> -->
+<!-- 			        <option value="createDate">작성일</option> -->
+<!-- 			        <option value="hitCount">조회수</option> -->
+<!-- 			    </select> -->
+			    
+			    <button type="submit">검색</button>
+			</form>
+
+
             <div class="board_list_wrap">
                 <div class="board_list">
                     <div class="top">
@@ -60,123 +108,39 @@
 	                    <div>
 	                        <%-- <div class="num">${board.count}</div> --%>
 	                        <div class="num">${board.postNo}</div>
-	                        <div class="title"><a href="${contextPath}/boardDetail/${board.postNo}">${board.title}</a></div>
+	                        <div class="title"><a href="${contextPath}/board/detail/${board.postNo}">${board.title}</a></div>
 	                        <div class="writer">${board.userName}</div>
 	                        <div class="date">${board.createDate}</div>
-	                        <%--  <div class="count">${board.viewCount}</div> --%>
+<%-- 	                         <div class="count">${board.viewCount}</div> --%>
 	                    </div>
                		</c:forEach>
                     
                 </div>
                 
-                <div class="board_page">
-				    <c:if test="${boardList.number == 0}">
-				        <a href="${contextPath}/boardList?page=${boardList.number - 1}" class="bt prev">&lt;</a>
+            
+				<div class="board_page">
+				    <c:if test="${boardList.number > 0}">
+				        <a href="${contextPath}/board/list?page=${boardList.number - 1}&subCategoryNo=${subCategoryNo}" class="bt prev">&lt;</a>
 				    </c:if>
 				    
-				    <c:forEach begin="0" end="${boardList.totalPages -1}" items="${boardList.content}" var="pageNum" varStatus="i">
-				        <c:if test="${i.index >= boardList.number - 5 && i.index <= boardList.number + 5}">
-				            <a href="${contextPath}/boardList?page=${i.index}" class="${i.index == boardList.number ? 'num on' : 'num'}">${i.index + 1}</a>
-				        </c:if>
+				    <c:forEach begin="0" end="${boardList.totalPages - 2}" var="pageNum">
+				            <a href="${contextPath}/board/list?page=${pageNum}&subCategoryNo=${subCategoryNo}" 
+				            	class="${pageNum == boardList.number ? 'num on' : 'num'}">${pageNum+1}
+				            </a>
 				    </c:forEach>
 				    
-				    <c:if test="${boardList.number == boardList.totalPages}">
-				        <a href="${contextPath}/boardList?page=${boardList.number + 1}" class="bt next">&gt;</a>
+				    <c:if test="${boardList.number + 1 < boardList.totalPages}">
+				        <a href="${contextPath}/board/list?page=${boardList.number + 1}&subCategoryNo=${subCategoryNo}" class="bt next">&gt;</a>
 				    </c:if>
 				</div>
-                
-                
-                
-                <div class="board_page">
-                    <a href="#" class="bt first"><<</a>
-                    <a href="#" class="bt prev"><</a>
-                    <a href="/boardList" class="num on">1</a>
-                    <a href="/boardList" class="num">2</a>
-                    <a href="/boardList" class="num">3</a>
-                    <a href="/boardList" class="num">4</a>
-                    <a href="/boardList" class="num">5</a>
-                    <a href="#" class="bt next">></a>
-                    <a href="#" class="bt last">>></a>
-                </div>
-                <div class="bt_wrap">
-                    <a href="board_write.html" class="on">등록</a>
-                    <!--<a href="#">수정</a>-->
+
                 </div>
             </div>
-        </div>
-
-
     </main>
 
      <jsp:include page="../../common/footer.jsp" />
 
-
      <script>
-        //  header footer 로딩 , 나중에 지울거
-        $(function(){
-            $("#header").load("header.html"); 
-            $("#footer").load("footer.html");
-        })
-    
-        // 최근 업데이트 된 쓰레기 슬라이드
-        $(document).ready(function(){
-                $('#recently-garbage-slider .recently-garbage-inner').slick({
-                    slidesToShow: 4,
-                    slidesToScroll: 1,
-                    autoplay: true,
-                    autoplaySpeed: 2500, // 2.5초마다 슬라이드 전환
-                    dots: true,
-                    appendDots: $('#recently-garbage-slider .slick-dots')
-                });
-        });
-
-        // 스크롤 버튼 클릭 시  body를 1005px 아래로 스크롤
-        $(document).ready(function() {
-            $("#scrollButton").click(function() {
-                $("body, html").animate({ 
-                    scrollTop: 1005 
-                }, 1000); 
-            });
-        });
-
-
-        // 스크롤 변화에 따른 header 스타일 변경
-        window.addEventListener('scroll', function() {
-            var header = document.querySelector('.header');
-            var headerLinks = document.querySelectorAll('.header-nav ul li a');
-            var headerRihtLink = document.querySelectorAll('.header-right li a, .header-right li span');
-
-            if (window.scrollY > 100) {
-                header.classList.add('header-scroll');
-                headerLinks.forEach(function(link) {
-                    link.style.color = 'black'; 
-                    link.style.fontWeight = '600';
-                });
-                headerRihtLink.forEach(function(link) {
-                    link.style.color = 'rgb(88, 88, 88)'; 
-                });
-
-            } else {
-                header.classList.remove('header-scroll');
-                headerLinks.forEach(function(link) {
-                    link.style.color = ''; // 링크 텍스트 색상 초기화
-                });
-                headerRihtLink.forEach(function(link) {
-                    link.style.color = ''; // 링크 텍스트 색상 초기화
-                });
-
-            }
-        });
-
-        document.addEventListener("DOMContentLoaded", function() {
-            var img = document.querySelector('.backgroundImg img');
-
-            img.addEventListener('load', function() {
-                img.classList.add('loaded');
-            });
-        });
-                
-    
     </script>
 </body>
 </html> 
