@@ -18,7 +18,10 @@ public interface CommonService {
 
 	int insertFiles(Attachment attachment, ImgAttachment image);
 
-	// 게시글 수정
+	// 게시글 수정 페이지 이동
 	Post getPost(int postNo);
+
+	// 게시글 수정
+	int updatePost(Post p);
 
 }
