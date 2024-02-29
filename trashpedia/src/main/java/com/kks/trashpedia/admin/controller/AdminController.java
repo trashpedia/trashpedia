@@ -19,7 +19,6 @@ import com.kks.trashpedia.admin.model.service.adminService;
 import com.kks.trashpedia.board.model.vo.BigCategory;
 import com.kks.trashpedia.board.model.vo.Board;
 import com.kks.trashpedia.board.model.vo.Comment;
-import com.kks.trashpedia.board.model.vo.Post;
 import com.kks.trashpedia.board.model.vo.SubCategory;
 import com.kks.trashpedia.member.model.vo.Member;
 import com.kks.trashpedia.point.model.vo.PointHistory;
@@ -182,24 +181,29 @@ public class AdminController {
 	}
 	// 관리자 회원 관리 유저 상세 댓글 상세
 	@GetMapping("/getCommentDetailData")
-	public Board getCommentDetail(@RequestParam int commentNo) {
-		return service.getCommentDetail(commentNo);
-	}
-	// 관리자 회원 관리 유저 상세 댓글 상세
-	@GetMapping("/getNestedCommentDetailData")
-	public Board getNestedCommentDetail(@RequestParam int nestedCommentNo) {
-		return service.getNestedCommentDetail(nestedCommentNo);
+	public List<Comment> getCommentDetail(@RequestParam int boardNo, @RequestParam int userNo) {
+		return service.getCommentDetail(boardNo, userNo);
 	}
 	// 관리자 회원 관리 유저 상세 포인트 리스트
 	@GetMapping("/getMemberPointList")
-	public ResponseEntity<Page<PointHistory>> getMemberPointList(@PageableDefault(size = 20, sort = "id", direction = Sort.Direction.DESC) @RequestParam int userNo, @RequestParam int page, Pageable pageable) {
-		Page<PointHistory> pages = service.getMemberPointList(pageable, page, userNo);
+	public ResponseEntity<Page<PointHistory>> getMemberPointList(@PageableDefault(size = 20, sort = "id", direction = Sort.Direction.DESC) Pageable pageable,
+	@RequestParam int userNo,
+	@RequestParam int page,
+	@RequestParam String sort,
+	@RequestParam String searchSelect,
+	@RequestParam String searchValue) {
+		Page<PointHistory> pages = service.getMemberPointList(pageable, page, userNo, sort, searchSelect, searchValue);
 		return ResponseEntity.ok(pages);
 	}
 	// 관리자 회원 관리 유저 상세 신고 리스트
 	@GetMapping("/getMemberReportList")
-	public ResponseEntity<Page<Report>> getMemberReportList(@PageableDefault(size = 20, sort = "id", direction = Sort.Direction.DESC) @RequestParam int userNo, @RequestParam int page, Pageable pageable) {
-		Page<Report> pages = service.getMemberReportList(pageable, page, userNo);
+	public ResponseEntity<Page<Report>> getMemberReportList(@PageableDefault(size = 20, sort = "id", direction = Sort.Direction.DESC) Pageable pageable,
+	@RequestParam int userNo,
+	@RequestParam int page,
+	@RequestParam String sort,
+	@RequestParam String searchSelect,
+	@RequestParam String searchValue) {
+		Page<Report> pages = service.getMemberReportList(pageable, page, userNo, sort, searchSelect, searchValue);
 		return ResponseEntity.ok(pages);
 	}
 	
@@ -222,25 +226,23 @@ public class AdminController {
 	// 관리자 게시판 관리 게시글 리스트
 	@GetMapping("/loadBoardListData")
 	public ResponseEntity<Page<Board>> loadBoardListData(@PageableDefault(size = 20, sort = "id", direction = Sort.Direction.DESC) Pageable pageable,
-			@RequestParam int subCategoryNo,
 			@RequestParam int page,
 			@RequestParam String sort,
 			@RequestParam String searchSelect,
 			@RequestParam String searchValue){
-		Page<Board> pages = service.loadBoardListData(pageable, page, subCategoryNo, sort, searchSelect, searchValue);
+		Page<Board> pages = service.loadBoardListData(pageable, page, sort, searchSelect, searchValue);
 		return ResponseEntity.ok(pages);
 	}
-	@GetMapping("/loadBoardCount")
-	public int loadBoardCount(@RequestParam int subCategoryNo) {
-		return service.loadBoardCount(subCategoryNo);
+	// 관리자 게시판 관리 게시글 리스트
+	@GetMapping("/loadCommentListData")
+	public ResponseEntity<Page<Board>> loadCommentListData(@PageableDefault(size = 20, sort = "id", direction = Sort.Direction.DESC) Pageable pageable,
+			@RequestParam int page,
+			@RequestParam String sort,
+			@RequestParam String searchSelect,
+			@RequestParam String searchValue){
+		Page<Board> pages = service.loadCommentListData(pageable, page, sort, searchSelect, searchValue);
+		return ResponseEntity.ok(pages);
 	}
-	// 관리자 게시판 관리 게시글 디테일
-	@GetMapping("/loadBoardDetailData")
-	public ResponseEntity<Post> loadBoardDetailData(@RequestParam int boardNo){
-		Post list = service.loadBoardDetailData(boardNo);
-		return ResponseEntity.ok(list);
-	}
-	
 	@GetMapping("/trash")
 	public ModelAndView trashManagement() {
 		

@@ -16,9 +16,14 @@ public class Comment {
 	private String content;
 	private Date createDate;
 	private Date modifyDate;
-	private String stauts;
+	private String status;
 	
 	// adminMain = BoardCharts
 	private String orderDay;
 	private int countComment;
+	
+	private int hit;
+	
+	private String title;
+	private String subCategoryName;
 }

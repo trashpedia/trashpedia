@@ -11,7 +11,6 @@ import com.kks.trashpedia.admin.model.dao.AdminDao;
 import com.kks.trashpedia.board.model.vo.BigCategory;
 import com.kks.trashpedia.board.model.vo.Board;
 import com.kks.trashpedia.board.model.vo.Comment;
-import com.kks.trashpedia.board.model.vo.Post;
 import com.kks.trashpedia.board.model.vo.SubCategory;
 import com.kks.trashpedia.member.model.vo.Member;
 import com.kks.trashpedia.point.model.vo.PointHistory;
@@ -121,23 +120,18 @@ public class adminServiceImpl implements adminService{
 	}
 
 	@Override
-	public Board getCommentDetail(int commentNo) {
-		return dao.getCommentDetail(commentNo);
+	public List<Comment> getCommentDetail(int boardNo, int userNo) {
+		return dao.getCommentDetail(boardNo, userNo);
 	}
 
 	@Override
-	public Board getNestedCommentDetail(int nestedCommentNo) {
-		return dao.getNestedCommentDetail(nestedCommentNo);
+	public Page<PointHistory> getMemberPointList(Pageable pageable, int page, int userNo, String sort, String searchSelect, String searchValue) {
+		return dao.getMemberPointList(pageable, page, userNo, sort, searchSelect, searchValue);
 	}
 
 	@Override
-	public Page<PointHistory> getMemberPointList(Pageable pageable, int page, int userNo) {
-		return dao.getMemberPointList(pageable, page, userNo);
-	}
-
-	@Override
-	public Page<Report> getMemberReportList(Pageable pageable, int page, int userNo) {
-		return dao.getMemberReportList(pageable, page, userNo);
+	public Page<Report> getMemberReportList(Pageable pageable, int page, int userNo, String sort, String searchSelect, String searchValue) {
+		return dao.getMemberReportList(pageable, page, userNo, sort, searchSelect, searchValue);
 	}
 
 	@Override
@@ -151,13 +145,13 @@ public class adminServiceImpl implements adminService{
 	}
 
 	@Override
-	public Page<Board> loadBoardListData(Pageable pageable, int page, int subCategoryNo, String sort, String searchSelect, String searchValue) {
-		return dao.loadBoardListData(pageable, page, subCategoryNo, sort, searchSelect, searchValue);
+	public Page<Board> loadBoardListData(Pageable pageable, int page, String sort, String searchSelect, String searchValue) {
+		return dao.loadBoardListData(pageable, page, sort, searchSelect, searchValue);
 	}
 
 	@Override
-	public Post loadBoardDetailData(int boardNo) {
-		return dao.loadBoardDetailData(boardNo);
+	public Page<Board> loadCommentListData(Pageable pageable, int page, String sort, String searchSelect, String searchValue) {
+		return dao.loadCommentListData(pageable, page, sort, searchSelect, searchValue);
 	}
 
 	@Override
@@ -179,6 +173,7 @@ public class adminServiceImpl implements adminService{
 	public int loadBoardCount(int subCategoryNo) {
 		return dao.loadBoardCount(subCategoryNo);
 	}
+
 
 
 }

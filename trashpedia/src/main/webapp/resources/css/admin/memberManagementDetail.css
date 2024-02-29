@@ -1,142 +1,175 @@
 @charset "UTF-8";
 
 .content-container {
-    width: 100%;
-    padding: 20px;
-    margin-top: 20px;
-}
-
-.content-title-wrapper{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.content-title{
-    font-size: 25px;
-    font-weight: 500;
-}
-
-.content-table{
-	height: 500px;
-	width: 100%;	
-}
-
-.content-thead{
 	width: 100%;
-	display:block;
+	padding: 20px;
+	margin-top: 20px;
 }
 
-.content-tbody{
-    height: 85%;
-    display:block;
-    overflow:auto;
+.content-title-wrapper {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
 }
 
-.content-tr{
+.content-title {
+	font-size: 25px;
+	font-weight: 500;
+}
+
+.content-table {
+	height: 500px;
+	width: 100%;
+}
+
+.content-thead {
+	width: 100%;
+	display: block;
+}
+
+.content-tbody {
+	height: 85%;
+	display: block;
+	overflow: auto;
+}
+
+.content-tr {
 	height: 70px;
 	text-align: center;
 }
 
-.content-tr>*:first-child{
+.content-tr>*:first-child {
 	width: 50px;
 }
-.content-tr>*:nth-child(2){
-	width: 250px;
-}
-.content-tr>*:nth-child(3){
-	width: 70px;
-}
-.content-tr>*:last-child{
-	width: 100px;
+
+.content-tr>*:nth-child(2) {
+	width: 150px;
 }
 
-.content-section{
+.content-tr>*:nth-child(3) {
+	width: 150px;
+}
+
+.content-tr>*:last-child {
+	width: 230px;
+}
+
+.content-section {
 	padding-bottom: 50px;
 }
 
 .member-item-wrapper {
-    flex: 1 1 0;
-    justify-content: center;
-    display: flex;
-    align-items: center;
+	flex: 1 1 0;
+	justify-content: center;
+	display: flex;
+	align-items: center;
 }
 
 .member-item {
-    flex: 1 1 0;
-    flex-direction: column;
-    align-items: center;
-    padding-bottom: 50px;
-    gap: 20px;
-    display: inline-flex;
+	flex: 1 1 0;
+	flex-direction: column;
+	align-items: center;
+	padding-bottom: 50px;
+	gap: 20px;
+	display: inline-flex;
 }
 
 .member-item-title {
-    align-self: stretch;
-    text-align: center;
-    color: black;
-    font-size: 18px;
-    font-weight: 400;
+	align-self: stretch;
+	text-align: center;
+	color: black;
+	font-size: 18px;
+	font-weight: 400;
 }
 
 .member-item-subtitle {
-    align-self: stretch;
-    text-align: center;
-    color: black;
-    font-size: 17px;
-    font-weight: 600;
+	align-self: stretch;
+	text-align: center;
+	color: black;
+	font-size: 17px;
+	font-weight: 600;
 }
 
 .member-board-container {
-    width: 80%;
-    padding: 20px;
-    display: flex;
-    gap: 20px;
+	width: 80%;
+	padding: 20px;
+	display: flex;
+	gap: 20px;
 }
 
-
-.search-wrapper{
-	display:flex;
+.search-wrapper {
+	display: flex;
 	justify-content: center;
-	gap:5px;
+	gap: 5px;
 }
 
-.search-wrapper>select{
+.search-wrapper>select {
 	height: 30px;
 	width: 80px;
 }
 
-.search-wrapper>input{
+.search-wrapper>input {
 	height: 30px;
 	border-radius: 6px;
 }
 
-.search-input{
-	width:70%
+.search-input {
+	width: 70%
 }
 
-.search-button{
+.search-button {
 	width: 80px;
 	background-color: #73cc73;
 	border: none;
 	color: white;
 }
 
-select{
+select {
 	border-radius: 6px;
 }
 
-.item{
-    display: flex;
-    align-items: center;
-    height: 70px;
+.item {
+	display: flex;
+	align-items: center;
+	height: 70px;
 }
 
-.subtitle{
+.list {
+	margin-top: 20px;
+	height: 500px;
+}
+
+.content-item {
+	height: 220px;
+}
+
+.title {
+	width: 70px;
+}
+
+.subtitle {
+	width: 400px;
 	padding-left: 10px;
 }
 
-.detail-button{
+.comment-detail-list {
+	overflow: auto;
+}
+
+.comment-content {
+	font-size: 10px;
+}
+
+.comment-date{
+	border-bottom: 1px solid green;
+}
+
+.sub-content {
+	height: 100%;
+	overflow: auto;
+}
+
+.detail-button {
 	width: 150px;
 	height: 30px;
 	background-color: #73cc73;
@@ -145,28 +178,49 @@ select{
 	color: white;
 }
 
-.long-table{
-    width: 100%;
-    height: 80%;
-    padding-top: 20px;
-    font-size: 13px;
+.long-table {
+	width: 100%;
+	height: 80%;
+	padding-top: 20px;
+	font-size: 13px;
 }
 
-.long-thead{
-    text-align: center;
-    height: 30px;
+.long-thead {
+	text-align: center;
+	height: 30px;
 }
 
-.long-tbody{
-    text-align: center;
-    height: 30px;
+.long-tbody {
+	text-align: center;
+	height: 30px;
 }
 
-.pageBar{
-    display: flex;
-    padding-top: 10px;
+.long-tr{
+	height: 50px;
 }
 
-.pageBar a{
-    padding: 5px;
+.long-tr>th{
+	font-size: 15px;
+}
+
+.long-tr>td{
+	font-size: 12px;
+}
+
+.point-search-input, .report-search-input{
+	width:20%;
+}
+
+.pageBar {
+	display: flex;
+	padding-top: 10px;
+    justify-content: center;
+}
+
+.pageBar>div {
+	padding: 5px;
+}
+
+.active{
+	color: green;
 }

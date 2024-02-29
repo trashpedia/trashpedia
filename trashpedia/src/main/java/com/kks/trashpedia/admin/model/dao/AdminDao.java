@@ -9,7 +9,6 @@ import org.springframework.data.domain.Pageable;
 import com.kks.trashpedia.board.model.vo.BigCategory;
 import com.kks.trashpedia.board.model.vo.Board;
 import com.kks.trashpedia.board.model.vo.Comment;
-import com.kks.trashpedia.board.model.vo.Post;
 import com.kks.trashpedia.board.model.vo.SubCategory;
 import com.kks.trashpedia.member.model.vo.Member;
 import com.kks.trashpedia.point.model.vo.PointHistory;
@@ -60,21 +59,19 @@ public interface AdminDao {
 
 	Page<Board> getMemberCommentList(Pageable pageable, int userNo, String sort, String searchSelect, String searchValue);
 
-	Board getCommentDetail(int commentNo);
+	List<Comment> getCommentDetail(int boardNo, int userNo);
 
-	Board getNestedCommentDetail(int nestedCommentNo);
+	Page<PointHistory> getMemberPointList(Pageable pageable, int page, int userNo, String sort, String searchSelect, String searchValue);
 
-	Page<PointHistory> getMemberPointList(Pageable pageable, int page, int userNo);
-
-	Page<Report> getMemberReportList(Pageable pageable, int page, int userNo);
+	Page<Report> getMemberReportList(Pageable pageable, int page, int userNo, String sort, String searchSelect, String searchValue);
 
 	List<BigCategory> BigCategoryList();
 
 	List<SubCategory> getSubCategoryList(int bigCategoryNo);
 
-	Page<Board> loadBoardListData(Pageable pageable, int page, int subCategoryNo, String sort, String searchSelect, String searchValue);
+	Page<Board> loadBoardListData(Pageable pageable, int page, String sort, String searchSelect, String searchValue);
 
-	Post loadBoardDetailData(int boardNo);
+	Page<Board> loadCommentListData(Pageable pageable, int page, String sort, String searchSelect, String searchValue);
 
 	Page<Trash> getTrashList(Pageable pageable, int page);
 
@@ -83,6 +80,7 @@ public interface AdminDao {
 	Page<Request> loadRequestListData(Pageable pageable);
 
 	int loadBoardCount(int subCategoryNo);
+
 
 
 

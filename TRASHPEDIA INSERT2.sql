@@ -141,7 +141,7 @@ BEGIN
             d,
             SYSDATE,
             b,
-            '<h2>출석체크</h2>'
+            '출석체크'
         );
          b := b + 1;
         IF b > 4 THEN

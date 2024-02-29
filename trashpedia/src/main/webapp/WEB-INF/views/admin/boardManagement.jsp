@@ -16,262 +16,339 @@
     <jsp:include page="../common/sidebar.jsp"/>
     <div class="content-wrapper">
         <div class="content">
-            <section class="search-section">
-                <div class="search-container">
-                    <div class="search-title">게시글 관리</div>
-                </div>
-            </section>
-            <input class="trash-write" type="button" onclick="writeBoard()" value="글쓰기">
-            <section class="board-section">
-                <div class="category-container">
-                    <div class="inner-category-container">
-                        <div class="category-title-wrapper bigCategory-title">
-                        	<div class="bigCategory-title title">빅 카테고리</div>
-            				<div class="board-subtitle">총 ${fn:length(bcl)+1}개</div>
-                        </div>
-                        <div class="bigCategoryList list">
-                        <c:forEach var="bcl" items="${bcl}">
-                            <div class="item" onclick='loadSubCategoryList(${bcl.bigCategoryNo})'>
-                                <div class="icon">😃</div>
-                                <div class="subtitle">${bcl.bigCategoryName}</div>
-                            </div>
-                        </c:forEach>
-                            <div class="item">
-                                <div class="icon">😃</div>
-                                <div class="subtitle">관리자</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="inner-category-container">
-                        <div class="category-title-wrapper subCategory-title"></div>
-                        <div class="subCategoryList list"></div>
-                    </div>
-                </div>
-                <div class="board-container">
-                    <div class="board-title-wrapper board-List-title">
-	                    <div class="boardList-title title">게시글 리스트</div>
-	           			<div class="boardList-subtitle">총 0개</div>
-                    </div>
-                    <div class="input">
-                        <select name="condition" id="boardFilterSelect">
-                            <option value="boardNo" selected>번호</option>
-                            <option value="title">제목</option>
-                        </select>
-                    </div>
-                    <table>
-					    <thead class="board-thead"></thead>
-					    <tbody class="boardList list"></tbody>
+            <div class="practice-section">
+			    <p>게시글 관리</p>
+			    <p>board management</p>
+			</div>
+			<section class="content-section">
+                <div class="content-container">
+                	<div class="content-title-wrapper">
+                    	<div class="content-title">게시글</div>
+	                   	<div class="filter-wrapper">
+						    <select name="condition" id="board-filter-select">
+						        <option value="boardNo" selected>번호</option>
+						        <option value="subCategoryName">분류</option>
+						        <option value="title">제목</option>
+						        <option value="hit">조회수</option>
+						    </select>
+						</div>
+                   	</div>
+					<table class="long-table board-table">
+					    <thead class="long-thead board-thead">
+					    	<tr class="long-tr">
+					    		<th>번호</th>
+					    		<th>분류</th>
+					    		<th>제목</th>
+					    		<th>조회수</th>
+					    		<th>작성일</th>
+					    		<th>수정일</th>
+					    		<th>공개/비공개</th>
+					    		<th>비고</th>
+					    	</tr>
+					    </thead>
+					    <tbody class="long-tbody board-list"></tbody>
 					</table>
-					<select name="condition" id="boardSearchFilterSelect">
-                        <option value="boardNo" selected>번호</option>
-                        <option value="title">제목</option>
-                        <option value="content">내용</option>
-                    </select>
-                    <input type="search" name="boardSearch" id="boardSearch" placeholder="Search">
-                    <input type="button" id="search" value="검색" onclick="boardSearch()">
+					<div class="search-wrapper">
+						<select name="condition" id="board-search-filter-select">
+			                <option value="boardNo" selected>번호</option>
+			                <option value="subCategoryName">분류</option>
+			                <option value="title">제목</option>
+			                <option value="content">내용</option>
+						</select>
+						<input type="search" class="search-input board-search-input" placeholder="검색어를 입력하세요">
+						<input type="button" class="search-button board-search-button" value="검색" onclick="boardSearch()">
+					</div>
+                	<div class="board-pageBar pageBar"></div>
                 </div>
-                <div class="board-container">
-                    <div class="board-title title">게시글 상세</div>
-                    <div class="boardDetail list"></div>
+			</section>
+			<section class="content-section">
+                <div class="content-container">
+                	<div class="content-title-wrapper">
+                    	<div class="content-title">댓글</div>
+	                   	<div class="filter-wrapper">
+						    <select name="condition" id="comment-filter-select">
+						        <option value="boardNo" selected>번호</option>
+						        <option value="subCategoryName">분류</option>
+						        <option value="title">제목</option>
+						    </select>
+						</div>
+                   	</div>
+					<table class="long-table comment-table">
+					    <thead class="long-thead comment-thead">
+					    	<tr class="long-tr">
+					    		<th>번호</th>
+					    		<th>분류</th>
+					    		<th>제목</th>
+					    		<th>댓글</th>
+					    		<th>작성일</th>
+					    		<th>수정일</th>
+					    		<th>공개/비공개</th>
+					    		<th>비고</th>
+					    	</tr>
+					    </thead>
+					    <tbody class="long-tbody comment-list"></tbody>
+					</table>
+					<div class="search-wrapper">
+						<select name="condition" id="comment-search-filter-select">
+			                <option value="boardNo" selected>번호</option>
+			                <option value="subCategoryName">분류</option>
+			                <option value="title">제목</option>
+			                <option value="content">내용</option>
+						</select>
+						<input type="search" class="search-input comment-search-input" placeholder="검색어를 입력하세요">
+						<input type="button" class="search-button comment-search-button" value="검색" onclick="commentSearch()">
+					</div>
+                	<div class="comment-pageBar pageBar"></div>
                 </div>
-            </section>
+			</section>
         </div>
     </div>
     <script>
-	    var isLoading = false;
-	    var offset = 0;
-	    var boardSelectedValue = 'boardNo';
-	    var boardSearchSelect = '';
-	    var boardSearchValue = '';
-	    var subCategoryNo = 2;
-	    var scCount = 0;
-	    var scChange = false;
+	    var boardFilterValue = 'boardNo';
+	    var commentFilterValue = 'boardNo';
+	    var boardSearchSelect = null;
+	    var commentSearchSelect = null;
+	    var boardSearchValue = null;
+	    var commentSearchValue = null;
 		
 	    $(document).ready(function() {
-	    	loadSubCategoryList(1);
-	    	loadBoardListData(subCategoryNo, boardSearchSelect, boardSearchValue);
-	    });
-	    $('.boardList').scroll(function() {
-	        if($(this).scrollTop() + $(this).innerHeight() + 70 >= $(this)[0].scrollHeight) {
-	            if (!isLoading) {
-	                isLoading = true;
-	                loadBoardListData(subCategoryNo, boardSearchSelect, boardSearchValue);
-	            }
-	        }
+	    	getBoardList(0, boardSearchSelect, boardSearchValue);
+	    	getCommentList(0, commentSearchSelect, commentSearchValue);
 	    });
 	    
-	    $('#boardFilterSelect').change(function(){
-	    	boardSelectedValue = $(this).val();
-	    	$('.boardList').empty();
-	    	boardOffset = 0;
-	    	loadBoardListData(subCategoryNo, boardSearchSelect, boardSearchValue);
+	    $('#board-filter-select').change(function(){
+	    	boardFilterValue = $(this).val();
+	    	$('.board-list').empty();
+	    	getBoardList(0, boardSearchSelect, boardSearchValue);
+	    });
+
+	    $('#comment-filter-select').change(function(){
+	    	commentFilterValue = $(this).val();
+	    	$('.comment-list').empty();
+	    	getCommentList(0, commentSearchSelect, commentSearchValue);
 	    });
 	    
 	    function boardSearch(){
-	    	boardSearchSelect = $('#boardSearchFilterSelect').val();
-	    	boardSearchValue = $('#boardSearch').val();
-	    	$('#boardSearch').val('');
-	    	$('.boardList').empty();
-	    	offset = 0;
-	    	loadBoardListData(subCategoryNo, boardSearchSelect, boardSearchValue);
-	    }
-	
-	    function loadSubCategoryList(bigCategoryNo) {
-	        $.ajax({
-	            url: '${contextPath}/admin/getSubCategoryList',
-	            type: 'GET',
-	            dataType: 'json',
-	            data: {bigCategoryNo},
-	            success: function(data) {
-	            	if(data.length != 0){
-		                updateSubCategoryTable(data);
-		                isLoading = false;
-	            	}
-	            },
-	            error: function(xhr, status, error) {
-	                console.error('Error: ' + error);
-	                isLoading = false;
-	            }
-	        });
-	    }
-	    function updateSubCategoryTable(data) {
-	        let count = document.querySelector('.subCategory-title');
-	        let userList = document.querySelector('.subCategoryList');
-	        count.innerHTML = '';
-	        userList.innerHTML = '';
-	        let title = '<div class="subCategory-title title">서브 카테고리</div>';
-            title += '<div class="board-subtitle">총 '+data.length+'개</div>';
-            count.innerHTML += title;
-	        for (let i = 0; i < data.length; i++) {
-	            let row = '<div class="item" onclick="loadBoardListData('+data[i].subCategoryNo+')">';
-	            row += '<div class="subtitle">'+data[i].subCategoryName+'</div>';
-	            row += '</div>';
-	            userList.innerHTML += row;
-	        }
-	    }
-	    function loadBoardCount(subCategoryNo){
-	    	$.ajax({
-	    		url: '${contextPath}/admin/loadBoardCount',
-	    		type: 'GET',
-	    		dataType: 'json',
-	    		data:{subCategoryNo},
-	    		success: function(data){
-	    			scCount = data;
-	    		}
-	    	})
+	    	boardSearchSelect = $('#board-search-filter-select').val();
+	    	boardSearchValue = $('.board-search-input').val();
+	    	$('.board-search-input').val('');
+	    	$('.board-list').empty();
+	    	getBoardList(0, boardSearchSelect, boardSearchValue);
 	    }
 	    
-	    function loadBoardListData(sn, boardSearchSelect, boardSearchValue) {
-	    	if(subCategoryNo != sn){
-	    		console.log("초기화");
-		    	subCategoryNo = sn;
-		    	scChange = true;
-		    	offset = 0;
-	    	} else {
-	    		scChange = false;
-	    	}
-	    	if(boardSearchSelect == undefined){
-	    		boardSearchSelect = null;
-	    		boardSearchValue = null;
-	    	}
+	    function commentSearch(){
+	    	commentSearchSelect = $('#comment-search-filter-select').val();
+	    	commentSearchValue = $('.comment-search-input').val();
+	    	$('.comment-search-input').val('');
+	    	$('.comment-list').empty();
+	    	getCommentList(0, commentSearchSelect, commentSearchValue);
+	    }
+	    
+	    function getBoardList(page, boardSearchSelect, boardSearchValue) {
 	        $.ajax({
 	            url: '${contextPath}/admin/loadBoardListData',
 	            type: 'GET',
 	            dataType: 'json',
-	            data: {page: offset, size: 20, subCategoryNo: sn, sort: boardSelectedValue, searchSelect: boardSearchSelect, searchValue: boardSearchValue},
+	            data: {page: page, size: 20, sort: boardFilterValue, searchSelect: boardSearchSelect, searchValue: boardSearchValue},
 	            success: function(data) {
 	            	if(data.content.length != 0){
-		                updateBoardTable(data);
-		                offset += 1;
-		                isLoading = false;
+		                updateBoardTable(data.content);
+		                updateBoardPagination(data);
 	            	}
 	            },
 	            error: function(xhr, status, error) {
 	                console.error('Error: ' + error);
-	                isLoading = false;
 	            }
 	        });
 	    }
 
 	    function updateBoardTable(data) {
-	    	loadBoardCount(subCategoryNo);
-	        let count = document.querySelector('.board-List-title');
-	        let userList = document.querySelector('.boardList');
-	        let list = data.content;
-	        count.innerHTML = '';
-	        if(scChange){
-	        	userList.innerHTML = '';
-	        }
-	        let title = '<div class="boardList-title title">게시글 리스트</div>';
-            title += '<div class="boardList-subtitle">총 '+scCount+'개</div>';
-            count.innerHTML += title;
-	        for (let i = 0; i < list.length; i++) {
-	            let row = '<tr class="item" onclick="loadBoardDetailData('+list[i].boardNo+')">';
-	            row += '<td class="subtitle">'+list[i].boardNo+'</td>';
-	            row += '<td class="subtitle">'+list[i].title+'</td>';
-	            row += '<td class="subtitle">'+list[i].createDate+'</td>';
-	            row += '</tr>';
-	            userList.innerHTML += row;
+	    	let userList = document.querySelector('.board-list');
+	        userList.innerHTML = '';
+	        for (let i = 0; i < data.length; i++) {
+	            let row = document.createElement('tr');
+	            row.classList.add('long-tr');
+	            
+	            let cell1 = document.createElement('td');
+	            cell1.textContent = data[i].boardNo;
+	            
+	            let cell2 = document.createElement('td');
+	            cell2.innerHTML = data[i].subCategoryName;
+	            
+	            let cell3 = document.createElement('td');
+	            cell3.textContent = data[i].title;
+	            
+	            let cell4 = document.createElement('td');
+	            cell4.textContent = data[i].hit;
+
+	            let cell5 = document.createElement('td');
+	            cell5.textContent = data[i].createDate;
+	            
+	            let cell6 = document.createElement('td');
+	            cell6.textContent = data[i].modifyDate;
+
+	            let cell7 = document.createElement('td');
+	            cell7.textContent = data[i].status;
+	            
+	            let cell8 = document.createElement('td');
+	    		
+	            let button1 = document.createElement('input');
+            	button1.setAttribute('type', 'button');
+            	button1.setAttribute('value', '상세보기');
+            	button1.classList.add('detail-button');
+            	button1.addEventListener('click', function() {
+            	    boardDetail(data[i].boardNo);
+            	});
+            	
+	            let button2 = document.createElement('input');
+            	button2.setAttribute('type', 'button');
+            	button2.setAttribute('value', '삭제');
+            	button2.classList.add('detail-button');
+            	button2.addEventListener('click', function() {
+            	    boardDelete(data[i].boardNo);
+            	});
+            	cell8.appendChild(button1);
+            	cell8.appendChild(button2);
+            	
+	            row.appendChild(cell1);
+	            row.appendChild(cell2);
+	            row.appendChild(cell3);
+	            row.appendChild(cell4);
+	            row.appendChild(cell5);
+	            row.appendChild(cell6);
+	            row.appendChild(cell7);
+	            row.appendChild(cell8);
+	            
+	            userList.appendChild(row);
 	        }
 	    }
 	    
-	    function loadBoardDetailData(boardNo) {
+	    function updateBoardPagination(data) {
+	        let userPaging = document.querySelector('.board-pageBar');
+	        let pagination = '';
+	        
+	        if (!data.empty) {
+	            if (!data.first) {
+	                pagination += '<div onclick="getBoardList(' + (data.number - 1) + ',\'' + boardSearchSelect + '\',\'' + boardSearchValue + '\')">이전</div>';
+	            }
+	            for (let i = 0; i < data.totalPages; i++) {
+	                if (i >= data.number - 5 && i <= data.number + 5) {
+	                    pagination += '<div';
+	                    if (i === data.number) {
+	                        pagination += ' class="active"';
+	                    }
+	                    pagination += ' onclick="getBoardList(' + i + ',\'' + boardSearchSelect + '\',\'' + boardSearchValue + '\')">' + (i + 1) + '</div>';
+	                }
+	            }
+	            if (!data.last) {
+	                pagination += '<div onclick="getBoardList(' + (data.number + 1) + ',\'' + boardSearchSelect + '\',\'' + boardSearchValue + '\')">다음</div>';
+	            }
+	        }
+	        userPaging.innerHTML = pagination;
+	    }
+	    
+	    function getCommentList(page, commentSearchSelect, commentSearchValue) {
 	        $.ajax({
-	            url: '${contextPath}/admin/loadBoardDetailData',
+	            url: '${contextPath}/admin/loadCommentListData',
 	            type: 'GET',
 	            dataType: 'json',
-	            data: { boardNo },
+	            data: {page: page, size: 20, sort: commentFilterValue, searchSelect: commentSearchSelect, searchValue: commentSearchValue},
 	            success: function(data) {
-	            	if(data.length != 0){
-	            		updateBoardDetailTable(data);
-		                isLoading = false;
+	            	console.log(data);
+	            	if(data.content.length != 0){
+		                updateCommentTable(data.content);
+		                updateCommentPagination(data);
 	            	}
 	            },
 	            error: function(xhr, status, error) {
 	                console.error('Error: ' + error);
-	                isLoading = false;
 	            }
 	        });
 	    }
-	    function updateBoardDetailTable(data) {
-	        let userList = document.querySelector('.boardDetail');
+
+	    function updateCommentTable(data) {
+	    	let userList = document.querySelector('.comment-list');
 	        userList.innerHTML = '';
-	        let row = '<div class="item">';
-			row += '<div class="icon">😃</div>';
-			row += '<div class="detailtitle">작성자: </div>'
-			row += '<div class="subtitle">'+data.userNickname+'</div>'
-			row += '</div>';
-	        row += '<div class="item">';
-			row += '<div class="icon">😃</div>';
-			row += '<div class="detailtitle">제목 : </div>'
-			row += '<div class="subtitle">'+data.title+'</div>'
-			row += '</div>';
-	        row += '<div class="content-item">';
-			row += '<div class="content-icon">😃</div>';
-			row += '<div class="content-detailtitle">내용 : </div>'
-			row += '<div class="subtitle">'+data.content+'</div>'
-			row += '</div>';
-	        row += '<div class="item">';
-			row += '<div class="icon">😃</div>';
-			row += '<div class="detailtitle">작성일 : </div>'
-			row += '<div class="subtitle">'+data.createDate+'</div>'
-			row += '</div>';
-	        row += '<div class="item">';
-			row += '<div class="icon">😃</div>';
-			row += '<div class="detailtitle">수정일 : </div>'
-			if(data.modifyDate != null){
-				row += '<div class="subtitle">'+data.modifyDate+'</div>'
-			} else {
-				row += '<div class="subtitle">수정 없음</div>'
-			}
-			row += '</div>';
-	        row += '<div class="item">';
-			row += '<div class="icon">😃</div>';
-			row += '<div class="detailtitle">상세보기 : </div>'
-			row += '<div class="subtitle"><button onclick="location.href="/detail?boardNo='+data.boardNo+'">상세보기</button></div>'
-			row += '</div>';
-			row += '</div>';
-            userList.innerHTML += row;
+	        for (let i = 0; i < data.length; i++) {
+	            let row = document.createElement('tr');
+	            row.classList.add('long-tr');
+
+	            let cell1 = document.createElement('td');
+	            cell1.textContent = data[i].boardNo;
+	            
+	            let cell2 = document.createElement('td');
+	            cell2.innerHTML = data[i].subCategoryName;
+	            
+	            let cell3 = document.createElement('td');
+	            cell3.textContent = data[i].title;
+	            
+	            let cell4 = document.createElement('td');
+	            cell4.textContent = data[i].content;
+
+	            let cell5 = document.createElement('td');
+	            cell5.textContent = data[i].createDate;
+	            
+	            let cell6 = document.createElement('td');
+	            cell6.textContent = data[i].modifyDate;
+
+	            let cell7 = document.createElement('td');
+	            cell7.textContent = data[i].status;
+	            
+	            let cell8 = document.createElement('td');
+	    		
+	            let button1 = document.createElement('input');
+            	button1.setAttribute('type', 'button');
+            	button1.setAttribute('value', '상세보기');
+            	button1.classList.add('detail-button');
+            	button1.addEventListener('click', function() {
+            	    boardDetail(data[i].boardNo);
+            	});
+            	
+	            let button2 = document.createElement('input');
+            	button2.setAttribute('type', 'button');
+            	button2.setAttribute('value', '삭제');
+            	button2.classList.add('detail-button');
+            	button2.addEventListener('click', function() {
+            	    commentDelete(data[i].commentNo);
+            	});
+            	cell8.appendChild(button1);
+            	cell8.appendChild(button2);
+            	
+	            row.appendChild(cell1);
+	            row.appendChild(cell2);
+	            row.appendChild(cell3);
+	            row.appendChild(cell4);
+	            row.appendChild(cell5);
+	            row.appendChild(cell6);
+	            row.appendChild(cell7);
+	            row.appendChild(cell8);
+	            
+	            userList.appendChild(row);
+	        }
+	    }
+	    
+	    function updateCommentPagination(data) {
+	        let userPaging = document.querySelector('.comment-pageBar');
+	        let pagination = '';
+
+	        if (!data.empty) {
+	            if (!data.first) {
+	                pagination += '<div onclick="getCommentList(' + (data.number - 1) + ',\'' + commentSearchSelect + '\',\'' + commentSearchValue + '\')">이전</div>';
+	            }
+	            for (let i = 0; i < data.totalPages; i++) {
+	                if (i >= data.number - 5 && i <= data.number + 5) {
+	                    pagination += '<div';
+	                    if (i === data.number) {
+	                        pagination += ' class="active"';
+	                    }
+	                    pagination += ' onclick="getCommentList(' + i + ',\'' + commentSearchSelect + '\',\'' + commentSearchValue + '\')">' + (i + 1) + '</div>';
+	                }
+	            }
+	            if (!data.last) {
+	                pagination += '<div onclick="getCommentList(' + (data.number + 1) + ',\'' + commentSearchSelect + '\',\'' + commentSearchValue + '\')">다음</div>';
+	            }
+	        }
+	        userPaging.innerHTML = pagination;
 	    }
 	    
         function writeBoard(){
