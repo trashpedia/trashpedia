@@ -8,8 +8,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
@@ -18,8 +22,10 @@ import com.kks.trashpedia.Image;
 import com.kks.trashpedia.board.model.service.BoardService;
 import com.kks.trashpedia.board.model.vo.BigCategory;
 import com.kks.trashpedia.board.model.vo.Board;
+import com.kks.trashpedia.board.model.vo.Comment;
 import com.kks.trashpedia.board.model.vo.Post;
 import com.kks.trashpedia.board.model.vo.SubCategory;
+import com.kks.trashpedia.pledge.model.service.PledgeService;
 import com.kks.trashpedia.trash.model.vo.Trash;
 import com.kks.trashpedia.trash.model.vo.TrashPost;
 
@@ -28,6 +34,8 @@ public class BoardController {
 
 	@Autowired
 	private BoardService service;
+	@Autowired 
+	private PledgeService pservice;
 
 	// 게시판 메인페이지 이동
 	@GetMapping("/board")
@@ -78,71 +86,69 @@ public class BoardController {
 	}
 
 	// 무료나눔 상세페이지 이동
-			@GetMapping("/boardFreeShare/{trashNo}")
-			public ModelAndView boardFreeShareDetail(int trashNo) {
-				ModelAndView mav = new ModelAndView();
+	@GetMapping("/boardFreeShare/{trashNo}")
+	public ModelAndView boardFreeShareDetail(int trashNo) {
+		ModelAndView mav = new ModelAndView();
 
-				// 무료나눔 상세정보를 가져오는 서비스 메서드를 호출하여 해당 쓰레기 번호에 대한 정보를 가져옵니다.
-				Trash trash = service.getFreeTrashDetail(trashNo);
-				// 타이틀
-				String trashTitle = service.getTrashTitleByTrashNo(trash.getTrashNo());
-				TrashPost trashPost = new TrashPost();
-				trashPost.setTrashTitle(trashTitle);
-				// trashNo
-				// 글쓴이
-				String trashWriter=service.getTrashWriterByTrashNo(trash.getTrashNo());
-				// 작성일
-				String trashCreate=service.getTrashCreateByTrashNo(trash.getTrashNo());
-				// 조회수
-				Date trashViews=service.getTrashViewsByTrashNo(trash.getTrashNo());
-				//이미지
-				String imageUrl = service.getImageUrlByTrashNo(trash.getTrashNo());
-				Image image = new Image();  
-				image.setOriginName(imageUrl);
-				// 내용
-				String trashContent = service.getTrashContentByTrashNo(trash.getTrashNo()); // 해당 쓰레기 번호에 따른 쓰레기 정보
-				
-				//댓글
+		// 무료나눔 상세정보를 가져오는 서비스 메서드를 호출하여 해당 쓰레기 번호에 대한 정보를 가져옵니다.
+		Trash trash = service.getFreeTrashDetail(trashNo);
+		// 타이틀
+		String trashTitle = service.getTrashTitleByTrashNo(trash.getTrashNo());
+		TrashPost trashPost = new TrashPost();
+		trashPost.setTrashTitle(trashTitle);
+		// trashNo
+		// 글쓴이
+		String trashWriter=service.getTrashWriterByTrashNo(trash.getTrashNo());
+		// 작성일
+		String trashCreate=service.getTrashCreateByTrashNo(trash.getTrashNo());
+		// 조회수
+		Date trashViews=service.getTrashViewsByTrashNo(trash.getTrashNo());
+		//이미지
+		String imageUrl = service.getImageUrlByTrashNo(trash.getTrashNo());
+		Image image = new Image();  
+		image.setOriginName(imageUrl);
+		// 내용
+		String trashContent = service.getTrashContentByTrashNo(trash.getTrashNo()); // 해당 쓰레기 번호에 따른 쓰레기 정보
+		
+		//댓글
 
-				
-			    // 가져온 정보를 뷰에 전달합니다.
-			    mav.addObject("trash", trash);
-			    mav.addObject("trashWriter", trashWriter);
-			    mav.addObject("trashCreate", trashCreate);
-			    mav.addObject("trashViews", trashViews);
-			    mav.addObject("imageUrl", imageUrl);
-			    mav.addObject("trashContent", trashContent);
+		
+	    // 가져온 정보를 뷰에 전달합니다.
+	    mav.addObject("trash", trash);
+	    mav.addObject("trashWriter", trashWriter);
+	    mav.addObject("trashCreate", trashCreate);
+	    mav.addObject("trashViews", trashViews);
+	    mav.addObject("imageUrl", imageUrl);
+	    mav.addObject("trashContent", trashContent);
 
-				// 뷰의 경로를 설정합니다.
-				mav.setViewName("board/freeShare/freeShareDetail");
-				return mav;
-			}
-			
-			// 게시글 등록하기 페이지 이동
-			@GetMapping("/insert")
-			public ModelAndView pledgeInsert() {
-				
-				ModelAndView mav = new ModelAndView();
-				mav.setViewName("pledge/pledgeInsert");
-				
-				return mav;
-			}
+		// 뷰의 경로를 설정합니다.
+		mav.setViewName("board/freeShare/freeShareDetail");
+		return mav;
+	}
+	
+	// 게시글 등록하기 페이지 이동
+	@GetMapping("/insert")
+	public ModelAndView pledgeInsert() {
+		
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("pledge/pledgeInsert");
+		
+		return mav;
+	}
 	
 	//공지사항 목록페이지 이동
 	//'@'PageableDefault' 페이지네이션 관련정보 자동추출)		
-	@GetMapping("/boardList")
-	public ModelAndView boardNotice(@PageableDefault(size = 15, sort = "boardNo", direction = Sort.Direction.DESC) Pageable pageable,
-			@RequestParam(value="subCategoryNo") int subCategoryNo,
+	@GetMapping("/board/list")
+	public ModelAndView boardNotice(@PageableDefault(size = 10, sort = "boardNo", direction = Sort.Direction.DESC) Pageable pageable,
+			@RequestParam int subCategoryNo,
 			@RequestParam(value="page", defaultValue = "0") int page,
 			@RequestParam(value="filter", defaultValue="0") String filter,
 			@RequestParam(value="searchSelect", required=false) String searchSelect,
 			@RequestParam(value="searchValue", required=false) String searchValue) {
-		
 		Page<Board> pages = service.boardList(subCategoryNo, pageable, page, filter, searchSelect, searchValue);
-
+		System.out.println(pages);
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("boardList", pages);
-
 		mav.setViewName("board/notice/boardList");
 		return mav;
 	}
@@ -156,7 +162,7 @@ public class BoardController {
 	}
 	
 	//공지사항 상세페이지 이동
-	 @GetMapping("/boardDetail/{postNo}")
+	 @GetMapping("/board/detail/{postNo}")
 	    public ModelAndView boardDetail(
 	    		@PathVariable int postNo, 
 	    		@RequestParam(value="subCategoryNo", defaultValue="1")int subCategoryNo) {
@@ -169,4 +175,36 @@ public class BoardController {
 	        mav.setViewName("board/notice/boardDetail");
 	        return mav;
 	    }
+	 
+	 
+	// 댓글목록 조회
+	@GetMapping("/selectCommentList")
+	public List<Comment> selectCommentList(Board b){
+		System.out.println("실행???");
+		List<Comment> commentList = pservice.selectCommentList(b);
+		
+		System.out.println("commentList"+commentList);
+		return commentList;
+	}
+	
+	// 댓글등록
+	@PostMapping("/insertComment")
+	public int insertComment(Comment c) {
+		int result = 0;
+		return pservice.insertComment(c);
+	}
+	
+	// 댓글수정
+	@PutMapping("/updateComment/{commentNo}")
+	public int updateComment( @RequestBody Comment comment ) {
+		System.out.println(comment);
+		return pservice.updateComment(comment);
+	}
+	
+	// 댓글삭제
+	@DeleteMapping("/deleteComment/{commentNo}")
+	public int deleteComment(Comment comment) {
+		System.out.println(comment);
+		return pservice.deleteComment(comment);
+	}
 }

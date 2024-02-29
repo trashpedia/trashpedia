@@ -1,28 +1,24 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<c:set var="contextPath" value="<%=request.getContextPath() %>" />
+<c:set var="contextPath" value="<%=request.getContextPath() %>"/>
+<c:url var="currentUrl" value="/trashpedia/pledge/list">
+    <c:param name="subCategoryNo" value="${currentSubCategoryNo}" />
+    <c:param name="bigCategoryNo" value="${currentBigCategoryNo}" />
+</c:url>
+<c:set var="subCategoryNo" value="${param.subCategoryNo}" />
+<c:set var="bigCategoryNo" value="${param.bigCategoryNo}" />
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>커뮤니티</title>
-<link rel="stylesheet"
-	href="${contextPath}/resources/css/board/boardMain.css">
+	<link rel="stylesheet" href="${contextPath}/resources/css/board/boardMain.css">
+	<!-- jQuery -->
+	<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 </head>
-<!-- jQuery -->
-<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-<!-- css -->
-<link rel="stylesheet" href="css/mainPage.css">
-
-
-<!-- slick 라이브러리 CSS -->
-<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
-<!-- slick 라이브러리 테마 CSS (선택사항) -->
-<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css" />
-<!-- slick 라이브러리 JS -->
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
 <body>
 
 	<jsp:include page="../common/header.jsp" />
@@ -36,6 +32,11 @@
 				<p>Reduce Reuse Recycle Recovery</p>
 			</div>
 
+			<div class="test1">
+asdfsadf
+
+			</div>
+
 			<section id="idx_board_wrap">
 				<div>
 
@@ -46,7 +47,7 @@
 							<div class="idx_board">
 							
 								<div class="title">
-									<a href="${contextPath}/boardList?subCategoryNo=${sc.subCategoryNo}&filter=createDate&searchSelect=&searchValue=&page=0">
+									<a href="${contextPath}/board/list?subCategoryNo=${sc.subCategoryNo}&filter=createDate&searchSelect=&searchValue=&page=0">
 										${sc.subCategoryName} </a>
 								</div>
 								
@@ -55,7 +56,7 @@
 										<c:forEach var="p" items="${post}">
 <%-- 											<c:if test="${p.subCategoryNo == sc.subCategoryNo}"> --%>
 												<li>
-													<a href="${contextPath}/boardNotice/${p.postNo}">${p.title}</a>
+													<a href="${contextPath}/board/detail/${p.postNo}">${p.title}</a>
 													<span>${p.createDate}</span>
 												</li>
 <%-- 											</c:if> --%>

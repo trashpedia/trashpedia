@@ -33,9 +33,9 @@
                         <div class="header-menu-div">
                             <a href="${contextPath}/board">커뮤니티</a>
                             <ul class="header-menu-ul">
-                                <li><a href="${contextPath}/boardNotice">공지게시판</a></li>
-                                <li><a href="${contextPath}/boardNotice">일반게시판</a></li>
-                                <li><a href="${contextPath}/boardNotice">건의게시판</a></li>
+                            	<li><a href="${contextPath}/board/list?bigCategoryNo=1&subCategoryNo=1">공지게시판</a></li>
+                            	<li><a href="${contextPath}/board/list?bigCategoryNo=1&subCategoryNo=2">일반게시판</a></li>
+                            	<li><a href="${contextPath}/board/list?bigCategoryNo=1&subCategoryNo=3">건의게시판</a></li>
                                 <li><a href="${contextPath}/boardFreeShare?bigCategoryNo=1&subCategoryNo=4">무료나눔게시판</a></li>
                             </ul>
                         </div>
@@ -73,7 +73,7 @@
                     <li><span class="material-symbols-outlined icon">login</span><a href="${contextPath}/login">login</a> </li>
                     <li><span class="material-symbols-outlined icon">person </span><a href="${contextPath}/join">Signup</a></li>
                </sec:authorize>
-               	<sec:authorize access="isAuthenticated()">>
+               	<sec:authorize access="isAuthenticated()">
                     <!-- 로그인 했을 때 보이기 1-->
                     <li><span class="material-symbols-outlined icon">login</span><a href="${contextPath}/logout">logout</a> </li>
                     <li><span class="material-symbols-outlined icon">person</span><a href="${contextPath}/login.me">MyPage</a> </li>

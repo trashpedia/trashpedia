@@ -55,82 +55,120 @@
 	</insert>
 
 	<!-- 목록 띄우기 -->
-	<!-- <select id="boardList" resultType="post"> -->
-	<!-- SELECT P.POST_NO, P.TITLE, P.CONTENT, P.CREATE_DATE, P.MODIFY_DATE, 
-		P.STATUS, B.BOARD_NO, SC.SUB_CATEGORY_NAME, M.USER_NAME, COUNT(H.HITS_NO) 
-		AS hitCount -->
-	<!-- FROM BOARD B -->
-	<!-- LEFT JOIN POST P ON (P.POST_NO = B.POST_NO) -->
-	<!-- LEFT JOIN SUB_CATEGORY SC ON B.SUB_CATEGORY_NO = SC.SUB_CATEGORY_NO -->
-	<!-- LEFT JOIN MEMBER M ON B.USER_NO = M.USER_NO -->
-	<!-- LEFT JOIN HITS H ON B.BOARD_NO = H.BOARD_NO -->
-	<!-- WHERE -->
-	<!-- B.SUB_CATEGORY_NO = #{subCategoryNo} -->
-	<!-- AND P.STATUS='Y' -->
-	<!-- <if test="searchSelect != null"> -->
-	<!-- <if test="searchSelect == 'boardNo'"> -->
-	<!-- AND B.BOARD_NO = #{searchValue} -->
-	<!-- </if> -->
-	<!-- <if test="searchSelect == 'title'"> -->
-	<!-- AND P.TITLE = #{searchValue} -->
-	<!-- </if> -->
-	<!-- <if test="searchSelect == 'content'"> -->
-	<!-- AND P.CONTENT = #{searchValue} -->
-	<!-- </if> -->
-	<!-- </if> -->
-	<!-- GROUP BY P.POST_NO, P.TITLE, P.CONTENT, P.CREATE_DATE, P.MODIFY_DATE, 
-		P.STATUS, B.BOARD_NO, SC.SUB_CATEGORY_NAME, M.USER_NAME -->
-	<!-- ORDER BY -->
-	<!-- <if test="filter == 'createDate'"> -->
-	<!-- CREATE_DATE DESC -->
-	<!-- </if> -->
-	<!-- <if test="filter == 'hitCount'"> -->
-	<!-- hitCount DESC -->
-	<!-- </if> -->
-	<!-- </select> -->
+<!-- 	<select id="boardList" resultType="post"> -->
+<!-- 		SELECT P.POST_NO, P.TITLE, P.CONTENT, P.CREATE_DATE, P.MODIFY_DATE,  -->
+<!-- 			P.STATUS, B.BOARD_NO, SC.SUB_CATEGORY_NAME, M.USER_NAME, COUNT(H.HITS_NO)  -->
+<!-- 			AS hitCount -->
+<!-- 		FROM BOARD B -->
+<!-- 			LEFT JOIN POST P ON (P.POST_NO = B.POST_NO) -->
+<!-- 			LEFT JOIN SUB_CATEGORY SC ON B.SUB_CATEGORY_NO = SC.SUB_CATEGORY_NO -->
+<!-- 			LEFT JOIN MEMBER M ON B.USER_NO = M.USER_NO -->
+<!-- 			LEFT JOIN HITS H ON B.BOARD_NO = H.BOARD_NO -->
+<!-- 		WHERE -->
+<!-- 			B.SUB_CATEGORY_NO = #{subCategoryNo} -->
+<!-- 			AND P.STATUS='Y' -->
+<!-- 		<if test="searchSelect != null"> -->
+<!-- 		<if test="searchSelect == 'boardNo'"> -->
+<!-- 		AND B.BOARD_NO = #{searchValue} -->
+<!-- 		</if> -->
+<!-- 		<if test="searchSelect == 'title'"> -->
+<!-- 		AND P.TITLE = #{searchValue} -->
+<!-- 		</if> -->
+<!-- 		<if test="searchSelect == 'content'"> -->
+<!-- 		AND P.CONTENT = #{searchValue} -->
+<!-- 		</if> -->
+<!-- 		</if> -->
+<!-- 		GROUP BY P.POST_NO, P.TITLE, P.CONTENT, P.CREATE_DATE, P.MODIFY_DATE,  -->
+<!-- 			P.STATUS, B.BOARD_NO, SC.SUB_CATEGORY_NAME, M.USER_NAME -->
+<!-- 		ORDER BY -->
+<!-- 		<if test="filter == 'createDate'"> -->
+<!-- 		CREATE_DATE DESC -->
+<!-- 		</if> -->
+<!-- 		<if test="filter == 'hitCount'"> -->
+<!-- 		hitCount DESC -->
+<!-- 		</if> -->
+<!-- 	</select> -->
 
-
-	<select id="boardList" resultType="post">
-		SELECT P.POST_NO, P.TITLE, P.CONTENT, P.CREATE_DATE, P.MODIFY_DATE,
-		P.STATUS, B.BOARD_NO, SC.SUB_CATEGORY_NAME, M.USER_NAME
-		FROM BOARD B
-		LEFT JOIN POST P ON (P.POST_NO = B.POST_NO)
-		LEFT JOIN SUB_CATEGORY SC
-		ON B.SUB_CATEGORY_NO = SC.SUB_CATEGORY_NO
-		LEFT JOIN MEMBER M ON
-		B.USER_NO = M.USER_NO
-		LEFT JOIN HITS H ON B.BOARD_NO = H.BOARD_NO
-		<!-- WHERE -->
-		<!-- B.SUB_CATEGORY_NO = #{subCategoryNo} -->
-		<!-- AND P.STATUS='Y' -->
-		<!-- <if test="searchSelect != null"> -->
-		<!-- <if test="searchSelect == 'boardNo'"> -->
-		<!-- AND B.BOARD_NO = #{searchValue} -->
-		<!-- </if> -->
-		<!-- <if test="searchSelect == 'title'"> -->
-		<!-- AND P.TITLE = #{searchValue} -->
-		<!-- </if> -->
-		<!-- <if test="searchSelect == 'content'"> -->
-		<!-- AND P.CONTENT = #{searchValue} -->
-		<!-- </if> -->
-		<!-- </if> -->
-		<!-- GROUP BY P.POST_NO, P.TITLE, P.CONTENT, P.CREATE_DATE, P.MODIFY_DATE, 
-			P.STATUS, B.BOARD_NO, SC.SUB_CATEGORY_NAME, M.USER_NAME -->
-		<!-- ORDER BY -->
-		<!-- <if test="filter == 'createDate'"> -->
-		<!-- CREATE_DATE DESC -->
-		<!-- </if> -->
-		<!-- <if test="filter == 'hitCount'"> -->
-		<!-- hitCount DESC -->
-		<!-- </if> -->
+	
+	<select id="boardList" resultType="post" parameterType="board">
+	    SELECT P.POST_NO, P.TITLE, P.CONTENT, P.CREATE_DATE, P.MODIFY_DATE,
+	    P.STATUS, B.BOARD_NO, SC.SUB_CATEGORY_NAME, M.USER_NAME
+	    FROM BOARD B
+	    LEFT JOIN POST P ON (P.POST_NO = B.POST_NO)
+	    LEFT JOIN SUB_CATEGORY SC ON B.SUB_CATEGORY_NO = SC.SUB_CATEGORY_NO
+	    LEFT JOIN MEMBER M ON B.USER_NO = M.USER_NO
+	    LEFT JOIN HITS H ON B.BOARD_NO = H.BOARD_NO
+	    WHERE B.SUB_CATEGORY_NO = #{subCategoryNo}
+	    AND P.STATUS='Y'
+	    <if test="searchSelect != null">
+	        <choose>
+	            <when test="searchSelect == 'boardNo'">
+	                AND B.BOARD_NO = #{searchValue}
+	            </when>
+	            <when test="searchSelect == 'title'">
+	                AND P.TITLE LIKE '%' || #{searchValue} || '%'
+	            </when>
+	            <when test="searchSelect == 'content'">
+	                AND P.CONTENT LIKE '%' || #{searchValue} || '%'
+	            </when>
+	        </choose>
+	    </if>
+	    <choose>
+	        <when test="filter == 'createDate'">
+	            ORDER BY P.CREATE_DATE DESC
+	        </when>
+	        <when test="filter == 'hitCount'">
+	            ORDER BY (SELECT COUNT(*) FROM HITS WHERE HITS.BOARD_NO = B.BOARD_NO) DESC
+	        </when>
+	        <otherwise>
+	            ORDER BY P.POST_NO DESC
+	        </otherwise>
+	    </choose>
 	</select>
+
+
+<!-- 	<select id="boardList" resultType="post" parameterType="board"> -->
+<!-- 		SELECT P.POST_NO, P.TITLE, P.CONTENT, P.CREATE_DATE, P.MODIFY_DATE, -->
+<!-- 		P.STATUS, B.BOARD_NO, SC.SUB_CATEGORY_NAME, M.USER_NAME -->
+<!-- 		FROM BOARD B -->
+<!-- 		LEFT JOIN POST P ON (P.POST_NO = B.POST_NO) -->
+<!-- 		LEFT JOIN SUB_CATEGORY SC ON B.SUB_CATEGORY_NO = SC.SUB_CATEGORY_NO -->
+<!-- 		LEFT JOIN MEMBER M ON B.USER_NO = M.USER_NO -->
+<!-- 		LEFT JOIN HITS H ON B.BOARD_NO = H.BOARD_NO -->
+<!-- 		WHERE B.SUB_CATEGORY_NO = #{subCategoryNo} -->
+<!-- 		ORDER BY P.POST_NO DESC -->
+<!-- 		WHERE -->
+<!-- 		B.SUB_CATEGORY_NO = #{subCategoryNo} -->
+<!-- 		AND P.STATUS='Y' -->
+<!-- 		<if test="searchSelect != null"> -->
+<!-- 		<if test="searchSelect == 'boardNo'"> -->
+<!-- 		AND B.BOARD_NO = #{searchValue} -->
+<!-- 		</if> -->
+<!-- 		<if test="searchSelect == 'title'"> -->
+<!-- 		AND P.TITLE = #{searchValue} -->
+<!-- 		</if> -->
+<!-- 		<if test="searchSelect == 'content'"> -->
+<!-- 		AND P.CONTENT = #{searchValue} -->
+<!-- 		</if> -->
+<!-- 		</if> -->
+<!--  		GROUP BY P.POST_NO, P.TITLE, P.CONTENT, P.CREATE_DATE, P.MODIFY_DATE,  -->
+<!-- 			P.STATUS, B.BOARD_NO, SC.SUB_CATEGORY_NAME, M.USER_NAME  -->
+<!-- 		ORDER BY -->
+<!-- 		<if test="filter == 'createDate'"> -->
+<!-- 		CREATE_DATE DESC -->
+<!-- 		</if> -->
+<!-- 		<if test="filter == 'hitCount'"> -->
+<!-- 		hitCount DESC -->
+<!-- 		</if> -->
+<!-- 	</select> -->
 
 	<select id="boardCount" resultType="int">
 		SELECT COUNT(*)
 		FROM POST
 	</select>
 
-
+	
+	
 
 
 	<!-- 상세페이지 -->
@@ -176,6 +214,15 @@
 		LEFT JOIN MEMBER M ON M.USER_NO = B.USER_NO
 		WHERE P.POST_NO = #{postNo}
 	</select>
+	<!-- 게시글 수정 -->
+	<update id="updatePost" parameterType="post">
+		UPDATE POST
+		SET TITLE = #{title},
+			CONTENT = #{content},
+			MODIFY_DATE = SYSDATE
+		WHERE POST_NO = #{postNo}
+	</update>
+	
 
 	<!-- 무료 나눔 페이지 관련 쿼리문 -->
 
@@ -271,4 +318,8 @@
 							WHERE BOARD_NO=#{boardNo})
 	    ]]>
 	</select>
+	
+	
+	
+	
 </mapper>
