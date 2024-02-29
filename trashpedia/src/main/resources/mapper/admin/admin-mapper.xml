@@ -80,7 +80,7 @@
 		SELECT USER_NO, USER_EMAIL, USER_NAME, USER_NICKNAME
 		FROM MEMBER
 			<if test="searchSelect == 'userNo'">
-				WHERE USER_NO LIKE '%' || #{searchValue} || '%'
+				WHERE TO_CHAR(USER_NO) LIKE '%' || #{searchValue} || '%'
 			</if>
 			<if test="searchSelect == 'userEmail'">
 				WHERE USER_EMAIL LIKE '%' || #{searchValue} || '%'
@@ -127,19 +127,34 @@
 	</select>
 	<select id="memberCountComment" resultType="int">
 		SELECT COUNT(*)
-		FROM "COMMENT" C
-		JOIN NESTED_COMMENT NC ON C.USER_NO = NC.USER_NO
-		WHERE C.USER_NO = #{userNo} OR NC.USER_NO = #{userNo}
+		FROM (
+		    SELECT B.BOARD_NO, COMMENT_NO, P.TITLE, SUB_CATEGORY_NAME, BIG_CATEGORY_NAME, NULL AS NESTED_COMMENT_NO
+		    FROM "COMMENT" C
+		    LEFT JOIN BOARD B ON C.BOARD_NO = B.BOARD_NO
+		    LEFT JOIN POST P ON P.POST_NO = B.POST_NO
+		    LEFT JOIN SUB_CATEGORY SC ON SC.SUB_CATEGORY_NO = B.SUB_CATEGORY_NO
+		    LEFT JOIN BIG_CATEGORY BC ON BC.BIG_CATEGORY_NO = SC.BIG_CATEGORY_NO
+		    WHERE C.USER_NO = #{userNo}
+		    UNION
+		    SELECT B.BOARD_NO, NC.COMMENT_NO, P.TITLE, SUB_CATEGORY_NAME, BIG_CATEGORY_NAME, NESTED_COMMENT_NO
+		    FROM NESTED_COMMENT NC
+		    LEFT JOIN "COMMENT" C ON C.COMMENT_NO = NC.COMMENT_NO
+		    LEFT JOIN BOARD B ON C.BOARD_NO = B.BOARD_NO
+		    LEFT JOIN POST P ON P.POST_NO = B.POST_NO
+		    LEFT JOIN SUB_CATEGORY SC ON SC.SUB_CATEGORY_NO = B.SUB_CATEGORY_NO
+		    LEFT JOIN BIG_CATEGORY BC ON BC.BIG_CATEGORY_NO = SC.BIG_CATEGORY_NO
+		    WHERE NC.USER_NO = #{userNo}
+		) RESULT
 	</select>
 	<select id="getMemberBoardList" resultType="board">
-		SELECT P.TITLE, BC.BIG_CATEGORY_NAME, SC.SUB_CATEGORY_NAME, B.BOARD_NO
+		SELECT P.TITLE, BC.BIG_CATEGORY_NAME, SC.SUB_CATEGORY_NAME, B.BOARD_NO, P.CREATE_DATE
 		FROM BOARD B
 		LEFT JOIN POST P ON B.POST_NO = P.POST_NO
 		LEFT JOIN SUB_CATEGORY SC ON B.SUB_CATEGORY_NO = SC.SUB_CATEGORY_NO
 		LEFT JOIN BIG_CATEGORY BC ON SC.BIG_CATEGORY_NO = BC.BIG_CATEGORY_NO
 		WHERE B.USER_NO = #{userNo}
 		<if test="searchSelect == 'boardNo'">
-				AND B.BOARD_NO LIKE '%' || #{searchValue} || '%'
+				AND TO_CHAR(B.BOARD_NO) LIKE '%' || #{searchValue} || '%'
 			</if>
 			<if test="searchSelect == 'title'">
 				AND P.TITLE LIKE '%' || #{searchValue} || '%'
@@ -153,13 +168,13 @@
 					B.BOARD_NO
 				</when>
 				<when test="sort == 'bigCategoryName'">
-					BC.BIG_CATEGORY_NAME
+					BC.BIG_CATEGORY_NAME, P.CREATE_DATE
 				</when>
 				<when test="sort == 'subCategoryName'">
-					SC.SUB_CATEGORY_NAME
+					SC.SUB_CATEGORY_NAME, P.CREATE_DATE
 				</when>
 				<when test="sort == 'title'">
-					P.TITLE
+					P.TITLE, P.CREATE_DATE
 				</when>
 			</choose>
 	</select>
@@ -170,71 +185,154 @@
 		WHERE B.BOARD_NO = #{boardNo}
 	</select>
 	<select id="getMemberCommentList" resultType="board">
-		SELECT P.TITLE, BC.BIG_CATEGORY_NAME, SC.SUB_CATEGORY_NAME, C.COMMENT_NO, NESTED_COMMENT_NO, B.BOARD_NO
-		FROM BOARD B
-		LEFT JOIN POST P ON B.POST_NO = P.POST_NO
-		LEFT JOIN SUB_CATEGORY SC ON B.SUB_CATEGORY_NO = SC.SUB_CATEGORY_NO
-		LEFT JOIN BIG_CATEGORY BC ON SC.BIG_CATEGORY_NO = BC.BIG_CATEGORY_NO
-		LEFT JOIN "COMMENT" C ON C.BOARD_NO = B.BOARD_NO
-		JOIN NESTED_COMMENT NC ON NC.COMMENT_NO = C.COMMENT_NO
-		WHERE C.USER_NO = #{userNo} OR NC.USER_NO = #{userNo}
-		<if test="searchSelect == 'boardNo'">
-				AND B.BOARD_NO LIKE '%' || #{searchValue} || '%'
+		SELECT BOARD_NO, TITLE, SUB_CATEGORY_NAME, BIG_CATEGORY_NAME
+		FROM (
+		    SELECT DISTINCT B.BOARD_NO, P.TITLE, SUB_CATEGORY_NAME, BIG_CATEGORY_NAME
+		    FROM "COMMENT" C
+		    LEFT JOIN BOARD B ON C.BOARD_NO = B.BOARD_NO
+		    LEFT JOIN POST P ON P.POST_NO = B.POST_NO
+		    LEFT JOIN SUB_CATEGORY SC ON SC.SUB_CATEGORY_NO = B.SUB_CATEGORY_NO
+		    LEFT JOIN BIG_CATEGORY BC ON BC.BIG_CATEGORY_NO = SC.BIG_CATEGORY_NO
+		    WHERE C.USER_NO = #{userNo}
+		    <if test="searchSelect == 'boardNo'">
+			    AND TO_CHAR(B.BOARD_NO) LIKE '%' || #{searchValue} || '%'
 			</if>
 			<if test="searchSelect == 'content'">
-				AND P.CONTENT LIKE '%' || #{searchValue} || '%'
+			    AND C.CONTENT LIKE '%' || #{searchValue} || '%'
 			</if>
+		    UNION
+		    SELECT DISTINCT B.BOARD_NO, P.TITLE, SUB_CATEGORY_NAME, BIG_CATEGORY_NAME
+		    FROM NESTED_COMMENT NC
+		    LEFT JOIN "COMMENT" C ON C.COMMENT_NO = NC.COMMENT_NO
+		    LEFT JOIN BOARD B ON C.BOARD_NO = B.BOARD_NO
+		    LEFT JOIN POST P ON P.POST_NO = B.POST_NO
+		    LEFT JOIN SUB_CATEGORY SC ON SC.SUB_CATEGORY_NO = B.SUB_CATEGORY_NO
+		    LEFT JOIN BIG_CATEGORY BC ON BC.BIG_CATEGORY_NO = SC.BIG_CATEGORY_NO
+		    WHERE NC.USER_NO = #{userNo}
+		    <if test="searchSelect == 'boardNo'">
+			    AND B.BOARD_NO LIKE '%' || #{searchValue} || '%'
+			</if>
+			<if test="searchSelect == 'content'">
+			    AND CN.CONTENT LIKE '%' || #{searchValue} || '%'
+			</if>
+		) RESULT
 		ORDER BY
-			<choose>
-				<when test="sort == 'boardNo'">
-					B.BOARD_NO
-				</when>
-				<when test="sort == 'bigCategoryName'">
-					BC.BIG_CATEGORY_NAME
-				</when>
-				<when test="sort == 'subCategoryName'">
-					SC.SUB_CATEGORY_NAME
-				</when>
-				<when test="sort == 'title'">
-					P.TITLE
-				</when>
-			</choose>
-	</select>
-	<select id="getMemberCommentDetail" resultType="board">
-		SELECT TITLE, CONTENT, CREATE_DATE, MODIFY_DATE
-		FROM BOARD B
-		LEFT JOIN POST P ON B.POST_NO = P.POST_NO
-		WHERE B.BOARD_NO = #{boardNo}
+		<choose>
+		    <when test="sort == 'boardNo'">
+		        BOARD_NO
+		    </when>
+		    <when test="sort == 'bigCategoryName'">
+		        BIG_CATEGORY_NAME
+		    </when>
+		    <when test="sort == 'subCategoryName'">
+		        SUB_CATEGORY_NAME
+		    </when>
+		    <when test="sort == 'title'">
+		        TITLE
+		    </when>
+		</choose>
 	</select>
 	<select id="getCommentDetail" resultType="board">
-		SELECT BOARD_NO, TITLE, P.CONTENT, C.CREATE_DATE, C.MODIFY_DATE, C.CONTENT AS commentContent
-		FROM BOARD B
-		LEFT JOIN POST P ON B.POST_NO = P.POST_NO
-		LEFT JOIN COMMENT C ON B.BOARD_NO = C.BOARD_NO
-		WHERE COMMENT_NO = #{commentNo}
-	</select>
-	<select id="getNestedCommentDetail" resultType="board">
-		SELECT BOARD_NO, TITLE, P.CONTENT, NC.CREATE_DATE, NC.MODIFY_DATE, NC.CONTENT AS commentContent
-		FROM BOARD B
-		LEFT JOIN POST P ON B.POST_NO = P.POST_NO
-		LEFT JOIN "COMMENT" C ON B.BOARD_NO = C.BOARD_NO
-		LEFT JOIN NESTED_COMMENT NC ON C.COMMENT_NO = NC.COMMENT_NO
-		WHERE NESTED_COMMENT_NO = #{nestedCommentNo}
+		SELECT CONTENT, CREATE_DATE
+		FROM (
+		    SELECT DISTINCT C.CONTENT, C.CREATE_DATE
+		    FROM "COMMENT" C
+		    LEFT JOIN BOARD B ON C.BOARD_NO = B.BOARD_NO
+		    LEFT JOIN POST P ON P.POST_NO = B.POST_NO
+		    LEFT JOIN SUB_CATEGORY SC ON SC.SUB_CATEGORY_NO = B.SUB_CATEGORY_NO
+		    LEFT JOIN BIG_CATEGORY BC ON BC.BIG_CATEGORY_NO = SC.BIG_CATEGORY_NO
+		    WHERE C.USER_NO = #{userNo} AND B.BOARD_NO = #{boardNo}
+		    UNION
+		    SELECT NC.CONTENT, NC.CREATE_DATE
+		    FROM NESTED_COMMENT NC
+		    LEFT JOIN "COMMENT" C ON C.COMMENT_NO = NC.COMMENT_NO
+		    LEFT JOIN BOARD B ON C.BOARD_NO = B.BOARD_NO
+		    LEFT JOIN POST P ON P.POST_NO = B.POST_NO
+		    LEFT JOIN SUB_CATEGORY SC ON SC.SUB_CATEGORY_NO = B.SUB_CATEGORY_NO
+		    LEFT JOIN BIG_CATEGORY BC ON BC.BIG_CATEGORY_NO = SC.BIG_CATEGORY_NO
+		    WHERE NC.USER_NO = #{userNo} and B.BOARD_NO = #{boardNo}
+		) RESULT
+		ORDER BY CREATE_DATE
 	</select>
 	<select id="getMemberPointList" resultType="pointHistory">
 		SELECT *
 		FROM POINT_HISTORY
 		WHERE USER_NO = #{userNo}
+		<if test="searchSelect == 'pointNo'">
+		    AND POINT_NO LIKE '%' || #{searchValue} || '%'
+		</if>
+		<if test="searchSelect == 'pointContent'">
+		    AND POINT_CONTENT LIKE '%' || #{searchValue} || '%'
+		</if>
+		ORDER BY
+		<choose>
+		    <when test="sort == 'pointNo'">
+		        POINT_NO
+		    </when>
+		    <when test="sort == 'pointContent'">
+		        POINT_CONTENT
+		    </when>
+		    <when test="sort == 'amount'">
+		        AMOUNT
+		    </when>
+		    <when test="sort == 'pointDate'">
+		        POINT_DATE
+		    </when>
+		</choose>
 	</select>
 	<select id="memberPointCount" resultType="int">
 		SELECT COUNT(*)
 		FROM POINT_HISTORY
 		WHERE USER_NO = #{userNo}
+		<if test="searchSelect == 'pointNo'">
+		    AND POINT_NO LIKE '%' || #{searchValue} || '%'
+		</if>
+		<if test="searchSelect == 'pointContent'">
+		    AND POINT_CONTENT LIKE '%' || #{searchValue} || '%'
+		</if>
 	</select>
 	<select id="getMemberReportList" parameterType="int" resultType="report">
 		SELECT *
 		FROM REPORT
 		WHERE USER_NO = #{userNo}
+		<if test="searchSelect == 'reportNo'">
+		    AND REPORT_NO LIKE '%' || #{searchValue} || '%'
+		</if>
+		<if test="searchSelect == 'reportContent'">
+		    AND REPORT_CONTENT LIKE '%' || #{searchValue} || '%'
+		</if>
+		ORDER BY
+		<choose>
+		    <when test="sort == 'reportNo'">
+		        REPORT_NO
+		    </when>
+		    <when test="sort == 'reportType'">
+		        REPORT_TYPE
+		    </when>
+		    <when test="sort == 'reportContent'">
+		        REPORT_CONTENT
+		    </when>
+		    <when test="sort == 'processingContent'">
+		        PROCESSING_CONTENT
+		    </when>
+		    <when test="sort == 'reportDate'">
+		        REPORT_DATE
+		    </when>
+		    <when test="sort == 'status'">
+		        STATUS
+		    </when>
+		</choose>
+	</select>
+	<select id="memberReportCount" resultType="int">
+		SELECT COUNT(*)
+		FROM REPORT
+		WHERE USER_NO = #{userNo}
+		<if test="searchSelect == 'reportNo'">
+		    AND REPORT_NO LIKE '%' || #{searchValue} || '%'
+		</if>
+		<if test="searchSelect == 'reportContent'">
+		    AND REPORT_CONTENT LIKE '%' || #{searchValue} || '%'
+		</if>
 	</select>
 	<select id="BigCategoryList" resultType="bigCategory">
 		SELECT *
@@ -246,42 +344,140 @@
 		WHERE BIG_CATEGORY_NO = #{bigCategoryNo}
 	</select>
 	<select id="loadBoardListData" resultType="Board">
-		SELECT *
+		SELECT B.BOARD_NO, SC.SUB_CATEGORY_NAME, P.TITLE, COUNT(H.HITS_NO) AS hit, P.CREATE_DATE, P.MODIFY_DATE, P.STATUS
 		FROM BOARD B
 		LEFT JOIN POST P ON P.POST_NO = B.POST_NO
-		WHERE B.SUB_CATEGORY_NO = #{subCategoryNo}
+		LEFT JOIN SUB_CATEGORY SC ON B.SUB_CATEGORY_NO = SC.SUB_CATEGORY_NO
+		LEFT JOIN HITS H ON B.BOARD_NO = H.BOARD_NO
 		<if test="searchSelect == 'boardNo'">
-				AND B.BOARD_NO LIKE '%' || #{searchValue} || '%'
-			</if>
-			<if test="searchSelect == 'title'">
-				AND P.TITLE LIKE '%' || #{searchValue} || '%'
-			</if>
-			<if test="searchSelect == 'content'">
-				AND P.CONTENT LIKE '%' || #{searchValue} || '%'
-			</if>
+			WHERE TO_CHAR(B.BOARD_NO) LIKE '%' || #{searchValue} || '%'
+		</if>
+		<if test="searchSelect == 'subCategoryName'">
+			WHERE SC.SUB_CATEGORY_NAME LIKE '%' || #{searchValue} || '%'
+		</if>
+		<if test="searchSelect == 'content'">
+			WHERE P.CONTENT LIKE '%' || #{searchValue} || '%'
+		</if>
+		GROUP BY B.BOARD_NO, SC.SUB_CATEGORY_NAME, P.TITLE, P.CREATE_DATE, P.MODIFY_DATE, P.STATUS
 		ORDER BY
 			<choose>
 				<when test="sort == 'boardNo'">
 					B.BOARD_NO
 				</when>
+				<when test="sort == 'subCategoryName'">
+					SC.SUB_CATEGORY_NAME
+				</when>
 				<when test="sort == 'title'">
 					P.TITLE
+				</when>
+				<when test="sort == 'hit'">
+					hit
 				</when>
 			</choose>
 	</select>
 	<select id="boardListCount" resultType="int">
 		SELECT COUNT(*)
 		FROM BOARD B
-		LEFT JOIN POST P ON P.POST_NO = B.POST_NO
-		WHERE B.SUB_CATEGORY_NO = #{subcategoryNo}
-		
+		<if test="searchSelect == 'boardNo'">
+			WHERE TO_CHAR(B.BOARD_NO) LIKE '%' || #{searchValue} || '%'
+		</if>
+		<if test="searchSelect == 'subCategoryName'">
+			WHERE SC.SUB_CATEGORY_NAME LIKE '%' || #{searchValue} || '%'
+		</if>
+		<if test="searchSelect == 'content'">
+			WHERE P.CONTENT LIKE '%' || #{searchValue} || '%'
+		</if>
 	</select>
-	<select id="loadBoardDetailData" parameterType="int" resultType="post">
-		SELECT M.USER_NICKNAME, P.TITLE, P.CONTENT, P.CREATE_DATE, P.MODIFY_DATE, B.POST_NO
-		FROM POST P
-		LEFT JOIN BOARD B ON P.POST_NO = B.POST_NO
-		LEFT JOIN MEMBER M ON M.USER_NO = B.USER_NO
-		WHERE B.BOARD_NO = #{boardNo}
+	<select id="loadCommentListData" resultType="comment">
+		SELECT COMMENT_NO, NESTED_COMMENT_NO, BOARD_NO, SUB_CATEGORY_NAME, TITLE, CONTENT, CREATE_DATE, MODIFY_DATE, STATUS
+		FROM
+		(SELECT C.COMMENT_NO, B.BOARD_NO, SC.SUB_CATEGORY_NAME, P.TITLE, C.CONTENT, C.CREATE_DATE, C.MODIFY_DATE, C.STATUS, NULL AS NESTED_COMMENT_NO
+		FROM "COMMENT" C
+		LEFT JOIN BOARD B ON B.BOARD_NO = C.BOARD_NO
+		LEFT JOIN POST P ON P.POST_NO = B.POST_NO
+		LEFT JOIN SUB_CATEGORY SC ON B.SUB_CATEGORY_NO = SC.SUB_CATEGORY_NO
+		<if test="searchSelect == 'boardNo'">
+			WHERE TO_CHAR(B.BOARD_NO) LIKE '%' || #{searchValue} || '%'
+		</if>
+		<if test="searchSelect == 'subCategoryName'">
+			WHERE SC.SUB_CATEGORY_NAME LIKE '%' || #{searchValue} || '%'
+		</if>
+		<if test="searchSelect == 'title'">
+			WHERE P.TITLE LIKE '%' || #{searchValue} || '%'
+		</if>
+		<if test="searchSelect == 'content'">
+			WHERE C.CONTENT LIKE '%' || #{searchValue} || '%'
+		</if>
+		UNION
+		SELECT C.COMMENT_NO,B.BOARD_NO, SC.SUB_CATEGORY_NAME, P.TITLE, NC.CONTENT, NC.CREATE_DATE, NC.MODIFY_DATE, NC.STATUS, NC.NESTED_COMMENT_NO
+		FROM NESTED_COMMENT NC
+		LEFT JOIN "COMMENT" C ON NC.COMMENT_NO = C.COMMENT_NO
+		LEFT JOIN BOARD B ON B.BOARD_NO = C.BOARD_NO
+		LEFT JOIN POST P ON P.POST_NO = B.POST_NO
+		LEFT JOIN SUB_CATEGORY SC ON B.SUB_CATEGORY_NO = SC.SUB_CATEGORY_NO)
+		<if test="searchSelect == 'boardNo'">
+			WHERE TO_CHAR(B.BOARD_NO) LIKE '%' || #{searchValue} || '%'
+		</if>
+		<if test="searchSelect == 'subCategoryName'">
+			WHERE SC.SUB_CATEGORY_NAME LIKE '%' || #{searchValue} || '%'
+		</if>
+		<if test="searchSelect == 'title'">
+			WHERE P.TITLE LIKE '%' || #{searchValue} || '%'
+		</if>
+		<if test="searchSelect == 'content'">
+			WHERE NC.CONTENT LIKE '%' || #{searchValue} || '%'
+		</if>
+		ORDER BY
+		<choose>
+			<when test="sort == 'boardNo'">
+				BOARD_NO
+			</when>
+			<when test="sort == 'subCategoryName'">
+				SUB_CATEGORY_NAME
+			</when>
+			<when test="sort == 'title'">
+				TITLE
+			</when>
+		</choose>
+	</select>
+	<select id="commentListCount" resultType="int">
+		SELECT SUM(a)
+		FROM (SELECT COUNT(*) AS a
+		FROM "COMMENT" C
+		LEFT JOIN BOARD B ON C.BOARD_NO = B.BOARD_NO
+		LEFT JOIN POST P ON B.POST_NO = B.POST_NO
+		LEFT JOIN SUB_CATEGORY SC ON B.SUB_CATEGORY_NO = SC.SUB_CATEGORY_NO
+		<if test="searchSelect == 'boardNo'">
+			WHERE TO_CHAR(B.BOARD_NO) LIKE '%' || #{searchValue} || '%'
+		</if>
+		<if test="searchSelect == 'subCategoryName'">
+			WHERE SC.SUB_CATEGORY_NAME LIKE '%' || #{searchValue} || '%'
+		</if>
+		<if test="searchSelect == 'title'">
+			WHERE P.TITLE LIKE '%' || #{searchValue} || '%'
+		</if>
+		<if test="searchSelect == 'content'">
+			WHERE C.CONTENT LIKE '%' || #{searchValue} || '%'
+		</if>
+		UNION
+		SELECT COUNT(*) AS a
+		FROM NESTED_COMMENT NC
+		LEFT JOIN "COMMENT" C ON NC.COMMENT_NO = C.COMMENT_NO
+		LEFT JOIN BOARD B ON C.BOARD_NO = B.BOARD_NO
+		LEFT JOIN POST P ON B.POST_NO = B.POST_NO
+		LEFT JOIN SUB_CATEGORY SC ON B.SUB_CATEGORY_NO = SC.SUB_CATEGORY_NO
+		<if test="searchSelect == 'boardNo'">
+			WHERE TO_CHAR(B.BOARD_NO) LIKE '%' || #{searchValue} || '%'
+		</if>
+		<if test="searchSelect == 'subCategoryName'">
+			WHERE SC.SUB_CATEGORY_NAME LIKE '%' || #{searchValue} || '%'
+		</if>
+		<if test="searchSelect == 'title'">
+			WHERE P.TITLE LIKE '%' || #{searchValue} || '%'
+		</if>
+		<if test="searchSelect == 'content'">
+			WHERE C.CONTENT LIKE '%' || #{searchValue} || '%'
+		</if>)
 	</select>
 	<select id="getTrashList" resultType="trash">
 		SELECT T.TRASH_NO, TBC.BIG_CATEGORY_NAME,TSC.SUB_CATEGORY_NAME, TP.TRASH_TITLE, TP.CREATE_DATE, TP.MODIFY_DATE

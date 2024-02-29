@@ -18,7 +18,6 @@ import com.kks.trashpedia.board.model.vo.BigCategory;
 import com.kks.trashpedia.board.model.vo.Board;
 import com.kks.trashpedia.board.model.vo.Comment;
 import com.kks.trashpedia.board.model.vo.NestedComment;
-import com.kks.trashpedia.board.model.vo.Post;
 import com.kks.trashpedia.board.model.vo.SubCategory;
 import com.kks.trashpedia.member.model.vo.Member;
 import com.kks.trashpedia.point.model.vo.PointHistory;
@@ -105,12 +104,7 @@ public class AdminDaoImpl implements AdminDao{
 		Map<String, Object> param = new HashMap<>();
 		param.put("sort", sort);
 		param.put("searchSelect", searchSelect);
-		if(searchSelect == "userNo") {
-			int intValue = Integer.parseInt(searchValue);
-			param.put("searchValue", intValue);
-		} else {
-			param.put("searchValue", searchValue);
-		}
+		param.put("searchValue", searchValue);
 		List<Member> members = session.selectList("adminMapper.getMemberList", param, new RowBounds((int) pageable.getOffset(), pageable.getPageSize()));
         int totalCount = session.selectOne("adminMapper.getCountAllMember", param);
         return new PageImpl<>(members, pageable, totalCount);
@@ -147,12 +141,7 @@ public class AdminDaoImpl implements AdminDao{
 		param.put("userNo", userNo);
 		param.put("sort", sort);
 		param.put("searchSelect", searchSelect);
-		if(searchSelect == "boardNo") {
-			int intValue = Integer.parseInt(searchValue);
-			param.put("searchValue", intValue);
-		} else {
-			param.put("searchValue", searchValue);
-		}
+		param.put("searchValue", searchValue);
 		List<Board> boards = session.selectList("adminMapper.getMemberBoardList", param, new RowBounds((int) pageable.getOffset(), pageable.getPageSize()));
         int totalCount = session.selectOne("adminMapper.memberCountBoard", userNo);
         return new PageImpl<>(boards, pageable, totalCount);
@@ -169,38 +158,42 @@ public class AdminDaoImpl implements AdminDao{
 		param.put("userNo", userNo);
 		param.put("sort", sort);
 		param.put("searchSelect", searchSelect);
-		if(searchSelect == "boardNo") {
-			int intValue = Integer.parseInt(searchValue);
-			param.put("searchValue", intValue);
-		} else {
-			param.put("searchValue", searchValue);
-		}
+		param.put("searchValue", searchValue);
 		List<Board> comments = session.selectList("adminMapper.getMemberCommentList", param, new RowBounds((int)pageable.getOffset(),pageable.getPageSize()));
 		int totalCount = session.selectOne("adminMapper.memberCountComment", userNo);
 		return new PageImpl<>(comments, pageable, totalCount);
 	}
 
 	@Override
-	public Board getCommentDetail(int commentNo) {
-		return session.selectOne("adminMapper.getCommentDetail",commentNo);
+	public List<Comment> getCommentDetail(int boardNo, int userNo) {
+		Map<String, Object> param = new HashMap<>();
+		param.put("userNo", userNo);
+		param.put("boardNo", boardNo);
+		return session.selectList("adminMapper.getCommentDetail",param);
 	}
 
-	@Override
-	public Board getNestedCommentDetail(int nestedCommentNo) {
-		return session.selectOne("adminMapper.getNestedCommentDetail",nestedCommentNo);
-	}
 
 	@Override
-	public Page<PointHistory> getMemberPointList(Pageable pageable, int page, int userNo) {
-		List<PointHistory> ph = session.selectList("adminMapper.getMemberPointList", userNo, new RowBounds(page, pageable.getPageSize()));
-		int totalCount = session.selectOne("adminMapper.memberPointCount", userNo);
+	public Page<PointHistory> getMemberPointList(Pageable pageable, int page, int userNo, String sort, String searchSelect, String searchValue) {
+		Map<String, Object> param = new HashMap<>();
+		param.put("userNo", userNo);
+		param.put("sort", sort);
+		param.put("searchSelect", searchSelect);
+		param.put("searchValue", searchValue);
+		List<PointHistory> ph = session.selectList("adminMapper.getMemberPointList", param, new RowBounds(page*pageable.getPageSize(), pageable.getPageSize()));
+		int totalCount = session.selectOne("adminMapper.memberPointCount", param);
 		return new PageImpl<>(ph, pageable, totalCount);
 	}
 
 	@Override
-	public Page<Report> getMemberReportList(Pageable pageable, int page, int userNo) {
-		List<Report> r = session.selectList("adminMapper.getMemberReportList", userNo, new RowBounds(page, pageable.getPageSize()));
-		int totalCount = session.selectOne("adminMapper.memberPointCount", userNo);
+	public Page<Report> getMemberReportList(Pageable pageable, int page, int userNo, String sort, String searchSelect, String searchValue) {
+		Map<String, Object> param = new HashMap<>();
+		param.put("userNo", userNo);
+		param.put("sort", sort);
+		param.put("searchSelect", searchSelect);
+		param.put("searchValue", searchValue);
+		List<Report> r = session.selectList("adminMapper.getMemberReportList", param, new RowBounds(page*pageable.getPageSize(), pageable.getPageSize()));
+		int totalCount = session.selectOne("adminMapper.memberReportCount", param);
 		return new PageImpl<>(r, pageable, totalCount);
 	}
 
@@ -215,25 +208,30 @@ public class AdminDaoImpl implements AdminDao{
 	}
 
 	@Override
-	public Page<Board> loadBoardListData(Pageable pageable, int page, int subCategoryNo, String sort, String searchSelect, String searchValue) {
+	public Page<Board> loadBoardListData(Pageable pageable, int page, String sort, String searchSelect, String searchValue) {
 		Map<String, Object> param = new HashMap<>();
-		param.put("subCategoryNo", subCategoryNo);
 		param.put("sort", sort);
 		param.put("searchSelect", searchSelect);
 		param.put("searchValue", searchValue);
-		List<Board> boards = session.selectList("adminMapper.loadBoardListData",param, new RowBounds(page, pageable.getPageSize()));
+		List<Board> boards = session.selectList("adminMapper.loadBoardListData",param, new RowBounds(page*pageable.getPageSize(), pageable.getPageSize()));
 		int totalCount = session.selectOne("adminMapper.boardListCount",param);
+		return new PageImpl<>(boards, pageable, totalCount);
+	}
+	
+	@Override
+	public Page<Board> loadCommentListData(Pageable pageable, int page, String sort, String searchSelect, String searchValue) {
+		Map<String, Object> param = new HashMap<>();
+		param.put("sort", sort);
+		param.put("searchSelect", searchSelect);
+		param.put("searchValue", searchValue);
+		List<Board> boards = session.selectList("adminMapper.loadCommentListData",param, new RowBounds(page*pageable.getPageSize(), pageable.getPageSize()));
+		int totalCount = session.selectOne("adminMapper.commentListCount",param);
 		return new PageImpl<>(boards, pageable, totalCount);
 	}
 
 	@Override
-	public Post loadBoardDetailData(int boardNo) {
-		return session.selectOne("adminMapper.loadBoardDetailData",boardNo);
-	}
-
-	@Override
 	public Page<Trash> getTrashList(Pageable pageable, int page) {
-		List<Trash> t = session.selectList("adminMapper.getTrashList", null, new RowBounds(page, pageable.getPageSize()));
+		List<Trash> t = session.selectList("adminMapper.getTrashList", null, new RowBounds(page*pageable.getPageSize(), pageable.getPageSize()));
 		int totalCount = session.selectOne("adminMapper.trashCount");
 		return new PageImpl<>(t, pageable, totalCount);
 	}
