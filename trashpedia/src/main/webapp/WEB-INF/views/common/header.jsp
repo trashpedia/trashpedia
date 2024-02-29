@@ -76,7 +76,7 @@
                	<sec:authorize access="isAuthenticated()">>
                     <!-- 로그인 했을 때 보이기 1-->
                     <li><span class="material-symbols-outlined icon">login</span><a href="${contextPath}/logout">logout</a> </li>
-                    <li><span class="material-symbols-outlined icon">person</span><a href="${contextPath}/login.me">MyPage</a> </li>
+                    <li><span class="material-symbols-outlined icon">person</span><a href="${contextPath}/myPage">MyPage</a> </li>
              	</sec:authorize> 
                     <li id="header-search-icon" ><span class="material-symbols-outlined icon">search</span><a>Search</a></li>
                 </ul>

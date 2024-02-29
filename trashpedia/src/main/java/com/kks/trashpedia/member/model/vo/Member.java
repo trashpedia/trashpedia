@@ -24,7 +24,7 @@ public class Member {
 	private String userName;
 	private String userNickname;
 	private String phone;
-	private int zipcode;
+	private String zipcode;
 	private String address1;
 	private String address2;
 	private String address3;
@@ -40,4 +40,19 @@ public class Member {
 	private String gradeName;
 	private String roleName;
 	private int point;
+	
+	
+	public Member(int userNo, int roleNo, int gradeNo, String userEmail, String userPwd, String userName) {
+		super();
+		this.userNo = userNo;
+		this.roleNo = roleNo;
+		this.gradeNo = gradeNo;
+		this.userEmail = userEmail;
+		this.userPwd = userPwd;
+		this.userName = userName;
+	}
+	
+	
+	
+	
 }

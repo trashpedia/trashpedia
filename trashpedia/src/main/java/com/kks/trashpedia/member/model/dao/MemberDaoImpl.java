@@ -30,4 +30,9 @@ public class MemberDaoImpl implements MemberDao{
 	public int deleteMember(Member m) {
 		return session.update("memberMapper.deleteMember", m);
 	}
+
+	@Override
+	public int idCheck(String userEmail) {
+		return session.selectOne("memberMapper.idCheck", userEmail);
+	}
 }

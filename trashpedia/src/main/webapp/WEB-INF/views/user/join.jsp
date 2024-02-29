@@ -26,8 +26,9 @@
 	                <span class="id-a">@</span>
 	                <input type="text" id="emailDomain">
 	                <input type="hidden" id ="hiddenUserEmail" name="userEmail">
+	                
 	            </div>
-	            
+	            <button type="button" onclick="idCheck();" id ="doubleCheckBtn">중복확인</button>
 	            
 	            <div>
 	                <select id="emailSelect" onchange="updateEmailDomain()">
@@ -71,7 +72,7 @@
 	                <option value="">대한민국 +82</option>
 	            </select>
 	            <div>
-	                <input type="tel" placeholder="전화번호 입력" name="phone">
+	                <input type="tel" placeholder="전화번호 입력" name="phone" id="phoneBox">
 	                <input type="button" value="인증번호 받기">
 	            </div>
 	            <input type="number" placeholder="인증번호를 입력하세요">
@@ -79,7 +80,7 @@
 	        <!-- 주소입력  -->
 	        <div class="field address">
 	            <div class="zipcode-container">
-	                <input type="text" id="sample6_postcode" placeholder="우편번호" name="zipcode" required readonly>
+	                <input type="number" id="sample6_postcode" placeholder="우편번호" name="zipcode" readonly>
 	                <input type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기" name="zipcode">
 	            </div>
 	            <div class="address-container">
@@ -106,6 +107,38 @@
 	    </form>
 	</main>
 	<jsp:include page="../common/footer.jsp"/>
+	<script>
+		function idCheck(){
+			//사용자가 입력한 ud값을 가지고db서버에 이미 존재하는 id인지 확인하는 기능
+			var username = document.getElementById("username").value;
+			var emailDomain = document.getElementById("emailDomain").value;
+			let content = username + "@" + emailDomain;
+			
+			
+			$.ajax({
+				url: "idCheck.me",
+				data:{
+				userEmail : content
+					},
+				success:function(result){
+					if(result == 1){//이미 사용중인
+						alert("이미 사용 중입니다.");
+		                document.getElementById("username").value = ""; // 사용 중인 이메일 입력 칸 비우기
+		                document.getElementById("emailDomain").value = ""; // 도메인 입력 칸 비우기
+		                document.getElementById("username").focus(); // 사용자가 다시 입력할 수 있도록 포커스 이동
+					}else if (username.trim() === "" || emailDomain.trim() === "") {
+			            alert("이메일을 입력해주세요."); // 이메일 입력란이 비어있을 경우 경고창 표시
+			        }
+					else {// 사용안함
+						alert("사용해도 됩니다.")
+					}
+				},
+				error:function (xhr, status, error){
+					console.log("댓글조회에러 :", status, error);
+				}
+			})
+		}
+	</script>
 	
 	<script>
 				function submitForm(){
@@ -296,9 +329,6 @@
                 { id: 'username', name: '아이디' },
                 { id: 'passwordInput', name: '비밀번호' },
                 { id: 'confirmPasswordInput', name: '비밀번호 확인' },
-                { id: 'year', name: '생년월일 연도' },
-                { id: 'month', name: '생년월일 월' },
-                { id: 'day', name: '생년월일 일' },
                 { id: 'emailUsername', name: '이메일 아이디' },
                 { id: 'emailDomain', name: '이메일 도메인' },
                 // 다른 필드들도 필요에 따라 추가

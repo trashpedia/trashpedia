@@ -20,7 +20,7 @@
         
         <span class="logo">로그인</span><br>
         <div class="div-login"></div>
-       <form action="${contextPath}/authenticate" method='post'>
+       <form action="${contextPath}/login/authenticate" method='post'>
             <input type="text" class="input-login" id="id" placeholder="아이디를 입력해주세요" class="in" name="userId">
             <div id="id-error-message" class="error-message"></div>
             <input type="password" class="input-pwd" id="pwd" placeholder="비밀번호를 입력해주세요" class="in" name="userPwd">

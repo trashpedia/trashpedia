@@ -32,6 +32,13 @@ public class AuthController {
 //		return mav;
 //	}
 	
+	 @GetMapping("/") // 추가
+	    public ModelAndView login() { // 추가
+	        ModelAndView mav = new ModelAndView(); // 추가
+	        mav.setViewName("user/login"); // 추가
+	        return mav; // 추가
+	    } // 추가
+	
 	@PostMapping("/login/{sns}")
 	public ResponseEntity<HashMap<String, Object>> authCheck(
 			@PathVariable String sns , 
