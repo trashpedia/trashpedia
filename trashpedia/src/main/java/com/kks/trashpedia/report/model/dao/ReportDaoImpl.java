@@ -1,7 +1,10 @@
 package com.kks.trashpedia.report.model.dao;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -17,16 +20,24 @@ public class ReportDaoImpl implements ReportDao{
 	private SqlSessionTemplate session;
 
 	@Override
-	public Page<Report> getBoardReportList(Pageable pageable) {
-		List<Report> r = session.selectList("reportMapper.getBoardReportList");
-		int totalCount = session.selectOne("reportMapper.boardReportCount");
+	public Page<Report> getBoardReportList(Pageable pageable, int page, String sort, String searchSelect, String searchValue) {
+		Map<String, Object> param = new HashMap<>();
+		param.put("sort", sort);
+		param.put("searchSelect", searchSelect);
+		param.put("searchValue", searchValue);
+		List<Report> r = session.selectList("reportMapper.getBoardReportList", param, new RowBounds(page*pageable.getPageSize(), pageable.getPageSize()));
+		int totalCount = session.selectOne("reportMapper.boardReportCount", param);
 		return new PageImpl<>(r, pageable, totalCount);
 	}
 
 	@Override
-	public Page<Report> getCommentReportList(Pageable pageable) {
-		List<Report> r = session.selectList("reportMapper.getCommentReportList");
-		int totalCount = session.selectOne("reportMapper.commentReportCount");
+	public Page<Report> getCommentReportList(Pageable pageable, int page, String sort, String searchSelect, String searchValue) {
+		Map<String, Object> param = new HashMap<>();
+		param.put("sort", sort);
+		param.put("searchSelect", searchSelect);
+		param.put("searchValue", searchValue);
+		List<Report> r = session.selectList("reportMapper.getCommentReportList", param, new RowBounds(page*pageable.getPageSize(), pageable.getPageSize()));
+		int totalCount = session.selectOne("reportMapper.commentReportCount", param);
 		return new PageImpl<>(r, pageable, totalCount);
 	}
 	

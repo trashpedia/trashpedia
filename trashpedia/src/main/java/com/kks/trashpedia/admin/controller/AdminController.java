@@ -318,16 +318,24 @@ public class AdminController {
 		mav.setViewName("admin/reportManagement");
 		return mav;
 	}
-	
-	@GetMapping("/getBoardReportList")
-	public ResponseEntity<Page<Report>> getBoardReportList(@PageableDefault(size = 20, sort = "id", direction = Sort.Direction.DESC) Pageable pageable){
-		Page<Report> pages = rService.getBoardReportList(pageable);
+
+	@GetMapping("/getboardReportList")
+	public ResponseEntity<Page<Report>> getBoardReportList(@PageableDefault(size = 10, sort = "id", direction = Sort.Direction.DESC) Pageable pageable,
+			@RequestParam int page,
+			@RequestParam String sort,
+			@RequestParam String searchSelect,
+			@RequestParam String searchValue){
+		Page<Report> pages = rService.getBoardReportList(pageable, page, sort, searchSelect, searchValue);
 		return ResponseEntity.ok(pages);
 	}
 	
-	@GetMapping("/getCommentReportList")
-	public ResponseEntity<Page<Report>> getCommentReportList(@PageableDefault(size = 20, sort = "id", direction = Sort.Direction.DESC) Pageable pageable){
-		Page<Report> pages = rService.getCommentReportList(pageable);
+	@GetMapping("/getcommentReportList")
+	public ResponseEntity<Page<Report>> getCommentReportList(@PageableDefault(size = 10, sort = "id", direction = Sort.Direction.DESC) Pageable pageable,
+			@RequestParam int page,
+			@RequestParam String sort,
+			@RequestParam String searchSelect,
+			@RequestParam String searchValue){
+		Page<Report> pages = rService.getCommentReportList(pageable, page, sort, searchSelect, searchValue);
 		return ResponseEntity.ok(pages);
 	}
 	
