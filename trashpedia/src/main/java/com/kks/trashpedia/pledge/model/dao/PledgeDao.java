@@ -3,6 +3,9 @@ package com.kks.trashpedia.pledge.model.dao;
 import java.sql.Date;
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import com.kks.trashpedia.board.model.vo.Attachment;
 import com.kks.trashpedia.board.model.vo.Board;
 import com.kks.trashpedia.board.model.vo.Comment;
@@ -48,6 +51,9 @@ public interface PledgeDao {
 
 	//댓글삭제
 	int deleteComment(Comment comment);
+	
+	//게시글조회-페이징,검색
+	Page<Post> loadListData(Pageable pageable, int page, String sort, String searchSelect, String searchValue, int subCategoryNo);
 
 
 

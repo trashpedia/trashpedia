@@ -1,5 +1,9 @@
 package com.kks.trashpedia.common.service;
 
+import java.io.IOException;
+
+import org.springframework.web.multipart.MultipartFile;
+
 import com.kks.trashpedia.board.model.vo.Attachment;
 import com.kks.trashpedia.board.model.vo.Board;
 import com.kks.trashpedia.board.model.vo.ImgAttachment;
@@ -13,15 +17,21 @@ public interface CommonService {
 
 	// 게시글 등록
 	int createPost(Post p);
-
 	int createBoard(Board b);
-
 	int insertFiles(Attachment attachment, ImgAttachment image);
 
 	// 게시글 수정 페이지 이동
 	Post getPost(int postNo);
 
 	// 게시글 수정
-	int updatePost(Post p);
+	int updatePost(Post p, String deleteImg, String deleteFile, MultipartFile upfile, MultipartFile thumbnailImage, int type) throws IOException;
 
+	// 첨부파일 삭제
+	int deleteAttach(Post p);
+
+	// 첨부파일 추가
+	//void insertAttachFile(Attachment attachment);
+
+	//이미지 삭제
+	int deleteImage(Post p);
 }
