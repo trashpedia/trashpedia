@@ -36,7 +36,7 @@
                             	<li><a href="${contextPath}/board/list?bigCategoryNo=1&subCategoryNo=1">공지게시판</a></li>
                             	<li><a href="${contextPath}/board/list?bigCategoryNo=1&subCategoryNo=2">일반게시판</a></li>
                             	<li><a href="${contextPath}/board/list?bigCategoryNo=1&subCategoryNo=3">건의게시판</a></li>
-                                <li><a href="${contextPath}/boardFreeShare?bigCategoryNo=1&subCategoryNo=4">무료나눔게시판</a></li>
+                                <li><a href="${contextPath}/board/list?bigCategoryNo=1&subCategoryNo=4">무료나눔게시판</a></li>
                             </ul>
                         </div>
                     </li>
