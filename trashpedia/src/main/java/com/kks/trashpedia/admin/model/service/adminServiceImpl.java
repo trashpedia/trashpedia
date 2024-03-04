@@ -8,10 +8,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.kks.trashpedia.admin.model.dao.AdminDao;
-import com.kks.trashpedia.board.model.vo.BigCategory;
 import com.kks.trashpedia.board.model.vo.Board;
 import com.kks.trashpedia.board.model.vo.Comment;
-import com.kks.trashpedia.board.model.vo.SubCategory;
 import com.kks.trashpedia.member.model.vo.Member;
 import com.kks.trashpedia.point.model.vo.PointHistory;
 import com.kks.trashpedia.report.model.vo.Report;
@@ -75,8 +73,8 @@ public class adminServiceImpl implements adminService{
 	}
 
 	@Override
-	public Page<Member> getMemberList(Pageable pageable, String sort, String searchSelect, String searchValue) {
-		return dao.getMemberList(pageable, sort, searchSelect, searchValue);
+	public Page<Member> getMemberList(Pageable pageable, int page, String sort, String searchSelect, String searchValue) {
+		return dao.getMemberList(pageable, page, sort, searchSelect, searchValue);
 	}
 
 	@Override
@@ -135,45 +133,64 @@ public class adminServiceImpl implements adminService{
 	}
 
 	@Override
-	public List<BigCategory> BigCategoryList() {
-		return dao.BigCategoryList();
+	public Page<Board> getAnnouncementList(Pageable pageable, int page, String sort, String searchSelect, String searchValue) {
+		return dao.getAnnouncementList(pageable, page, sort, searchSelect, searchValue);
 	}
 
 	@Override
-	public List<SubCategory> getSubCategoryList(int bigCategoryNo) {
-		return dao.getSubCategoryList(bigCategoryNo);
+	public Page<Board> getBoardList(Pageable pageable, int page, String sort, String searchSelect, String searchValue) {
+		return dao.getBoardList(pageable, page, sort, searchSelect, searchValue);
 	}
 
 	@Override
-	public Page<Board> loadBoardListData(Pageable pageable, int page, String sort, String searchSelect, String searchValue) {
-		return dao.loadBoardListData(pageable, page, sort, searchSelect, searchValue);
+	public Page<Board> getCommentList(Pageable pageable, int page, String sort, String searchSelect, String searchValue) {
+		return dao.getCommentList(pageable, page, sort, searchSelect, searchValue);
 	}
 
 	@Override
-	public Page<Board> loadCommentListData(Pageable pageable, int page, String sort, String searchSelect, String searchValue) {
-		return dao.loadCommentListData(pageable, page, sort, searchSelect, searchValue);
+	public int deleteBoard(int boardNo) {
+		return dao.deleteBoard(boardNo);
 	}
 
 	@Override
-	public Page<Trash> getTrashList(Pageable pageable, int page) {
-		return dao.getTrashList(pageable, page);
+	public int undeleteBoard(int boardNo) {
+		return dao.undeleteBoard(boardNo);
+	}
+
+
+	@Override
+	public int deleteComment(int commentNo) {
+		return dao.deleteComment(commentNo);
 	}
 
 	@Override
-	public Page<Suggestion> loadSuggestionListData(Pageable pageable) {
-		return dao.loadSuggestionListData(pageable);
+	public int undeleteComment(int commentNo) {
+		return dao.undeleteComment(commentNo);
 	}
 
 	@Override
-	public Page<Request> loadRequestListData(Pageable pageable) {
-		return dao.loadRequestListData(pageable);
+	public int deleteNestedComment(int nestedCommentNo) {
+		return dao.deleteNestedComment(nestedCommentNo);
 	}
 
 	@Override
-	public int loadBoardCount(int subCategoryNo) {
-		return dao.loadBoardCount(subCategoryNo);
+	public int undeleteNestedComment(int nestedCommentNo) {
+		return dao.undeleteNestedComment(nestedCommentNo);
+	}
+	
+	@Override
+	public Page<Trash> getTrashList(Pageable pageable, int page, String sort, String searchSelect, String searchValue) {
+		return dao.getTrashList(pageable, page, sort, searchSelect, searchValue);
 	}
 
+	@Override
+	public Page<Suggestion> getSuggestionList(Pageable pageable, int page, String sort, String searchSelect, String searchValue) {
+		return dao.getSuggestionList(pageable, page, sort, searchSelect, searchValue);
+	}
 
+	@Override
+	public Page<Request> getRequestList(Pageable pageable, int page, String sort, String searchSelect, String searchValue) {
+		return dao.getRequestList(pageable, page, sort, searchSelect, searchValue);
+	}
 
 }

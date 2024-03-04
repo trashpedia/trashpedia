@@ -17,7 +17,7 @@ public class Member {
 	private String socialType;
 	
 	private int userNo;
-	private int roleNo;
+	private String role;
 	private int gradeNo;
 	private String userEmail;
 	private String userPwd;
@@ -40,19 +40,4 @@ public class Member {
 	private String gradeName;
 	private String roleName;
 	private int point;
-	
-	
-	public Member(int userNo, int roleNo, int gradeNo, String userEmail, String userPwd, String userName) {
-		super();
-		this.userNo = userNo;
-		this.roleNo = roleNo;
-		this.gradeNo = gradeNo;
-		this.userEmail = userEmail;
-		this.userPwd = userPwd;
-		this.userName = userName;
-	}
-	
-	
-	
-	
 }

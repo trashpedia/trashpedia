@@ -20,24 +20,32 @@ a{
     color: #222;
 }
 
-/*member sign in*/
 .member{
     width: 450px;
     height: 100%;
-    /* border: 1px solid #000; */
     margin: auto; /*중앙 정렬*/
     padding: 0 20px;
     margin-bottom: 20px;
 }
 
 .member .logo{
-    /*로고는 이미지라 인라인 블록이니까 마진 오토 안됨 블록요소만 됨 */
     display: block;
-    margin-top :120px;
-    margin-bottom: 90px;
+    margin :60px 0 50px;
     font-weight: 600;
-    font-size: 38px;
-    margin-left: 128px;
+    font-size: 35px;
+    text-align: center;
+}
+
+.title p{
+    margin-bottom: 2px;
+    color: #202020;
+    font-weight: 400;
+    font-size: 13px;
+}
+
+.id-content{
+    display: flex;
+    width:100%;
 }
 
 select{
@@ -49,13 +57,10 @@ select{
 }
 
 .member .field{
-    margin :5px 0; /*상하로 좀 띄워주기*/
+    margin :5px 0;
     
 }
-#id-1{
-    display: flex;
-    width:100%;
-}
+
 
 #doubleCheckBtn{
 	width:80px;
@@ -82,15 +87,6 @@ select{
     text-align: center;
 }
 
-.member b{
-    /* border: 1px solid #000; */
-    display: block; /*수직 정렬하기 */
-    margin-bottom: 2px;
-    padding: 3px;
-    color: #202020;
-    font-weight: 400;
-    font-size: 13px;
-}
 /*input 중 radio 는 width 가 100%면 안되니까 */
 .member input:not(input[type=radio]),.member select{
     border: 1px solid #dadada;

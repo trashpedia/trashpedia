@@ -8,7 +8,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>memberManagementDetail</title>
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <link rel="stylesheet" href="${contextPath}/resources/css/admin/memberManagementDetail.css">
 </head>
 <jsp:include page="../common/header.jsp"/>
@@ -33,7 +33,7 @@
 	                    </div>
 	                    <div class="member-item">
 	                        <div class="member-item-title">권한</div>
-	                        <div class="member-item-subtitle">${m.roleName}</div>
+	                        <div class="member-item-subtitle">${m.role}</div>
 	                    </div>
 	                    <div class="member-item">
 	                        <div class="member-item-title">생성일</div>
@@ -274,6 +274,7 @@
 	    });
 	    
 	    $('#board-filter-select').change(function(){
+	    	let a = boardOffset;
 	    	boardFilterValue = $(this).val();
 	    	$('.board-list').empty();
 	    	boardOffset = 0;
@@ -284,7 +285,7 @@
 	    	commentFilterValue = $(this).val();
 	    	$('.comment-list').empty();
 	    	commentOffset = 0;
-	    	getCommentList(commentSearchSelect, commentSearchValue);
+	    	getCommentList(boardSearchSelect, boardSearchValue);
 	    });
 	    
 	    $('#point-filter-select').change(function(){
@@ -303,8 +304,8 @@
 	    	boardSearchSelect = $('#board-search-filter-select').val();
 	    	boardSearchValue = $('.board-search-input').val();
 	    	$('.board-search-input').val('');
-	    	$('.board-list').empty();
 	    	boardOffset = 0;
+	    	$('.board-list').empty();
 	    	getBoardList(boardSearchSelect, boardSearchValue);
 	    }
 	    
@@ -312,9 +313,9 @@
 	    	commentSearchSelect = $('#comment-search-filter-select').val();
 	    	commentSearchValue = $('.comment-search-input').val();
 	    	$('.comment-search-input').val('');
-	    	$('.comment-list').empty();
 	    	commentOffset = 0;
-	    	getCommentList(commentSearchSelect, commentSearchValue);
+	    	$('.comment-list').empty();
+	    	getCommentList(boardSearchSelect, boardSearchValue);
 	    }
 	    
 	    function pointSearch(){
@@ -505,15 +506,15 @@
 	            row.appendChild(cell4);
 	            
 	            row.addEventListener('click', function() {
-                	loadCommentDetailData(data[i].boardNo);
+                	loadCommentDetail(data[i].boardNo);
 	            });
 	            userList.appendChild(row);
 	        }
 	    }
 	    
-	    function loadCommentDetailData(boardNo) {
+	    function loadCommentDetail(boardNo) {
 	        $.ajax({
-	            url: '${contextPath}/admin/getCommentDetailData',
+	            url: '${contextPath}/admin/getCommentDetail',
 	            type: 'GET',
 	            dataType: 'json',
 	            data: {boardNo, userNo: ${m.userNo}},
@@ -537,6 +538,16 @@
 	    	            
 	    	            userList.appendChild(row);
     	            };
+    	            
+    	            let button = document.createElement('input');
+	            	button.setAttribute('type', 'button');
+	            	button.setAttribute('value', '상세보기');
+	            	button.classList.add('detail-button');
+	            	button.addEventListener('click', function() {
+	            	    boardDetail(data[0].boardNo);
+	            	});
+	            	
+	            	userList.appendChild(button);
     	        },
 	            error: function(xhr, status, error) {
 	                console.error('Error: ' + error);
@@ -692,8 +703,8 @@
 	        userPaging.innerHTML = pagination;
 	    }
 	    
-        function loadBoardDetail(boardNo){
-            location.href="/board/detail?boardNo="+boardNo;
+        function boardDetail(boardNo){
+            location.href="${contextPath}/board/detail/"+boardNo;
         }
     </script>
 </body>

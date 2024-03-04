@@ -1,15 +1,28 @@
 package com.kks.trashpedia.member.model.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.kks.trashpedia.member.model.dao.MemberDao;
 import com.kks.trashpedia.member.model.vo.Member;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
+@RequiredArgsConstructor
 public class MemberServiceImpl implements MemberService{
-	@Autowired
 	private MemberDao dao;
+
+	@Value("${api.key}")
+	private String apiKey;
+	
+	@Value("${api.secret}")
+	private String apiSecret;
+
+	@Override
+	public int emailCheck(String userEmail) {
+		return dao.emailCheck(userEmail);
+	}
 
 	@Override
 	public int joinMember(Member m) {
@@ -32,12 +45,5 @@ public class MemberServiceImpl implements MemberService{
 		
 	}
 
-	@Override
-	public int idCheck(String userEmail) {
-		return dao.idCheck(userEmail);
-	}
 
-
-
-	
 }

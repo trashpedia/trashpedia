@@ -1,5 +1,6 @@
 package com.kks.trashpedia.auth.model.dto;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -9,13 +10,13 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import com.kks.trashpedia.member.model.vo.Member;
 
-public class User extends Member implements UserDetails{
-	
-	private List<SimpleGrantedAuthority> authorities;
+public class UserDetail extends Member implements UserDetails{
 	
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return authorities;
+	    List<GrantedAuthority> authorities = new ArrayList<>();
+	    authorities.add(new SimpleGrantedAuthority(getRole()));
+	    return authorities;
 	}
 
 	@Override
@@ -47,6 +48,4 @@ public class User extends Member implements UserDetails{
 	public boolean isEnabled() {
 		return true;
 	}
-		
-
 }
