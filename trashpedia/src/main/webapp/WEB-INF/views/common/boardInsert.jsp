@@ -31,8 +31,7 @@
 			<div class="content-category-outer">
 				<span class="container-title"> 
 					<c:if test="${empty post}"> 게시글 등록 </c:if>
-					<c:if test="${!empty post}"> 
-						게시글 편집 
+					<c:if test="${!empty post}"> 게시글 수정 
 						<input type="hidden" name="postNo" value="${post.postNo}">  
 						<input type="hidden" name="boardNo" value="${post.boardNo}">  
 					</c:if>
@@ -46,35 +45,43 @@
 
 			<div class="content-input-outer">
 				<input name="title" type="text" class="input-title" placeholder="제목을 입력하세요." value="${post.title}" required>
-				<hr>
+					<c:if test="${!empty post}">
+					<div class="content-title-outer">
+						<span>작성자</span> <span class="title-count"> ${authentication.userName}  &nbsp; &nbsp;| </span> 
+						<span>작성일</span> <span class="title-count"> ${post.createDate}  &nbsp; &nbsp;| </span> 
+						<span>조회수</span> <span class="title-count">${post.hitsNo}</span>
+					</div>
+					</c:if>
 			</div>
 
 			<div class="content-outer">
 				<div class="file-input-outer">
 					<table class="content-attach-inner">
 						<tr>
-							<td width="100px;" class="not-empty-title">썸네일 이미지</td>
+							<td width="100px;" class="not-empty-title"><strong>썸네일 이미지</strong></td>
 							<td class="thumbnailBox">
- 								<button type="button" class="btn-secondary" id="updatefileInputButton" onclick="$('#imgAttachment').click()">파일선택</button>
-								<input type="file" name="thumbnail" id="imgAttachment" style='display:none'> 
- 								<span id="originFileName">${img.originName}</span>
-								<span id="updateFileName"></span>
-								<div>
-								    <img id="thumbNailImg" src="<c:url value='/resources/attachFile/image/${img.changeName}'/>">
+								<div class="thumbnail-input-div">
+	 								<button type="button" class="updateButton" id="updateImgInputButton" onclick="$('#imgAttachment').click()">파일선택</button>
+	 								<span class="nameArea" id="originFileName">${img.originName}</span>
+									<span class="nameArea" id="updateFileName"></span>
+									<input type="file" name="thumbnail" id="imgAttachment" style='display:none'>
 									<c:if test="${!empty img}">
-								    	<button type="button" id="xImgButton" class="xButton">x</button>
+										<button  type="button" id="xImgButton" class="xButton">x</button>
 									</c:if>
+								</div>
+								<div id="img-box" style="display:none" >
+								    <img id="thumbNailImg" src="<c:url value='/resources/attachFile/image/${img.changeName}'/>">
 							    </div>
 							</td>
 						</tr>
 						<tr>
-							<td>첨부파일 </td>
+							<td><strong>첨부파일</strong></td>
 							<td id="attachFile"> 
-								<button type="button" class="btn-secondary" id="updatefileInputButton" onclick="$('#attachment').click()">파일선택</button>
+								<button type="button" class="updateButton" id="updatefileInputButton" onclick="$('#attachment').click()">파일선택</button>
 								<input type="file" name="upfile" id="attachment" style='display:none'>
 								<input type="hidden" name="originName" value="${attachment.originName}">
-								<span id="originFile2Name">${attachment.originName}</span>
-								<span id="updateFile2Name"></span>
+								<span class="nameArea" id="originFile2Name">${attachment.originName}</span>
+								<span class="nameArea" id="updateFile2Name"></span>
 								<c:if test="${!empty attachment}">
 									<a id="fileDownload" href="<c:url value='/resources/attachFile/file/${attachment.changeName}'/>" download="${attachment.originName}">다운로드</a>
 									<button type="button" id="xAttachButton" class="xButton">x</button>
@@ -149,6 +156,8 @@
 		            	$('#thumbNailImg').attr('src', e.target.result); 
 		            	$('#originFileName').hide();
 		            	$('#updateFileName').text(file.name);
+		            	$('#img-box').css('display','block');
+		            	$('#deleteImg').val($('#originFileName').text());
 		            };
 		            reader.readAsDataURL(file);
 		        }
@@ -163,6 +172,7 @@
 		            	$('#originFile2Name').hide();
 		            	$('#fileDownload').hide();
 		            	$('#updateFile2Name').text(file.name);
+		            	$('#deleteFile').val($('#originFile2Name').text());
 		            };
 		            reader.readAsDataURL(file);
 		        }
@@ -175,6 +185,7 @@
 		const editor = new toastui.Editor({
 		    el: document.querySelector('#writeBoard-content'),
 		    height: '600px',
+// 		    width : '800px',
 		    initialEditType: 'wysiwyg',
 		    initialValue: '',
 		    previewStyle: 'vertical',
