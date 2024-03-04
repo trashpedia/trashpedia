@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <c:set var="contextPath" value="<%=request.getContextPath() %>"/>
 <!DOCTYPE html>
 <html lang="ko">
@@ -8,7 +9,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>trashManagement</title>
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <link rel="stylesheet" href="${contextPath}/resources/css/admin/trashManagement.css">
 </head>
 <jsp:include page="../common/header.jsp"/>
@@ -16,236 +17,501 @@
     <jsp:include page="../common/sidebar.jsp"/>
     <div class="content-wrapper">
         <div class="content">
-            <section class="search-section">
-                <div class="search-container">
-                    <div class="search-title">쓰레기 관리</div>
+            <div class="practice-section">
+			    <p>쓰레기 관리</p>
+			    <p>trash management</p>
+			</div>
+			<section class="content-section">
+                <div class="content-container">
+                	<div class="content-title-wrapper">
+                    	<div class="content-title">쓰레기</div>
+	                   	<div class="filter-wrapper">
+						    <select name="condition" id="trash-filter-select">
+						        <option value="trashNo" selected>번호</option>
+						        <option value="subCategoryName">분류</option>
+						        <option value="trashTitle">제목</option>
+						        <option value="hit">조회수</option>
+						    </select>
+						    <input type="button" class="write-button" value="글쓰기" onclick="trashWrite()">
+						</div>
+                   	</div>
+					<table class="long-table trash-table">
+					    <thead class="long-thead trash-thead">
+					    	<tr class="long-tr">
+					    		<th>번호</th>
+                                <th>대분류</th>
+                                <th>소분류</th>
+                                <th>이름</th>
+                                <th>작성일</th>
+                                <th>수정일</th>
+                                <th>조회수</th>
+                                <th>비고</th>
+					    	</tr>
+					    </thead>
+					    <tbody class="long-tbody trash-list"></tbody>
+					</table>
+					<div class="search-wrapper">
+						<select name="condition" id="trash-search-filter-select">
+			                <option value="trashNo" selected>번호</option>
+			                <option value="subCategoryName">분류</option>
+			                <option value="trashTitle">이름</option>
+						</select>
+						<input type="search" class="search-input trash-search-input" placeholder="검색어를 입력하세요">
+						<input type="button" class="search-button trash-search-button" value="검색" onclick="trashSearch()">
+					</div>
+                	<div class="trash-pageBar pageBar"></div>
                 </div>
-            </section>
-            <section class="trash-section">
-                <div class="trash-board-container">
-                    <div class="trash-content">
-                        <div class="trash-board-title-wrapper trash-board-title"></div>
-                        <table class="trash-table">
-                            <thead>
-                                <tr>
-	                                <th>쓰레기 번호</th>
-	                                <th>쓰레기 대분류</th>
-	                                <th>쓰레기 소분류</th>
-	                                <th>쓰레기 이름</th>
-	                                <th>쓰레기 작성일</th>
-	                                <th>쓰레기 수정일</th>
-	                                <th>비고</th>
-                                </tr>
-                            </thead>
-                            <tbody class="trash-tbody"></tbody>
-                        </table>
-                        <div>
-	                        <select name="condition" id="trashSearchFilterSelect">
-		                        <option value="trashTitle">이름</option>
-		                    </select>
-		                    <input type="search" name="trashSearch" id="trashSearch" placeholder="Search">
-		                    <input type="button" id="search" value="검색" onclick="trashSearch()">
-	                    </div>
-                        <div class="pageBar"></div>
-                    </div>
+			</section>
+			<section class="content-section">
+                <div class="content-container">
+                	<div class="content-title-wrapper">
+                    	<div class="content-title">요청</div>
+	                   	<div class="filter-wrapper">
+						    <select name="condition" id="suggestion-filter-select">
+						        <option value="suggestionNo" selected>번호</option>
+						        <option value="suggestionTitle">제목</option>
+						        <option value="processingStatus">처리상태</option>
+						        <option value="processingDate">처리일</option>
+						    </select>
+						</div>
+                   	</div>
+					<table class="long-table suggestion-table">
+					    <thead class="long-thead suggestion-thead">
+					    	<tr class="long-tr">
+					    		<th>번호</th>
+                                <th>요청자 번호</th>
+                                <th>제목</th>
+                                <th>작성일</th>
+                                <th>처리상태</th>
+                                <th>처리일</th>
+                                <th>비고</th>
+					    	</tr>
+					    </thead>
+					    <tbody class="long-tbody suggestion-list"></tbody>
+					</table>
+					<div class="search-wrapper">
+						<select name="condition" id="suggestion-search-filter-select">
+			                <option value="suggestionNo" selected>번호</option>
+			                <option value="userNo">요청자 번호</option>
+			                <option value="suggestionTitle">제목</option>
+						</select>
+						<input type="search" class="search-input suggestion-search-input" placeholder="검색어를 입력하세요">
+						<input type="button" class="search-button suggestion-search-button" value="검색" onclick="suggestionSearch()">
+					</div>
+                	<div class="suggestion-pageBar pageBar"></div>
                 </div>
-                <div class="trash-request-container">
-                    <div class="trash-container">
-                        <div class="trash-title-wrapper suggestion-title"></div>
-                        <div class="suggestion-list list"></div>
-                    </div>
-                    <div class="trash-container">
-                        <div class="trash-title-wrapper request-title"></div>
-                        <div class="request-list list"></div>
-                    </div>
+			</section>
+			<section class="content-section">
+                <div class="content-container">
+                	<div class="content-title-wrapper">
+                    	<div class="content-title">건의</div>
+	                   	<div class="filter-wrapper">
+						    <select name="condition" id="request-filter-select">
+						        <option value="requestNo" selected>번호</option>
+						        <option value="userNo">작성자</option>
+						        <option value="trashTitle">쓰레기</option>
+						        <option value="requestTitle">제목</option>
+						        <option value="processingStatus">처리상태</option>
+						        <option value="processingDate">처리일</option>
+						    </select>
+						</div>
+                   	</div>
+					<table class="long-table request-table">
+					    <thead class="long-thead request-thead">
+					    	<tr class="long-tr">
+					    		<th>번호</th>
+                                <th>쓰레기</th>
+                                <th>작성자</th>
+                                <th>제목</th>
+                                <th>작성일</th>
+                                <th>처리상태</th>
+                                <th>처리일</th>
+                                <th>비고</th>
+					    	</tr>
+					    </thead>
+					    <tbody class="long-tbody request-list"></tbody>
+					</table>
+					<div class="search-wrapper">
+						<select name="condition" id="request-search-filter-select">
+			                <option value="requestNo" selected>번호</option>
+					        <option value="userNo">작성자 번호</option>
+					        <option value="trashTitle">쓰레기</option>
+					        <option value="requestTitle">제목</option>
+						</select>
+						<input type="search" class="search-input request-search-input" placeholder="검색어를 입력하세요">
+						<input type="button" class="search-button request-search-button" value="검색" onclick="requestSearch()">
+					</div>
+                	<div class="request-pageBar pageBar"></div>
                 </div>
-            </section>
+			</section>
         </div>
     </div>
     <script>
-	    var isLoading = false;
-	    var trashOffset = 0;
-	    var suggestionOffset = 0;
-	    var requestOffset = 0;
+	    var trashFilterValue = 'trashNo';
+	    var suggestionFilterValue = 'suggestionNo';
+	    var requestFilterValue = 'requestNo';
+	    var trashSearchSelect = null;
+	    var suggestionSearchSelect = null;
+	    var requestSearchSelect = null;
+	    var trashSearchValue = null;
+	    var suggestionSearchValue = null;
+	    var requestSearchValue = null;
 		
 	    $(document).ready(function() {
-	    	getTrashList(0);
-	    	loadSuggestionListData();
-	    	loadRequestListData();
-	    });
-
-	    $('#trashFilterSelect').change(function(){
-	    	trashSelectedValue = $(this).val();
-	    	$('.trashList').empty();
-	    	trashOffset = 0;
-	    	loadtrashData(trashSearchSelect, trashSelectedValue);
+	    	getTrashList(0, trashSearchSelect, trashSearchValue);
+	    	getSuggestionList(0, suggestionSearchSelect, suggestionSearchValue);
+	    	getRequestList(0, requestSearchSelect, requestSearchValue);
 	    });
 	    
+	    $('#trash-filter-select').change(function(){
+	    	trashFilterValue = $(this).val();
+	    	$('.trash-list').empty();
+	    	getTrashList(0, trashSearchSelect, trashSearchValue);
+	    });
+	
+	    $('#suggestion-filter-select').change(function(){
+	    	suggestionFilterValue = $(this).val();
+	    	$('.suggestion-list').empty();
+	    	getSuggestionList(0, suggestionSearchSelect, suggestionSearchValue);
+	    });
+	    
+	    $('#request-filter-select').change(function(){
+	    	requestFilterValue = $(this).val();
+	    	$('.request-list').empty();
+	    	getRequestList(0, requestSearchSelect, requestSearchValue);
+	    });
 	    
 	    function trashSearch(){
-	    	trashSearchSelect = $('#trashSearchFilterSelect').val();
-	    	trashSearchValue = $('#trashSearch').val();
-	    	$('#trashSearch').val('');
-	    	$('.trashList').empty();
+	    	trashSearchSelect = $('#trash-search-filter-select').val();
+	    	trashSearchValue = $('.trash-search-input').val();
+	    	$('.trash-search-input').val('');
+	    	$('.trash-list').empty();
 	    	getTrashList(0, trashSearchSelect, trashSearchValue);
 	    }
-    
+	    
+	    function suggestionSearch(){
+	    	suggestionSearchSelect = $('#suggestion-search-filter-select').val();
+	    	suggestionSearchValue = $('.suggestion-search-input').val();
+	    	$('.suggestion-search-input').val('');
+	    	$('.suggestion-list').empty();
+	    	getSuggestionList(0, suggestionSearchSelect, suggestionSearchValue);
+	    }
+	    
+	    function requestSearch(){
+	    	requestSearchSelect = $('#request-search-filter-select').val();
+	    	requestSearchValue = $('.request-search-input').val();
+	    	$('.request-search-input').val('');
+	    	$('.request-list').empty();
+	    	getRequestList(0, requestSearchSelect, requestSearchValue);
+	    }
+	    
 	    function getTrashList(page, trashSearchSelect, trashSearchValue) {
-	    	if(trashSearchSelect == undefined){
-	    		trashSearchSelect = null;
-	    	}
-	    	if(trashSearchValue == undefined){
-	    		trashSearchValue == null;
-	    	}
 	        $.ajax({
 	            url: '${contextPath}/admin/getTrashList',
 	            type: 'GET',
 	            dataType: 'json',
-	            data: {page: page, size: 10, sort: , searchSelect: trashSearchSelect, searchValue: trashSearchValue},
+	            data: {page: page, size: 10, sort: trashFilterValue, searchSelect: trashSearchSelect, searchValue: trashSearchValue},
 	            success: function(data) {
-                	updateTrashTable(data);
-                    updateTrashPagination(data);
+	            	if(data.content.length != 0){
+		                updateTrashTable(data.content);
+		                updateTrashPagination(data);
+	            	}
 	            },
 	            error: function(xhr, status, error) {
 	                console.error('Error: ' + error);
 	            }
 	        });
 	    }
-	    
+	
 	    function updateTrashTable(data) {
-	    	console.log(data);
-			let title = document.querySelector('.trash-board-title');
-	    	let userList = document.querySelector('.trash-tbody');
-	        title.innerHTML = '';
-	    	userList.innerHTML = '';
-	    	let r = '<div class="trash-board-title">쓰레기 게시글</div>';
-		    	r += '<div class="trash-board-subtitle">총 '+data.content.length+'개</div>';
-				r += '<div class="input">';
-				r += '<select name="condition" id="trashFilterSelect">';
-				r += '<option value="trashNo" selected>번호</option>';
-				r += '<option value="bigCategoryNo">대분류</option>';
-				r += '<option value="subCategoryNo">소분류</option>';
-				r += '<option value="trashTitle">이름</option>';
-				r += '<option value="createDate">생성날짜</option>';
-				r += '<option value="modifyDate">수정날짜</option>';
-				r += '<option value="status">처리상태</option>';
-				r += '</select>';
-				r += '</div>';
-		    	r += '<input class="trash-write" type="button" onclick="writeTrash()" value="글쓰기">';
-	    	title.innerHTML += r;
-	        let list = data.content;
-	        for (let i = 0; i < list.length; i++) {
-	            let row = '<tr onclick="trashDetail('+list[i].trashNo+')">';
-	            row += '<td>'+list[i].bigCategoryName+'</td>';
-	            row += '<td>'+list[i].subCategoryName+'</td>';
-	            row += '<td>'+list[i].trashTitle+'</td>';
-	            row += '<td>'+list[i].createDate+'</td>';
-	            row += '<td>'+list[i].modifyDate+'</td>';
-	            row += '<td class="button"><input type="button" onclick="modify('+list[i].trashNo+')" value="수정"/><input type="button" onclick="delete('+list[i].trashNo+')" value="삭제"/></td>';
-	            row += '</tr>';
-	            userList.innerHTML += row;
+	    	let userList = document.querySelector('.trash-list');
+	        userList.innerHTML = '';
+	        for (let i = 0; i < data.length; i++) {
+	            let row = document.createElement('tr');
+	            row.classList.add('long-tr');
+
+	            let cell1 = document.createElement('td');
+	            cell1.textContent = data[i].trashNo;
 	            
+	            let cell2 = document.createElement('td');
+	            cell2.innerHTML = data[i].bigCategoryName;
 	            
+	            let cell3 = document.createElement('td');
+	            cell3.textContent = data[i].subCategoryName;
+	            
+	            let cell4 = document.createElement('td');
+	            cell4.textContent = data[i].trashTitle;
+	
+	            let cell5 = document.createElement('td');
+	            cell5.textContent = data[i].createDate;
+	            
+	            let cell6 = document.createElement('td');
+	            cell6.textContent = data[i].modifyDate;
+	
+	            let cell7 = document.createElement('td');
+	            cell7.textContent = data[i].hit;
+	            
+	            let cell8 = document.createElement('td');
+	    		
+	            let button1 = document.createElement('input');
+	        	button1.setAttribute('type', 'button');
+	        	button1.setAttribute('value', '상세보기');
+	        	button1.classList.add('detail-button');
+	        	button1.addEventListener('click', function() {
+	        	    trashDetail(data[i].trashNo);
+	        	});
+	        	
+	            let button2 = document.createElement('input');
+	        	button2.setAttribute('type', 'button');
+	        	button2.setAttribute('value', '수정');
+	        	button2.classList.add('detail-button');
+	        	button2.addEventListener('click', function() {
+	        	    trashUpdate(data[i].trashNo);
+	        	});
+	        	
+	            let button3 = document.createElement('input');
+	        	button3.setAttribute('type', 'button');
+	        	button3.setAttribute('value', '삭제');
+	        	button3.classList.add('detail-button');
+	        	button3.addEventListener('click', function() {
+	        	    trashDelete(data[i].trashNo);
+	        	});
+	        	
+	        	cell8.appendChild(button1);
+	        	cell8.appendChild(button2);
+	        	cell8.appendChild(button3);
+	        	
+	            row.appendChild(cell1);
+	            row.appendChild(cell2);
+	            row.appendChild(cell3);
+	            row.appendChild(cell4);
+	            row.appendChild(cell5);
+	            row.appendChild(cell6);
+	            row.appendChild(cell7);
+	            row.appendChild(cell8);
+	            
+	            userList.appendChild(row);
 	        }
 	    }
-	
+	    
 	    function updateTrashPagination(data) {
-	        let userPaging = document.querySelector('.pageBar');
+	        let userPaging = document.querySelector('.trash-pageBar');
 	        let pagination = '';
+	        
 	        if (!data.empty) {
 	            if (!data.first) {
-	                pagination += '<td><a class="page-link" href="#" onclick="loadReportData(' + (data.number - 1) + ')">이전</a></td>';
+	                pagination += '<div onclick="getTrashList(' + (data.number - 1) + ',\'' + trashSearchSelect + '\',\'' + trashSearchValue + '\')">이전</div>';
 	            }
 	            for (let i = 0; i < data.totalPages; i++) {
 	                if (i >= data.number - 5 && i <= data.number + 5) {
-	                    pagination += '<td';
+	                    pagination += '<div';
 	                    if (i === data.number) {
 	                        pagination += ' class="active"';
 	                    }
-	                    pagination += '><a href="#" onclick="loadReportData(' + i + ')">' + (i + 1) + '</a></td>';
+	                    pagination += ' onclick="getTrashList(' + i + ',\'' + trashSearchSelect + '\',\'' + trashSearchValue + '\')">' + (i + 1) + '</div>';
 	                }
 	            }
 	            if (!data.last) {
-	                pagination += '<td><a href="#" onclick="loadReportData(' + (data.number + 1) + ')">다음</a></td>';
+	                pagination += '<div onclick="getTrashList(' + (data.number + 1) + ',\'' + trashSearchSelect + '\',\'' + trashSearchValue + '\')">다음</div>';
 	            }
 	        }
-	        userPaging.innerHTML = '<tr>' + pagination + '</tr>';
+	        userPaging.innerHTML = pagination;
 	    }
 	    
-	    function loadSuggestionListData() {
+	    function getSuggestionList(page, suggestionSearchSelect, suggestionSearchValue) {
 	        $.ajax({
-	            url: '${contextPath}/admin/loadSuggestionListData',
+	            url: '${contextPath}/admin/getSuggestionList',
 	            type: 'GET',
 	            dataType: 'json',
+	            data: {page: page, size: 10, sort: suggestionFilterValue, searchSelect: suggestionSearchSelect, searchValue: suggestionSearchValue},
 	            success: function(data) {
-	                updateSuggestionTable(data);
-	                suggestionOffset += 1;
-	                isLoading = false;
+	            	if(data.content.length != 0){
+		                updateSuggestionTable(data.content);
+		                updateSuggestionPagination(data);
+	            	}
 	            },
 	            error: function(xhr, status, error) {
 	                console.error('Error: ' + error);
-	                isLoading = false;
 	            }
 	        });
 	    }
+	
 	    function updateSuggestionTable(data) {
-	    	var list = data.content;
-	        let count = document.querySelector('.suggestion-title');
-	        let userList = document.querySelector('.suggestion-list');
-	        count.innerHTML = '';
-	        let title = '<div class="trash-title">신청 리스트</div>';
-            title += '<div class="trash-subtitle">총 '+list.length+'개</div>';
-            count.innerHTML += title;
-	        for (let i = 0; i < list.length; i++) {
-	            let row = '<div class="item" onclick="loadSuggestionDetailData('+list[i].suggestionNo+')">';
-	            row += '<div class="icon">😃</div>';
-	            row += '<div class="subtitle">'+list[i].suggestionTitle+'</div>';
-	            row += '</div>';
-	            userList.innerHTML += row;
+	    	let userList = document.querySelector('.suggestion-list');
+	        userList.innerHTML = '';
+	        for (let i = 0; i < data.length; i++) {
+	            let row = document.createElement('tr');
+	            row.classList.add('long-tr');
+	            
+	            let cell1 = document.createElement('td');
+	            cell1.textContent = data[i].suggestionNo;
+	            
+	            let cell2 = document.createElement('td');
+	            cell2.innerHTML = data[i].userNo;
+	            
+	            let cell3 = document.createElement('td');
+	            cell3.textContent = data[i].suggestionTitle;
+	            
+	            let cell4 = document.createElement('td');
+	            cell4.textContent = data[i].createDate;
+	
+	            let cell5 = document.createElement('td');
+	            cell5.textContent = data[i].processingStatus;
+	            
+	            let cell6 = document.createElement('td');
+	            cell6.textContent = data[i].processingDate;
+	
+	            let cell7 = document.createElement('td');
+	    		
+	            let button1 = document.createElement('input');
+	        	button1.setAttribute('type', 'button');
+	        	button1.setAttribute('value', '상세보기');
+	        	button1.classList.add('detail-button');
+	        	button1.addEventListener('click', function() {
+	        	    suggestionDetail(data[i].suggestionNo);
+	        	});
+	        	
+	        	cell7.appendChild(button1);
+	        	
+	            row.appendChild(cell1);
+	            row.appendChild(cell2);
+	            row.appendChild(cell3);
+	            row.appendChild(cell4);
+	            row.appendChild(cell5);
+	            row.appendChild(cell6);
+	            row.appendChild(cell7);
+	            
+	            userList.appendChild(row);
 	        }
 	    }
 	    
-	    function loadRequestListData() {
+	    function updateSuggestionPagination(data) {
+	        let userPaging = document.querySelector('.suggestion-pageBar');
+	        let pagination = '';
+	        
+	        if (!data.empty) {
+	            if (!data.first) {
+	                pagination += '<div onclick="getSuggestionList(' + (data.number - 1) + ',\'' + suggestionSearchSelect + '\',\'' + suggestionSearchValue + '\')">이전</div>';
+	            }
+	            for (let i = 0; i < data.totalPages; i++) {
+	                if (i >= data.number - 5 && i <= data.number + 5) {
+	                    pagination += '<div';
+	                    if (i === data.number) {
+	                        pagination += ' class="active"';
+	                    }
+	                    pagination += ' onclick="getSuggestionList(' + i + ',\'' + suggestionSearchSelect + '\',\'' + suggestionSearchValue + '\')">' + (i + 1) + '</div>';
+	                }
+	            }
+	            if (!data.last) {
+	                pagination += '<div onclick="getSuggestionList(' + (data.number + 1) + ',\'' + suggestionSearchSelect + '\',\'' + suggestionSearchValue + '\')">다음</div>';
+	            }
+	        }
+	        userPaging.innerHTML = pagination;
+	    }
+	    
+	    function getRequestList(page, requestSearchSelect, requestSearchValue) {
 	        $.ajax({
-	            url: '${contextPath}/admin/loadRequestListData',
+	            url: '${contextPath}/admin/getRequestList',
 	            type: 'GET',
 	            dataType: 'json',
+	            data: {page: page, size: 10, sort: requestFilterValue, searchSelect: requestSearchSelect, searchValue: requestSearchValue},
 	            success: function(data) {
-	                updateRequestTable(data);
-	                requestOffset += 1;
-	                isLoading = false;
+	            	if(data.content.length != 0){
+		                updateRequestTable(data.content);
+		                updateRequestPagination(data);
+	            	}
 	            },
 	            error: function(xhr, status, error) {
 	                console.error('Error: ' + error);
-	                isLoading = false;
 	            }
 	        });
 	    }
+	
 	    function updateRequestTable(data) {
-	    	var list = data.content;
-	        let count = document.querySelector('.request-title');
-	        let userList = document.querySelector('.request-list');
-	        count.innerHTML = '';
-	        let title = '<div class="trash-title">요청 리스트</div>';
-            title += '<div class="trash-subtitle">총 '+list.length+'개</div>';
-            count.innerHTML += title;
-	        for (let i = 0; i < list.length; i++) {
-	            let row = '<div class="item" onclick="loadRequestDetailData('+list[i].requestNo+')">';
-	            row += '<div class="icon">😃</div>';
-	            row += '<div class="subtitle">'+list[i].requestTitle+'</div>';
-	            row += '</div>';
-	            userList.innerHTML += row;
+	    	let userList = document.querySelector('.request-list');
+	        userList.innerHTML = '';
+	        for (let i = 0; i < data.length; i++) {
+	            let row = document.createElement('tr');
+	            row.classList.add('long-tr');
+
+	            let cell1 = document.createElement('td');
+	            cell1.textContent = data[i].requestNo;
+	            
+	            let cell2 = document.createElement('td');
+	            cell2.innerHTML = data[i].trashTitle;
+	            
+	            let cell3 = document.createElement('td');
+	            cell3.textContent = data[i].userNo;
+	            
+	            let cell4 = document.createElement('td');
+	            cell4.textContent = data[i].requestTitle;
+	
+	            let cell5 = document.createElement('td');
+	            cell5.textContent = data[i].createTitle;
+	            
+	            let cell6 = document.createElement('td');
+	            cell6.textContent = data[i].processingStatus;
+	
+	            let cell7 = document.createElement('td');
+	            cell7.textContent = data[i].processingDate;
+	    		
+	            let cell8 = document.createElement('td');
+	            
+	            let button1 = document.createElement('input');
+	        	button1.setAttribute('type', 'button');
+	        	button1.setAttribute('value', '상세보기');
+	        	button1.classList.add('detail-button');
+	        	button1.addEventListener('click', function() {
+	        	    requestDetail(data[i].requestNo);
+	        	});
+	        	
+	        	cell8.appendChild(button1);
+	        	
+	            row.appendChild(cell1);
+	            row.appendChild(cell2);
+	            row.appendChild(cell3);
+	            row.appendChild(cell4);
+	            row.appendChild(cell5);
+	            row.appendChild(cell6);
+	            row.appendChild(cell7);
+	            row.appendChild(cell8);
+	            
+	            userList.appendChild(row);
 	        }
+	    }
+	    
+	    function updateRequestPagination(data) {
+	        let userPaging = document.querySelector('.request-pageBar');
+	        let pagination = '';
+	        
+	        if (!data.empty) {
+	            if (!data.first) {
+	                pagination += '<div onclick="getRequestList(' + (data.number - 1) + ',\'' + requestSearchSelect + '\',\'' + requestSearchValue + '\')">이전</div>';
+	            }
+	            for (let i = 0; i < data.totalPages; i++) {
+	                if (i >= data.number - 5 && i <= data.number + 5) {
+	                    pagination += '<div';
+	                    if (i === data.number) {
+	                        pagination += ' class="active"';
+	                    }
+	                    pagination += ' onclick="getRequestList(' + i + ',\'' + requestSearchSelect + '\',\'' + requestSearchValue + '\')">' + (i + 1) + '</div>';
+	                }
+	            }
+	            if (!data.last) {
+	                pagination += '<div onclick="getRequestList(' + (data.number + 1) + ',\'' + requestSearchSelect + '\',\'' + requestSearchValue + '\')">다음</div>';
+	            }
+	        }
+	        userPaging.innerHTML = pagination;
 	    }
 	    
 	    function trashDetail(trashNo){
-	        location.href="/board/detail?boardNo="+trashNo;
+	        location.href="/trash/detail?trashNo="+trashNo;
 	    }
 	    function trashUpdate(trashNo){
-	        location.href="/trash/update/detail?boardNo="+trashNo;
+	        location.href="/trash/update/"+trashNo;
 	    }
 	    function trashDelete(trashNo){
-	        location.href="/trash/delete/detail?boardNo="+trashNo;
+	        location.href="/trash/delete/"+trashNo;
 	    }
     </script>
 </body>

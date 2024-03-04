@@ -1,20 +1,32 @@
 package com.kks.trashpedia.common.service;
 
+import java.io.IOException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.kks.trashpedia.board.model.vo.Attachment;
 import com.kks.trashpedia.board.model.vo.Board;
 import com.kks.trashpedia.board.model.vo.ImgAttachment;
 import com.kks.trashpedia.board.model.vo.Post;
 import com.kks.trashpedia.board.model.vo.SubCategory;
+import com.kks.trashpedia.common.FileStore;
 import com.kks.trashpedia.common.model.dao.CommonDao;
+import com.kks.trashpedia.pledge.model.service.PledgeServiceImpl;
 
 @Service
 public class CommonServiceImpl implements CommonService{
 	
 	@Autowired
 	private CommonDao dao;
+	
+	@Autowired
+	private FileStore fileStore;
+	
+	@Autowired
+	private PledgeServiceImpl pService;
 	
 	//카테고리 가지고오기
 	@Override
@@ -59,14 +71,58 @@ public class CommonServiceImpl implements CommonService{
 		return dao.getPost(postNo);
 	}
 
-	//게시글 수정
+
+	//첨부파일 삭제
 	@Override
-	public int updatePost(Post p) {
-		return dao.updatePost(p);
+	public int deleteAttach(Post p) {
+		return dao.deleteAttach(p);
+	}
+	
+	//이미지삭제
+	@Override
+	public int deleteImage(Post p) {
+		return dao.deleteImage(p);
 	}
 
 
-	
+	// 게시글 수정
+	@Transactional(rollbackFor= {Exception.class})
+	@Override
+	public int updatePost(Post p, String deleteImg, String deleteFile, 
+			MultipartFile upfile, MultipartFile thumbnailImage, int type) throws IOException {
+		
+		//게시글 업데이트
+		int result = dao.updatePost(p);
+		
+		Attachment attachment = fileStore.storeFile(upfile);
+		ImgAttachment image = fileStore.storeImage(thumbnailImage);
+		
+		if(result>0) {
+			// 첨부파일 처리
+			if(attachment != null){
+				attachment.setRefBno(p.getPostNo());
+				attachment.setFileType(type);
+				dao.insertAttachment(attachment);
+			}
+			if(!deleteFile.equals("")) {
+		
+				deleteAttach(p);
+			}
+		
+			//이미지 처리
+			if(image != null){
+				image.setRefBno(p.getPostNo());
+				image.setImgType(type);
+				dao.insertImgAttachment(image);
+			}
+			if(!deleteImg.equals("")) {
+				System.out.println("equals 비었음");
+				deleteImage(p);
+			}
+		}
+		return result;
+	}
+
 	
 	
 	

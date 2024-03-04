@@ -104,32 +104,42 @@ main {
 }
 
 /* 검색 */
+#board-search-filter-select{
+	height : 34px;
+	width : 110px;
+	border: 1px solid #cdcfd2;
+/* 	margin-right : -5px; */
+}
+
 .content-search{
     position: relative;
 }
 .content-title input {
     margin-left: auto; /* input을 오른쪽에 붙이기 */
-    height: 26px;
-    width: 270px;
-    border-radius: 5px;
+    height: 34px;
+    width: 250px;
     border: 1px solid #cdcfd2;
     padding: 7px 0.5em;
-    padding-left: 15px;
+    padding-left: 10px;
     font-size: 13px;
     color: #333;
     margin-bottom: 20px;
+}
+.board-search-button{
+    position: absolute;
+    display: inline-block;
+    border: none;
+    right: 4px;
+    top: 4px;
+    background-color: transparent;
 }
 .content-search #searchButton{
     display: inline-block;
     border: none;
     overflow: hidden;
-    position: absolute;
-    right: 0;
     font-size: 25px;
     width: 20px;
     height: 100%;
-    top: 17%;
-    padding-right: 15px;
     background-color: transparent;
     color: #333;
     padding: auto !important;

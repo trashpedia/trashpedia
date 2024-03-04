@@ -33,11 +33,11 @@
 /* #container{
     background-image: linear-gradient(to right, rgb(107, 199, 171) 20%, rgb(39, 156, 127) 20%);
 
-} */
+} */ 
 /* .test1{
     background-image: linear-gradient(to right, rgb(107, 199, 171) 20%, rgb(39, 156, 127) 20%);
     height: 40px;
-} */
+}
 
 
 
@@ -57,6 +57,12 @@
 .community_html ul, li {
     list-style: none;
 }
+#container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 
 
 /* board */
@@ -64,6 +70,8 @@
 #idx_board_wrap {
     padding: 50px ;
     background: #ffffff;
+    margin-top: 100px;
+    width: 80%;
     /* background-image: linear-gradient(to top , rgb(191, 228, 217), rgb(255, 255, 255)); */
 }
 
@@ -95,7 +103,7 @@
 }
 
 #idx_board_wrap > div > div:nth-child(even) {
-    margin-left: 4%;
+    margin-left: 7%;
 }
 
 #idx_board_wrap > div > div:nth-child(3),
@@ -107,9 +115,9 @@
     position: relative;
     padding: 20px;
     border-bottom: 1px solid #bfe4c9;
-    /* background-color: rgb(94, 194, 169); */
+    background-color: rgb(59, 185, 154);
     /* background-image: linear-gradient(to bottom , rgb(191, 228, 217), rgb(255, 255, 255)); */
-    background-image: linear-gradient(to left, rgb(159, 224, 203) 10%, rgb(102, 189, 160) 20%);
+    /* background-image: linear-gradient(to left, rgb(154, 185, 175) 10%, rgb(102, 189, 160) 20%); */
     /* border: solid 1px rgb(0, 196, 147); */
     color: rgb(224, 255, 243);
 }
@@ -118,6 +126,7 @@
     display: -block;
     vertical-align: middle;
     font-size: 24px;
+    margin-left: 20px;
 }
 
 .idx_board .title .name {
@@ -139,13 +148,29 @@
 
 .idx_board .list {
     padding: 20px;
-}
+    /* background-image: linear-gradient(to right, rgb(255, 255, 255) 85%, rgb(207, 255, 239) 45%); */
 
+}
+.idx_board .list ul{
+    padding-left: 30px;
+}
 .idx_board .list ul li {
     margin-top: 10px;
     padding-left: 7px;
     font-size: 0;
+    width: 92%;
 }
+
+.idx_board .list ul > li{
+    border-bottom: solid 1px rgb(197, 218, 207);
+    margin-bottom: 10px;
+}
+.idx_board .list ul > li >a{
+    margin-bottom: 10px;
+    
+}
+
+
 .idx_board .list ul li:first-child {
     margin-top: 0;
 }

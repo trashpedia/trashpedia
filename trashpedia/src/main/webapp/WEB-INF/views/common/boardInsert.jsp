@@ -32,7 +32,9 @@
 				<span class="container-title"> 
 					<c:if test="${empty post}"> 게시글 등록 </c:if>
 					<c:if test="${!empty post}"> 
-						게시글 편집 <input type="hidden" name="postNo" value="${post.postNo}">  
+						게시글 편집 
+						<input type="hidden" name="postNo" value="${post.postNo}">  
+						<input type="hidden" name="boardNo" value="${post.boardNo}">  
 					</c:if>
 				</span> 
 				<span class="categoryName">${category.bigCategoryName}_</span> 
@@ -40,7 +42,6 @@
 				<input type="hidden" name="bigCategoryNo" value="${category.bigCategoryNo}"> 
 				<input type="hidden" name="subCategoryNo" value="${category.subCategoryNo}"> 
 				<input type="hidden" name="type" value="${type}">
-				<input type="text" name="type" value="${type}">
 			</div>
 
 			<div class="content-input-outer">
@@ -54,34 +55,34 @@
 						<tr>
 							<td width="100px;" class="not-empty-title">썸네일 이미지</td>
 							<td class="thumbnailBox">
-								<c:if test="${empty img}">
-									<input type="file" name="thumbnail" id="imgAttachment">
-									<img id="thumbNailImg">
-								</c:if>
-								<c:if test="${not empty img}">
-								    <input type="file" name="thumbnail" id="imgAttachment">
-								    <div>
-									    <img id="thumbNailImg" src="<c:url value='/resources/attachFile/image/${img.changeName}'/>">
-									    <button type="button" id="xImgButton" class="xButton">x</button>
-								    </div>
-								</c:if>
+ 								<button type="button" class="btn-secondary" id="updatefileInputButton" onclick="$('#imgAttachment').click()">파일선택</button>
+								<input type="file" name="thumbnail" id="imgAttachment" style='display:none'> 
+ 								<span id="originFileName">${img.originName}</span>
+								<span id="updateFileName"></span>
+								<div>
+								    <img id="thumbNailImg" src="<c:url value='/resources/attachFile/image/${img.changeName}'/>">
+									<c:if test="${!empty img}">
+								    	<button type="button" id="xImgButton" class="xButton">x</button>
+									</c:if>
+							    </div>
 							</td>
 						</tr>
 						<tr>
 							<td>첨부파일 </td>
 							<td id="attachFile"> 
-								<c:if test="${empty attachment}">
-									<input type="file" name="upfile" id="attachment">
-								</c:if>
-								<c:if test="${not empty attachment}">
-									<a 
-										href="<c:url value='/resources/attachFile/file/${attachment.changeName}'/>"
-										download="${attachment.originName}">${attachment.originName}
-									</a>
+								<button type="button" class="btn-secondary" id="updatefileInputButton" onclick="$('#attachment').click()">파일선택</button>
+								<input type="file" name="upfile" id="attachment" style='display:none'>
+								<input type="hidden" name="originName" value="${attachment.originName}">
+								<span id="originFile2Name">${attachment.originName}</span>
+								<span id="updateFile2Name"></span>
+								<c:if test="${!empty attachment}">
+									<a id="fileDownload" href="<c:url value='/resources/attachFile/file/${attachment.changeName}'/>" download="${attachment.originName}">다운로드</a>
 									<button type="button" id="xAttachButton" class="xButton">x</button>
 								</c:if>
 							</td>
 						</tr>
+						<input type="hidden" name="deleteImg" id="deleteImg" value="" />
+						<input type="hidden" name="deleteFile" id="deleteFile" value="" />
 					</table>
 				</div>
 
@@ -108,6 +109,68 @@
 	<jsp:include page="../common/footer.jsp" />
 
 	<script>
+		$(document).ready(function() {
+			 	
+			const deleteList = document.querySelector("#deleteList");
+			
+		    // editor 내용 hidden input에 담아서 submit
+		    $('#enrollForm').on('submit', function() {
+		        let content = editor.getHTML();
+		        $('#hiddenContentInput').val(content);
+		    });
+		    
+			// 이미지 삭제 버튼 클릭 이벤트
+		    $('#xImgButton').click(function() {
+		        if(confirm('정말로 이미지를 삭제하시겠습니까?')) {
+		            $('#thumbNailImg').attr('src', '');
+		            $('#originFileName').hide();
+		            $('#imgAttachment').val('');
+		            $('#xImgButton').hide();
+		            $('#deleteImg').val($('#originFileName').text());
+		        }
+		    });
+	
+		    //파일 삭제 버튼 클릭 이벤트
+		    $('#xAttachButton').click(function() {
+		        if(confirm('정말로 첨부파일을 삭제하시겠습니까?')) {
+		        	 $('#originFile2Name').hide();
+		        	 $('#fileDownload').hide();
+		        	 $('#xAttachButton').hide();
+		        	 $('#deleteFile').val($('#originFile2Name').text());
+		        }
+		    });
+		    
+		 	// 이미지 미리보기 연결
+		    $('#imgAttachment').change(function() {
+		        const file = this.files[0];
+		        if (file) {
+		            const reader = new FileReader();
+		            reader.onload = function(e) { 
+		            	$('#thumbNailImg').attr('src', e.target.result); 
+		            	$('#originFileName').hide();
+		            	$('#updateFileName').text(file.name);
+		            };
+		            reader.readAsDataURL(file);
+		        }
+		    });
+		 	
+		 	//파일 변경 
+		 	$('#attachment').change(function(){
+		 		const file = this.files[0];
+		        if (file) {
+		            const reader = new FileReader();
+		            reader.onload = function(e) { 
+		            	$('#originFile2Name').hide();
+		            	$('#fileDownload').hide();
+		            	$('#updateFile2Name').text(file.name);
+		            };
+		            reader.readAsDataURL(file);
+		        }
+		 	})
+		 	
+		});
+
+	
 		// 에디터 생성
 		const editor = new toastui.Editor({
 		    el: document.querySelector('#writeBoard-content'),
@@ -120,7 +183,6 @@
 	
 		// 에디터 내용 변경 이벤트 핸들러
 		function handleChange() {
-			
 			// 최대 글자수 설정
 			const MAX_LENGTH = 2000000;
 			
@@ -130,6 +192,7 @@
 		    document.getElementById('charCount').textContent = count.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 	
 		    if (content.length > MAX_LENGTH) {
+		    	
 		        // 이벤트 핸들러 일시 해제 
 		        editor.off('change', handleChange);
 	
@@ -140,51 +203,10 @@
 		        setTimeout(() => {   editor.on('change', handleChange); }, 0);
 		    }
 		}
-	
 		// 이벤트 핸들러 등록
 		editor.on('change', handleChange);
     
 		
-		$(document).ready(function() {
-		    // editor 내용 hidden input에 담아서 submit
-		    $('#enrollForm').on('submit', function() {
-		        let content = editor.getHTML();
-		        $('#hiddenContentInput').val(content);
-		    });
-		    
-			// 이미지 삭제 버튼 클릭 이벤트
-		    $('#xImgButton').click(function() {
-		        if(confirm('정말로 이미지를 삭제하시겠습니까?')) {
-		            $('#thumbNailImg').attr('src', '');
-		            $('#imgAttachment').val('');
-		        }
-		    });
-
-		 // 파일 삭제 버튼 클릭 이벤트
-		    $('#xAttachButton').click(function() {
-		        if(confirm('정말로 첨부파일을 삭제하시겠습니까?')) {
-		            // 첨부파일 영역 비우기
-		            $('#attachFile').empty();
-		            $('#xAttachButton').hide();
-
-		            // 파일 업로드 input 초기화 및 새로운 input 생성
-		            const newInput = $('<input type="file" name="upfile" id="attachment">');
-		            $('#attachFile').append(newInput);
-		        }
-		    });
-		    
-		 	// 이미지 미리보기 연결
-		    $('#imgAttachment').change(function() {
-		        const file = this.files[0];
-		        if (file) {
-		            const reader = new FileReader();
-		            reader.onload = function(e) {  $('#thumbNailImg').attr('src', e.target.result); };
-		            reader.readAsDataURL(file);
-		        }
-		    });
-		    
-		    
-		});
 		
 		
 	</script>

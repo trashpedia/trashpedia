@@ -22,4 +22,6 @@ public class Trash {
 	private String trashTitle;
 	private Date createDate;
 	private Date modifyDate;
+	
+	private int hit;
 }

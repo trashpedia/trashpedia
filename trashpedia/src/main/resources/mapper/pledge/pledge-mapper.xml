@@ -16,6 +16,52 @@
 		ORDER BY POST_NO DESC
 	</select>
 	
+	
+	<!-- 게시글 리스트조회-페이징,검색 -->
+	<select id="pledgeListData" resultType="post"> 
+		SELECT POST_NO, TITLE, CONTENT, P.CREATE_DATE, P.MODIFY_DATE,
+	           USER_NO, BOARD_NO, SC.SUB_CATEGORY_NO, SC.BIG_CATEGORY_NO, IA.CHANGE_NAME
+		FROM POST P
+		LEFT JOIN BOARD B USING (POST_NO)
+		LEFT JOIN IMG_ATTACHMENT IA ON (B.BOARD_NO = IA.REF_BNO)
+		LEFT JOIN SUB_CATEGORY SC ON B.SUB_CATEGORY_NO = SC.SUB_CATEGORY_NO
+		WHERE B. SUB_CATEGORY_NO = #{subCategoryNo}
+		    AND IMG_LEVEL = 1
+		    AND P.STATUS = 'Y'
+   		<if test="searchSelect == 'postNo'">
+			AND POST_NO LIKE '%' || #{searchValue} || '%'
+		</if>
+		<if test="searchSelect == 'content'">
+			AND P.CONTENT LIKE '%' || #{searchValue} || '%'
+		</if>
+		<if test="searchSelect == 'title'">
+			AND P.TITLE LIKE '%' || #{searchValue} || '%'
+		</if>
+		ORDER BY POST_NO DESC
+	</select>
+	
+	<!--게시글 카운트 -->
+	<select id="postListCount" resultType="int">
+		SELECT COUNT(*)
+		FROM POST P
+		LEFT JOIN BOARD B USING (POST_NO)
+		LEFT JOIN IMG_ATTACHMENT IA ON (B.BOARD_NO = IA.REF_BNO)
+		LEFT JOIN SUB_CATEGORY SC ON B.SUB_CATEGORY_NO = SC.SUB_CATEGORY_NO
+		WHERE B. SUB_CATEGORY_NO = #{subCategoryNo}
+		    AND IMG_LEVEL = 1
+		    AND P.STATUS = 'Y'
+		<if test="searchSelect == 'postNo'">
+			AND POST_NO LIKE '%' || #{searchValue} || '%'
+		</if>
+		<if test="searchSelect == 'content'">
+			AND P.CONTENT LIKE '%' || #{searchValue} || '%'
+		</if>
+		<if test="searchSelect == 'title'">
+			AND P.TITLE LIKE '%' || #{searchValue} || '%'
+		</if>
+	</select>
+	
+	
 	<!-- 게시글 상세조회  -->
 	<select id="pledgeDetail" parameterType="int" resultType="post">
 		SELECT P.POST_NO, P.TITLE, P.CONTENT, P.CREATE_DATE, P.MODIFY_DATE, B.USER_NO, 

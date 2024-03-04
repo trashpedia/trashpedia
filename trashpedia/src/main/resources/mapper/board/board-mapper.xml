@@ -234,13 +234,16 @@
 		#{postNo}
 	</update>
 
-
-
-
-
-
-
-
+	<!--첨부파일삭제 -->
+    <delete id="deleteAttach">
+        DELETE FROM ATTACHMENT
+        WHERE REF_BNO = #{boardNo}
+    </delete>
+    <!--이미지삭제  -->
+    <delete id="deleteImage">
+        DELETE FROM IMG_ATTACHMENT
+        WHERE REF_BNO = #{boardNo}
+    </delete>
 
 	<!-- 무료 나눔 페이지 관련 쿼리문 -->
 
