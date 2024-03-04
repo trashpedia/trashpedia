@@ -84,7 +84,7 @@ public class MemberController {
 
 		return service.idCheck(userEmail);
 	}
-
+  
 	//회원가입페이지 이동
 	@GetMapping("/join")
 	public ModelAndView joinForm(){

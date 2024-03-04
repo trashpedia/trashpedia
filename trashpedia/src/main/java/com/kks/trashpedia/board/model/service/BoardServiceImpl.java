@@ -15,7 +15,7 @@ import com.kks.trashpedia.board.model.vo.Board;
 import com.kks.trashpedia.board.model.vo.ImgAttachment;
 import com.kks.trashpedia.board.model.vo.Post;
 import com.kks.trashpedia.board.model.vo.SubCategory;
-import com.kks.trashpedia.trash.model.vo.Trash;
+
 
 @Service
 public class BoardServiceImpl implements BoardService{

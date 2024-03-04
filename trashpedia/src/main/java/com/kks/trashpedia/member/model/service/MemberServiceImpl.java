@@ -68,4 +68,10 @@ public class MemberServiceImpl implements MemberService{
 	public List<Comment> commentList(String userEmail) {
 		return dao.commentList(userEmail);
 	}
+
+	// 댓글
+	@Override
+	public List<Comment> commentList(String userEmail) {
+		return dao.commentList(userEmail);
+	}
 }
