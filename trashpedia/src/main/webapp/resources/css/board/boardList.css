@@ -482,3 +482,34 @@ a {
 .search-form button:hover {
     background-color: #008670; /* 버튼 호버 시 색상 */
 }
+
+
+/* 버튼을 포함하는 영역 스타일링 */
+.insert-area {
+    text-align: center; /* 버튼을 영역 중앙에 배치 */
+    margin: 20px 0; /* 상하 여백 추가 */
+    display: flex;
+    justify-content: space-around;
+}
+
+/* 게시글 등록 버튼 스타일링 */
+#insertButton {
+    padding: 10px 20px; /* 버튼 내부 여백 */
+    border: none; /* 테두리 제거 */
+    background-color: #4CAF50; /* 배경색 */
+    color: white; /* 글자색 */
+    font-size: 16px; /* 글자 크기 */
+    border-radius: 5px; /* 모서리 둥글게 */
+    cursor: pointer; /* 마우스 오버 시 커서 변경 */
+    transition: background-color 0.3s; /* 배경색 변경 애니메이션 */
+}
+
+#insertButton:hover {
+    background-color: #45a049; /* 호버 시 배경색 변경 */
+}
+
+/* 링크에 대한 스타일 제거 */
+.insert-area a {
+    text-decoration: none; /* 밑줄 제거 */
+    color: inherit; /* 링크 색상을 상속받아 버튼 색상과 동일하게 설정 */
+}

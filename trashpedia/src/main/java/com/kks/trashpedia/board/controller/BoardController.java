@@ -30,6 +30,7 @@ import com.kks.trashpedia.trash.model.vo.Trash;
 import com.kks.trashpedia.trash.model.vo.TrashPost;
 
 @RestController
+
 public class BoardController {
 
 	@Autowired
@@ -145,10 +146,14 @@ public class BoardController {
 			@RequestParam(value="filter", defaultValue="0") String filter,
 			@RequestParam(value="searchSelect", required=false) String searchSelect,
 			@RequestParam(value="searchValue", required=false) String searchValue) {
+		List<BigCategory> bc = service.bigCategory();
+		List<SubCategory> sc = service.subCategory();
 		Page<Board> pages = service.boardList(subCategoryNo, pageable, page, filter, searchSelect, searchValue);
 		System.out.println(pages);
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("boardList", pages);
+		mav.addObject("bigCategoryNo", bc);
+		mav.addObject("subCategoryNo", sc);
 		mav.setViewName("board/notice/boardList");
 		return mav;
 	}

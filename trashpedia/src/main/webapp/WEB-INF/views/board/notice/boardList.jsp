@@ -86,7 +86,7 @@
 						<option value="content">내용</option>
 					</select>
 					<input type="text" id="searchValue" placeholder="검색어를 입력하세요">
-					<button type="button" onclick="boardSearch()">검색</button>
+<!-- 					<button type="button" onclick="boardSearch()">검색</button> -->
 				</div>
 			 	
 				<div class="search_form_left">
@@ -94,7 +94,9 @@
 						<option value="createDate">작성일</option>
 						<option value="hitCount">조회수</option>
 					</select>
+<!-- 					<button type="button" onclick="boardSearch()">정렬</button> -->
 					<button type="button" onclick="boardSearch()">검색</button>
+					
 				</div>
 
 		    </div>
@@ -126,7 +128,7 @@
 				</div>
 				
 				<div class="insert-area">
-	                <a href="${pageContext.request.contextPath}/write?subCategoryNo=${subCategoryNo}&type=1">
+	                <a href="${pageContext.request.contextPath}/write?bigCategoryNo=${bigCategoryNo}&subCategoryNo=${subCategoryNo}&type=1">
 	                    <button id="insertButton"class="comment-buttons">게시글 등록하기</button>
 	                </a>
             	</div>
@@ -164,8 +166,8 @@
 	function boardSearch() {
 	    var searchSelect = $('#searchSelect').val();
 	    var searchValue = $('#searchValue').val();
-	    var subCategoryNo = ${subCategoryNo}; 
-	    var filter = $('#filter').val(); 
+	    var subCategoryNo = ${subCategoryNo};
+	    var filter = $('#filter').val();
 
 	    location.href = '${contextPath}/board/list?searchSelect=' + searchSelect + '&searchValue=' + searchValue + '&subCategoryNo=' + subCategoryNo + '&filter=' + filter + '&page=0';
 	}
