@@ -49,12 +49,12 @@ public class MemberDaoImpl implements MemberDao{
 	// 마이페이지
 	// 게시판
 	@Override
-	public List<Post> pledgeList(String userEmail) {
-		return session.selectOne("memberMapper.pledgeList", userEmail);
+	public List<Post> pledgeList(int userNo) {
+		return session.selectOne("memberMapper.pledgeList", userNo);
 	}
 	// 댓글
 	@Override
-	public List<Comment> commentList(String userEmail) {
-		return session.selectOne("memberMapper.commentList", userEmail);
+	public List<Comment> commentList(int userNo) {
+		return session.selectOne("memberMapper.commentList", userNo);
 	}
 }

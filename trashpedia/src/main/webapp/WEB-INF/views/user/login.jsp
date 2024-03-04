@@ -6,13 +6,12 @@
 <head>
     <meta charset="UTF-8">
     <title>Login Form</title>
-    <link rel="stylesheet" href="resources/css/user/login.css">
+    <link rel="stylesheet" href="${contextPath}/resources/css/user/login.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
 <body class="body-login">
 	<jsp:include page="../common/header.jsp" />
 	<main>
-		<a href="myPage">마이페이지로 이동</a>
 		<div class="content-login" id="loginArea">
 			<div class="title-wrapper">
 				<span class="title">로그인</span>
