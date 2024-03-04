@@ -1,45 +1,67 @@
 @charset "UTF-8";
+* {  font-family: 'Noto Sans KR', sans-serif; }
 main{
     display: flex;
     align-items: center;
     justify-content: center;
 }
-
 .container{
-    width: 950px;
-    margin-top: 40px;
-    margin-bottom: 40px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    padding: 15px;
+    width: 900px;
+    margin: 10px 0 ;
+	display: flex;
+    flex-direction: column;
+    align-items: center;
 }
-
-* {  font-family: 'Noto Sans KR', sans-serif; }
 
 /* 카테고리 부분 */
 .content-category-outer{
 	margin-top : 30px;
-	padding-left: 44px; 
-    text-align: left;
+	padding : 23px;
+    text-align: center;
     display: flex;
-    justify-content: flex-start;
     align-items: baseline;
-    width : 910px;
-    min-width : 820px;
-    height: 40px;
-    color : #3fab3f;
+    width : 900px;
+    height: 35px;
+    color : #3a3a3a;
+    border-top: 3px solid  #abcbd3;
+    border-bottom : 2px solid  #d7e6ea;
+    border-bottom: 3px solid  #abcbd3;
 }
+/* 게시글 등록/수정 */
 .container-title{
-	margin-left :27px;
-	font-size : 20px;
-    font-weight: 700;
-    margin-right : 5px;
-    /* margin-bottom : 10px; */
+	font-size : 25px;
+    font-weight: 650;
+    margin-right : 6px;
+    margin-left : 40px;
 }
 .categoryName{
     font-size : 15px;
     margin-bottom: 33px;
-    font-weight: 530;
-    color : #73cc73;
+    font-weight: 570;
+}
+
+/* 제목- 작성일 부분 */
+.content-title-outer {
+	text-align: start;
+	margin-top: 10px;
+	padding: 7px 20px;
+}
+.content-title-outer input{
+    font-size: 25px;
+    font-weight: 650;
+    margin-bottom : 20px;
+    margin-top : 5px;
+}
+.content-title-outer span{
+    text-align: left;
+    margin: 2px;
+    font-size : 13px;
+    color : rgb(79, 79, 79);
+    font-weight : 700;
+}
+.content-title-outer .title-count{
+	margin-right : 5px;
+	font-weight : 400;
 }
 
 /* 제목입력 부분 */
@@ -49,44 +71,48 @@ main{
    padding-left : 10px;
 }
 .input-title{
-    font-size: 20px;
-    font-weight: 700;
-    width: 820px;
+    font-size: 22px;
+    font-weight: 730;
+    width: 840px;
     border: 0;
     font-weight: 550;
-    padding-top: 10px;
+    padding-top: 20px;
     padding-left : 20px;
     height : 40px;
+    color: rgb(63, 63, 63);
 }
 .input-title:focus{
 	outline : none;
 }
 
-.content-input-outer hr{
-    margin-top: 10px;
-    width: 818px;
-}
-
 /* 파일 등록 부분  */
 .file-input-outer{
     box-sizing: border-box;
-	background-color : rgb(246, 246, 246);
+	border-top: 1px solid #d7e6ea;
+/* 	border-bottom: 1px solid #cecece;  */
+	background-color: #f7fbfb;
 	display: flex;
     flex-direction: column;
     padding : 15px;
-    padding-left : 30px;
-    padding-bottom: 17px;
-    width : 820px;
-    font-size : 14px;
+    padding-left : 25px;
+    padding-bottom: 15px;
+    width : 830px;
+    font-size : 13px;
     color: rgb(63, 63, 63);
-    margin-top : -8px;
+    margin-top : 5px;
     margin-bottom : 20px;
-    margin-left : 6px;
+    margin-left : 3px;
 }
 
 .content-attach-inner td{
 	padding : 2px;
 	vertical-align : top;
+}
+.updateButton{
+	width : 100px;
+	border-radius: 5px;
+	border : 1px solid  #d7e6ea;
+	background-color: #e0ecef;
 }
 .thumbnailBox{
 	display : flex;
@@ -96,11 +122,12 @@ main{
 	margin-bottom : 5px;
 } 
 .thumbnailBox #thumbNailImg{
-	height : 95px;
-	width : 95px;
+	margin-top : 5px;
+	height : 100px;
+	width : 100px;
+	max-height : 100px;
 }
-
-#attachFile{
+.nameArea{
 	margin-left : 6px;
 }
 
@@ -128,9 +155,9 @@ main{
 #maxLength{
 	display: flex;
     justify-content: flex-end;
-    margin-top : 8px;
-	margin-bottom : 6px;
-	width : 86%;
+    margin : 8px 10px;
+    padding-right : 19px;
+	width : 100%;
 	font-size : 14px;
 	font-weight : 420;
 	color: rgb(63, 63, 63);
@@ -142,6 +169,7 @@ main{
 .post-buttons{
     margin-top: 40px;
     margin-bottom: 20px;
+   
 }
 .post-buttons button{
     cursor: pointer;
@@ -150,7 +178,7 @@ main{
     border-radius: 5px;
     border: 0;
     margin: 5px;
-}
-.post-buttons button a{
-    color: rgb(63, 63, 63);
+    background-color :  #e8f0f2;
+    font-weight: 450;
+	color: rgb(82, 82, 82);
 }

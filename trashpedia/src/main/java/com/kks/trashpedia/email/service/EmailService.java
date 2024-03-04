@@ -76,6 +76,8 @@ public class EmailService {
 
     public String sendEmail(String email) throws MessagingException, UnsupportedEncodingException {
         MimeMessage emailForm = createEmailForm(email);
+        System.out.println(emailForm);
+        System.out.println(emailForm.getAllRecipients());
         Transport.send(emailForm);
         return authNum;
     }

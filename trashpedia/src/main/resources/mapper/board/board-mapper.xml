@@ -316,7 +316,7 @@
 	</select>
 
 	<!-- 게시글 상세조회 - 이미지 -->
-	<select id="getImageUrlByTrashNo" resultType="imgAttachment"
+	<select id="getImageUrlByboardNo" resultType="imgAttachment"
 		parameterType="int">
 		<![CDATA[
 		SELECT *

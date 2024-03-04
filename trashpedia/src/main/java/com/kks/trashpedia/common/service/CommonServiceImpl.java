@@ -99,26 +99,26 @@ public class CommonServiceImpl implements CommonService{
 		
 		if(result>0) {
 			// 첨부파일 처리
+			if(!deleteFile.equals("")) {
+				deleteAttach(p);
+			}
+			
 			if(attachment != null){
 				attachment.setRefBno(p.getPostNo());
 				attachment.setFileType(type);
 				dao.insertAttachment(attachment);
 			}
-			if(!deleteFile.equals("")) {
 		
-				deleteAttach(p);
+			if(!deleteImg.equals("")) {				
+				deleteImage(p);
 			}
-		
 			//이미지 처리
 			if(image != null){
 				image.setRefBno(p.getPostNo());
 				image.setImgType(type);
 				dao.insertImgAttachment(image);
 			}
-			if(!deleteImg.equals("")) {
-				System.out.println("equals 비었음");
-				deleteImage(p);
-			}
+			
 		}
 		return result;
 	}

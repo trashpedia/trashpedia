@@ -378,8 +378,6 @@
 	                dots: true,
 	                prevArrow: '<div class="custom-prev"></div>',
 	                nextArrow: '<div class="custom-next"></div>'
-	                // prevArrow: '<button type="button" class="slick-prev">&#9665;</button>',
-	                // nextArrow: '<button type="button" class="slick-next">&#9655;</button>'
 	            });
 	    		//정보자료글
 	            $('#information-content-slider').slick({
