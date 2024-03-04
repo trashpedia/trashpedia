@@ -1,8 +1,404 @@
 @charset "UTF-8";
 
+
+body {
+    font-family: 'Noto Sans KR', sans-serif;
+    background-color: #f5f5f5;
+    margin: 0;
+    padding: 0;
+}
+/* 쓰레기 백과사전 타이틀 */
+.practice-section {
+    position: relative;
+
+    height: 150px;
+    width: 100%;
+    background-color: #73cc73;
+    color: white;
+    font-weight: 700;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.practice-section p:first-child {
+    font-size: 32px;
+    margin-top: 0;
+    margin-bottom: 0px;
+}
+
+.practice-section p:nth-child(2) {
+    margin-top: 10px;
+    font-size: 18px;
+}
+
+
+/*탭 부분	  */
+.tabs {
+    display: flex;
+    justify-content: center;
+    margin:0; /* 여기에 간격 조절을 위한 margin 추가 */
+    list-style: none;
+    padding: 0;
+    
+    margin-top: 10px;
+    border-bottom: 1px solid #45a049;
+}
+
+.tab {
+	font-size:15px;
+    width: 120px;
+    color: rgb(50, 50, 50);
+    padding: 10px;
+    text-align: center;
+    cursor: pointer;
+    text-transform:uppercase;
+}
+
+.tab:after{
+    display:block;
+    content: '';
+    border-bottom: solid 3px #4CAF50;  
+    transform: scaleX(0);  
+    transition: transform 250ms ease-in-out;
+}
+
+.tab:hover:after { 
+    transform: scaleX(1);
+ }
+ 
+ .encyLogo{
+ margin-top:150px;
+ font-size:50px;
+ font-weight:600;
+ text-align:center;
+ margin-bottom:60px;
+ }
+ 
+ /* 쓰레기 검색부분  */
+.ency-background{
+	background-image:url('../../image/encyclopedia/쓰레기메인1.png');
+	position: relative;
+    background-size: cover; 
+    background-position: center; 
+    background-repeat: no-repeat; 
+    width: 100%;
+    height: 1000px;
+    overflow: hidden;
+    z-index: 1;
+    align-items: center;
+	border-bottom:1px solid grey;
+}
+
+.ency-background-black{
+	background-color: rgba(0, 0, 0, 0.55);
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+}
+/* .search-area{
+    display: flex;
+    justify-content: center;
+    margin-top: 40px;
+    position: relative;
+    margin-bottom:400px;
+} */
+
+.ency-search-area{
+	display: flex;
+    justify-content: center;
+    margin-top: 40px;
+    position: relative;
+    margin-bottom:400px;
+}
+/* 검색어입력 input */
+.search-input{
+    padding-left: 20px;
+    font-family: 'Noto Sans KR', sans-serif;
+    display: flex;
+    text-align: left;
+    align-items: center;
+    width: 700px;
+    height: 50px;
+    line-height: 21px;
+    font-size: 15px;
+    font-weight: 400;
+    color: #111;
+    border: 1px solid #c0c0c0;
+    border-radius: 15px;
+    transition: border-color .4s ease;
+    background: rgba(255,255,255,.9);
+    position: relative;
+    outline: none;
+}
+/* 검색어 button */
+.search-button{
+    display: block;
+    position: relative;
+    padding: 0;
+    margin: 0;
+    width: 20px;
+    top: 24px;
+    right: 45px;
+    transform: translateY(-50%); 
+    text-align: center;
+    font-size: 16px;
+    color: transparent;
+    border: none;
+    cursor: pointer;
+    background: transparent url("https://www.recycling-info.or.kr/act4r/images/common/input-sch.svg")no-repeat 50% 50%;
+}
+
+
+/*  ----- 최근 업데이트된 쓰레기 게시글 부분 ----- */
+.recently-outer{
+    position: relative;
+    padding-top: 50px;
+    margin-top: 130px;
+}
+/* 배경이미지 */
+.recently-outer img{
+    position: absolute;
+    top: 0;
+    z-index: 0;
+    height: 620px;
+    width: auto;
+    max-width: 100%;
+}
+#recently-img{
+    min-width: 100%;
+}
+.recently-garbage-inner{
+    display: flex;
+    flex-wrap: wrap;
+    box-sizing: border-box;
+    cursor: pointer;
+    max-width: 1100px; /* 최대 너비 지정 (원하는 최대 너비로 수정) */
+    margin: 0 auto;
+    padding-bottom: 30px;
+    
+}
+/* 최근 쓰레기 슬라이더 */
+main .recently-garbage-outer{
+    z-index: 1;
+    position: relative;
+    top: 0;
+    margin-top: 50px;
+    margin-bottom: 40px;
+    display: flex;
+    flex-direction: column;
+    margin: 5px auto;
+ 	margin-bottom :250px;
+    
+}
+
+main.popular-garbage-outer{
+	margin-top:250px;
+	z-index: 1;
+    position: relative;
+    top: 0;
+    margin-top: 50px;
+    margin-bottom: 40px;
+    display: flex;
+    flex-direction: column;
+    margin: 5px auto;
+ 	margin-bottom :250px;
+}
+main #recently-garbage-outer-title{
+    margin-left: 10px;
+    font-size: 30px;
+    font-weight: 550;
+    margin-bottom: 40px;
+    margin-top: 25px;
+    text-align: left;
+}
+main .recently-garbage-inner{
+    display: flex;
+    flex-wrap: wrap;
+    box-sizing: border-box;
+    cursor: pointer;
+}
+/* 쓰레기 게시물 div */
+main .recently-garbage {
+    border-radius: 7px;
+    width: 250px;
+    height: 330px;
+    max-height: 330px;
+    margin: 7px;
+    text-align: center;
+    text-overflow: ellipsis;
+}
+
+/* 최근 쓰레기 슬라이더 */
+main .recently-garbage-outer{
+    z-index: 1;
+    position: relative;
+    top: 0;
+    margin-top: 50px;
+    margin-bottom: 40px;
+    display: flex;
+    flex-direction: column;
+    margin: 5px auto;
+    margin-bottom: 30px !important;
+    
+}
+main #recently-garbage-outer-title{
+    margin-left: 10px;
+    font-size: 30px;
+    font-weight: 550;
+    margin-bottom: 40px;
+    margin-top: 25px;
+    text-align: center;
+}
+main .recently-garbage-inner{
+    display: flex;
+    flex-wrap: wrap;
+    box-sizing: border-box;
+    cursor: pointer;
+}
+/* 쓰레기 게시물 div */
+main .recently-garbage {
+    border-radius: 7px;
+    width: 250px;
+    height: 330px;
+    max-height: 330px;
+    margin: 7px;
+    text-align: center;
+    text-overflow: ellipsis;
+}
+
+/* 슬라이드 이미지 제목 */
+main .recently-garbage-title{  
+    font-weight: 730;
+    font-size: 17px;
+    text-align: left;
+    padding-top: 15px;
+}
+/* 슬라이드 이미지 내용 */
+main .recently-garbage-content{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+main .recently-garbage p {
+    font-size: 14px;
+    margin: 6px;
+    margin-left: 12px;
+    margin-right: 15px;
+}
+
+main .garbage-img-outer{
+    width: 250px;
+    height: 250px;
+    margin: 2px auto;
+    margin-top: 0px;
+    border-radius: 7px;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+}
+/* 최근쓰레기 이미지 */
+main .recently-garbage-img{
+    object-fit: cover;
+    padding: auto;
+    width: 250px;
+    height: 250px;
+    box-sizing: border-box;
+    background-color: rgb(208, 208, 208);
+    margin-bottom: 5px;
+    transition: all 0.4s ease;
+}
+
+.garbage-img-outer:hover img{
+    transform: scale(1.05);
+    transition: transform 0.4s ease-in-out;
+}
+
+
+/* 슬라이더 좌우 화살표 */
+.custom-prev {
+    background: url('../../image/main/mainImg/left-arrow.svg') no-repeat center center;
+    width: 110px; 
+    height: 110px; 
+    position: absolute;
+    left: -95px;
+    top: 40%;
+    transform: translateY(-50%);
+    cursor: pointer;
+}
+
+.custom-next {
+    background: url('../../image/main/mainImg/right-arrow.svg') no-repeat center center;
+    width: 110px; 
+    height: 110px;
+    position: absolute;
+    right: -93px;
+    top: 40%; 
+    transform: translateY(-50%);
+    cursor: pointer;
+}
+
+.recently-garbage-slider{
+	margin-bottom:300px;
+}
+
+.space{
+	height:90px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* 스크롤 업버튼 */
+#scrollUpButton{
+	position: fixed;
+    text-align: center;
+    bottom : 80px;
+    right : 110px;
+    border-radius: 50%;
+    color: white;
+    width: 45px;
+    height: 45px;
+    z-index: 10;
+    cursor: pointer;
+    background-color: black;
+    display : none;
+    -webkit-transition: all .3s;
+}
+
+
+
+
+
+/* 
+
 a{
-    text-decoration: none; /* 밑줄 제거 */
-    color: inherit; /* 부모 요소의 색상 상속 */
+    text-decoration: none; 밑줄 제거
+    color: inherit; 부모 요소의 색상 상속
 }
 
 input {
@@ -21,20 +417,20 @@ input:focus {
     min-height: 1650px;
     height: 100%;
     display: flex;
-    /*   */
+     
 }
 
 
 main {
-    /* position: relative; */
-    /* top: 140px; */
+    position: relative;
+    top: 140px;
     display: block;
     text-align: center;
     width: 100%;
-    /* background-color: antiquewhite; */
+    background-color: antiquewhite;
 }
 
-/* ------ 실천서약 타이틀 부분 ------ */
+------ 실천서약 타이틀 부분 ------
 .practice-section {
     position: relative;
     top: 90px;
@@ -60,7 +456,7 @@ main {
     font-size: 18px;
 }
 
-/* ------ 실천서약 타이틀 부분 ------ */
+------ 실천서약 타이틀 부분 ------
 
 
 
@@ -69,15 +465,15 @@ main {
 
 
 
-/* 검색창 */
+검색창
 
 main .elementor-widget-container {
     position: absolute;
-    /* position: relative; */
+    position: relative;
     top: 200px;
     width: 100%;
     height: 150px;
-    /* background-color: rgb(138, 255, 114); */
+    background-color: rgb(138, 255, 114);
 }
 
 main .elementor-widget-container .probox {
@@ -110,14 +506,14 @@ main .elementor-widget-container .probox span {
     cursor: pointer;
 }
 
-/* 검색창 끝 */
+검색창 끝
 
 
 
 
 
 
-/* 쓰레기 이미지 */
+쓰레기 이미지
 main .elementor-widget-container2 {
     position: absolute;
     text-align: center;
@@ -131,13 +527,13 @@ main .elementor-widget-container2 img {
     height: 300px;
 }
 
-/* 쓰레기 이미지 끝*/
+쓰레기 이미지 끝
 
 
 
 
 
-/* 카테고리 */
+카테고리
 .dropdown-area{
 	position: relative;
 	text-align: center;
@@ -149,9 +545,9 @@ main .elementor-widget-container2 img {
 .dropdown-area .dropdown {
     position: absolute;
     text-align: center;
-    display: flex; /* 텍스트를 수직 중앙 정렬하기 위해 Flexbox를 사용 */
-    align-items: center; /* 수직 중앙 정렬 */
-    justify-content: center; /* 수평 중앙 정렬 */
+    display: flex; 텍스트를 수직 중앙 정렬하기 위해 Flexbox를 사용
+    align-items: center; 수직 중앙 정렬
+    justify-content: center; 수평 중앙 정렬
     height: 70px;
     width: 431px;
     left: 33px;
@@ -182,8 +578,8 @@ main .elementor-widget-container2 img {
     border-top:none;
     box-sizing:border;
     width:100%;
-        align-items: center; /* 수직 중앙 정렬 */
-    justify-content: center; /* 수평 중앙 정렬 */
+        align-items: center; 수직 중앙 정렬
+    justify-content: center; 수평 중앙 정렬
 }
 
 .main-category:hover {
@@ -210,57 +606,57 @@ main .elementor-widget-container2 img {
 
 
 
-/* 카테고리 */
+카테고리
 
 
 
 
-/* 쓰레기 */
+쓰레기
 
 main .select {
     position: absolute;
     top: 600px;
     width: 100%;
-    /* width: 1760px; */
+    width: 1760px;
     height: 270px;
-    /* background-color: aqua; */
+    background-color: aqua;
 }
 
 
 .swiper-container {
     width: 1600px;
     height: 270px;
-    /* flex: 1 1 0;  */
-    /* flex-direction: column;  */
-    /* justify-content: flex-start;  */
-    /* align-items: center;  */
-    /* gap: 24px;  */
-    /* display: inline-flex; */
-    /* border-bottom: 5px solid */
-        /* position: absolute; */
+    flex: 1 1 0; 
+    flex-direction: column; 
+    justify-content: flex-start; 
+    align-items: center; 
+    gap: 24px; 
+    display: inline-flex;
+    border-bottom: 5px solid
+        position: absolute;
 }
 
 .swiper-container {
-    /* position: absolute; */
+    position: absolute;
 }
 
 .swiper-slide {
-    /* position: absolute; */
+    position: absolute;
     cursor: pointer;
     width: 100%;
     height: 90%;
     border-radius: 15px;
     overflow: hidden;
-    /* border: 1px rgba(0, 0, 0, 0.10) solid; */
-    /* flex-direction: column;  */
-    /* justify-content: flex-start;  */
-    /* align-items: center;  */
-    /* display: inline-flex; */
+    border: 1px rgba(0, 0, 0, 0.10) solid;
+    flex-direction: column; 
+    justify-content: flex-start; 
+    align-items: center; 
+    display: inline-flex;
 }
 
 .swiper-slide img {
     display: block;
-    /* width: 240px; */
+    width: 240px;
     width: 100%;
     height: 90%;
     object-fit: cover;
@@ -268,7 +664,7 @@ main .select {
 }
 
 
-/* Card */
+Card
 
 .swiper-container .Card{
     display: flex;
@@ -280,7 +676,7 @@ main .select {
     flex-direction: column; 
     justify-content: flex-start; 
     align-items: center; 
-    /* display: inline-flex; */
+    display: inline-flex;
     box-sizing: border-box;
    
     transform-style: preserve-3d;
@@ -294,7 +690,7 @@ main .select {
     width: 100%; 
     height: 100%; 
     backface-visibility: hidden;
-    /* transform: rotateY(180deg); */
+    transform: rotateY(180deg);
     position: absolute;
     top: 0;
     left: 0;
@@ -311,16 +707,16 @@ main .select {
 
 
 .swiper-container .Card:hover .Front {
-    /* transform: rotateY(-180deg);  */
-    /* background-color: rgb(107, 199, 168); */
+    transform: rotateY(-180deg); 
+    background-color: rgb(107, 199, 168);
     border: 2px rgba(0, 0, 0, 0.10) solid; 
     border-radius: 6px; 
     cursor: pointer;border-radius: 15px;
 }
 
 .swiper-container .Card:hover .Back {
-    transform: rotateY(0deg); /* 호버 시 뒷면이 180도 회전하여 나타나도록 설정 */
-    /* background-color: rgb(107, 199, 168); */
+    transform: rotateY(0deg); 호버 시 뒷면이 180도 회전하여 나타나도록 설정
+    background-color: rgb(107, 199, 168);
     background-color: #eee;
     border: 2px rgba(0, 0, 0, 0.10) solid; 
     border-radius: 6px; 
@@ -333,8 +729,8 @@ main .select {
     width: 100%;
     height: 100%;
     backface-visibility: hidden;
-    transition: transform 1.5s; /* 회전 트랜지션 설정 */
-    /* background-color: rgb(107, 199, 168); */
+    transition: transform 1.5s; 회전 트랜지션 설정
+    background-color: rgb(107, 199, 168);
     border-radius: 15px;
 }
 
@@ -343,8 +739,8 @@ main .select {
     width: 100%;
     height: 100%;
     backface-visibility: hidden;
-    /* transition: transform 1.5s; */
-    /* background-color: rgb(107, 199, 168); */
+    transition: transform 1.5s;
+    background-color: rgb(107, 199, 168);
     background-color: #f8f8f8;
     border-radius: 15px;
 }
@@ -365,16 +761,16 @@ main .select {
 }
 
 .swiper-container .Card .Front {
-    /* background-color: rgb(107, 199, 168); */
+    background-color: rgb(107, 199, 168);
     z-index: 2;border-radius: 15px;
 }
 
 .swiper-container .Card .Back {
     position: relative;
-    /* background-color: #f8f8f8; */
+    background-color: #f8f8f8;
     opacity: 0;
     z-index: 1;
-    transition-duration: 1.8s; /* 뒷면이 나타나는 속도를 조정 */
+    transition-duration: 1.8s; 뒷면이 나타나는 속도를 조정
     border-radius: 15px;
 }
 
@@ -396,8 +792,8 @@ main .select {
     left: 0;
     width: 100%;
     height: 100%;
-    object-fit: cover; /* 이미지를 가득 채우도록 설정 */
-    z-index: 1; /* 이미지를 텍스트 위에 표시하기 위해 z-index 설정 */
+    object-fit: cover; 이미지를 가득 채우도록 설정
+    z-index: 1; 이미지를 텍스트 위에 표시하기 위해 z-index 설정
     border-radius: 15px;
     overflow: hidden; 
 }
@@ -410,7 +806,7 @@ main .select {
     height: 100%;
     padding: 20px;
     box-sizing: border-box;
-    z-index: 2; /* 텍스트를 이미지 위에 표시하기 위해 z-index 설정 */
+    z-index: 2; 텍스트를 이미지 위에 표시하기 위해 z-index 설정
     background-color: rgba(255, 255, 255, 0.273); 
 }
 
@@ -450,7 +846,7 @@ main .select {
     position: relative;
     top: 950px;
     width: 100%;
-    /* height: 700px; */
+    height: 700px;
 }
 
 
@@ -461,9 +857,9 @@ main .select {
     font-size: 38px;
     font-weight: 700;
     margin-bottom: 30px;
-    /* color: #fff; */
+    color: #fff;
     color: #222;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* 그림자 속성을 설정합니다. */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); 그림자 속성을 설정합니다.
 }
 
 
@@ -475,19 +871,19 @@ main .select {
     width: 1760px;
     height: 520px;
     overflow: hidden;
-    /* background-image: url('../images/close-up-earth-sign-in-leaves.jpg');  */
-    background-size: cover; /* 배경 이미지를 컨테이너에 맞게 조정합니다. */
-    background-repeat: no-repeat; /* 배경 이미지를 반복하지 않도록 설정합니다. */
-    background-position: center; /* 배경 이미지를 가운데 정렬합니다. */
+    background-image: url('../images/close-up-earth-sign-in-leaves.jpg'); 
+    background-size: cover; 배경 이미지를 컨테이너에 맞게 조정합니다.
+    background-repeat: no-repeat; 배경 이미지를 반복하지 않도록 설정합니다.
+    background-position: center; 배경 이미지를 가운데 정렬합니다.
 }
 
 .today-popular-trash .Container .card {
     position: absolute;
-    /* padding: 10px 20px;
-    background-color: rgb(106, 220, 110); */
+    padding: 10px 20px;
+    background-color: rgb(106, 220, 110);
     border-radius: 20px;
     animation-fill-mode: forwards;
-    /* 애니메이션이 끝난 후 요소의 상태를 유지 */
+    애니메이션이 끝난 후 요소의 상태를 유지
     width: 140px;
     height: 120px;
     border-radius: 120px;
@@ -502,8 +898,8 @@ main .select {
     left: 100px;
     top: 100px;
     overflow: hidden;
-    /* box-sizing: border-box; */
-    /* background-color: rgb(170, 228, 207); */
+    box-sizing: border-box;
+    background-color: rgb(170, 228, 207);
 
     font-weight: 700;
 
@@ -511,7 +907,7 @@ main .select {
 
 
 .today-popular-trash .Container .card img {
-    /* position: absolute; */
+    position: absolute;
     width: 70%;
     height: 70%;
     box-sizing: border-box;
@@ -524,7 +920,7 @@ main .select {
     background-color: #40A2E3;
     border: 2px solid #0B60B0;
     cursor: pointer;
-    /* 호버 시 변화를 천천히 만들기 위한 트랜지션 설정 */
+    호버 시 변화를 천천히 만들기 위한 트랜지션 설정
     transition: width .7s ease, height .7s ease, background-color .7s ease;
 
 }
@@ -540,11 +936,11 @@ main .select {
     top: 120px;
     z-index:10;
     cursor: pointer;
-    text-shadow: 2px 2px 4px #ccc; /* 그림자 속성을 설정합니다. */	 
+    text-shadow: 2px 2px 4px #ccc; 그림자 속성을 설정합니다.	 
 }
 
 
-/* 각 card 요소들에 대한 위치와 애니메이션 설정 */
+각 card 요소들에 대한 위치와 애니메이션 설정
 .animate-card1 {
     animation: moveRandom1 6s alternate forwards;
 
@@ -685,7 +1081,7 @@ main .select {
 
 .today-popular-trash .trash-can:hover {
     position: absolute;
-    /* width: 400px; */
+    width: 400px;
 
     transform: rotate(70deg);
     transition: transform 2.3s ease;
@@ -693,6 +1089,6 @@ main .select {
 
 .today-popular-trash .trash-can:not(:hover) {
     transform: rotate(0deg);
-    /* 호버 상태가 아닐 때 이미지를 0도 회전 */
+    호버 상태가 아닐 때 이미지를 0도 회전
     transition: transform 2.4s ease;
-}
+} */
