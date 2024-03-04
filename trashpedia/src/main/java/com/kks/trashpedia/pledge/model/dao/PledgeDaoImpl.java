@@ -1,10 +1,16 @@
 package com.kks.trashpedia.pledge.model.dao;
 
 import java.sql.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import com.kks.trashpedia.board.model.vo.Attachment;
@@ -94,6 +100,22 @@ public class PledgeDaoImpl implements PledgeDao{
 	@Override
 	public int deleteComment(Comment comment) {
 		return session.update("pledgeMapper.deleteComment",comment);
+	}
+	
+	//게시글조회-페이징,검색
+	@Override
+	public Page<Post> loadListData(Pageable pageable, int page, String sort, String searchSelect, String searchValue, int subCategoryNo) {
+	
+		Map<String, Object> param = new HashMap<>();
+		param.put("sort", sort);
+		param.put("searchSelect", searchSelect);
+		param.put("searchValue", searchValue);
+		param.put("subCategoryNo", subCategoryNo);
+		List<Post> posts = session.selectList("pledgeMapper.pledgeListData",param,new RowBounds(page*pageable.getPageSize(), pageable.getPageSize()) );
+		int totalCount = session.selectOne("pledgeMapper.postListCount",param);
+		
+		return new PageImpl<>(posts, pageable, totalCount);
+	
 	}
 	
 }

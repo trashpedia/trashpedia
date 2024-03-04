@@ -43,65 +43,48 @@
                 <div class="content-title"> 
                     <div class="content-tab">
                     	<a href="${contextPath}/pledge/list?bigCategoryNo=2&subCategoryNo=5">
-                        	<span id="pledgeBtn" onclick="pledgeShow"> 실천서약 </span>
+                        	<span id="pledgeBtn" onclick="pledgeShow()"> 실천서약 </span>
                         </a>
                         <a href="${contextPath}/pledge/list?bigCategoryNo=2&subCategoryNo=6">
-                        	<span id="certificationBtn" onclick="certificationShow"> 실천인증 </span>
+                        	<span id="certificationBtn" onclick="certificationShow()"> 실천인증 </span>
                         </a>
                     </div>
                     <div class="content-search">
-                        <input type="text" name="keyword" id="keyword" placeholder="제목검색">
-                        <span id="searchButton" class="material-symbols-outlined icon">search</span> 
+	                    <select name="condition" id="board-search-filter-select">
+			                <option value="postNo" selected>번호</option>
+			                <option value="title">제목</option>
+			                <option value="content">내용</option>
+						</select>
+                        <input type="search" class="board-search-input" name="keyword" id="keyword" placeholder="검색어를 입력하세요.">
+                        <button type="button" class="board-search-button" onclick="boardSearch()">
+                        	<span id="searchButton" class="material-symbols-outlined icon">search</span>
+                        </button> 
                     </div>
                 </div>
                 
                 <!-- 실천서약 -->
                 <div class="pledge">
                     <div class="content-outer">
-                    	<c:forEach var="post" items="${list}">
-							<div class="img-area" onclick ="pledgeDetail(${post.postNo})">
-							 	<input type="hidden" value="${post.title}">
-							 	<input type="hidden" name="subCategoryNo"value="${post.subCategoryNo} ">
-							 	<img src="<c:url value='/resources/attachFile/image/${post.changeName}'/>"  class="content-img">
-                        	</div>
-                    	</c:forEach>
 
-						<div class="paging-button">
-                            <button class="pagingBtn" id="prevBtn"> < </button>
-                            <button class="pagingBtn">1</button>
-                            <button class="pagingBtn">2</button>
-                            <button class="pagingBtn">3</button>
-                            <button class="pagingBtn">4</button>
-                            <button class="pagingBtn">5</button>
-                            <button class="pagingBtn" id="nextBtn"> > </button>
-                        </div>
                     </div>
                 </div>
-                
                 
                  <!-- 실천인증 -->
-                 <div class="certification">                 	
-                    <div class="content-outer">
-						<c:forEach var="post" items="${list}">
-							<div class="img-area" onclick ="pledgeDetail(${post.postNo})">
-							 	<input type="hidden" value="${post.title}">
-							 	<input type="hidden" name="subCategoryNo"value="${post.subCategoryNo} ">
-							 	<input type="hidden" name="postNo" value="${post.postNo}">
-							 	<img src="<c:url value='/resources/attachFile/image/${post.changeName}'/>"  class="content-img">
-                        	</div>
-                    	</c:forEach>
-                     
-                        <div class="paging-button">
-                            <button class="pagingBtn" id="prevBtn"> < </button>
-                            <button class="pagingBtn">1</button>
-                            <button class="pagingBtn">2</button>
-                            <button class="pagingBtn">3</button>
-                            <button class="pagingBtn">4</button>
-                            <button class="pagingBtn">5</button>
-                            <button class="pagingBtn" id="nextBtn"> > </button>
-                        </div>
-                    </div>
-                </div>
+<!--                  <div class="certification">                 	 -->
+<!--                     <div class="content-outer"> -->
+<%-- 						<c:forEach var="post" items="${list}"> --%>
+<%-- 							<div class="img-area" onclick ="pledgeDetail(${post.postNo})"> --%>
+<%-- 							 	<input type="hidden" value="${post.title}"> --%>
+<%-- 							 	<input type="hidden" name="subCategoryNo"value="${post.subCategoryNo} "> --%>
+<%-- 							 	<input type="hidden" name="postNo" value="${post.postNo}"> --%>
+<%-- 							 	<img src="<c:url value='/resources/attachFile/image/${post.changeName}'/>"  class="content-img"> --%>
+<!--                         	</div> -->
+<%--                     	</c:forEach> --%>
+<!--                     </div> -->
+<!--                 </div> -->
+                
+                  <div class="board-pageBar paging-button"></div>
+                
             </div>
             <div class="insert-area">
                 <a href="${pageContext.request.contextPath}/write?bigCategoryNo=${bigCategoryNo}&subCategoryNo=${subCategoryNo}&type=1">
@@ -114,6 +97,8 @@
     <jsp:include page="../common/footer.jsp"/>
     
     <script>
+    	//숫자 카운팅
+    	
         // 시작 숫자
         let currentCount = 0;
         // 목표 숫자
@@ -121,7 +106,6 @@
         // 숫자 업데이트
         function updateCount() {
             document.getElementById('dynamicCount').textContent = currentCount.toLocaleString();
-
             // 목표 카운트에 도달하면 중지
             if (currentCount < targetCount) {
                 let timeoutValue;
@@ -142,35 +126,166 @@
         }
         updateCount();
 
-        // 실천서약, 실천인증 클릭
-		$(document).ready(function(){
-		    <c:choose>
-		        <c:when test="${subCategoryNo eq 5}">
-		            $(".pledge").show();
-		            $(".certification").hide();
-		            $("#pledgeBtn").css("background-color", "#5bbf5b");
-		            $("#certificationBtn").css("background-color", "rgb(200, 200, 200)");
-		        </c:when>
-		        <c:when test="${subCategoryNo eq 6}">
-		            $(".certification").show();
-		            $(".pledge").hide();
-		            $("#certificationBtn").css("background-color", "#5bbf5b");
-		            $("#pledgeBtn").css("background-color", "rgb(200, 200, 200)");
-		        </c:when>
-		        <c:otherwise>
-		            <!-- 기본적으로 보여질 탭 설정 -->
-		            $(".pledge").show();
-		            $(".certification").hide();
-		            $("#pledgeBtn").css("background-color", "#5bbf5b");
-		            $("#certificationBtn").css("background-color", "rgb(200, 200, 200)");
-		        </c:otherwise>
-		    </c:choose>
-		})
+        
+        //페이징,검색
+        var boardFilterValue = 'boardNo';
+	    var boardSearchSelect = null;
+	    var boardSearchValue = null;
 		
-		//상세보기 이동
-		function pledgeDetail(postNo){
-        	location.href= "${contextPath}/pledge/detail/${postNo}"+postNo;
-        }
+		function pledgeShow() {
+	        $("#pledgeBtn").css("background-color", "#5bbf5b");
+// 	        $("#certificationBtn").css("background-color", "rgb(200, 200, 200)");
+	        localStorage.setItem('selectedTab', 'pledge');
+	        getBoardList(0, boardSearchSelect, boardSearchValue);
+	    }
+	
+	    function certificationShow() {
+	        $("#certificationBtn").css("background-color", "#5bbf5b");
+// 	        $("#pledgeBtn").css("background-color", "rgb(200, 200, 200)");
+	        localStorage.setItem('selectedTab', 'certification');
+	        getBoardList(0, boardSearchSelect, boardSearchValue);
+	    }
+	    
+	    $(document).ready(function () {
+	    	
+	    	  getBoardList(0, boardSearchSelect, boardSearchValue);
+	    	  
+	    		// 페이지 로드 시 localStorage에서 상태를 가져와 CSS 적용
+// 	    	    var selectedTab = localStorage.getItem('selectedTab');
+	    	    
+	    	    // localStorage에서 상태를 가져오지 못했을 때, 서브 카테고리에 따라 기본 탭을 선택
+// 	    	    if (!selectedTab) {
+// 	    	        var subCategory = "${param.subCategoryNo}";  // 서버에서 서브 카테고리 정보를 받아옵니다.
+	    	        
+// 	    	        if (subCategory === '5') {  // 'pledge'에 해당하는 서브 카테고리 번호
+// 	    	            selectedTab = 'pledge';
+// 	    	        } else if (subCategory === '6') {  // 'certification'에 해당하는 서브 카테고리 번호
+// 	    	            selectedTab = 'certification';
+// 	    	        }
+// 	    	    }
+	    	    
+	    	    if (selectedTab === 'pledge') {
+	    	        pledgeShow();
+	    	    } else if (selectedTab === 'certification') {
+	    	        certificationShow();
+	    	    }
+	    	});
+	    
+	    
+        //누른 option값으로 필터링하기
+// 	    $('#board-filter-select').change(function(){
+// 	    	boardFilterValue = $(this).val();
+// 	    	$('.board-list').empty();  //tbody영역 지우기-비동기일때만
+// 	    	getBoardList(0, boardSearchSelect, boardSearchValue);
+// 	    });
+        
+        /* 검색 */
+	    function boardSearch(){
+	    	boardSearchSelect = $('#board-search-filter-select').val();
+	    	boardSearchValue = $('.board-search-input').val();
+	    	$('.board-search-input').val('');
+	    	$('.board-list').empty();
+	    	getBoardList(0, boardSearchSelect, boardSearchValue);
+	    }
+        
+	    /* 게시글 리스트 조회 */
+	    function getBoardList(page, boardSearchSelect, boardSearchValue) {
+	        $.ajax({
+	            url: '${contextPath}/pledge/loadListData',
+	            type: 'GET',
+	            dataType: 'json',
+	            data: {
+	            	page: page, size: 8, sort: boardFilterValue, 
+	            	searchSelect: boardSearchSelect, 
+	            	searchValue: boardSearchValue,
+	            	subCategoryNo : ${subCategoryNo}	
+	            },
+	            success: function(data) {
+ 	            	if(data.content.length != 0){
+ 		                updateBoardTable(data.content);
+ 		                updateBoardPagination(data);
+ 	            	}
+	            },
+	            error: function(xhr, status, error) {
+	                console.error('Error: ' + error);
+	            }
+	        });
+	    }
+	    
+	    /* 게시글 반복문돌리기 */
+	    function updateBoardTable(data) {
+		    let userList = document.querySelector('.content-outer');
+		    userList.innerHTML = '';
+		
+		    for (let i = 0; i < data.length; i++) {
+		    	
+		        let post = data[i];
+		        let postNo = post.postNo;
+		        
+		        // 게시글 요소 생성
+		        let postElement = document.createElement('div');
+		        postElement.className = 'img-area';
+		     	postElement.setAttribute('onclick', 'pledgeDetail(' + postNo + ')');
+		        
+		        // 숨겨진 input 요소 추가
+		        let titleInput = document.createElement('input');
+		        titleInput.type = 'hidden';
+		        titleInput.value = post.title;
+		
+		        let subCategoryNoInput = document.createElement('input');
+		        subCategoryNoInput.type = 'hidden';
+		        subCategoryNoInput.name = 'subCategoryNo';
+		        subCategoryNoInput.value = post.subCategoryNo;
+		
+		        // 이미지 요소 생성
+		        let imgElement = document.createElement('img');
+		        imgElement.src = '${contextPath}/resources/attachFile/image/' + post.changeName;
+		        imgElement.className = 'content-img';
+		
+		        // 생성한 요소들을 게시글 요소에 추가
+		        postElement.appendChild(titleInput);
+		        postElement.appendChild(subCategoryNoInput);
+		        postElement.appendChild(imgElement);
+		
+		        // 게시글 요소를 userList에 추가
+		        userList.appendChild(postElement);
+		    }
+		}
+
+	    /* 페이징바 추가 */
+	    function updateBoardPagination(data) {
+	        let userPaging = document.querySelector('.board-pageBar');
+	        // userPaging이 null인지 확인
+	        if (userPaging) {
+	            let pagination = '';
+
+	            if (!data.empty) {
+	                if (!data.first) {
+	                    pagination += '<button class="pagingBtn" onclick="getBoardList(' + (data.number - 1) + ',\'' + boardSearchSelect + '\',\'' + boardSearchValue + '\')"><</button>';
+	                }
+	                for (let i = 0; i < data.totalPages; i++) {
+	                    if (i >= data.number - 5 && i <= data.number + 5) {
+	                        pagination += '<button ';
+	                        if (i === data.number) {
+	                            pagination += 'class="pagingBtn active"';
+	                        }
+	                        pagination += 'class="pagingBtn" onclick="getBoardList(' + i + ',\'' + boardSearchSelect + '\',\'' + boardSearchValue + '\')">' + (i + 1) + '</button>';
+	                    }
+	                }
+	                if (!data.last) {
+	                    pagination += '<button class="pagingBtn" onclick="getBoardList(' + (data.number + 1) + ',\'' + boardSearchSelect + '\',\'' + boardSearchValue + '\')">></button>';
+	                }
+	            }
+
+	            userPaging.innerHTML = pagination;
+	        } else {
+	            console.error('Error: .board-pageBar element not found.');
+	        }
+	    }
+        
+	    function pledgeDetail(postNo) {
+	    	location.href = "${contextPath}/pledge/detail/" + postNo;
+    	}
 		
 		
 		
