@@ -25,21 +25,15 @@ public class TrashController {
 		ModelAndView modelAndView = new ModelAndView();
 		
 		//최근 업데이트된 쓰레기
-		// List<TrashPost> trashList = service.getRecentlyTrashList(); 
+		List<TrashPost> trashList = service.getRecentlyTrashList(); 
 		
 		//인기쓰레기
-		/* List<TrashPost> popularList = service.getPopularList(); */
+		List<TrashPost> popularList = service.getPopularList();
 		
-
-		//System.out.println(trashList);
-
-		//modelAndView.addObject("trashList", trashList);
-
+		System.out.println(trashList);
+		modelAndView.addObject("trashList", trashList);
+		modelAndView.addObject("popularList", popularList);
 		modelAndView.setViewName("encyclopedia/trashEncyclopedia");
 		return modelAndView;
 	}
-
-	
-	
-	
 }
