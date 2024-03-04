@@ -14,11 +14,24 @@
 		WHERE ROWNUM BETWEEN 1 AND 5
 	</select>
 	
-<!-- 	<select id ="getPopularList"  resultType="trashPost">
+	<select id ="getPopularList"  resultType="trashPost">
 		SELECT *
-	 	FROM 
-
-	</select> -->
+		FROM(
+		    SELECT *
+		    FROM (
+		        SELECT T.TRASH_NO, TSC.SUB_CATEGORY_NAME,COUNT(*) AS TRASH_HITS
+		        FROM TRASH T
+		        LEFT JOIN TRASH_SUB_CATEGORY TSC ON T.SUB_CATEGORY_NO = TSC.SUB_CATEGORY_NO
+		        LEFT JOIN TRASH_HITS TH ON T.TRASH_NO = TH.TRASH_NO
+		        GROUP BY T.TRASH_NO, TSC.SUB_CATEGORY_NAME
+		        ORDER BY TRASH_HITS DESC        
+		    )
+		    WHERE ROWNUM BETWEEN 1 AND 5
+		    ) 
+		LEFT JOIN TRASH_POST TPO  ON TPO.TRASH_POST_NO = TRASH_NO
+		WHERE STATUS='Y'
+		
+	</select>
 
 
 

@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<c:set var="contextPath" value="<%=request.getContextPath() %>"/>
+<c:set var="contextPath" value="<%=request.getContextPath() %>" />
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -10,22 +10,31 @@
 <title>Dictonary</title>
 </head>
 <!-- jQuery -->
-<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"
+	integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+	crossorigin="anonymous"></script>
 <!--Swiper-->
-<link rel="stylesheet" href="https://unpkg.com/swiper@6.8.4/swiper-bundle.min.css" />
+<link rel="stylesheet"
+	href="https://unpkg.com/swiper@6.8.4/swiper-bundle.min.css" />
 <script src="https://unpkg.com/swiper@6.8.4/swiper-bundle.min.js"></script>
 <!-- GoogleFonts -->
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+<link rel="stylesheet"
+	href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 <!-- css -->
-<link rel="stylesheet" href="${contextPath}/resources/css/encyclopedia/trashEncyclopedia.css">
+<link rel="stylesheet"
+	href="${contextPath}/resources/css/encyclopedia/trashEncyclopedia.css">
 
 <!-- slick 라이브러리 CSS -->
-<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
+<link rel="stylesheet" type="text/css"
+	href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
 <!-- slick 라이브러리 테마 CSS (선택사항) -->
-<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css" />
+<link rel="stylesheet" type="text/css"
+	href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css" />
 <!-- slick 라이브러리 JS -->
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
+<script type="text/javascript"
+	src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
 
 <body>
 	<jsp:include page="../common/header.jsp" />
@@ -40,7 +49,7 @@
 				<div class="encyLogo">
 					<p>쓰레기 백과사전</p>
 				</div>
-		
+
 				<div class="encyContent1">
 					<div class="ency-search-area">
 						<input type="search" class="search-input" placeholder="검색어를 입력하세요"
@@ -51,87 +60,59 @@
 			</div>
 		</div>
 
-    		<div class="recently-outer showEvent">
-    			<div id="recently-garbage-slider" class="recently-garbage-outer">
-    			
-    			<p id="recently-garbage-outer-title">
+		<div class="recently-outer showEvent">
+			<div id="recently-garbage-slider" class="recently-garbage-outer">
+
+				<p id="recently-garbage-outer-title">
 					최근 업데이트된 <strong>쓰레기</strong>
 				</p>
-			
-								
-				<%-- <c:forEach var="post" items="${trashlist}">
-						<div class="img-area" onclick ="pledgeDetail(${post.trashPostNo})">
-						 	<input type="text" value="${post.trashTitle}">
-						 	<input type="text" value="${post.trashContent}">
-						 	<input type="text" value="${post.createDate}">
-                       	</div>
-                       	</c:forEach> --%>
-                   	
-				
-				<!-- 최근 업데이트된 쓰레기 시작 -->
+
 				<div class="recently-garbage-inner">
-				
 					<c:forEach var="post" items="${trashList}">
 						<div class="recently-garbage">
 							<div class="garbage-img-outer">
 								<img class="recently-garbage-img"
-										src="https://blisgo.com/wp-content/uploads/elementor/thumbs/%EB%A7%A4%ED%8A%B8%EB%A6%AC%EC%8A%A4-p1z4xihromtb6umrxtb9tkawdj5anjg8a7kq5plx4w.jpg"
-										onclick="trashDetail(${post.trashPostNo})">
+									src="https://blisgo.com/wp-content/uploads/elementor/thumbs/%EB%A7%A4%ED%8A%B8%EB%A6%AC%EC%8A%A4-p1z4xihromtb6umrxtb9tkawdj5anjg8a7kq5plx4w.jpg"
+									onclick="trashDetail(${post.trashPostNo})">
 							</div>
-								<p class="recently-garbage-title">${post.trashTitle}</p>
-								<p class="recently-garbage-content">${post.trashContent}</p>
+							<p class="recently-garbage-title">${post.trashTitle}</p>
+							<p class="recently-garbage-content">${post.trashContent}</p>
 						</div>
 					</c:forEach>
-					
-					
-<!-- 					<div class="recently-garbage"> -->
-<!-- 						<div class="garbage-img-outer"> -->
-<!-- 							<img class="recently-garbage-img" -->
-<!-- 								src="https://blisgo.com/wp-content/uploads/elementor/thumbs/%EB%A7%A4%ED%8A%B8%EB%A6%AC%EC%8A%A4-p1z4xihromtb6umrxtb9tkawdj5anjg8a7kq5plx4w.jpg"> -->
-<!-- 						</div> -->
-<!-- 						<p class="recently-garbage-title">매트리스</p> -->
-<!-- 						<p class="recently-garbage-content">스프링, 메모리폼, 라텍스 등으로 이루어진 침대 -->
-<!-- 							매트리스는 분리 및 재활용이 불가능해요. 대형 생활 폐기물로 신고 배출해주세요.</p> -->
-<!-- 					</div> -->
-<!-- 				</div> -->
-    		</div>
-    			<div class="space"></div>
-    			
-    			<div id="recently-garbage-slider" class="popular-garbage-outer">
-    			
-    			<p id="recently-garbage-outer-title">
+				</div>
+			</div>
+
+			<div class="space"></div>
+			<div id="recently-garbage-slider" class="popular-garbage-outer">
+				<p id="recently-garbage-outer-title">
 					인기 <strong>쓰레기</strong>
 				</p>
-				
 				<div class="recently-garbage-inner">
-					
-					<div class="recently-garbage">
-						<div class="garbage-img-outer">
-							<img class="recently-garbage-img"
-								src="https://blisgo.com/wp-content/uploads/elementor/thumbs/%EB%A7%A4%ED%8A%B8%EB%A6%AC%EC%8A%A4-p1z4xihromtb6umrxtb9tkawdj5anjg8a7kq5plx4w.jpg">
+					<c:forEach var="post" items="${popularList}">
+						<div class="recently-garbage">
+							<div class="garbage-img-outer">
+								<img class="recently-garbage-img"
+									src="https://blisgo.com/wp-content/uploads/elementor/thumbs/%EB%A7%A4%ED%8A%B8%EB%A6%AC%EC%8A%A4-p1z4xihromtb6umrxtb9tkawdj5anjg8a7kq5plx4w.jpg"
+									onclick="trashDetail(${post.trashPostNo})">
+							</div>
+							<p class="recently-garbage-title">${post.trashTitle}</p>
+							<p class="recently-garbage-content">${post.trashContent}</p>
 						</div>
-						<p class="recently-garbage-title">매트리스</p>
-						<p class="recently-garbage-content">스프링, 메모리폼, 라텍스 등으로 이루어진 침대
-							매트리스는 분리 및 재활용이 불가능해요. 대형 생활 폐기물로 신고 배출해주세요.</p>
-					</div>
+					</c:forEach>
 				</div>
-    			
-    			
-    			</div>
-    		</div>
-    			
-    	</div>
+			</div>
+		</div>
 
-    </main>
-        <button id="scrollUpButton">
+	</main>
+	<button id="scrollUpButton">
 		<span class="material-symbols-outlined">arrow_upward</span>
 	</button>
-    
 
-	
+
+
 	<jsp:include page="../common/footer.jsp" />
 
-		<script>
+	<script>
 		let observer = new IntersectionObserver((entries) => {
 		  entries.forEach((entry) => {
 		    if (entry.isIntersecting) { // 화면에 나타날 때
@@ -267,7 +248,7 @@
 	    });
 	
 	</script>
-	</body>
+</body>
 </html>
 
 
