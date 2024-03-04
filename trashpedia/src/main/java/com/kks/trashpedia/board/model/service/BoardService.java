@@ -52,4 +52,7 @@ public interface BoardService {
 
 	Post getPostByTitle(String title);
 
+	Page<Post> loadListData(Pageable pageable, int page, String sort, String searchSelect, String searchValue,
+			int subCategoryNo);
+
 }

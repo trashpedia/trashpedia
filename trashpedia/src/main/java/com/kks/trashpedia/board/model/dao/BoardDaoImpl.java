@@ -192,6 +192,20 @@ public class BoardDaoImpl implements BoardDao {
 		return session.update("boardMapper.increaseCount", b);
 	}
 
+	@Override
+	public Page<Post> loadListData(Pageable pageable, int page, String sort, String searchSelect, String searchValue,
+			int subCategoryNo) {
+		Map<String, Object> param = new HashMap<>();
+		param.put("sort", sort);
+		param.put("searchSelect", searchSelect);
+		param.put("searchValue", searchValue);
+		param.put("subCategoryNo", subCategoryNo);
+		List<Post> posts = session.selectList("pledgeMapper.pledgeListData",param,new RowBounds(page*pageable.getPageSize(), pageable.getPageSize()) );
+		int totalCount = session.selectOne("pledgeMapper.postListCount",param);
+		
+		return new PageImpl<>(posts, pageable, totalCount);
+	}
+
 
 	
 

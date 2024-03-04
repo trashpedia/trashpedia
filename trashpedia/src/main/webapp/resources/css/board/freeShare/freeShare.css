@@ -115,6 +115,7 @@ main{
 }
 
 .Content .Container .List{
+    max-height: 1370px;
     align-self: stretch; 
     padding-top: 20px; 
     padding-bottom: 20px; 
@@ -123,7 +124,7 @@ main{
     gap: 110px; 
     display: inline-flex;
     flex-wrap: wrap; /* 요소들이 가로로 쌓인 후에는 줄 바꿈 */
-  
+  	background-color: #eee;
     /* border-bottom: 5px solid rgb(184, 212, 91); */
 }
 
@@ -236,6 +237,7 @@ main{
     backface-visibility: hidden;
     transition: opacity 0.1s, z-index 0s;
     border-radius: 15px;
+    overflow:hidden;
 }
 
 
