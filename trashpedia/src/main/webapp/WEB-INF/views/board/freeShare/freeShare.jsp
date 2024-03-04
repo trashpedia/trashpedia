@@ -1,10 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<c:set var="contextPath" value="<%=request.getContextPath() %>"/>
+<c:set var="contextPath" value="<%=request.getContextPath()%>" />
 <c:url var="currentUrl" value="/trashpedia/pledge/list">
-    <c:param name="subCategoryNo" value="${currentSubCategoryNo}" />
-    <c:param name="bigCategoryNo" value="${currentBigCategoryNo}" />
+	<c:param name="subCategoryNo" value="${currentSubCategoryNo}" />
+	<c:param name="bigCategoryNo" value="${currentBigCategoryNo}" />
 </c:url>
 <c:set var="subCategoryNo" value="${param.subCategoryNo}" />
 <c:set var="bigCategoryNo" value="${param.bigCategoryNo}" />
@@ -20,8 +20,10 @@
 
 <!-- css -->
 <link rel="stylesheet"
-	href="resources/css/board/freeShare/freeShare.css">
-<link rel="stylesheet" href="resources/css/main/pledge.css">
+	href="${contextPath}/resources/css/board/freeShare/freeShare.css">
+<link rel="stylesheet"
+	href="${contextPath}resources/css/main/pledge.css">
+
 
 
 <!-- slick 라이브러리 CSS -->
@@ -36,6 +38,15 @@
 <!-- GoogleFonts -->
 <link rel="stylesheet"
 	href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+	
+	
+<script type="text/javascript">
+//상세보기 이동
+function goToFreeShareDetail(postNo){
+	location.href= "${contextPath}/board/detail/${postNo}"+postNo;
+}
+</script>
+
 </head>
 <!-- jQuery -->
 <body>
@@ -60,43 +71,50 @@
 						<!-- 무료 나눔 게시판 -->
 					</div>
 					<button class="btn">
-					<!-- big==1 sub==4 -->
-						<a href="${pageContext.request.contextPath}/write?bigCategoryNo=${bigCategoryNo}&subCategoryNo=${subCategoryNo}&type=1">글쓰기</a>
+						<!-- big==1 sub==4 -->
+						<a
+							href="${pageContext.request.contextPath}/write?bigCategoryNo=${bigCategoryNo}&subCategoryNo=${subCategoryNo}&type=1">글쓰기</a>
 					</button>
 
 					<!-- 3개의 리스트 -->
-					<c:forEach var="list" begin="0" end="2">
-						<div class="List">
-							<c:forEach var="index" begin="${list * 4}" end="${list * 4 + 3}"
-								varStatus="status">
-								<c:if test="${status.index < freeTrashList.size()}">
-									<c:set var="trash" value="${freeTrashList[status.index]}" />
-									<div class="Card"
-										onclick="goToFreeShareDetail(${trash.trashNo})">
-										<!-- Front -->
-										<div class="Front">
-											<div class="Image">
-												<img src="${trash.imageUrl}" alt="">
-											</div>
-											<div class="TextContent">
-												<div class="Title">지역</div>
-												<div class="Subtitle">${trash.trashTitle}</div>
-												<div class="IconButtons">
-													<div class="Icon">😃</div>
-													<div class="Icon">👍</div>
-													<div class="Icon">🔥</div>
-												</div>
-											</div>
-										</div>
-										<!-- Back -->
-										<div class="Back">
-											<img src="${trash.imageUrl}" alt=""> <span>${trash.trashContent}</span>
+
+					<div class="List">
+						<c:forEach var="post" items="${list}">
+							<div class="Card" onclick="goToFreeShareDetail(${post.postNo})"  data-postNo="${post.postNo}">
+								<!-- Front -->
+								<div class="Front">
+									<div class="Image">
+										<img
+											src="<c:url value='/resources/attachFile/image/${post.changeName}'/>">
+									</div>
+									
+									<div class="TextContent">
+										<div class="Subtitle">${post.title}</div>
+										<div class="IconButtons">
+											<div class="Icon">😃</div>
+											<div class="Icon">👍</div>
+											<div class="Icon">🔥</div>
 										</div>
 									</div>
-								</c:if>
-							</c:forEach>
-						</div>
-					</c:forEach>
+								</div>
+								<!-- Back -->
+								<div class="Back" onclick="goToFreeShareDetail(${post.postNo})"  data-postNo="${post.postNo}">
+									<img
+										src="<c:url value='/resources/attachFile/image/${post.changeName}'/>"
+										alt=""> <span class="clickDetail"  data-postNo="${post.postNo}">${post.content}</span>
+								</div>
+							</div>
+
+						</c:forEach>
+					</div>
+
+
+
+
+
+					<!-- 3개의 리스트 -->
+
+
 				</div>
 			</div>
 
@@ -114,7 +132,8 @@
 			</div>
 
 			<div id="searchPlace">
-				<input class="search" type="text" placeholder="검색어 입력"> <span
+				<input class="search" type="text" name="keyword" id="keyword" placeholder="검색어 입력">
+				 <span
 					class="material-symbols-outlined"> search</span>
 			</div>
 		</main>
@@ -181,6 +200,49 @@
         // 페이지 초기화
         initializePage();
     });
+    
+    
+    
+	//상세보기 이동
+	function goToFreeShareDetail(postNo){
+    	location.href= "${contextPath}/board/detail/${postNo}"+postNo;
+    }
+	
+	
+	
+	
+	// Enter 키를 누르면 제목으로 검색 실행
+	$('#keyword').keypress(function(event) {
+	    if (event.keyCode === 13) { // Enter 키를 누른 경우
+	        var title = $('#keyword').val(); // 검색어 가져오기
+	        if (title.trim() !== '') { // 검색어가 비어있지 않은 경우
+	            // 검색 실행
+	            searchByTitle(title);
+	        }	
+	    }
+	});
+
+	// 제목으로 검색하는 함수
+	function searchByTitle(title) {
+	    $.ajax({
+	        type: 'GET',
+	        url: '${contextPath}/board/searchByTitle',
+	        data: { title: title },
+	        success: function(response) {
+	            var postNo = response.postNo; // 검색 결과로 받은 postNo
+	            if (postNo) {
+	                // 상세 페이지로 이동
+	                goToFreeShareDetail(postNo);
+	            } else {
+	                console.log("해당하는 글이 없습니다.");
+	            }
+	        },
+	        error: function(xhr, status, error) {
+	            console.error("에러 발생:", error);
+	        }
+	    });
+	}
+
 
 	</script>
 </body>
