@@ -1,8 +1,14 @@
 package com.kks.trashpedia.member.model.service;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+
 import org.springframework.stereotype.Service;
 
+import com.kks.trashpedia.board.model.vo.Comment;
+import com.kks.trashpedia.board.model.vo.Post;
 import com.kks.trashpedia.member.model.dao.MemberDao;
 import com.kks.trashpedia.member.model.vo.Member;
 
@@ -45,5 +51,21 @@ public class MemberServiceImpl implements MemberService{
 		
 	}
 
+	@Override
+	public int idCheck(String userEmail) {
+		return dao.idCheck(userEmail);
+	}
 
+	// 마이페이지 
+	// 게시글
+	@Override
+	public List<Post> pledgeList(String userEmail) {
+		return dao.pledgeList(userEmail);
+	}
+
+	// 댓글
+	@Override
+	public List<Comment> commentList(String userEmail) {
+		return dao.commentList(userEmail);
+	}
 }

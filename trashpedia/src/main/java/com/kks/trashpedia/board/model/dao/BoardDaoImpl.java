@@ -15,8 +15,10 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
+import com.kks.trashpedia.board.model.vo.Attachment;
 import com.kks.trashpedia.board.model.vo.BigCategory;
 import com.kks.trashpedia.board.model.vo.Board;
+import com.kks.trashpedia.board.model.vo.ImgAttachment;
 import com.kks.trashpedia.board.model.vo.Post;
 import com.kks.trashpedia.board.model.vo.SubCategory;
 
@@ -73,19 +75,36 @@ public class BoardDaoImpl implements BoardDao {
 	
 	// 무료 페이지
 	@Override
-	public List<Board> getFreeTrashList() {
+	public List<Post> getFreeTrashList(int subCategoryNo) {
 	    try {
-	        return session.selectList("boardMapper.getFreeTrashList");
+	        return session.selectList("boardMapper.getFreeTrashList",subCategoryNo);
 	    } catch (MyBatisSystemException e) {
 	        // 예외 처리: 로깅하고 사용자에게 오류 메시지 반환 또는 기본값 반환
 	        e.printStackTrace();
 	        return Collections.emptyList(); // 빈 리스트 반환하거나 다른 기본값 반환
 	    }
 	}
-
-
+	
 	@Override
-	public String getImageUrlByboardNo(int boardNo) {
+	public Post getPostByTitle(String title) {
+		return session.selectOne("boardMapper.getPostByTitle",title);
+	}
+
+	// 무료 상세 조회
+	@Override
+	public Post getFreeTrashDetail(int postNo) {
+		try {
+			return session.selectOne("boardMapper.getFreeTrashDetail", postNo);
+		} catch (MyBatisSystemException e) {
+			// 예외 처리: 로깅하고 사용자에게 오류 메시지 반환
+			e.printStackTrace();
+			return null; // 또는 적절한 오류 처리
+		}
+	}
+	
+	//게시글 상세-이미지
+	@Override
+	public ImgAttachment getImageUrlByboardNo(int boardNo) {
 		try {
 			return session.selectOne("boardMapper.getImageUrlByboardNo", boardNo);
 		} catch (MyBatisSystemException e) {
@@ -93,6 +112,12 @@ public class BoardDaoImpl implements BoardDao {
 			e.printStackTrace();
 			return null; // 또는 적절한 오류 처리
 		}
+	}
+	
+	//게시글 상세-첨부파일
+	@Override
+	public Attachment getDetailAttach(int boardNo) {
+		return  session.selectOne("boardMapper.getDetailAttach", boardNo);
 	}
 
 	@Override
@@ -122,17 +147,6 @@ public class BoardDaoImpl implements BoardDao {
 	
 	
 	// 무료 상세 페이지
-
-	@Override
-	public Board getFreeTrashDetail(int boardNo) {
-		try {
-			return session.selectOne("boardMapper.getFreeTrashDetail", boardNo);
-		} catch (MyBatisSystemException e) {
-			// 예외 처리: 로깅하고 사용자에게 오류 메시지 반환
-			e.printStackTrace();
-			return null; // 또는 적절한 오류 처리
-		}
-	}
 
 	@Override
 	public String getTrashWriterByboardNo(int boardNo) {
@@ -166,5 +180,19 @@ public class BoardDaoImpl implements BoardDao {
 			return null; // 또는 적절한 오류 처리
 		}
 	}
+	//처음 조회일 조회
+	@Override
+	public Date pledgeHitDate(Board b) {
+		return session.selectOne("boardMapper.getHitDate", b);
+	}
+	
+	//게시글 조회수 증가
+	@Override
+	public int increaseCount(Board b) {
+		return session.update("boardMapper.increaseCount", b);
+	}
+
+
+	
 
 }

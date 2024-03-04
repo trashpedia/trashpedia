@@ -9,8 +9,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.kks.trashpedia.board.model.dao.BoardDao;
+import com.kks.trashpedia.board.model.vo.Attachment;
 import com.kks.trashpedia.board.model.vo.BigCategory;
 import com.kks.trashpedia.board.model.vo.Board;
+import com.kks.trashpedia.board.model.vo.ImgAttachment;
 import com.kks.trashpedia.board.model.vo.Post;
 import com.kks.trashpedia.board.model.vo.SubCategory;
 import com.kks.trashpedia.trash.model.vo.Trash;
@@ -48,15 +50,33 @@ public class BoardServiceImpl implements BoardService{
 	
 	
 	
+	
 	// 무료 페이지
 	@Override
-	public List<Board> getFreeTrashList() {
-		return dao.getFreeTrashList();
+	public List<Post> getFreeTrashList(int subCategoryNo) {
+		return dao.getFreeTrashList(subCategoryNo);
+	}
+	
+	@Override
+	public Post getPostByTitle(String title) {
+		return dao.getPostByTitle(title);
+	}
+	
+	// 무료 상세
+	@Override
+	public Post getFreeTrashDetail(int postNo) {
+		return dao.getFreeTrashDetail(postNo);
 	}
 
 	@Override
-	public String getImageUrlByboardNo(int boardNo) {
+	public ImgAttachment getImageUrlByboardNo(int boardNo) {
 		return dao.getImageUrlByboardNo(boardNo);
+	}
+	
+	//게시글 상세-첨부파일
+	@Override
+	public Attachment getDetailAttach(int boardNo) {
+		return dao.getDetailAttach(boardNo);
 	}
 
 	@Override
@@ -70,11 +90,6 @@ public class BoardServiceImpl implements BoardService{
 	}
 	// 무료 페이지
 
-	// 무료 상세 페이지
-	@Override
-	public Board getFreeTrashDetail(int boardNo) {
-		return dao.getFreeTrashDetail(boardNo);
-	}
 
 	@Override
 	public String getTrashWriterByboardNo(int boardNo) {
@@ -90,6 +105,19 @@ public class BoardServiceImpl implements BoardService{
 	public Date getTrashViewsByboardNo(int boardNo) {
 		return dao.getTrashViewsByboardNo(boardNo);
 	}
+	
+	// 처음 조회일 조회
+	@Override
+	public Date pledgeHitDate(Board b) {
+		return dao.pledgeHitDate(b);
+	}
+	//게시글 조회수 증가
+	@Override
+	public int increaseCount(Board b) {
+		return dao.increaseCount(b);
+	}
+
+
 	
 	
 }

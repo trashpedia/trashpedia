@@ -65,7 +65,13 @@
                 <!-- 실천서약 -->
                 <div class="pledge">
                     <div class="content-outer">
-
+                    	<c:forEach var="post" items="${list}">
+							          <div class="img-area" onclick ="pledgeDetail(${post.postNo})">
+                          <input type="hidden" value="${post.title}">
+                          <input type="hidden" name="subCategoryNo" value="${post.subCategoryNo} ">
+                          <img src="<c:url value='/resources/attachFile/image/${post.changeName}'/>"  class="content-img">
+                        </div>
+                      </c:forEach>
                     </div>
                 </div>
                 

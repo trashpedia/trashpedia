@@ -120,8 +120,10 @@ main{
     padding-bottom: 20px; 
     justify-content: center; 
     align-items: center; 
-    gap: 100px; 
+    gap: 110px; 
     display: inline-flex;
+    flex-wrap: wrap; /* 요소들이 가로로 쌓인 후에는 줄 바꿈 */
+  
     /* border-bottom: 5px solid rgb(184, 212, 91); */
 }
 
@@ -145,6 +147,8 @@ main{
     transition: transform 1.5s;
     perspective: 1000px; /* 3D 효과를 위한 perspective 설정 */
     border-radius: 15px;
+    
+    
 }
 
 
