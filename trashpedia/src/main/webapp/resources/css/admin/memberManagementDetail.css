@@ -4,6 +4,8 @@
 	width: 100%;
 	padding: 20px;
 	margin-top: 20px;
+    border: 1px solid green;
+    border-radius: 12px;
 }
 
 .content-title-wrapper {
@@ -156,12 +158,17 @@ select {
 	overflow: auto;
 }
 
+.comment-item{
+	padding-bottom: 10px;
+}
+
 .comment-content {
-	font-size: 10px;
+	font-size: 15px;
 }
 
 .comment-date{
-	border-bottom: 1px solid green;
+	border-bottom: 1px solid gray;
+	font-size: 13px;
 }
 
 .sub-content {

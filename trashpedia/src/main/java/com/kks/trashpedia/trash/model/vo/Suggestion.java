@@ -11,7 +11,6 @@ import lombok.NoArgsConstructor;
 @Data
 public class Suggestion {
 	private int suggestionNo;
-	private int trashNo;
 	private int userNo;
 	private String suggestionTitle;
 	private String suggestionContent;

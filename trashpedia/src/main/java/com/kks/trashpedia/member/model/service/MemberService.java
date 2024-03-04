@@ -4,6 +4,8 @@ import com.kks.trashpedia.member.model.vo.Member;
 
 public interface MemberService {
 	
+	int emailCheck(String userEmail);
+
 	int joinMember(Member m);
 
 	Member loginMember(Member m);
@@ -12,9 +14,4 @@ public interface MemberService {
 
 	int deleteMember(Member m);
 
-	int idCheck(String userEmail);
-
-	
-	
-	
 }

@@ -2,11 +2,11 @@
 DECLARE
     a NUMBER;
 BEGIN
-    FOR i IN 1..70 LOOP
+    FOR i IN 1..200 LOOP
         a := SEQ_MNO.NEXTVAL;
         INSERT INTO MEMBER VALUES (
             a,
-            DEFAULT,
+            'USER',
             DEFAULT,
             'user' || a || '@a.com',
             'user' || a,
@@ -81,7 +81,7 @@ BEGIN
             a,
             b,
             d,
-            '<h2>댓글 입니다</h2><h1>test</h1>',
+            '댓글 입니다',
             SYSDATE,
             NULL,
             'Y'
@@ -110,7 +110,7 @@ BEGIN
             c,
             d,
             b,
-            '<h2>대댓글 입니다</h2><h1>test</h1>',
+            '대댓글 입니다',
             SYSDATE,
             NULL,
             'Y'

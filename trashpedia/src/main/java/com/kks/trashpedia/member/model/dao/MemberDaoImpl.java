@@ -12,8 +12,14 @@ public class MemberDaoImpl implements MemberDao{
 	private SqlSessionTemplate session;
 
 	@Override
+	public int emailCheck(String userEmail) {
+		return session.selectOne("memberMapper.emailCheck", userEmail);
+	}
+
+	@Override
 	public int joinMember(Member m) {
-		return session.insert("memberMapper.joinMember", m);
+		int result = session.insert("memberMapper.joinMember", m);
+		return result;
 	}
 
 	@Override
@@ -31,8 +37,4 @@ public class MemberDaoImpl implements MemberDao{
 		return session.update("memberMapper.deleteMember", m);
 	}
 
-	@Override
-	public int idCheck(String userEmail) {
-		return session.selectOne("memberMapper.idCheck", userEmail);
-	}
 }

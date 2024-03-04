@@ -5,10 +5,8 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import com.kks.trashpedia.board.model.vo.BigCategory;
 import com.kks.trashpedia.board.model.vo.Board;
 import com.kks.trashpedia.board.model.vo.Comment;
-import com.kks.trashpedia.board.model.vo.SubCategory;
 import com.kks.trashpedia.member.model.vo.Member;
 import com.kks.trashpedia.point.model.vo.PointHistory;
 import com.kks.trashpedia.report.model.vo.Report;
@@ -38,7 +36,7 @@ public interface adminService {
 
 	int countAllMember();
 
-	Page<Member> getMemberList(Pageable pageable, String sort, String searchSelect, String searchValue);
+	Page<Member> getMemberList(Pageable pageable, int page, String sort, String searchSelect, String searchValue);
 
 	Member getMemberListDetail(int userNo);
 
@@ -62,21 +60,29 @@ public interface adminService {
 
 	Page<Report> getMemberReportList(Pageable pageable, int page, int userNo, String sort, String searchSelect, String searchValue);
 
-	List<BigCategory> BigCategoryList();
+	Page<Board> getAnnouncementList(Pageable pageable, int page, String sort, String searchSelect, String searchValue);
 
-	List<SubCategory> getSubCategoryList(int bigCategoryNo);
+	Page<Board> getBoardList(Pageable pageable, int page, String sort, String searchSelect, String searchValue);
 
-	Page<Board> loadBoardListData(Pageable pageable, int page, String sort, String searchSelect, String searchValue);
+	Page<Board> getCommentList(Pageable pageable, int page, String sort, String searchSelect, String searchValue);
 
-	Page<Board> loadCommentListData(Pageable pageable, int page, String sort, String searchSelect, String searchValue);
+	int deleteBoard(int boardNo);
 
-	Page<Trash> getTrashList(Pageable pageable, int page);
+	int undeleteBoard(int boardNo);
 
-	Page<Suggestion> loadSuggestionListData(Pageable pageable);
+	Page<Trash> getTrashList(Pageable pageable, int page, String sort, String searchSelect, String searchValue);
 
-	Page<Request> loadRequestListData(Pageable pageable);
+	Page<Suggestion> getSuggestionList(Pageable pageable, int page, String sort, String searchSelect, String searchValue);
 
-	int loadBoardCount(int subCategoryNo);
+	Page<Request> getRequestList(Pageable pageable, int page, String sort, String searchSelect, String searchValue);
+
+	int deleteComment(int commentNo);
+
+	int undeleteComment(int commentNo);
+
+	int deleteNestedComment(int nestedCommentNo);
+
+	int undeleteNestedComment(int nestedCommentNo);
 
 
 
