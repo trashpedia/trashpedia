@@ -4,16 +4,13 @@ main{
     align-items: center;
     justify-content: center;
 }
-button{
-	 font-family: 'Noto Sans KR', sans-serif; 
-}
 .container{
     width: 1000px;
     margin-top: 10px;
     margin-bottom: 30px;
-/*     box-shadow: 0 0 2px rgba(0, 0, 0, 0.1); */
     padding: 45px;
 }
+button{ font-family: 'Noto Sans KR', sans-serif;  }
 
 /* 제목 부분 */
 .content-title-outer {
@@ -25,7 +22,6 @@ button{
 .content-title-outer p {
     font-size: 27px;
     font-weight: 650;
-/*     text-align: center; */
     margin-bottom : 45px;
     margin-top : 2px;
 }
@@ -74,42 +70,33 @@ button{
 	height: 50px;
 	margin: 13px auto;
 	display: flex;
-	border-top: 1px solid #c0c0c0; border-bottom: 1px solid #c0c0c0;
+	border-top: 1px solid #c0c0c0; 
+	border-bottom: 1px solid #c0c0c0;
 	background-color: rgb(249, 249, 249);
 	align-items: center;
 }
 
-.content-attach-inner{ margin-left : 35px; }
+.content-attach-inner{ margin-left : 30px; }
 .content-attach-inner p{ 
-/*     text-align : center; */
-
+	font-size : 13px;
 	color : white; 
     position: absolute;
     top: 0px;
-/*     left: 20px; */
-/*     width: 75px; */
-/*     height: 25px; */
-/*     line-height: 25px; */
-    width: 120px;
+    width: 130px;
     height: 35px;
-    background: url(../../image/pledgeImg/label_blue.png) no-repeat 0 0;
+    background: url(../../image/pledgeImg/label_green.png) no-repeat 0 0;
 	}
-.content-attach-inner a{
-	color : rgb(79, 79, 79); 
-	margin-left : 10px;
+.content-attach-inner a{ color : rgb(79, 79, 79);  }
+.content-attach-inner span{
 	position: absolute;
 	left: 120px;
-	}
-.content-attach-inner span{
-	margin-left : 7px;
+	top : 12px;
 	color : #575757;
 }
 
 /* 수정 목록 삭제 버튼 */
-.post-buttons{
-    margin-top: 20px;
-    margin-bottom: 20px;
-}
+.post-buttons{ margin: 20px 0; }
+.post-buttons button a { color: rgb(63, 63, 63); }
 .post-buttons button{
     cursor: pointer;
     width: 100px;
@@ -118,7 +105,6 @@ button{
     border: 0;
     margin: 5px;
 }
-.post-buttons button a { color: rgb(63, 63, 63); }
 
 /* ---------- 댓글 ---------- */
 .reply-outer-top-area{
@@ -226,7 +212,6 @@ button{
 .comment-buttons button{
     cursor: pointer;
     background-color: #82d782;
-    
     border: 0;
     color: white;
     width: 45px;

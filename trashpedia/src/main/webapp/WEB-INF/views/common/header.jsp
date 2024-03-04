@@ -2,9 +2,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <c:set var="contextPath" value="<%=request.getContextPath() %>"/>
-<%
-Member authentication = (Member) session.getAttribute("loginUser");
-%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,6 +13,14 @@ Member authentication = (Member) session.getAttribute("loginUser");
     <link rel="stylesheet" href="${contextPath}/resources/css/common/header.css">
 </head>
 <body>
+	
+	<c:if test="${not empty alert}">
+		<script>
+		    alert("${alert}");
+		</script>
+		<c:remove var="alert" />
+	</c:if>
+
 	<header class="header">
     	<div class="header-outer">
             <div class="header-logo">
