@@ -140,6 +140,7 @@
 		        return;
 		    }
 			
+			console.log(userEmail);
 			$.ajax({
 				url: "emailCheck",
 				data:{userEmail : userEmail},

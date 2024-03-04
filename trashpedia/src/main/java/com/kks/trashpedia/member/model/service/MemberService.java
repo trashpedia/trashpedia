@@ -21,7 +21,7 @@ public interface MemberService {
 	int idCheck(String userEmail);
 	
 	// 마이페이지 게시글	
-	List<Post> pledgeList(String userEmail);
+	List<Post> pledgeList(int userNo);
 	// 댓글
-	List<Comment> commentList(String userEmail);
+	List<Comment> commentList(int userNo);
 }

@@ -2,9 +2,7 @@ package com.kks.trashpedia.member.model.service;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-
 import org.springframework.stereotype.Service;
 
 import com.kks.trashpedia.board.model.vo.Comment;
@@ -17,7 +15,8 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class MemberServiceImpl implements MemberService{
-	private MemberDao dao;
+	
+	private final MemberDao dao;
 
 	@Value("${api.key}")
 	private String apiKey;
@@ -59,19 +58,13 @@ public class MemberServiceImpl implements MemberService{
 	// 마이페이지 
 	// 게시글
 	@Override
-	public List<Post> pledgeList(String userEmail) {
-		return dao.pledgeList(userEmail);
+	public List<Post> pledgeList(int userNo) {
+		return dao.pledgeList(userNo);
 	}
 
 	// 댓글
 	@Override
-	public List<Comment> commentList(String userEmail) {
-		return dao.commentList(userEmail);
-	}
-
-	// 댓글
-	@Override
-	public List<Comment> commentList(String userEmail) {
-		return dao.commentList(userEmail);
+	public List<Comment> commentList(int userNo) {
+		return dao.commentList(userNo);
 	}
 }

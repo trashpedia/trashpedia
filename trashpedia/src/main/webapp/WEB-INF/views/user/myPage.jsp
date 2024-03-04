@@ -1,40 +1,19 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="com.kks.trashpedia.member.model.vo.*"%>
-<%-- <% Member m = (Member)request.getAttribute("loginUser"); %> --%>
-<%
-Member m = (Member) request.getAttribute("loginUser");
-String userPwd = "";
-if (m != null) {
-	userPwd = m.getUserPwd();
-}
-%>
-
+<c:set var="contextPath" value="<%=request.getContextPath() %>"/>
 
 <!DOCTYPE html>
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<title>Login Form</title>
-<link rel="stylesheet" href="resources/css/user/myPage.css">
-<link rel="stylesheet" href="resources/css/user/Update.css">
-<!-- CSS -->
-<!-- Latest compiled and minified CSS -->
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-<!-- jQuery library -->
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<!-- Popper JS -->
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-<!-- Latest compiled JavaScript -->
-<script
-	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.7.1.min.js"
-	integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
-	crossorigin="anonymous"></script>
+<title>member mypage</title>
+<link rel="stylesheet" href="${contextPath}/resources/css/user/myPage.css">
+<link rel="stylesheet" href="${contextPath}/resources/css/user/update.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <style>
 .panel {
 	border-radius: 0;
@@ -214,9 +193,9 @@ if (m != null) {
 					<div class="field">
 						<b>비밀번호</b>
 						<%-- 	            <input class="userpw" type="password" id="passwordInput" oninput="updatePasswordNotice()" name="userPwd"  value="<%= m.getUserPwd() %>" readonly> --%>
-						<input class="userpw" type="password" id="passwordInput"
-							oninput="updatePasswordNotice()" name="userPwd"
-							value="<%=userPwd%>" readonly>
+<!-- 						<input class="userpw" type="password" id="passwordInput" -->
+<!-- 							oninput="updatePasswordNotice()" name="userPwd" -->
+<%-- 							value="<%=userPwd%>" readonly> --%>
 
 					</div>
 					<div class="field">
