@@ -117,7 +117,7 @@
 						<div>
 							<div class="num">${board.postNo}</div>
 							<div class="title">
-								<a href="${contextPath}/board/detail/${board.postNo}">${board.title}</a>
+								<a href="${contextPath}/board/community/detail/${board.postNo}">${board.title}</a>
 							</div>
 							<div class="writer">${board.userName}</div>
 							<div class="date">${board.createDate}</div>

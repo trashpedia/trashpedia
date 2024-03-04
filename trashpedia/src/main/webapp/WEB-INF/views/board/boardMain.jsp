@@ -56,7 +56,7 @@
 										<c:forEach var="p" items="${post}">
 <%-- 											<c:if test="${p.subCategoryNo == sc.subCategoryNo}"> --%>
 												<li>
-													<a href="${contextPath}/board/detail/${p.postNo}">${p.title}</a>
+													<a href="${contextPath}/board/community/detail/${p.postNo}">${p.title}</a>
 													<span>${p.createDate}</span>
 												</li>
 <%-- 											</c:if> --%>

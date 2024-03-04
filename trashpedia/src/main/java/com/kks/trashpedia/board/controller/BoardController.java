@@ -63,13 +63,15 @@ public class BoardController {
 		return mav;
 	}
 
-	// 정보자료글 페이지 이동
-	@GetMapping("/boardInformation")
-	public ModelAndView boardInformation() {
-		ModelAndView mav = new ModelAndView();
-		mav.setViewName("board/information/informationList");
-		return mav;
-	}
+	// 게시글 수정 페이지 이동
+		@GetMapping("/modify")
+		public ModelAndView pledgeModify() {
+			
+			ModelAndView mav = new ModelAndView();
+			mav.setViewName("board/notice/boardModify");
+			
+			return mav;
+		}
 
 	// 검색 기능
 	@GetMapping("/searchByTitle")
@@ -204,12 +206,13 @@ public class BoardController {
 		mav.setViewName("board/suggestion/boardList");
 		return mav;
 	}
-
-	// 공지사항 상세페이지 이동
-	@GetMapping("/board/detail/{postNo}")
-	public ModelAndView boardDetail(@PathVariable int postNo,
-			@RequestParam(value = "subCategoryNo", defaultValue = "1") int subCategoryNo) {
-
+	
+	//공지사항 상세페이지 이동
+	 @GetMapping("community/detail/{postNo}")
+	    public ModelAndView boardDetail(
+	    		@PathVariable int postNo, 
+	    		@RequestParam(value="subCategoryNo", defaultValue="1")int subCategoryNo) {
+		 
 //		 	List<Post> board = service.boardDetail(postNo);
 		ModelAndView mav = new ModelAndView();
 		Post board = service.boardDetail(postNo);
