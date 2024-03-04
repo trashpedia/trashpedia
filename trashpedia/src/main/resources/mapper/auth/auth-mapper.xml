@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="auth">
-	<resultMap type="user" id="userResultSet">
-		<id column="USER_NO" property="userNo"/>
-		<collection property="authorities"
-		            column="USER_NO"
-		            javaType="list"
-		            ofType="simpleGrantedAuthority"  
-		            select="selectAuthorities"   >
-		</collection>
-	</resultMap>
+<!-- 	<resultMap type="user" id="userResultSet"> -->
+<!-- 		<id column="USER_NO" property="userNo"/> -->
+<!-- 		<collection property="authorities" -->
+<!-- 		            column="USER_NO" -->
+<!-- 		            javaType="list" -->
+<!-- 		            ofType="simpleGrantedAuthority"   -->
+<!-- 		            select="selectAuthorities"> -->
+<!-- 		</collection> -->
+<!-- 	</resultMap> -->
 
 	<resultMap type="simpleGrantedAuthority" id="authoritiesMap">
 		<constructor>
@@ -17,13 +17,14 @@
 		</constructor>
 	</resultMap>
 	
-	<select id="loadUserByUsername" resultMap="userResultSet" >
-		SELECT
-			*
+	<select id="findMemberByEmail" parameterType="string" resultType="member">
+		SELECT * FROM MEMBER WHERE USER_EMAIL = #{userEmail}
+	</select>
+	
+	<select id="loadUserByUsername" resultType="com.kks.trashpedia.auth.model.dto.UserDetail" >
+		SELECT *
 		FROM MEMBER
-		JOIN MEMBER_SOCIAL USING(USER_NO) 
-		WHERE 
-			SOCIAL_ID = #{socialId}
+		WHERE USER_EMAIL = #{userEmail}
 	</select>
 	
 	<select id="selectAuthorities" resultMap="authoritiesMap">
@@ -32,7 +33,6 @@
 		FROM AUTHORITY
 		WHERE USER_NO = #{userNo}
 	</select>
-	
 	
 	<insert id="insertUserBySocialLogin" useGeneratedKeys="true" parameterType="member">
 		<selectKey keyProperty="userNo" resultType="int" order="BEFORE">
@@ -49,9 +49,7 @@
 			DEFAULT,
 			#{profile}
 		)
-		
 	</insert>
-	
 	
 	<insert id="insertUserSocialBySocialLogin">
 		INSERT INTO MEMBER_SOCIAL

@@ -10,7 +10,6 @@ footer{ margin-top : -115px;}
 	transition : all 1.3s;
 }
 
-
 /* 메인페이지 이미지 */
 .backgroundImg {
     /* background-image: url('https://mir-s3-cdn-cf.behance.net/project_modules/1400/eb224995092489.5e8f18ca83e21.jpg'); */
@@ -35,7 +34,7 @@ main .backgroundImg img{
 } 
 
 .backgroundImg-black{
-    background-color: rgba(0, 0, 0, 0.62);
+    background-color: rgba(0, 0, 0, 0.55);
     left: 0;
     top: 0;
     width: 100%;
@@ -57,13 +56,12 @@ main .backgroundImg img{
     padding: 0;
 }
 .backgroundImg h4{
-    font-family: "Noto Serif KR", Sans-serif;
     font-size: 33px;
     margin-top: 3px;
     margin-bottom: 10px;
     text-align: center;
     z-index: 2;
-    font-weight: 400;
+    font-weight: 450;
     padding: 0;
 }
 /* 배경 이미지 스크롤버튼 */

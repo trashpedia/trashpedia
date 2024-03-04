@@ -1,6 +1,7 @@
 package com.kks.trashpedia.board.controller;
 
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,32 +15,42 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
-
-import com.kks.trashpedia.Image;
 import com.kks.trashpedia.board.model.service.BoardService;
+import com.kks.trashpedia.board.model.vo.Attachment;
 import com.kks.trashpedia.board.model.vo.BigCategory;
 import com.kks.trashpedia.board.model.vo.Board;
 import com.kks.trashpedia.board.model.vo.Comment;
+import com.kks.trashpedia.board.model.vo.ImgAttachment;
 import com.kks.trashpedia.board.model.vo.Post;
 import com.kks.trashpedia.board.model.vo.SubCategory;
 import com.kks.trashpedia.pledge.model.service.PledgeService;
-import com.kks.trashpedia.trash.model.vo.Trash;
-import com.kks.trashpedia.trash.model.vo.TrashPost;
+
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 @RestController
-
+@RequestMapping("/board")
 public class BoardController {
 
 	@Autowired
 	private BoardService service;
 	@Autowired 
 	private PledgeService pservice;
+	
+	
 
 	// 게시판 메인페이지 이동
-	@GetMapping("/board")
+	@GetMapping("")
 	public ModelAndView boardMain() {
 		List<BigCategory> bc = service.bigCategory();
 		List<SubCategory> sc = service.subCategory();
@@ -63,69 +74,85 @@ public class BoardController {
 	}
 
 	// 무료나눔 페이지 이동
-	@GetMapping("/boardFreeShare")
-	public ModelAndView boardFreeShare() {
+	@GetMapping("/list")
+	public ModelAndView boardFreeShare(int subCategoryNo) {
 		ModelAndView mav = new ModelAndView();
-		List<Board> boardFreeTrashList = service.getFreeTrashList(); // 이 메서드는 인기 쓰레기 정보를 가져오는 메서드
-
-		// popularTrashList의 각 항목에 대해 이미지 URL과 제목을 가져와서 설정
-		// 이미지 주소와 쓰레기 이름 가져오기
-		for (Board trash : boardFreeTrashList) {
-			String imageUrl = service.getImageUrlByboardNo(trash.getBoardNo());
-			Image image = new Image();
-			image.setOriginName(imageUrl);
-
-			String trashTitle = service.getTrashTitleByboardNo(trash.getBoardNo());
-			TrashPost trashPost = new TrashPost();
-			trashPost.setTrashTitle(trashTitle);
-
-		}
-
-		mav.addObject("boardFreeTrashList", boardFreeTrashList);
+		List<Post> boardFreeTrashList = service.getFreeTrashList(subCategoryNo); // 이 메서드는 인기 쓰레기 정보를 가져오는 메서드
+		mav.addObject("list", boardFreeTrashList);
 		mav.setViewName("board/freeShare/freeShare");
 		return mav;
 	}
-
-	// 무료나눔 상세페이지 이동
-	@GetMapping("/boardFreeShare/{trashNo}")
-	public ModelAndView boardFreeShareDetail(int trashNo) {
+	// 검색 기능
+	@GetMapping("/searchByTitle")
+	public ModelAndView searchByTitle(@RequestParam String title) {
+	    ModelAndView mav = new ModelAndView();
+	    Post post = service.getPostByTitle(title); // 제목으로 게시물 조회
+	    if (post != null) {
+	        mav.setViewName("pledge/pledgeDetailView");
+	    } else {
+	        // 게시물이 없을 경우 처리
+	        mav.setViewName("errorPage"); // 에러 페이지로 이동하거나 다른 방식으로 처리
+	    }
+	    return mav;
+	}
+	
+	// 무료나눔 상세 페이지 이동
+	@GetMapping("/detail/{postNo}")
+	public ModelAndView boardFreeShareDetail(
+			@PathVariable int postNo,
+			HttpServletRequest req,
+			HttpServletResponse res,
+			HttpSession session
+			) {
+		
 		ModelAndView mav = new ModelAndView();
-
-		// 무료나눔 상세정보를 가져오는 서비스 메서드를 호출하여 해당 쓰레기 번호에 대한 정보를 가져옵니다.
-		Trash trash = service.getFreeTrashDetail(trashNo);
-		// 타이틀
-		String trashTitle = service.getTrashTitleByTrashNo(trash.getTrashNo());
-		TrashPost trashPost = new TrashPost();
-		trashPost.setTrashTitle(trashTitle);
-		// trashNo
-		// 글쓴이
-		String trashWriter=service.getTrashWriterByTrashNo(trash.getTrashNo());
-		// 작성일
-		String trashCreate=service.getTrashCreateByTrashNo(trash.getTrashNo());
-		// 조회수
-		Date trashViews=service.getTrashViewsByTrashNo(trash.getTrashNo());
-		//이미지
-		String imageUrl = service.getImageUrlByTrashNo(trash.getTrashNo());
-		Image image = new Image();  
-		image.setOriginName(imageUrl);
-		// 내용
-		String trashContent = service.getTrashContentByTrashNo(trash.getTrashNo()); // 해당 쓰레기 번호에 따른 쓰레기 정보
+		//글내용 조회
+		Post post = service.getFreeTrashDetail(postNo); 
+		Board b = new Board();
 		
-		//댓글
-
+		//이미지,첨부파일,카테고리
+		ImgAttachment img = service.getImageUrlByboardNo(post.getBoardNo());
+		Attachment attach = service.getDetailAttach(post.getBoardNo());
 		
-	    // 가져온 정보를 뷰에 전달합니다.
-	    mav.addObject("trash", trash);
-	    mav.addObject("trashWriter", trashWriter);
-	    mav.addObject("trashCreate", trashCreate);
-	    mav.addObject("trashViews", trashViews);
-	    mav.addObject("imageUrl", imageUrl);
-	    mav.addObject("trashContent", trashContent);
+		b.setImgAttachment(img);
+		b.setAttachment(attach);
+		
+		b.setBoardNo(post.getBoardNo());
+		b.setUserNo(post.getUserNo());
+	
 
-		// 뷰의 경로를 설정합니다.
-		mav.setViewName("board/freeShare/freeShareDetail");
+//		
+		int result = 0;
+		
+		// 처음 조회일 조회 -> LocalDate로 변환
+		Date hitsDate = service.pledgeHitDate(b);
+		
+		// 조회일이 있을 때
+		if(hitsDate !=null) {
+			//조회날짜와 현재날짜 비교
+			LocalDate hitsLocalDate = hitsDate.toLocalDate();
+			LocalDate currentDate = LocalDate.now();
+			int comparisonResult = hitsLocalDate.compareTo(currentDate); // 적으면 -, 같으면 0, 많으면 +값 
+			// 현재날짜보다 조회날짜가 작을 때
+			if(comparisonResult<0) {
+				result = service.increaseCount(b);
+				post.setHitsNo(post.getHitsNo()+1);
+			}
+		}else {
+			result = service.increaseCount(b);
+			post.setHitsNo(post.getHitsNo()+1);
+		}
+		
+		mav.addObject("attachment", attach);
+		mav.addObject("img", img);
+		mav.addObject("post", post);
+		mav.setViewName("pledge/pledgeDetailView");
+		
 		return mav;
 	}
+
+	
+
 	
 	// 게시글 등록하기 페이지 이동
 	@GetMapping("/insert")

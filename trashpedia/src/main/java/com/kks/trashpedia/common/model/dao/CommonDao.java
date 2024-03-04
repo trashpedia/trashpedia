@@ -23,7 +23,16 @@ public interface CommonDao {
 	//이미지등록
 	int insertImgAttachment(ImgAttachment image);
 
-	//게시글수정
+	//게시글수정페이지 이동
 	Post getPost(int postNo);
+
+	//게시글수정
+	int updatePost(Post p);
+
+	//첨부파일삭제
+	int deleteAttach(Post p);
+
+	//이미지삭제
+	int deleteImage(Post p);
 
 }

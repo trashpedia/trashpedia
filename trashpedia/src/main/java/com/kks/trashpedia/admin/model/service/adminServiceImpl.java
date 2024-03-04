@@ -8,11 +8,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.kks.trashpedia.admin.model.dao.AdminDao;
-import com.kks.trashpedia.board.model.vo.BigCategory;
 import com.kks.trashpedia.board.model.vo.Board;
 import com.kks.trashpedia.board.model.vo.Comment;
-import com.kks.trashpedia.board.model.vo.Post;
-import com.kks.trashpedia.board.model.vo.SubCategory;
 import com.kks.trashpedia.member.model.vo.Member;
 import com.kks.trashpedia.point.model.vo.PointHistory;
 import com.kks.trashpedia.report.model.vo.Report;
@@ -76,8 +73,8 @@ public class adminServiceImpl implements adminService{
 	}
 
 	@Override
-	public Page<Member> getMemberList(Pageable pageable, String sort, String searchSelect, String searchValue) {
-		return dao.getMemberList(pageable, sort, searchSelect, searchValue);
+	public Page<Member> getMemberList(Pageable pageable, int page, String sort, String searchSelect, String searchValue) {
+		return dao.getMemberList(pageable, page, sort, searchSelect, searchValue);
 	}
 
 	@Override
@@ -121,64 +118,79 @@ public class adminServiceImpl implements adminService{
 	}
 
 	@Override
-	public Board getCommentDetail(int commentNo) {
-		return dao.getCommentDetail(commentNo);
+	public List<Comment> getCommentDetail(int boardNo, int userNo) {
+		return dao.getCommentDetail(boardNo, userNo);
 	}
 
 	@Override
-	public Board getNestedCommentDetail(int nestedCommentNo) {
-		return dao.getNestedCommentDetail(nestedCommentNo);
+	public Page<PointHistory> getMemberPointList(Pageable pageable, int page, int userNo, String sort, String searchSelect, String searchValue) {
+		return dao.getMemberPointList(pageable, page, userNo, sort, searchSelect, searchValue);
 	}
 
 	@Override
-	public Page<PointHistory> getMemberPointList(Pageable pageable, int page, int userNo) {
-		return dao.getMemberPointList(pageable, page, userNo);
+	public Page<Report> getMemberReportList(Pageable pageable, int page, int userNo, String sort, String searchSelect, String searchValue) {
+		return dao.getMemberReportList(pageable, page, userNo, sort, searchSelect, searchValue);
 	}
 
 	@Override
-	public Page<Report> getMemberReportList(Pageable pageable, int page, int userNo) {
-		return dao.getMemberReportList(pageable, page, userNo);
+	public Page<Board> getAnnouncementList(Pageable pageable, int page, String sort, String searchSelect, String searchValue) {
+		return dao.getAnnouncementList(pageable, page, sort, searchSelect, searchValue);
 	}
 
 	@Override
-	public List<BigCategory> BigCategoryList() {
-		return dao.BigCategoryList();
+	public Page<Board> getBoardList(Pageable pageable, int page, String sort, String searchSelect, String searchValue) {
+		return dao.getBoardList(pageable, page, sort, searchSelect, searchValue);
 	}
 
 	@Override
-	public List<SubCategory> getSubCategoryList(int bigCategoryNo) {
-		return dao.getSubCategoryList(bigCategoryNo);
+	public Page<Board> getCommentList(Pageable pageable, int page, String sort, String searchSelect, String searchValue) {
+		return dao.getCommentList(pageable, page, sort, searchSelect, searchValue);
 	}
 
 	@Override
-	public Page<Board> loadBoardListData(Pageable pageable, int page, int subCategoryNo, String sort, String searchSelect, String searchValue) {
-		return dao.loadBoardListData(pageable, page, subCategoryNo, sort, searchSelect, searchValue);
+	public int deleteBoard(int boardNo) {
+		return dao.deleteBoard(boardNo);
 	}
 
 	@Override
-	public Post loadBoardDetailData(int boardNo) {
-		return dao.loadBoardDetailData(boardNo);
+	public int undeleteBoard(int boardNo) {
+		return dao.undeleteBoard(boardNo);
+	}
+
+
+	@Override
+	public int deleteComment(int commentNo) {
+		return dao.deleteComment(commentNo);
 	}
 
 	@Override
-	public Page<Trash> getTrashList(Pageable pageable, int page) {
-		return dao.getTrashList(pageable, page);
+	public int undeleteComment(int commentNo) {
+		return dao.undeleteComment(commentNo);
 	}
 
 	@Override
-	public Page<Suggestion> loadSuggestionListData(Pageable pageable) {
-		return dao.loadSuggestionListData(pageable);
+	public int deleteNestedComment(int nestedCommentNo) {
+		return dao.deleteNestedComment(nestedCommentNo);
 	}
 
 	@Override
-	public Page<Request> loadRequestListData(Pageable pageable) {
-		return dao.loadRequestListData(pageable);
+	public int undeleteNestedComment(int nestedCommentNo) {
+		return dao.undeleteNestedComment(nestedCommentNo);
+	}
+	
+	@Override
+	public Page<Trash> getTrashList(Pageable pageable, int page, String sort, String searchSelect, String searchValue) {
+		return dao.getTrashList(pageable, page, sort, searchSelect, searchValue);
 	}
 
 	@Override
-	public int loadBoardCount(int subCategoryNo) {
-		return dao.loadBoardCount(subCategoryNo);
+	public Page<Suggestion> getSuggestionList(Pageable pageable, int page, String sort, String searchSelect, String searchValue) {
+		return dao.getSuggestionList(pageable, page, sort, searchSelect, searchValue);
 	}
 
+	@Override
+	public Page<Request> getRequestList(Pageable pageable, int page, String sort, String searchSelect, String searchValue) {
+		return dao.getRequestList(pageable, page, sort, searchSelect, searchValue);
+	}
 
 }

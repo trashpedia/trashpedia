@@ -2,94 +2,115 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="trashMapper">
 
-	<select id="getAllTrashList" resultType="Trash"> 
-        <![CDATA[
-        SELECT * FROM (
-            SELECT * FROM trash_table ORDER BY DBMS_RANDOM.VALUE
-        ) WHERE ROWNUM <= 5
-        ]]>
+	<!-- 최근 업데이트된 쓰레기 -->
+	<select id="getRecentlyTrashList" resultType="trashPost">
+		SELECT *
+		FROM(
+			SELECT *
+			FROM TRASH_POST
+			WHERE STATUS='Y'
+			ORDER BY CREATE_DATE DESC
+		)
+		WHERE ROWNUM BETWEEN 1 AND 5
 	</select>
 	
-	<select id="searchTrash" resultType="int"
-		parameterType="String">
-        <![CDATA[
-	    SELECT t.Trash_no
-	    FROM Trash t
-	    JOIN TrashPost tp ON t.Trash_no = tp.Trash_post_no
-	    WHERE tp.Trash_Title = #{searchText}
-        ]]>
-	</select>
+<!-- 	<select id ="getPopularList"  resultType="trashPost">
+		SELECT *
+	 	FROM 
+
+	</select> -->
 
 
 
-	<select id="getTrashListByCategory" resultType="Trash"
-		parameterType="String">
-        <![CDATA[
-        SELECT * FROM (
-            SELECT * FROM trash_table WHERE CATEGORY = #{category} ORDER BY DBMS_RANDOM.VALUE
-        ) WHERE ROWNUM <= 5
-        ]]>
-	</select>
+
+<!-- 	<select id="getAllTrashList" resultType="Trash">  -->
+<!--         <![CDATA[ -->
+<!--         SELECT * FROM ( -->
+<!--             SELECT * FROM trash_table ORDER BY DBMS_RANDOM.VALUE -->
+<!--         ) WHERE ROWNUM <= 5 -->
+<!--         ]]> -->
+<!-- 	</select> -->
+	
+<!-- 	<select id="searchTrash" resultType="int" -->
+<!-- 		parameterType="String"> -->
+<!--         <![CDATA[ -->
+<!-- 	    SELECT t.Trash_no -->
+<!-- 	    FROM Trash t -->
+<!-- 	    JOIN TrashPost tp ON t.Trash_no = tp.Trash_post_no -->
+<!-- 	    WHERE tp.Trash_Title = #{searchText} -->
+<!--         ]]> -->
+<!-- 	</select> -->
 
 
-	<select id="getTrashByNo" resultType="Trash" parameterType="int">
-        <![CDATA[
-        SELECT * FROM trash_table WHERE TRASH_NO = #{trashNo}
-        ]]>
-	</select>
+
+<!-- 	<select id="getTrashListByCategory" resultType="Trash" -->
+<!-- 		parameterType="String"> -->
+<!--         <![CDATA[ -->
+<!--         SELECT * FROM ( -->
+<!--             SELECT * FROM trash_table WHERE CATEGORY = #{category} ORDER BY DBMS_RANDOM.VALUE -->
+<!--         ) WHERE ROWNUM <= 5 -->
+<!--         ]]> -->
+<!-- 	</select> -->
 
 
-	<select id="getImageUrlByTrashNo" resultType="String"
-		parameterType="int">
-	    <![CDATA[
-		    SELECT ORIGIN_NAME
-		    FROM IMG_ATTACHMENT
-		    WHERE REF_BNO = (SELECT POST_NO
-		    				 FROM TRASH
-		    				 WHERE TRASH_NO=#{trashNo})
-		    AND IMG_TYPE = 2 
-		    AND IMG_LEVEL = 1
-	    ]]>
-	</select>
+<!-- 	<select id="getTrashByNo" resultType="Trash" parameterType="int"> -->
+<!--         <![CDATA[ -->
+<!--         SELECT * FROM trash_table WHERE TRASH_NO = #{trashNo} -->
+<!--         ]]> -->
+<!-- 	</select> -->
 
 
-	<select id="getTrashContentByTrashNo" resultType="String"
-		parameterType="int">
-        <![CDATA[
-        	SELECT TRASH_CONTENT
-		    FROM TRASH_POST
-		    WHERE TRASH_POST_NO = (SELECT POST_NO
-			    				   FROM TRASH
-			    				   WHERE TRASH_NO=#{trashNo})
-        ]]>
-	</select>
-
-	<select id="getTrashTitleByTrashNo" resultType="String"
-		parameterType="int">
-        <![CDATA[
-        	SELECT TRASH_TITLE
-		    FROM TRASH_POST
-		    WHERE TRASH_POST_NO = (SELECT POST_NO
-		    				 		FROM TRASH
-		    				 		WHERE TRASH_NO=#{trashNo})
-        ]]>
-	</select>
+<!-- 	<select id="getImageUrlByTrashNo" resultType="String" -->
+<!-- 		parameterType="int"> -->
+<!-- 	    <![CDATA[ -->
+<!-- 		    SELECT ORIGIN_NAME -->
+<!-- 		    FROM IMG_ATTACHMENT -->
+<!-- 		    WHERE REF_BNO = (SELECT POST_NO -->
+<!-- 		    				 FROM TRASH -->
+<!-- 		    				 WHERE TRASH_NO=#{trashNo}) -->
+<!-- 		    AND IMG_TYPE = 2  -->
+<!-- 		    AND IMG_LEVEL = 1 -->
+<!-- 	    ]]> -->
+<!-- 	</select> -->
 
 
-	<select id="getPopularTrashList" resultType="Trash">
-    <![CDATA[
-	    SELECT T.*
-	    FROM (
-	        SELECT TRASH_NO, COUNT(*) AS HIT_COUNT
-	        FROM TRASH_HITS
-	        WHERE CREATE_DATE >= SYSDATE - 1
-	        GROUP BY TRASH_NO
-	        ORDER BY COUNT(*) DESC
-	    ) HIT
-	    JOIN TRASH T ON HIT.TRASH_NO = T.TRASH_NO
-	    WHERE ROWNUM <= 9
-    ]]>
-	</select>
+<!-- 	<select id="getTrashContentByTrashNo" resultType="String" -->
+<!-- 		parameterType="int"> -->
+<!--         <![CDATA[ -->
+<!--         	SELECT TRASH_CONTENT -->
+<!-- 		    FROM TRASH_POST -->
+<!-- 		    WHERE TRASH_POST_NO = (SELECT POST_NO -->
+<!-- 			    				   FROM TRASH -->
+<!-- 			    				   WHERE TRASH_NO=#{trashNo}) -->
+<!--         ]]> -->
+<!-- 	</select> -->
+
+<!-- 	<select id="getTrashTitleByTrashNo" resultType="String" -->
+<!-- 		parameterType="int"> -->
+<!--         <![CDATA[ -->
+<!--         	SELECT TRASH_TITLE -->
+<!-- 		    FROM TRASH_POST -->
+<!-- 		    WHERE TRASH_POST_NO = (SELECT POST_NO -->
+<!-- 		    				 		FROM TRASH -->
+<!-- 		    				 		WHERE TRASH_NO=#{trashNo}) -->
+<!--         ]]> -->
+<!-- 	</select> -->
+
+
+<!-- 	<select id="getPopularTrashList" resultType="Trash"> -->
+<!--     <![CDATA[ -->
+<!-- 	    SELECT T.* -->
+<!-- 	    FROM ( -->
+<!-- 	        SELECT TRASH_NO, COUNT(*) AS HIT_COUNT -->
+<!-- 	        FROM TRASH_HITS -->
+<!-- 	        WHERE CREATE_DATE >= SYSDATE - 1 -->
+<!-- 	        GROUP BY TRASH_NO -->
+<!-- 	        ORDER BY COUNT(*) DESC -->
+<!-- 	    ) HIT -->
+<!-- 	    JOIN TRASH T ON HIT.TRASH_NO = T.TRASH_NO -->
+<!-- 	    WHERE ROWNUM <= 9 -->
+<!--     ]]> -->
+<!-- 	</select> -->
 
 
 

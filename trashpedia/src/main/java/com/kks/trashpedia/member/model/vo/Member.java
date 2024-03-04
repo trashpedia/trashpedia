@@ -17,14 +17,14 @@ public class Member {
 	private String socialType;
 	
 	private int userNo;
-	private int roleNo;
+	private String role;
 	private int gradeNo;
 	private String userEmail;
 	private String userPwd;
 	private String userName;
 	private String userNickname;
 	private String phone;
-	private int zipcode;
+	private String zipcode;
 	private String address1;
 	private String address2;
 	private String address3;

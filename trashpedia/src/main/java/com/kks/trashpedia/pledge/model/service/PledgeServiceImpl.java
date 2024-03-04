@@ -4,6 +4,8 @@ import java.sql.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.kks.trashpedia.board.model.vo.Attachment;
@@ -96,6 +98,12 @@ public class PledgeServiceImpl implements PledgeService{
 	@Override
 	public int deleteComment(Comment comment) {
 		return dao.deleteComment(comment);
+	}
+
+	//게시글조회-페이징,검색
+	@Override
+	public Page<Post> loadListData(Pageable pageable, int page, String sort, String searchSelect, String searchValue, int subCategoryNo) {
+		return dao.loadListData(pageable, page, sort, searchSelect, searchValue,subCategoryNo);
 	}
 
 

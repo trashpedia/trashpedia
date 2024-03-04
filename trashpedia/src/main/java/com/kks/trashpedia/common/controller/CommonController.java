@@ -23,6 +23,7 @@ import com.kks.trashpedia.board.model.vo.Post;
 import com.kks.trashpedia.board.model.vo.SubCategory;
 import com.kks.trashpedia.common.FileStore;
 import com.kks.trashpedia.common.service.CommonService;
+import com.kks.trashpedia.pledge.model.service.PledgeService;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -31,6 +32,9 @@ public class CommonController {
 	
 	@Autowired
 	private CommonService service;
+	
+	@Autowired
+	private PledgeService pService;
 	
 	@Autowired
 	private FileStore fileStore;
@@ -106,13 +110,15 @@ public class CommonController {
 		}
 
 		String nextUrl = (String) session.getAttribute("lastUrl");
-
 		mv.setViewName("redirect:/");
 
-
 		if (nextUrl != null) {
-			mv.setViewName("redirect:" + nextUrl + "?bigCategoryNo=" + subcategory.getBigCategoryNo()
-					+ "&subCategoryNo=" + b.getSubCategoryNo());
+			// 첫 번째 path segment만 추출
+			UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(nextUrl);
+			String firstPathSegment = builder.build().getPathSegments().get(0);
+
+			mv.setViewName("redirect:" + "/" + firstPathSegment + "/list?bigCategoryNo=" + p.getBigCategoryNo()
+					+ "&subCategoryNo=" + p.getSubCategoryNo());
 		}
 		return mv;
 	}
@@ -127,9 +133,9 @@ public class CommonController {
 	}
 	
 	
-	//게시글수정
+	//게시글수정 페이지이동
 	@GetMapping("/update")
-	public ModelAndView updatePost(SubCategory subcate, Board b) {
+	public ModelAndView updatePostPage(@RequestParam int type,SubCategory subcate, Board b) {
 		
 		ModelAndView mv = new ModelAndView();
 		SubCategory category = service.getSubCategory(subcate);
@@ -138,21 +144,55 @@ public class CommonController {
 		
 		System.out.println(post);
 		
+		//이미지,첨부파일,카테고리
+		ImgAttachment img = pService.pledgeDetailImg(post.getBoardNo());
+		Attachment attachment = pService.pledgeDetailAttach(post.getBoardNo());
 		
 		mv.addObject("category",category);
-		mv.addObject("boardNo",b.getBoardNo());
+		mv.addObject("board",b);
+		mv.addObject("img",img);
+		mv.addObject("attachment",attachment);
 		mv.addObject("post",post);
+		mv.addObject("type",type);
 		mv.setViewName("common/boardInsert");
 		
 		return mv;
 	}
 	
-	//수정날짜 바꿀때 사용할거
-//	LocalDateTime nowTime = LocalDateTime.now();
-//	java.sql.Date date = java.sql.Date.valueOf(nowTime.toLocalDate());
-//	b.setModifyDate(date);
-//	System.out.println("date = "  +date);
+	//게시글 수정
+	@PostMapping("/update")
+	public ModelAndView updatePost( 
+			Post p,
+			@RequestParam("thumbnail") MultipartFile thumbnailImage,
+			@RequestParam("upfile") MultipartFile upfile,
+			@RequestParam int type,
+			@RequestParam String deleteImg,
+			@RequestParam String deleteFile,
+			RedirectAttributes ra, 
+			HttpSession session,
+			ModelAndView mv
+			) throws IOException {
+		
+		int result = service.updatePost(p, deleteImg, deleteFile, upfile, thumbnailImage,type);
+	    
+		if (result > 0) {
+			ra.addFlashAttribute("alert", "게시글이 수정되었습니다.");
+		} else {
+			ra.addFlashAttribute("alert", "게시글 수정에 실패했습니다.");
+		}
+		String nextUrl = (String) session.getAttribute("lastUrl");
 
+		if (nextUrl != null) {
+			// 첫 번째 path segment만 추출
+			UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(nextUrl);
+			String firstPathSegment = builder.build().getPathSegments().get(0);
+
+			mv.setViewName("redirect:" + "/" + firstPathSegment + "/list?bigCategoryNo=" + p.getBigCategoryNo()
+					+ "&subCategoryNo=" + p.getSubCategoryNo());
+		}
+		return mv;
+	}
+	
 	
 	// 목록으로 돌아가기
 	@GetMapping("/returnList")
@@ -174,23 +214,7 @@ public class CommonController {
 	                + "&subCategoryNo=" + subcategory.getSubCategoryNo());
 	    }
 	    return mv;
-//	    
-//	System.out.println(nextUrl);
-//	   if (nextUrl != null) {
-//	        // "/pledge" 부분만 추출
-//	        String prefix = "/pledge";
-//	        if (nextUrl.startsWith(prefix)) {
-//	            nextUrl = nextUrl.substring(prefix.length());
-//	        }
-//	     System.out.println(nextUrl);
-//	        
-//		mv.setViewName("redirect:/");
-//
-//		if (nextUrl != null) {
-//			mv.setViewName("redirect:" + nextUrl + "?bigCategoryNo=" + subcategory.getBigCategoryNo()
-//					+ "&subCategoryNo=" + subcategory.getSubCategoryNo());
-//		}
-//		return mv;
+
 	}
 
 	

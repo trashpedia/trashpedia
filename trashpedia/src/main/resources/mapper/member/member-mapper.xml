@@ -1,43 +1,95 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="memberMapper">
+
+<!--아이디 중복체크  -->
+	<select id = "emailCheck" parameterType="string" resultType="int">
+		SELECT COUNT(*)
+		FROM MEMBER
+		WHERE USER_EMAIL = #{userEmail}
+	</select>
+
 	<insert id="joinMember" parameterType="member">
-		INSERT INTO MEMBER 
+		INSERT INTO MEMBER
 		VALUES(
-		SEQ_MNO.NEXTVAL,1,1,#{userEmail},#{userPwd}, #{userName}, #{userNickname}, #{phone}, #{zipcode}, #{address1}, #{address2}, #{address3}, SYSDATE, SYSDATE, 'Y'
+		SEQ_MNO.NEXTVAL,
+		DEFAULT,
+		DEFAULT,
+		#{userEmail},
+		#{userPwd},
+		#{userName},
+		#{userNickname},
+		#{phone},
+		#{zipcode},
+		#{address1},
+		#{address2},
+		#{address3},
+		SYSDATE,
+		NULL,
+		'Y'
 		)
 	</insert>
-	
-	<select id="loginMember" parameterType="member" resultType="member">
-		SELECT *
-		FROM MEMBER
-		WHERE USER_EMAIL = 'USER1'
-			AND USER_PWD = '1234'
-			AND STATUS = 'Y'
-	</select>
-	
+
+	<insert id="joinMemberAuth">
+		INSERT INTO AUTHORITY
+		VALUES(#{userNo},USER)
+  </insert>
+
 	<update id="updateMember" parameterType="member">
 		UPDATE MEMBER
-		SET 
-			USER_EMAIL = #{userEmail},	
-			USER_NAME = #{userName},
-			USER_NICKNAME =#{userNickname},
-			PHONE = #{phone},
-			ZIPCODE = #{zipcode},
-	   		ADDRESS1 = #{address1},
-	    	ADDRESS2 = #{address2},
-	    	ADDRESS3 = #{address3},
-	    	MODIFY_DATE = SYSDATE
-	    WHERE USER_EMAIL = #{userEmail} AND STATUS = 'Y'
+		SET
+		USER_EMAIL = #{userEmail},
+		USER_NAME = #{userName},
+		USER_NICKNAME
+		=#{userNickname},
+		PHONE = #{phone},
+		ZIPCODE = #{zipcode},
+		ADDRESS1 =
+		#{address1},
+		ADDRESS2 = #{address2},
+		ADDRESS3 = #{address3},
+		MODIFY_DATE
+		= SYSDATE
+		WHERE USER_EMAIL = #{userEmail} AND STATUS = 'Y'
 	</update>
-	
+
 	<update id="deleteMember" parameterType="member">
-	    UPDATE MEMBER
-	    SET STATUS = 'N'
-	    WHERE USER_NO = #{userNo} AND STATUS = 'Y'
+		UPDATE MEMBER
+		SET STATUS
+		= 'N'
+		WHERE USER_NO = #{userNo} AND STATUS = 'Y'
 	</update>
-	
-	
-		
+
+	<!-- 마이페이지 -->
+	<!-- 게시글조회 -->
+	<select id="pledgeList" parameterType="int" resultType="board">
+		SELECT
+		B.POST_NO, P.TITLE, P.CONTENT, P.CREATE_DATE, P.MODIFY_DATE, B.USER_NO, B.BOARD_NO, SC.SUB_CATEGORY_NO, SC.BIG_CATEGORY_NO, IA.CHANGE_NAME
+		FROM BOARD B
+		LEFT JOIN MEMBER M ON B.USER_NO = M.USER_NO
+		LEFT JOIN POST P ON P.POST_NO = B.POST_NO
+		LEFT JOIN IMG_ATTACHMENT IA ON B.BOARD_NO = IA.REF_BNO
+		LEFT JOIN SUB_CATEGORY SC ON B.SUB_CATEGORY_NO = SC.SUB_CATEGORY_NO
+		WHERE
+		M.USER_NO = #{userNo}
+		AND IA.IMG_LEVEL = 1
+		AND P.STATUS = 'Y'
+		ORDER BY B.POST_NO DESC
+	</select>
+
+	<!-- 댓글 조회 -->
+	<select id="commentList" parameterType="int" resultType="Comment">
+		SELECT M.USER_EMAIL, C.COMMENT_NO, C.BOARD_NO, C.USER_NO, C.CONTENT, C.CREATE_DATE,
+		C.MODIFY_DATE, SC.SUB_CATEGORY_NO, SC.BIG_CATEGORY_NO, P.POST_NO
+		FROM MEMBER M
+		LEFT JOIN "COMMENT" C ON M.USER_NO = C.USER_NO
+		LEFT JOIN BOARD B ON C.BOARD_NO = B.BOARD_NO
+		LEFT JOIN SUB_CATEGORY SC ON B.SUB_CATEGORY_NO = SC.SUB_CATEGORY_NO
+		LEFT JOIN POST P ON B.POST_NO=P.POST_NO
+		WHERE
+		M.USER_NO = #{userNo}
+		AND C.STATUS = 'Y'
+		ORDER BY C.COMMENT_NO DESC
+	</select>
 </mapper>
 

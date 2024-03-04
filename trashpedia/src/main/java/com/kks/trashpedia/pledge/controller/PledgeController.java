@@ -5,6 +5,11 @@ import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -47,6 +53,23 @@ public class PledgeController {
 		
 		return mav;
 	}
+	
+	
+	//페이지 보기 & 페이징,검색
+	@GetMapping("/loadListData")
+	public ResponseEntity<Page<Post>> loadListData( 
+			@RequestParam int subCategoryNo,
+			@PageableDefault(size=8, sort="id", direction=Sort.Direction.DESC) Pageable pageable,
+			@RequestParam int page,
+			@RequestParam String sort,
+			@RequestParam String searchSelect,
+			@RequestParam String searchValue){
+		
+		Page<Post> pages = service.loadListData(pageable,page,sort,searchSelect,searchValue,subCategoryNo);
+		
+		return ResponseEntity.ok(pages);
+	}
+			
 	
 	// 게시글 수정 페이지 이동
 	@GetMapping("/modify")
@@ -197,20 +220,15 @@ public class PledgeController {
 	// 댓글수정
 	@PutMapping("/updateComment/{commentNo}")
 	public int updateComment( @RequestBody Comment comment ) {
-		System.out.println(comment);
 		return service.updateComment(comment);
 	}
 	
 	// 댓글삭제
 	@DeleteMapping("/deleteComment/{commentNo}")
 	public int deleteComment(Comment comment) {
-		System.out.println(comment);
 		return service.deleteComment(comment);
 	}
-	
-	
-	
-	
+
 	
 	
 	

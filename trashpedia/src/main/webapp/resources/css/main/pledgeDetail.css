@@ -9,36 +9,35 @@ button{
 }
 .container{
     width: 1000px;
-    margin-top: 30px;
+    margin-top: 10px;
     margin-bottom: 30px;
-    box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
-    padding: 50px;
+/*     box-shadow: 0 0 2px rgba(0, 0, 0, 0.1); */
+    padding: 45px;
 }
-
 
 /* 제목 부분 */
-.content-title-outer{
-   text-align: end;
-   margin-top: 25px;
-   padding : 7px 40px;
+.content-title-outer {
+/* 	border-top: 1px solid #9b9b9b; */
+	text-align: start;
+	margin-top: 10px;
+	padding: 7px 25px;
 }
-.content-title-outer p{
-    font-size: 28px;
+.content-title-outer p {
+    font-size: 27px;
     font-weight: 650;
-    text-align: center;
+/*     text-align: center; */
     margin-bottom : 45px;
     margin-top : 2px;
 }
 .content-title-outer span{
     text-align: left;
     margin: 2px;
-    font-size : 13px;
-    font-weight : 450;
+    font-size : 14px;
     color : rgb(79, 79, 79);
     font-weight : 700;
 }
 .content-title-outer .title-count{
-	margin-right : 7px;
+	margin-right : 5px;
 	font-weight : 400;
 }
 
@@ -60,26 +59,47 @@ button{
 }
 
 .content-outer {
-    margin-bottom: 20px;
+    margin-bottom: 15px;
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
 /* 이미지-첨부파일 부분 */
-.content-attach-outer{
+.content-attach-outer {
+	position: relative;
 	box-sizing: border-box;
-	font-size : 14px;
-	width: 95%;
-	height : 60px;
-    margin: 13px auto;
-    display: flex;
-    background-color: #f4f4f4;
-    align-items: center;
+	font-size: 14px;
+	width: 97%;
+	height: 50px;
+	margin: 13px auto;
+	display: flex;
+	border-top: 1px solid #c0c0c0; border-bottom: 1px solid #c0c0c0;
+	background-color: rgb(249, 249, 249);
+	align-items: center;
 }
-.content-attach-inner{ margin-left : 40px; }
-.content-attach-inner a{ color : #575757; }
-.content-attach-inner span:first-child{ color : #353535; }
+
+.content-attach-inner{ margin-left : 35px; }
+.content-attach-inner p{ 
+/*     text-align : center; */
+
+	color : white; 
+    position: absolute;
+    top: 0px;
+/*     left: 20px; */
+/*     width: 75px; */
+/*     height: 25px; */
+/*     line-height: 25px; */
+    width: 120px;
+    height: 35px;
+    background: url(../../image/pledgeImg/label_blue.png) no-repeat 0 0;
+	}
+.content-attach-inner a{
+	color : rgb(79, 79, 79); 
+	margin-left : 10px;
+	position: absolute;
+	left: 120px;
+	}
 .content-attach-inner span{
 	margin-left : 7px;
 	color : #575757;
@@ -104,7 +124,7 @@ button{
 .reply-outer-top-area{
     height: 30px;
     line-height: 30px;
-    margin-left: 25px;
+    margin-left: 20px;
     font-size: 20px;
 }
 
@@ -113,7 +133,7 @@ button{
     padding: 30px;
 }
 .reply_title {
-    font-size: 20px;
+    font-size: 17px;
     font-weight: bold;
     color: #333;
     margin-right: 10px;
@@ -121,7 +141,7 @@ button{
 
 .reply_count {
 	font-weight : 500;
-    font-size: 17px;
+    font-size: 16px;
     color: #555;
     margin-left: 10px;
 }
@@ -159,11 +179,11 @@ button{
 .comment-section {
     box-sizing: border-box;
     display: flex;
-    margin-top: 12px;
-    margin-bottom: 20px;
+    margin-top: 10px;
+    margin-bottom: 18px;
     border: 1px solid #ddd;
     border-radius: 3px;
-    padding: 18px 25px;
+    padding: 16px 23px;
     background-color: #f9f9f9;
     flex-wrap: wrap;
     justify-content: flex-end;
@@ -179,7 +199,7 @@ button{
 }
 .comment-input {
     margin-bottom: 10px;
-    height: 50px;
+    height: 43px;
     width: calc(100% - 90px); /* 등록 버튼의 너비를 고려하여 입력 필드의 너비를 조정합니다. */
     display: inline-block;
 }

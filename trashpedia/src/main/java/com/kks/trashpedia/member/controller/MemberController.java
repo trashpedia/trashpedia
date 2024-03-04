@@ -1,147 +1,119 @@
 package com.kks.trashpedia.member.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Controller;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.kks.trashpedia.auth.model.service.AuthService;
+import com.kks.trashpedia.board.model.vo.Comment;
+import com.kks.trashpedia.board.model.vo.Post;
 import com.kks.trashpedia.member.model.service.MemberService;
 import com.kks.trashpedia.member.model.vo.Member;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import lombok.RequiredArgsConstructor;
 
-@Controller
-@SessionAttributes("loginUser")
+@RestController
+@RequestMapping("/member")
+@RequiredArgsConstructor
 public class MemberController {
 
-	@Autowired
-	private BCryptPasswordEncoder passwordEncoder;
-	
-	@Autowired
-	private MemberService service;
+	private final PasswordEncoder passwordEncoder;
 
-	@Autowired
-	private AuthService authService;
-	
-	//로그인페이지 이동
-	@GetMapping("/login")
-	public String loginForm() {
-		return "user/login";
-	}
-	
-	public MemberController() {
-		
-	}
-	
-	//회원가입페이지 이동
-	@GetMapping("/join")
-	public String joinForm(){
-		return "user/join";
-	}
-	
-	
-	//마이페이지 이동
+	private final MemberService service;
+
+	// 마이페이지 이동
 	@GetMapping("/myPage")
-	public String myPage(){
-		return "user/myPage";
-	}
-
-	@PostMapping("/join.me")
-	public ModelAndView joinMember(Member m, HttpServletResponse res) {
-		String encodedPassword = passwordEncoder.encode(m.getUserPwd());
-		m.setUserPwd(encodedPassword);
-		
+	public ModelAndView myPage(HttpServletRequest request) {
 		ModelAndView mav = new ModelAndView();
-		mav.setViewName("main");
-		System.out.println("되냐?");
-		System.out.println(m);
-	
+		HttpSession session = request.getSession();
 
-		service.joinMember(m);
+		Member authentication = (Member) session.getAttribute("authentication");
+		if (authentication == null) {
+			mav.addObject("errorMessage", "로그인이 필요합니다.");
+			mav.setViewName("user/login");
+		} else {
+			int userNo = authentication.getUserNo();
+			List<Post> myPost = service.pledgeList(userNo);
+			List<Comment> myComment = service.commentList(userNo);
+
+			mav.addObject("myPost", myPost);
+			mav.addObject("myComment", myComment);
+			mav.setViewName("user/myPage");
+		}
 		return mav;
 	}
 
-	//로그인기능
-	@GetMapping("/saveUserData")
-	public ModelAndView loginMember(Authentication authentication, HttpSession session, Model model, ModelAndView mv) {
-		
-	   // Member loginUser = service.loginMember(m);
-	   // User loginUser = authService.loadUserByUsername(m.getUserEmail());
-	    model.addAttribute("loginUser", authentication.getPrincipal());
-	    
-		/*
-		 * if (loginUser != null) { // 로그인 성공 시 세션에 loginUser 저장
-		 * model.addAttribute("loginUser", loginUser);
-		 * 
-		 * 
-		 * System.out.println("로그인기능확인"); System.out.println(m); // 로그인 성공 후 이동할 페이지로
-		 * ModelAndView 설정 mv.setViewName("main"); // 예시: home 페이지로 이동 } else { // 로그인
-		 * 실패 처리 // 예를 들어 로그인 실패 메시지를 모델에 추가하고 다시 로그인 페이지로 이동
-		 * model.addAttribute("loginError", "아이디 또는 비밀번호가 올바르지 않습니다.");
-		 * mv.setViewName("login"); // 예시: 로그인 폼 페이지로 이동 }
-		 */
-	    mv.setViewName("redirect:/");
-	    
-	    return mv;
+	// 아이디중복체크
+	@GetMapping("/emailCheck")
+	public int emailCheck(String userEmail) {
+		return service.emailCheck(userEmail);
 	}
+  
+	//회원가입페이지 이동
+	@GetMapping("/join")
+	public ModelAndView joinForm(){
+		return new ModelAndView("user/join");
+	}
+	
+	//회원가입기능
+	@PostMapping("/join")
+    public ModelAndView joinMember(Member m, HttpServletResponse res) {
+		ModelAndView mav = new ModelAndView();
+        String encodedPassword = passwordEncoder.encode(m.getUserPwd());
+        m.setUserPwd(encodedPassword);
+
+        int result = service.joinMember(m);
+
+        if(result > 0) {
+        	mav.addObject("alert","회원가입에 성공했습니다");
+        	mav.setViewName("redirect:/login");
+        } else {
+        	mav.addObject("alert","회원가입에 실패했습니다");
+        	mav.setViewName("redirect:/join");
+        }
+        return mav;
+    }
 	
 	//업데이트기능
 	@PostMapping("/update.me")
-	public String updateMember(
-	        Member m,
-	        Model model,
-	        HttpSession session,
-	        RedirectAttributes ra
-	) {
-	    int result = service.updateMember(m);
-	    String url="";
-	    System.out.println(m);
-	    System.out.println("수정중");
-	    
-	    if (result > 0) {
-	        Member updateMember = service.loginMember(m);
-	        session.setAttribute("loginUser", updateMember); // 수정된 회원 정보를 세션에 저장
-	        System.out.println("성공하자");
-	        url = "redirect:/myPage"; // 수정 성공 시 내 정보 페이지로 이동
-	    } else {
-	        model.addAttribute("errorMsg", "회원정보수정실패");
-	        System.out.println("실패");
-	        url = "main"; // 수정 실패 시 메인 페이지로 이동
-	    }
-	    return url;
-	}
-	@PostMapping("/delete.me")
-	public String deleteMember( Member m, HttpSession session) {
-		Member loginUser = service.loginMember(m);
-		System.out.println(m);
-		
-	    int result = service.deleteMember(m);
-	    if (result > 0) {
-	        // 회원 정보를 삭제한 경우 세션에서 로그인된 회원 정보를 삭제
-	    	
-	        session.removeAttribute("loginUser");
-	        System.out.println("성공이유~");
-	        return "main"; // 메인 페이지로 이동 또는 다른 적절한 경로로 이동
-	    } else {
-	        // 탈퇴 실패 시 처리할 내용
-	        System.out.println("실패유~");
-	        return "login"; // 에러 페이지로 이동 또는 다른 적절한 경로로 이동
-	    }
-		
-	}
-	
+	public String updateMember(Member m, Model model, HttpSession session, RedirectAttributes ra) {
+		int result = service.updateMember(m);
+		String url = "";
 
-	
-	
-		
-	
+		if (result > 0) {
+			Member updateMember = service.loginMember(m);
+			session.setAttribute("loginUser", updateMember);
+			url = "redirect:/myPage";
+		} else {
+			model.addAttribute("errorMsg", "회원정보수정실패");
+			url = "main";
+		}
+		return url;
+	}
+
+	@PostMapping("/delete.me")
+	public String deleteMember(Member m, HttpSession session) {
+
+		int result = service.deleteMember(m);
+		if (result > 0) {
+			// 회원 정보를 삭제한 경우 세션에서 로그인된 회원 정보를 삭제
+			session.removeAttribute("loginUser");
+			return "main";
+		} else {
+			// 탈퇴 실패 시 처리할 내용
+			return "login";
+		}
+
+	}
 }

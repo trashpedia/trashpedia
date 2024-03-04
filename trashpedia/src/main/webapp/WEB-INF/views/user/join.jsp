@@ -1,34 +1,33 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<c:set var="contextPath" value="<%=request.getContextPath() %>"/>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>네이버 회원가입 폼</title>
-	<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="resources/css/user/join.css">
+    <title>join member</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <link rel="stylesheet" href="${contextPath}/resources/css/user/join.css">
 </head>
 <body>
     <jsp:include page="../common/header.jsp"/>
     <main>
-    <form id="enroll-form" action="join.me" method="post" onsubmit="submitForm();">
+    <form id="enroll-form" action="${contextPath}/member/join" method="post">
 	    <div class="member">
-	        <!-- 1. 로고 -->
-	        <div class="logo">회원가입</div>
-	        <!-- 2. 필드 -->
-	        <div class="field">
-	            <b>아이디</b>
-	            <div id="id-1">
-	                <input type="text" id="username" placeholder="이메일을 입력하세요">
-	                <span class="id-a">@</span>
-	                <input type="text" id="emailDomain">
-	                <input type="hidden" id ="hiddenUserEmail" name="userEmail">
+	        <div class="logo"><p>회원가입</p></div>
+        	<div class="field">
+	        	<div class="title"><p>* 이메일</p></div>
+	            <div class="id-wrapper">
+	            	<div class="id-content">
+		                <input type="text" id="id" placeholder="이메일을 입력하세요">
+		                <span class="id-a">@</span>
+		                <input type="text" id="emailDomain">
+		                <input type="hidden" id ="hiddenUserEmail" name="userEmail">
+	            	</div>
 	            </div>
-	            
-	            
 	            <div>
 	                <select id="emailSelect" onchange="updateEmailDomain()">
 	                    <option value="직접입력" selected>직접입력</option>
@@ -39,13 +38,14 @@
 	                    <option value="hanmail.net">hanmail.net</option>
 	                </select>
 	            </div>
+	            <button type="button" onclick="emailCheck()" id ="doubleCheckBtn">중복확인</button>
 	        </div>
 	        <div class="field">
-	            <b>비밀번호</b>
+	            <div class="title"><p>* 비밀번호</p></div>
 	            <input class="userpw" type="password" id="passwordInput" oninput="updatePasswordNotice()" name="userPwd">
 	        </div>
 	        <div class="field">
-	            <b>비밀번호 재확인</b>
+	            <div class="title"><p>* 비밀번호 확인</p></div>
 	            <input class="userpw-confirm" type="password" id="confirmPasswordInput" oninput="updatePasswordNotice()">
 	            <div class="info-pwd">6-15자 이내 영문(대,소문자), 숫자, 특수문자를 조합하셔서 작성해 주세요.</div>
 	            <!-- 비밀번호 안내 문구 -->
@@ -57,29 +57,26 @@
 	            </div>
 	        </div>
 	        <div class="field">
-	            <b>이름</b>
+	            <div class="title"><p>* 이름</p></div>
 	            <input type="text" name="userName">
 	        </div>
 	        <div class="field">
-	            <b>닉네임</b>
+	            <div class="title"><p>닉네임</p></div>
 	            <input type="text" name="userNickname">
 	        </div>
 	       
 	        <div class="field tel-number">
-	            <b>휴대전화</b>
-	            <select>
-	                <option value="">대한민국 +82</option>
-	            </select>
+	            <div class="title"><p>휴대전화</p></div>
 	            <div>
-	                <input type="tel" placeholder="전화번호 입력" name="phone">
+	                <input type="tel" placeholder="전화번호 입력" name="phone" id="phoneBox">
 	                <input type="button" value="인증번호 받기">
 	            </div>
 	            <input type="number" placeholder="인증번호를 입력하세요">
 	        </div>
-	        <!-- 주소입력  -->
 	        <div class="field address">
+	        	<div class="title"><p>주소</p></div>
 	            <div class="zipcode-container">
-	                <input type="text" id="sample6_postcode" placeholder="우편번호" name="zipcode" required readonly>
+	                <input type="number" id="sample6_postcode" placeholder="우편번호" name="zipcode" readonly>
 	                <input type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기" name="zipcode">
 	            </div>
 	            <div class="address-container">
@@ -91,7 +88,7 @@
 	            </div>
 	        </div>
 	        <!-- 6. 가입하기 버튼 -->
-	        <input type="submit" value="가입하기" onclick="validateForm()">
+	        <input type="button" value="가입하기" onclick="validateForm()">
 	        <!-- 7. 푸터 -->
 	        <div class="member-footer">
 	            <div>
@@ -106,51 +103,69 @@
 	    </form>
 	</main>
 	<jsp:include page="../common/footer.jsp"/>
-	
 	<script>
-				function submitForm(){
-					var username = document.getElementById("username").value;
-					var emailDomain = document.getElementById("emailDomain").value;
-					let content = username + "@" + emailDomain;
-					alert(content);
-					$('#hiddenUserEmail').val(content);
+		document.querySelectorAll('input').forEach(function(input) {
+		    input.addEventListener('keydown', function(event) {
+		        if (event.key === 'Enter') {
+		            event.preventDefault();
+		        }
+		    });
+		});
+		
+		function validateEmailId() {
+		    var idInput = document.getElementById('id').value;
+		    var koreanRegex = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
+
+		    if (koreanRegex.test(idInput)) {
+		        alert('한글은 입력할 수 없습니다.');
+		        document.getElementById('id').value = '';
+		        return false;
+		    }
+		    return true;
+		}
+	
+		function emailCheck(){
+			let id = document.getElementById("id").value;
+			let emailDomain = document.getElementById("emailDomain").value;
+			let userEmail = id + "@" + emailDomain;
+
+			if (id.trim() === "" || emailDomain.trim() === "") {
+				$("#id").focus();
+	            alert("이메일을 입력해주세요.");
+	            return
+	        }
+			
+			if (!validateEmailId()) {
+				$("#id").focus();
+		        return;
+		    }
+			
+			console.log(userEmail);
+			$.ajax({
+				url: "emailCheck",
+				data:{userEmail : userEmail},
+				success:function(result){
+					if(result > 0){
+						alert("이미 사용 중입니다.");
+						$("#id").val("");
+			            $("#id").focus();
+			            $("#emailDomain").prop("disabled", false);
+					} else {
+						$("#id").prop("disabled", true);
+			            $("#emailDomain").prop("disabled", true);
+			            $("#emailSelect").prop("disabled", true);
+			            $("#doubleCheckBtn").prop("disabled", true);
+						alert("사용 가능한 이메일입니다");
+						$("#passwordInput").focus();
+					}
+				},
+				error:function (xhr, status, error){
+					console.log("이메일 중복 에러 :", status, error);
 				}
-	</script>
+			})
+		}
 	
-	<script>
-	// 유효성검사
-	    function updateEmailDomain() {
-	        var usernameInput = document.getElementById('username');
-	        var emailDomainInput = document.getElementById('emailDomain');
-	        var emailSelect = document.getElementById('emailSelect');
-	        // 만약 "직접입력"이 선택되었을 때는 입력값을 그대로 사용
-	        if (emailSelect.value === '직접입력') {
-	            emailDomainInput.value = "";
-	        } else {
-	            // 선택된 주소를 입력란에 추가
-	            emailDomainInput.value = emailSelect.value;
-	        }
-	    }
-	    // 초기 설정 - 페이지 로딩 시 호출
-	    updateEmailDomain();
-	
-	    function updateEmail() {
-	        var emailUseremail = document.getElementById('emailUseremail');
-	        var email = document.getElementById('email');
-	        var emailSelect2 = document.getElementById('emailSelect2');
-	
-	        // 만약 "직접입력"이 선택되었을 때는 입력값을 그대로 사용
-	        if (emailSelect2.value === '직접입력') {
-	            email.value = "";
-	        } else {
-	            // 선택된 주소를 입력란에 추가
-	            email.value = emailSelect2.value;
-	        }
-	    }
-	
-	    // 초기 설정 - 페이지 로딩 시 호출
-	    updateEmailDomain();
-		// 비밀번호 유효성검사
+	 	// 비밀번호 유효성검사
 	    function validatePassword() {
 	         var passwordInput = document.getElementById('passwordInput').value;
 	         var confirmPasswordInput = document.getElementById('confirmPasswordInput').value;
@@ -161,101 +176,57 @@
 	         return { isValid: passwordRegex.test(passwordInput), isMatch: passwordMatch };
 	     }
 
-	     function updatePasswordNotice() {
-	         var passNotice = document.getElementById('passNotice');
-	         var passwordValidation = validatePassword();
-	         var passwordInput = document.getElementById('passwordInput');
-	         var confirmPasswordInput = document.getElementById('confirmPasswordInput');
-	
-	         // 기본적으로 모든 메시지를 숨김
-	         passNotice.querySelectorAll('p').forEach(function (element) {
-	             element.style.display = 'none';
-	         });
-	
-	         // 비밀번호 입력란에 입력이 시작될 때 메시지 보이기
-	         if (passwordInput.value !== "") {
-	             // 비밀번호 유효성 검사
-	             if (passwordValidation.isValid) {
-	                 passNotice.querySelector('.ico-possible').style.display = 'block';
-	             } else {
-	                 passNotice.querySelector('.ico-possible').style.display = 'none';
-	                 passNotice.querySelector('.ico-impossible').style.display = 'block';
-	                 return; // 비밀번호 유효성 검사를 통과하지 못하면 이후의 검사를 진행하지 않음
-	             }
-	
-	             // 비밀번호 재확인 일치 여부 검사
-	             if (passwordValidation.isMatch && confirmPasswordInput.value !== "") {
-	                 passNotice.querySelector('.ico-same').style.display = 'block';
-	                 passNotice.querySelector('.ico-possible').style.display = 'none'; // 가능 문구는 지워줌
-	             } else if (!passwordValidation.isMatch && confirmPasswordInput.value !== "") {
-	                 passNotice.querySelector('.ico-notsame').style.display = 'block';
-	                 passNotice.querySelector('.ico-possible').style.display = 'none';
-	             }
-	         }
-	     }
-        // function clearPasswordNotice() {
-        //     // 포커스가 confirmPasswordInput에 가면 모든 문구를 숨김
-        //     var passNotice = document.getElementById('passNotice');
-        //     passNotice.querySelectorAll('p').forEach(function (element) {
-        //         element.style.display = 'none';
-        //     });
-        // }
+		function updatePasswordNotice() {
+			var passNotice = document.getElementById('passNotice');
+			var passwordValidation = validatePassword();
+			var passwordInput = document.getElementById('passwordInput');
+			var confirmPasswordInput = document.getElementById('confirmPasswordInput');
 
-        // 이벤트 리스너 등록 (실시간으로 입력 값이 변경될 때마다 업데이트)
-        var passwordInput = document.getElementById('passwordInput');
+			passNotice.querySelectorAll('p').forEach(function (element) {
+			    element.style.display = 'none';
+			});
+
+			if (passwordInput.value !== "") {
+				// 비밀번호 유효성 검사
+				if (passwordValidation.isValid) {
+				    passNotice.querySelector('.ico-possible').style.display = 'block';
+				} else {
+				    passNotice.querySelector('.ico-possible').style.display = 'none';
+				    passNotice.querySelector('.ico-impossible').style.display = 'block';
+				    return;
+				}
+	
+				if (passwordValidation.isMatch && confirmPasswordInput.value !== "") {
+				    passNotice.querySelector('.ico-same').style.display = 'block';
+				    passNotice.querySelector('.ico-possible').style.display = 'none';
+				} else if (!passwordValidation.isMatch && confirmPasswordInput.value !== "") {
+				    passNotice.querySelector('.ico-notsame').style.display = 'block';
+				    passNotice.querySelector('.ico-possible').style.display = 'none';
+				}
+			}
+	    }
+
+		var passwordInput = document.getElementById('passwordInput');
         var confirmPasswordInput = document.getElementById('confirmPasswordInput');
         passwordInput.addEventListener('input', updatePasswordNotice);
         confirmPasswordInput.addEventListener('input', updatePasswordNotice);
 
-        // 페이지 로딩 시 초기 메시지 표시
         updatePasswordNotice();
 
-        // 비밀번호 재확인 입력란에 focus가 갔을 때 가능 문구 지우기
         confirmPasswordInput.addEventListener('keyup', updatePasswordNotice);
         
-        var yearSelect = document.getElementById('year');
-        var monthSelect = document.getElementById('month');
-        var daySelect = document.getElementById('day');
-
-        // 현재 연도부터 1900년까지의 연도를 동적으로 생성
-        var currentYear = new Date().getFullYear();
-        for (var year = currentYear; year >= 1900; year--) {
-            var option = document.createElement('option');
-            option.value = year;
-            option.text = year;
-            yearSelect.add(option);
-        }
-        function updateDays() {
-            var selectedMonth = monthSelect.value;
-            var daysInMonth = new Date(yearSelect.value, selectedMonth, 0).getDate();
-
-            // 일자 선택 옵션 초기화
-            daySelect.innerHTML = '<option value="">일</option>';
-
-            // 선택한 월에 따라 해당 월의 일자를 동적으로 생성
-            for (var day = 1; day <= daysInMonth; day++) {
-                var option = document.createElement('option');
-                option.value = day;
-                option.text = day;
-                daySelect.add(option);
-            }
-        }
-	    function updateEmailDomain() {
+        function updateEmailDomain() {
 	        var emailUsernameInput = document.getElementById('emailUsername');
 	        var emailDomainInput = document.getElementById('emailDomain');
 	        var emailSelect = document.getElementById('emailSelect');
 	
-	        // 만약 "직접입력"이 선택되었을 때는 입력값을 그대로 사용
 	        if (emailSelect.value === '직접입력') {
 	            emailDomainInput.value = "";
 	        } else {
-	            // 선택된 주소를 입력란에 추가
 	            emailDomainInput.value = emailSelect.value;
 	        }
 	    }
 	
-	    // 초기 설정 - 페이지 로딩 시 호출
-	    updateEmailDomain();
 		function sample6_execDaumPostcode() {
 	        new daum.Postcode({
 	            oncomplete: function(data) {
@@ -288,39 +259,46 @@
 	            }
 	        }).open();
 	    }
-        function validateForm() {
-            var isFormValid = true; // 폼 유효성 검사 결과를 저장하는 변수
+		function validateForm() {
+		    var isFormValid = true;
 
-            // 필드들을 확인하고 빈 칸이면 유효성 검사 실패로 표시하고 포커스 이동
-            var fieldsToCheck = [
-                { id: 'username', name: '아이디' },
-                { id: 'passwordInput', name: '비밀번호' },
-                { id: 'confirmPasswordInput', name: '비밀번호 확인' },
-                { id: 'year', name: '생년월일 연도' },
-                { id: 'month', name: '생년월일 월' },
-                { id: 'day', name: '생년월일 일' },
-                { id: 'emailUsername', name: '이메일 아이디' },
-                { id: 'emailDomain', name: '이메일 도메인' },
-                // 다른 필드들도 필요에 따라 추가
-            ];
+		    var fieldsToCheck = [
+		        { id: 'id', name: '아이디' },
+		        { id: 'passwordInput', name: '비밀번호' },
+		        { id: 'confirmPasswordInput', name: '비밀번호 확인' },
+		        { id: 'emailDomain', name: '이메일 도메인' },
+		    ];
 
-            for (var i = 0; i < fieldsToCheck.length; i++) {
-                var field = fieldsToCheck[i];
-                var element = document.getElementById(field.id);
+		    for (var i = 0; i < fieldsToCheck.length; i++) {
+		        var field = fieldsToCheck[i];
+		        var element = document.getElementById(field.id);
 
-                if (!element.value.trim()) {
-                    alert(field.name + '을(를) 입력하세요.'); // 빈 칸이면 알림 표시
-                    element.focus(); // 해당 칸으로 포커스 이동
-                    isFormValid = false; // 유효성 검사 실패로 표시
-                    break; // 하나의 빈 칸이라도 발견되면 더 이상 확인하지 않고 중단
-                }
-            }
+		        if (!element || !element.value.trim()) {
+		            alert(field.name + '을(를) 입력하세요.');
+		            if (element) {
+		                element.focus();
+		            }
+		            isFormValid = false;
+		            return;
+		        }
+		    };
+		    
+		    var doubleCheckBtn = document.getElementById('doubleCheckBtn');
+		    if (!doubleCheckBtn.disabled) {
+		        alert('이메일 중복 확인을 먼저 해주세요.');
+		        return;
+		    }
 
-            // 모든 필드가 유효한 경우에만 submit 처리
-            if (isFormValid) {
-                alert('가입이 완료되었습니다.'); // 실제로는 서버에 전송하거나 다른 처리를 수행해야 합니다.
-            }
-        }
+		    if (isFormValid) {
+		        var username = document.getElementById("id").value;
+		        var emailDomain = document.getElementById("emailDomain").value;
+		        var content = username + "@" + emailDomain;
+		        $('#hiddenUserEmail').val(content);
+
+		        document.getElementById("enroll-form").submit();
+		        alert('가입이 완료되었습니다.');
+		    }
+		}
     </script>
 </body>
 </html>

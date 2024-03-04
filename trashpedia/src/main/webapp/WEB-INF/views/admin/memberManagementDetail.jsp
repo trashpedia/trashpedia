@@ -8,7 +8,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>memberManagementDetail</title>
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <link rel="stylesheet" href="${contextPath}/resources/css/admin/memberManagementDetail.css">
 </head>
 <jsp:include page="../common/header.jsp"/>
@@ -33,7 +33,7 @@
 	                    </div>
 	                    <div class="member-item">
 	                        <div class="member-item-title">권한</div>
-	                        <div class="member-item-subtitle">${m.roleName}</div>
+	                        <div class="member-item-subtitle">${m.role}</div>
 	                    </div>
 	                    <div class="member-item">
 	                        <div class="member-item-title">생성일</div>
@@ -88,8 +88,8 @@
 					<div class="filter-wrapper">
 					    <select name="condition" id="board-filter-select">
 					        <option value="boardNo" selected>번호</option>
-					        <option value="bigCategoryNo">대분류</option>
-					        <option value="subCategoryNo">소분류</option>
+					        <option value="bigCategoryName">대분류</option>
+					        <option value="subCategoryName">소분류</option>
 					        <option value="title">제목</option>
 					    </select>
 					</div>
@@ -130,8 +130,8 @@
 					<div class="filter-wrapper">
 					    <select name="condition" id="comment-filter-select">
 					        <option value="boardNo" selected>번호</option>
-					        <option value="bigCategoryNo">대분류</option>
-					        <option value="subCategoryNo">소분류</option>
+					        <option value="bigCategoryName">대분류</option>
+					        <option value="subCategoryName">소분류</option>
 					        <option value="title">제목</option>
 					    </select>
 					</div>
@@ -169,7 +169,7 @@
 	                   	<div class="filter-wrapper">
 						    <select name="condition" id="point-filter-select">
 						        <option value="pointNo" selected>번호</option>
-						        <option value="pointCount">내역</option>
+						        <option value="pointContent">내역</option>
 						        <option value="amount">증감</option>
 						        <option value="pointDate">날짜</option>
 						    </select>
@@ -188,9 +188,8 @@
 					</table>
 					<div class="search-wrapper">
 						<select name="condition" id="point-search-filter-select">
-			                <option value="boardNo" selected>번호</option>
-			                <option value="title">제목</option>
-			                <option value="content">내용</option>
+			                <option value="pointNo" selected>번호</option>
+			                <option value="pointContent">내역</option>
 						</select>
 						<input type="search" class="search-input point-search-input" placeholder="검색어를 입력하세요">
 						<input type="button" class="search-button point-search-button" value="검색" onclick="pointSearch()">
@@ -228,11 +227,11 @@
 					</table>
 					<div class="search-wrapper">
 						<select name="condition" id="report-search-filter-select">
-			                <option value="boardNo" selected>번호</option>
-			                <option value="content">내용</option>
+			                <option value="reportNo" selected>번호</option>
+			                <option value="reportContent">내용</option>
 						</select>
 						<input type="search" class="search-input report-search-input" placeholder="검색어를 입력하세요">
-						<input type="button" class="search-button report-search-button" value="검색" onclick="pointSearch()">
+						<input type="button" class="search-button report-search-button" value="검색" onclick="reportSearch()">
 					</div>
                 	<div class="report-pageBar pageBar"></div>
                 </div>
@@ -242,8 +241,6 @@
     <script>
 	    var boardOffset = 0;
 	    var commentOffset = 0;
-	    var pointOffset = 0;
-	    var reportOffset = 0;
 	    var boardFilterValue = 'boardNo';
 	    var commentFilterValue = 'boardNo';
 	    var pointFilterValue = 'pointNo';
@@ -259,7 +256,7 @@
 	
 	    $(document).ready(function() {
 	    	getBoardList(boardSearchSelect, boardSearchValue);
-	    	getCommentList(boardSearchSelect, boardSearchValue);
+	    	getCommentList(commentSearchSelect, commentSearchValue);
 	    	getPointList(0, pointSearchSelect, pointSearchValue);
 	    	getReportList(0, reportSearchSelect, reportSearchValue);
 	    });
@@ -277,6 +274,7 @@
 	    });
 	    
 	    $('#board-filter-select').change(function(){
+	    	let a = boardOffset;
 	    	boardFilterValue = $(this).val();
 	    	$('.board-list').empty();
 	    	boardOffset = 0;
@@ -284,63 +282,83 @@
 	    });
 
 	    $('#comment-filter-select').change(function(){
-	    	commentSelectedValue = $(this).val();
+	    	commentFilterValue = $(this).val();
 	    	$('.comment-list').empty();
 	    	commentOffset = 0;
-	    	getCommentList(commentSearchSelect, commentSearchValue);
+	    	getCommentList(boardSearchSelect, boardSearchValue);
 	    });
 	    
 	    $('#point-filter-select').change(function(){
-	    	pointSelectedValue = $(this).val();
+	    	pointFilterValue = $(this).val();
 	    	$('.point-tbody').empty();
 	    	getPointList(0, pointSearchSelect, pointSearchValue);
 	    });
 	    
 	    $('#report-filter-select').change(function(){
-	    	reportSelectedValue = $(this).val();
+	    	reportFilterValue = $(this).val();
 	    	$('.report-tbody').empty();
 	    	getReportList(0, reportSearchSelect, reportSearchValue);
 	    });
 	    
 	    function boardSearch(){
-	    	boardSearchSelect = $('#board-filter-select').val();
-	    	boardSearchValue = $('#board-search-input').val();
-	    	$('#board-search-input').val('');
-	    	$('.board-list').empty();
+	    	boardSearchSelect = $('#board-search-filter-select').val();
+	    	boardSearchValue = $('.board-search-input').val();
+	    	$('.board-search-input').val('');
 	    	boardOffset = 0;
-	    	loadBoardData(boardSearchSelect, boardSearchValue);
+	    	$('.board-list').empty();
+	    	getBoardList(boardSearchSelect, boardSearchValue);
+	    }
+	    
+	    function commentSearch(){
+	    	commentSearchSelect = $('#comment-search-filter-select').val();
+	    	commentSearchValue = $('.comment-search-input').val();
+	    	$('.comment-search-input').val('');
+	    	commentOffset = 0;
+	    	$('.comment-list').empty();
+	    	getCommentList(boardSearchSelect, boardSearchValue);
+	    }
+	    
+	    function pointSearch(){
+	    	pointSearchSelect = $('#point-search-filter-select').val();
+	    	pointSearchValue = $('.point-search-input').val();
+	    	$('.point-search-input').val('');
+	    	$('.point-list').empty();
+	    	getPointList(0, pointSearchSelect, pointSearchValue);
+	    }
+	    
+	    function reportSearch(){
+	    	reportSearchSelect = $('#report-search-filter-select').val();
+	    	reportSearchValue = $('.report-search-input').val();
+	    	$('.report-search-input').val('');
+	    	$('.report-list').empty();
+	    	getReportList(0, reportSearchSelect, reportSearchValue);
 	    }
 
 	    function getBoardList(boardSearchSelect, boardSearchValue) {
-	    	if(boardSearchSelect == undefined){
-	    		boardSearchSelect = null;
-	    		boardSearchValue = null;
-	    	}
 	        $.ajax({
 	            url: '${contextPath}/admin/getMemberBoardList',
 	            type: 'GET',
 	            dataType: 'json',
-	            data: { page: boardOffset, size: 20, userNo: ${m.userNo}, sort: boardSelectedValue, searchSelect: boardSearchSelect, searchValue: boardSearchValue},
+	            data: { page: boardOffset, size: 20, userNo: ${m.userNo}, sort: boardFilterValue, searchSelect: boardSearchSelect, searchValue: boardSearchValue},
 	            success: function(data) {
 	            	if(data.content.length != 0){
-		                updateBoardTable(data);
 		                boardOffset += 1;
-		                isLoading = false;
+		                updateBoardTable(data);
 	            	}
 	            },
 	            error: function(xhr, status, error) {
 	                console.error('Error: ' + error);
-	                isLoading = false;
 	            }
 	        });
 	    }
 	
 	    function updateBoardTable(data) {
 	    	let thead = document.querySelector('.board-thead');
-	        let userList = document.querySelector('.boardList');
+	        let boardList = document.querySelector('.board-list');
 	        let list = data.content;
 	        for (let i = 0; i < list.length; i++) {
 	            let row = document.createElement('tr');
+	            row.classList.add('content-tr');
 	            
 	            let cell1 = document.createElement('td');
 	            cell1.textContent = list[i].boardNo;
@@ -362,7 +380,7 @@
 	            row.addEventListener('click', function() {
 	                loadBoardDetailData(list[i].boardNo);
 	            });
-	            userList.appendChild(row);
+	            boardList.appendChild(row);
 	        }
 	    }
 	    
@@ -373,96 +391,114 @@
 	            dataType: 'json',
 	            data: {boardNo},
 	            success: function(data) {
-	            	let userList = document.querySelector('.boardDetail');
-	            	userList.innerHTML = '';
-    	            let row = '<div class="item">';
-    	            row += '<div class="icon">😃</div>';
-    	            row += '<div class="title">제목 :</div>';
-    	            row += '<div class="subtitle">'+data.title+'</div>';
-    	            row += '</div>';
-    	            row += '<div class="item">';
-    	            row += '<div class="icon">😃</div>';
-    	            row += '<div class="title">내용 : </div>';
-    	            row += '<div class="subtitle">'+data.content+'</div>';
-    	            row += '</div>';
-    	            row += '<div class="item">';
-    	            row += '<div class="icon">😃</div>';
-    	            row += '<div class="title">생성일 : </div>';
-    	            row += '<div class="subtitle">'+data.createDate+'</div>';
-    	            row += '</div>';
-    	            row += '<div class="item">';
-    	            row += '<div class="icon">😃</div>';
-    	            row += '<div class="title">수정일 : </div>';
-    	            if(data.modifyDate != null){
-	    	            row += '<div class="subtitle">'+data.modifyDate+'</div>';
-    	            } else {
-	    	            row += '<div class="subtitle">수정 없음</div>';
-    	            }
-    	            row += '</div>';
-    	            row += '<div class="item">';
-    	            row += '<div class="icon">😃</div>';
-    	            row += '<input type="button" value="상세보기" onclick="loadBoardDetail('+data.boardNo+')"/>';
-    	            row += '</div>';
-    	            userList.innerHTML += row;
+	            	let boardList = document.querySelector('.board-detail-list');
+	            	boardList.innerHTML = '';
+	            	
+	            	let row1 = document.createElement('div');
+	            	row1.classList.add('item');
+	            	let cell1 = document.createElement('div');
+	            	cell1.classList.add('title');
+	            	cell1.textContent = '제목 : ';
+	            	let cell2 = document.createElement('div');
+	            	cell2.classList.add('subtitle');
+	            	cell2.textContent = data.title;
+	            	row1.appendChild(cell1);
+	            	row1.appendChild(cell2);
+
+	            	let row2 = document.createElement('div');
+	            	row2.classList.add('item');
+	            	row2.classList.add('content-item');
+	            	let cell3 = document.createElement('div');
+	            	cell3.classList.add('title');
+	            	cell3.textContent = '내용 : ';
+	            	let cell4 = document.createElement('div');
+	            	cell4.classList.add('subtitle');
+	            	cell4.classList.add('sub-content');
+	            	cell4.innerHTML = data.content;
+	            	row2.appendChild(cell3);
+	            	row2.appendChild(cell4);
+	            	
+	            	let row3 = document.createElement('div');
+	            	row3.classList.add('item');
+	            	let cell5 = document.createElement('div');
+	            	cell5.classList.add('title');
+	            	cell5.textContent = '생성일 : ';
+	            	let cell6 = document.createElement('div');
+	            	cell6.classList.add('subtitle');
+	            	cell6.textContent = data.createDate;
+	            	row3.appendChild(cell5);
+	            	row3.appendChild(cell6);
+	            	
+	            	let row4 = document.createElement('div');
+	            	row4.classList.add('item');
+	            	let cell7 = document.createElement('div');
+	            	cell7.classList.add('title');
+	            	cell7.textContent = '수정일 : ';
+	            	let cell8 = document.createElement('div');
+	            	cell8.classList.add('subtitle');
+	            	if(data.modifyDate == null){
+		            	cell8.textContent = '없음';
+	            	} else{
+		            	cell8.textContent = data.modifyDate;
+	            	}
+	            	row4.appendChild(cell7);
+	            	row4.appendChild(cell8);
+	            	
+	            	let button = document.createElement('input');
+	            	button.setAttribute('type', 'button');
+	            	button.setAttribute('value', '상세보기');
+	            	button.classList.add('detail-button');
+	            	button.addEventListener('click', function() {
+	            	    boardDetail(data.boardNo);
+	            	});
+	            	
+	            	boardList.appendChild(row1);
+	            	boardList.appendChild(row2);
+	            	boardList.appendChild(row3);
+	            	boardList.appendChild(row4);
+    	            boardList.appendChild(button);
     	        },
 	            error: function(xhr, status, error) {
 	                console.error('Error: ' + error);
-	                isLoading = false;
 	            }
 	        });
 	    };
 	    
-	    function commentSearch(){
-	    	commentSearchSelect = $('#commentSearchFilterSelect').val();
-	    	commentSearchValue = $('#commentSearch').val();
-	    	$('#commentSearch').val('');
-	    	$('.commentList').empty();
-	    	commentOffset = 0;
-	    	loadCommentData(commentSearchSelect, commentSearchValue);
-	    }
-	
-	    function loadCommentData(commentSearchSelect, commentSearchValue) {
-	    	if(commentSearchSelect == undefined){
-	    		commentSearchSelect = null;
-	    		commentSearchValue = null;
-	    	}
+	    function getCommentList(commentSearchSelect, commentSearchValue) {
 	        $.ajax({
 	            url: '${contextPath}/admin/getMemberCommentList',
 	            type: 'GET',
 	            dataType: 'json',
-	            data: { page: commentOffset, size: 20, userNo: ${m.userNo}, sort: commentSelectedValue, searchSelect: commentSearchSelect, searchValue: commentSearchValue},
+	            data: { page: commentOffset, size: 20, userNo: ${m.userNo}, sort: commentFilterValue, searchSelect: commentSearchSelect, searchValue: commentSearchValue},
 	            success: function(data) {
 	            	if(data.content.length != 0){
-		                updateCommentTable(data);
 		                commentOffset += 1;
-		                isLoading = false;
+		                updateCommentTable(data.content);
 	            	}
 	            },
 	            error: function(xhr, status, error) {
 	                console.error('Error: ' + error);
-	                isLoading = false;
 	            }
 	        });
 	    }
 	
 	    function updateCommentTable(data) {
-	    	let thead = document.querySelector('.comment-thead');
-	        let userList = document.querySelector('.commentList');
-	        let list = data.content;
-	        for (let i = 0; i < list.length; i++) {
+	        let userList = document.querySelector('.comment-list');
+	        for (let i = 0; i < data.length; i++) {
 	            let row = document.createElement('tr');
+	            row.classList.add('content-tr');
 	            
 	            let cell1 = document.createElement('td');
-	            cell1.textContent = list[i].boardNo;
+	            cell1.textContent = data[i].boardNo;
 	            
 	            let cell2 = document.createElement('td');
-	            cell2.textContent = list[i].bigCategoryName;
+	            cell2.textContent = data[i].bigCategoryName;
 	            
 	            let cell3 = document.createElement('td');
-	            cell3.textContent = list[i].subCategoryName;
+	            cell3.textContent = data[i].subCategoryName;
 	            
 	            let cell4 = document.createElement('td');
-	            cell4.textContent = list[i].title;
+	            cell4.textContent = data[i].title;
 	            
 	            row.appendChild(cell1);
 	            row.appendChild(cell2);
@@ -470,120 +506,64 @@
 	            row.appendChild(cell4);
 	            
 	            row.addEventListener('click', function() {
-	            	if(nestedCommentNo != null){
-		                loadCommentDetailData(list[i].commentNo);
-	            	} else {
-		                loadNestedCommentDetailData(list[i].nestedCommentNo);
-	            	}
+                	loadCommentDetail(data[i].boardNo);
 	            });
 	            userList.appendChild(row);
 	        }
 	    }
 	    
-	    function loadCommentDetailData(commentNo) {
+	    function loadCommentDetail(boardNo) {
 	        $.ajax({
-	            url: '${contextPath}/admin/getCommentDetailData',
+	            url: '${contextPath}/admin/getCommentDetail',
 	            type: 'GET',
 	            dataType: 'json',
-	            data: {commentNo},
+	            data: {boardNo, userNo: ${m.userNo}},
 	            success: function(data) {
-	            	let userList = document.querySelector('.commentDetail');
+	            	let userList = document.querySelector('.comment-detail-list');
 	            	userList.innerHTML = '';
-    	            let row = '<div class="item">';
-    	            row += '<div class="icon">😃</div>';
-    	            row += '<div class="title">제목 :</div>';
-    	            row += '<div class="subtitle">'+data.title+'</div>';
-    	            row += '</div>';
-    	            row += '<div class="item">';
-    	            row += '<div class="icon">😃</div>';
-    	            row += '<div class="title">내용 : </div>';
-    	            row += '<div class="subtitle">'+data.content+'</div>';
-    	            row += '</div>';
-    	            row += '<div class="item">';
-    	            row += '<div class="icon">😃</div>';
-    	            row += '<div class="title">댓글 : </div>';
-    	            row += '<div class="subtitle">'+data.commentContent+'</div>';
-    	            row += '</div>';
-    	            row += '<div class="item">';
-    	            row += '<div class="icon">😃</div>';
-    	            row += '<div class="title">생성일 : </div>';
-    	            row += '<div class="subtitle">'+data.createDate+'</div>';
-    	            row += '</div>';
-    	            row += '<div class="item">';
-    	            row += '<div class="icon">😃</div>';
-    	            row += '<div class="title">수정일 : </div>';
-    	            row += '<div class="subtitle">'+data.modifyDate+'</div>';
-    	            row += '</div>';
-    	            row += '<div class="item">';
-    	            row += '<div class="icon">😃</div>';
-    	            row += '<input type="button" value="상세보기" onclick="loadBoardDetail('+data.boardNo+')"/>';
-    	            row += '</div>';
-    	            userList.innerHTML += row;
+	            	for (let i = 0; i < data.length; i++) {
+	    	            let row = document.createElement('div');
+	    	            row.classList.add('comment-item');
+	    	            
+	    	            let cell1 = document.createElement('div');
+	    	            cell1.classList.add('comment-content');
+	    	            cell1.innerHTML = data[i].content;
+	    	            
+	    	            let cell2 = document.createElement('div');
+	    	            cell2.classList.add('comment-date');
+	    	            cell2.textContent = data[i].createDate;
+	    	            
+	    	            row.appendChild(cell1);
+	    	            row.appendChild(cell2);
+	    	            
+	    	            userList.appendChild(row);
+    	            };
+    	            
+    	            let button = document.createElement('input');
+	            	button.setAttribute('type', 'button');
+	            	button.setAttribute('value', '상세보기');
+	            	button.classList.add('detail-button');
+	            	button.addEventListener('click', function() {
+	            	    boardDetail(data[0].boardNo);
+	            	});
+	            	
+	            	userList.appendChild(button);
     	        },
 	            error: function(xhr, status, error) {
 	                console.error('Error: ' + error);
-	                isLoading = false;
-	            }
-	        });
-	    };
-	    function loadNestedCommentDetailData(nestedCommentNo) {
-	        $.ajax({
-	            url: '${contextPath}/admin/getNestedCommentDetailData',
-	            type: 'GET',
-	            dataType: 'json',
-	            data: {nestedCommentNo},
-	            success: function(data) {
-	            	let userList = document.querySelector('.commentDetail');
-	            	userList.innerHTML = '';
-    	            let row = '<div class="item">';
-    	            row += '<div class="title">제목 :</div>';
-    	            row += '<div class="subtitle">'+data.title+'</div>';
-    	            row += '</div>';
-    	            row += '<div class="item">';
-    	            row += '<div class="title">내용 : </div>';
-    	            row += '<div class="subtitle">'+data.content+'</div>';
-    	            row += '</div>';
-    	            row += '<div class="item">';
-    	            row += '<div class="title">댓글 : </div>';
-    	            row += '<div class="subtitle">'+data.commentContent+'</div>';
-    	            row += '</div>';
-    	            row += '<div class="item">';
-    	            row += '<div class="title">생성일 : </div>';
-    	            row += '<div class="subtitle">'+data.createDate+'</div>';
-    	            row += '</div>';
-    	            row += '<div class="item">';
-    	            row += '<div class="title">수정일 : </div>';
-    	            row += '<div class="subtitle">'+data.modifyDate+'</div>';
-    	            row += '</div>';
-    	            row += '<div class="item">';
-    	            row += '<input type="button" value="상세보기" onclick="loadBoardDetail('+data.boardNo+')"/>';
-    	            row += '</div>';
-    	            userList.innerHTML += row;
-    	        },
-	            error: function(xhr, status, error) {
-	                console.error('Error: ' + error);
-	                isLoading = false;
 	            }
 	        });
 	    };
 	    
-	    function getPointList(){
-	    	commentSearchSelect = $('#pointSearchFilterSelect').val();
-	    	commentSearchValue = $('#pointSearch').val();
-	    	$('#pointSearch').val('');
-	    	$('.pointList').empty();
-	    	loadPointData(0, pointSearchSelect, pointSearchValue);
-	    }
-	    
-	    function loadPointData(page, pointSearchSelect, pointSearchValue) {
+	    function getPointList(page, pointSearchSelect, pointSearchValue) {
 	        $.ajax({
 	            url: '${contextPath}/admin/getMemberPointList',
 	            type: 'GET',
 	            dataType: 'json',
-	            data: { page: page, size: 10, userNo: ${m.userNo}, searchSelect: pointSearchSelect, searchValue: pointSearchValue },
+	            data: { page: page, size: 10, userNo: ${m.userNo}, sort: pointFilterValue, searchSelect: pointSearchSelect, searchValue: pointSearchValue },
 	            success: function(data) {
 	                if(data.content.length != 0){
-	                    updatePointTable(data);
+	                    updatePointTable(data.content);
 	                    updatePointPagination(data);
 	                }
 	            },
@@ -594,54 +574,66 @@
 	    }
 
 	    function updatePointTable(data) {
-	        let userList = document.querySelector('.point-tbody');
+	        let userList = document.querySelector('.point-list');
 	        userList.innerHTML = '';	
-	        let list = data.content;
-	        for (let i = 0; i < list.length; i++) {
-	            let row = '<tr>';
-	            row += '<td>'+list[i].pointNo+'</td>';
-	            row += '<td>'+list[i].pointContent+'</td>';
-	            row += '<td>'+list[i].amount+'</td>';
-	            row += '<td>'+list[i].pointDate+'</td>';
-	            row += '</tr>';
-	            userList.innerHTML += row;
+	        for (let i = 0; i < data.length; i++) {
+	            let row = document.createElement('tr');
+	            row.classList.add('long-tr');
+	            
+	            let cell1 = document.createElement('td');
+	            cell1.textContent = data[i].pointNo;
+	            
+	            let cell2 = document.createElement('td');
+	            cell2.innerHTML = data[i].pointContent;
+	            
+	            let cell3 = document.createElement('td');
+	            cell3.textContent = data[i].amount;
+	            
+	            let cell4 = document.createElement('td');
+	            cell4.textContent = data[i].pointDate;
+	            
+	            row.appendChild(cell1);
+	            row.appendChild(cell2);
+	            row.appendChild(cell3);
+	            row.appendChild(cell4);
+	            
+	            userList.appendChild(row);
 	        }
 	    }
 
 	    function updatePointPagination(data) {
-	    	console.log(data);
 	        let userPaging = document.querySelector('.point-pageBar');
 	        let pagination = '';
 	        
 	        if (!data.empty) {
 	            if (!data.first) {
-	                pagination += '<td><a class="page-link" href="#" onclick="loadPointData(' + (data.number - 1) + ','+pointSearchSelect+','+pointSearchValue+')">이전</a></td>';
+	                pagination += '<div onclick="getPointList(' + (data.number - 1) + ',\'' + pointSearchSelect + '\',\'' + pointSearchValue + '\')">이전</div>';
 	            }
 	            for (let i = 0; i < data.totalPages; i++) {
 	                if (i >= data.number - 5 && i <= data.number + 5) {
-	                    pagination += '<td';
+	                    pagination += '<div';
 	                    if (i === data.number) {
 	                        pagination += ' class="active"';
 	                    }
-	                    pagination += '><a href="#" onclick="loadPointData(' + i + ')">' + (i + 1) + '</a></td>';
+	                    pagination += ' onclick="getPointList(' + i + ',\'' + pointSearchSelect + '\',\'' + pointSearchValue + '\')">' + (i + 1) + '</div>';
 	                }
 	            }
 	            if (!data.last) {
-	                pagination += '<td><a href="#" onclick="loadPointData(' + (data.number + 1) + ')">다음</a></td>';
+	                pagination += '<div onclick="getPointList(' + (data.number + 1) + ',\'' + pointSearchSelect + '\',\'' + pointSearchValue + '\')">다음</div>';
 	            }
 	        }
-	        userPaging.innerHTML = '<tr>' + pagination + '</tr>';
+	        userPaging.innerHTML = pagination;
 	    }
 	    
-	    function loadReportData(page) {
+	    function getReportList(page) {
 	        $.ajax({
 	            url: '${contextPath}/admin/getMemberReportList',
 	            type: 'GET',
 	            dataType: 'json',
-	            data: { page: page, size: 10, userNo: ${m.userNo} },
+	            data: { page: page, size: 10, userNo: ${m.userNo}, sort: reportFilterValue, searchSelect: reportSearchSelect, searchValue: reportSearchValue },
 	            success: function(data) {
 	                if(data.content.length != 0){
-	                	updateReportTable(data);
+	                	updateReportTable(data.content);
 	                    updateReportPagination(data);
 	                }
 	            },
@@ -652,17 +644,39 @@
 	    }
 
 	    function updateReportTable(data) {
-	        let userList = document.querySelector('.report-tbody');
+	        let userList = document.querySelector('.report-list');
 	        userList.innerHTML = '';	
 	        let list = data.content;
-	        for (let i = 0; i < list.length; i++) {
-	            let row = '<tr>';
-	            row += '<td>'+list[i].reportNo+'</td>';
-	            row += '<td>'+list[i].reportType+'</td>';
-	            row += '<td>'+list[i].reportContent+'</td>';
-	            row += '<td>'+list[i].processingDate+'</td>';
-	            row += '</tr>';
-	            userList.innerHTML += row;
+	        for (let i = 0; i < data.length; i++) {
+	            let row = document.createElement('tr');
+	            row.classList.add('long-tr');
+	            
+	            let cell1 = document.createElement('td');
+	            cell1.textContent = data[i].reportNo;
+	            
+	            let cell2 = document.createElement('td');
+	            cell2.innerHTML = data[i].reportType;
+	            
+	            let cell3 = document.createElement('td');
+	            cell3.textContent = data[i].reportContent;
+	            
+	            let cell4 = document.createElement('td');
+	            cell4.textContent = data[i].processingDate;
+
+	            let cell5 = document.createElement('td');
+	            cell4.textContent = data[i].reportDate;
+
+	            let cell6 = document.createElement('td');
+	            cell4.textContent = data[i].status;
+	            
+	            row.appendChild(cell1);
+	            row.appendChild(cell2);
+	            row.appendChild(cell3);
+	            row.appendChild(cell4);
+	            row.appendChild(cell5);
+	            row.appendChild(cell6);
+	            
+	            userList.appendChild(row);
 	        }
 	    }
 
@@ -671,26 +685,26 @@
 	        let pagination = '';
 	        if (!data.empty) {
 	            if (!data.first) {
-	                pagination += '<td><a class="page-link" href="#" onclick="loadReportData(' + (data.number - 1) + ')">이전</a></td>';
+	                pagination += '<div onclick="loadReportData(' + (data.number - 1) + ',\'' + reportSearchSelect + '\',\'' + reportSearchValue + '\')">이전</div>';
 	            }
 	            for (let i = 0; i < data.totalPages; i++) {
 	                if (i >= data.number - 5 && i <= data.number + 5) {
-	                    pagination += '<td';
+	                    pagination += '<div';
 	                    if (i === data.number) {
 	                        pagination += ' class="active"';
 	                    }
-	                    pagination += '><a href="#" onclick="loadReportData(' + i + ')">' + (i + 1) + '</a></td>';
+	                    pagination += ' onclick="loadReportData(' + i + ',\'' + reportSearchSelect + '\',\'' + reportSearchValue + '\')">' + (i + 1) + '</div>';
 	                }
 	            }
 	            if (!data.last) {
-	                pagination += '<td><a href="#" onclick="loadReportData(' + (data.number + 1) + ')">다음</a></td>';
+	                pagination += '<div onclick="loadReportData(' + (data.number + 1) + ',\'' + reportSearchSelect + '\',\'' + reportSearchValue + '\')">다음</div>';
 	            }
 	        }
-	        userPaging.innerHTML = '<tr>' + pagination + '</tr>';
+	        userPaging.innerHTML = pagination;
 	    }
 	    
-        function loadBoardDetail(boardNo){
-            location.href="/board/detail?boardNo="+boardNo;
+        function boardDetail(boardNo){
+            location.href="${contextPath}/board/detail/"+boardNo;
         }
     </script>
 </body>

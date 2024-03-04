@@ -32,11 +32,16 @@ public class Board {
 	
 	//adminMemberManagement = commentList
 	private String commentContent;
+	private int nestedCommentNo;
 
 	//adminBoardManagement = boardDetail
 	private String userNickname;
 	
 	private String userName;
+	
+	private int hit;
+	
+	private int bigCateogoryNo;
 	
 	private ImgAttachment imgAttachment; //첨부이미지
 	private Attachment attachment; //첨부파일
