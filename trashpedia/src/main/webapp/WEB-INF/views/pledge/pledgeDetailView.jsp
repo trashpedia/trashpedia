@@ -35,7 +35,7 @@
 			<!-- 이미지/첨부파일  -->
 			<div class="content-attach-outer">
 				<div class="content-attach-inner">
-					<span><strong>첨부파일</strong></span>
+					<p><strong>첨부파일</strong></p>
 					<c:if test="${attachment eq null}">
 						<span>첨부파일 없음</span>
 					</c:if>
