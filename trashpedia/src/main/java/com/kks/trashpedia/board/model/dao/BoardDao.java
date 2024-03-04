@@ -54,6 +54,9 @@ public interface BoardDao {
 	int increaseCount(Board b);
 
 	Post getPostByTitle(String title);
+
+	Page<Post> loadListData(Pageable pageable, int page, String sort, String searchSelect, String searchValue,
+			int subCategoryNo);
 	
 
 }
