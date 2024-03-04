@@ -258,6 +258,7 @@ a {
     border-bottom: 1px solid #00b39e;
     line-height: 160%;
     font-size: 1.4rem;
+    height: 700px;
 }
 
 .board_write {

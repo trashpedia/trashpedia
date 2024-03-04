@@ -69,8 +69,8 @@
                 </div>
                 <div class="bt_wrap">
                     <a href="${contextPath}/board/list?bigCategoryNo=1&subCategoryNo=1" class="on">목록</a>
-                    <a href="${contextPath}/modify">수정</a>
-                    <a href="confirmDelete(${post.postNo}, ${post.boardNo}, ${post.bigCategoryNo}, ${post.subCategoryNo})" class="delte">삭제</a>
+                    <a href="${contextPath}/board/modify">수정</a>
+                    <a href="${contextPath}/board/delete/{postNo}" class="delte">삭제</a>
                 </div>
             </div>
             <div class="reply-outer">

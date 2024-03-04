@@ -65,23 +65,17 @@ public class BoardController {
 		return mav;
 	}
 
-	// 정보자료글 페이지 이동
-	@GetMapping("/boardInformation")
-	public ModelAndView boardInformation() {
-		ModelAndView mav = new ModelAndView();
-		mav.setViewName("board/information/informationList");
-		return mav;
-	}
+	// 게시글 수정 페이지 이동
+		@GetMapping("/modify")
+		public ModelAndView pledgeModify() {
+			
+			ModelAndView mav = new ModelAndView();
+			mav.setViewName("board/notice/boardModify");
+			
+			return mav;
+		}
 
-	// 무료나눔 페이지 이동
-	@GetMapping("/list")
-	public ModelAndView boardFreeShare(int subCategoryNo) {
-		ModelAndView mav = new ModelAndView();
-		List<Post> boardFreeTrashList = service.getFreeTrashList(subCategoryNo); // 이 메서드는 인기 쓰레기 정보를 가져오는 메서드
-		mav.addObject("list", boardFreeTrashList);
-		mav.setViewName("board/freeShare/freeShare");
-		return mav;
-	}
+	
 	// 검색 기능
 	@GetMapping("/searchByTitle")
 	public ModelAndView searchByTitle(@RequestParam String title) {
@@ -166,7 +160,7 @@ public class BoardController {
 	
 	//공지사항 목록페이지 이동
 	//'@'PageableDefault' 페이지네이션 관련정보 자동추출)		
-	@GetMapping("/board/list")
+	@GetMapping("/list")
 	public ModelAndView boardNotice(@PageableDefault(size = 10, sort = "boardNo", direction = Sort.Direction.DESC) Pageable pageable,
 			@RequestParam int subCategoryNo,
 			@RequestParam(value="page", defaultValue = "0") int page,
@@ -176,12 +170,19 @@ public class BoardController {
 		List<BigCategory> bc = service.bigCategory();
 		List<SubCategory> sc = service.subCategory();
 		Page<Board> pages = service.boardList(subCategoryNo, pageable, page, filter, searchSelect, searchValue);
-		System.out.println(pages);
+		
 		ModelAndView mav = new ModelAndView();
-		mav.addObject("boardList", pages);
-		mav.addObject("bigCategoryNo", bc);
-		mav.addObject("subCategoryNo", sc);
-		mav.setViewName("board/notice/boardList");
+		
+		if(subCategoryNo == 4) {
+			List<Post> boardFreeTrashList = service.getFreeTrashList(subCategoryNo); // 이 메서드는 인기 쓰레기 정보를 가져오는 메서드
+			mav.addObject("list", boardFreeTrashList);
+			mav.setViewName("board/freeShare/freeShare");
+		}else {
+			mav.addObject("boardList", pages);
+			mav.addObject("bigCategoryNo", bc);
+			mav.addObject("subCategoryNo", sc);
+			mav.setViewName("board/notice/boardList");
+		}
 		return mav;
 	}
 
@@ -194,7 +195,7 @@ public class BoardController {
 	}
 	
 	//공지사항 상세페이지 이동
-	 @GetMapping("/board/detail/{postNo}")
+	 @GetMapping("community/detail/{postNo}")
 	    public ModelAndView boardDetail(
 	    		@PathVariable int postNo, 
 	    		@RequestParam(value="subCategoryNo", defaultValue="1")int subCategoryNo) {
