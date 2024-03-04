@@ -25,7 +25,7 @@ Member authentication = (Member) session.getAttribute("loginUser");
                 <ul>
                     <li id="menu-garbage-dictionary">
                         <div class="header-menu-div">
-                            <a href="${contextPath}/trashlist">쓰레기사전</a>
+                           <a href="${contextPath}/trash/list">쓰레기사전</a>
                         </div>
                     </li>
                     <li id="menu-community" class="header-menu-hover">
