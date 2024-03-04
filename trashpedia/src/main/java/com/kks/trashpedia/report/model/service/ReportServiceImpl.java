@@ -14,13 +14,13 @@ public class ReportServiceImpl implements ReportService{
 	private ReportDao dao;
 
 	@Override
-	public Page<Report> getBoardReportList(Pageable pageable) {
-		return dao.getBoardReportList(pageable);
+	public Page<Report> getBoardReportList(Pageable pageable, int page, String sort, String searchSelect, String searchValue) {
+		return dao.getBoardReportList(pageable, page, sort, searchSelect, searchValue);
 	}
 
 	@Override
-	public Page<Report> getCommentReportList(Pageable pageable) {
-		return dao.getCommentReportList(pageable);
+	public Page<Report> getCommentReportList(Pageable pageable, int page, String sort, String searchSelect, String searchValue) {
+		return dao.getCommentReportList(pageable, page, sort, searchSelect, searchValue);
 	}
 	
 	

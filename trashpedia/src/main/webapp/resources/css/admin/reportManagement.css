@@ -1,160 +1,333 @@
 @charset "UTF-8";
-.body {
-    background: white;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-}
-a{
-    color: black;
+
+.content-container {
+	width: 100%;
+	padding: 20px;
+	margin-top: 20px;
 }
 
-.content-wrapper{
-    min-width:1148px;
-    padding-top:90px;
-    padding-bottom:100px;
+.content-title-wrapper {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
 }
 
-.content{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.content-title {
+	font-size: 25px;
+	font-weight: 500;
 }
 
-section{
-    width:100%;
+.content-table {
+	height: 500px;
+	width: 100%;
 }
 
-.search-section{
-    background-color: gray;
-    padding-bottom: 50px;
+.content-thead {
+	width: 100%;
+	display: block;
 }
 
-.search-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.content-tbody {
+	height: 85%;
+	display: block;
+	overflow: auto;
 }
 
-.search-title{
-    width: 100%;
-    font-size: 50px;
-    padding-top: 30px;
-    padding-bottom: 30px;
-    text-align: center;
-    color: white;
+.content-tr {
+	height: 70px;
+	text-align: center;
 }
 
-.input{
-    display: flex;
-    align-items: center;
-    height: 25px;
+.content-tr>*:first-child {
+	width: 50px;
 }
 
-.input>#filterSelect{
-    height: 23px;
+.content-tr>*:nth-child(2) {
+	width: 150px;
 }
 
-.input>#search{
-    height: 23px;
+.content-tr>*:nth-child(3) {
+	width: 150px;
 }
 
-.report-section{
-    gap: 20px;
+.content-tr>*:last-child {
+	width: 230px;
 }
 
-.report-board-container {
-    width: 100%;
-    margin-top: 20px;
-    border: 1px solid gray;
-    border-radius: 12px;
+.content-section {
+	padding-bottom: 50px;
 }
 
-.report-content{
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.member-item-wrapper {
+	flex: 1 1 0;
+	justify-content: center;
+	display: flex;
+	align-items: center;
 }
 
-.report-board-title-wrapper{
-    display: flex;
-    align-items: center;
-    width: 100%;
+.member-item {
+	flex: 1 1 0;
+	flex-direction: column;
+	align-items: center;
+	padding-bottom: 50px;
+	gap: 20px;
+	display: inline-flex;
 }
 
-.board-table{
-    width: 100%;
-    height: 80%;
-    padding-top: 20px;
+.member-item-title {
+	align-self: stretch;
+	text-align: center;
+	color: black;
+	font-size: 18px;
+	font-weight: 400;
 }
 
-.comment-table{
-    width: 100%;
-    height: 80%;
-    padding-top: 20px;
+.member-item-subtitle {
+	align-self: stretch;
+	text-align: center;
+	color: black;
+	font-size: 17px;
+	font-weight: 600;
 }
 
-.board-table>thead{
-    text-align: center;
-    height: 40px;
+.member-board-container {
+	width: 80%;
+	padding: 20px;
+	display: flex;
+	gap: 20px;
 }
 
-.board-table>tbody>tr{
-    text-align: center;
-    height: 40px;
+.search-wrapper {
+	display: flex;
+	justify-content: center;
+	gap: 5px;
 }
 
-.board-pageBar{
-    display: flex;
-    padding-top: 10px;
+.search-wrapper>select {
+	height: 30px;
+	width: 80px;
 }
 
-.comment-pageBar{
-    display: flex;
-    padding-top: 10px;
+.search-wrapper>input {
+	height: 30px;
+	border-radius: 6px;
 }
 
-.pageBar div{
-    padding: 5px;
+.search-input {
+	width: 70%
 }
 
-.report-board-title{
-    font-size: 25px;
-    font-weight: 500;
+.search-button {
+	width: 80px;
+	background-color: #73cc73;
+	border: none;
+	color: white;
 }
 
-.report-board-subtitle{
-    padding-right: 50px;
+.announcement-write-button{
+	height: 30px;
+	border: none;
+	border-radius: 6px;
 }
 
-.report-title-wrapper{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+select {
+	border-radius: 6px;
 }
 
-.report-title{
-    font-size: 25px;
-    font-weight: 500;
+.item {
+	display: flex;
+	align-items: center;
+	height: 70px;
 }
 
-.list{
-    height: 90%;
-    overflow-x: hidden;
+.list {
+	margin-top: 20px;
+	height: 500px;
 }
 
-.item{
-    display: flex;
-    align-items: center;
-    height: 50px;
+.content-item {
+	height: 220px;
 }
 
-.report-request-container{
-    display: flex;
-    gap: 20px;
+.title {
+	width: 70px;
 }
 
-.button{
-	z-index: 3;
+.subtitle {
+	width: 400px;
+	padding-left: 10px;
+}
+
+.comment-detail-list {
+	overflow: auto;
+}
+
+.comment-content {
+	font-size: 10px;
+}
+
+.comment-date {
+	border-bottom: 1px solid green;
+}
+
+.sub-content {
+	height: 100%;
+	overflow: auto;
+}
+
+.detail-button {
+	width: 70px;
+	height: 25px;
+	border: none;
+	border-radius: 12px;
+	color: white;
+	background-color: #73cc73;
+	margin-right: 5px;
+}
+
+.delete {
+	background-color: red;
+}
+
+.undelete {
+	background-color: blue;
+}
+
+.long-table {
+	width: 100%;
+	height: 80%;
+	padding-top: 20px;
+	font-size: 13px;
+}
+
+.long-thead {
+	text-align: center;
+	height: 30px;
+}
+
+.long-tbody {
+	text-align: center;
+	height: 30px;
+}
+
+.long-tr {
+	height: 50px;
+}
+
+.long-tr>th {
+	font-size: 15px;
+}
+
+.long-tr>td {
+	font-size: 12px;
+}
+
+.long-tr>*:first-child {
+	width: 50px;
+}
+
+.long-tr>*:nth-child(2) {
+	width: 120px;
+}
+
+.long-tr>*:nth-child(3) {
+	width: 200px;
+}
+
+.long-tr>*:nth-child(4) {
+	width: 100px;
+}
+
+.long-tr>*:nth-child(5) {
+	width: 100px;
+}
+
+.long-tr>*:nth-child(6) {
+	width: 100px;
+}
+
+.long-tr>*:nth-child(7) {
+	width: 120px;
+}
+
+.long-tr>*:last-child {
+	width: 190px;
+}
+
+.comment-long-tr>*:first-child {
+	width: 50px;
+}
+
+.comment-long-tr>*:nth-child(2) {
+	width: 120px;
+}
+
+.comment-long-tr>*:nth-child(3) {
+	width: 190px;
+}
+
+.comment-long-tr>*:nth-child(4) {
+	height: 50px;
+	width: 150px;
+	overflow: hidden;
+	display: grid;
+	align-items: center;
+}
+
+.comment-long-tr>*:nth-child(5) {
+	width: 100px;
+}
+
+.comment-long-tr>*:nth-child(6) {
+	width: 100px;
+}
+
+.comment-long-tr>*:nth-child(7) {
+	width: 120px;
+}
+
+.announcement-long-tr>*:last-child {
+	width: 190px;
+}
+
+.announcement-long-tr>*:first-child {
+	width: 50px;
+}
+
+.announcement-long-tr>*:nth-child(2) {
+	width: 290px;
+}
+
+.announcement-long-tr>*:nth-child(3) {
+	width: 150px;
+}
+
+.announcement-long-tr>*:nth-child(4) {
+	width: 150px;
+}
+
+.announcement-long-tr>*:nth-child(5) {
+	width: 120px;
+}
+
+.announcement-long-tr>*:last-child {
+	width: 190px;
+}
+
+.board-search-input, .comment-search-input {
+	width: 20%;
+}
+
+.pageBar {
+	display: flex;
+	padding-top: 10px;
+	justify-content: center;
+}
+
+.pageBar>div {
+	padding: 5px;
+}
+
+.active {
+	color: green;
 }
