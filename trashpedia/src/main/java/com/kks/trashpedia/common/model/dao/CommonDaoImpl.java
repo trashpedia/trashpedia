@@ -59,6 +59,18 @@ public class CommonDaoImpl implements CommonDao{
 		return session.update("boardMapper.updatePost",p);
 	}
 
+	//첨부파일삭제
+	@Override
+	public int deleteAttach(Post p) {
+		return session.update("boardMapper.deleteAttach",p);
+	}
+
+	//이미지삭제
+	@Override
+	public int deleteImage(Post p) {
+		return session.delete("boardMapper.deleteImage",p);
+	}
+
 	
 	
 	

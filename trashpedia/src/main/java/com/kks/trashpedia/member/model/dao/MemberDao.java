@@ -8,6 +8,8 @@ import com.kks.trashpedia.member.model.vo.Member;
 
 public interface MemberDao {
 
+	int emailCheck(String userEmail);
+
 	int joinMember(Member m);
 
 	Member loginMember(Member m);
@@ -18,13 +20,8 @@ public interface MemberDao {
 
 	int idCheck(String userEmail);
 	
-	
 	// 마이페이지 게시글
 	List<Post> pledgeList(String userEmail);
 	// 댓글
 	List<Comment> commentList(String userEmail);
-
-	
-
-
 }

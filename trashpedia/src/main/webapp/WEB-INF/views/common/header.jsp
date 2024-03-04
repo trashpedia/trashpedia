@@ -1,7 +1,10 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" import="com.kks.trashpedia.member.model.vo.*" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <c:set var="contextPath" value="<%=request.getContextPath() %>"/>
+<%
+Member authentication = (Member) session.getAttribute("loginUser");
+%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,11 +16,8 @@
     <link rel="stylesheet" href="${contextPath}/resources/css/common/header.css">
 </head>
 <body>
-<script>
-	console.log('${loginUser}')
-</script>
-    <header class="header">
-        <div class="header-outer">
+	<header class="header">
+    	<div class="header-outer">
             <div class="header-logo">
                 <a href="/trashpedia"> TRASHPEDIA </a>
             </div>
@@ -36,7 +36,7 @@
                             	<li><a href="${contextPath}/board/list?bigCategoryNo=1&subCategoryNo=1">공지게시판</a></li>
                             	<li><a href="${contextPath}/board/list?bigCategoryNo=1&subCategoryNo=2">일반게시판</a></li>
                             	<li><a href="${contextPath}/board/list?bigCategoryNo=1&subCategoryNo=3">건의게시판</a></li>
-                                <li><a href="${contextPath}/boardFreeShare?bigCategoryNo=1&subCategoryNo=4">무료나눔게시판</a></li>
+                                <li><a href="${contextPath}/board/list?bigCategoryNo=1&subCategoryNo=4">무료나눔게시판</a></li>
                             </ul>
                         </div>
                     </li>
@@ -55,7 +55,6 @@
                             <ul class="header-menu-ul">
                                 <li><a href="#">홍보 교육자료</a></li>
                                 <li><a href="#">제도 정책자료</a></li>
-                                <li><a href="${contextPath}/admin"> - </a></li>
                             </ul>
                         </div>
                     </li>
@@ -64,20 +63,27 @@
                             <a href="https://www.re.or.kr/comm/searchPickupGISPage.do?enpri_pick_gubun_category1=01#" target="_blank">집앞폐가전수거함</a>
                         </div>
                     </li>
+                    <c:if test="${authentication.role == 'ADMIN'}">
+	                    <li id="menu-garbage-collection">
+	                        <div class="header-menu-div">
+	                            <a href="${contextPath}/admin">관리자</a>
+	                        </div>
+	                    </li>
+                    </c:if>
                 </ul>
             </div>
             <div class="header-search header-search-main">
                <ul class="header-right">
-              	<sec:authorize access="isAnonymous()">
+              	<c:if test="${authentication == null}">
 	                <!-- 로그인 안했을 때 보이기 -->
                     <li><span class="material-symbols-outlined icon">login</span><a href="${contextPath}/login">login</a> </li>
-                    <li><span class="material-symbols-outlined icon">person </span><a href="${contextPath}/join">Signup</a></li>
-               </sec:authorize>
-               	<sec:authorize access="isAuthenticated()">
+                    <li><span class="material-symbols-outlined icon">person </span><a href="${contextPath}/member/join">Signup</a></li>
+               </c:if>
+               	<c:if test="${authentication != null}">
                     <!-- 로그인 했을 때 보이기 1-->
                     <li><span class="material-symbols-outlined icon">login</span><a href="${contextPath}/logout">logout</a> </li>
-                    <li><span class="material-symbols-outlined icon">person</span><a href="${contextPath}/myPage">MyPage</a> </li>
-             	</sec:authorize> 
+                    <li><span class="material-symbols-outlined icon">person</span><a href="${contextPath}/member/myPage">MyPage</a> </li>
+             	</c:if> 
                     <li id="header-search-icon" ><span class="material-symbols-outlined icon">search</span><a>Search</a></li>
                 </ul>
             </div>
@@ -106,7 +112,6 @@
         </div>
     </div>
     </header>
-    
     <script>
         var header = document.querySelector('.header');
 

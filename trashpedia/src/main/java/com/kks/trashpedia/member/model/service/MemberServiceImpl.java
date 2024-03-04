@@ -3,6 +3,8 @@ package com.kks.trashpedia.member.model.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+
 import org.springframework.stereotype.Service;
 
 import com.kks.trashpedia.board.model.vo.Comment;
@@ -10,10 +12,23 @@ import com.kks.trashpedia.board.model.vo.Post;
 import com.kks.trashpedia.member.model.dao.MemberDao;
 import com.kks.trashpedia.member.model.vo.Member;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
+@RequiredArgsConstructor
 public class MemberServiceImpl implements MemberService{
-	@Autowired
 	private MemberDao dao;
+
+	@Value("${api.key}")
+	private String apiKey;
+	
+	@Value("${api.secret}")
+	private String apiSecret;
+
+	@Override
+	public int emailCheck(String userEmail) {
+		return dao.emailCheck(userEmail);
+	}
 
 	@Override
 	public int joinMember(Member m) {
@@ -41,7 +56,6 @@ public class MemberServiceImpl implements MemberService{
 		return dao.idCheck(userEmail);
 	}
 
-	
 	// 마이페이지 
 	// 게시글
 	@Override
@@ -55,7 +69,9 @@ public class MemberServiceImpl implements MemberService{
 		return dao.commentList(userEmail);
 	}
 
-
-
-	
+	// 댓글
+	@Override
+	public List<Comment> commentList(String userEmail) {
+		return dao.commentList(userEmail);
+	}
 }

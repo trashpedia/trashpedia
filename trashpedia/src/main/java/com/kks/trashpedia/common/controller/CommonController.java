@@ -110,13 +110,15 @@ public class CommonController {
 		}
 
 		String nextUrl = (String) session.getAttribute("lastUrl");
-
 		mv.setViewName("redirect:/");
 
-
 		if (nextUrl != null) {
-			mv.setViewName("redirect:" + nextUrl + "?bigCategoryNo=" + subcategory.getBigCategoryNo()
-					+ "&subCategoryNo=" + b.getSubCategoryNo());
+			// 첫 번째 path segment만 추출
+			UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(nextUrl);
+			String firstPathSegment = builder.build().getPathSegments().get(0);
+
+			mv.setViewName("redirect:" + "/" + firstPathSegment + "/list?bigCategoryNo=" + p.getBigCategoryNo()
+					+ "&subCategoryNo=" + p.getSubCategoryNo());
 		}
 		return mv;
 	}
@@ -133,7 +135,7 @@ public class CommonController {
 	
 	//게시글수정 페이지이동
 	@GetMapping("/update")
-	public ModelAndView updatePostPage(SubCategory subcate, Board b) {
+	public ModelAndView updatePostPage(@RequestParam int type,SubCategory subcate, Board b) {
 		
 		ModelAndView mv = new ModelAndView();
 		SubCategory category = service.getSubCategory(subcate);
@@ -151,6 +153,7 @@ public class CommonController {
 		mv.addObject("img",img);
 		mv.addObject("attachment",attachment);
 		mv.addObject("post",post);
+		mv.addObject("type",type);
 		mv.setViewName("common/boardInsert");
 		
 		return mv;
@@ -163,37 +166,22 @@ public class CommonController {
 			@RequestParam("thumbnail") MultipartFile thumbnailImage,
 			@RequestParam("upfile") MultipartFile upfile,
 			@RequestParam int type,
+			@RequestParam String deleteImg,
+			@RequestParam String deleteFile,
 			RedirectAttributes ra, 
 			HttpSession session,
 			ModelAndView mv
 			) throws IOException {
 		
-		System.out.println(p);
-		
-		int result = 0;
-
-		result = service.updatePost(p);
-		
-		System.out.println(thumbnailImage);
-		System.out.println(upfile);
-		
-		// 첨부파일, 이미지 파일 저장
-	    Attachment attachment = fileStore.storeFile(upfile);
-	    ImgAttachment image = fileStore.storeImage(thumbnailImage);
-
-	    if (attachment != null) {
-	        attachment.setRefBno(p.getPostNo());  // 게시글 번호를 참조 번호로 설정
-	        attachment.setFileType(type);  // 파일 타입 설정 필요 시
-	        // service.updateFile(attachment);  // 파일 정보 업데이트
-	    }
-
+		int result = service.updatePost(p, deleteImg, deleteFile, upfile, thumbnailImage,type);
+	    
 		if (result > 0) {
 			ra.addFlashAttribute("alert", "게시글이 수정되었습니다.");
 		} else {
 			ra.addFlashAttribute("alert", "게시글 수정에 실패했습니다.");
 		}
-
 		String nextUrl = (String) session.getAttribute("lastUrl");
+
 		if (nextUrl != null) {
 			// 첫 번째 path segment만 추출
 			UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(nextUrl);
@@ -205,13 +193,6 @@ public class CommonController {
 		return mv;
 	}
 	
-	
-	//수정날짜 바꿀때 사용할거
-//	LocalDateTime nowTime = LocalDateTime.now();
-//	java.sql.Date date = java.sql.Date.valueOf(nowTime.toLocalDate());
-//	b.setModifyDate(date);
-//	System.out.println("date = "  +date);
-
 	
 	// 목록으로 돌아가기
 	@GetMapping("/returnList")

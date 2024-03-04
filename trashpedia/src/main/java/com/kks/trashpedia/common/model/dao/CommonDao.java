@@ -29,4 +29,10 @@ public interface CommonDao {
 	//게시글수정
 	int updatePost(Post p);
 
+	//첨부파일삭제
+	int deleteAttach(Post p);
+
+	//이미지삭제
+	int deleteImage(Post p);
+
 }
