@@ -46,11 +46,8 @@ public class PledgeController {
 	public ModelAndView pledgeList(int subCategoryNo) {
 		
 		ModelAndView mav = new ModelAndView();
-		List<Post> pledgeList = service.pledgeList(subCategoryNo);
-		
-		mav.addObject("list", pledgeList);
+//		List<Post> pledgeList = service.pledgeList(subCategoryNo);
 		mav.setViewName("pledge/pledgeView");
-		
 		return mav;
 	}
 	

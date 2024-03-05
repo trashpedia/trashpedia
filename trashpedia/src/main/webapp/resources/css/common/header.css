@@ -19,7 +19,7 @@ body{
 }
 
 ::selection {
-    background-color: rgb(78, 214, 95);
+    background-color: rgb(67, 211, 85);
     color: #ffffff; 
 }
 
@@ -67,7 +67,7 @@ header a{
     display: flex;
     align-items: center;
     font-size: 24px;
-    color:  rgb(82, 165, 82);
+    color:  rgb(69, 177, 74);
     font-weight: 800;
 }
 /* nav */

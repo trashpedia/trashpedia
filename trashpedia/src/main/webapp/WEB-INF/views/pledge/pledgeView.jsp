@@ -19,6 +19,13 @@
 </head>
 <body>
 
+	<c:if test="${not empty alert}">
+		<script>
+		    alert("${alert}");
+		</script>
+		<c:remove var="alert" />
+	</c:if>
+
     <jsp:include page="../common/header.jsp"/>
     
     <main>
@@ -44,9 +51,9 @@
                     </div>
                     <div class="content-search">
 	                    <select name="condition" id="board-search-filter-select">
-			                <option value="postNo" selected>번호</option>
-			                <option value="title">제목</option>
+			                <option value="title" selected>제목</option>
 			                <option value="content">내용</option>
+			                <option value="postNo" >번호</option>
 						</select>
                         <input type="search" class="board-search-input" name="keyword" id="keyword" placeholder="검색어를 입력하세요.">
                         <button type="button" class="board-search-button" onclick="boardSearch()">
@@ -56,17 +63,10 @@
                 </div>
                 
                 <!-- 실천서약 -->
-                <div class="pledge">
-                    <div class="content-outer">
-                    	<c:forEach var="post" items="${list}">
-							          <div class="img-area" onclick ="pledgeDetail(${post.postNo})">
-                          <input type="hidden" value="${post.title}">
-                          <input type="hidden" name="subCategoryNo" value="${post.subCategoryNo} ">
-                          <img src="<c:url value='/resources/attachFile/image/${post.changeName}'/>"  class="content-img">
-                        </div>
-                      </c:forEach>
-                    </div>
-                </div>
+				<div class="pledge">
+				    <div class="content-outer" id="boardContentOuter"> </div>
+				    <div class="content-outer" id="noPostMessage"><h1>해당하는 게시글이 없습니다.</h1></div>
+				</div>
                 
                  <!-- 실천인증 -->
 <!--                  <div class="certification">                 	 -->
@@ -96,8 +96,8 @@
     <jsp:include page="../common/footer.jsp"/>
     
     <script>
-    	//숫자 카운팅
-    	
+    
+    	//----- 숫자 카운팅
         // 시작 숫자
         let currentCount = 0;
         // 목표 숫자
@@ -108,7 +108,6 @@
             // 목표 카운트에 도달하면 중지
             if (currentCount < targetCount) {
                 let timeoutValue;
-
                 if (currentCount <= targetCount - 200 ) {  timeoutValue = 60; } 
                 else if (currentCount <= targetCount - 40) {  timeoutValue = 80; } 
                 else if (currentCount <= targetCount - 12) { timeoutValue = 110; } 
@@ -126,100 +125,81 @@
         updateCount();
 
         
-        //페이징,검색
+        //----- 페이징,검색
         var boardFilterValue = 'boardNo';
 	    var boardSearchSelect = null;
 	    var boardSearchValue = null;
 		
+	    //실천서약,실천인증 탭 선택
 		function pledgeShow() {
 	        $("#pledgeBtn").css("background-color", "#5bbf5b");
-// 	        $("#certificationBtn").css("background-color", "rgb(200, 200, 200)");
 	        localStorage.setItem('selectedTab', 'pledge');
 	        getBoardList(0, boardSearchSelect, boardSearchValue);
 	    }
 	
 	    function certificationShow() {
 	        $("#certificationBtn").css("background-color", "#5bbf5b");
-// 	        $("#pledgeBtn").css("background-color", "rgb(200, 200, 200)");
 	        localStorage.setItem('selectedTab', 'certification');
 	        getBoardList(0, boardSearchSelect, boardSearchValue);
 	    }
 	    
 	    $(document).ready(function () {
+	    	var subCategoryNoValue = `${param.subCategoryNo}`;
+	    	var bigCategoryNoValue = `${param.bigCategoryNo}`;
 	    	
-	    	  getBoardList(0, boardSearchSelect, boardSearchValue);
-	    	  
-	    		// 페이지 로드 시 localStorage에서 상태를 가져와 CSS 적용
-// 	    	    var selectedTab = localStorage.getItem('selectedTab');
-	    	    
-	    	    // localStorage에서 상태를 가져오지 못했을 때, 서브 카테고리에 따라 기본 탭을 선택
-// 	    	    if (!selectedTab) {
-// 	    	        var subCategory = "${param.subCategoryNo}";  // 서버에서 서브 카테고리 정보를 받아옵니다.
-	    	        
-// 	    	        if (subCategory === '5') {  // 'pledge'에 해당하는 서브 카테고리 번호
-// 	    	            selectedTab = 'pledge';
-// 	    	        } else if (subCategory === '6') {  // 'certification'에 해당하는 서브 카테고리 번호
-// 	    	            selectedTab = 'certification';
-// 	    	        }
-// 	    	    }
-	    	    
-	    	    if (selectedTab === 'pledge') {
-	    	        pledgeShow();
-	    	    } else if (selectedTab === 'certification') {
-	    	        certificationShow();
-	    	    }
-	    	});
+	    	if(subCategoryNoValue =='5'){ 
+	    		pledgeShow();
+	    	}else{ 
+	    		certificationShow(); 
+	    	}
+	    });
 	    
-	    
-        //누른 option값으로 필터링하기
-// 	    $('#board-filter-select').change(function(){
-// 	    	boardFilterValue = $(this).val();
-// 	    	$('.board-list').empty();  //tbody영역 지우기-비동기일때만
-// 	    	getBoardList(0, boardSearchSelect, boardSearchValue);
-// 	    });
-        
         /* 검색 */
 	    function boardSearch(){
 	    	boardSearchSelect = $('#board-search-filter-select').val();
 	    	boardSearchValue = $('.board-search-input').val();
-	    	console.log(boardSearchSelect)
-	    	console.log(boardSearchValue)
 	    	$('.board-search-input').val('');
 	    	$('.board-list').empty();
 	    	getBoardList(0, boardSearchSelect, boardSearchValue);
 	    }
         
-	    /* 게시글 리스트 조회 */
+	 	// 게시글 리스트 조회
 	    function getBoardList(page, boardSearchSelect, boardSearchValue) {
 	        $.ajax({
 	            url: '${contextPath}/pledge/loadListData',
 	            type: 'GET',
 	            dataType: 'json',
 	            data: {
-	            	page: page, size: 8, sort: boardFilterValue, 
-	            	searchSelect: boardSearchSelect, 
-	            	searchValue: boardSearchValue,
-	            	subCategoryNo : ${subCategoryNo}	
+	                page: page, size: 8, sort: boardFilterValue,
+	                searchSelect: boardSearchSelect,
+	                searchValue: boardSearchValue,
+	                subCategoryNo : ${subCategoryNo}
 	            },
 	            success: function(data) {
- 	            	if(data.content.length != 0){
- 		                updateBoardTable(data.content);
- 		                updateBoardPagination(data);
- 	            	}
+	                if(data.content.length != 0){
+	                    updateBoardTable(data.content);
+	                    updateBoardPagination(data);
+	                    $('#noPostMessage').hide();
+	                    $('#boardContentOuter').show();
+	                } else {
+	                    $('#noPostMessage').show();
+	                    $('#boardContentOuter').hide();
+	                }
 	            },
 	            error: function(xhr, status, error) {
 	                console.error('Error: ' + error);
+	                $('#noPostMessage').show();
+	                $('#boardContentOuter').hide();
 	            }
 	        });
 	    }
 	    
-	    /* 게시글 반복문돌리기 */
+	    // 게시글 반복문돌리기
 	    function updateBoardTable(data) {
 		    let userList = document.querySelector('.content-outer');
 		    userList.innerHTML = '';
 		
 		    for (let i = 0; i < data.length; i++) {
-		    	
 		        let post = data[i];
 		        let postNo = post.postNo;
 		        
@@ -277,17 +257,16 @@
 	                    pagination += '<button class="pagingBtn" onclick="getBoardList(' + (data.number + 1) + ',\'' + boardSearchSelect + '\',\'' + boardSearchValue + '\')">></button>';
 	                }
 	            }
-
 	            userPaging.innerHTML = pagination;
 	        } else {
 	            console.error('Error: .board-pageBar element not found.');
 	        }
 	    }
         
+	    // 상세페이지 이동
 	    function pledgeDetail(postNo) {
 	    	location.href = "${contextPath}/pledge/detail/" + postNo;
     	}
-		
 		
 		
     </script>

@@ -53,46 +53,43 @@
 		VALUES (SEQ_IATTNO.NEXTVAL,
 		#{refBno},#{originName},#{changeName},1,#{imgType},SYSDATE,SYSDATE,'Y')
 	</insert>
+	
+	<!-- 게시글 수정 - 기존글조회 -->
+	<select id="getPost" parameterType="int" resultType="post">
+		SELECT 	P.POST_NO, P.TITLE, P.CONTENT, P.CREATE_DATE, P.MODIFY_DATE, B.USER_NO,B.BOARD_NO, USER_NAME
+		FROM POST P
+		LEFT JOIN BOARD B ON P.POST_NO = B.POST_NO
+		LEFT JOIN MEMBER M ON M.USER_NO = B.USER_NO
+		WHERE P.POST_NO = #{postNo}
+	</select>
+	
+	<!-- 게시글 수정 -->
+	<update id="updatePost" parameterType="post">
+		UPDATE POST 
+		SET TITLE = #{title},
+			CONTENT = #{content},
+			MODIFY_DATE = SYSDATE
+		WHERE POST_NO = #{postNo}
+	</update>
 
-	<!-- 목록 띄우기 -->
-	<!-- <select id="boardList" resultType="post"> -->
-	<!-- SELECT P.POST_NO, P.TITLE, P.CONTENT, P.CREATE_DATE, P.MODIFY_DATE, -->
-	<!-- P.STATUS, B.BOARD_NO, SC.SUB_CATEGORY_NAME, M.USER_NAME, COUNT(H.HITS_NO) -->
-	<!-- AS hitCount -->
-	<!-- FROM BOARD B -->
-	<!-- LEFT JOIN POST P ON (P.POST_NO = B.POST_NO) -->
-	<!-- LEFT JOIN SUB_CATEGORY SC ON B.SUB_CATEGORY_NO = SC.SUB_CATEGORY_NO -->
-	<!-- LEFT JOIN MEMBER M ON B.USER_NO = M.USER_NO -->
-	<!-- LEFT JOIN HITS H ON B.BOARD_NO = H.BOARD_NO -->
-	<!-- WHERE -->
-	<!-- B.SUB_CATEGORY_NO = #{subCategoryNo} -->
-	<!-- AND P.STATUS='Y' -->
-	<!-- <if test="searchSelect != null"> -->
-	<!-- <if test="searchSelect == 'boardNo'"> -->
-	<!-- AND B.BOARD_NO = #{searchValue} -->
-	<!-- </if> -->
-	<!-- <if test="searchSelect == 'title'"> -->
-	<!-- AND P.TITLE = #{searchValue} -->
-	<!-- </if> -->
-	<!-- <if test="searchSelect == 'content'"> -->
-	<!-- AND P.CONTENT = #{searchValue} -->
-	<!-- </if> -->
-	<!-- </if> -->
-	<!-- GROUP BY P.POST_NO, P.TITLE, P.CONTENT, P.CREATE_DATE, P.MODIFY_DATE, -->
-	<!-- P.STATUS, B.BOARD_NO, SC.SUB_CATEGORY_NAME, M.USER_NAME -->
-	<!-- ORDER BY -->
-	<!-- <if test="filter == 'createDate'"> -->
-	<!-- CREATE_DATE DESC -->
-	<!-- </if> -->
-	<!-- <if test="filter == 'hitCount'"> -->
-	<!-- hitCount DESC -->
-	<!-- </if> -->
-	<!-- </select> -->
+	<!--첨부파일삭제 -->
+    <delete id="deleteAttach">
+        DELETE FROM ATTACHMENT
+        WHERE REF_BNO = #{boardNo} AND FILE_TYPE = 1
+    </delete>
+    
+    <!--이미지삭제  -->
+    <delete id="deleteImage">
+        DELETE FROM IMG_ATTACHMENT
+        WHERE REF_BNO = #{boardNo} AND FILE_TYPE = 1
+    </delete>
+	
+	
 
 
 	<select id="boardList" resultType="post" parameterType="board">
 		SELECT P.POST_NO, P.TITLE, P.CONTENT, P.CREATE_DATE, P.MODIFY_DATE,
-		P.STATUS, B.BOARD_NO, SC.SUB_CATEGORY_NAME, M.USER_NAME
+		P.STATUS, B.BOARD_NO, SC.SUB_CATEGORY_NAME, M.USER_NAME, H.HITS_NO
 		FROM BOARD B
 		LEFT JOIN POST P ON (P.POST_NO = B.POST_NO)
 		LEFT JOIN SUB_CATEGORY SC
@@ -121,8 +118,9 @@
 				ORDER BY P.CREATE_DATE DESC
 			</when>
 			<when test="filter == 'hitCount'">
-				ORDER BY (SELECT COUNT(*) FROM HITS WHERE
-				HITS.BOARD_NO = B.BOARD_NO)
+				ORDER BY (SELECT COUNT(*) 
+							FROM HITS 
+							WHERE HITS.BOARD_NO = B.BOARD_NO)
 				DESC
 			</when>
 			<otherwise>
@@ -132,48 +130,10 @@
 	</select>
 
 
-	<!-- <select id="boardList" resultType="post" parameterType="board"> -->
-	<!-- SELECT P.POST_NO, P.TITLE, P.CONTENT, P.CREATE_DATE, P.MODIFY_DATE, -->
-	<!-- P.STATUS, B.BOARD_NO, SC.SUB_CATEGORY_NAME, M.USER_NAME -->
-	<!-- FROM BOARD B -->
-	<!-- LEFT JOIN POST P ON (P.POST_NO = B.POST_NO) -->
-	<!-- LEFT JOIN SUB_CATEGORY SC ON B.SUB_CATEGORY_NO = SC.SUB_CATEGORY_NO -->
-	<!-- LEFT JOIN MEMBER M ON B.USER_NO = M.USER_NO -->
-	<!-- LEFT JOIN HITS H ON B.BOARD_NO = H.BOARD_NO -->
-	<!-- WHERE B.SUB_CATEGORY_NO = #{subCategoryNo} -->
-	<!-- ORDER BY P.POST_NO DESC -->
-	<!-- WHERE -->
-	<!-- B.SUB_CATEGORY_NO = #{subCategoryNo} -->
-	<!-- AND P.STATUS='Y' -->
-	<!-- <if test="searchSelect != null"> -->
-	<!-- <if test="searchSelect == 'boardNo'"> -->
-	<!-- AND B.BOARD_NO = #{searchValue} -->
-	<!-- </if> -->
-	<!-- <if test="searchSelect == 'title'"> -->
-	<!-- AND P.TITLE = #{searchValue} -->
-	<!-- </if> -->
-	<!-- <if test="searchSelect == 'content'"> -->
-	<!-- AND P.CONTENT = #{searchValue} -->
-	<!-- </if> -->
-	<!-- </if> -->
-	<!-- GROUP BY P.POST_NO, P.TITLE, P.CONTENT, P.CREATE_DATE, P.MODIFY_DATE, -->
-	<!-- P.STATUS, B.BOARD_NO, SC.SUB_CATEGORY_NAME, M.USER_NAME -->
-	<!-- ORDER BY -->
-	<!-- <if test="filter == 'createDate'"> -->
-	<!-- CREATE_DATE DESC -->
-	<!-- </if> -->
-	<!-- <if test="filter == 'hitCount'"> -->
-	<!-- hitCount DESC -->
-	<!-- </if> -->
-	<!-- </select> -->
-
 	<select id="boardCount" resultType="int">
 		SELECT COUNT(*)
 		FROM POST
 	</select>
-
-
-
 
 
 	<!-- 상세페이지 -->
@@ -200,50 +160,27 @@
 		SELECT *
 		FROM SUB_CATEGORY
 	</select>
+	<!-- 게시글 조회수 증가 -->
+	
+
 
 	<!-- 카테고리 글목록 리스트 -->
 	<select id="categoryList" resultType="post">
-		SELECT P.POST_NO, P.TITLE,
-		M.USER_NAME, P.CREATE_DATE
-		FROM BOARD B
-		LEFT JOIN POST P ON B.POST_NO =
-		P.POST_NO
-		LEFT JOIN MEMBER M ON B.USER_NO = M.USER_NO
+		SELECT POST_NO, TITLE, USER_NAME, CREATE_DATE, SUB_CATEGORY_NO
+		FROM (
+		    SELECT P.POST_NO, P.TITLE, M.USER_NAME, P.CREATE_DATE, B.SUB_CATEGORY_NO,
+		           ROW_NUMBER() OVER(PARTITION BY B.SUB_CATEGORY_NO ORDER BY P.CREATE_DATE DESC) AS RN
+		    FROM BOARD B
+		    LEFT JOIN POST P ON B.POST_NO = P.POST_NO
+		    LEFT JOIN MEMBER M ON B.USER_NO = M.USER_NO
+		    LEFT JOIN SUB_CATEGORY SC ON B.SUB_CATEGORY_NO = SC.SUB_CATEGORY_NO
+		) WHERE RN <![CDATA[<=]]> 4
+		ORDER BY SUB_CATEGORY_NO, CREATE_DATE DESC
 	</select>
+	
+	
 
-	<!-- 게시글 수정 - 기존글조회 -->
-	<select id="getPost" parameterType="int" resultType="post">
-		SELECT
-		P.POST_NO, P.TITLE, P.CONTENT, P.CREATE_DATE, P.MODIFY_DATE,
-		B.USER_NO,B.BOARD_NO, USER_NAME
-		FROM POST P
-		LEFT JOIN BOARD B ON
-		P.POST_NO = B.POST_NO
-		LEFT JOIN MEMBER M ON M.USER_NO = B.USER_NO
-		WHERE
-		P.POST_NO = #{postNo}
-	</select>
-	<!-- 게시글 수정 -->
-	<update id="updatePost" parameterType="post">
-		UPDATE POST
-		SET TITLE =
-		#{title},
-		CONTENT = #{content},
-		MODIFY_DATE = SYSDATE
-		WHERE POST_NO =
-		#{postNo}
-	</update>
 
-	<!--첨부파일삭제 -->
-    <delete id="deleteAttach">
-        DELETE FROM ATTACHMENT
-        WHERE REF_BNO = #{boardNo}
-    </delete>
-    <!--이미지삭제  -->
-    <delete id="deleteImage">
-        DELETE FROM IMG_ATTACHMENT
-        WHERE REF_BNO = #{boardNo}
-    </delete>
 
 	<!-- 무료 나눔 페이지 관련 쿼리문 -->
 
@@ -350,7 +287,7 @@
 		WHERE ROWNUM = 1
 	</select>
 
-	<!-- 게시글 조회수 증가 -->
+<!-- 	게시글 조회수 증가 -->
 	<insert id="increaseCount" parameterType="board">
 		INSERT INTO HITS
 		(HITS_NO, BOARD_NO, USER_NO, CREATE_DATE)

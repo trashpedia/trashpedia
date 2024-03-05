@@ -11,4 +11,6 @@ public interface TrashDao {
 
 	List<TrashPost> getPopularList();
 
+	TrashPost trashDetail(int trashPostNo);
+
 }

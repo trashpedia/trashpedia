@@ -29,7 +29,6 @@ main {
     font-size: 18px;
 }
 
-
 /* ------ 참여현황 count ------*/
 .participant-section{
     box-sizing: border-box;
@@ -37,7 +36,7 @@ main {
     align-items: center;
     text-align: center;
     margin: 60px 0;
-    color: rgb(98, 98, 98);
+    color: rgb(88, 88, 88);
     width: 100%;
     font-weight: 550;
     font-size: 25px;
@@ -55,9 +54,9 @@ main {
 
 .participant-count {
     font-weight: bold;
-    font-size: 30px;
-    color: rgb(84, 168, 84);
-    /* color: rgb(255, 136, 0); */
+    font-size: 32px;
+    color: rgb(77, 182, 71);
+    /* colorgb(77, 182, 71) 0); */
 }
 
 
@@ -186,6 +185,14 @@ main {
 }
 .img-area:hover{
     border: 4px solid #78d078;
+}
+
+/* 게시글 없을 때  */
+#noPostMessage{
+	color : #3b3b3b;
+	font-weight : 500;
+	display: none; 
+	padding : 200px;
 }
 
 

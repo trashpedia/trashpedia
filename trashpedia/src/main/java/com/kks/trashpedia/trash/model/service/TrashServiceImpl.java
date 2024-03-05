@@ -23,6 +23,11 @@ public class TrashServiceImpl implements TrashService{
 	public List<TrashPost> getPopularList() {
 		return dao.getPopularList();
 	}
+
+	@Override
+	public TrashPost trashDetail(int trashPostNo) {
+		return dao.trashDetail(trashPostNo);
+	}
 	
 	
 }

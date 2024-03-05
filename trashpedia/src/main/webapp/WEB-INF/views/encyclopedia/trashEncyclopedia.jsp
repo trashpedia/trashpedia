@@ -21,8 +21,7 @@
 <link rel="stylesheet"
 	href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 <!-- css -->
-<link rel="stylesheet"
-	href="${contextPath}/resources/css/encyclopedia/trashEncyclopedia.css">
+<link rel="stylesheet" href="${contextPath}/resources/css/encyclopedia/trashEncyclopedia.css">
 
 <!-- slick 라이브러리 CSS -->
 <link rel="stylesheet" type="text/css"
@@ -61,12 +60,12 @@
 		</div>
 
 		<div class="recently-outer showEvent">
+		
+		<!--최근업데이트된 쓰레기 게시물  -->
 			<div id="recently-garbage-slider" class="recently-garbage-outer">
-
 				<p id="recently-garbage-outer-title">
 					최근 업데이트된 <strong>쓰레기</strong>
 				</p>
-
 				<div class="recently-garbage-inner">
 					<c:forEach var="post" items="${trashList}">
 						<div class="recently-garbage">
@@ -81,7 +80,7 @@
 					</c:forEach>
 				</div>
 			</div>
-
+		<!--인기 쓰레기 게시물  -->
 			<div class="space"></div>
 			<div id="recently-garbage-slider" class="popular-garbage-outer">
 				<p id="recently-garbage-outer-title">
@@ -100,9 +99,9 @@
 						</div>
 					</c:forEach>
 				</div>
+				</a>
 			</div>
 		</div>
-
 	</main>
 	<button id="scrollUpButton">
 		<span class="material-symbols-outlined">arrow_upward</span>
@@ -246,6 +245,12 @@
 	            });
 	        }).scroll();
 	    });
+	    
+	    //상세페이지로 이동
+	    function trashDetail(trashPostNo) {
+	     location.href = "${contextPath}/trash/detail/" + trashPostNo;
+	    }
+	    
 	
 	</script>
 </body>

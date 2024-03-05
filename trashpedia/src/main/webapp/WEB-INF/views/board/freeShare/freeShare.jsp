@@ -20,9 +20,9 @@
 
 <!-- css -->
 <link rel="stylesheet"
-	href="${contextPath}/resources/css/board/freeShare/freeShare.css">
-<link rel="stylesheet"
 	href="${contextPath}resources/css/main/pledge.css">
+<link rel="stylesheet"
+	href="${contextPath}/resources/css/board/freeShare/freeShare.css">
 
 
 
@@ -40,94 +40,81 @@
 	href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 
 
+
+<style type="text/css">
+
+
+
+/* ----- 이미지 부분 ----- */
+.content-outer {
+	width:1760px;
+    box-sizing: border-box;
+    padding: 30px;
+    background-color: white;
+ 
+    border: 2px solid #5bbf5b;
+    overflow: hidden;
+    text-align: center;
+    z-index: 2;
+/*     margin-top: 100px; */
+}
+.img{
+	width: 20%;
+}
+.img-area {
+    width: 340px;
+    height: 340px;
+    box-sizing: border-box;
+    display: inline-block;
+    margin: 15px;
+    overflow: hidden;
+}
+
+.content-img {
+    box-sizing: border-box;
+    width: 270px;
+    height: 270px;
+    min-width: 100%; 
+    max-width: 100%;
+    min-height: 100%;
+    max-height: 100%;
+    cursor: pointer;
+    object-fit : cover;
+}
+
+.img-area:hover .content-img{
+    transform: scale(1.15);
+    transition: transform 0.4s ease-in-out;
+}
+.img-area:hover{
+    border: 4px solid #78d078;
+}
+/* ----- 페이징 버튼 ----- */
+.paging-button{
+    margin-top: 42px;
+    margin-bottom: 5px;
+}
+
+.pagingBtn{
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    font-size: 15px;
+    border: 0;
+    cursor: pointer;
+    margin: 2px;
+    font-weight: 500;
+    background-color: #73cc73;
+    color: white;
+}
+
+</style>
 <script type="text/javascript">
 	//상세보기 이동
 	function goToFreeShareDetail(postNo) {
 		location.href = "${contextPath}/board/detail/${postNo}" + postNo;
 	}
-
-	//페이지를 변경하는 함수
-	function changePage(pageNumber) {
-		// AJAX 호출을 통해 해당 페이지에 맞는 데이터를 요청
-		$.ajax({
-			type : 'GET',
-			url : '${contextPath}/board/loadListData',
-			data : {
-				page : pageNumber
-			},
-			success : function(data) {
-				// 받아온 데이터를 기반으로 페이지를 구성
-				renderPage(data);
-			},
-			error : function(xhr, status, error) {
-				console.error("에러 발생:", error);
-			}
-		});
-	}
-
-	// 페이지를 구성하는 함수
-	function renderPage(data) {
-		var html = '';
-		data
-				.forEach(function(post) {
-					html += '<div class="Card" onclick="goToFreeShareDetail('
-							+ post.postNo + ')" data-postNo="' + post.postNo
-							+ '">';
-					html += '<div class="Front">';
-					html += '<div class="Image">';
-					html += '<img src="' + post.imageSrc + '">';
-					html += '</div>';
-					html += '<div class="TextContent">';
-					html += '<div class="Subtitle">' + post.title + '</div>';
-					html += '<div class="IconButtons">';
-					html += '<div class="Icon">😃</div>';
-					html += '<div class="Icon">👍</div>';
-					html += '<div class="Icon">🔥</div>';
-					html += '</div>';
-					html += '</div>';
-					html += '</div>';
-					html += '<div class="Back" onclick="goToFreeShareDetail('
-							+ post.postNo + ')" data-postNo="' + post.postNo
-							+ '">';
-					html += '<img src="' + post.imageSrc + '" alt="">';
-					html += '<span class="clickDetail" data-postNo="' + post.postNo + '">'
-							+ post.content + '</span>';
-					html += '</div>';
-					html += '</div>';
-				});
-		$('.List').html(html); // 페이지의 List 영역에 출력
-	}
-
-	// 페이지 초기화
-	$(document).ready(function() {
-		var currentPage = 1; // 현재 페이지 초기값
-		var totalPages = ${totalPages}; // 전체 페이지 수
-		var pageSize = 12; // 페이지당 보여줄 항목 수
-
-		// 페이지를 초기화하는 함수
-		function initializePage() {
-			changePage(currentPage); // 초기 페이지 설정
-		}
-
-		// 'prev' 버튼 클릭 시 이전 페이지로 이동하는 함수
-		$('#prevBtn').click(function() {
-			if (currentPage > 1) {
-				currentPage--; // 현재 페이지를 1 감소
-				changePage(currentPage); // 페이지 변경 함수 호출
-			}
-		});
-
-		// 'next' 버튼 클릭 시 다음 페이지로 이동하는 함수
-		$('#nextBtn').click(function() {
-			if (currentPage < totalPages) {
-				currentPage++; // 현재 페이지를 1 증가
-				changePage(currentPage); // 페이지 변경 함수 호출
-			}
-		});
-
-		// 페이지 초기화
-		initializePage();
-	});
+	
 </script>
 
 </head>
@@ -160,45 +147,55 @@
 					</button>
 
 					<!-- 3개의 리스트 -->
-					<div class="List"></div>
-					<!-- 					<div class="List"> -->
-					<%-- 						<c:forEach var="post" items="${list}"> --%>
-					<%-- 							<div class="Card" onclick="goToFreeShareDetail(${post.postNo})" --%>
-					<%-- 								data-postNo="${post.postNo}"> --%>
-					<!-- 								Front -->
-					<!-- 								<div class="Front"> -->
-					<!-- 									<div class="Image"> -->
-					<!-- 										<img -->
-					<%-- 											src="<c:url value='/resources/attachFile/image/${post.changeName}'/>"> --%>
-					<!-- 									</div> -->
 
-					<!-- 									<div class="TextContent"> -->
-					<%-- 										<div class="Subtitle">${post.title}</div> --%>
-					<!-- 										<div class="IconButtons"> -->
-					<!-- 											<div class="Icon">😃</div> -->
-					<!-- 											<div class="Icon">👍</div> -->
-					<!-- 											<div class="Icon">🔥</div> -->
-					<!-- 										</div> -->
-					<!-- 									</div> -->
-					<!-- 								</div> -->
-					<!-- 								Back -->
-					<%-- 								<div class="Back" onclick="goToFreeShareDetail(${post.postNo})" --%>
-					<%-- 									data-postNo="${post.postNo}"> --%>
-					<!-- 									<img -->
-					<%-- 										src="<c:url value='/resources/attachFile/image/${post.changeName}'/>" --%>
-					<!-- 										alt=""> <span class="clickDetail" -->
-					<%-- 										data-postNo="${post.postNo}">${post.content}</span> --%>
-					<!-- 								</div> -->
-					<!-- 							</div> -->
+<!-- 					<div class="List">					 -->
+<%-- 						<c:forEach var="post" items="${list}"> --%>
+<%-- 							<div class="Card" onclick="goToFreeShareDetail(${post.postNo})" --%>
+<%-- 								data-postNo="${post.postNo}"> --%>
+<!-- 								Front -->
+<!-- 								<div class="Front"> -->
+<!-- 									<div class="Image"> -->
+<!-- 										<img class="content-img" -->
+<%-- 											src="<c:url value='/resources/attachFile/image/${post.changeName}'/>"> --%>
+<!-- 									</div> -->
 
-					<%-- 						</c:forEach> --%>
-					<!-- 					</div> -->
+<!-- 									<div class="TextContent"> -->
+<%-- 										<div class="Subtitle">${post.title}</div> --%>
+<!-- 										<div class="IconButtons"> -->
+<!-- 											<div class="Icon">😃</div> -->
+<!-- 											<div class="Icon">👍</div> -->
+
+<!-- 										</div> -->
+<!-- 									</div> -->
+<!-- 								</div> -->
+<!-- 								Back -->
+<%-- 								<div class="Back" onclick="goToFreeShareDetail(${post.postNo})" --%>
+<%-- 									data-postNo="${post.postNo}"> --%>
+<!-- 									<img class="content-img" -->
+<%-- 										src="<c:url value='/resources/attachFile/image/${post.changeName}'/>" --%>
+<!-- 										alt=""> <span class="clickDetail" -->
+<%-- 										data-postNo="${post.postNo}">${post.content}</span> --%>
+<!-- 								</div> -->
+<!-- 							</div> -->
+
+<%-- 						</c:forEach> --%>
+<!-- 					</div> -->
 
 
 
 
 
 					<!-- 3개의 리스트 -->
+			<!-- 실천서약 -->
+			<div class="pledge">
+				<div class="content-outer">
+
+				</div>
+			</div>
+
+			<div class="board-pageBar paging-button"
+				style="top:100px;"
+			></div>
 
 
 				</div>
@@ -207,23 +204,9 @@
 
 
 
-			<div class="PagingArea">
-				<button class="pagingBtn" id="prevBtn"><</button>
-				<!-- 				<button class="pagingBtn">1</button> -->
-				<!-- 				<button class="pagingBtn">2</button> -->
-				<!-- 				<button class="pagingBtn">3</button> -->
-				<!-- 				<button class="pagingBtn">4</button> -->
-				<!-- 				<button class="pagingBtn">5</button> -->
-				<button class="pagingBtn" id="nextBtn">></button>
-			</div>
-			<div class="board-pageBar paging-button"></div>
-
-			<div id="searchPlace">
-				<input class="search" type="text" name="keyword" id="keyword"
-					placeholder="검색어 입력"> <span
-					class="material-symbols-outlined"> search</span>
-			</div>
 		</main>
+
+
 	</div>
 
 	<jsp:include page="../../common/footer.jsp" />
@@ -231,10 +214,7 @@
 
 
 	<script>
-		//상세보기 이동
-		function goToFreeShareDetail(postNo) {
-			location.href = "${contextPath}/board/detail/${postNo}" + postNo;
-		}
+
 
 		// Enter 키를 누르면 제목으로 검색 실행
 		$('#keyword').keypress(function(event) {
@@ -269,6 +249,146 @@
 				}
 			});
 		}
+		
+
+       
+	
+	    
+	    
+	    
+        //페이징,검색
+        var boardFilterValue = 'boardNo';
+	    var boardSearchSelect = null;
+	    var boardSearchValue = null;
+		
+		function pledgeShow() {
+	        $("#pledgeBtn").css("background-color", "#5bbf5b");
+// 	        $("#certificationBtn").css("background-color", "rgb(200, 200, 200)");
+	        localStorage.setItem('selectedTab', 'pledge');
+	        getBoardList(0, boardSearchSelect, boardSearchValue);
+	    }
+	
+	    function certificationShow() {
+	        $("#certificationBtn").css("background-color", "#5bbf5b");
+// 	        $("#pledgeBtn").css("background-color", "rgb(200, 200, 200)");
+	        localStorage.setItem('selectedTab', 'certification');
+	        getBoardList(0, boardSearchSelect, boardSearchValue);
+	    }
+	    
+	    $(document).ready(function () {
+	    	
+	    	  getBoardList(0, boardSearchSelect, boardSearchValue);
+	    	  
+	    	   
+	    	    if (selectedTab === 'pledge') {
+	    	        pledgeShow();
+	    	    } else if (selectedTab === 'certification') {
+	    	        certificationShow();
+	    	    }
+	    	});
+	    
+
+        
+	    /* 게시글 리스트 조회 */
+	    function getBoardList(page, boardSearchSelect, boardSearchValue) {
+	        $.ajax({
+	            url: '${contextPath}/pledge/loadListData',
+	            type: 'GET',
+	            dataType: 'json',
+	            data: {
+	            	page: page, size: 12, sort: boardFilterValue, 
+	            	searchSelect: boardSearchSelect, 
+	            	searchValue: boardSearchValue,
+	            	subCategoryNo : ${subCategoryNo}	
+	            },
+	            success: function(data) {
+ 	            	if(data.content.length != 0){
+ 		                updateBoardTable(data.content);
+ 		                updateBoardPagination(data);
+ 	            	}
+	            },
+	            error: function(xhr, status, error) {
+	                console.error('Error: ' + error);
+	            }
+	        });
+	    }
+	    
+	    /* 게시글 반복문돌리기 */
+	    function updateBoardTable(data) {
+		    let userList = document.querySelector('.content-outer');
+		    userList.innerHTML = '';
+		
+		    for (let i = 0; i < data.length; i++) {
+		    	
+		        let post = data[i];
+		        let postNo = post.postNo;
+		        
+		        // 게시글 요소 생성
+		        let postElement = document.createElement('div');
+		        postElement.className = 'img-area';
+		     	postElement.setAttribute('onclick', 'pledgeDetail(' + postNo + ')');
+		        
+		        // 숨겨진 input 요소 추가
+		        let titleInput = document.createElement('input');
+		        titleInput.type = 'hidden';
+		        titleInput.value = post.title;
+		
+		        let subCategoryNoInput = document.createElement('input');
+		        subCategoryNoInput.type = 'hidden';
+		        subCategoryNoInput.name = 'subCategoryNo';
+		        subCategoryNoInput.value = post.subCategoryNo;
+		
+		        // 이미지 요소 생성
+		        let imgElement = document.createElement('img');
+		        imgElement.src = '${contextPath}/resources/attachFile/image/' + post.changeName;
+		        imgElement.className = 'content-img';
+		
+		        // 생성한 요소들을 게시글 요소에 추가
+		        postElement.appendChild(titleInput);
+		        postElement.appendChild(subCategoryNoInput);
+		        postElement.appendChild(imgElement);
+		
+		        // 게시글 요소를 userList에 추가
+		        userList.appendChild(postElement);
+		    }
+		}
+
+	    /* 페이징바 추가 */
+	    function updateBoardPagination(data) {
+	        let userPaging = document.querySelector('.board-pageBar');
+	        // userPaging이 null인지 확인
+	        if (userPaging) {
+	            let pagination = '';
+
+	            if (!data.empty) {
+	                if (!data.first) {
+	                    pagination += '<button class="pagingBtn" onclick="getBoardList(' + (data.number - 1) + ',\'' + boardSearchSelect + '\',\'' + boardSearchValue + '\')"><</button>';
+	                }
+	                for (let i = 0; i < data.totalPages; i++) {
+	                    if (i >= data.number - 5 && i <= data.number + 5) {
+	                        pagination += '<button ';
+	                        if (i === data.number) {
+	                            pagination += 'class="pagingBtn active"';
+	                        }
+	                        pagination += 'class="pagingBtn" onclick="getBoardList(' + i + ',\'' + boardSearchSelect + '\',\'' + boardSearchValue + '\')">' + (i + 1) + '</button>';
+	                    }
+	                }
+	                if (!data.last) {
+	                    pagination += '<button class="pagingBtn" onclick="getBoardList(' + (data.number + 1) + ',\'' + boardSearchSelect + '\',\'' + boardSearchValue + '\')">></button>';
+	                }
+	            }
+
+	            userPaging.innerHTML = pagination;
+	        } else {
+	            console.error('Error: .board-pageBar element not found.');
+	        }
+	    }
+        
+	    function pledgeDetail(postNo) {
+	    	location.href = "${contextPath}/pledge/detail/" + postNo;
+    	}
+		
+		
 	</script>
 </body>
 </html>

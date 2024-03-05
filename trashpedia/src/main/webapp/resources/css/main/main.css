@@ -3,7 +3,7 @@
 /* ----------------- main -----------------*/
 header{ z-index: 100; }
 main{ margin-bottom : 0px !important; }
-footer{ margin-top : -115px;}
+footer{ margin-top : -75px;}
 
 .showEvent{
 	opacity : 0.5;
@@ -20,6 +20,7 @@ footer{ margin-top : -115px;}
     background-repeat: no-repeat; 
     width: 100%;
     height: 1150px;
+/*     height : 1vp; */
     overflow: hidden;
     z-index: 1;
     align-items: center;
@@ -34,7 +35,7 @@ main .backgroundImg img{
 } 
 
 .backgroundImg-black{
-    background-color: rgba(0, 0, 0, 0.55);
+    background-color: rgba(0, 0, 0, 0.58);
     left: 0;
     top: 0;
     width: 100%;
@@ -383,7 +384,6 @@ main .content-outer span {
 
 /* 배경 이미지 */
 main .green-img {
-/* 	background: url('../../image/main/mainImg/greenBackImg.jpg') no-repeat center center; */
     width: 100%;
     height: 400px;
     object-fit: cover;
@@ -392,14 +392,14 @@ main .green-img {
     padding: 0;
     position: relative; 
     z-index: 2;
-    top: -50px;
+    top: -10px;
 }
 
 /* 배경색 */
 #popularPostBack .backSection {
     position: absolute;
     background-color: #147958 ;
-    top: -55px;
+    top: -15px;
     right: 0;
     width: 100%;
     height: 750px;

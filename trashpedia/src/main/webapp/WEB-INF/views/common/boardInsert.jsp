@@ -47,7 +47,7 @@
 				<input name="title" type="text" class="input-title" placeholder="제목을 입력하세요." value="${post.title}" required>
 					<c:if test="${!empty post}">
 					<div class="content-title-outer">
-						<span>작성자</span> <span class="title-count"> ${authentication.userName}  &nbsp; &nbsp;| </span> 
+						<span>작성자</span> <span class="title-count"> ${post.userName}  &nbsp; &nbsp;| </span> 
 						<span>작성일</span> <span class="title-count"> ${post.createDate}  &nbsp; &nbsp;| </span> 
 						<span>조회수</span> <span class="title-count">${post.hitsNo}</span>
 					</div>
@@ -147,16 +147,17 @@
 		        }
 		    });
 		    
-		 	// 이미지 미리보기 연결
+		 	// 이미지 변경, 이미지 미리보기 연결
 		    $('#imgAttachment').change(function() {
 		        const file = this.files[0];
 		        if (file) {
 		            const reader = new FileReader();
-		            reader.onload = function(e) { 
+		            reader.onload = function(e) {
 		            	$('#thumbNailImg').attr('src', e.target.result); 
 		            	$('#originFileName').hide();
 		            	$('#updateFileName').text(file.name);
 		            	$('#img-box').css('display','block');
+		            	$('#xImgButton').css('display','none');
 		            	$('#deleteImg').val($('#originFileName').text());
 		            };
 		            reader.readAsDataURL(file);
@@ -171,6 +172,7 @@
 		            reader.onload = function(e) { 
 		            	$('#originFile2Name').hide();
 		            	$('#fileDownload').hide();
+		            	$('#xAttachButton').css('display','none');
 		            	$('#updateFile2Name').text(file.name);
 		            	$('#deleteFile').val($('#originFile2Name').text());
 		            };
@@ -185,7 +187,6 @@
 		const editor = new toastui.Editor({
 		    el: document.querySelector('#writeBoard-content'),
 		    height: '600px',
-// 		    width : '800px',
 		    initialEditType: 'wysiwyg',
 		    initialValue: '',
 		    previewStyle: 'vertical',
@@ -203,7 +204,6 @@
 		    document.getElementById('charCount').textContent = count.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 	
 		    if (content.length > MAX_LENGTH) {
-		    	
 		        // 이벤트 핸들러 일시 해제 
 		        editor.off('change', handleChange);
 	

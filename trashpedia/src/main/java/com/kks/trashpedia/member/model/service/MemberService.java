@@ -2,6 +2,7 @@ package com.kks.trashpedia.member.model.service;
 
 import java.util.List;
 
+import com.kks.trashpedia.board.model.vo.Board;
 import com.kks.trashpedia.board.model.vo.Comment;
 import com.kks.trashpedia.board.model.vo.Post;
 import com.kks.trashpedia.member.model.vo.Member;
@@ -21,9 +22,9 @@ public interface MemberService {
 	int idCheck(String userEmail);
 	
 	// 마이페이지 게시글	
-	List<Post> pledgeList(int userNo);
+	List<Board> pledgeList(int userNo);
 	// 댓글
-	List<Comment> commentList(int userNo);
+	List<Board> commentList(int userNo);
 
 	String findEmail(String userName, String phone);
 
