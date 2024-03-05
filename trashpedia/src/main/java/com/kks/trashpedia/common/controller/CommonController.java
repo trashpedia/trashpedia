@@ -142,8 +142,6 @@ public class CommonController {
 		
 		Post post = service.getPost(b.getPostNo());
 		
-		System.out.println(post);
-		
 		//이미지,첨부파일,카테고리
 		ImgAttachment img = pService.pledgeDetailImg(post.getBoardNo());
 		Attachment attachment = pService.pledgeDetailAttach(post.getBoardNo());
@@ -200,7 +198,6 @@ public class CommonController {
 	        SubCategory subcategory, ModelAndView mv, RedirectAttributes ra, HttpSession session) {
 
 	    String nextUrl = (String) session.getAttribute("lastUrl");
-	    System.out.println(nextUrl);
 
 	    mv.setViewName("redirect:/");
 
@@ -217,6 +214,5 @@ public class CommonController {
 
 	}
 
-	
 	
 }

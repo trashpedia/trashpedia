@@ -56,10 +56,10 @@
                     </li>
                     <li id="menu-information" class="header-menu-hover">
                         <div class="header-menu-div">
-                            <a href="${contextPath}/boardInformation">정보자료글</a>
+                          	<a href="${contextPath}/information/list?bigCategoryNo=3&subCategoryNo=7">정보자료글</a>
                             <ul class="header-menu-ul">
-                                <li><a href="#">홍보 교육자료</a></li>
-                                <li><a href="#">제도 정책자료</a></li>
+                            	<li> <a href="${contextPath}/information/list?bigCategoryNo=3&subCategoryNo=7">홍보교육자료</a> </li>
+                            	<li> <a href="${contextPath}/information/list?bigCategoryNo=3&subCategoryNo=8">제도교육자료</a> </li>
                             </ul>
                         </div>
                     </li>

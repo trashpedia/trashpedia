@@ -384,7 +384,7 @@
 	                slidesToShow: 1,
 	                slidesToScroll: 1,
 	                autoplay: true,
-	                autoplaySpeed: 3000, // 2초마다 슬라이드 전환
+	                autoplaySpeed: 3000,
 	                arrows : true,
 	                dots: true,
 	                prevArrow: '<div class="custom-prev"></div>',
@@ -398,7 +398,7 @@
 	        $("#scrollDownButton").click(function() {
 	            $("body, html").animate({ 
 	                scrollTop: 1160 
-	            }, 1100); 
+	            }, 1300); 
 	        });
 	        
 	        // 상단 이동 버튼
@@ -413,7 +413,7 @@
 	        });
 	        
 	        scrollUpButton.click(function(){
-	        	$('html,body').animate({scrollTop:0},500);
+	        	$('html,body').animate({scrollTop:0},600);
 	        	return false;
 	        });
 	        
@@ -430,11 +430,9 @@
 		    header.addClass('header-scroll');
 		    headerLinks.css({
 		      color: 'black',
-		      fontWeight: '650'
 		    });
 		    headerRightLink.css({
 		      color: 'rgb(88, 88, 88)',
-		      fontWeight: '650'
 		    });
 		  } else {
 		    header.removeClass('header-scroll');
@@ -461,8 +459,6 @@
 	            // 각 "scroll_on" 클래스를 가진 요소에 대해 반복
 	            $counters.each(function() {
 	                const $el = $(this);
-	        
-	                // 요소의 위치 정보를 가져옴
 	                const rect = $el[0].getBoundingClientRect();
 	                const winHeight = window.innerHeight; // 현재 브라우저 창의 높이
 	                const contentHeight = rect.bottom - rect.top; // 요소의 높이
@@ -478,7 +474,6 @@
 	            });
 	        }).scroll();
 	    });
-	    
 	    
 	    
     </script>
