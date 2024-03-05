@@ -1,0 +1,189 @@
+@charset "UTF-8";
+main {
+    display: flex;
+    flex-direction: column;
+}
+
+/* ------ 실천서약 타이틀 부분 ------ */
+.practice-section {
+    height: 150px;
+    width: 100%;
+    background-color: #73cc73;
+    color: white;
+    font-weight: 700;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.practice-section p:first-child {
+    font-size: 32px;
+    margin-top: 0;
+    margin-bottom: 0px;
+}
+
+.practice-section p:nth-child(2) {
+    margin-top: 10px;
+    font-size: 18px;
+}
+
+
+/* ------ 게시글 ------ */
+.content-section{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    position: relative;
+}
+/* 검색 */
+.content-section-outer{
+	display: flex;
+    justify-content: center;
+    align-items: center;
+	margin : 30px;
+	margin-top : 50px;
+    width: 1100px;
+    height : 70px;
+    background-color: #eee;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.content-outer{
+    width: 100%;
+    position: relative;
+    z-index: 1;
+}
+
+
+/* ----- 이미지 부분 ----- */
+.content-img-area {
+    box-sizing: border-box;
+    background-color: white;
+    width: 1100px;
+    height : 100%;
+    overflow: hidden;
+    text-align: center;
+    z-index: 2;
+}
+
+.img-area {
+    width: 30%;
+    height : 100%;
+    box-sizing: border-box;
+    display: inline-block;
+    margin: 10px;
+    overflow: hidden;
+}
+.img-area  img{
+	width : 100%;
+	height : 100%;
+}
+
+.content-img {
+    box-sizing: border-box;
+    width: 400px;
+    height: 400px;
+    min-width: 100%; 
+    max-width: 100%;
+    min-height: 100%;
+    max-height: 100%;
+    cursor: pointer;
+    object-fit : cover;
+}
+
+.img-area:hover .content-img{
+    transform: scale(1.15);
+    transition: transform 0.4s ease-in-out;
+}
+.img-area:hover{
+    border: 4px solid #78d078;
+}
+
+
+
+
+/* 검색 */
+#board-search-filter-select{
+	height : 34px;
+	width : 110px;
+	border: 1px solid #cdcfd2;
+}
+.content-search{
+    position: relative;
+}
+.content-title input {
+    height: 34px;
+    width: 250px;
+    border: 1px solid #cdcfd2;
+    padding-left: 10px;
+    font-size: 13px;
+    color: #333;
+}
+.board-search-button{
+    position: absolute;
+    display: inline-block;
+    border: none;
+    right: 15px;
+    top: 4px;
+    background-color: transparent;
+}
+.content-search #searchButton{
+    display: inline-block;
+    border: none;
+    overflow: hidden;
+    font-size: 25px;
+    width: 20px;
+    height: 100%;
+    background-color: transparent;
+    color: #333;
+    padding: auto !important;
+    margin: auto;
+}
+
+
+/* ----- 페이징 버튼 ----- */
+.paging-button{
+    margin-top: 22px;
+    margin-bottom: 5px;
+}
+
+.pagingBtn{
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    font-size: 15px;
+    border: 0;
+    cursor: pointer;
+    margin: 2px;
+    font-weight: 500;
+    background-color: #73cc73;
+    color: white;
+}
+
+/* 등록하기 버튼 */
+#insertButton{
+	font-size : 15px !important;
+    font-weight : 500;
+    color: #717171 !important;
+    border: 1px solid #d4d4d4;
+    background: #fff;
+    padding: 2px 23px;
+    letter-spacing: -0.75px;
+    height: 48px;
+    border-radius: 25px;
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer;
+    font-family: 'Noto Sans KR', sans-serif;
+}
+#insertButton:hover{
+	 background: #e8ebec;
+}
+.insert-area{
+	display: flex;
+    width: 1100px;
+    justify-content: flex-end;
+}

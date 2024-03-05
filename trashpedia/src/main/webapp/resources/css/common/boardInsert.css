@@ -76,7 +76,7 @@ main{
     width: 840px;
     border: 0;
     font-weight: 550;
-    padding-top: 20px;
+    padding-top: 45px;
     padding-left : 20px;
     height : 40px;
     color: rgb(63, 63, 63);
@@ -89,7 +89,6 @@ main{
 .file-input-outer{
     box-sizing: border-box;
 	border-top: 1px solid #d7e6ea;
-/* 	border-bottom: 1px solid #cecece;  */
 	background-color: #f7fbfb;
 	display: flex;
     flex-direction: column;
@@ -100,7 +99,7 @@ main{
     font-size : 13px;
     color: rgb(63, 63, 63);
     margin-top : 5px;
-    margin-bottom : 20px;
+    margin-bottom : 12px;
     margin-left : 3px;
 }
 
@@ -113,6 +112,7 @@ main{
 	border-radius: 5px;
 	border : 1px solid  #d7e6ea;
 	background-color: #e0ecef;
+	cursor : pointer;
 }
 .thumbnailBox{
 	display : flex;
@@ -135,7 +135,7 @@ main{
 	border : 0;
 	width : 20px;
 	padding : 0;
-	margin-left : 5px;
+	margin-left : 1px;
 	text-align : center;
 	font-size : 15px;
 	font-weight : 600;

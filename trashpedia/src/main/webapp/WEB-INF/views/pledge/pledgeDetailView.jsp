@@ -24,10 +24,12 @@
 			<!-- 제목 -->
 			<div class="content-title-outer">
 				<p>${post.title}</p>
-				<span>작성일</span> 
-				<span class="title-count"> ${post.createDate}  &nbsp; &nbsp;| </span> 
+				<span>작성자</span> 
+				<span class="title-count"> ${post.userName} &nbsp; &nbsp;| </span> 
+<!-- 				<span>작성일</span>  -->
+<%-- 				<span class="title-count"> ${post.createDate} &nbsp; &nbsp;| </span>  --%>
 				<span>수정일</span>
-				<span class="title-count"> ${post.modifyDate}  &nbsp; &nbsp;| </span> 
+				<span class="title-count"> ${post.modifyDate} &nbsp; &nbsp;| </span> 
 				<span>조회수</span> <span class="title-count">${post.hitsNo}</span>
 				<!--  <hr> -->
 			</div>
