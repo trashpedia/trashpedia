@@ -3,8 +3,6 @@ package com.kks.trashpedia.member.model.dao;
 import java.util.List;
 
 import com.kks.trashpedia.board.model.vo.Board;
-import com.kks.trashpedia.board.model.vo.Comment;
-import com.kks.trashpedia.board.model.vo.Post;
 import com.kks.trashpedia.member.model.vo.Member;
 
 public interface MemberDao {

@@ -8,7 +8,6 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.kks.trashpedia.board.model.vo.Board;
-import com.kks.trashpedia.board.model.vo.Comment;
 import com.kks.trashpedia.member.model.vo.Member;
 
 import lombok.RequiredArgsConstructor;
