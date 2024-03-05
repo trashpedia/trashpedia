@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 import com.kks.trashpedia.board.model.service.BoardService;
 import com.kks.trashpedia.board.model.vo.Attachment;
 import com.kks.trashpedia.board.model.vo.BigCategory;
@@ -64,14 +66,12 @@ public class BoardController {
 	}
 
 	// 게시글 수정 페이지 이동
-		@GetMapping("/modify")
-		public ModelAndView pledgeModify() {
-			
-			ModelAndView mav = new ModelAndView();
-			mav.setViewName("board/notice/boardModify");
-			
-			return mav;
-		}
+	@GetMapping("/modify")
+	public ModelAndView pledgeModify() {
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("board/notice/boardModify");
+		return mav;
+	}
 
 	// 검색 기능
 	@GetMapping("/searchByTitle")
@@ -86,8 +86,34 @@ public class BoardController {
 		}
 		return mav;
 	}
+	
+	@GetMapping("/delete/{postNo}")
+	public ModelAndView boardDelete(Post p, HttpSession session, RedirectAttributes ra,
+			@PathVariable int postNo
+			) {
+		ModelAndView mav = new ModelAndView();
+		SubCategory subCategory = pservice.getCategoryNo(p);
+		
+		int subCategoryNo = subCategory.getSubCategoryNo();
+		int bigCategoryNo = subCategory.getBigCategoryNo();
+		
+		//게시글삭제- post & board
+//		int result = 0;
+		int result1 = pservice.pledgeDeletePost(p);
+		int result2 = pservice.pledgeDeleteBoard(p);
+		
+		if(result1*result2>0) {
+			ra.addFlashAttribute("alert", "게시글이 삭제되었습니다.");
+		}else {
+			ra.addFlashAttribute("alert", "게시글 삭제에 실패했습니다.");
+		}
 
-	// 무료나눔 상세 페이지 이동
+		mav.setViewName("redirect:/pledge/list?bigCategoryNo="+bigCategoryNo+"&subCategoryNo="+subCategoryNo);
+		
+		return mav;
+	}
+
+	// 게시글 상세 페이지 이동
 	@GetMapping("/detail/{postNo}")
 	public ModelAndView boardFreeShareDetail(@PathVariable int postNo, HttpServletRequest req, HttpServletResponse res,
 			HttpSession session) {
