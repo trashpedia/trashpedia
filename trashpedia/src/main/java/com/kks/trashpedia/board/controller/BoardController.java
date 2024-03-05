@@ -34,9 +34,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
+
 
 @RestController
 @RequestMapping("/board")
@@ -169,12 +167,14 @@ public class BoardController {
 
 		if (subCategoryNo == 4) { // 무료 나눔 게시판
 	        List<Post> boardFreeTrashList = service.getFreeTrashList(subCategoryNo); // 인기 쓰레기 정보 가져오기
+
 	        int pageSize = 12; // 페이지당 보여줄 항목 수
 	        int totalPages = (int) Math.ceil((double) boardFreeTrashList.size() / pageSize); // 전체 페이지 수 계산
+
 	        // 페이지 번호 및 데이터 전달
-	        mav.addObject("currentPage", page); // 현재 페이지 번호
-	        mav.addObject("totalPages", totalPages); // 전체 페이지 수
-	        mav.addObject("list", boardFreeTrashList.subList(page * pageSize, Math.min((page + 1) * pageSize, boardFreeTrashList.size()))); // 페이지에 표시할 데이터
+//	        mav.addObject("currentPage", page); // 현재 페이지 번호
+//	        mav.addObject("totalPages", totalPages); 
+	        mav.addObject("list", boardFreeTrashList); // 페이지에 표시할 데이터
 	        mav.setViewName("board/freeShare/freeShare"); // 무료 나눔 게시판 뷰 설정
 	    } else {
 	    	int pageSize = 10;
@@ -193,7 +193,7 @@ public class BoardController {
 	@GetMapping("/loadListData")
 	public ResponseEntity<Page<Post>> loadListData( 
 			@RequestParam int subCategoryNo,
-			@PageableDefault(size=8, sort="id", direction=Sort.Direction.DESC) Pageable pageable,
+			@PageableDefault(size=12, sort="id", direction=Sort.Direction.DESC) Pageable pageable,
 			@RequestParam int page,
 			@RequestParam String sort,
 			@RequestParam String searchSelect,

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.kks.trashpedia.board.model.vo.Board;
 import com.kks.trashpedia.board.model.vo.Comment;
 import com.kks.trashpedia.board.model.vo.Post;
 import com.kks.trashpedia.member.model.service.MemberService;
@@ -44,8 +45,8 @@ public class MemberController {
 			mav.setViewName("user/login");
 		} else {
 			int userNo = authentication.getUserNo();
-			List<Post> myPost = service.pledgeList(userNo);
-			List<Comment> myComment = service.commentList(userNo);
+			List<Board> myPost = service.pledgeList(userNo);
+			List<Board> myComment = service.commentList(userNo);
 
 			mav.addObject("myPost", myPost);
 			mav.addObject("myComment", myComment);
@@ -94,22 +95,23 @@ public class MemberController {
 		if (result > 0) {
 			Member updateMember = service.loginMember(m);
 			session.setAttribute("loginUser", updateMember);
-			url = "redirect:/myPage";
+			url = "redirect:/member/myPage";
 		} else {
 			model.addAttribute("errorMsg", "회원정보수정실패");
-			url = "main";
-		}
+			url = "redirect:/member/myPage";
+		}	
 		return url;
 	}
 
 	@PostMapping("/delete.me")
 	public String deleteMember(Member m, HttpSession session) {
+		ModelAndView mav = new ModelAndView();
 
 		int result = service.deleteMember(m);
 		if (result > 0) {
 			// 회원 정보를 삭제한 경우 세션에서 로그인된 회원 정보를 삭제
 			session.removeAttribute("loginUser");
-			return "main";
+			return "redirect:/member/myPage";
 		} else {
 			// 탈퇴 실패 시 처리할 내용
 			return "login";

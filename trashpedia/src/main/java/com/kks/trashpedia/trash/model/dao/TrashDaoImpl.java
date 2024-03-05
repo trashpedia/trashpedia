@@ -23,6 +23,11 @@ public class TrashDaoImpl implements TrashDao{
 	public List<TrashPost> getPopularList() {
 		return session.selectList("trashMapper.getPopularList");
 	}
+
+	@Override
+	public TrashPost trashDetail(int trashPostNo) {
+		return session.selectOne("trashMapper.trashDetail");
+	}
 	
 	
 }

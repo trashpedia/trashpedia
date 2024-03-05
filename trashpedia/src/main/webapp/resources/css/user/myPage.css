@@ -152,7 +152,6 @@ th {
     border-right: none;
     font-weight: 500;
     font-size: 15px;
-    
 }
 
 td:first-child,
@@ -198,7 +197,7 @@ tr:last-child {
     border-bottom: #9a9a9a 1px solid;
 }
 
-#detailBtn {
+.detailBtn {
     margin: auto;
     width: 60%;
     background-color: #fff;
@@ -209,7 +208,7 @@ tr:last-child {
     cursor: pointer;
 }
 
-#detailBtn:hover {
+.detailBtn:hover {
     background-color: #45a049;
     color: #fff;
 }
