@@ -12,8 +12,6 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.kks.trashpedia.board.model.vo.Board;
-import com.kks.trashpedia.board.model.vo.Comment;
-import com.kks.trashpedia.board.model.vo.Post;
 import com.kks.trashpedia.member.model.service.MemberService;
 import com.kks.trashpedia.member.model.vo.Member;
 

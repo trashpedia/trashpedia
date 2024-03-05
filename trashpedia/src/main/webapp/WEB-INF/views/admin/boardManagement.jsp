@@ -618,7 +618,7 @@
         }
         
         function announcementWrite(){
-        	location.href="${contextPath}/board/write";
+        	location.href="${contextPath}/write?subCategoryNo=1&type=1";
         }
     </script>
 </body>

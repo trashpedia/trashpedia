@@ -6,8 +6,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.kks.trashpedia.board.model.vo.Board;
-import com.kks.trashpedia.board.model.vo.Comment;
-import com.kks.trashpedia.board.model.vo.Post;
 import com.kks.trashpedia.member.model.dao.MemberDao;
 import com.kks.trashpedia.member.model.vo.Member;
 
@@ -48,7 +46,6 @@ public class MemberServiceImpl implements MemberService{
 	@Override
 	public int deleteMember(Member m) {
 		return dao.deleteMember(m);
-		
 	}
 
 	@Override

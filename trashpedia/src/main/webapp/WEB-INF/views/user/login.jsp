@@ -181,7 +181,7 @@
 	        		if(result > 0){
 	        			$.ajax({
 	        				url: "/trashpedia/auth/temporaryPwd",
-	        				data:{userEmail : userEmail},
+	        				data:{userEmail : userEmail, phone : phone},
 	        				success:function(result){
 	        					if(result > 0){
 		       						alert(userEmail+"로 임시 비밀번호를 보냈습니다. 로그인 후 마이페이지에서 비밀번호를 변경해주세요");

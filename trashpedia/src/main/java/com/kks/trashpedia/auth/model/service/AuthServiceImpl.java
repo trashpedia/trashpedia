@@ -37,7 +37,6 @@ public class AuthServiceImpl implements AuthService{
     private String user;
     
     @Value("${spring.mail.password}")
-    
     private String password;
 
     private String authNum;
@@ -126,9 +125,8 @@ public class AuthServiceImpl implements AuthService{
 		MimeMessage emailForm = createTemporaryPwdEmailForm(userEmail);
 		String userPwd = authNum;
 		int result = authDao.temporaryPwd(userEmail, phone, userPwd);
-		System.out.println(result);
 		if(result > 0) {
-			Transport.send(emailForm, emailForm.getAllRecipients(), user, userPwd);
+			Transport.send(emailForm, emailForm.getAllRecipients(), user, password);
 		}
 		return result;
 	}

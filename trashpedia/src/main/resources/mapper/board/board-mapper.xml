@@ -12,8 +12,6 @@
 		BIG_CATEGORY B ON S.BIG_CATEGORY_NO = B.BIG_CATEGORY_NO
 		WHERE
 		S.SUB_CATEGORY_NO = #{subCategoryNo}
-		AND S.BIG_CATEGORY_NO =
-		#{bigCategoryNo}
 	</select>
 
 	<!-- 게시글 등록(POST) -->

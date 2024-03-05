@@ -51,10 +51,8 @@ public class CommonController {
 	//카테고리 정보 가지고오기
 	@GetMapping("/write")
 	public ModelAndView getCategory(SubCategory subcate, int type) {
-		
 		ModelAndView mv = new ModelAndView();
 		SubCategory category = service.getSubCategory(subcate);
-		
 		mv.addObject("category",category);
 		mv.addObject("type",type);
 		mv.setViewName("common/boardInsert");
