@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <c:set var="contextPath" value="<%=request.getContextPath()%>" />
 <c:url var="currentUrl" value="/trashpedia/pledge/list">
 	<c:param name="subCategoryNo" value="${currentSubCategoryNo}" />
@@ -8,6 +9,12 @@
 </c:url>
 <c:set var="subCategoryNo" value="${param.subCategoryNo}" />
 <c:set var="bigCategoryNo" value="${param.bigCategoryNo}" />
+<c:set var="groupSize" value="10" /> <!-- 한 번에 보여줄 페이지 번호의 수 -->
+<c:set var="currentGroup" value="${(currentPage div groupSize) + (currentPage % groupSize eq 0 ? 0 : 1)}" /> <!-- 현재 페이지 그룹 -->
+<c:set var="totalGroups" value="${(totalPages div groupSize) + (totalPages % groupSize eq 0 ? 0 : 1)}" /> <!-- 총 페이지 그룹 수 -->
+<c:set var="startPage" value="${(currentGroup - 1) * groupSize + 1}" /> <!-- 현재 페이지 그룹의 시작 페이지 번호 -->
+<c:set var="endPage" value="${startPage + groupSize - 1 > totalPages ? totalPages : startPage + groupSize - 1}" /> <!-- 현재 페이지 그룹의 마지막 페이지 번호 -->
+
 
 
 <!DOCTYPE html>
@@ -64,7 +71,7 @@
 					</c:when>
 				</c:choose>
 
-				<p>공지사항을 빠르고 정확하게 안내해드립니다.</p>
+				<p>빠르고 정확한 정보를 안내해드립니다.</p>
 			</div>
 
 			<%-- ${contextPath}/board/list?subCategoryNo=${sc.subCategoryNo}&filter=createDate&searchSelect=&searchValue=&page=0 --%>
@@ -78,7 +85,6 @@
 			<!-- 			</div> -->
 
 			 <div class="search-form">
-			 	
 				<div class="search_form_right">
 					<select id="searchSelect">
 						<option value="boardNo">게시글 번호</option>
@@ -86,27 +92,22 @@
 						<option value="content">내용</option>
 					</select>
 					<input type="text" id="searchValue" placeholder="검색어를 입력하세요">
-<!-- 					<button type="button" onclick="boardSearch()">검색</button> -->
+					<button type="button" onclick="boardSearch()">검색</button>
 				</div>
-			 	
 				<div class="search_form_left">
 					<select id="filter">
 						<option value="createDate">작성일</option>
 						<option value="hitCount">조회수</option>
 					</select>
-<!-- 					<button type="button" onclick="boardSearch()">정렬</button> -->
-					<button type="button" onclick="boardSearch()">검색</button>
-					
 				</div>
-
 		    </div>
-
 
 			<div class="board_list_wrap">
 				<div class="board_list">
 					<div class="top">
 						<div class="num">번호</div>
 						<div class="title">제목</div>
+						<div class="content">내용</div>
 						<div class="writer">글쓴이</div>
 						<div class="date">작성일</div>
 						<div class="count">조회</div>
@@ -117,11 +118,17 @@
 						<div>
 							<div class="num">${board.postNo}</div>
 							<div class="title">
-								<a href="${contextPath}/board/community/detail/${board.postNo}">${board.title}</a>
+								<a href="${contextPath}/board/community/detail/${board.postNo}">${fn:substring(board.title, 0, 8)}${fn:length(board.title) > 8 ? '' : ''}			
+								</a>
+							</div>
+							<div class="content">
+								<p>
+									${fn:substring(board.content, 0, 100)}${fn:length(board.content) > 100 ? '...' : ''}
+								</p>
 							</div>
 							<div class="writer">${board.userName}</div>
 							<div class="date">${board.createDate}</div>
-							<%-- 	                         <div class="count">${board.viewCount}</div> --%>
+							<div class="count">${board.hitsNo}</div>
 						</div>
 					</c:forEach>
 
@@ -132,29 +139,34 @@
 	                    <button id="insertButton"class="comment-buttons">게시글 등록하기</button>
 	                </a>
             	</div>
-
-
 				<div class="board_page">
-					<c:if test="${boardList.number > 0}">
-						<a
-							href="${contextPath}/board/list?page=${boardList.number - 1}&subCategoryNo=${subCategoryNo}"
-							class="bt prev">&lt;</a>
-					</c:if>
-
-					<c:forEach begin="0" end="${boardList.totalPages - 2}"
-						var="pageNum">
-						<a
-							href="${contextPath}/board/list?page=${pageNum}&subCategoryNo=${subCategoryNo}"
-							class="${pageNum == boardList.number ? 'num on' : 'num'}">${pageNum+1}
-						</a>
-					</c:forEach>
-
-					<c:if test="${boardList.number + 1 < boardList.totalPages}">
-						<a
-							href="${contextPath}/board/list?page=${boardList.number + 1}&subCategoryNo=${subCategoryNo}"
-							class="bt next">&gt;</a>
-					</c:if>
+				    <c:if test="${boardList.number > 0}">
+				        <!-- 첫 페이지로 이동 -->
+				        <a href="${contextPath}/board/list?page=1&subCategoryNo=${subCategoryNo}" class="bt first"><<</a>
+				        <!-- 이전 페이지 그룹으로 이동 -->
+				        <a href="${contextPath}/board/list?page=${boardList.number - 1}&subCategoryNo=${subCategoryNo}" class="bt prev"><</a>
+				    </c:if>
+				
+				    <c:set var="startPage" value="${(boardList.number div 10) * 10 + 1}" />
+				    <c:set var="endPage" value="${startPage + 9}" />
+				    <c:if test="${endPage > boardList.totalPages}">
+				        <c:set var="endPage" value="${boardList.totalPages}" />
+				    </c:if>
+				
+				    <c:forEach begin="${startPage}" end="${endPage}" var="pageNum">
+				        <a href="${contextPath}/board/list?page=${pageNum}&subCategoryNo=${subCategoryNo}" class="${pageNum == boardList.number ? 'num on' : 'num'}">${pageNum}</a>
+				    </c:forEach>
+				
+				    <c:if test="${boardList.totalPages > boardList.number}">
+				        <!-- 다음 페이지 그룹으로 이동 -->
+				        <a href="${contextPath}/board/list?page=${boardList.number + 1}&subCategoryNo=${subCategoryNo}" class="bt next">></a>
+				        <!-- 마지막 페이지로 이동 -->
+				        <a href="${contextPath}/board/list?page=${boardList.totalPages}&subCategoryNo=${subCategoryNo}" class="bt last">>></a>
+				    </c:if>
 				</div>
+				
+
+				
 
 			</div>
 		</div>
@@ -167,10 +179,19 @@
 	    var searchSelect = $('#searchSelect').val();
 	    var searchValue = $('#searchValue').val();
 	    var subCategoryNo = ${subCategoryNo};
+	    
 	    var filter = $('#filter').val();
 
 	    location.href = '${contextPath}/board/list?searchSelect=' + searchSelect + '&searchValue=' + searchValue + '&subCategoryNo=' + subCategoryNo + '&filter=' + filter + '&page=0';
 	}
+	
+	$(document).ready(function() {
+		$('.content').each(function() {
+			var htmlContent = $(this).html(); // HTML 내용을 가져옵니다.
+			var textContent = $('<div>').html(htmlContent).text(); // HTML 태그를 제거합니다.
+			$(this).text(textContent); // 순수 텍스트로 내용을 변경합니다.
+		});
+	});
 
 	</script>
 </body>

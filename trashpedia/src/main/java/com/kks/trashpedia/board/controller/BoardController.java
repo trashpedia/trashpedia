@@ -54,11 +54,13 @@ public class BoardController {
 		List<SubCategory> sc = service.subCategory();
 		List<Post> post = service.categoryList();
 		ModelAndView mav = new ModelAndView();
-
+		System.out.println("post"+ post);
+		System.out.println("subCategory"+ sc);
+		
 		mav.addObject("bc", bc);
 		mav.addObject("sc", sc);
 		mav.addObject("post", post);
-
+		
 		mav.setViewName("board/boardMain");
 		return mav;
 	}
@@ -150,7 +152,6 @@ public class BoardController {
 	}
 
 	// 공지사항 목록페이지 이동
-	// '@'PageableDefault' 페이지네이션 관련정보 자동추출)
 	@GetMapping("/list")
 	public ModelAndView boardNotice(
 			@PageableDefault(size = 10, sort = "boardNo", direction = Sort.Direction.DESC) Pageable pageable,
@@ -161,21 +162,25 @@ public class BoardController {
 		List<BigCategory> bc = service.bigCategory();
 		List<SubCategory> sc = service.subCategory();
 		Page<Board> pages = service.boardList(subCategoryNo, pageable, page, filter, searchSelect, searchValue);
-
+		Board b = new Board();
+		
+		
 		ModelAndView mav = new ModelAndView();
 
 		if (subCategoryNo == 4) { // 무료 나눔 게시판
 	        List<Post> boardFreeTrashList = service.getFreeTrashList(subCategoryNo); // 인기 쓰레기 정보 가져오기
 	        int pageSize = 12; // 페이지당 보여줄 항목 수
 	        int totalPages = (int) Math.ceil((double) boardFreeTrashList.size() / pageSize); // 전체 페이지 수 계산
-
 	        // 페이지 번호 및 데이터 전달
 	        mav.addObject("currentPage", page); // 현재 페이지 번호
 	        mav.addObject("totalPages", totalPages); // 전체 페이지 수
 	        mav.addObject("list", boardFreeTrashList.subList(page * pageSize, Math.min((page + 1) * pageSize, boardFreeTrashList.size()))); // 페이지에 표시할 데이터
 	        mav.setViewName("board/freeShare/freeShare"); // 무료 나눔 게시판 뷰 설정
 	    } else {
+	    	int pageSize = 10;
+	        int totalPages = (int) Math.ceil((double) pages.getSize() / pageSize); // 전체 페이지 수 계산
 			mav.addObject("boardList", pages);
+			mav.addObject("totalPages",totalPages);
 			mav.addObject("bigCategoryNo", bc);
 			mav.addObject("subCategoryNo", sc);
 			mav.setViewName("board/notice/boardList");
