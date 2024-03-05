@@ -30,11 +30,6 @@
 		)
 	</insert>
 
-
-	<select id="loginMember" parameterType="" resultType="Member">
-
-	</select>
-
 	<insert id="joinMemberAuth">
 		INSERT INTO AUTHORITY
 		VALUES(#{userNo},USER)
