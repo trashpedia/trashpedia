@@ -19,6 +19,13 @@
 </head>
 <body>
 
+	<c:if test="${not empty alert}">
+		<script>
+		    alert("${alert}");
+		</script>
+		<c:remove var="alert" />
+	</c:if>
+
     <jsp:include page="../common/header.jsp"/>
     
     <main>
@@ -182,8 +189,6 @@
 	    function boardSearch(){
 	    	boardSearchSelect = $('#board-search-filter-select').val();
 	    	boardSearchValue = $('.board-search-input').val();
-	    	console.log(boardSearchSelect)
-	    	console.log(boardSearchValue)
 	    	$('.board-search-input').val('');
 	    	$('.board-list').empty();
 	    	getBoardList(0, boardSearchSelect, boardSearchValue);
