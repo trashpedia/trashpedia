@@ -46,7 +46,6 @@ public class PledgeController {
 	public ModelAndView pledgeList(int subCategoryNo) {
 		
 		ModelAndView mav = new ModelAndView();
-//		List<Post> pledgeList = service.pledgeList(subCategoryNo);
 		mav.setViewName("pledge/pledgeView");
 		return mav;
 	}
@@ -63,6 +62,7 @@ public class PledgeController {
 			@RequestParam String searchValue){
 		
 		Page<Post> pages = service.loadListData(pageable,page,sort,searchSelect,searchValue,subCategoryNo);
+		System.out.println("실행????");
 		
 		return ResponseEntity.ok(pages);
 	}
@@ -210,7 +210,6 @@ public class PledgeController {
 	// 댓글등록
 	@PostMapping("/insertComment")
 	public int insertComment(Comment c) {
-		int result = 0;
 		return service.insertComment(c);
 	}
 	

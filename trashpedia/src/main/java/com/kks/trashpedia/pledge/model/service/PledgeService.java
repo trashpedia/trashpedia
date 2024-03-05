@@ -22,7 +22,6 @@ public interface PledgeService {
 	Post pledgeDetail(int postNo);
 	
 	//게시글 상세 이미지
-	
 	ImgAttachment pledgeDetailImg(int boardNo);
 	
 	//게시글 상세 첨부파일

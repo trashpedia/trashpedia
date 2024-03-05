@@ -28,7 +28,6 @@ public class PledgeServiceImpl implements PledgeService{
 		return dao.pledgeList(subCategoryNo);
 	}
 
-	
 	//게시글 상세보기
 	@Override
 	public Post pledgeDetail(int postNo) {

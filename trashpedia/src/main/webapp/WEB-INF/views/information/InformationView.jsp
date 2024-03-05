@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:set var="contextPath" value="<%=request.getContextPath() %>"/>
-<c:url var="currentUrl" value="/trashpedia/pledge/list">
+<c:url var="currentUrl" value="/trashpedia/information/list">
     <c:param name="subCategoryNo" value="${currentSubCategoryNo}" />
     <c:param name="bigCategoryNo" value="${currentBigCategoryNo}" />
 </c:url>
@@ -12,10 +12,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>실천하기</title>
+    <title>정보자료글</title>
 	<!-- jQuery -->
 	<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-<%--  	<link rel="stylesheet" href="${contextPath}/resources/css/main/pledge.css"> --%>
  	<link rel="stylesheet" href="${contextPath}/resources/css/information/InformationView.css">
 </head>
 <body>
@@ -26,6 +25,7 @@
         <div class="practice-section">
             <p>정보자료글</p>
         </div>
+        
         <div>
         </div>
 
@@ -48,27 +48,16 @@
             </div>
             
             <!-- 게시글 -->
-			<div class="pledge">
+			<div class="content">
 				<div class="content-img-area">
-					<div class="img-area" onclick="pledgeDetail(${post.postNo})">
-						<input type="hidden" value="${post.title}"> 
-						<input type="hidden" name="subCategoryNo" value="${post.subCategoryNo} ">
-						<img src="<c:url value='/resources/attachFile/image/f0d86288-b110-4d02-8c38-75e597f70140.gif'/>" class="content-img">
-					</div>
-					<div class="img-area" onclick="pledgeDetail(${post.postNo})">
-						<input type="hidden" value="${post.title}"> 
-						<input type="hidden" name="subCategoryNo" value="${post.subCategoryNo} ">
-						<img src="<c:url value='/resources/attachFile/image/f0d86288-b110-4d02-8c38-75e597f70140.gif'/>" class="content-img">
-					</div>
-					<div class="img-area" onclick="pledgeDetail(${post.postNo})">
-						<input type="hidden" value="${post.title}"> 
-						<input type="hidden" name="subCategoryNo" value="${post.subCategoryNo} ">
-						<img src="<c:url value='/resources/attachFile/image/f0d86288-b110-4d02-8c38-75e597f70140.gif'/>" class="content-img">
-					</div>
+					<h1>해당하는 게시글이 없습니다.</h1>
 				</div>
 			</div>
 
+			<!-- 페이징바  -->
 			<div class="board-pageBar paging-button"></div>
+			
+			<!-- 게시글 등록 -->
 			<div class="insert-area">
 				<a
 					href="${pageContext.request.contextPath}/write?bigCategoryNo=${bigCategoryNo}&subCategoryNo=${subCategoryNo}&type=1">
@@ -82,7 +71,6 @@
     <jsp:include page="../common/footer.jsp"/>
     
     <script>
-        
         //페이징,검색
         var boardFilterValue = 'boardNo';
 	    var boardSearchSelect = null;
@@ -111,16 +99,17 @@
 	    /* 게시글 리스트 조회 */
 	    function getBoardList(page, boardSearchSelect, boardSearchValue) {
 	        $.ajax({
-	            url: '${contextPath}/pledge/loadListData',
+	            url: '${contextPath}/information/loadListData',
 	            type: 'GET',
 	            dataType: 'json',
 	            data: {
-	            	page: page, size: 8, sort: boardFilterValue, 
+	            	page: page, size: 9, sort: boardFilterValue, 
 	            	searchSelect: boardSearchSelect, 
 	            	searchValue: boardSearchValue,
 	            	subCategoryNo : ${subCategoryNo}	
 	            },
 	            success: function(data) {
+	            	console.log('실행');
  	            	if(data.content.length != 0){
  		                updateBoardTable(data.content);
  		                updateBoardPagination(data);
@@ -131,15 +120,12 @@
 	            }
 	        });
 	    }
-	    
-//       	<c:forEach var="post" items="${list}">
-// 	        <div class="img-area" onclick ="pledgeDetail(${post.postNo})">
-// 				<input type="hidden" value="${post.title}">
-// 				<input type="hidden" name="subCategoryNo" value="${post.subCategoryNo} ">
-// 				<img src="<c:url value='/resources/attachFile/image/${post.changeName}'/>"  class="content-img">
-// 			</div>
-// 		</c:forEach>
-	    
+
+//	 	<div class="img-area" onclick="informationDetail(${post.postNo})">
+// 		<input type="hidden" value="${post.title}"> 
+// 		<input type="hidden" name="subCategoryNo" value="${post.subCategoryNo} ">
+// 		<img src="<c:url value='/resources/attachFile/image/f0d86288-b110-4d02-8c38-75e597f70140.gif'/>" class="content-img">
+// 		</div>
 	    
 	    /* 게시글 반복문돌리기 */
 	    function updateBoardTable(data) {
@@ -154,7 +140,7 @@
 		        // 게시글 요소 생성
 		        let postElement = document.createElement('div');
 		        postElement.className = 'img-area';
-		     	postElement.setAttribute('onclick', 'pledgeDetail(' + postNo + ')');
+		     	postElement.setAttribute('onclick', 'informationDetail(' + postNo + ')');
 		        
 		        // 숨겨진 input 요소 추가
 		        let titleInput = document.createElement('input');
@@ -180,11 +166,16 @@
 		        userList.appendChild(postElement);
 		    }
 		}
+	    
+	    /* 상세보기페이지 이동 */
+	    function informationDetail(postNo) {
+	    	location.href = "${contextPath}/information/detail/" + postNo;
+    	}
+	    
 
 	    /* 페이징바 추가 */
 	    function updateBoardPagination(data) {
 	        let userPaging = document.querySelector('.board-pageBar');
-	        // userPaging이 null인지 확인
 	        if (userPaging) {
 	            let pagination = '';
 	            if (!data.empty) {
@@ -210,10 +201,7 @@
 	        }
 	    }
         
-	    function pledgeDetail(postNo) {
-	    	location.href = "${contextPath}/pledge/detail/" + postNo;
-    	}
-		
+	 
 		
     </script>
 </body>
