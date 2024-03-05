@@ -2,8 +2,6 @@ package com.kks.trashpedia.member.controller;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -84,6 +82,22 @@ public class MemberController {
         }
         return mav;
     }
+	
+	@GetMapping("/findEmail")
+	public String findEmail(String userName, String phone) {
+		String userEmail = service.findEmail(userName, phone);
+		if(userEmail != null) {
+			return userEmail;
+		} else {
+			return null;
+		}
+	}
+	
+	@GetMapping("/checkEmail")
+	public int checkEmail(String userEmail, String phone) {
+		return service.checkEmail(userEmail, phone);
+		
+	}
 	
 	//업데이트기능
 	@PostMapping("/update.me")

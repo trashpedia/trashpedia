@@ -1,4 +1,4 @@
-package com.kks.trashpedia.email.vo;
+package com.kks.trashpedia.auth.model.vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -64,4 +64,10 @@
 		INSERT INTO AUTHORITY
 		VALUES (#{userNo}, 'ROLE_USER')
 	</insert>
+	
+	<update id="temporaryPwd">
+		UPDATE MEMBER
+		SET USER_PWD = #{userPwd}
+		WHERE USER_EMAIL = #{userEmail} AND PHONE = #{phone}
+	</update>
 </mapper>

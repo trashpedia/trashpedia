@@ -67,4 +67,14 @@ public class MemberServiceImpl implements MemberService{
 	public List<Comment> commentList(int userNo) {
 		return dao.commentList(userNo);
 	}
+
+	@Override
+	public String findEmail(String userName, String phone) {
+		return dao.findEmail(userName, phone);
+	}
+
+	@Override
+	public int checkEmail(String userEmail, String phone) {
+		return dao.checkEmail(userEmail, phone);
+	}
 }

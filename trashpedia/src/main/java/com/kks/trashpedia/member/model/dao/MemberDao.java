@@ -24,4 +24,9 @@ public interface MemberDao {
 	List<Post> pledgeList(int userNo);
 	// 댓글
 	List<Comment> commentList(int userNo);
+
+	String findEmail(String userName, String phone);
+
+	int checkEmail(String userEmail, String phone);
+
 }

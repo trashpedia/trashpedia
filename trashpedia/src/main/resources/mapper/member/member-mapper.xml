@@ -92,5 +92,15 @@
 		AND C.STATUS = 'Y'
 		ORDER BY C.COMMENT_NO DESC
 	</select>
+	<select id="findEmail" resultType="member">
+		SELECT USER_EMAIL
+		FROM MEMBER
+		WHERE USER_NAME = #{userName} AND PHONE = #{phone}
+	</select>
+	<select id="checkEmail" resultType="int">
+		SELECT COUNT(*)
+		FROM MEMBER
+		WHERE USER_EMAIL = #{userEmail} AND PHONE = #{phone}
+	</select>
 </mapper>
 

@@ -48,7 +48,7 @@
     margin-left: 85px;
 }
 .input-login{
-    width: 100%;
+    width: 350px;
     padding: 10px;
     box-sizing: border-box;
     border-radius: 5px;
@@ -58,7 +58,7 @@
     margin-bottom: 10px;
 }  
 .input-pwd{
-    width: 100%;
+    width: 350px;
     padding: 10px;
     box-sizing: border-box;
     border-radius: 5px;
@@ -73,12 +73,12 @@
     margin-bottom: 10px;
 }
 
-#btn {
+.btn {
     margin-top: 10px;
     background-color: #000000;
     margin-bottom: 8px;
     color: white;
-    width: 360px;
+    width: 350px;
     height: 40px;
     font-weight: 700;
     border-radius: 5px;
@@ -90,7 +90,7 @@
     margin-bottom: 8px;
     color: rgb(54, 54, 54);
     font-weight: 700;
-    width: 360px;
+    width: 350px;
     height: 40px;
     border-radius: 5px;
 }
@@ -101,7 +101,7 @@
     margin-bottom: 8px;
     color: rgb(255, 255, 255);
     font-weight: 700;
-    width: 360px;
+    width: 350px;
     height: 40px;
     border-radius: 5px;
 }
@@ -148,7 +148,7 @@ main a {
     color: #ffffff;
     font-weight: 500;
     font-size: 12px;
-    right: 5px; 
+    right: 15px; 
     top: 5px;
 }
 
