@@ -6,8 +6,8 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kks.trashpedia.board.model.vo.Board;
 import com.kks.trashpedia.board.model.vo.Comment;
-import com.kks.trashpedia.board.model.vo.Post;
 import com.kks.trashpedia.member.model.vo.Member;
 
 @Repository
@@ -49,12 +49,12 @@ public class MemberDaoImpl implements MemberDao{
 	// 마이페이지
 	// 게시판
 	@Override
-	public List<Post> pledgeList(int userNo) {
-		return session.selectOne("memberMapper.pledgeList", userNo);
+	public List<Board> pledgeList(int userNo) {
+		return session.selectList("memberMapper.pledgeList", userNo);
 	}
 	// 댓글
 	@Override
-	public List<Comment> commentList(int userNo) {
-		return session.selectOne("memberMapper.commentList", userNo);
+	public List<Board> commentList(int userNo) {
+		return session.selectList("memberMapper.commentList", userNo);
 	}
 }

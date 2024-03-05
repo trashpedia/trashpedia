@@ -14,6 +14,34 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script type="text/javascript">
+
+// 카테고리
+    function getCategoryName(categoryNumber) {
+        switch(categoryNumber) {
+            case '1':
+                return "공지게시판";
+            case '2':
+                return "일반게시판";
+            case '3':
+                return "건의게시판";
+            case '4':
+                return "무료나눔게시판";
+            case '5':
+                return "실천서약";
+            case '6':
+                return "실천인증";
+            case '7':
+                return "홍보교육자료";
+            case '8':
+                return "제도교육자료";
+            default:
+                return "Unknown";
+        }
+    }
+</script>
+
 <style>
 .panel {
 	border-radius: 0;
@@ -87,11 +115,12 @@
 				</thead>
 				<tbody>
 					<!-- 여기에 활동 내역 데이터를 동적으로 추가하세요. -->
-					<c:if test="${not empty list}">
+					<c:if test="${not empty myPost}">
 						<c:forEach var="activity" items="${myPost}">
 							<tr>
 								<td>${activity.createDate}</td>
-								<td>${getCategoryName(activity.subCategory)}</td>
+								<td><script>document.write(getCategoryName('${activity.subCategoryNo}'));</script></td>
+
 								<td>${activity.content}</td>
 								<td><button class="detailBtn"
 										onclick="pledgeDetail(${activity.postNo})">상세보기</button></td>
@@ -122,11 +151,11 @@
 				</thead>
 				<tbody>
 					<!-- 여기에 활동 내역 데이터를 동적으로 추가하세요. -->
-					<c:if test="${not empty list}">
+					<c:if test="${not empty myComment}">
 						<c:forEach var="activity" items="${myComment}">
 							<tr>
 								<td>${activity.createDate}</td>
-								<td>${activity.subCategory}</td>
+								<td><script>document.write(getCategoryName('${activity.subCategoryNo}'));</script></td>
 								<td>${activity.content}</td>
 								<td><button class="detailBtn"
 										onclick="pledgeDetail(${activity.postNo})">상세보기</button></td>
@@ -160,7 +189,7 @@
 						<c:forEach var="activity" items="${list}">
 							<tr>
 								<td>${activity.createDate}</td>
-								<td>${getCategoryName(activity.subCategory)}</td>
+								<td><script>document.write(getCategoryName('${activity.subCategoryNo}'));</script></td>
 								<td>${activity.content}</td>
 								<td><button class="detailBtn">상세보기</button></td>
 							</tr>
@@ -234,7 +263,8 @@
 					</div>
 					<!-- 6. 수정하기 버튼 -->
 					<div class="twoBtn">
-						<button type="submit" id="updateBtn">등록</button>
+						<button type="submit" id="updateBtn" formaction="/update.me">수정하기</button>
+
 						<button type="button" class="btn btn-danger btn-sm"
 							data-toggle="modal" data-target="#deleteForm" id="deleteBtn">회원탈퇴</button>
 					</div>
@@ -277,7 +307,15 @@
 			</div>
 		</div>
 	</main>
+	
+	
+	
+	
 	<jsp:include page="../common/footer.jsp" />
+	
+	
+	
+	
 	<script>
 		function submitForm() {
 			var username = document.getElementById("username").value;
@@ -412,21 +450,7 @@
 			});
 		})
 		
-		// 카테고리
-		function getCategoryName(categoryNumber) {
-		    switch(categoryNumber) {
-		        case 1:
-		            return "공지게시판";
-		        case 2:
-		            return "일반게시판";
-		        case 3:
-		            return "건의게시판";
-		        // 나머지 카테고리에 대한 매핑 추가
-		        default:
-		            return "Unknown";
-		    }
-		}
-				
+
 		
 		//상세보기 이동
 		function pledgeDetail(postNo){

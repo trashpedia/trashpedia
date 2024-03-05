@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import com.kks.trashpedia.board.model.vo.Board;
 import com.kks.trashpedia.board.model.vo.Comment;
 import com.kks.trashpedia.board.model.vo.Post;
 import com.kks.trashpedia.member.model.dao.MemberDao;
@@ -58,13 +59,13 @@ public class MemberServiceImpl implements MemberService{
 	// 마이페이지 
 	// 게시글
 	@Override
-	public List<Post> pledgeList(int userNo) {
+	public List<Board> pledgeList(int userNo) {
 		return dao.pledgeList(userNo);
 	}
 
 	// 댓글
 	@Override
-	public List<Comment> commentList(int userNo) {
+	public List<Board> commentList(int userNo) {
 		return dao.commentList(userNo);
 	}
 }
