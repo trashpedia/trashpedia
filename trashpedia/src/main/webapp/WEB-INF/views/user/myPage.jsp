@@ -1,19 +1,32 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="com.kks.trashpedia.member.model.vo.*"%>
-<c:set var="contextPath" value="<%=request.getContextPath() %>"/>
+<c:set var="contextPath" value="<%=request.getContextPath()%>" />
 
 <!DOCTYPE html>
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
 <title>member mypage</title>
-<link rel="stylesheet" href="${contextPath}/resources/css/user/myPage.css">
-<link rel="stylesheet" href="${contextPath}/resources/css/user/update.css">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<link rel="stylesheet"
+	href="${contextPath}/resources/css/user/myPage.css">
+<link rel="stylesheet"
+	href="${contextPath}/resources/css/user/update.css">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script type="text/javascript">
+    var authentication = "${authentication}";
+    var loginUser = JSON.parse(authentication);
+</script>
+
 
 <script type="text/javascript">
 
@@ -215,50 +228,67 @@
 					<div class="field">
 						<b>아이디</b>
 						<div id="id-1">
-							<input type="text" name="userEmail"
-								value="${loginUser.userEmail}" readonly>
+							<input type="hidden" value="${authentication.userNo}"
+								name="userNo"> <input type="text" name="userEmail"
+								placeholder="${authentication.userEmail}" value="${userEmail}"
+								readonly>
 						</div>
 					</div>
 					<div class="field">
-						<b>비밀번호</b>
-						<%-- 	            <input class="userpw" type="password" id="passwordInput" oninput="updatePasswordNotice()" name="userPwd"  value="<%= m.getUserPwd() %>" readonly> --%>
-<!-- 						<input class="userpw" type="password" id="passwordInput" -->
-<!-- 							oninput="updatePasswordNotice()" name="userPwd" -->
-<%-- 							value="<%=userPwd%>" readonly> --%>
-
+						<b>비밀번호</b> <input type="password" name="userPwd" class="userpw" id="passwordInput" oninput="updatePasswordNotice()" name="userPwd"
+							placeholder="${authentication.userPwd}" value="${userPwd}"
+							required>
+					</div>
+					<div class="field">
+						<div class="title">
+							<p>* 비밀번호 확인</p>
+						</div>
+						<input class="userpw-confirm" type="password"
+							id="confirmPasswordInput" oninput="updatePasswordNotice()">
+						<div class="info-pwd">6-15자 이내 영문(대,소문자), 숫자, 특수문자를 조합하셔서
+							작성해 주세요.</div>
+						<!-- 비밀번호 안내 문구 -->
+						<div id="passNotice" class="on-cont">
+							<p class="ico-possible">가능</p>
+							<p class="ico-impossible">불가능</p>
+							<p class="ico-same">일치</p>
+							<p class="ico-notsame">불일치</p>
+						</div>
 					</div>
 					<div class="field">
 						<b>이름</b> <input type="text" name="userName"
-							value="${loginUser.userName}" required>
+							placeholder="${authentication.userName}" value="${userName}"
+							required>
 					</div>
 					<div class="field">
 						<b>닉네임</b> <input type="text" name="userNickname"
-							value="${loginUser.userNickname}" required>
+							placeholder="${authentication.userNickname}"
+							value="${userNickname}" required>
 					</div>
 					<div class="field tel-number">
 						<b>휴대전화</b> <input type="tel" name="phone"
-							value="${loginUser.phone}">
+							placeholder="${authentication.phone}" value="${phone}" required>
 					</div>
 					<!-- 주소입력  -->
 					<div class="field address">
 						<b>주소</b>
 						<div class="zipcode-container">
 							<input type="text" id="sample6_postcode" placeholder="우편번호"
-								name="zipcode" value="${loginUser.zipcode}" required readonly>
-							<input type="button" onclick="sample6_execDaumPostcode();"
+								name="zipcode" value="${zipcode}" required readonly> <input
+								type="button" onclick="sample6_execDaumPostcode();"
 								value="우편번호 찾기" name="zipcodeButton" id="findZipBtn">
 						</div>
 						<div class="address-container">
 							<input type="text" id="sample6_address" name="address1"
 								placeholder="주소" required readonly name="address1"
-								value="${loginUser.address1}">
+								value="${address1}">
 						</div>
 						<div class="details-container">
 							<input type="text" id="sample6_detailAddress" name="address3"
 								placeholder="상세주소" name="address2" value="${loginUser.address2}">
 							<input type="text" id="sample6_extraAddress" name="address2"
-								placeholder="참고항목" readonly name="address3"
-								value="${loginUser.address3}">
+								placeholder="참고항목" readonly name="address3" value="${address3}"
+								required>
 						</div>
 					</div>
 					<!-- 6. 수정하기 버튼 -->
@@ -301,21 +331,22 @@
 							</tr>
 						</table>
 						<br>
-						<button type="submit" id="realDelete">탈퇴하기</button>
+						<button type="submit" id="realDelete" formaction="/delete.me">탈퇴하기</button>
+
 					</form>
 				</div>
 			</div>
 		</div>
 	</main>
-	
-	
-	
-	
+
+
+
+
 	<jsp:include page="../common/footer.jsp" />
-	
-	
-	
-	
+
+
+
+
 	<script>
 		function submitForm() {
 			var username = document.getElementById("username").value;
@@ -405,6 +436,78 @@
 	<script
 		src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 
+
+	<script type="text/javascript">
+	
+	
+	// 비밀번호 유효성검사
+    function validatePassword() {
+         var passwordInput = document.getElementById('passwordInput').value;
+         var confirmPasswordInput = document.getElementById('confirmPasswordInput').value;
+
+         var passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*])[a-zA-Z\d!@#$%^&*]{6,15}$/;
+         var passwordMatch = passwordInput === confirmPasswordInput;
+
+         return { isValid: passwordRegex.test(passwordInput), isMatch: passwordMatch };
+     }
+
+	function updatePasswordNotice() {
+		var passNotice = document.getElementById('passNotice');
+		var passwordValidation = validatePassword();
+		var passwordInput = document.getElementById('passwordInput');
+		var confirmPasswordInput = document.getElementById('confirmPasswordInput');
+
+		passNotice.querySelectorAll('p').forEach(function (element) {
+		    element.style.display = 'none';
+		});
+
+		if (passwordInput.value !== "") {
+			// 비밀번호 유효성 검사
+			if (passwordValidation.isValid) {
+			    passNotice.querySelector('.ico-possible').style.display = 'block';
+			} else {
+			    passNotice.querySelector('.ico-possible').style.display = 'none';
+			    passNotice.querySelector('.ico-impossible').style.display = 'block';
+			    return;
+			}
+
+			if (passwordValidation.isMatch && confirmPasswordInput.value !== "") {
+			    passNotice.querySelector('.ico-same').style.display = 'block';
+			    passNotice.querySelector('.ico-possible').style.display = 'none';
+			} else if (!passwordValidation.isMatch && confirmPasswordInput.value !== "") {
+			    passNotice.querySelector('.ico-notsame').style.display = 'block';
+			    passNotice.querySelector('.ico-possible').style.display = 'none';
+			}
+		}
+    }
+
+	var passwordInput = document.getElementById('passwordInput');
+    var confirmPasswordInput = document.getElementById('confirmPasswordInput');
+    passwordInput.addEventListener('input', updatePasswordNotice);
+    confirmPasswordInput.addEventListener('input', updatePasswordNotice);
+
+    updatePasswordNotice();
+
+    confirmPasswordInput.addEventListener('keyup', updatePasswordNotice);
+	
+	// 업데이트
+    document.getElementById('updateBtn').addEventListener('click', function(event) {
+        event.preventDefault();
+
+        $.ajax({
+            url: '/update.me', // 업데이트를 처리하는 서버의 엔드포인트
+            method: 'POST',
+            data: $('#enroll-form').serialize(), // 폼 데이터 직렬화
+            success: function(response) {
+                console.log('회원 정보가 업데이트되었습니다.');
+            },
+            error: function(xhr, status, error) {
+                console.error('회원 정보 업데이트 실패:', error);
+            }
+        });
+    });
+
+	</script>
 	<script type="text/javascript">
 		$(document).ready(function() {
 

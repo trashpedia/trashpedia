@@ -35,22 +35,40 @@
 		VALUES(#{userNo},USER)
 	</insert>
 
+
+
+	<select id="loginMember" parameterType="Member"
+		resultType="Member">
+		SELECT *
+		FROM MEMBER
+		WHERE USER_NO = #{userNo}
+	</select>
+
+	<select id="getMember" parameterType="Member"
+		resultType="Member">
+		SELECT *
+		FROM MEMBER
+		WHERE USER_No = #{userNo}
+	</select>
 	<update id="updateMember" parameterType="member">
 		UPDATE MEMBER
 		SET
-		USER_EMAIL = #{userEmail},
+
 		USER_NAME = #{userName},
 		USER_NICKNAME
 		=#{userNickname},
-		PHONE = #{phone},
+		PHONE =
+		#{phone},
 		ZIPCODE = #{zipcode},
 		ADDRESS1 =
 		#{address1},
-		ADDRESS2 = #{address2},
+		ADDRESS2 =
+		#{address2},
 		ADDRESS3 = #{address3},
 		MODIFY_DATE
 		= SYSDATE
-		WHERE USER_EMAIL = #{userEmail} AND STATUS = 'Y'
+		WHERE
+		USER_EMAIL = #{userEmail} AND STATUS = 'Y'
 	</update>
 
 	<update id="deleteMember" parameterType="member">

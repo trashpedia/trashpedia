@@ -46,6 +46,7 @@ public class MemberController {
 			List<Board> myPost = service.pledgeList(userNo);
 			List<Board> myComment = service.commentList(userNo);
 
+			mav.addObject("authentication",authentication);
 			mav.addObject("myPost", myPost);
 			mav.addObject("myComment", myComment);
 			mav.setViewName("user/myPage");
@@ -106,10 +107,10 @@ public class MemberController {
 		int result = service.updateMember(m);
 		String url = "";
 
-		if (result > 0) {
+		if (result > 0) { // 성공
 			Member updateMember = service.loginMember(m);
 			session.setAttribute("loginUser", updateMember);
-			url = "redirect:/member/myPage";
+			url = "redirect:/user/login";
 		} else {
 			model.addAttribute("errorMsg", "회원정보수정실패");
 			url = "redirect:/member/myPage";
@@ -125,7 +126,7 @@ public class MemberController {
 		if (result > 0) {
 			// 회원 정보를 삭제한 경우 세션에서 로그인된 회원 정보를 삭제
 			session.removeAttribute("loginUser");
-			return "redirect:/member/myPage";
+			return "redirect:/user/login";
 		} else {
 			// 탈퇴 실패 시 처리할 내용
 			return "login";
