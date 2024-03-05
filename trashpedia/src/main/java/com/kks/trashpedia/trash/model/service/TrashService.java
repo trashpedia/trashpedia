@@ -2,6 +2,7 @@ package com.kks.trashpedia.trash.model.service;
 
 import java.util.List;
 
+import com.kks.trashpedia.board.model.vo.ImgAttachment;
 import com.kks.trashpedia.trash.model.vo.TrashPost;
 
 public interface TrashService {
@@ -10,5 +11,9 @@ public interface TrashService {
 	List<TrashPost> getRecentlyTrashList();
 
 	List<TrashPost> getPopularList();
+
+	ImgAttachment trashDetailImg(int trashPostNo);
+
+	TrashPost trashDetail(int trashPostNo);
 
 }
