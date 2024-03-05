@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-//@ControllerAdvice
+@ControllerAdvice
 public class TrashPediaExceptionHandler {
 
     @ExceptionHandler(Exception.class)
@@ -17,7 +17,6 @@ public class TrashPediaExceptionHandler {
 
     	//에러발생이유 화면 전달
 		String errorMessage = e.getMessage();
-		
 		model.addAttribute("errorMessage", errorMessage);
 
 		// 포워딩할 페이지 설정

@@ -66,7 +66,7 @@
 			<div class="reply-outer">
 				<div class="reply-outer-top-area">
 					<span class="reply_title"> 댓글 </span> | <span class="reply_count"
-						id="rcount">224</span>
+						id="rcount">0</span>
 				</div>
 
 				<!-- 댓글 작성 -->
@@ -87,20 +87,20 @@
 						</thead>
 						<tbody>
 							<tr>
-								<td>댓글이 없습니다.</td>
+								<td colspan="3">댓글이 없습니다.</td>
 							</tr>
 						</tbody>
 					</table>
 					<!-- 페이징 -->
-					<div class="paging-button">
-						<button class="pagingBtn" id="prevBtn"><</button>
-						<button class="pagingBtn">1</button>
-						<button class="pagingBtn">2</button>
-						<button class="pagingBtn">3</button>
-						<button class="pagingBtn">4</button>
-						<button class="pagingBtn">5</button>
-						<button class="pagingBtn" id="nextBtn">></button>
-					</div>
+<!-- 					<div class="paging-button"> -->
+<!-- 						<button class="pagingBtn" id="prevBtn"><</button> -->
+<!-- 						<button class="pagingBtn">1</button> -->
+<!-- 						<button class="pagingBtn">2</button> -->
+<!-- 						<button class="pagingBtn">3</button> -->
+<!-- 						<button class="pagingBtn">4</button> -->
+<!-- 						<button class="pagingBtn">5</button> -->
+<!-- 						<button class="pagingBtn" id="nextBtn">></button> -->
+<!-- 					</div> -->
 				</div>
 			</div>
 		</div>
@@ -116,7 +116,10 @@
             initialValue :  `${post.content}`
         });
 	
-	
+		// 로그인
+		const loginUser = `${authentication}`;
+		const writeUser = `${post.userName}`;
+		
 	    // 게시글삭제확인
 	    function confirmDelete(postNo, boardNo, bigCategoryNo, subCategoryNo) {
 	        var result = confirm("게시글을 삭제하시겠습니까?");
@@ -137,10 +140,12 @@
     		            comments += "<tr>";
     		            comments += "<td>" + comment.userName + "</td>";
     		            comments += "<td><p>" + comment.content + "</p>";
-    		            comments += "<div class='comment-buttons'>" +
-    		                        "<button onclick='showCommentUpdateForm("+comment.commentNo+",this)' class='btn-edit'> 수정 </button>" +
-    		                        "<button onclick='deleteComment(" + comment.commentNo + ")' class='btn-delete'> 삭제 </button>" +
-    		                        "</div></td>";
+    		            if('${authentication.userName}' == comment.userName){
+	    		            comments += "<div class='comment-buttons'>" +
+	    		                        "<button onclick='showCommentUpdateForm("+comment.commentNo+",this)' class='btn-edit'> 수정 </button>" +
+	    		                        "<button onclick='deleteComment(" + comment.commentNo + ")' class='btn-delete'> 삭제 </button>" +
+	    		                        "</div></td>";
+    		            }
     		            comments += "<td>" + comment.createDate + "</td>";
     		            comments += "</tr>";
     		        }
@@ -156,27 +161,33 @@
  	   
  	   //댓글등록
  	   function insertComment(){
- 		   $.ajax({
- 			  url: "${contextPath}/pledge/insertComment",
- 			  data : {
- 				 boardNo: ${post.boardNo}, 
- 				 userNo: ${post.userNo},
- 				 content : $("#replyContent").val()
- 			  },
- 			  type : 'post',
- 			  success : function(result){
- 				  if(result>0){
- 					  alert("댓글이 등록되었습니다.");
- 				  }else{
- 					  alert("댓글등록이 실패하였습니다.");
- 				  }
- 				  $("#replyContent").val("");
- 				 selectCommentList();
- 			  },
- 			  error: function (xhr, status, error) {
-				console.log(" 댓글등록에러:", status, error);
-				}
- 		   })
+ 		   
+ 		   if(loginUser){
+	 		   $.ajax({
+	 			  url: "${contextPath}/pledge/insertComment",
+	 			  data : {
+	 				 boardNo: ${post.boardNo}, 
+	 				 userNo: `${authentication.userNo}`,
+	 				 content : $("#replyContent").val()
+	 			  },
+	 			  type : 'post',
+	 			  success : function(result){
+	 				  if(result>0){
+	 					  alert("댓글이 등록되었습니다.");
+	 				  }else{
+	 					  alert("댓글등록이 실패하였습니다.");
+	 				  }
+	 				  $("#replyContent").val("");
+	 				 selectCommentList();
+	 			  },
+	 			  error: function (xhr, status, error) {
+					console.log(" 댓글등록에러:", status, error);
+					}
+	 		   })
+ 		   }else{
+ 			    alert("댓글을 등록하려면 로그인이 필요합니다.");
+ 		   }
+ 		  
  	   }
  	   
  	   //댓글수정 form 생성
@@ -209,7 +220,7 @@
  		   
  		   button.addEventListener("click",function(){
  			   updateComment(commentNo,textarea);
- 			   })
+ 			})
  	   }
  	   
  	   //댓글수정

@@ -16,10 +16,9 @@ public class InformationServiceImpl implements InformationService{
 
 	//정보자료글 보기
 	@Override
-	public Page<Post> loadListData(Pageable pageable, int page, String sort, String searchSelect, String searchValue,
-			int subCategoryNo) {
+	public Page<Post> loadListData(Pageable pageable, int page, String sort, String searchSelect, String searchValue, int subCategoryNo) {
 		return dao.loadListData(pageable, page, sort, searchSelect, searchValue,subCategoryNo);
 	}
-	
+
 	
 }

@@ -11,7 +11,6 @@ public class BoardInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         //현재 URL을 세션에 저장
         String currentUrl = request.getRequestURI(); 
-       
         String contextPath = request.getContextPath();
         String url = currentUrl.substring(contextPath.length()  );
        
