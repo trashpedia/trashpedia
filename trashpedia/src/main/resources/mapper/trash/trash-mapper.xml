@@ -14,6 +14,7 @@
 		WHERE ROWNUM BETWEEN 1 AND 5
 	</select>
 	
+	<!-- 인기 쓰레기  -->
 	<select id ="getPopularList"  resultType="trashPost">
 		SELECT *
 		FROM(
@@ -31,6 +32,15 @@
 		LEFT JOIN TRASH_POST TPO  ON TPO.TRASH_POST_NO = TRASH_NO
 		WHERE STATUS='Y'
 		
+	</select>
+	
+	<!-- 쓰레기 상세페이지  -->
+	<select id ="trashDetail" parameterType="int" resultType="trashPost">
+	SELECT T.TRASH_NO,T.SUB_CATEGORY_NO, T.STATUS, TP.TRASH_POST_NO
+		, TP.TRASH_TITLE, TP.TRASH_CONTENT
+		FROM TRASH T
+		LEFT JOIN TRASH_POST TP ON T.TRASH_POST_NO = TP.TRASH_POST_NO
+		WHERE T.TRASH_POST_NO = 1
 	</select>
 
 
