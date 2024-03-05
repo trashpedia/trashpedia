@@ -7,6 +7,7 @@
 </c:url>
 <c:set var="subCategoryNo" value="${param.subCategoryNo}" />
 <c:set var="bigCategoryNo" value="${param.bigCategoryNo}" />
+<c:set var="postNo" value="${param.postNo}"/>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -85,6 +86,7 @@
 						style="resize: none; width: 100%;" placeholder="댓글을 입력하세요"></textarea>
 					<button class="comment-button" onclick="insertComment()">등록</button>
 				</div>
+		
 
 				<div class="reply-outer-content-area">
 					<table class="reply-table" id="replyArea">
@@ -117,42 +119,24 @@
 
         
 
-        <!-- <div class="board_wrap">
-            <div class="card my-4">
-                <h5 class="reply-header">댓글</h5>
-                <div class="reply-body">
-                    <form name="comment-form" action="*" method="post" autocomplete="off">
-                        <div class="form-group">
-                            <input type="hidden" name="idx" th:value="*{idx}" />
-                            <textarea name="content" class="form-control" rows="3"></textarea>
-                        </div>
-                        <a type="submit" class="btn-primary">댓글작성</a>
-                    </form>
-                </div>
-            </div>  
-            
-        </div> -->
-
-        
-
     </main>
      <jsp:include page="../../common/footer.jsp" />
 
      <script>
   // 게시글삭제확인
-/* 	    function confirmDelete(postNo, boardNo, bigCategoryNo, subCategoryNo) {
-	        var result = confirm("게시글을 삭제하시겠습니까?");
-	        if (result) {
-	            var deleteUrl = "${contextPath}/pledge/delete/" + postNo + "?boardNo=" + boardNo;
-	            window.location.href = deleteUrl;
-	        } 
-	    } */
+//  	    function confirmDelete(postNo, boardNo, bigCategoryNo, subCategoryNo) {
+// 	        var result = confirm("게시글을 삭제하시겠습니까?");
+// 	        if (result) {
+// 	            var deleteUrl = "${contextPath}/pledge/delete/" + postNo + "?boardNo=" + boardNo;
+// 	            window.location.href = deleteUrl;
+// 	        } 
+// 	    } 
 	
 	    //댓글목록조회
 	    function selectCommentList(){
 	    	$.ajax({
 	 		 	url: "${contextPath}/selectCommentList",
-	 		    data: { boardNo: ${b.boardNo}, userNo: ${b.userNo}},
+	 		    data: { boardNo: ${post.boardNo}, userNo: ${post.userNo}},
 	 		    success: function (result) {
 	 		        let comments = "";
 	 		        for (let comment of result) {
@@ -181,8 +165,8 @@
 		   $.ajax({
 			  url: "${contextPath}/insertComment",
 			  data : {
-				 boardNo: ${b.boardNo}, 
-				 userNo: ${b.userNo},
+				 boardNo: ${post.boardNo}, 
+				 userNo: ${post.userNo},
 				 content : $("#replyContent").val()
 			  },
 			  type : 'post',

@@ -9,11 +9,6 @@
 </c:url>
 <c:set var="subCategoryNo" value="${param.subCategoryNo}" />
 <c:set var="bigCategoryNo" value="${param.bigCategoryNo}" />
-<c:set var="groupSize" value="10" /> <!-- 한 번에 보여줄 페이지 번호의 수 -->
-<c:set var="currentGroup" value="${(currentPage div groupSize) + (currentPage % groupSize eq 0 ? 0 : 1)}" /> <!-- 현재 페이지 그룹 -->
-<c:set var="totalGroups" value="${(totalPages div groupSize) + (totalPages % groupSize eq 0 ? 0 : 1)}" /> <!-- 총 페이지 그룹 수 -->
-<c:set var="startPage" value="${(currentGroup - 1) * groupSize + 1}" /> <!-- 현재 페이지 그룹의 시작 페이지 번호 -->
-<c:set var="endPage" value="${startPage + groupSize - 1 > totalPages ? totalPages : startPage + groupSize - 1}" /> <!-- 현재 페이지 그룹의 마지막 페이지 번호 -->
 
 
 
@@ -139,30 +134,26 @@
 	                    <button id="insertButton"class="comment-buttons">게시글 등록하기</button>
 	                </a>
             	</div>
+            	
 				<div class="board_page">
-				    <c:if test="${boardList.number > 0}">
-				        <!-- 첫 페이지로 이동 -->
-				        <a href="${contextPath}/board/list?page=1&subCategoryNo=${subCategoryNo}" class="bt first"><<</a>
-				        <!-- 이전 페이지 그룹으로 이동 -->
-				        <a href="${contextPath}/board/list?page=${boardList.number - 1}&subCategoryNo=${subCategoryNo}" class="bt prev"><</a>
-				    </c:if>
-				
-				    <c:set var="startPage" value="${(boardList.number div 10) * 10 + 1}" />
-				    <c:set var="endPage" value="${startPage + 9}" />
-				    <c:if test="${endPage > boardList.totalPages}">
-				        <c:set var="endPage" value="${boardList.totalPages}" />
-				    </c:if>
-				
-				    <c:forEach begin="${startPage}" end="${endPage}" var="pageNum">
-				        <a href="${contextPath}/board/list?page=${pageNum}&subCategoryNo=${subCategoryNo}" class="${pageNum == boardList.number ? 'num on' : 'num'}">${pageNum}</a>
-				    </c:forEach>
-				
-				    <c:if test="${boardList.totalPages > boardList.number}">
-				        <!-- 다음 페이지 그룹으로 이동 -->
-				        <a href="${contextPath}/board/list?page=${boardList.number + 1}&subCategoryNo=${subCategoryNo}" class="bt next">></a>
-				        <!-- 마지막 페이지로 이동 -->
-				        <a href="${contextPath}/board/list?page=${boardList.totalPages}&subCategoryNo=${subCategoryNo}" class="bt last">>></a>
-				    </c:if>
+					<c:if test="${boardList.number > 0}">
+						<a href="${contextPath}/board/list?page=${boardList.number - 1}&subCategoryNo=${subCategoryNo}"
+							class="bt prev">&lt;</a>
+					</c:if>
+
+					<c:forEach begin="0" end="${boardList.totalPages - 1}" var="pageNum">
+					    <c:if test="${pageNum >= boardList.number - 5 && pageNum <= boardList.number + 5}">
+					        <a href="${contextPath}/board/list?page=${pageNum}&subCategoryNo=${subCategoryNo}"
+					            class="${pageNum == boardList.number ? 'num on' : 'num'}">${pageNum + 1}
+					        </a>
+					    </c:if>
+					</c:forEach>
+
+
+					<c:if test="${boardList.number + 1 < boardList.totalPages}">
+						<a href="${contextPath}/board/list?page=${boardList.number + 1}&subCategoryNo=${subCategoryNo}"
+							class="bt next">&gt;</a>
+					</c:if>
 				</div>
 				
 
