@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kks.trashpedia.trash.model.dao.TrashDao;
+import com.kks.trashpedia.trash.model.vo.Trash;
 import com.kks.trashpedia.trash.model.vo.TrashPost;
 
 @Service
@@ -25,9 +26,10 @@ public class TrashServiceImpl implements TrashService{
 	}
 
 	@Override
-	public TrashPost trashDetail(int trashPostNo) {
-		return dao.trashDetail(trashPostNo);
+	public Trash trashDetail(int trashNo) {
+		return dao.trashDetail(trashNo);
 	}
+
 	
 	
 }

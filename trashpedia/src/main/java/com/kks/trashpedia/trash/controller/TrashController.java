@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -47,25 +48,19 @@ public class TrashController {
 	
 	
 	//쓰레기 상세페이지이동
-	@GetMapping("/detail/{trashPostNo}")
+	@GetMapping("/detail")
 	public ModelAndView trashDetail(
-			@PathVariable int trashPostNo,
-			HttpServletRequest req,
-			HttpServletResponse res,
-			HttpSession session
+			@RequestParam int trashNo
 			) {
 		ModelAndView modelAndView = new ModelAndView();
 		
 		//쓰레기 내용 조회
-		TrashPost tPost = service.trashDetail(trashPostNo);
+		Trash trash = service.trashDetail(trashNo);
 		Trash t = new Trash();
-		System.out.println(tPost);
 		
 		//쓰레기 이미지, 제목, 설명, 대분류, 소분류
-		//ImgAttachment img = service.trashDetailImg(tPost.getTrashPostNo());
-	
-//		t.setImgAttachment(img);
-		modelAndView.addObject("tPost", tPost);
+
+		modelAndView.addObject("trash", trash);
 		modelAndView.setViewName("encyclopedia/trashEncyclopediaDetail");
 		return modelAndView;
 	}

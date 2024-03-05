@@ -25,20 +25,15 @@
 			<main>
 				<div class="detail_wrap">
 				<section class="trash_img_wrap">
-					<img src="<c:url value='/resources/attachFile/image/${tPost.changeName}'/>" class="content-img">
+					<img src="<c:url value='/resources/attachFile/image/${trash.changeName}'/>" class="content-img">
 				</section>
+				
 				<section class="trash_info_wrap">
-					<div class="trash_info_category">${tPost.subCategoryName}</div>
-					<div class="trash_info_postNo">
-							<h1>${tPost.trashPostNo}</h1>
-							<span></span>
-						</div>
-						<div class="trash_info_title">
-							<h1>${tPost.trashTitle}</h1>
-							<span></span>
-						</div>
 
-					</section>
+					<span id="category">소분류: ${trash.subCategoryName}</span>
+					<span id="title">${trash.trashTitle}</span>
+
+				</section>
 				</div>
 				<div class="trash_list_title">
 					<h1>다른 쓰레기</h1>
@@ -63,6 +58,8 @@
 					</section>
 				</div>
 			</main>
+			
+			
 		</div>
 
 	<jsp:include page="../common/footer.jsp" />
@@ -108,8 +105,8 @@
     
  // 이미지 요소 생성
     let imgElement = document.createElement('img');
-    imgElement.src = '${contextPath}/resources/attachFile/image/' + tPost.trashImageUrl;
-    imgElement.className = 'content-img';	
+    imgElement.src = "${contextPath}/resources/attachFile/image/${trash.changeName}";
+    imgElement.className = 'content-img';
     
    
     </script>

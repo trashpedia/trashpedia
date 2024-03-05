@@ -6,6 +6,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kks.trashpedia.trash.model.vo.Trash;
 import com.kks.trashpedia.trash.model.vo.TrashPost;
 
 @Repository
@@ -25,9 +26,9 @@ public class TrashDaoImpl implements TrashDao{
 	}
 
 	@Override
-	public TrashPost trashDetail(int trashPostNo) {
-		return session.selectOne("trashMapper.trashDetail");
+	public Trash trashDetail(int trashNo) {
+		Trash t = session.selectOne("trashMapper.trashDetail", trashNo);
+		System.out.println(t);
+		return session.selectOne("trashMapper.trashDetail", trashNo);
 	}
-	
-	
 }

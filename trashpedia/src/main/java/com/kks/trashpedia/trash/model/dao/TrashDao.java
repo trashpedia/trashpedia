@@ -2,6 +2,7 @@ package com.kks.trashpedia.trash.model.dao;
 
 import java.util.List;
 
+import com.kks.trashpedia.trash.model.vo.Trash;
 import com.kks.trashpedia.trash.model.vo.TrashPost;
 
 public interface TrashDao {
@@ -11,6 +12,6 @@ public interface TrashDao {
 
 	List<TrashPost> getPopularList();
 
-	TrashPost trashDetail(int trashPostNo);
+	Trash trashDetail(int trashNo);
 
 }
