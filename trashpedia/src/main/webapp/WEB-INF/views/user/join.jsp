@@ -21,6 +21,7 @@
         	<div class="field">
 	        	<div class="title"><p>* 이메일</p></div>
 	            <div class="id-wrapper">
+	            <div>
 	            	<div class="id-content">
 		                <input type="text" id="id" placeholder="이메일을 입력하세요">
 		                <span class="id-a">@</span>
@@ -28,7 +29,6 @@
 		                <input type="hidden" id ="hiddenUserEmail" name="userEmail">
 	            	</div>
 	            </div>
-	            <div>
 	                <select id="emailSelect" onchange="updateEmailDomain()">
 	                    <option value="직접입력" selected>직접입력</option>
 	                    <option value="naver.com">naver.com</option>
@@ -37,8 +37,12 @@
 	                    <option value="daum.net">daum.net</option>
 	                    <option value="hanmail.net">hanmail.net</option>
 	                </select>
+		            <button type="button" onclick="emailCheck()" class="doubleCheckBtn" id ="emailCheckBtn">이메일인증</button>
 	            </div>
-	            <button type="button" onclick="emailCheck()" id ="doubleCheckBtn">중복확인</button>
+	            <div id="code-input">
+	                <input type="text" id="code" class="code-input" placeholder="코드를 입력하세요">
+		            <button type="button" onclick="codeCheck()" class="doubleCheckBtn" id ="codeCheckBtn">인증확인</button>
+	            </div>
 	        </div>
 	        <div class="field">
 	            <div class="title"><p>* 비밀번호</p></div>
@@ -58,7 +62,7 @@
 	        </div>
 	        <div class="field">
 	            <div class="title"><p>* 이름</p></div>
-	            <input type="text" name="userName">
+	            <input type="text" id="userName" name="userName">
 	        </div>
 	        <div class="field">
 	            <div class="title"><p>닉네임</p></div>
@@ -66,7 +70,7 @@
 	        </div>
 	       
 	        <div class="field tel-number">
-	            <div class="title"><p>휴대전화</p></div>
+	            <div class="title"><p>* 휴대전화</p></div>
 	            <div>
 	                <input type="tel" placeholder="전화번호 입력" name="phone" id="phoneBox">
 	                <input type="button" value="인증번호 받기">
@@ -104,6 +108,11 @@
 	</main>
 	<jsp:include page="../common/footer.jsp"/>
 	<script>
+		let emailCodeCheck = '';
+		$(document).ready(function() {
+			$("#code-input").hide();
+		});
+		
 		document.querySelectorAll('input').forEach(function(input) {
 		    input.addEventListener('keydown', function(event) {
 		        if (event.key === 'Enter') {
@@ -140,7 +149,6 @@
 		        return;
 		    }
 			
-			console.log(userEmail);
 			$.ajax({
 				url: "emailCheck",
 				data:{userEmail : userEmail},
@@ -151,19 +159,42 @@
 			            $("#id").focus();
 			            $("#emailDomain").prop("disabled", false);
 					} else {
-						$("#id").prop("disabled", true);
-			            $("#emailDomain").prop("disabled", true);
-			            $("#emailSelect").prop("disabled", true);
-			            $("#doubleCheckBtn").prop("disabled", true);
-						alert("사용 가능한 이메일입니다");
-						$("#passwordInput").focus();
+						$.ajax({
+							url: "/trashpedia/auth/emailCode",
+							data: {userEmail : userEmail},
+							success: function(result){
+								alert(userEmail + "로 코드를 보냈습니다");
+								emailCodeCheck = result;
+								$("#id").prop("disabled", true);
+					            $("#emailDomain").prop("disabled", true);
+					            $("#emailSelect").prop("disabled", true);
+					            $("#emailCheckBtn").prop("disabled", true);
+					            $("#code-input").show();
+							},
+							error: function (xhr, status, error){
+								console.log("이메일 중복 에러 :", status, error);
+							}
+						})
 					}
 				},
 				error:function (xhr, status, error){
 					console.log("이메일 중복 에러 :", status, error);
 				}
-			})
+			});
+		};
+		
+		function codeCheck(){
+			let inputCode = document.getElementById("code").value;
+			if(emailCodeCheck === inputCode){
+				$("#code").prop("disabled", true);
+	            $("#codeCheckBtn").prop("disabled", true);
+				$("#passwordInput").focus();
+				alert("인증에 성공했습니다");
+			} else {
+				alert("코드 확인에 실패했습니다. 코드를 확인해주세요");
+			}
 		}
+		
 	
 	 	// 비밀번호 유효성검사
 	    function validatePassword() {
@@ -263,10 +294,12 @@
 		    var isFormValid = true;
 
 		    var fieldsToCheck = [
-		        { id: 'id', name: '아이디' },
+		        { id: 'id', name: '이메일' },
+		        { id: 'emailDomain', name: '이메일 도메인' },
 		        { id: 'passwordInput', name: '비밀번호' },
 		        { id: 'confirmPasswordInput', name: '비밀번호 확인' },
-		        { id: 'emailDomain', name: '이메일 도메인' },
+		        { id: 'userName', name: '이름' },
+		        { id: 'phoneBox', name: '번호' }
 		    ];
 
 		    for (var i = 0; i < fieldsToCheck.length; i++) {
@@ -283,9 +316,15 @@
 		        }
 		    };
 		    
-		    var doubleCheckBtn = document.getElementById('doubleCheckBtn');
+		    var doubleCheckBtn = document.getElementById('emailCheckBtn');
 		    if (!doubleCheckBtn.disabled) {
 		        alert('이메일 중복 확인을 먼저 해주세요.');
+		        return;
+		    }
+
+		    var codeCheckBtn = document.getElementById('codeCheckBtn');
+		    if (!codeCheckBtn.disabled) {
+		        alert('이메일 인증을 해주세요.');
 		        return;
 		    }
 

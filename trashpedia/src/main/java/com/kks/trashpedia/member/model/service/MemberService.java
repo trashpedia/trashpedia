@@ -25,4 +25,8 @@ public interface MemberService {
 	List<Board> pledgeList(int userNo);
 	// 댓글
 	List<Board> commentList(int userNo);
+
+	String findEmail(String userName, String phone);
+
+	int checkEmail(String userEmail, String phone);
 }

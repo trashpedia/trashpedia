@@ -1,19 +1,23 @@
 package com.kks.trashpedia.member.model.dao;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kks.trashpedia.board.model.vo.Board;
 import com.kks.trashpedia.board.model.vo.Comment;
 import com.kks.trashpedia.member.model.vo.Member;
 
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
 @Repository
 public class MemberDaoImpl implements MemberDao{
-	@Autowired
-	private SqlSessionTemplate session;
+
+	private final SqlSessionTemplate session;
 
 	@Override
 	public int emailCheck(String userEmail) {
@@ -56,5 +60,26 @@ public class MemberDaoImpl implements MemberDao{
 	@Override
 	public List<Board> commentList(int userNo) {
 		return session.selectList("memberMapper.commentList", userNo);
+	}
+
+	@Override
+	public String findEmail(String userName, String phone) {
+		Map<String, Object> param = new HashMap<>();
+		param.put("userName", userName);
+		param.put("phone", phone);
+		Member m = session.selectOne("memberMapper.findEmail", param);
+		if(m != null) {
+			return m.getUserEmail();
+		} else {
+			return null;
+		}
+	}
+
+	@Override
+	public int checkEmail(String userEmail, String phone) {
+		Map<String, Object> param = new HashMap<>();
+		param.put("userEmail", userEmail);
+		param.put("phone", phone);
+		return session.selectOne("memberMapper.checkEmail", param);
 	}
 }

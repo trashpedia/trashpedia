@@ -24,5 +24,10 @@ public interface MemberDao {
 	// 마이페이지 게시글
 	List<Board> pledgeList(int userNo);
 	// 댓글
+
 	List<Board> commentList(int userNo);
+
+	String findEmail(String userName, String phone);
+
+	int checkEmail(String userEmail, String phone);
 }
