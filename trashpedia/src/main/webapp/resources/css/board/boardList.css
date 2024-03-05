@@ -47,7 +47,7 @@ a {
 }
 
 .board_wrap {
-    width: 1000px;
+    width: 1100px;
     margin: 100px auto;
     background-color: #fff;
     border-radius: 20px;
@@ -58,6 +58,8 @@ a {
 
 .board_title {
     margin-bottom: 30px;
+
+
 }
 
 .board_title strong {
@@ -120,22 +122,34 @@ a {
 
 .board_list > div > div {
     display: inline-block;
-    padding: 15px 0;
+    padding: 15px ;
     text-align: center;
     font-size: 1.4rem;
+    height: 15px;
+    margin-left: 4px;
 }
 
 .board_list > div.top > div {
     font-weight: 600;
+    height: 20px; 
 }
 
 .board_list .num {
-    width: 10%;
+    width: 6%;
 }
 
 .board_list .title {
-    width: 60%;
-    text-align: left;
+    width: 10%;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    align-content: center;
+}
+.board_list .content{
+    width: 40%;
+    /* max-width: 800px; */
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    align-content: center;
 }
 
 .board_list .top .title {
@@ -151,7 +165,7 @@ a {
 }
 
 .board_list .count {
-    width: 10%;
+    width: 5%;
 }
 
 .board_page {
@@ -496,16 +510,17 @@ a {
 #insertButton {
     padding: 10px 20px; /* 버튼 내부 여백 */
     border: none; /* 테두리 제거 */
-    background-color: #4CAF50; /* 배경색 */
+    background-color: #3cad96; /* 배경색 */
     color: white; /* 글자색 */
     font-size: 16px; /* 글자 크기 */
     border-radius: 5px; /* 모서리 둥글게 */
     cursor: pointer; /* 마우스 오버 시 커서 변경 */
     transition: background-color 0.3s; /* 배경색 변경 애니메이션 */
+    margin-top: 30px;
 }
 
 #insertButton:hover {
-    background-color: #45a049; /* 호버 시 배경색 변경 */
+    background-color: #376d55; /* 호버 시 배경색 변경 */
 }
 
 /* 링크에 대한 스타일 제거 */
