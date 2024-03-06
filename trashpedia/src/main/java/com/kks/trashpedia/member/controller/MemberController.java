@@ -111,7 +111,6 @@ public class MemberController {
 			session.setAttribute("loginUser", updateMember);
 			// 세션 무효화
 //			request.getSession().invalidate();
-			mav.addObject("updateSuccess", true); // 업데이트 성공 여부를 모델에 추가
 			return ResponseEntity.ok("회원 정보가 업데이트되었습니다.");
 //			System.out.println("뭘까 진짜");
 		} else {
@@ -126,16 +125,17 @@ public class MemberController {
 		ModelAndView mav = new ModelAndView();
 
 		int result = service.deleteMember(m);
+		System.out.print(m.getUserNo());
 		if (result > 0) {
 			// 회원 정보를 삭제한 경우 세션에서 로그인된 회원 정보를 삭제
 //			session.removeAttribute("loginUser");
+			mav.setViewName("redirect:/");
 			// 세션 무효화
 			request.getSession().invalidate();
-			mav.setViewName("redirect:/join");
 
 		} else {
 			// 탈퇴 실패 시 처리할 내용
-			mav.setViewName("redirect:/");
+			mav.setViewName("redirect:/member/myPage");
 		}
 		return mav;
 

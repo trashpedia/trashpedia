@@ -64,7 +64,9 @@ public class MemberDaoImpl implements MemberDao {
 	// 탈퇴
 	@Override
 	public int deleteMember(Member m) {
-		return session.update("memberMapper.deleteMember", m);
+		// 회원 정보 가져오기
+		Member member = session.selectOne("memberMapper.getMember", m);
+		return session.update("memberMapper.deleteMember", member);
 	}
 
 	@Override

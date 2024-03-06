@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ page import="com.kks.trashpedia.member.model.vo.*"%>
 <c:set var="contextPath" value="<%=request.getContextPath()%>" />
 
@@ -134,9 +135,12 @@
 								<td>${activity.createDate}</td>
 								<td><script>document.write(getCategoryName('${activity.subCategoryNo}'));</script></td>
 
-								<td>${activity.content}</td>
-								<td><button class="detailBtn"
-										onclick="pledgeDetail(${activity.postNo})">상세보기</button></td>
+								<td>${fn:substring(activity.content,0,65)}</td>
+								<td>
+								
+								<button class="detailBtn"
+								onclick="pledgeDetail(${activity.postNo})">상세보기</button>
+										</td>
 							</tr>
 						</c:forEach>
 					</c:if>
@@ -169,7 +173,7 @@
 							<tr>
 								<td>${activity.createDate}</td>
 								<td><script>document.write(getCategoryName('${activity.subCategoryNo}'));</script></td>
-								<td>${activity.content}</td>
+								<td>${fn:substring(activity.content,0,65)}</td>
 								<td><button class="detailBtn"
 										onclick="pledgeDetail(${activity.postNo})">상세보기</button></td>
 							</tr>
@@ -186,7 +190,7 @@
 		</section>
 
 		<section id="alarmList">
-			<h3>활동 내역(내 댓글)</h3>
+			<h3>수정 요청(내 게시글)</h3>
 			<table>
 				<thead>
 					<tr>
@@ -203,8 +207,8 @@
 							<tr>
 								<td>${activity.createDate}</td>
 								<td><script>document.write(getCategoryName('${activity.subCategoryNo}'));</script></td>
-								<td>${activity.content}</td>
-								<td><button class="detailBtn">상세보기</button></td>
+								<td>${fn:substring(activity.content,0,65)}</td>
+								<td><button class="detailBtn" onclick="pledgeDetail(${activity.postNo})">상세보기</button></td>
 							</tr>
 						</c:forEach>
 					</c:if>
@@ -218,7 +222,7 @@
 			</table>
 		</section>
 
-		<section id="memberInfo">
+		<section id="memberInfo" style="padding: 0px;">
 			<form id="enroll-form" action="update.me" method="POST"
 				id="profileForm">
 				<div class="member">
@@ -285,7 +289,7 @@
 						</div>
 						<div class="details-container">
 							<input type="text" id="sample6_detailAddress" name="address3"
-								placeholder="상세주소" name="address2" value="${loginUser.address2}">
+								placeholder="상세주소" name="address2" value="${address2}">
 							<input type="text" id="sample6_extraAddress" name="address2"
 								placeholder="참고항목" readonly name="address3" value="${address3}"
 								required>
@@ -313,6 +317,8 @@
 					</div>
 					<!-- Modal body -->
 					<form action="delete.me" method="post">
+					<input type="hidden" value="${authentication.userNo}"
+								name="userNo"> 
 						<div class="modal-body" align="center">
 							<div>탈퇴 후 복구가 불가능합니다.</div>
 							<div>정말로 탈퇴하시겠습니까?</div>
@@ -321,8 +327,7 @@
 								required></textarea>
 						</div>
 
-						<input type="hidden" name="userNo" value="${loginUser.userNo}"
-							readonly>
+						<input type="hidden" name="userNo" value="${userNo}" readonly>
 						<table class="modalTable">
 							<tr>
 								<td id="tdPwd">비밀번호</td>
@@ -331,8 +336,7 @@
 							</tr>
 						</table>
 						<br>
-						<button type="submit" id="realDelete"
-							formaction="/trashpedia/member/delete.me">탈퇴하기</button>
+						<button type="submit" id="realDelete">탈퇴하기</button>
 
 					</form>
 				</div>
@@ -375,7 +379,7 @@
 				$("#memberInfo").hide();
 			});
 
-			// 내 알림 탭을 클릭했을 때
+			// 내 ㅍ 탭을 클릭했을 때
 			$("#alarmTab").click(function() {
 				$("#alarmList").show();
 				$("#activityList").hide();
@@ -435,7 +439,8 @@
 	</script>
 
 	<script
-		src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+		src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js">
+	</script>
 
 
 	<script type="text/javascript">
@@ -491,6 +496,11 @@
 
     confirmPasswordInput.addEventListener('keyup', updatePasswordNotice);
 	
+	
+	</script>
+
+
+	<script type="text/javascript">
 	// 업데이트
     document.getElementById('updateBtn').addEventListener('click', function(event) {
         event.preventDefault();
@@ -500,33 +510,41 @@
             method: 'POST',
             data: $('#enroll-form').serialize(), // 폼 데이터 직렬화
             success: function(response) {
-                console.log('회원 정보가 업데이트되었습니다.');
+            	alert('회원 정보가 업데이트되었습니다.');
             },
             error: function(xhr, status, error) {
                 console.error('회원 정보 업데이트 실패:', error);
             }
         });
     });
+	
+	
+	// 탈퇴하기
+    document.getElementById('realDelete').addEventListener('click', function(event) {
+        event.preventDefault();
 
-	
-	
-	
+        $.ajax({
+            url: '/trashpedia/member/delete.me', // 업데이트를 처리하는 서버의 엔드포인트
+            method: 'POST',
+            data:   //  여기에 현재 로그인한 회우너 정보
+            success: function(response) {
+            	alert('회원님이 정상적으로 탈퇴되었습니다.');
+            },
+            error: function(xhr, status, error) {
+                console.error('회원 탈퇴실패:', error);
+            }
+        });
+    });
 	</script>
-
-<!-- 	<!-- 업데이트 성공 시 알림창 표시 --> -->
-<%-- 	<script th:if="${updateSuccess}"> --%>
-//  	   alert('회원 정보가 업데이트되었습니다.');
-<!-- 	</script> -->
-
 
 	<script type="text/javascript">
 		//상세보기 이동
 		function pledgeDetail(postNo){
-        	location.href= "${contextPath}/pledge/detail/${postNo}"+postNo;
-        }
+        	location.href= "${contextPath}/board/community/detail/${postNo}"+postNo;
+        }	
 	</script>
 
-
+	
 
 
 
