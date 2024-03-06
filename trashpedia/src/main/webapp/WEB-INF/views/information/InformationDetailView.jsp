@@ -10,7 +10,7 @@
 	<title>정보자료글</title>
 	<!-- jQuery -->
 	<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-	<link rel="stylesheet" href="${contextPath}/resources/css/pledge/pledgeDetail.css">
+	<link rel="stylesheet" href="${contextPath}/resources/css/pledge/pledgeCertificationDetailView.css">
 	<!-- toast ui editor css -->
 	<script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
 	<link rel="stylesheet" href="https://uicdn.toast.com/editor/3.0.2/toastui-editor.min.css" >

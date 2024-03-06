@@ -65,41 +65,42 @@
 			<!-- 서약  -->
 			<div class="reply-outer">
 			
-
-				<!-- 댓글 작성 -->
 				<div class="comment-section">
-					<div> 자원순환 실천서약 </div>
-					<p>*내용입력시 주민등록번호, 연락처 등 개인정보가 노출되지 않도록 주의하시기 바랍니다.</p>
-					<div>
-						<label for="commitment">실천서약</label>
-						<input type="text" id="commitment" placeholder="동참 내용을 간략하게 남겨주세요">
-						
-						<label for="name">이름</label>
-						<input type="text" id="name" placeholder="이름">
-						
-						<label for="phoneNumber">휴대전화번호</label>
-						<input type="text" id="phoneNumber" placeholder="휴대전화번호"> 
+					<div id="comment-section-title"> 자원순환 실천서약 </div>
+					<div id="comment-section-inner">
+						<p id="comment-section-p">* 내용입력시 주민등록번호, 연락처 등 개인정보가 노출되지 않도록 주의하시기 바랍니다.</p>
+						<table>
+							<tr>
+								<td><label for="name">이름</label></td>
+								<td><input type="text" id="name" placeholder="홍길동"></td>
+								<td><label for="phoneNumber">휴대전화번호</label></td>
+								<td><input type="text" id="phoneNumber" placeholder="01012341234"></td>
+							</tr>
+							<tr>
+								<td><label for="commitment">실천서약</label></td>
+								<td colspan="3"><input type="text" id="commitment" placeholder="동참 내용을 간략하게 남겨주세요"></td>
+							</tr>
+						</table>
 					</div>
-					<input type="checkbox"> (필수) 개인정보 수집 이용에 대한 동의 
-					<input type="checkbox"> (필수) 개인정보 제 3자 제공에 대한 동의
-					
-					<textarea class="comment-input" name="replyContent" id="replyContent" rows="2" cols="50"
-						style="resize: none; width: 100%;" placeholder="댓글을 입력하세요"></textarea>
-					<button class="comment-button" onclick="insertComment()">실천서약 동참하기</button>
+					<div>
+						<input type="checkbox"> (필수) 개인정보 수집 이용에 대한 동의 
+						<input type="checkbox"> (필수) 개인정보 제 3자 제공에 대한 동의
+					</div>
+					<button class="comment-button" onclick="insertSignature()">실천서약 동참하기</button>
 				</div>
 				
+				<!-- 서약자  -->
 				<div class="reply-outer-top-area">
 					<span class="reply_title"> 동참 서약 내용 보기 </span> | <span class="reply_count"
 						id="rcount">0</span>
 				</div>
-
 				<div class="reply-outer-content-area">
 					<table class="reply-table" id="replyArea">
 						<thead>
 							<tr class="reply-table-title">
 								<th>작성자</th>
 								<th>내용</th>
-								<th>작성일</th>
+								<th>서명일</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -108,9 +109,9 @@
 							</tr>
 						</tbody>
 					</table>
-
 				</div>
 			</div>
+			
 		</div>
 	</main>
 
