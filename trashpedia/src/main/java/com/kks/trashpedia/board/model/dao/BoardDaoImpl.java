@@ -19,6 +19,7 @@ import com.kks.trashpedia.board.model.vo.Attachment;
 import com.kks.trashpedia.board.model.vo.BigCategory;
 import com.kks.trashpedia.board.model.vo.Board;
 import com.kks.trashpedia.board.model.vo.ImgAttachment;
+import com.kks.trashpedia.board.model.vo.NestedComment;
 import com.kks.trashpedia.board.model.vo.Post;
 import com.kks.trashpedia.board.model.vo.SubCategory;
 
@@ -204,6 +205,12 @@ public class BoardDaoImpl implements BoardDao {
 		int totalCount = session.selectOne("pledgeMapper.postListCount",param);
 		
 		return new PageImpl<>(posts, pageable, totalCount);
+	}
+
+	/*대댓글*/
+	@Override
+	public int insertNC(NestedComment nc) {
+		return session.insert("boardMapper.insertNC", nc);
 	}
 
 

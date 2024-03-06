@@ -34,7 +34,7 @@
 			SELECT SEQ_BNO.NEXTVAL FROM DUAL
 		</selectKey>
 		INSERT INTO BOARD
-		VALUES (#{boardNo}, #{postNo}, 1, #{subCategoryNo},
+		VALUES (#{boardNo}, #{postNo}, #{userNo}, #{subCategoryNo},
 		'Y')
 	</insert>
 
@@ -84,7 +84,7 @@
 	
 	
 
-
+	<!-- 페이징, 목록, 필터 -->
 	<select id="boardList" resultType="post" parameterType="board">
 		SELECT P.POST_NO, P.TITLE, P.CONTENT, P.CREATE_DATE, P.MODIFY_DATE,
 		P.STATUS, B.BOARD_NO, SC.SUB_CATEGORY_NAME, M.USER_NAME, H.HITS_NO
@@ -158,7 +158,7 @@
 		SELECT *
 		FROM SUB_CATEGORY
 	</select>
-	<!-- 게시글 조회수 증가 -->
+	
 	
 
 
@@ -175,6 +175,13 @@
 		) WHERE RN <![CDATA[<=]]> 4
 		ORDER BY SUB_CATEGORY_NO, CREATE_DATE DESC
 	</select>
+	
+	<!-- 대댓글 등록 -->
+	<insert id="insertNC" parameterType="nestedComment" >
+		insert into NESTED_COMMENT(NESTED_COMMENT_NO, COMMENT_NO, USER_NO, CONTENT, CREATE_DATE, MODIFY_DATE, STATUS)
+		values(SEQ_CNO.NEXTXAL, #{commentNo}, #{userNo}, #{content}, #{createDate},#{modifyDate}, 'Y')
+	</insert>
+	
 	
 	
 

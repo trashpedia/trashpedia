@@ -10,6 +10,7 @@ import com.kks.trashpedia.board.model.vo.Attachment;
 import com.kks.trashpedia.board.model.vo.BigCategory;
 import com.kks.trashpedia.board.model.vo.Board;
 import com.kks.trashpedia.board.model.vo.ImgAttachment;
+import com.kks.trashpedia.board.model.vo.NestedComment;
 import com.kks.trashpedia.board.model.vo.Post;
 import com.kks.trashpedia.board.model.vo.SubCategory;
 
@@ -54,5 +55,8 @@ public interface BoardService {
 
 	Page<Post> loadListData(Pageable pageable, int page, String sort, String searchSelect, String searchValue,
 			int subCategoryNo);
+
+	/*대댓글*/
+	int insertNC(NestedComment nc);
 
 }

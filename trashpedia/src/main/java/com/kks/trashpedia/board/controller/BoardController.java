@@ -28,6 +28,7 @@ import com.kks.trashpedia.board.model.vo.BigCategory;
 import com.kks.trashpedia.board.model.vo.Board;
 import com.kks.trashpedia.board.model.vo.Comment;
 import com.kks.trashpedia.board.model.vo.ImgAttachment;
+import com.kks.trashpedia.board.model.vo.NestedComment;
 import com.kks.trashpedia.board.model.vo.Post;
 import com.kks.trashpedia.board.model.vo.SubCategory;
 import com.kks.trashpedia.pledge.model.service.PledgeService;
@@ -238,7 +239,7 @@ public class BoardController {
 		return mav;
 	}
 	
-	//공지사항 상세페이지 이동
+	//커뮤니티 상세페이지 이동
 	 @GetMapping("community/detail/{postNo}")
 	    public ModelAndView boardDetail(
 	    		@PathVariable int postNo, 
@@ -258,7 +259,6 @@ public class BoardController {
 	public List<Comment> selectCommentList(Board b) {
 		System.out.println("실행???");
 		List<Comment> commentList = pservice.selectCommentList(b);
-
 		System.out.println("commentList" + commentList);
 		return commentList;
 	}
@@ -283,4 +283,19 @@ public class BoardController {
 		System.out.println(comment);
 		return pservice.deleteComment(comment);
 	}
+	
+	//대댓글조회
+	@PostMapping("/viewNC")
+	public List<NestedComment> viewNC(){
+		return null;
+		
+	}
+	//대댓글등록
+	@PostMapping("/insertNC")
+	public int insertNC(NestedComment nc) {
+		int result = service.insertNC(nc);
+		return result;
+		
+	}
+	
 }
