@@ -116,7 +116,7 @@ button{ font-family: 'Noto Sans KR', sans-serif;  }
 
 .reply-outer {
     background-color: #fff;
-/*     padding: 10px; */
+    padding: 30px;
 }
 .reply_title {
     font-size: 17px;
@@ -132,15 +132,13 @@ button{ font-family: 'Noto Sans KR', sans-serif;  }
     margin-left: 10px;
 }
 
-
-
 /* 댓글 표 */
 .reply-outer-content-area table{
     padding: 10px;
     text-align: center;
     vertical-align: middle;
     font-size: 13px;
-    width: 1000px;
+    width: 935px;
     margin : 10px auto;
 }
 .reply-table-title{
@@ -163,56 +161,35 @@ button{ font-family: 'Noto Sans KR', sans-serif;  }
 .reply-table th:nth-child(3){  width: 200px; }
 .reply-table p{ white-space: pre-line; }
 
-
-/* 실천서약 부분 */
-#comment-section-title{
-	box-sizing : border-box;
-	width : 100%;
-	background-color : #259c37;
-	color : white;
-	font-size : 19px;
-	padding : 9px 19px;
-	font-weight : 500;
-}
-#comment-section-inner{
-	padding : 10px 30px;;
-}
-
 /* 댓글 작성 */
 .comment-section {
     box-sizing: border-box;
     display: flex;
-    flex-direction: column;
     margin-top: 10px;
     margin-bottom: 18px;
     border: 1px solid #ddd;
     border-radius: 3px;
-    background-color:rgb(251, 251, 251);
+    padding: 16px 23px;
+    background-color: #f9f9f9;
     flex-wrap: wrap;
-    justify-content: left;
-    width: 100%;
-    margin: 10px auto;
+    justify-content: flex-end;
+    width: 97%;
+    margin-left: auto;
+    margin-right: auto;
 }
-/* 입력 */
-#comment-section-p{
-	color : #fd4000;
-	font-weight : 500;
-	font-size : 14px;
+.comment-section textarea{
+    border-radius: 1px;
+    border: 1px solid #b3b3b3;
+    outline : none;
+    font-family: 'Noto Sans KR', sans-serif; 
 }
-
-/* .comment-section textarea{ */
-/*     border-radius: 1px; */
-/*     border: 1px solid #b3b3b3; */
-/*     outline : none; */
-/*     font-family: 'Noto Sans KR', sans-serif;  */
-/* } */
 .comment-input {
     margin-bottom: 10px;
     height: 43px;
     width: calc(100% - 90px); /* 등록 버튼의 너비를 고려하여 입력 필드의 너비를 조정합니다. */
     display: inline-block;
 }
-/* 실천서약 동참 버튼  */
+/* 댓글 등록  */
 .comment-button {
     padding: 5px 15px;
     background-color: #82d782;
@@ -221,7 +198,6 @@ button{ font-family: 'Noto Sans KR', sans-serif;  }
     border-radius: 3px;
     cursor: pointer;
     margin-right: 2px;
-    width : 200px;
 }
 
 
