@@ -114,6 +114,7 @@ public class BoardController {
 		return mav;
 	}
 
+	
 	// 게시글 상세 페이지 이동
 	@GetMapping("/detail/{postNo}")
 	public ModelAndView boardFreeShareDetail(@PathVariable int postNo, HttpServletRequest req, HttpServletResponse res,
@@ -195,13 +196,15 @@ public class BoardController {
 		if (subCategoryNo == 4) { // 무료 나눔 게시판
 	        List<Post> boardFreeTrashList = service.getFreeTrashList(subCategoryNo); // 인기 쓰레기 정보 가져오기
 
-	        int pageSize = 12; // 페이지당 보여줄 항목 수
-	        int totalPages = (int) Math.ceil((double) boardFreeTrashList.size() / pageSize); // 전체 페이지 수 계산
+	        int pageSize = 8; // 페이지당 보여줄 항목 수
+	        int totalPages = (int) Math.ceil((double) boardFreeTrashList.size() / pageSize); 
 
 	        // 페이지 번호 및 데이터 전달
-//	        mav.addObject("currentPage", page); // 현재 페이지 번호
-//	        mav.addObject("totalPages", totalPages); 
+	        mav.addObject("boardList", pages); // 
+	        mav.addObject("totalPages", totalPages); 
 	        mav.addObject("list", boardFreeTrashList); // 페이지에 표시할 데이터
+			mav.addObject("bigCategoryNo", bc);
+			mav.addObject("subCategoryNo", sc);
 	        mav.setViewName("board/freeShare/freeShare"); // 무료 나눔 게시판 뷰 설정
 	    } else {
 	    	int pageSize = 10;

@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+
 <c:set var="contextPath" value="<%=request.getContextPath()%>" />
 <c:url var="currentUrl" value="/trashpedia/pledge/list">
 	<c:param name="subCategoryNo" value="${currentSubCategoryNo}" />
@@ -8,6 +10,7 @@
 </c:url>
 <c:set var="subCategoryNo" value="${param.subCategoryNo}" />
 <c:set var="bigCategoryNo" value="${param.bigCategoryNo}" />
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -19,6 +22,8 @@
 	crossorigin="anonymous"></script>
 
 <!-- css -->
+<link rel="stylesheet"
+	href="${contextPath}/resources/css/board/boardList.css">
 <link rel="stylesheet"
 	href="${contextPath}resources/css/main/pledge.css">
 <link rel="stylesheet"
@@ -43,76 +48,75 @@
 
 <style type="text/css">
 
-
-
 /* ----- 이미지 부분 ----- */
 .content-outer {
-	width:1760px;
-    box-sizing: border-box;
-    padding: 30px;
-    background-color: white;
- 
-    border: 2px solid #5bbf5b;
-    overflow: hidden;
-    text-align: center;
-    z-index: 2;
-/*     margin-top: 100px; */
+	width: 1760px;
+	box-sizing: border-box;
+	padding: 30px;
+	background-color: white;
+	border: 2px solid #5bbf5b;
+	overflow: hidden;
+	text-align: center;
+	z-index: 2;
+	/*     margin-top: 100px; */
 }
-.img{
+
+.img {
 	width: 20%;
 }
+
 .img-area {
-    width: 340px;
-    height: 340px;
-    box-sizing: border-box;
-    display: inline-block;
-    margin: 15px;
-    overflow: hidden;
+	width: 340px;
+	height: 340px;
+	box-sizing: border-box;
+	display: inline-block;
+	margin: 15px;
+	overflow: hidden;
 }
 
 .content-img {
-    box-sizing: border-box;
-    width: 270px;
-    height: 270px;
-    min-width: 100%; 
-    max-width: 100%;
-    min-height: 100%;
-    max-height: 100%;
-    cursor: pointer;
-    object-fit : cover;
+	box-sizing: border-box;
+	width: 270px;
+	height: 270px;
+	min-width: 100%;
+	max-width: 100%;
+	min-height: 100%;
+	max-height: 100%;
+	cursor: pointer;
+	object-fit: cover;
 }
 
-.img-area:hover .content-img{
-    transform: scale(1.15);
-    transition: transform 0.4s ease-in-out;
+.img-area:hover .content-img {
+	transform: scale(1.15);
+	transition: transform 0.4s ease-in-out;
 }
-.img-area:hover{
-    border: 4px solid #78d078;
+
+.img-area:hover {
+	border: 4px solid #78d078;
 }
 /* ----- 페이징 버튼 ----- */
-.paging-button{
-    margin-top: 42px;
-    margin-bottom: 5px;
+.paging-button {
+	margin-top: 42px;
+	margin-bottom: 5px;
 }
 
-.pagingBtn{
-    border-radius: 50%;
-    width: 50px;
-    height: 50px;
-    font-size: 15px;
-    border: 0;
-    cursor: pointer;
-    margin: 2px;
-    font-weight: 500;
-    background-color: #73cc73;
-    color: white;
+.pagingBtn {
+	border-radius: 50%;
+	width: 50px;
+	height: 50px;
+	font-size: 15px;
+	border: 0;
+	cursor: pointer;
+	margin: 2px;
+	font-weight: 500;
+	background-color: #73cc73;
+	color: white;
 }
-
 </style>
 <script type="text/javascript">
 	//상세보기 이동
 	function goToFreeShareDetail(postNo) {
-		location.href = "${contextPath}/board/detail/${postNo}" + postNo;
+		location.href = "${contextPath}/board/community/detail/${postNo}" + postNo;
 	}
 	
 </script>
@@ -140,63 +144,76 @@
 					<div class="Title">
 						<!-- 무료 나눔 게시판 -->
 					</div>
-					<button class="btn">
-						<!-- big==1 sub==4 -->
-						<a
-							href="${pageContext.request.contextPath}/write?bigCategoryNo=${bigCategoryNo}&subCategoryNo=${subCategoryNo}&type=1">글쓰기</a>
-					</button>
-
-					<!-- 3개의 리스트 -->
-
-<!-- 					<div class="List">					 -->
-<%-- 						<c:forEach var="post" items="${list}"> --%>
-<%-- 							<div class="Card" onclick="goToFreeShareDetail(${post.postNo})" --%>
-<%-- 								data-postNo="${post.postNo}"> --%>
-<!-- 								Front -->
-<!-- 								<div class="Front"> -->
-<!-- 									<div class="Image"> -->
-<!-- 										<img class="content-img" -->
-<%-- 											src="<c:url value='/resources/attachFile/image/${post.changeName}'/>"> --%>
-<!-- 									</div> -->
-
-<!-- 									<div class="TextContent"> -->
-<%-- 										<div class="Subtitle">${post.title}</div> --%>
-<!-- 										<div class="IconButtons"> -->
-<!-- 											<div class="Icon">😃</div> -->
-<!-- 											<div class="Icon">👍</div> -->
-
-<!-- 										</div> -->
-<!-- 									</div> -->
-<!-- 								</div> -->
-<!-- 								Back -->
-<%-- 								<div class="Back" onclick="goToFreeShareDetail(${post.postNo})" --%>
-<%-- 									data-postNo="${post.postNo}"> --%>
-<!-- 									<img class="content-img" -->
-<%-- 										src="<c:url value='/resources/attachFile/image/${post.changeName}'/>" --%>
-<!-- 										alt=""> <span class="clickDetail" -->
-<%-- 										data-postNo="${post.postNo}">${post.content}</span> --%>
-<!-- 								</div> -->
-<!-- 							</div> -->
-
-<%-- 						</c:forEach> --%>
-<!-- 					</div> -->
-
+					<a
+						href="${pageContext.request.contextPath}/write?bigCategoryNo=${bigCategoryNo}&subCategoryNo=${subCategoryNo}&type=1">
+						<button class="btn">글쓰기</button>
+					</a>
 
 
 
 
 					<!-- 3개의 리스트 -->
-			<!-- 실천서약 -->
-			<div class="pledge">
-				<div class="content-outer">
 
+					<div class="List">
+						<c:forEach var="post" items="${list}" varStatus="status">
+
+							<a href="${contextPath}/board/community/detail/${post.postNo}">
+
+								<div class="Card">
+
+									<div class="Front">
+										<div class="Image">
+											<img class="content-img"
+												src="<c:url value='/resources/attachFile/image/${post.changeName}'/>">
+										</div>
+
+										<div class="TextContent">
+											<div class="Subtitle">제목: ${post.title}</div>
+											<div class="Subtitle">작성일: ${post.createDate}</div>
+											<div class="Subtitle">조회: ${post.hitsNo}</div>
+
+										</div>
+									</div>
+
+									<div class="Back" onclick="goToFreeShareDetail(${post.postNo})"
+										data-postNo="${post.postNo}">
+										<img class="content-img"
+											src="<c:url value='/resources/attachFile/image/${post.changeName}'/>"
+											alt=""> <span class="clickDetail"
+											data-postNo="${post.postNo}" 
+											style="font-size:18px; font-weight:600;"
+											>${fn:substring(post.content,0,200)}</span>
+									</div>
+								</div>
+
+							</a>
+
+						</c:forEach>
+
+					</div>
+
+					<!-- 3개의 리스트 -->
+
+				<div class="board_page">
+					<c:if test="${boardList.number > 0}">
+						<a href="${contextPath}/board/list?page=${boardList.number - 1}&subCategoryNo=${subCategoryNo}"
+							class="bt prev">&lt;</a>
+					</c:if>
+
+					<c:forEach begin="0" end="${boardList.totalPages - 1}" var="pageNum">
+					    <c:if test="${pageNum >= boardList.number - 5 && pageNum <= boardList.number + 5}">
+					        <a href="${contextPath}/board/list?page=${pageNum}&subCategoryNo=${subCategoryNo}"
+					            class="${pageNum == boardList.number ? 'num on' : 'num'}">${pageNum + 1}
+					        </a>
+					    </c:if>
+					</c:forEach>
+
+
+					<c:if test="${boardList.number + 1 < boardList.totalPages}">
+						<a href="${contextPath}/board/list?page=${boardList.number + 1}&subCategoryNo=${subCategoryNo}"
+							class="bt next">&gt;</a>
+					</c:if>
 				</div>
-			</div>
-
-			<div class="board-pageBar paging-button"
-				style="top:100px;"
-			></div>
-
 
 				</div>
 			</div>
@@ -290,105 +307,111 @@
 
         
 	    /* 게시글 리스트 조회 */
-	    function getBoardList(page, boardSearchSelect, boardSearchValue) {
-	        $.ajax({
-	            url: '${contextPath}/pledge/loadListData',
-	            type: 'GET',
-	            dataType: 'json',
-	            data: {
-	            	page: page, size: 12, sort: boardFilterValue, 
-	            	searchSelect: boardSearchSelect, 
-	            	searchValue: boardSearchValue,
-	            	subCategoryNo : ${subCategoryNo}	
-	            },
-	            success: function(data) {
- 	            	if(data.content.length != 0){
- 		                updateBoardTable(data.content);
- 		                updateBoardPagination(data);
- 	            	}
-	            },
-	            error: function(xhr, status, error) {
-	                console.error('Error: ' + error);
-	            }
-	        });
-	    }
+// 	    function getBoardList(page, boardSearchSelect, boardSearchValue) {
+// 	        $.ajax({
+// 	            url: '${contextPath}/pledge/loadListData',
+// 	            type: 'GET',
+// 	            dataType: 'json',
+// 	            data: {
+// 	            	page: page, size: 8, sort: boardFilterValue, 
+// 	            	searchSelect: boardSearchSelect, 
+// 	            	searchValue: boardSearchValue,
+// 	            	subCategoryNo : ${subCategoryNo}	
+// 	            },
+// 	            success: function(data) {
+//  	            	if(data.content.length != 0){
+//  		                updateBoardTable(data.content);
+//  		                updateBoardPagination(data);
+//  	            	}
+// 	            },
+// 	            error: function(xhr, status, error) {
+// 	                console.error('Error: ' + error);
+// 	            }
+// 	        });
+// 	    }
 	    
 	    /* 게시글 반복문돌리기 */
-	    function updateBoardTable(data) {
-		    let userList = document.querySelector('.content-outer');
-		    userList.innerHTML = '';
+// 	    function updateBoardTable(data) {
+// 		    let userList = document.querySelector('.content-outer');
+// 		    userList.innerHTML = '';
 		
-		    for (let i = 0; i < data.length; i++) {
+// 		    for (let i = 0; i < data.length; i++) {
 		    	
-		        let post = data[i];
-		        let postNo = post.postNo;
+// 		        let post = data[i];
+// 		        let postNo = post.postNo;
 		        
-		        // 게시글 요소 생성
-		        let postElement = document.createElement('div');
-		        postElement.className = 'img-area';
-		     	postElement.setAttribute('onclick', 'pledgeDetail(' + postNo + ')');
+// 		        // 게시글 요소 생성
+// 		        let postElement = document.createElement('div');
+// 		        postElement.className = 'img-area';
+// 		     	postElement.setAttribute('onclick', 'pledgeDetail(' + postNo + ')');
 		        
-		        // 숨겨진 input 요소 추가
-		        let titleInput = document.createElement('input');
-		        titleInput.type = 'hidden';
-		        titleInput.value = post.title;
+// 		        // 숨겨진 input 요소 추가
+// 		        let titleInput = document.createElement('input');
+// 		        titleInput.type = 'hidden';
+// 		        titleInput.value = post.title;
 		
-		        let subCategoryNoInput = document.createElement('input');
-		        subCategoryNoInput.type = 'hidden';
-		        subCategoryNoInput.name = 'subCategoryNo';
-		        subCategoryNoInput.value = post.subCategoryNo;
+// 		        let subCategoryNoInput = document.createElement('input');
+// 		        subCategoryNoInput.type = 'hidden';
+// 		        subCategoryNoInput.name = 'subCategoryNo';
+// 		        subCategoryNoInput.value = post.subCategoryNo;
 		
-		        // 이미지 요소 생성
-		        let imgElement = document.createElement('img');
-		        imgElement.src = '${contextPath}/resources/attachFile/image/' + post.changeName;
-		        imgElement.className = 'content-img';
+// 		        // 이미지 요소 생성
+// 		        let imgElement = document.createElement('img');
+// 		        imgElement.src = '${contextPath}/resources/attachFile/image/' + post.changeName;
+// 		        imgElement.className = 'content-img';
 		
-		        // 생성한 요소들을 게시글 요소에 추가
-		        postElement.appendChild(titleInput);
-		        postElement.appendChild(subCategoryNoInput);
-		        postElement.appendChild(imgElement);
+// 		        // 생성한 요소들을 게시글 요소에 추가
+// 		        postElement.appendChild(titleInput);
+// 		        postElement.appendChild(subCategoryNoInput);
+// 		        postElement.appendChild(imgElement);
 		
-		        // 게시글 요소를 userList에 추가
-		        userList.appendChild(postElement);
-		    }
-		}
+// 		        // 게시글 요소를 userList에 추가
+// 		        userList.appendChild(postElement);
+// 		    }
+// 		}
 
 	    /* 페이징바 추가 */
-	    function updateBoardPagination(data) {
-	        let userPaging = document.querySelector('.board-pageBar');
-	        // userPaging이 null인지 확인
-	        if (userPaging) {
-	            let pagination = '';
+// 	    function updateBoardPagination(data) {
+// 	        let userPaging = document.querySelector('.board-pageBar');
+// 	        // userPaging이 null인지 확인
+// 	        if (userPaging) {
+// 	            let pagination = '';
 
-	            if (!data.empty) {
-	                if (!data.first) {
-	                    pagination += '<button class="pagingBtn" onclick="getBoardList(' + (data.number - 1) + ',\'' + boardSearchSelect + '\',\'' + boardSearchValue + '\')"><</button>';
-	                }
-	                for (let i = 0; i < data.totalPages; i++) {
-	                    if (i >= data.number - 5 && i <= data.number + 5) {
-	                        pagination += '<button ';
-	                        if (i === data.number) {
-	                            pagination += 'class="pagingBtn active"';
-	                        }
-	                        pagination += 'class="pagingBtn" onclick="getBoardList(' + i + ',\'' + boardSearchSelect + '\',\'' + boardSearchValue + '\')">' + (i + 1) + '</button>';
-	                    }
-	                }
-	                if (!data.last) {
-	                    pagination += '<button class="pagingBtn" onclick="getBoardList(' + (data.number + 1) + ',\'' + boardSearchSelect + '\',\'' + boardSearchValue + '\')">></button>';
-	                }
-	            }
+// 	            if (!data.empty) {
+// 	                if (!data.first) {
+// 	                    pagination += '<button class="pagingBtn" onclick="getBoardList(' + (data.number - 1) + ',\'' + boardSearchSelect + '\',\'' + boardSearchValue + '\')"><</button>';
+// 	                }
+// 	                for (let i = 0; i < data.totalPages; i++) {
+// 	                    if (i >= data.number - 5 && i <= data.number + 5) {
+// 	                        pagination += '<button ';
+// 	                        if (i === data.number) {
+// 	                            pagination += 'class="pagingBtn active"';
+// 	                        }
+// 	                        pagination += 'class="pagingBtn" onclick="getBoardList(' + i + ',\'' + boardSearchSelect + '\',\'' + boardSearchValue + '\')">' + (i + 1) + '</button>';
+// 	                    }
+// 	                }
+// 	                if (!data.last) {
+// 	                    pagination += '<button class="pagingBtn" onclick="getBoardList(' + (data.number + 1) + ',\'' + boardSearchSelect + '\',\'' + boardSearchValue + '\')">></button>';
+// 	                }
+// 	            }
 
-	            userPaging.innerHTML = pagination;
-	        } else {
-	            console.error('Error: .board-pageBar element not found.');
-	        }
-	    }
+// 	            userPaging.innerHTML = pagination;
+// 	        } else {
+// 	            console.error('Error: .board-pageBar element not found.');
+// 	        }
+// 	    }
         
-	    function pledgeDetail(postNo) {
-	    	location.href = "${contextPath}/pledge/detail/" + postNo;
-    	}
+
 		
 		
 	</script>
+
+	<script type="text/javascript">
+	//상세보기 이동
+	function goToFreeShareDetail(postNo) {
+		location.href = "${contextPath}/board/community/detail/${postNo}" + postNo;
+	}
+	
+</script>
 </body>
 </html>
