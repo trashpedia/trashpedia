@@ -1,10 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="contextPath" value="<%=request.getContextPath() %>"/>
-<c:url var="currentUrl" value="/trashpedia/pledge/list">
-    <c:param name="subCategoryNo" value="${currentSubCategoryNo}" />
-    <c:param name="bigCategoryNo" value="${currentBigCategoryNo}" />
-</c:url>
 <c:set var="subCategoryNo" value="${param.subCategoryNo}" />
 <c:set var="bigCategoryNo" value="${param.bigCategoryNo}" />
 <c:set var="postNo" value="${param.postNo}"/>
@@ -25,11 +21,9 @@
 
     <jsp:include page="../../common/header.jsp" />
 
-
     <main class="board_html">   
-        
 
-         <!--실천서약 타이틀 부분-->
+         <!-- 타이틀 부분-->
          <div class="practice-section">
             <p>커뮤니티</p>
             <p>Reduce Reuse Recycle Recovery</p>
@@ -69,9 +63,13 @@
                     </div>
                 </div>
                 <div class="bt_wrap">
-                    <a href="${contextPath}/board/list?bigCategoryNo=1&subCategoryNo=1" class="on">목록</a>
-                    <a href="${contextPath}/board/modify">수정</a>
-                    <a href="${contextPath}/board/delete/{postNo}" class="delte">삭제</a>
+                    <a href="${contextPath}/board/list?bigCategoryNo=1&subCategoryNo=${b.subCategoryNo}" class="on">목록</a>
+                    <!-- 게시글 작성자만 수정/삭제 가능  -->
+					<c:if test="${b.userName == authentication.userName}">
+						<a href="${contextPath}/update?bigCategoryNo=${b.bigCategoryNo}&subCategoryNo=${b.subCategoryNo}&postNo=${b.postNo}&type=1">
+							<button class="btn-edit">수정</button></a>
+                    	<a href="${contextPath}/board/delete/{postNo}" class="delte">삭제</a>
+					</c:if>
                 </div>
             </div>
             <div class="reply-outer">
@@ -134,33 +132,9 @@
 // 	        } 
 // 	    } 
 	
-	    //댓글목록조회
-// 	    function selectCommentList(){
-// 	    	$.ajax({
-// 	 		 	url: "${contextPath}/board/selectCommentList",
-// 	 		    data: { boardNo: ${b.boardNo}, userNo: ${b.userNo}},
-// 	 		    success: function (result) {
-// 	 		        let comments = "";
-// 	 		        for (let comment of result) {
-// 	 		            comments += "<tr>";
-// 	 		            comments += "<td>" + comment.userName + "</td>";
-// 	 		            comments += "<td><p>" + comment.content + "</p>";
-// 	 		            comments += "<div class='comment-buttons'>" +
-// 	 		                        "<button onclick='showCommentUpdateForm("+comment.commentNo+",this)' class='btn-edit'> 수정 </button>" +
-// 	 		                        "<button onclick='deleteComment(" + comment.commentNo + ")' class='btn-delete'> 삭제 </button>" +
-// 	 		                        "</div></td>";
-// 	 		            comments += "<td>" + comment.modifyDate + "</td>";
-// 	 		            comments += "</tr>";
-// 	 		        }
-// 	 		        $("#replyArea tbody").html(comments);
-// 	 		        $("#rcount").html(result.length);
-// 	 		    },
-// 	 		    error: function (xhr, status, error) {
-// 	 		        console.log(" 댓글조회에러:", status, error);
-// 	 		    }
-// 	    	})
-// 	    }
-// 	    selectCommentList();
+  		const loginUser = `${authentication}`;
+		const loginUserNo = `${authentication.userNo}`;
+  		
 
 	    // 댓글 목록 조회 및 표시
 		function selectCommentList(){
@@ -181,17 +155,18 @@
 		                                "</div></td>";
 		                commentsHtml += "<td>" + comment.modifyDate + "</td>";
 		                commentsHtml += "</tr>";
-		
-		                // 여기에 대댓글 입력 필드 및 버튼 추가
-		                commentsHtml += "<tr><td colspan='3' class='nested-comments-cell'>";
-		                commentsHtml += "<textarea class='nested-comment-content' id='nestedCommentContent" + comment.commentNo + "' placeholder='대댓글을 입력하세요'></textarea>";
-		                commentsHtml += "<button onclick='insertNC(" + comment.commentNo + ")' class='nested-comment-submit'>대댓글 등록</button>";
-		                commentsHtml += "</td></tr>";
-		
-		                // 여기에 대댓글 목록 표시 영역 추가
-		                commentsHtml += "<tr><td colspan='3' class='nested-comments-list' id='nestedCommentsList" + comment.commentNo + "'>";
-		                // 대댓글 목록은 여기에 표시됩니다.
-		                commentsHtml += "</td></tr>";
+		                
+		                if('${authentication.userName}' == comment.userName){
+			                // 여기에 대댓글 입력 필드 및 버튼 추가
+			                commentsHtml += "<tr><td colspan='3' class='nested-comments-cell'>";
+			                commentsHtml += "<textarea class='nested-comment-content' id='nestedCommentContent" + comment.commentNo + "' placeholder='대댓글을 입력하세요'></textarea>";
+			                commentsHtml += "<button onclick='insertNC(" + comment.commentNo + ")' class='nested-comment-submit'>대댓글 등록</button>";
+			                commentsHtml += "</td></tr>";
+			                // 여기에 대댓글 목록 표시 영역 추가
+			                commentsHtml += "<tr><td colspan='3' class='nested-comments-list' id='nestedCommentsList" + comment.commentNo + "'>";
+			                // 대댓글 목록은 여기에 표시됩니다.
+			                commentsHtml += "</td></tr>";
+		                } 
 		            }
 		            $("#replyArea tbody").html(commentsHtml); // 테이블 바디에 댓글 목록 추가
 		            $("#rcount").html(result.length); // 댓글 수 업데이트
@@ -202,21 +177,28 @@
 		    })
 		}
 		selectCommentList(); // 함수 호출
-//대댓글 등록
-		function insertNC(){
-			var content = document.getElementById('nestedCommentContent').value;
+		
+		//대댓글 등록
+		function insertNC(commentNo){
+			
+			console.log('edfdfdf');
+			
 			$.ajax({
-				url : "${context}/board/insertNC",
-				type : post ,
+				url : "${contextPath}/board/insertNC",
+				type : 'post',
 				data : {
-					boardNo: ${b.boardNo},
-					userNo: ${b.userNo},
-					content : content
+					commentNo: commentNo,
+					userNo: loginUserNo,
+					content : $("#nestedCommentContent").val()
+					
 				},
 				success : function(response){
 					alert('대댓글이 등록되었습니다.');
 					selectNestedCommentList(${b.boardNo});
-				}
+				},
+				error: function (xhr, status, error) {
+						console.log(" 댓글등록에러:", status, error);
+				} 
 			})
 		}
 

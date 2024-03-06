@@ -252,7 +252,6 @@ public class BoardController {
 		ModelAndView mav = new ModelAndView();
 		Post board = service.boardDetail(postNo);
 		mav.addObject("b", board);
-		System.out.println("board" + board);
 		mav.setViewName("board/notice/boardDetail");
 		return mav;
 	}
@@ -260,9 +259,7 @@ public class BoardController {
 	// 댓글목록 조회
 	@GetMapping("/selectCommentList")
 	public List<Comment> selectCommentList(Board b) {
-		System.out.println("실행???");
 		List<Comment> commentList = pservice.selectCommentList(b);
-		System.out.println("commentList" + commentList);
 		return commentList;
 	}
 
@@ -287,17 +284,18 @@ public class BoardController {
 		return pservice.deleteComment(comment);
 	}
 	
-	//대댓글조회
-	@PostMapping("/viewNC")
-	public List<NestedComment> viewNC(){
-		return null;
-		
-	}
+	
 	//대댓글등록
 	@PostMapping("/insertNC")
 	public int insertNC(NestedComment nc) {
+		
+		System.out.println(nc);
 		int result = service.insertNC(nc);
-		return result;
+		
+		System.out.println(result);
+		///System.out.println("??????dfsfd??");
+		
+		return 0;
 		
 	}
 	
