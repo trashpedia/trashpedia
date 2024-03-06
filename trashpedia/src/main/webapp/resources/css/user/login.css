@@ -95,6 +95,13 @@
     border-radius: 5px;
 }
 
+.social-login-wrapper{
+	display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
 #go-naver{
     background-color:#00D337;
     border: none;
