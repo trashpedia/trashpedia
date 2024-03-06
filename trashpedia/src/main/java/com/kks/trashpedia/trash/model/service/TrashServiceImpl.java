@@ -30,6 +30,13 @@ public class TrashServiceImpl implements TrashService{
 		return dao.trashDetail(trashNo);
 	}
 
+
+	@Override
+	public List<TrashPost> getSimilarList(int trashNo) {
+		return dao.getSimilarList(trashNo);
+	}
+
+
 	
 	
 }

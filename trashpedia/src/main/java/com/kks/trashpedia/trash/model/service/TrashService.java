@@ -14,4 +14,6 @@ public interface TrashService {
 
 	Trash trashDetail(int trashNo);
 
+	List<TrashPost> getSimilarList(int trashNo);
+
 }

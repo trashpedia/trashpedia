@@ -45,12 +45,11 @@
 					비슷한 종류의 <strong>쓰레기</strong>
 				</p>
 				<div class="recently-garbage-inner">
-					<c:forEach var="post" items="${trashList}">
+					<c:forEach var="post" items="${similarList}">
 						<div class="recently-garbage">
 							<div class="garbage-img-outer">
-								<img class="recently-garbage-img"
-									src="https://blisgo.com/wp-content/uploads/elementor/thumbs/%EB%A7%A4%ED%8A%B8%EB%A6%AC%EC%8A%A4-p1z4xihromtb6umrxtb9tkawdj5anjg8a7kq5plx4w.jpg"
-									onclick="trashDetail(${post.trashPostNo})">
+								<img class="recently-garbage-img" 
+ 									src="<c:url value='/resources/attachFile/image/${post.changeName}'/>"> 
 							</div>
 							<p class="recently-garbage-title">${post.trashTitle}</p>
 							<p class="recently-garbage-content">${post.trashContent}</p>

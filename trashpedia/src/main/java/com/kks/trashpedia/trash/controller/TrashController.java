@@ -39,8 +39,6 @@ public class TrashController {
 		//인기쓰레기
 		List<TrashPost> popularList = service.getPopularList();
 		
-		//대분류, 소분류가 같은 쓰레기 
-		//List<TrashPost> similarList = service.getSimilarList();
 		
 		System.out.println(trashList);
 		modelAndView.addObject("trashList", trashList);
@@ -59,10 +57,16 @@ public class TrashController {
 		
 		//쓰레기 내용 조회
 		Trash trash = service.trashDetail(trashNo);
-		Trash t = new Trash();
+		System.out.println(trash);
 		
 		//쓰레기 이미지, 제목, 설명, 대분류, 소분류
 
+		//대분류, 소분류가 같은 쓰레기 
+		List<TrashPost> similarList = service.getSimilarList(trashNo);
+		System.out.println(similarList);
+		
+		
+		modelAndView.addObject("similarList", similarList);
 		modelAndView.addObject("trash", trash);
 		modelAndView.setViewName("encyclopedia/trashEncyclopediaDetail");
 		return modelAndView;
