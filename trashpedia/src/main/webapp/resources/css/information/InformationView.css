@@ -4,7 +4,7 @@ main {
     flex-direction: column;
 }
 
-/* ------ 실천서약 타이틀 부분 ------ */
+/* ------ 타이틀 부분 ------ */
 .practice-section {
     height: 150px;
     width: 100%;
@@ -18,17 +18,38 @@ main {
 }
 
 .practice-section p:first-child {
-    font-size: 32px;
+    font-size: 31px;
     margin-top: 0;
     margin-bottom: 0px;
 }
 
 .practice-section p:nth-child(2) {
     margin-top: 10px;
-    font-size: 18px;
+    font-size: 17px;
 }
 
+/* 이동 section   */
+.section-area{
+	display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+	width : 100%;
+	height : 50px;
+	border-bottom : 1px solid  #73cc73;
+}
+.section-area span a{
+	margin : 0 42px;
+	font-weight : 530;
+	color  : #4d4e4b;
+	cursor: pointer;
+	font-size : 15px;
+}
 
+.section-area span a:hover{
+	color  : #4fbf4f;
+	-webkit-transition: all .3s;
+}
 /* ------ 게시글 ------ */
 .content-section{
     display: flex;
@@ -101,8 +122,6 @@ main {
 .img-area:hover{
     border: 4px solid #78d078;
 }
-
-
 
 
 /* 검색 */

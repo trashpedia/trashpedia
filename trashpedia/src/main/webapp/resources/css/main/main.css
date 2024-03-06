@@ -145,25 +145,22 @@ main .practice-list li a i {
     color: #111;
 } */
 
+#mainVisual{
+	margin-top : 20px;
+	max-width : 100%;
+	min-width : 100%;
+}
 
 /*  ----- 최근 업데이트된 쓰레기 게시글 부분 ----- */
 .recently-outer{
     position: relative;
-    padding-top: 50px;
-    margin-top: 130px;
+    margin-top: -30px;
 }
-/* 배경이미지 */
-.recently-outer img{
-    position: absolute;
-    top: 0;
-    z-index: 0;
-    height: 620px;
-    width: auto;
-    max-width: 100%;
+
+.garbage-img-outer{
+	position : relative;
 }
-#recently-img{
-    min-width: 100%;
-}
+
 .recently-garbage-inner{
     display: flex;
     flex-wrap: wrap;
@@ -171,10 +168,9 @@ main .practice-list li a i {
     cursor: pointer;
     max-width: 1100px; /* 최대 너비 지정 (원하는 최대 너비로 수정) */
     margin: 0 auto;
-    padding-bottom: 30px;
-    
+    padding-bottom: 10px;
 }
-/* 최근 쓰레기 슬라이더 */
+/*  최근 업데이트된 쓰레기사전 슬라이더 */
 main .recently-garbage-outer{
     z-index: 1;
     position: relative;
@@ -187,12 +183,13 @@ main .recently-garbage-outer{
     margin-bottom: 30px !important;
     
 }
+/* 최근 업데이트된 쓰레기사전 타이틀 */
 main #recently-garbage-outer-title{
     margin-left: 10px;
-    font-size: 30px;
+    font-size: 27px;
     font-weight: 550;
-    margin-bottom: 40px;
-    margin-top: 25px;
+    margin-bottom: 25px;
+    margin-top: 22px;
     text-align: center;
 }
 main .recently-garbage-inner{
@@ -204,37 +201,41 @@ main .recently-garbage-inner{
 /* 쓰레기 게시물 div */
 main .recently-garbage {
     border-radius: 7px;
-    width: 250px;
-    height: 330px;
-    max-height: 330px;
-    margin: 7px;
+    width: 235px;
+    height: 275px;
+    max-height: 275px;
+    margin: 5px;
     text-align: center;
     text-overflow: ellipsis;
 }
 
 /* 슬라이드 이미지 제목 */
-main .recently-garbage-title{  
-    font-weight: 730;
-    font-size: 17px;
-    text-align: left;
-    padding-top: 15px;
+main .recently-garbage-title{ 
+    font-weight: 650;
+    font-size: 13px;
+ 	position: absolute;
+	padding: 3px 12px;
+	bottom : -5px;
+	left : 10px;
+	background-color : rgb(0, 0, 0, 0.4); 
+	color : white;
+	border-radius : 15px;
 }
 /* 슬라이드 이미지 내용 */
 main .recently-garbage-content{
+	font-size: 13px;
+	font-weight : 400;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-}
-main .recently-garbage p {
-    font-size: 14px;
-    margin: 6px;
-    margin-left: 12px;
-    margin-right: 15px;
+    margin-top : 10px;
+    margin-left: 10px;
+    margin-right: 12px;
 }
 
 main .garbage-img-outer{
-    width: 250px;
-    height: 250px;
+    width: 235px;
+    height: 235px;
     margin: 2px auto;
     margin-top: 0px;
     border-radius: 7px;
@@ -242,13 +243,13 @@ main .garbage-img-outer{
     display: flex;
     justify-content: center;
     overflow: hidden;
+    border : 1px solid  #f3f3f3;
 }
 /* 최근쓰레기 이미지 */
 main .recently-garbage-img{
-    object-fit: cover;
     padding: auto;
-    width: 250px;
-    height: 250px;
+    width: 235px;
+    height: 235px;
     box-sizing: border-box;
     background-color: rgb(208, 208, 208);
     margin-bottom: 5px;
@@ -267,7 +268,7 @@ main .recently-garbage-img{
     width: 110px; 
     height: 110px; 
     position: absolute;
-    left: -95px;
+    left: -130px;
     top: 40%;
     transform: translateY(-50%);
     cursor: pointer;
@@ -278,7 +279,7 @@ main .recently-garbage-img{
     width: 110px; 
     height: 110px;
     position: absolute;
-    right: -93px;
+    right: -130px;
     top: 40%; 
     transform: translateY(-50%);
     cursor: pointer;
@@ -324,7 +325,6 @@ main .content-outer p{
     margin-top: 18px;
     margin-bottom: 0;
     transition: top 0.5s ease;
-    
 }
 main .content-outer #contentP2 {
     margin-top: 8px;
@@ -347,7 +347,7 @@ main .content-outer span {
 .information-outer{
     width: 800px;
     margin: 35px auto;
-    margin-top : 200px;
+    margin-top : 150px;
     padding : 25px;
 }
 .information-outer-title{
@@ -361,12 +361,6 @@ main .content-outer span {
     display: flex !important;
     flex-direction: row;
 }
-
-/* 정보자료글 이미지 */
-.information-image-outer{
-	
-}
-
 
 /* 정보자료글 텍스트 */
 .information-text-outer{
