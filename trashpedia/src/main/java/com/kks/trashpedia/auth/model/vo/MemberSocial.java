@@ -7,7 +7,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class SocialId {
+public class MemberSocial {
+	private int socialId;
 	private int userNo;
-	private OAuthProvider oAuthProvider;
+	private String socialType;
 }

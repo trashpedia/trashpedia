@@ -13,7 +13,7 @@ public interface AuthService extends UserDetailsService{
 	int temporaryPwd(String userEmail, String phone) throws MessagingException, UnsupportedEncodingException;
 
 	String kakaoUrl();
-	
-	String getKakaoToken(String code) throws Exception;
 
+	String kakaoGetToken(String code);
+	
 }
