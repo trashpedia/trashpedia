@@ -16,12 +16,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.kks.trashpedia.board.model.vo.Attachment;
 import com.kks.trashpedia.board.model.vo.Board;
 import com.kks.trashpedia.board.model.vo.Comment;
 import com.kks.trashpedia.board.model.vo.ImgAttachment;
 import com.kks.trashpedia.board.model.vo.Post;
+import com.kks.trashpedia.board.model.vo.SubCategory;
 import com.kks.trashpedia.information.model.service.InformationService;
 import com.kks.trashpedia.pledge.model.service.PledgeService;
 
@@ -39,7 +41,6 @@ public class InformationController {
 	@Autowired
 	private PledgeService pService;
 	
-	
 	// 정보자료글 페이지 이동
 	@GetMapping("/list")
 	public ModelAndView showEncyclopediaPage() {
@@ -56,8 +57,6 @@ public class InformationController {
 			@RequestParam String searchValue) {
 
 		Page<Post> pages = service.loadListData(pageable, page, sort, searchSelect, searchValue, subCategoryNo);
-
-		System.out.println("information/list controller 실행");
 		return ResponseEntity.ok(pages);
 	}
 	
@@ -110,12 +109,40 @@ public class InformationController {
 		return mav;
 	}
 	
+	//게시글삭제
+	@GetMapping("/delete/{postNo}")
+	public ModelAndView pledgeDelete(Post p, HttpSession session, RedirectAttributes ra) {
+
+		ModelAndView mav = new ModelAndView();
+		SubCategory subCategory = pService.getCategoryNo(p);
+		
+		int subCategoryNo = subCategory.getSubCategoryNo();
+		int bigCategoryNo = subCategory.getBigCategoryNo();
+		
+		//게시글삭제- post & board
+		int result = 0;
+		int result1 = pService.pledgeDeletePost(p);
+		int result2 = pService.pledgeDeleteBoard(p);
+		
+		if(result1*result2>0) {
+			ra.addFlashAttribute("alert", "게시글이 삭제되었습니다.");
+		}else {
+			ra.addFlashAttribute("alert", "게시글 삭제에 실패했습니다.");
+		}
+
+		mav.setViewName("redirect:/information/list?bigCategoryNo="+bigCategoryNo+"&subCategoryNo="+subCategoryNo);
+		
+		return mav;
+		
+	}
+	
 	// 댓글목록 조회
 	@GetMapping("/selectCommentList")
 	public List<Comment> selectCommentList(Board b){
 		List<Comment> commentList = pService.selectCommentList(b);
 		return commentList;
 	}
+	
 	
 	
 	

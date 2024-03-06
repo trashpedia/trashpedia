@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:set var="contextPath" value="<%=request.getContextPath()%>" />
 <!DOCTYPE html>
@@ -8,12 +7,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>실천게시글</title>
-<!-- jQuery -->
-<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-<link rel="stylesheet" href="${contextPath}/resources/css/main/pledgeDetail.css">
-<!-- toast ui editor css -->
-<script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
-<link rel="stylesheet" href="https://uicdn.toast.com/editor/3.0.2/toastui-editor.min.css" >
+	<!-- jQuery -->
+	<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+	<link rel="stylesheet" href="${contextPath}/resources/css/pledge/pledgeDetail.css">
+	<!-- toast ui editor css -->
+	<script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
+	<link rel="stylesheet" href="https://uicdn.toast.com/editor/3.0.2/toastui-editor.min.css" >
 </head>
 <body>
 
@@ -26,12 +25,9 @@
 				<p>${post.title}</p>
 				<span>작성자</span> 
 				<span class="title-count"> ${post.userName} &nbsp; &nbsp;| </span> 
-<!-- 				<span>작성일</span>  -->
-<%-- 				<span class="title-count"> ${post.createDate} &nbsp; &nbsp;| </span>  --%>
 				<span>수정일</span>
 				<span class="title-count"> ${post.modifyDate} &nbsp; &nbsp;| </span> 
 				<span>조회수</span> <span class="title-count">${post.hitsNo}</span>
-				<!--  <hr> -->
 			</div>
 
 			<!-- 이미지/첨부파일  -->
@@ -55,25 +51,46 @@
 				<div class="toast-custom-viewer"></div>
 				<div class="post-buttons">
 					<a href="${contextPath}/pledge/list?bigCategoryNo=${post.bigCategoryNo}&subCategoryNo=${post.subCategoryNo}">
-						<button class="btn-list">목록</button></a> 
-					<a href="${contextPath}/update?bigCategoryNo=${post.bigCategoryNo}&subCategoryNo=${post.subCategoryNo}&postNo=${post.postNo}&type=1">
-						<button class="btn-edit">수정</button></a>
-					<button onclick="confirmDelete(${post.postNo}, ${post.boardNo}, ${post.bigCategoryNo}, ${post.subCategoryNo})">삭제</button>
+						<button class="btn-list">목록</button>
+					</a>
+					<!-- 게시글 작성자만 수정/삭제 가능  -->
+					<c:if test="${post.userName == authentication.userName}">
+						<a href="${contextPath}/update?bigCategoryNo=${post.bigCategoryNo}&subCategoryNo=${post.subCategoryNo}&postNo=${post.postNo}&type=1">
+							<button class="btn-edit">수정</button></a>
+						<button onclick="confirmDelete(${post.postNo}, ${post.boardNo}, ${post.bigCategoryNo}, ${post.subCategoryNo})">삭제</button>
+					</c:if>
 				</div>
 			</div>
 
-			<!-- 댓글  -->
+			<!-- 서약  -->
 			<div class="reply-outer">
-				<div class="reply-outer-top-area">
-					<span class="reply_title"> 댓글 </span> | <span class="reply_count"
-						id="rcount">0</span>
-				</div>
+			
 
 				<!-- 댓글 작성 -->
 				<div class="comment-section">
+					<div> 자원순환 실천서약 </div>
+					<p>*내용입력시 주민등록번호, 연락처 등 개인정보가 노출되지 않도록 주의하시기 바랍니다.</p>
+					<div>
+						<label for="commitment">실천서약</label>
+						<input type="text" id="commitment" placeholder="동참 내용을 간략하게 남겨주세요">
+						
+						<label for="name">이름</label>
+						<input type="text" id="name" placeholder="이름">
+						
+						<label for="phoneNumber">휴대전화번호</label>
+						<input type="text" id="phoneNumber" placeholder="휴대전화번호"> 
+					</div>
+					<input type="checkbox"> (필수) 개인정보 수집 이용에 대한 동의 
+					<input type="checkbox"> (필수) 개인정보 제 3자 제공에 대한 동의
+					
 					<textarea class="comment-input" name="replyContent" id="replyContent" rows="2" cols="50"
 						style="resize: none; width: 100%;" placeholder="댓글을 입력하세요"></textarea>
-					<button class="comment-button" onclick="insertComment()">등록</button>
+					<button class="comment-button" onclick="insertComment()">실천서약 동참하기</button>
+				</div>
+				
+				<div class="reply-outer-top-area">
+					<span class="reply_title"> 동참 서약 내용 보기 </span> | <span class="reply_count"
+						id="rcount">0</span>
 				</div>
 
 				<div class="reply-outer-content-area">
@@ -91,16 +108,7 @@
 							</tr>
 						</tbody>
 					</table>
-					<!-- 페이징 -->
-<!-- 					<div class="paging-button"> -->
-<!-- 						<button class="pagingBtn" id="prevBtn"><</button> -->
-<!-- 						<button class="pagingBtn">1</button> -->
-<!-- 						<button class="pagingBtn">2</button> -->
-<!-- 						<button class="pagingBtn">3</button> -->
-<!-- 						<button class="pagingBtn">4</button> -->
-<!-- 						<button class="pagingBtn">5</button> -->
-<!-- 						<button class="pagingBtn" id="nextBtn">></button> -->
-<!-- 					</div> -->
+
 				</div>
 			</div>
 		</div>
@@ -109,6 +117,10 @@
 	<jsp:include page="../common/footer.jsp" />
 
 	<script>
+
+		const loginUser = `${authentication}`;
+		const loginUserNo = `${authentication.userNo}`;
+		const writeUser = `${post.userName}`;
 	
 		const editor = toastui.Editor.factory({
             el : document.querySelector(".toast-custom-viewer"),
@@ -116,10 +128,6 @@
             initialValue :  `${post.content}`
         });
 	
-		// 로그인
-		const loginUser = `${authentication}`;
-		const writeUser = `${post.userName}`;
-		
 	    // 게시글삭제확인
 	    function confirmDelete(postNo, boardNo, bigCategoryNo, subCategoryNo) {
 	        var result = confirm("게시글을 삭제하시겠습니까?");
@@ -167,7 +175,7 @@
 	 			  url: "${contextPath}/pledge/insertComment",
 	 			  data : {
 	 				 boardNo: ${post.boardNo}, 
-	 				 userNo: `${authentication.userNo}`,
+	 				 userNo: loginUserNo,
 	 				 content : $("#replyContent").val()
 	 			  },
 	 			  type : 'post',
@@ -246,7 +254,6 @@
  		   })
  	   }
  	   
- 	   
  	   //댓글삭제
  	   function deleteComment(commentNo){
  		   if(confirm('댓글을 삭제하시겠습니까?')){
@@ -264,7 +271,6 @@
  			   })
  		   }
  	   }
- 	   
  	   
  	   
     

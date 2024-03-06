@@ -24,9 +24,13 @@
     <main>
         <div class="practice-section">
             <p>정보자료글</p>
+            <p>Reduce Reuse Recycle Recovery</p>
         </div>
         
-        <div>
+        <div class="section-area">
+        	<span> <a href="${contextPath}/information/list?bigCategoryNo=3&subCategoryNo=7">홍보교육자료</a></span>
+        	<span> <a href="${contextPath}/information/list?bigCategoryNo=3&subCategoryNo=8">제도교육자료</a></span>
+        	<span> <a href="${contextPath}/information/list?bigCategoryNo=3&subCategoryNo=7">정보기타자료</a></span>
         </div>
 
         <div class="content-section">
@@ -109,7 +113,6 @@
 	            	subCategoryNo : ${subCategoryNo}	
 	            },
 	            success: function(data) {
-	            	console.log('실행');
  	            	if(data.content.length != 0){
  		                updateBoardTable(data.content);
  		                updateBoardPagination(data);
@@ -120,12 +123,6 @@
 	            }
 	        });
 	    }
-
-//	 	<div class="img-area" onclick="informationDetail(${post.postNo})">
-// 		<input type="hidden" value="${post.title}"> 
-// 		<input type="hidden" name="subCategoryNo" value="${post.subCategoryNo} ">
-// 		<img src="<c:url value='/resources/attachFile/image/f0d86288-b110-4d02-8c38-75e597f70140.gif'/>" class="content-img">
-// 		</div>
 	    
 	    /* 게시글 반복문돌리기 */
 	    function updateBoardTable(data) {

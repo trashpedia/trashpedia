@@ -41,34 +41,29 @@
 		resultType="Member">
 		SELECT *
 		FROM MEMBER
-		WHERE USER_NO = #{userNo}
+		WHERE USER_NO = #{userNo} AND STATUS = 'Y'
 	</select>
 
 	<select id="getMember" parameterType="Member"
 		resultType="Member">
 		SELECT *
 		FROM MEMBER
-		WHERE USER_No = #{userNo}
+		WHERE USER_No = #{userNo} AND STATUS = 'Y'
 	</select>
 	<update id="updateMember" parameterType="member">
 		UPDATE MEMBER
 		SET
-
+		USER_PWD=#{userPwd},
 		USER_NAME = #{userName},
-		USER_NICKNAME
-		=#{userNickname},
-		PHONE =
-		#{phone},
+		USER_NICKNAME=#{userNickname},
+		PHONE =#{phone},
 		ZIPCODE = #{zipcode},
-		ADDRESS1 =
-		#{address1},
-		ADDRESS2 =
-		#{address2},
+		ADDRESS1 =#{address1},
+		ADDRESS2 =#{address2},
 		ADDRESS3 = #{address3},
-		MODIFY_DATE
-		= SYSDATE
+		MODIFY_DATE= SYSDATE
 		WHERE
-		USER_EMAIL = #{userEmail} AND STATUS = 'Y'
+		USER_NO = #{userNo} AND STATUS = 'Y'
 	</update>
 
 	<update id="deleteMember" parameterType="member">

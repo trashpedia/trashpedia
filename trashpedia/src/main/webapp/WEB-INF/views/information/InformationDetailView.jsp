@@ -5,20 +5,18 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>정보자료글</title>
-<!-- jQuery -->
-<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-<link rel="stylesheet" href="${contextPath}/resources/css/main/pledgeDetail.css">
-<!-- toast ui editor css -->
-<script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
-<link rel="stylesheet" href="https://uicdn.toast.com/editor/3.0.2/toastui-editor.min.css" >
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>정보자료글</title>
+	<!-- jQuery -->
+	<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+	<link rel="stylesheet" href="${contextPath}/resources/css/pledge/pledgeDetail.css">
+	<!-- toast ui editor css -->
+	<script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
+	<link rel="stylesheet" href="https://uicdn.toast.com/editor/3.0.2/toastui-editor.min.css" >
 </head>
 <body>
-
 	<jsp:include page="../common/header.jsp" />
-
 	<main>
 		<div class="container">
 			<!-- 제목 -->
@@ -52,10 +50,14 @@
 				<div class="toast-custom-viewer"></div>
 				<div class="post-buttons">
 					<a href="${contextPath}/information/list?bigCategoryNo=${post.bigCategoryNo}&subCategoryNo=${post.subCategoryNo}">
-						<button class="btn-list">목록</button></a> 
-					<a href="${contextPath}/update?bigCategoryNo=${post.bigCategoryNo}&subCategoryNo=${post.subCategoryNo}&postNo=${post.postNo}&type=1">
-						<button class="btn-edit">수정</button></a>
-					<button onclick="confirmDelete(${post.postNo}, ${post.boardNo}, ${post.bigCategoryNo}, ${post.subCategoryNo})">삭제</button>
+						<button class="btn-list">목록</button>
+					</a> 
+					<!-- 게시글 작성자만 수정/삭제 가능  -->
+					<c:if test="${post.userName == authentication.userName}">
+						<a href="${contextPath}/update?bigCategoryNo=${post.bigCategoryNo}&subCategoryNo=${post.subCategoryNo}&postNo=${post.postNo}&type=1">
+							<button class="btn-edit">수정</button></a>
+						<button onclick="confirmDelete(${post.postNo}, ${post.boardNo}, ${post.bigCategoryNo}, ${post.subCategoryNo})">삭제</button>
+					</c:if>						
 				</div>
 			</div>
 
@@ -96,6 +98,9 @@
 
 	<script>
 	
+		const loginUser = `${authentication}`;
+		const loginUserNo = `${authentication.userNo}`;
+	
 		const editor = toastui.Editor.factory({
             el : document.querySelector(".toast-custom-viewer"),
             viewer:true,
@@ -103,14 +108,14 @@
         });
 	
 	
-// 	    // 게시글삭제확인
-// 	    function confirmDelete(postNo, boardNo, bigCategoryNo, subCategoryNo) {
-// 	        var result = confirm("게시글을 삭제하시겠습니까?");
-// 	        if (result) {
-// 	            var deleteUrl = "${contextPath}/information/delete/" + postNo + "?boardNo=" + boardNo;
-// 	            window.location.href = deleteUrl;
-// 	        } 
-// 	    }
+	    // 게시글삭제확인
+	    function confirmDelete(postNo, boardNo, bigCategoryNo, subCategoryNo) {
+	        var result = confirm("게시글을 삭제하시겠습니까?");
+	        if (result) {
+	            var deleteUrl = "${contextPath}/information/delete/" + postNo + "?boardNo=" + boardNo;
+	            window.location.href = deleteUrl;
+	        } 
+	    }
 	
 	    //댓글목록조회
  	    function selectCommentList(){
@@ -123,10 +128,12 @@
     		            comments += "<tr>";
     		            comments += "<td>" + comment.userName + "</td>";
     		            comments += "<td><p>" + comment.content + "</p>";
-    		            comments += "<div class='comment-buttons'>" +
-    		                        "<button onclick='showCommentUpdateForm("+comment.commentNo+",this)' class='btn-edit'> 수정 </button>" +
-    		                        "<button onclick='deleteComment(" + comment.commentNo + ")' class='btn-delete'> 삭제 </button>" +
-    		                        "</div></td>";
+    		            if('${authentication.userName}' == comment.userName){
+	    		            comments += "<div class='comment-buttons'>" +
+	    		                        "<button onclick='showCommentUpdateForm("+comment.commentNo+",this)' class='btn-edit'> 수정 </button>" +
+	    		                        "<button onclick='deleteComment(" + comment.commentNo + ")' class='btn-delete'> 삭제 </button>" +
+	    		                        "</div></td>";
+    		            }
     		            comments += "<td>" + comment.createDate + "</td>";
     		            comments += "</tr>";
     		        }
@@ -140,107 +147,110 @@
 	    }
  	   selectCommentList();
  	   
-//  	   //댓글등록
-//  	   function insertComment(){
-//  		   $.ajax({
-//  			  url: "${contextPath}/information/insertComment",
-//  			  data : {
-//  				 boardNo: ${post.boardNo}, 
-//  				 userNo: ${post.userNo},
-//  				 content : $("#replyContent").val()
-//  			  },
-//  			  type : 'post',
-//  			  success : function(result){
-//  				  if(result>0){
-//  					  alert("댓글이 등록되었습니다.");
-//  				  }else{
-//  					  alert("댓글등록이 실패하였습니다.");
-//  				  }
-//  				  $("#replyContent").val("");
-//  				 selectCommentList();
-//  			  },
-//  			  error: function (xhr, status, error) {
-// 				console.log(" 댓글등록에러:", status, error);
-// 				}
-//  		   })
-//  	   }
- 	   
-//  	   //댓글수정 form 생성
-//  	   function showCommentUpdateForm(commentNo, btn){
+ 	   //댓글등록
+ 	   function insertComment(){
  		   
-//  		   // 댓글 수정할 수 있는 textarea 생성
-//  		   const textarea = document.createElement("textarea"); 
-//  		   textarea.style.width = "100%"; // 너비 100%로 설정
-//  		   textarea.style.height = "50px"; // 높이 50px로 설정
-//  		   textarea.style.resize = "none"; // 리사이즈 비활성화
- 		   
-//  		   const button = document.createElement("button");
-//  		   button.innerText = "수정하기";
-//  		   button.style.marginTop = "5px"; 
-//  		   button.style.backgroundColor = "#5acb5a"; 
-//  		   button.style.color = "white";
-//  		   button.style.border = '0';
-//            button.style.padding = '3px 15px';
- 		   
-//  		   //댓글내용 textarea에 복사
-//  		   let td = btn.parentElement.parentElement;
-//  		   let pTag = td.querySelector('p');
-//  		   let content = pTag.innerText;
-//  		   textarea.innerHTML = content; 
- 		   
-//  		   //td 비우고 새로 추가
-//  		   td.innerHTML = "";
-//  		   td.append(textarea);
-//  		   td.append(button);
- 		   
-//  		   button.addEventListener("click",function(){
-//  			   updateComment(commentNo,textarea);
-//  			   })
-//  	   }
+ 		   if(loginUser){
+	 		   $.ajax({
+	 			  url: "${contextPath}/pledge/insertComment",
+	 			  data : {
+	 				 boardNo: ${post.boardNo}, 
+	 				 userNo: loginUserNo,
+	 				 content : $("#replyContent").val()
+	 			  },
+	 			  type : 'post',
+	 			  success : function(result){
+	 				  if(result>0){
+	 					  alert("댓글이 등록되었습니다.");
+	 				  }else{
+	 					  alert("댓글등록이 실패하였습니다.");
+	 				  }
+	 				  $("#replyContent").val("");
+	 				 selectCommentList();
+	 			  },
+	 			  error: function (xhr, status, error) {
+					console.log(" 댓글등록에러:", status, error);
+					}
+	 		   })
+ 		   }else{
+ 			    alert("댓글을 등록하려면 로그인이 필요합니다.");
+ 		   }
+ 		  
+ 	   }
  	   
-//  	   //댓글수정
-//  	   function updateComment(commentNo, textarea){
-//  		   let comment = { commentNo, content : textarea.value };
+ 	   //댓글수정 form 생성
+ 	   function showCommentUpdateForm(commentNo, btn){
  		   
-//  		   $.ajax({
-// 				url: "${contextPath}/information/updateComment/" + commentNo,
-// 				data : JSON.stringify(comment),
-// 				contentType : 'application/json;charset=utf-8',
-//  			  	type : 'put',
-//  			  	success : function(result){
-//  			  		if(result>0){
-// 						alert("댓글이 수정되었습니다.");
-// 					}else{
-// 						alert("댓글수정 실패했습니다.");
-// 					}
-// 					selectCommentList(); 
-//  			  	},
-//  			  	error: function (xhr, status, error) {
-//  		            console.error("댓글수정 오류 발생: ", status, error);
-//  		        }
-//  		   })
-//  	   }
+ 		   // 댓글 수정할 수 있는 textarea 생성
+ 		   const textarea = document.createElement("textarea"); 
+ 		   textarea.style.width = "100%"; // 너비 100%로 설정
+ 		   textarea.style.height = "50px"; // 높이 50px로 설정
+ 		   textarea.style.resize = "none"; // 리사이즈 비활성화
+ 		   
+ 		   const button = document.createElement("button");
+ 		   button.innerText = "수정하기";
+ 		   button.style.marginTop = "5px"; 
+ 		   button.style.backgroundColor = "#5acb5a"; 
+ 		   button.style.color = "white";
+ 		   button.style.border = '0';
+           button.style.padding = '3px 15px';
+ 		   
+ 		   //댓글내용 textarea에 복사
+ 		   let td = btn.parentElement.parentElement;
+ 		   let pTag = td.querySelector('p');
+ 		   let content = pTag.innerText;
+ 		   textarea.innerHTML = content; 
+ 		   
+ 		   //td 비우고 새로 추가
+ 		   td.innerHTML = "";
+ 		   td.append(textarea);
+ 		   td.append(button);
+ 		   
+ 		   button.addEventListener("click",function(){
+ 			   updateComment(commentNo,textarea);
+ 			})
+ 	   }
  	   
+ 	   //댓글수정
+ 	   function updateComment(commentNo, textarea){
+ 		   let comment = { commentNo, content : textarea.value };
+ 		   
+ 		   $.ajax({
+				url: "${contextPath}/pledge/updateComment/" + commentNo,
+				data : JSON.stringify(comment),
+				contentType : 'application/json;charset=utf-8',
+ 			  	type : 'put',
+ 			  	success : function(result){
+ 			  		if(result>0){
+						alert("댓글이 수정되었습니다.");
+					}else{
+						alert("댓글수정 실패했습니다.");
+					}
+					selectCommentList(); 
+ 			  	},
+ 			  	error: function (xhr, status, error) {
+ 		            console.error("댓글수정 오류 발생: ", status, error);
+ 		        }
+ 		   })
+ 	   }
  	   
-//  	   //댓글삭제
-//  	   function deleteComment(commentNo){
-//  		   if(confirm('댓글을 삭제하시겠습니까?')){
-//  			   $.ajax({
-//  				  url: "${contextPath}/information/deleteComment/" + commentNo,
-//  				  type : 'delete',
-//  				  success : function(result){
-//  					  if(result>0){
-// 						alert("댓글이 삭제되었습니다.");
-// 						selectCommentList();
-// 					}else{
-// 						alert("댓글삭제실패");
-// 						}
-// 					}
-//  			   })
-//  		   }
-//  	   }
- 	   
- 	   
+ 	   //댓글삭제
+ 	   function deleteComment(commentNo){
+ 		   if(confirm('댓글을 삭제하시겠습니까?')){
+ 			   $.ajax({
+ 				  url: "${contextPath}/pledge/deleteComment/" + commentNo,
+ 				  type : 'delete',
+ 				  success : function(result){
+ 					  if(result>0){
+						alert("댓글이 삭제되었습니다.");
+						selectCommentList();
+					}else{
+						alert("댓글삭제실패");
+						}
+					}
+ 			   })
+ 		   }
+ 	   }
  	   
     
     </script>

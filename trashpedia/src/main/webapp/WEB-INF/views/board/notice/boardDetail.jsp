@@ -103,6 +103,8 @@
 							</tr>
 						</tbody>
 					</table>
+					
+					
 					<!-- 페이징 -->
 					<div class="paging-button">
 						<button class="pagingBtn" id="prevBtn"><</button>
@@ -133,40 +135,98 @@
 // 	    } 
 	
 	    //댓글목록조회
-	    function selectCommentList(){
-	    	$.ajax({
-	 		 	url: "${contextPath}/selectCommentList",
-	 		    data: { boardNo: ${post.boardNo}, userNo: ${post.userNo}},
-	 		    success: function (result) {
-	 		        let comments = "";
-	 		        for (let comment of result) {
-	 		            comments += "<tr>";
-	 		            comments += "<td>" + comment.userName + "</td>";
-	 		            comments += "<td><p>" + comment.content + "</p>";
-	 		            comments += "<div class='comment-buttons'>" +
-	 		                        "<button onclick='showCommentUpdateForm("+comment.commentNo+",this)' class='btn-edit'> 수정 </button>" +
-	 		                        "<button onclick='deleteComment(" + comment.commentNo + ")' class='btn-delete'> 삭제 </button>" +
-	 		                        "</div></td>";
-	 		            comments += "<td>" + comment.modifyDate + "</td>";
-	 		            comments += "</tr>";
-	 		        }
-	 		        $("#replyArea tbody").html(comments);
-	 		        $("#rcount").html(result.length);
-	 		    },
-	 		    error: function (xhr, status, error) {
-	 		        console.log(" 댓글조회에러:", status, error);
-	 		    }
-	    	})
-	    }
-	    selectCommentList();
-	   
+// 	    function selectCommentList(){
+// 	    	$.ajax({
+// 	 		 	url: "${contextPath}/board/selectCommentList",
+// 	 		    data: { boardNo: ${b.boardNo}, userNo: ${b.userNo}},
+// 	 		    success: function (result) {
+// 	 		        let comments = "";
+// 	 		        for (let comment of result) {
+// 	 		            comments += "<tr>";
+// 	 		            comments += "<td>" + comment.userName + "</td>";
+// 	 		            comments += "<td><p>" + comment.content + "</p>";
+// 	 		            comments += "<div class='comment-buttons'>" +
+// 	 		                        "<button onclick='showCommentUpdateForm("+comment.commentNo+",this)' class='btn-edit'> 수정 </button>" +
+// 	 		                        "<button onclick='deleteComment(" + comment.commentNo + ")' class='btn-delete'> 삭제 </button>" +
+// 	 		                        "</div></td>";
+// 	 		            comments += "<td>" + comment.modifyDate + "</td>";
+// 	 		            comments += "</tr>";
+// 	 		        }
+// 	 		        $("#replyArea tbody").html(comments);
+// 	 		        $("#rcount").html(result.length);
+// 	 		    },
+// 	 		    error: function (xhr, status, error) {
+// 	 		        console.log(" 댓글조회에러:", status, error);
+// 	 		    }
+// 	    	})
+// 	    }
+// 	    selectCommentList();
+
+	    // 댓글 목록 조회 및 표시
+		function selectCommentList(){
+		    $.ajax({
+		        url: "${contextPath}/board/selectCommentList",
+		        data: { boardNo: ${b.boardNo}, userNo: ${b.userNo}},
+		        success: function (result) {
+		        	console.log("result" + result);
+		            let commentsHtml = ""; // 댓글 목록을 담을 변수
+		            for (let comment of result) {
+		                commentsHtml += "<tr>";
+		                commentsHtml += "<td>" + comment.userName + "</td>";
+		                commentsHtml += "<td><p>" + comment.content + "</p>";
+		                // 댓글 수정 및 삭제 버튼
+		                commentsHtml += "<div class='comment-buttons'>" +
+		                                "<button onclick='showCommentUpdateForm("+comment.commentNo+",this)' class='btn-edit'>수정</button>" +
+		                                "<button onclick='deleteComment(" + comment.commentNo + ")' class='btn-delete'>삭제</button>" +
+		                                "</div></td>";
+		                commentsHtml += "<td>" + comment.modifyDate + "</td>";
+		                commentsHtml += "</tr>";
+		
+		                // 여기에 대댓글 입력 필드 및 버튼 추가
+		                commentsHtml += "<tr><td colspan='3' class='nested-comments-cell'>";
+		                commentsHtml += "<textarea class='nested-comment-content' id='nestedCommentContent" + comment.commentNo + "' placeholder='대댓글을 입력하세요'></textarea>";
+		                commentsHtml += "<button onclick='insertNC(" + comment.commentNo + ")' class='nested-comment-submit'>대댓글 등록</button>";
+		                commentsHtml += "</td></tr>";
+		
+		                // 여기에 대댓글 목록 표시 영역 추가
+		                commentsHtml += "<tr><td colspan='3' class='nested-comments-list' id='nestedCommentsList" + comment.commentNo + "'>";
+		                // 대댓글 목록은 여기에 표시됩니다.
+		                commentsHtml += "</td></tr>";
+		            }
+		            $("#replyArea tbody").html(commentsHtml); // 테이블 바디에 댓글 목록 추가
+		            $("#rcount").html(result.length); // 댓글 수 업데이트
+		        },
+		        error: function (xhr, status, error) {
+		            console.log("댓글 조회 에러:", status, error);
+		        }
+		    })
+		}
+		selectCommentList(); // 함수 호출
+//대댓글 등록
+		function insertNC(){
+			var content = document.getElementById('nestedCommentContent').value;
+			$.ajax({
+				url : "${context}/board/insertNC",
+				type : post ,
+				data : {
+					boardNo: ${b.boardNo},
+					userNo: ${b.userNo},
+					content : content
+				},
+				success : function(response){
+					alert('대댓글이 등록되었습니다.');
+					selectNestedCommentList(${b.boardNo});
+				}
+			})
+		}
+
 // 	   댓글등록
 	   function insertComment(){
 		   $.ajax({
-			  url: "${contextPath}/insertComment",
+			  url: "${contextPath}/board/insertComment",
 			  data : {
-				 boardNo: ${post.boardNo}, 
-				 userNo: ${post.userNo},
+				 boardNo: ${b.boardNo}, 
+				 userNo: ${b.userNo},
 				 content : $("#replyContent").val()
 			  },
 			  type : 'post',
@@ -223,7 +283,7 @@
 		   let comment = { commentNo, content : textarea.value };
 		   
 		   $.ajax({
-				url: "${contextPath}/updateComment/" + commentNo,
+				url: "${contextPath}/board/updateComment/" + commentNo,
 				data : JSON.stringify(comment),
 				contentType : 'application/json;charset=utf-8',
 			  	type : 'put',
@@ -246,7 +306,7 @@
 	   function deleteComment(commentNo){
 		   if(confirm('댓글을 삭제하시겠습니까?')){
 			   $.ajax({
-				  url: "${contextPath}/deleteComment/" + commentNo,
+				  url: "${contextPath}/board/deleteComment/" + commentNo,
 				  type : 'delete',
 				  success : function(result){
 					  if(result>0){
@@ -259,9 +319,7 @@
 			   })
 		   }
 	   }
-
-                
-    
+	   
     </script>
 </body>
 </html> 

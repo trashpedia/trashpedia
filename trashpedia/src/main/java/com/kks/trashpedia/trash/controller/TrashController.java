@@ -39,6 +39,9 @@ public class TrashController {
 		//인기쓰레기
 		List<TrashPost> popularList = service.getPopularList();
 		
+		//대분류, 소분류가 같은 쓰레기 
+		//List<TrashPost> similarList = service.getSimilarList();
+		
 		System.out.println(trashList);
 		modelAndView.addObject("trashList", trashList);
 		modelAndView.addObject("popularList", popularList);

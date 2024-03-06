@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<c:set var="contextPath" value="<%=request.getContextPath() %>" />	x
+<c:set var="contextPath" value="<%=request.getContextPath() %>" />
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -19,75 +19,101 @@
 <link rel="stylesheet" href="${contextPath}/resources/css/encyclopedia/trashEncyclopediaDetail.css">
 <body>
 	<jsp:include page="../common/header.jsp" />
-	<div class="inner">
-
-		
-			<main>
-				<div class="detail_wrap">
-				<section class="trash_img_wrap">
-					<img src="<c:url value='/resources/attachFile/image/${trash.changeName}'/>" class="content-img">
-				</section>
+		<main>
+			<div class="contentBox">
+				<div class= "content">
+				<div class="imgArea"><img src="<c:url value='/resources/attachFile/image/${trash.changeName}'/>" class="content-img"></div>
+				<div class="trashInfo">
 				
-				<section class="trash_info_wrap">
-
-					<span id="category">소분류: ${trash.subCategoryName}</span>
-					<span id="title">${trash.trashTitle}</span>
-
-				</section>
+					<span id="bigCategoryName">${trash.bigCategoryName}</span>
+					<span>></span>
+					<span id="subCategoryName">${trash.subCategoryName}</span>
+					<h2 id="trashTitle">${trash.trashTitle}</h2>
+					<h4>버리는 방법</h4>
+					<p id="howto">${trash.trashContent}</p>
+					<h4>알아두면 좋은점</h4>
+					<p id="know">${trash.trashContent}</p>	
+				
 				</div>
-				<div class="trash_list_title">
-					<h1>다른 쓰레기</h1>
 				</div>
-				<div class="detail_bottom_wrap">
-					<section class="trash_list">
-						<ul>
-							<li style="background-image: url('your-image-url.jpg');"><a
-								href="호잇.jpg">아이템 1</a></li>
-							<li style="background-image: url('your-image-url.jpg');"><a
-								href="link-to-detail-page.html">아이템 2</a></li>
-							<li style="background-image: url('your-image-url.jpg');"><a
-								href="link-to-detail-page.html">아이템 3</a></li>
-							<li style="background-image: url('your-image-url.jpg');"><a
-								href="link-to-detail-page.html">아이템 3</a></li>
-							<li style="background-image: url('your-image-url.jpg');"><a
-								href="link-to-detail-page.html">아이템 3</a></li>
-							<li style="background-image: url('your-image-url.jpg');"><a
-								href="link-to-detail-page.html">아이템 3</a></li>
-							<!-- 추가 아이템 -->
-						</ul>
-					</section>
-				</div>
-			</main>
+			</div>
 			
-			
-		</div>
+			<!-- 소분류 카테고리가 같은 쓰레기들 swipper  -->
+		<div class="recently-outer showEvent">
+			<div id="recently-garbage-slider" class="recently-garbage-outer">
+				<p id="recently-garbage-outer-title">
+					비슷한 종류의 <strong>쓰레기</strong>
+				</p>
+				<div class="recently-garbage-inner">
+					<c:forEach var="post" items="${trashList}">
+						<div class="recently-garbage">
+							<div class="garbage-img-outer">
+								<img class="recently-garbage-img"
+									src="https://blisgo.com/wp-content/uploads/elementor/thumbs/%EB%A7%A4%ED%8A%B8%EB%A6%AC%EC%8A%A4-p1z4xihromtb6umrxtb9tkawdj5anjg8a7kq5plx4w.jpg"
+									onclick="trashDetail(${post.trashPostNo})">
+							</div>
+							<p class="recently-garbage-title">${post.trashTitle}</p>
+							<p class="recently-garbage-content">${post.trashContent}</p>
+						</div>
+					</c:forEach>
+				</div>
+			</div>
+			</div>
+		</main>
+		
+		<button id="scrollUpButton">
+			<div class="material-symbols-outlined">arrow_upward</div>
+		</button>
+		
 
 	<jsp:include page="../common/footer.jsp" />
 
 	<script>
-    var swiper = new Swiper(".swiper-container", {
-        spaceBetween: 10,
-        centeredSlides: true,
-        autoplay: {
-            delay: 500,
-            disableOnInteraction: false,
-        },
-        slidesPerView: 3,
-        pagination: {
-            el: ".swiper-pagination",
-            clickable: true,
-        },
-        navigation: {
-            nextEl: ".swiper-button-next",
-            prevEl: ".swiper-button-prev",
-        },
+	
+	// IntersectionObserver 설정
+	let observer = new IntersectionObserver((entries) => {
+	  entries.forEach((entry) => {
+	    if (entry.isIntersecting) { // 화면에 나타날 때
+	      $(entry.target).css({
+	        opacity: 1,
+	        transform: 'translate(0, -60px)'
+	      });
+	    } else { // 화면에 나타나지 않을 때
+	      $(entry.target).css({
+	        opacity: 0,
+	        transform: 'none' // 기존의 트랜스폼 효과 제거
+	      });
+	    }
+	  });
+	});
+ 
+    //스크롤 다운 버튼
+    $(document).ready(function() {
+        // 스크롤 다운 버튼 
+        $("#scrollDownButton").click(function() {
+            $("body, html").animate({ 
+                scrollTop: 1160 
+            }, 1100); 
+        });
+        
+        // 상단 이동 버튼
+        var scrollUpButton = $('#scrollUpButton');
 
-        scrollbar: {
-            el: '.swiper-scrollerbar',
-        },
+        $(window).scroll(function() {
+            if ($(this).scrollTop() > 300) {
+                scrollUpButton.show();
+            } else {
+                scrollUpButton.hide();
+            }
+        });
+        
+        scrollUpButton.click(function(){
+        	$('html,body').animate({scrollTop:0},500);
+        	return false;
+        });
+        
     });
-    
-    
+
     
     <!-- 페이지 전환-->
     
@@ -108,6 +134,56 @@
     imgElement.src = "${contextPath}/resources/attachFile/image/${trash.changeName}";
     imgElement.className = 'content-img';
     
+    
+	$('.showEvent').each(function() {
+	  observer.observe(this);
+	});
+    
+	// 슬라이드
+    $(document).ready(function(){
+    		//최근 업데이트 된 쓰레기
+            $('#recently-garbage-slider .recently-garbage-inner').slick({
+                slidesToShow: 4,
+                slidesToScroll: 1,
+                autoplay: true,
+                autoplaySpeed: 2000, // 2초마다 슬라이드 전환
+                arrows : true,
+                dots: true,
+                prevArrow: '<div class="custom-prev"></div>',
+                nextArrow: '<div class="custom-next"></div>'
+                // prevArrow: '<button type="button" class="slick-prev">&#9665;</button>',
+                // nextArrow: '<button type="button" class="slick-next">&#9655;</button>'
+            });
+	
+    $(document).ready(function() {
+        // 스크롤 다운 버튼 
+        $("#scrollDownButton").click(function() {
+            $("body, html").animate({ 
+                scrollTop: 1160 
+            }, 1100); 
+        });
+        
+        // 상단 이동 버튼
+        var scrollUpButton = $('#scrollUpButton');
+
+        $(window).scroll(function() {
+            if ($(this).scrollTop() > 300) {
+                scrollUpButton.show();
+            } else {
+                scrollUpButton.hide();
+            }
+        });
+        
+        scrollUpButton.click(function(){
+        	$('html,body').animate({scrollTop:0},500);
+        	return false;
+        });
+        
+    });
+
+ 
+
+</script>
    
     </script>
 </body>

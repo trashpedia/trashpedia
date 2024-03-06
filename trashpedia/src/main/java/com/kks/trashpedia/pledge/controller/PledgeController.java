@@ -1,5 +1,6 @@
 package com.kks.trashpedia.pledge.controller;
 
+import java.io.PrintWriter;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -28,6 +30,7 @@ import com.kks.trashpedia.board.model.vo.Comment;
 import com.kks.trashpedia.board.model.vo.ImgAttachment;
 import com.kks.trashpedia.board.model.vo.Post;
 import com.kks.trashpedia.board.model.vo.SubCategory;
+import com.kks.trashpedia.pledge.model.dao.PledgeDao;
 import com.kks.trashpedia.pledge.model.service.PledgeService;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -62,8 +65,6 @@ public class PledgeController {
 			@RequestParam String searchValue){
 		
 		Page<Post> pages = service.loadListData(pageable,page,sort,searchSelect,searchValue,subCategoryNo);
-		System.out.println("실행????");
-		
 		return ResponseEntity.ok(pages);
 	}
 			

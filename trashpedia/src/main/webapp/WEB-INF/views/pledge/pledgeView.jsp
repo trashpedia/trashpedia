@@ -15,7 +15,7 @@
     <title>실천하기</title>
 	<!-- jQuery -->
 	<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-	<link rel="stylesheet" href="${contextPath}/resources/css/main/pledge.css">
+	<link rel="stylesheet" href="${contextPath}/resources/css/pledge/pledge.css">
 </head>
 <body>
 
@@ -29,6 +29,7 @@
     <jsp:include page="../common/header.jsp"/>
     
     <main>
+    
         <div class="practice-section">
             <p>실천하기</p>
             <p>Reduce Reuse Recycle Recovery</p>

@@ -25,12 +25,6 @@
 		text-align: center;
 		color: #333;
 	}
-	#errorMsg {
-		margin-bottom: 80px;
-		font-size: 18px;
-		font-weight: bold;
-		color: #e44d26; /* 빨간색 */
-	}
 	main a {
 		color: #007bff; /* 파란색 */
 		text-decoration: none;
@@ -39,13 +33,19 @@
 	main a:hover {
 		text-decoration: underline;
 	}
+	#errorMsg {
+		margin-bottom: 80px;
+		font-size: 18px;
+		font-weight: bold;
+		color: #e44d26; /* 빨간색 */
+	}
 </style>
 
 <body>
 	<jsp:include page="../header.jsp" />
 	<main>
-		<h1>오류가 발생했습니다.</h1>
-		<p>문제가 지속되면 관리자에게 문의해주세요.</p>
+		<h1> 오류가 발생했습니다. </h1>
+		<p> 문제가 지속되면 관리자에게 문의해주세요. </p>
 		<p id="errorMsg">${errorMessage}</p>
 		<a href="${contextPath}/">홈 페이지로 이동</a>
 	</main>
