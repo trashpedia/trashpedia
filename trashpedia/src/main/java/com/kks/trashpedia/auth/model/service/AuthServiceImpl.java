@@ -5,9 +5,18 @@ import java.util.Properties;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestTemplate;
 
 import com.kks.trashpedia.auth.model.dao.AuthDao;
 import com.kks.trashpedia.auth.model.dto.UserDetail;
@@ -39,6 +48,15 @@ public class AuthServiceImpl implements AuthService{
     @Value("${spring.mail.password}")
     private String password;
 
+    @Value("${kakao.client.id}")
+    private String KAKAO_CLIENT_ID;
+
+    @Value("${kakao.client.secret}")
+    private String KAKAO_CLIENT_SECRET;
+
+    @Value("${kakao.redirect.url}")
+    private String KAKAO_REDIRECT_URL;
+	
     private String authNum;
     
 	private final AuthDao authDao;
@@ -168,4 +186,43 @@ public class AuthServiceImpl implements AuthService{
                 authNum + "</strong></div><br/> " +
                 "</div>";
     }
+
+	@Override
+	public String kakaoUrl() {
+		return "https://kauth.kakao.com/oauth/authorize"
+                + "?client_id=" + KAKAO_CLIENT_ID
+                + "&redirect_uri=" + KAKAO_REDIRECT_URL
+                + "&response_type=code";
+	}
+
+	@Override
+	public String getKakaoToken(String code) throws Exception {
+		final String requestUrl = "https://kauth.kakao.com/oauth/token";
+		String access_Token = "";
+
+		if(code == null) {
+			return null;
+		}
+		
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
+		
+		MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+		params.add("grant_type", "authorization_code");
+		params.add("client_id", KAKAO_CLIENT_ID);
+		params.add("client_secret", KAKAO_CLIENT_SECRET);
+		params.add("code", code);
+		params.add("redirect_uri", KAKAO_REDIRECT_URL);
+		
+		RestTemplate restTemplate = new RestTemplate();
+		HttpEntity<MultiValueMap<String, String>> httpEntity = new HttpEntity<>(params);
+		ResponseEntity<String> response = restTemplate.exchange("https://kauth.kakao.com/oauth/token", HttpMethod.POST, httpEntity, String.class);
+		
+		HttpStatusCode statusCode = response.getStatusCode();
+		if(!statusCode.is2xxSuccessful()) {
+			throw new Exception("failed to get user info - status code: " + statusCode);
+		}
+		
+		return access_Token;
+	}
 }

@@ -27,8 +27,10 @@
 					<a class="findPwdBtn">비밀번호찾기</a>
 					<a href="${contextPath}/member/join">회원가입</a>
 				</div>
-				<button id="go-kakao" onclick="location.href = '/'">카카오로 로그인</button>
-				<button id="go-naver">네이버로 로그인</button>
+				<div class="social-login-wrapper">
+					<img alt="카카오 로그인" src="${contextPath}/resources/image/user/kakao_login_medium_wide.png" onclick="location.href='${contextPath}/kakao/login'" class="kakao-login">
+					<button id="go-naver">네이버로 로그인</button>
+				</div>
 			</div>
 		</section>
 		<section id="findIdArea">
