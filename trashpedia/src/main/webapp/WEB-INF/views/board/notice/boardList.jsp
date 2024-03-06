@@ -10,8 +10,6 @@
 <c:set var="subCategoryNo" value="${param.subCategoryNo}" />
 <c:set var="bigCategoryNo" value="${param.bigCategoryNo}" />
 
-
-
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -37,7 +35,6 @@
 	</c:if>
 
 	<jsp:include page="../../common/header.jsp" />
-
 
 
 	<main class="board_html">
@@ -108,13 +105,12 @@
 						<div class="count">조회</div>
 					</div>
 
-					<c:forEach var="board" items="${boardList.content}"
-						varStatus="status">
-						<div>
+					<c:forEach var="board" items="${boardList.content}" varStatus="status">
+						<div id="boardDetailDiv" onclick="boardDetail(${board.postNo})">
 							<div class="num">${board.postNo}</div>
 							<div class="title">
-								<a href="${contextPath}/board/community/detail/${board.postNo}">${fn:substring(board.title, 0, 8)}${fn:length(board.title) > 8 ? '' : ''}			
-								</a>
+								<p>${fn:substring(board.title, 0, 8)}${fn:length(board.title) > 8 ? '' : ''}
+								</p>
 							</div>
 							<div class="content">
 								<p>
@@ -156,9 +152,6 @@
 					</c:if>
 				</div>
 				
-
-				
-
 			</div>
 		</div>
 	</main>
@@ -183,6 +176,13 @@
 			$(this).text(textContent); // 순수 텍스트로 내용을 변경합니다.
 		});
 	});
+	
+	// 	<a href="${contextPath}/board/community/detail/${board.postNo}">
+    // 상세페이지 이동
+    function boardDetail(postNo) {
+    	location.href = "${contextPath}/board/community/detail/" + postNo;
+	}
+	
 
 	</script>
 </body>

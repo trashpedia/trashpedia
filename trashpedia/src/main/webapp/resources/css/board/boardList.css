@@ -528,3 +528,9 @@ a {
     text-decoration: none; /* 밑줄 제거 */
     color: inherit; /* 링크 색상을 상속받아 버튼 색상과 동일하게 설정 */
 }
+
+
+/* 상세보기 페이지 넘어가는 div박스 */
+#boardDetailDiv{
+	cursor: pointer;
+}
