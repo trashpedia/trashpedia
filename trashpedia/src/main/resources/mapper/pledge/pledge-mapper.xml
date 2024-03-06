@@ -134,8 +134,9 @@
 	<!-- 댓글조회  -->
 	<select id="selectCommentList" parameterType="board" resultType="comment">
 		SELECT *
-		FROM "COMMENT"
-		WHERE BOARD_NO = #{boardNo} AND USER_NO = #{userNo} AND STATUS = 'Y'
+		FROM "COMMENT" C
+		LEFT JOIN MEMBER M ON (C.USER_NO = M.USER_NO)
+		WHERE BOARD_NO = #{boardNo} AND C.STATUS = 'Y'
 		ORDER BY COMMENT_NO DESC
 	</select>
 
@@ -158,7 +159,6 @@
 		SET STATUS = 'N'
 		WHERE COMMENT_NO = #{commentNo}
 	</update>
-	
 	
 	
 	

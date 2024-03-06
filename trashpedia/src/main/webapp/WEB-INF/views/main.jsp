@@ -40,17 +40,20 @@
 
 	<main>
 
+		<div id="mainVisual" class="showEvent">
+		</div>
+
 		<div class="recently-outer showEvent">
-			<img id="recently-img"
-				src="https://theskinfood.com/design/skinfood/skinfood/images/dev/sub-slider-bg1.jpg">
+			<img src="<c:url value='/resources/image/main/mainImg/main_visual2.png' />">
+<!-- 			<img id="recently-img" -->
+<!-- 				src="https://theskinfood.com/design/skinfood/skinfood/images/dev/sub-slider-bg1.jpg"> -->
+			
 			<div id="recently-garbage-slider" class="recently-garbage-outer">
-
-
 				<p id="recently-garbage-outer-title">
-					최근 업데이트된 <strong>쓰레기 게시글</strong>
+					최근 업데이트된 <strong>쓰레기사전</strong>
 				</p>
 				<!-- 밴드 이미지 -->
-				<span class="slide-style-tape"></span>
+<!-- 				<span class="slide-style-tape"></span> -->
 
 				<div class="recently-garbage-inner">
 
@@ -58,17 +61,19 @@
 						<div class="garbage-img-outer">
 							<img class="recently-garbage-img"
 								src="https://blisgo.com/wp-content/uploads/elementor/thumbs/%EB%A7%A4%ED%8A%B8%EB%A6%AC%EC%8A%A4-p1z4xihromtb6umrxtb9tkawdj5anjg8a7kq5plx4w.jpg">
+							<p class="recently-garbage-title">매트리스</p>
 						</div>
-						<p class="recently-garbage-title">매트리스</p>
-						<p class="recently-garbage-content">스프링, 메모리폼, 라텍스 등으로 이루어진 침대
-							매트리스는 분리 및 재활용이 불가능해요. 대형 생활 폐기물로 신고 배출해주세요.</p>
+						<p class="recently-garbage-content">
+						스프링, 메모리폼, 라텍스 등으로 이루어진 침대
+						매트리스는 분리 및 재활용이 불가능해요. 대형 생활 폐기물로 신고 배출해주세요.
+						</p>
 					</div>
 					<div class="recently-garbage">
 						<div class="garbage-img-outer">
 							<img class="recently-garbage-img"
 								src="https://blisgo.com/wp-content/uploads/elementor/thumbs/%E1%84%8A%E1%85%A1%E1%86%AF-%E1%84%87%E1%85%A1%E1%86%B8-qad46pf66xxu6kwhcbtq0696eqgc2m8a3en2ef5g5c.jpg">
+							<p class="recently-garbage-title">쌀</p>
 						</div>
-						<p class="recently-garbage-title">쌀</p>
 						<p class="recently-garbage-content">생쌀이나 취사된 밥은 모두 음식물 쓰레기로
 							버려요.</p>
 					</div>
@@ -76,8 +81,8 @@
 						<div class="garbage-img-outer">
 							<img class="recently-garbage-img"
 								src="https://blisgo.com/wp-content/uploads/elementor/thumbs/%EB%85%B8%ED%8A%B8%EB%B6%81-p0rlb5fzdufcmaoxz90rc2u2wqxpthxyy1t0qrefb4.jpg">
+							<p class="recently-garbage-title">노트북</p>
 						</div>
-						<p class="recently-garbage-title">노트북</p>
 						<p class="recently-garbage-content">노트북을 포함해 5개 이상의 소형 가전제품을
 							한번에 배출시, 폐가전 무상방문수거 서비스 (→바로가기)를 이용할 수 있습니다.</p>
 					</div>
@@ -85,8 +90,8 @@
 						<div class="garbage-img-outer">
 							<img class="recently-garbage-img"
 								src="https://blisgo.com/wp-content/uploads/elementor/thumbs/%EC%8B%A0%EB%B0%9C-owwcubdjbnkopoozfqyfu7p2l29z0lkqj8mz4aoqv4.jpg">
+							<p class="recently-garbage-title">신발</p>
 						</div>
-						<p class="recently-garbage-title">신발</p>
 						<p class="recently-garbage-content">다른 사람이 신을 수 있는 상태면 가까운
 							의류수거함으로 배출해요.</p>
 					</div>
@@ -94,8 +99,8 @@
 						<div class="garbage-img-outer">
 							<img class="recently-garbage-img"
 								src="https://blisgo.com/wp-content/uploads/elementor/thumbs/%EC%98%A8%EC%88%98%EB%A7%A4%ED%8A%B8-pfdcigccb3bo598lf7ayqdv3z72yxajl8h3v9nilfk.jpg">
+							<p class="recently-garbage-title">온수매트</p>
 						</div>
-						<p class="recently-garbage-title">온수매트</p>
 						<p class="recently-garbage-content">온수매트는 복합재질로 구성되어 있어서 재활용이
 							불가능하고 보통 종량제봉투에 담을 수 없는 크기이므로 대형 생활 폐기물로 신고배출해야 합니다.</p>
 					</div>
@@ -103,8 +108,8 @@
 						<div class="garbage-img-outer">
 							<img class="recently-garbage-img"
 								src="https://blisgo.com/wp-content/uploads/elementor/thumbs/%ED%98%84%EC%95%85%EA%B8%B0-pld3wkayd2dzf0pnc4l2qpkhcdkte4tg97wgr73g8w.jpg">
+							<p class="recently-garbage-title">현악기</p>
 						</div>
-						<p class="recently-garbage-title">현악기</p>
 						<p class="recently-garbage-content">기타, 바이올린 등 현악기는 주재질이 나무이기도
 							하고, 플라스틱, 구리 등의 합금 재질이 뒤섞인 물건이기 때문에 재활용이 불가능해요.</p>
 					</div>
@@ -161,8 +166,8 @@
 					</div>
 				</div>
 			</div>
-			
 		</div>
+		
 
 
 		<div class="showEvent">
@@ -397,7 +402,7 @@
 	        // 스크롤 다운 버튼 
 	        $("#scrollDownButton").click(function() {
 	            $("body, html").animate({ 
-	                scrollTop: 1160 
+	                scrollTop: 1200 
 	            }, 1300); 
 	        });
 	        

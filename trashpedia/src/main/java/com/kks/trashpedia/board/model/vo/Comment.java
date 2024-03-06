@@ -28,4 +28,6 @@ public class Comment {
 	private String subCategoryName;
 	
 	private int nestedCommentNo;
+	
+	private String userName;
 }

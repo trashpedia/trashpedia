@@ -37,10 +37,13 @@
 					</c:if>
 				</span> 
 				<span class="categoryName">${category.bigCategoryName}_</span> 
-				<span class="categoryName">${category.subCategoryName} </span> 
+				<span class="categoryName">${category.subCategoryName} </span>
+				
+				<!-- 넘겨줄 값 --> 
 				<input type="hidden" name="bigCategoryNo" value="${category.bigCategoryNo}"> 
 				<input type="hidden" name="subCategoryNo" value="${category.subCategoryNo}"> 
 				<input type="hidden" name="type" value="${type}">
+				<input type="hidden" name="userNo" value="${authentication.userNo}">
 			</div>
 
 			<div class="content-input-outer">
@@ -179,7 +182,6 @@
 		            reader.readAsDataURL(file);
 		        }
 		 	})
-		 	
 		});
 
 	
@@ -217,8 +219,6 @@
 		// 이벤트 핸들러 등록
 		editor.on('change', handleChange);
     
-		
-		
 		
 	</script>
 </body>
