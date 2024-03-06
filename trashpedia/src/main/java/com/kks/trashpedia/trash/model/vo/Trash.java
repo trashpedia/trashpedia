@@ -14,6 +14,7 @@ public class Trash {
 	private int trashPostNo;
 	private int userNo;
 	private int subCategoryNo;
+	private int bigCategoryNo;
 	private String status;
 
 	// 관리자 페이지 쓰레기 관리 - 쓰레기 조회
@@ -23,6 +24,7 @@ public class Trash {
 	private Date createDate;
 	private Date modifyDate;
 	private String changeName;
+	private String trashContent;
 	
 	private int hit;
 }
