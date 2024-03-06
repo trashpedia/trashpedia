@@ -4,15 +4,21 @@ import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 
 import com.kks.trashpedia.board.model.vo.Board;
+import com.kks.trashpedia.board.model.vo.Comment;
 import com.kks.trashpedia.member.model.vo.Member;
 
 @Repository
-public class MemberDaoImpl implements MemberDao{
+public class MemberDaoImpl implements MemberDao {
 	@Autowired
 	private SqlSessionTemplate session;
+
+	@Autowired
+	private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
 	@Override
 	public int emailCheck(String userEmail) {
@@ -30,13 +36,30 @@ public class MemberDaoImpl implements MemberDao{
 		return session.selectOne("memberMapper.loginMember", m);
 	}
 
-	// 업데이트
 	@Override
 	public int updateMember(Member m) {
-		return session.update("memberMapper.updateMember", m);
+
+		// 회원 정보 가져오기
+		Member member = session.selectOne("memberMapper.getMember", m);
+
+		// 가져온 회원 정보가 null인 경우 예외 발생
+
+		// 회원 정보 업데이트
+		member.setUserPwd(passwordEncoder.encode(m.getUserPwd()));
+		member.setUserName(m.getUserName());
+		member.setUserNickname(m.getUserNickname());
+		member.setPhone(m.getPhone());
+		member.setZipcode(m.getZipcode());
+		member.setAddress1(m.getAddress1());
+		member.setAddress2(m.getAddress2());
+		member.setAddress3(m.getAddress3());
+
+		// 회원 정보 업데이트 실행
+		return session.update("memberMapper.updateMember", member);
+
 	}
 
-	//탈퇴
+	// 탈퇴
 	@Override
 	public int deleteMember(Member m) {
 		return session.update("memberMapper.deleteMember", m);
@@ -53,9 +76,22 @@ public class MemberDaoImpl implements MemberDao{
 	public List<Board> pledgeList(int userNo) {
 		return session.selectList("memberMapper.pledgeList", userNo);
 	}
+
 	// 댓글
 	@Override
 	public List<Board> commentList(int userNo) {
 		return session.selectList("memberMapper.commentList", userNo);
+	}
+
+	@Override
+	public String findEmail(String userName, String phone) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int checkEmail(String userEmail, String phone) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 }

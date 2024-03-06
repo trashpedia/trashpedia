@@ -229,15 +229,15 @@
 						<b>아이디</b>
 						<div id="id-1">
 							<input type="hidden" value="${authentication.userNo}"
-								name="userNo"> <input type="text" name="userEmail"
-								placeholder="${authentication.userEmail}" value="${userEmail}"
-								readonly>
+								name="userNo"> <input type="text"
+								placeholder="${authentication.userEmail}" readonly>
 						</div>
 					</div>
 					<div class="field">
-						<b>비밀번호</b> <input type="password" name="userPwd" class="userpw" id="passwordInput" oninput="updatePasswordNotice()" name="userPwd"
-							placeholder="${authentication.userPwd}" value="${userPwd}"
-							required>
+						<b>비밀번호</b> <input type="password" name="userPwd" class="userpw"
+							id="passwordInput" oninput="updatePasswordNotice()"
+							name="userPwd" placeholder="${authentication.userPwd}"
+							value="${userPwd}" required>
 					</div>
 					<div class="field">
 						<div class="title">
@@ -293,7 +293,7 @@
 					</div>
 					<!-- 6. 수정하기 버튼 -->
 					<div class="twoBtn">
-						<button type="submit" id="updateBtn" formaction="/update.me">수정하기</button>
+						<button type="submit" id="updateBtn">수정하기</button>
 
 						<button type="button" class="btn btn-danger btn-sm"
 							data-toggle="modal" data-target="#deleteForm" id="deleteBtn">회원탈퇴</button>
@@ -331,7 +331,8 @@
 							</tr>
 						</table>
 						<br>
-						<button type="submit" id="realDelete" formaction="/delete.me">탈퇴하기</button>
+						<button type="submit" id="realDelete"
+							formaction="/trashpedia/member/delete.me">탈퇴하기</button>
 
 					</form>
 				</div>
@@ -495,7 +496,7 @@
         event.preventDefault();
 
         $.ajax({
-            url: '/update.me', // 업데이트를 처리하는 서버의 엔드포인트
+            url: '/trashpedia/member/update.me', // 업데이트를 처리하는 서버의 엔드포인트
             method: 'POST',
             data: $('#enroll-form').serialize(), // 폼 데이터 직렬화
             success: function(response) {
@@ -507,54 +508,18 @@
         });
     });
 
+	
+	
+	
 	</script>
+
+<!-- 	<!-- 업데이트 성공 시 알림창 표시 --> -->
+<%-- 	<script th:if="${updateSuccess}"> --%>
+//  	   alert('회원 정보가 업데이트되었습니다.');
+<!-- 	</script> -->
+
+
 	<script type="text/javascript">
-		$(document).ready(function() {
-
-			$("#deletee").on("click", function() {
-
-				if ($("#memberPw").val() == "") {
-					alert("비밀번호를 입력해주세요");
-					$("#memberPw").focus();
-					return false
-				}
-
-				if ($("#memberPw2").val() == "") {
-					alert("비밀번호 확인을 입력해주세요");
-					$("#memberPw2").focus();
-					return false
-				}
-
-				if ($("#memberPw").val() != $("#memberPw2").val()) {
-					alert("비밀번호가 일치하지 않습니다.");
-					$("#memberPw").focus();
-
-					return false;
-				}
-
-				$.ajax({
-					url : "/member/pwCheck",
-					type : "POST",
-					dataType : "json",
-					data : $("#deleteForm").serializeArray(),
-					success : function(data) {
-
-						if (data == 0) {
-							alert("비밀번호를 확인해주세요.");
-							return;
-						} else {
-							if (confirm("탈퇴하시겠습니까?")) {
-								$("#deleteForm").submit();
-							}
-
-						}
-					}
-				})
-			});
-		})
-		
-
-		
 		//상세보기 이동
 		function pledgeDetail(postNo){
         	location.href= "${contextPath}/pledge/detail/${postNo}"+postNo;
