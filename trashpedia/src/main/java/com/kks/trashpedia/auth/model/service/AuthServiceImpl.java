@@ -1,25 +1,28 @@
 package com.kks.trashpedia.auth.model.service;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.util.Properties;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
-import org.springframework.web.client.RestTemplate;
 
 import com.kks.trashpedia.auth.model.dao.AuthDao;
 import com.kks.trashpedia.auth.model.dto.UserDetail;
+import com.nimbusds.jose.shaded.gson.JsonElement;
+import com.nimbusds.jose.shaded.gson.JsonParser;
 
 import jakarta.mail.Message;
 import jakarta.mail.MessagingException;
@@ -54,8 +57,8 @@ public class AuthServiceImpl implements AuthService{
     @Value("${kakao.client.secret}")
     private String KAKAO_CLIENT_SECRET;
 
-    @Value("${kakao.redirect.url}")
-    private String KAKAO_REDIRECT_URL;
+    @Value("${kakao.redirect.uri}")
+    private String KAKAO_REDIRECT_URI;
 	
     private String authNum;
     
@@ -191,38 +194,47 @@ public class AuthServiceImpl implements AuthService{
 	public String kakaoUrl() {
 		return "https://kauth.kakao.com/oauth/authorize"
                 + "?client_id=" + KAKAO_CLIENT_ID
-                + "&redirect_uri=" + KAKAO_REDIRECT_URL
+                + "&redirect_uri=" + KAKAO_REDIRECT_URI
                 + "&response_type=code";
 	}
 
 	@Override
-	public String getKakaoToken(String code) throws Exception {
-		final String requestUrl = "https://kauth.kakao.com/oauth/token";
+	public String kakaoGetToken(String code) {
 		String access_Token = "";
+    	String refresh_Token = "";
+    	String reqURL = "https://kauth.kakao.com/oauth/token";
+    	
+    	try {
+            URL url = new URL(reqURL);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("POST");
+            conn.setDoOutput(true);
 
-		if(code == null) {
-			return null;
-		}
-		
-		HttpHeaders headers = new HttpHeaders();
-		headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
-		
-		MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
-		params.add("grant_type", "authorization_code");
-		params.add("client_id", KAKAO_CLIENT_ID);
-		params.add("client_secret", KAKAO_CLIENT_SECRET);
-		params.add("code", code);
-		params.add("redirect_uri", KAKAO_REDIRECT_URL);
-		
-		RestTemplate restTemplate = new RestTemplate();
-		HttpEntity<MultiValueMap<String, String>> httpEntity = new HttpEntity<>(params);
-		ResponseEntity<String> response = restTemplate.exchange("https://kauth.kakao.com/oauth/token", HttpMethod.POST, httpEntity, String.class);
-		
-		HttpStatusCode statusCode = response.getStatusCode();
-		if(!statusCode.is2xxSuccessful()) {
-			throw new Exception("failed to get user info - status code: " + statusCode);
-		}
-		
-		return access_Token;
+            String jsonInputString = "grant_type=authorization_code"
+                + "&client_id=" + URLEncoder.encode(KAKAO_CLIENT_ID, "UTF-8")
+                + "&redirect_uri=" + URLEncoder.encode(KAKAO_REDIRECT_URI, "UTF-8")
+                + "&client_secret=" + URLEncoder.encode(KAKAO_CLIENT_SECRET, "UTF-8")
+                + "&code=" + URLEncoder.encode(code, "UTF-8");
+
+            try (OutputStream os = conn.getOutputStream()) {
+                byte[] input = jsonInputString.getBytes("UTF-8");
+                os.write(input, 0, input.length);
+            }
+
+            try (BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"))) {
+                StringBuilder response = new StringBuilder();
+                String responseLine = null;
+                while ((responseLine = br.readLine()) != null) {
+                    response.append(responseLine.trim());
+                }
+
+                JsonElement element = JsonParser.parseString(response.toString());
+                access_Token = element.getAsJsonObject().get("access_token").getAsString();
+                refresh_Token = element.getAsJsonObject().get("refresh_token").getAsString();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return access_Token;
 	}
 }

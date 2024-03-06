@@ -25,8 +25,6 @@ public class AuthController {
 	@GetMapping("/login")
     public ModelAndView loginForm() {
         ModelAndView mav = new ModelAndView("user/login");
-        String kakao = authService.kakaoUrl();
-        mav.addObject("kakao",kakao);
         return mav;
     }
 	
@@ -66,15 +64,9 @@ public class AuthController {
     }
     
     @GetMapping("/kakao/callback")
-    public ModelAndView kakaoGetToken(@RequestParam("code") String code) {
-    	ModelAndView mav = new ModelAndView("/");
-    	String access_token = null;
-		try {
-			access_token = authService.getKakaoToken(code);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-    	System.out.println(access_token);
-    	return mav;
+    public String kakaoGetToken(String code) {
+    	ModelAndView mav = new ModelAndView();
+    	String access_Token = authService.kakaoGetToken(code);
+    	return access_Token;
     }
 }
