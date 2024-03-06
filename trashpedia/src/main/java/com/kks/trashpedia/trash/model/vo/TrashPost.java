@@ -18,6 +18,7 @@ public class TrashPost {
 	private Date modifyDate;
 	private String status;
 	
+	private String bigCategoryName;
 	private String subCategoryName;
 	private int trashHits; //조회수
 	

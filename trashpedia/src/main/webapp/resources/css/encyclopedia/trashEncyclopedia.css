@@ -40,8 +40,8 @@ body {
     justify-content: center;
     margin:0; /* 여기에 간격 조절을 위한 margin 추가 */
     list-style: none;
-    padding: 0;
-    
+    padding: 5px;
+    padding-bottom:0px;
     margin-top: 10px;
     border-bottom: 1px solid #45a049;
     border-top: 1px solid #45a049;
@@ -55,11 +55,13 @@ body {
     text-align: center;
     cursor: pointer;
     text-transform:uppercase;
+
 }
 
 .tab:after{
     display:block;
     content: '';
+    padding-bottom:5px;
     border-bottom: solid 3px #4CAF50;  
     transform: scaleX(0);  
     transition: transform 250ms ease-in-out;
