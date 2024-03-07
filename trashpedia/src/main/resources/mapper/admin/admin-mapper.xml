@@ -95,16 +95,16 @@
 		ORDER BY
 			<choose>
 				<when test="sort == 'userNo'">
-					USER_NO
+					USER_NO DESC
 				</when>
 				<when test="sort == 'userEmail'">
-					USER_EMAIL
+					USER_EMAIL ASC
 				</when>
 				<when test="sort == 'userName'">
-					USER_NAME
+					USER_NAME ASC
 				</when>
 				<when test="sort == 'userNickname'">
-					USER_NICKNAME
+					USER_NICKNAME ASC
 				</when>
 			</choose>
 	</select>
@@ -177,16 +177,16 @@
 		ORDER BY
 			<choose>
 				<when test="sort == 'boardNo'">
-					B.BOARD_NO
+					B.BOARD_NO DESC
 				</when>
 				<when test="sort == 'bigCategoryName'">
-					BC.BIG_CATEGORY_NAME, P.CREATE_DATE
+					BC.BIG_CATEGORY_NAME, P.CREATE_DATE DESC
 				</when>
 				<when test="sort == 'subCategoryName'">
-					SC.SUB_CATEGORY_NAME, P.CREATE_DATE
+					SC.SUB_CATEGORY_NAME, P.CREATE_DATE DESC
 				</when>
 				<when test="sort == 'title'">
-					P.TITLE, P.CREATE_DATE
+					P.TITLE, P.CREATE_DATE DESC
 				</when>
 			</choose>
 	</select>
@@ -197,9 +197,9 @@
 		WHERE B.BOARD_NO = #{boardNo}
 	</select>
 	<select id="getMemberCommentList" resultType="board">
-		SELECT BOARD_NO, TITLE, SUB_CATEGORY_NAME, BIG_CATEGORY_NAME
+		SELECT DISTINCT BOARD_NO, TITLE, SUB_CATEGORY_NAME, BIG_CATEGORY_NAME
 		FROM (
-		    SELECT DISTINCT B.BOARD_NO, P.TITLE, SUB_CATEGORY_NAME, BIG_CATEGORY_NAME
+		    SELECT B.BOARD_NO, COMMENT_NO, P.TITLE, SUB_CATEGORY_NAME, BIG_CATEGORY_NAME, NULL AS NESTED_COMMENT_NO
 		    FROM "COMMENT" C
 		    LEFT JOIN BOARD B ON C.BOARD_NO = B.BOARD_NO
 		    LEFT JOIN POST P ON P.POST_NO = B.POST_NO
@@ -213,7 +213,7 @@
 			    AND C.CONTENT LIKE '%' || #{searchValue} || '%'
 			</if>
 		    UNION
-		    SELECT DISTINCT B.BOARD_NO, P.TITLE, SUB_CATEGORY_NAME, BIG_CATEGORY_NAME
+		    SELECT B.BOARD_NO, NC.COMMENT_NO, P.TITLE, SUB_CATEGORY_NAME, BIG_CATEGORY_NAME, NESTED_COMMENT_NO
 		    FROM NESTED_COMMENT NC
 		    LEFT JOIN "COMMENT" C ON C.COMMENT_NO = NC.COMMENT_NO
 		    LEFT JOIN BOARD B ON C.BOARD_NO = B.BOARD_NO
@@ -231,13 +231,13 @@
 		ORDER BY
 		<choose>
 		    <when test="sort == 'boardNo'">
-		        BOARD_NO
+		        BOARD_NO DESC
 		    </when>
 		    <when test="sort == 'bigCategoryName'">
-		        BIG_CATEGORY_NAME
+		        BIG_CATEGORY_NAME, BOARD_NO DESC
 		    </when>
 		    <when test="sort == 'subCategoryName'">
-		        SUB_CATEGORY_NAME
+		        SUB_CATEGORY_NAME, BOARD_NO DESC
 		    </when>
 		    <when test="sort == 'title'">
 		        TITLE
@@ -247,24 +247,18 @@
 	<select id="getCommentDetail" resultType="board">
 		SELECT CONTENT, CREATE_DATE, BOARD_NO
 		FROM (
-		    SELECT DISTINCT C.CONTENT, C.CREATE_DATE, B.BOARD_NO
+		    SELECT B.BOARD_NO, C.CONTENT, C.CREATE_DATE
 		    FROM "COMMENT" C
 		    LEFT JOIN BOARD B ON C.BOARD_NO = B.BOARD_NO
-		    LEFT JOIN POST P ON P.POST_NO = B.POST_NO
-		    LEFT JOIN SUB_CATEGORY SC ON SC.SUB_CATEGORY_NO = B.SUB_CATEGORY_NO
-		    LEFT JOIN BIG_CATEGORY BC ON BC.BIG_CATEGORY_NO = SC.BIG_CATEGORY_NO
 		    WHERE C.USER_NO = #{userNo} AND B.BOARD_NO = #{boardNo}
-		    UNION
-		    SELECT NC.CONTENT, NC.CREATE_DATE, B.BOARD_NO
+		    UNION ALL
+		    SELECT B.BOARD_NO, NC.CONTENT, NC.CREATE_DATE
 		    FROM NESTED_COMMENT NC
 		    LEFT JOIN "COMMENT" C ON C.COMMENT_NO = NC.COMMENT_NO
 		    LEFT JOIN BOARD B ON C.BOARD_NO = B.BOARD_NO
-		    LEFT JOIN POST P ON P.POST_NO = B.POST_NO
-		    LEFT JOIN SUB_CATEGORY SC ON SC.SUB_CATEGORY_NO = B.SUB_CATEGORY_NO
-		    LEFT JOIN BIG_CATEGORY BC ON BC.BIG_CATEGORY_NO = SC.BIG_CATEGORY_NO
 		    WHERE NC.USER_NO = #{userNo} and B.BOARD_NO = #{boardNo}
 		) RESULT
-		ORDER BY CREATE_DATE
+		ORDER BY CREATE_DATE DESC
 	</select>
 	<select id="getMemberPointList" resultType="pointHistory">
 		SELECT *
@@ -279,16 +273,16 @@
 		ORDER BY
 		<choose>
 		    <when test="sort == 'pointNo'">
-		        POINT_NO
+		        POINT_NO DESC
 		    </when>
 		    <when test="sort == 'pointContent'">
-		        POINT_CONTENT
+		        POINT_CONTENT, POINT_NO DESC
 		    </when>
 		    <when test="sort == 'amount'">
-		        AMOUNT
+		        AMOUNT, POINT_NO DESC
 		    </when>
 		    <when test="sort == 'pointDate'">
-		        POINT_DATE
+		        POINT_DATE, POINT_NO DESC
 		    </when>
 		</choose>
 	</select>
@@ -316,22 +310,22 @@
 		ORDER BY
 		<choose>
 		    <when test="sort == 'reportNo'">
-		        REPORT_NO
+		        REPORT_NO DESC
 		    </when>
 		    <when test="sort == 'reportType'">
-		        REPORT_TYPE
+		        REPORT_TYPE, REPORT_NO DESC
 		    </when>
 		    <when test="sort == 'reportContent'">
-		        REPORT_CONTENT
+		        REPORT_CONTENT, REPORT_NO DESC
 		    </when>
 		    <when test="sort == 'processingContent'">
-		        PROCESSING_CONTENT
+		        PROCESSING_CONTENT, REPORT_NO DESC
 		    </when>
 		    <when test="sort == 'reportDate'">
-		        REPORT_DATE
+		        REPORT_DATE, REPORT_NO DESC
 		    </when>
 		    <when test="sort == 'status'">
-		        STATUS
+		        STATUS, PROCESSING_DATE DESC
 		    </when>
 		</choose>
 	</select>

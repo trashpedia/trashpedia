@@ -72,13 +72,14 @@ a{
 
 .sidebar {
     height: 100%;
-    background: rgba(255, 255, 255, 0.5);
+    background: rgb(69, 177, 74, 0.3);
     backdrop-filter: blur(12px);
     flex-direction: column;
     align-items: flex-start;
     display: flex;
-	transform: translate(calc(var(--side-bar-width) * -0.8), 0);
+	transform: translate(calc(var(--side-bar-width) * -1), 0);
 	transition: .5s;
+	border-radius: 20px;
 }
 
 .sidebar:hover{
@@ -106,5 +107,6 @@ a{
 }
 
 .sidebar-title {
-    width: 150px;
+    width: 130px;
+    padding-left: 15px;
 }

@@ -45,7 +45,7 @@
 	
 	<insert id="joinMemberSocial">
 		INSERT INTO MEMBER_SOCIAL
-		VALUES(#{socialId}, #{userNo}, #{sns})
+		VALUES(#{socialId}, #{userNo}, #{socialType})
 	</insert>
 	
 	<select id="getMemberEmail" resultType="member">
