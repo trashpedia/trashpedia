@@ -34,11 +34,6 @@ public class MemberServiceImpl implements MemberService{
 	}
 
 	@Override
-	public Member loginMember(Member m) {
-		return dao.loginMember(m);
-	}
-
-	@Override
 	public int updateMember(Member m) {
 		return dao.updateMember(m);
 	}
@@ -74,5 +69,10 @@ public class MemberServiceImpl implements MemberService{
 	@Override
 	public int checkEmail(String userEmail, String phone) {
 		return dao.checkEmail(userEmail, phone);
+	}
+
+	@Override
+	public int joinSocialMember(Member m, Long socialId, String socialType) {
+		return dao.joinSocialMember(m, socialId, socialType);
 	}
 }

@@ -24,7 +24,6 @@ public class KakaoUserInfo {
 				.header("Authorization", "Bearer " + accessToken)
 				.retrieve()
 				.bodyToFlux(KakaoUserInfoResponse.class);
-		
 		return response.blockFirst();
 	}
 	
