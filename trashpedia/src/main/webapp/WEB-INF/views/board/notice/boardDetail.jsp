@@ -89,20 +89,19 @@
 		
 
 				<div class="reply-outer-content-area">
-					<table class="reply-table" id="replyArea">
-						<thead>
-							<tr class="reply-table-title">
-								<th>작성자</th>
-								<th>내용</th>
-								<th>수정일</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td>댓글이 없습니다.</td>
-							</tr>
-						</tbody>
-					</table>
+					<div class="reply-area" id="replyArea">
+					    <div class="reply-table-title">
+					        <div class="reply-header">작성자</div>
+					        <div class="reply-header">내용</div>
+					        <div class="reply-header">수정일</div>
+					    </div>
+					    <div class="reply-content">
+					        <div class="reply-row">
+					            <div class="reply-cell">댓글이 없습니다.</div>
+					        </div>
+					    </div>
+					</div>
+
 				</div>
 			</div>
         </div>
@@ -133,44 +132,36 @@
 		        url: "${contextPath}/board/selectCommentList",
 		        data: { boardNo: ${b.boardNo}, userNo: ${b.userNo}},
 		        success: function (result) {
-		        	console.log("result : " + result);
-		        	
-		            let commentsHtml = ""; // 댓글 목록을 담을 변수
-		            
+		            let commentsHtml = "<div class='comment-list'>"; // 전체 댓글 목록을 감싸는 div 시작
+
 		            for (let comment of result) {
-		                commentsHtml += "<tr>";
-		                commentsHtml += "<td>" + comment.userName + "</td>";
-		                commentsHtml += "<td><p>" + comment.content + "</p>";
+		                commentsHtml += "<div class='comment-item'>"; // 각 댓글 항목을 위한 div 시작
+		                commentsHtml += "<div class='comment-user'>" + comment.userName + "</div>";
+		                commentsHtml += "<div class='comment-content'><p>" + comment.content + "</p></div>";
+
 		                // 댓글 수정 및 삭제 버튼
 		                commentsHtml += "<div class='comment-buttons'>" +
-		                                "<button onclick='showCommentUpdateForm("+comment.commentNo+",this)' class='btn-edit'>수정</button>" +
+		                                "<button onclick='showCommentUpdateForm(" + comment.commentNo + ",this)' class='btn-edit'>수정</button>" +
 		                                "<button onclick='deleteComment(" + comment.commentNo + ")' class='btn-delete'>삭제</button>" +
 		                                "<button onclick='toggleReply(" + comment.commentNo + ")' class='btn-reply'>답글보기</button>" +
-		                                
 		                                "<button onclick='toggleReplyInput(" + comment.commentNo + ")' class='btn-reply-write'>답글 작성</button>" +
-		                                "</div></td>";
-		                commentsHtml += "<td>" + comment.modifyDate + "</td>";
-		                commentsHtml += "</tr>";
-		                
-		                if('${authentication.userName}' == comment.userName){
-		                	
-		                	
-		                	
-		                	// 대댓글 입력 필드 및 버튼 추가 (초기에 숨김 처리)
-		                	commentsHtml += "<tr style='display: none;' class='nested-comments-cell' id='replyInputArea" + comment.commentNo + "'>";
-		                	commentsHtml += "<td colspan='3'>";
-		                	commentsHtml += "<textarea class='nested-comment-content' id='nestedCommentContent" + comment.commentNo + "' placeholder='대댓글을 입력하세요'></textarea>";
-		                	commentsHtml += "<button onclick='insertNC(" + comment.commentNo + ")' class='nested-comment-submit'>대댓글 등록</button>";
-		                	  // 여기에 대댓글 목록 표시 영역 추가
-			                commentsHtml += "<tr><td style='display: none;' colspan='3' class='nested-comments-list' id='nestedCommentsList" + comment.commentNo + "'>";
-			                commentsHtml += "<button onclick='deleteNC(" + Comment.commentNo + ")' class='btn-delete-nc'>삭제</button>";
-			                commentsHtml += "</td></tr>";
-		                } 
-		             
-		                viewNC(comment.commentNo);
+		                                "</div>"; // comment-buttons div 종료
+		                commentsHtml += "<div class='comment-date'>" + comment.modifyDate + "</div>";
+		                commentsHtml += "</div>"; // comment-item div 종료
+
+		                // 대댓글 입력 필드 및 버튼 추가 (초기에 숨김 처리)
+		                commentsHtml += "<div class='nested-comments-cell' id='replyInputArea" + comment.commentNo + "' style='display: none;'>";
+		                commentsHtml += "<textarea class='nested-comment-content' id='nestedCommentContent" + comment.commentNo + "' placeholder='대댓글을 입력하세요'></textarea>";
+		                commentsHtml += "<button onclick='insertNC(" + comment.commentNo + ")' class='nested-comment-submit'>대댓글 등록</button>";
+		                commentsHtml += "</div>"; // nested-comments-cell div 종료
+
+		                // 대댓글 목록 표시 영역 추가
+		                commentsHtml += "<div class='nested-comments-list' id='nestedCommentsList" + comment.commentNo + "' style='display: none;'></div>"; // nested-comments-list div 종료
 		            }
-		            $("#replyArea tbody").html(commentsHtml); // 테이블 바디에 댓글 목록 추가
-		            $("#rcount").html(result.length); // 댓글 수 업데이트
+
+		            commentsHtml += "</div>"; // comment-list div 종료
+		            $("#replyArea").html(commentsHtml); // 댓글 목록 추가
+		            $("#rcount").text(result.length); // 댓글 수 업데이트
 		        },
 		        error: function (xhr, status, error) {
 		            console.log("댓글 조회 에러:", status, error);
@@ -213,32 +204,37 @@
 
 
 
-		//대댓글 조회
-		function viewNC(commentNo){
-			$.ajax({
-				url: "${contextPath}/board/viewNC/"+commentNo,
-				success : function(NCList){
-					let commentsHtml = "";
-					if (NCList && NCList.length > 0) {
+		// 대댓글 조회
+		function viewNC(commentNo) {
+		    $.ajax({
+		        url: "${contextPath}/board/viewNC/" + commentNo,
+		        success: function (NCList) {
+		            let commentsHtml = "<div class='nested-comments-container'>"; // 대댓글 목록을 감싸는 div 시작
+
+		            if (NCList && NCList.length > 0) {
 		                for (let nComment of NCList) {
-		                    commentsHtml += "<tr class='nested-comment'>"; // 대댓글을 구분하기 위한 클래스 추가
-		                    commentsHtml += "<td></td>"; // 첫 번째 칼럼은 비워둡니다.
-		                    commentsHtml += "<td>" + nComment.userName + ": " + nComment.content + "</td>"; // 대댓글 내용 표시
-		                    commentsHtml += "<td>" + nComment.modifyDate + "</td>";
-		                    commentsHtml += "</tr>";
+		                    commentsHtml += "<div class='nested-comment'>"; // 각 대댓글 항목을 위한 div 시작
+		                    commentsHtml += "<div class='nested-comment-user'>" + nComment.userName + "</div>"; // 대댓글 작성자
+		                    commentsHtml += "<div class='nested-comment-content'>" + nComment.content + "</div>"; // 대댓글 내용
+		                    commentsHtml += "<div class='nested-comment-date'>" + nComment.modifyDate + "</div>"; // 대댓글 날짜
+		                    commentsHtml += "<div class='nested-comment-actions'>"; // 대댓글 액션 버튼들
+		                    commentsHtml += "<button onclick='deleteNC(" + nComment.commentNo + ")' class='btn-delete-nc'>삭제</button>";
+		                    commentsHtml += "</div>"; // nested-comment-actions div 종료
+		                    commentsHtml += "</div>"; // nested-comment div 종료
 		                }
+		            } else {
+		                commentsHtml += "<div class='no-nested-comments'>대댓글이 없습니다.</div>";
 		            }
-		            // 대댓글 목록을 해당 댓글의 대댓글 표시 영역에 추가
-		            $('#nestedCommentsList' + commentNo).html(commentsHtml);
-					
-		                
-				},
-				error : function( xhr, status, error){
-					console.log("대댓글 조회 에러 : ", status, error);
-				}
-				
-			})
+
+		            commentsHtml += "</div>"; // nested-comments-container div 종료
+		            $('#nestedCommentsList' + commentNo).html(commentsHtml).show();
+		        },
+		        error: function (xhr, status, error) {
+		            console.log("대댓글 조회 에러 : ", status, error);
+		        }
+		    });
 		}
+
 		
 		
 		
@@ -314,38 +310,43 @@
 		   })
 	   }
 	   
-	   //댓글수정 form 생성
-	   function showCommentUpdateForm(commentNo, btn){
-		   
-		   // 댓글 수정할 수 있는 textarea 생성
-		   const textarea = document.createElement("textarea"); 
-		   textarea.style.width = "100%"; // 너비 100%로 설정
-		   textarea.style.height = "50px"; // 높이 50px로 설정
-		   textarea.style.resize = "none"; // 리사이즈 비활성화
-		   
-		   const button = document.createElement("button");
-		   button.innerText = "수정하기";
-		   button.style.marginTop = "5px"; 
-		   button.style.backgroundColor = "#5acb5a"; 
-		   button.style.color = "white";
-		   button.style.border = '0';
-        button.style.padding = '3px 15px';
-		   
-		   //댓글내용 textarea에 복사
-		   let td = btn.parentElement.parentElement;
-		   let pTag = td.querySelector('p');
-		   let content = pTag.innerText;
-		   textarea.innerHTML = content; 
-		   
-		   //td 비우고 새로 추가
-		   td.innerHTML = "";
-		   td.append(textarea);
-		   td.append(button);
-		   
-		   button.addEventListener("click",function(){
-			   updateComment(commentNo,textarea);
-			   })
+	// 댓글 수정 form 생성
+	   function showCommentUpdateForm(commentNo, btn) {
+	       // 기존 내용을 담고 있는 요소를 찾습니다.
+	       const commentDiv = btn.closest('.comment-item');
+	       const contentP = commentDiv.querySelector('.comment-content p');
+	       const content = contentP.innerText;
+
+	       // 기존 내용을 담고 있는 요소를 숨깁니다.
+	       contentP.style.display = 'none';
+
+	       // 수정 form을 생성합니다.
+	       const editDiv = document.createElement("div");
+	       editDiv.classList.add('comment-edit');
+
+	       // textarea를 생성하고 스타일을 지정합니다.
+	       const textarea = document.createElement("textarea");
+	       textarea.classList.add('edit-textarea');
+	       textarea.value = content; // innerHTML 대신 value를 사용합니다.
+
+	       // 수정 버튼을 생성합니다.
+	       const updateButton = document.createElement("button");
+	       updateButton.innerText = "수정하기";
+	       updateButton.classList.add('btn-update');
+
+	       // 수정 form 내부에 textarea와 버튼을 추가합니다.
+	       editDiv.appendChild(textarea);
+	       editDiv.appendChild(updateButton);
+
+	       // 수정 form을 페이지에 삽입합니다.
+	       commentDiv.appendChild(editDiv);
+
+	       // 수정 버튼 클릭 이벤트를 추가합니다.
+	       updateButton.addEventListener("click", function() {
+	           updateComment(commentNo, textarea);
+	       });
 	   }
+
 	   
 // 	   댓글수정
 	   function updateComment(commentNo, textarea){
