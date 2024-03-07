@@ -30,9 +30,6 @@ public interface CommonService {
 	// 첨부파일 삭제
 	int deleteAttach(Post p);
 
-	// 첨부파일 추가
-	//void insertAttachFile(Attachment attachment);
-
 	//이미지 삭제
 	int deleteImage(Post p);
 

@@ -19,8 +19,13 @@ import com.kks.trashpedia.board.model.vo.Comment;
 import com.kks.trashpedia.board.model.vo.ImgAttachment;
 import com.kks.trashpedia.board.model.vo.Post;
 import com.kks.trashpedia.board.model.vo.SubCategory;
+import com.kks.trashpedia.member.model.vo.Member;
+import com.kks.trashpedia.pledge.model.vo.Signature;
 import com.kks.trashpedia.report.model.vo.Report;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Repository
 public class PledgeDaoImpl implements PledgeDao{
 	
@@ -117,6 +122,24 @@ public class PledgeDaoImpl implements PledgeDao{
 		
 		return new PageImpl<>(posts, pageable, totalCount);
 	
+	}
+
+	//실천서약 등록
+	@Override
+	public int insertSignature(Signature signature,  Member signatureMember) {
+		
+		//멤버 정보 조회
+		Member member = session.selectOne("memberMapper.getMember", signatureMember);
+		
+		String signatureMemberPhone = signatureMember.getPhone().replaceAll("-", "");
+		String memberPhone = member.getPhone().replaceAll("-", "");
+
+		//입력정보와 멤버정보 비교
+		if (signatureMember.getUserName().equals(member.getUserName()) && signatureMemberPhone.equals(memberPhone)) {
+		    return session.insert("pledgeMapper.insertSignature", signature);
+		} else {
+		    return 2;
+		}
 	}
 
 }

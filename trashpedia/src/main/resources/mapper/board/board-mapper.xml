@@ -82,6 +82,18 @@
         WHERE REF_BNO = #{boardNo} AND FILE_TYPE = 1
     </delete>
 	
+	<!-- 파일삭제-파일리스트출력  -->
+	<select id="fileNameList" resultType="string">
+		SELECT '/resources/attachFile/file/' || CHANGE_NAME 
+		FROM ATTACHMENT
+	</select>
+	
+	<!-- 파일삭제-이미지리스트출력  -->
+	<select id="imageNameList" resultType="string">
+		SELECT '/resources/attachFile/image/' || CHANGE_NAME 
+		FROM IMG_ATTACHMENT
+	</select>
+	
 	
 
 	<!-- 페이징, 목록, 필터 -->
@@ -304,6 +316,9 @@
 		VALUES (SEQ_HITNO.NEXTVAL,
 		#{boardNo}, #{userNo}, SYSDATE)
 	</insert>
+
+
+
 
 
 </mapper>
