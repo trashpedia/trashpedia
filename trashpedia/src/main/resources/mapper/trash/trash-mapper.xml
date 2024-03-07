@@ -65,5 +65,17 @@
 		WHERE T.TRASH_NO = #{trashNo} AND IA.IMG_TYPE = 2 AND IA.REF_BNO = #{trashNo}
 	</select>
 	
+	<!-- <select id = "getBigCategoryList" resultType="TrashBigCategory">
+	
+	</select>
+	
+	<select id = "getSubCategoryList" resultType="TrashSubCategory">
+	
+	</select>
+	
+	<select id = "getAllTrashList" resultType="getAllTrashList">
+	
+	</select> -->
+	
 
 </mapper>
