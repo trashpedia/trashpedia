@@ -7,7 +7,9 @@ import org.springframework.stereotype.Service;
 
 import com.kks.trashpedia.trash.model.dao.TrashDao;
 import com.kks.trashpedia.trash.model.vo.Trash;
+import com.kks.trashpedia.trash.model.vo.TrashBigCategory;
 import com.kks.trashpedia.trash.model.vo.TrashPost;
+import com.kks.trashpedia.trash.model.vo.TrashSubCategory;
 
 @Service
 public class TrashServiceImpl implements TrashService{
@@ -34,6 +36,21 @@ public class TrashServiceImpl implements TrashService{
 	@Override
 	public List<TrashPost> getSimilarList(int trashNo) {
 		return dao.getSimilarList(trashNo);
+	}
+
+	@Override
+	public List<TrashBigCategory> getBigCategoryList() {
+		return dao.getBigCategoryList();
+	}
+
+	@Override
+	public List<TrashSubCategory> getSubCategoryList() {
+		return dao.getSubCategoryList();
+	}
+
+	@Override
+	public List<Trash> getAllTrashList() {
+		return dao.getAllTrashList();
 	}
 
 
