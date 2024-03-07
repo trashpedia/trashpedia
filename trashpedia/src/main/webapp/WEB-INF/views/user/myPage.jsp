@@ -30,7 +30,7 @@
 
 
 <script type="text/javascript">
-// 	console.log(authentication);
+	console.log(authentication);
 // 	console.log(member);
 
 // 카테고리
@@ -202,7 +202,7 @@
 					<div class="field">
 						<b>아이디</b>
 						<div id="id-1">
-							<input type="hidden" value="${authentication.userNo}"
+							<input type="hidden" value="${member.userNo}"
 								name="userNo"> <input type="text"
 								value="${authentication.userEmail}"
 								placeholder="${member.userEmail}" readonly>
@@ -231,7 +231,7 @@
 					</div>
 					<div class="field">
 						<b>이름</b> <input type="text" name="userName"
-							placeholder="${authentication.userName}"
+							placeholder="${member.userName}"
 							value="${member.userName}">
 					</div>
 					<div class="field">
@@ -276,20 +276,23 @@
 			</form>
 		</section>
 
-		<!-- 		탈퇴 Modal -->
+		<!-- 		비밀번호 인증 Modal -->
 		<div class="modal" id="pwdAuth" style="hegith:250px;">
 			<div class="modal-dialog">
 				<div class="modal-content">
 <!-- 					Modal Header -->
 					<div class="modal-header">
 						<h4 class="modal-title">비밀번호 인증</h4>
-						<button type="button" class="close" data-dismiss="modal">&times;</button>
+						<button type="button" class="close" data-dismiss="modal" id="close">&times;</button>
 					</div>
 <!-- 					Modal body -->
-					<form action="pwdAuth.me" method="post" style="margin-top:50px;">
+					<form action="pwdAuth.me" method="post" style="margin-top:50px;" id="pwdAuth-userPwd">
+						<input type="hidden" value="${authentication.userNo}"
+								name="userNo"> 
 						<table class="modalTable">
 							<tr>
 								<td id="tdPwd">비밀번호</td>
+								
 								<td><input type="password" name="userPwd" required
 									id="pwdInput"></td>
 							</tr>
@@ -344,12 +347,16 @@
 			});
 			
 			// 회원정보 탭을 클릭했을 때
-			$("#pwdAuthCheck").click(function() {
-				$("#memberInfo").show();
-				$("#activityList").hide();
+// 			$("#pwdAuthCheck").click(function() {
+// 				$("#memberInfo").show();
+// 				$("#activityList").hide();
+// 				$("#pwdAuth").hide();
+// 				$("#replyList").hide();
+// 			});
+			
+			$("#close").click(function(){
 				$("#pwdAuth").hide();
-				$("#replyList").hide();
-			});ghk
+			})
 		});
 	</script>
 
@@ -471,6 +478,27 @@
             },
             error: function(xhr, status, error) {
                 console.error('회원 정보 업데이트 실패:', error);
+            }
+        });
+    });
+	
+	// 비밀번호 인증
+    document.getElementById('pwdAuthCheck').addEventListener('click', function(event) {
+        event.preventDefault();
+
+        $.ajax({
+            url: '/trashpedia/member/pwdAuth.me', 
+            method: 'POST',
+            data:   $('#pwdAuth-userPwd').serialize(), 
+            success: function(response) {
+                alert('페스워드 인증 성공');
+                $("#memberInfo").show();
+                $("#activityList").hide();
+                $("#pwdAuth").hide();
+                $("#replyList").hide();
+            },
+            error: function(xhr, status, error) {
+            	alert('잘못된 비밀번호입니다.');
             }
         });
     });
