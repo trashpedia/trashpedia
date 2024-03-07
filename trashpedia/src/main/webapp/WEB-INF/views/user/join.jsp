@@ -17,7 +17,7 @@
 <body>
     <jsp:include page="../common/header.jsp"/>
     <main>
-    <form id="enroll-form" action="${sns != null ? '${contextPath}/member/socialJoin' : '${contextPath}/member/join'}" method="post">
+    <form id="enroll-form" action="${sns != null ? 'socialJoin' : 'join'}" method="post">
 	    <div class="member">
 	        <div class="logo"><p>회원가입</p></div>
         	<div class="field">
@@ -106,11 +106,11 @@
 	            <div class="title"><p>* 휴대전화</p></div>
 	            <div>
 	            	<c:if test="${sns != null}">
-		                <input type="tel" placeholder="전화번호 입력" name="phone" id="phoneBox" value="${formattedPhoneNumber}" disabled>
+		                <input type="tel" placeholder="전화번호 입력" name="phone" id="phone" value="${formattedPhoneNumber}" disabled>
 		                <input type="button" value="인증번호 받기">
 		            </c:if>
 	            	<c:if test="${sns == null}">
-		                <input type="tel" placeholder="전화번호 입력" name="phone" id="phoneBox">
+		                <input type="tel" placeholder="전화번호 입력" name="phone" id="phone">
 		                <input type="button" value="인증번호 받기">
 		            </c:if>
 	            </div>
@@ -336,7 +336,7 @@
 		        { id: 'passwordInput', name: '비밀번호' },
 		        { id: 'confirmPasswordInput', name: '비밀번호 확인' },
 		        { id: 'userName', name: '이름' },
-		        { id: 'phoneBox', name: '번호' }
+		        { id: 'phone', name: '번호' }
 		    ];
 
 		    for (var i = 0; i < fieldsToCheck.length; i++) {
@@ -364,15 +364,24 @@
 		        alert('이메일 인증을 해주세요.');
 		        return;
 		    }
+		    
+		    var passwordInput = document.getElementById('passwordInput');
+			var confirmPasswordInput = document.getElementById('confirmPasswordInput');
+			if(confirmPasswordInput.value != passwordInput.value){
+				alert('비밀번호를 확인해주세요');
+				passwordInput.focus();
+				return;
+			}
 
 		    if (isFormValid) {
 		        var username = document.getElementById("id").value;
 		        var emailDomain = document.getElementById("emailDomain").value;
 		        var content = username + "@" + emailDomain;
 		        $('#hiddenUserEmail').val(content);
-
+		        $("#userName").prop("disabled", false);
+		        $("#phone").prop("disabled", false);
+		        
 		        document.getElementById("enroll-form").submit();
-		        alert('가입이 완료되었습니다.');
 		    }
 		}
     </script>

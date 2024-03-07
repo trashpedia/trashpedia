@@ -142,8 +142,9 @@ public class MemberController {
 		return mav;
 	}
 	
-	@GetMapping("/socialJoin")
+	@PostMapping("/socialJoin")
 	public ModelAndView joinSocialMember(Member m, Long socialId, String socialType) {
+		System.out.println(m);
 		ModelAndView mav = new ModelAndView();
 		String encodedPassword = passwordEncoder.encode(m.getUserPwd());
 		m.setUserPwd(encodedPassword);
