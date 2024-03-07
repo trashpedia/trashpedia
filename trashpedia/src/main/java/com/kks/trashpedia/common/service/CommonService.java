@@ -1,6 +1,7 @@
 package com.kks.trashpedia.common.service;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
 
@@ -34,4 +35,10 @@ public interface CommonService {
 
 	//이미지 삭제
 	int deleteImage(Post p);
+
+	//파일삭제용 리스트출력
+	List<String> fileNameList();
+
+	//이미지삭제용 리스트출력
+	List<String> imageNameList();
 }

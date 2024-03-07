@@ -11,4 +11,9 @@ public interface ReportDao {
 
 	Page<Report> getCommentReportList(Pageable pageable, int page, String sort, String searchSelect, String searchValue);
 
+	//기존 게시글 신고이력 확인
+	Report selectReport(Report report);
+
+	//게시글 신고등록
+	int insertBoardReport(Report report);
 }

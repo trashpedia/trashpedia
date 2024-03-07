@@ -12,6 +12,7 @@ import com.kks.trashpedia.board.model.vo.Comment;
 import com.kks.trashpedia.board.model.vo.ImgAttachment;
 import com.kks.trashpedia.board.model.vo.Post;
 import com.kks.trashpedia.board.model.vo.SubCategory;
+import com.kks.trashpedia.report.model.vo.Report;
 
 public interface PledgeDao {
 
@@ -54,7 +55,7 @@ public interface PledgeDao {
 	
 	//게시글조회-페이징,검색
 	Page<Post> loadListData(Pageable pageable, int page, String sort, String searchSelect, String searchValue, int subCategoryNo);
-
+	
 
 
 

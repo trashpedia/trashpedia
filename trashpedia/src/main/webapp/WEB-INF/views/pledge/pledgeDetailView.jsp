@@ -9,7 +9,7 @@
 <title>실천게시글</title>
 	<!-- jQuery -->
 	<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-	<link rel="stylesheet" href="${contextPath}/resources/css/pledge/pledgeDetail.css">
+	<link rel="stylesheet" href="${contextPath}/resources/css/pledge/pledgeDetailView.css">
 	<!-- toast ui editor css -->
 	<script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
 	<link rel="stylesheet" href="https://uicdn.toast.com/editor/3.0.2/toastui-editor.min.css" >
@@ -59,48 +59,43 @@
 							<button class="btn-edit">수정</button></a>
 						<button onclick="confirmDelete(${post.postNo}, ${post.boardNo}, ${post.bigCategoryNo}, ${post.subCategoryNo})">삭제</button>
 					</c:if>
+					<button class="btn-report" onclick="openReportModal()">신고</button>
 				</div>
 			</div>
-
-			<!-- 서약  -->
-			<div class="reply-outer">
 			
-				<div class="comment-section">
-					<div id="comment-section-title"> 자원순환 실천서약 </div>
-					<div id="comment-section-inner">
-						<p id="comment-section-p">* 내용입력시 주민등록번호, 연락처 등 개인정보가 노출되지 않도록 주의하시기 바랍니다.</p>
-						<table>
-							<tr>
-								<td><label for="name">이름</label></td>
-								<td><input type="text" id="name" placeholder="홍길동"></td>
-								<td><label for="phoneNumber">휴대전화번호</label></td>
-								<td><input type="text" id="phoneNumber" placeholder="01012341234"></td>
-							</tr>
-							<tr>
-								<td><label for="commitment">실천서약</label></td>
-								<td colspan="3"><input type="text" id="commitment" placeholder="동참 내용을 간략하게 남겨주세요"></td>
-							</tr>
-						</table>
-					</div>
-					<div>
-						<input type="checkbox"> (필수) 개인정보 수집 이용에 대한 동의 
-						<input type="checkbox"> (필수) 개인정보 제 3자 제공에 대한 동의
-					</div>
-					<button class="comment-button" onclick="insertSignature()">실천서약 동참하기</button>
-				</div>
-				
-				<!-- 서약자  -->
+			<!-- 신고 모달창 -->
+			<div id="reportModal" class="modal">
+			    <div class="modal-content">
+			        <span class="close" onclick="closeReportModal()">&times;</span>
+			        <h2>신고 내용</h2>
+			        <textarea id="reportContent" placeholder="신고 내용을 입력하세요"></textarea>
+					<div id="reportButtonContainer">
+						<div id="reportButton" onclick="confirmSubmitReport()">제출</div>
+			        </div>
+			    </div>
+			</div>
+
+			<!-- 댓글  -->
+			<div class="reply-outer">
 				<div class="reply-outer-top-area">
-					<span class="reply_title"> 동참 서약 내용 보기 </span> | <span class="reply_count"
+					<span class="reply_title"> 댓글 </span> | <span class="reply_count"
 						id="rcount">0</span>
 				</div>
+
+				<!-- 댓글 작성 -->
+				<div class="comment-section">
+					<textarea class="comment-input" name="replyContent" id="replyContent" rows="2" cols="50"
+						style="resize: none; width: 100%;" placeholder="댓글을 입력하세요"></textarea>
+					<button class="comment-button" onclick="insertComment()">등록</button>
+				</div>
+
 				<div class="reply-outer-content-area">
 					<table class="reply-table" id="replyArea">
 						<thead>
 							<tr class="reply-table-title">
 								<th>작성자</th>
 								<th>내용</th>
-								<th>서명일</th>
+								<th>작성일</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -109,9 +104,18 @@
 							</tr>
 						</tbody>
 					</table>
+					<!-- 페이징 -->
+<!-- 					<div class="paging-button"> -->
+<!-- 						<button class="pagingBtn" id="prevBtn"><</button> -->
+<!-- 						<button class="pagingBtn">1</button> -->
+<!-- 						<button class="pagingBtn">2</button> -->
+<!-- 						<button class="pagingBtn">3</button> -->
+<!-- 						<button class="pagingBtn">4</button> -->
+<!-- 						<button class="pagingBtn">5</button> -->
+<!-- 						<button class="pagingBtn" id="nextBtn">></button> -->
+<!-- 					</div> -->
 				</div>
 			</div>
-			
 		</div>
 	</main>
 
@@ -273,6 +277,64 @@
  		   }
  	   }
  	   
+ 	  // ------- 신고 모달 -------
+  	  
+		// 모달 열기
+		function openReportModal() {
+			if(loginUser){
+		    	document.getElementById("reportModal").style.display = "block";
+			}else{
+				 alert("로그인이 필요합니다.");
+			}
+		}
+		
+		// 모달 닫기
+		function closeReportModal() {
+		    document.getElementById("reportModal").style.display = "none";
+		}
+		
+	    // 신고 제출 재확인
+	    function confirmSubmitReport() {
+	        var reportContent = document.getElementById("reportContent").value;
+	        if (reportContent.trim() !== "") {
+	            var result = confirm("이 게시글을 신고하시겠습니까?\n확인을 누르면 신고가 제출됩니다.");
+	            if (result) {
+	                submitReport(); // 제출 함수 호출
+	            }
+	        } else {
+	            alert("신고 내용을 입력하세요.");
+	        }
+	    }
+
+	    // 신고 제출
+	    function submitReport() {
+	        var reportContent = document.getElementById("reportContent").value;
+	        var postNo = `${post.postNo}`;
+	        
+	        $.ajax({
+	            url:  "${contextPath}/report/insertBoardReport",
+	            method: "POST",
+	            data: { 
+	            	reportContent: reportContent,
+	            	userNo : loginUserNo,
+	            	reportTargetNo : postNo
+	            },
+	            success: function(result) {
+	            	if(result == 2){
+	            		alert("기존에 제출하신 이력이 있습니다.\n마이페이지에서 진행상황 확인 부탁드립니다.");
+	            	}else if(result==1){
+		                alert("신고가 제출되었습니다: " + reportContent);
+		                closeReportModal();
+	            	}else{
+	            		alert("신고 제출에 실패했습니다.");	
+	            	}
+	            },
+	            error: function(xhr, status, error) {
+	                console.error("서버 오류:", status, error);
+	                alert("신고 제출에 실패했습니다.");
+	            }
+	        });
+	    }
  	   
     
     </script>

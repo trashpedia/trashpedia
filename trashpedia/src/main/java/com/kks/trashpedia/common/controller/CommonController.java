@@ -42,7 +42,6 @@ public class CommonController {
 	//에러페이지 이동
 	@GetMapping("/errorPage")
 	public ModelAndView errorPage() {
-		
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("common/errorPage/errorPage");
 		return mv;
@@ -56,7 +55,6 @@ public class CommonController {
 		mv.addObject("category",category);
 		mv.addObject("type",type);
 		mv.setViewName("common/boardInsert");
-		
 		return mv;
 	}
 	

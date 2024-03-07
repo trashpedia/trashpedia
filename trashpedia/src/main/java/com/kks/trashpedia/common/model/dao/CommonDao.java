@@ -1,5 +1,7 @@
 package com.kks.trashpedia.common.model.dao;
 
+import java.util.List;
+
 import com.kks.trashpedia.board.model.vo.Attachment;
 import com.kks.trashpedia.board.model.vo.Board;
 import com.kks.trashpedia.board.model.vo.ImgAttachment;
@@ -34,5 +36,11 @@ public interface CommonDao {
 
 	//이미지삭제
 	int deleteImage(Post p);
+
+	//파일삭제-파일리스트출력
+	List<String> fileNameList();
+
+	//파일삭제-이미지리스트출력
+	List<String> imageNameList();
 
 }

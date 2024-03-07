@@ -23,5 +23,17 @@ public class ReportServiceImpl implements ReportService{
 		return dao.getCommentReportList(pageable, page, sort, searchSelect, searchValue);
 	}
 	
+	//기존 게시글 신고이력 확인
+	@Override
+	public Report selectReport(Report report) {
+		return dao.selectReport(report);
+	}
+
+	//게시글 신고등록
+	@Override
+	public int insertBoardReport(Report report) {
+		return dao.insertBoardReport(report);
+	}
+	
 	
 }
