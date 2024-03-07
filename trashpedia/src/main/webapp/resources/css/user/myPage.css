@@ -276,9 +276,19 @@ tr:last-child {
 }
 
 /* 모달창 */
+
+.modal{
+	position:absolute;
+	margin-top:400px;
+}
+
 .modalTable{
 	margin-bottom:30px;
 	padding:30px;
 }
 
+#pwdAuthCheck {
+	margin-left: calc((498.4px - 55.05px)/2);
+	margin-bottom: 20px;
+}
 

@@ -33,9 +33,17 @@ public class MemberController {
 	@GetMapping("/myPage")
 	public ModelAndView myPage(HttpServletRequest request) {
 		ModelAndView mav = new ModelAndView();
-		HttpSession session = request.getSession();
+		HttpSession Session = request.getSession();
+		Member authentication = (Member) Session.getAttribute("authentication");
+		int userNumber = authentication.getUserNo(); // int 타입의 userNo 가져오기
 
-		Member authentication = (Member) session.getAttribute("authentication");
+		// userNo를 사용하여 새로운 Member 객체 생성
+		Member m = new Member();
+		m.setUserNo(userNumber);
+		
+		Member member = service.loginMember(m);
+		
+//		session.setAttribute("member", member);
 		if (authentication == null) {
 			mav.addObject("errorMessage", "로그인이 필요합니다.");
 			mav.setViewName("user/login");
@@ -44,6 +52,7 @@ public class MemberController {
 			List<Board> myPost = service.pledgeList(userNo);
 			List<Board> myComment = service.commentList(userNo);
 
+			mav.addObject("member", member);
 			mav.addObject("authentication", authentication);
 			mav.addObject("myPost", myPost);
 			mav.addObject("myComment", myComment);
@@ -101,22 +110,22 @@ public class MemberController {
 
 	// 업데이트기능
 	@PostMapping("/update.me")
-	public ResponseEntity<String>  updateMember(Member m, HttpSession session, RedirectAttributes ra, HttpServletRequest request) {
+	public ModelAndView  updateMember(Member m, HttpSession session, RedirectAttributes ra, HttpServletRequest request) {
 		ModelAndView mav = new ModelAndView();
 		int result = service.updateMember(m);
 		String url = "";
 
+		
 		if (result > 0) { // 성공
-			Member updateMember = service.loginMember(m);
-			session.setAttribute("loginUser", updateMember);
+
 			// 세션 무효화
 //			request.getSession().invalidate();
-			return ResponseEntity.ok("회원 정보가 업데이트되었습니다.");
-//			System.out.println("뭘까 진짜");
+			mav.setViewName("redirect:/member/myPage");
+			System.out.println("뭘까 진짜");
 		} else {
-			return ResponseEntity.badRequest().body("회원 정보 업데이트 실패");
+			mav.setViewName("redirect:/");
 		}
-
+		return mav;
 
 	}
 
@@ -130,12 +139,12 @@ public class MemberController {
 			// 회원 정보를 삭제한 경우 세션에서 로그인된 회원 정보를 삭제
 //			session.removeAttribute("loginUser");
 			mav.setViewName("redirect:/");
+//			request.getSession().invalidate();
 			// 세션 무효화
-			request.getSession().invalidate();
 
 		} else {
 			// 탈퇴 실패 시 처리할 내용
-			mav.setViewName("redirect:/member/myPage");
+			mav.setViewName("redirect:/");
 		}
 		return mav;
 

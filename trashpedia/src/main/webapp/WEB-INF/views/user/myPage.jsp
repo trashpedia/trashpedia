@@ -30,6 +30,8 @@
 
 
 <script type="text/javascript">
+// 	console.log(authentication);
+// 	console.log(member);
 
 // 카테고리
     function getCategoryName(categoryNumber) {
@@ -78,7 +80,7 @@
 	margin-right: 10px;
 }
 
-#deletee {
+#pwdAuthCheck {
 	background-color: #d9534f; /* 버튼 배경색 */
 	border-color: #d43f3a; /* 버튼 테두리 색 */
 	color: #fff; /* 버튼 텍스트 색상 */
@@ -111,7 +113,6 @@
 		</div>
 		<ul class="tabs">
 			<li class="tab" id="activityTab">내 활동 내역</a>
-			<li class="tab" id="alarmTab">내 알림</a>
 			<li class="tab" id="memberInfoTab">내 정보 수정</a>
 		</ul>
 
@@ -137,10 +138,10 @@
 
 								<td>${fn:substring(activity.content,0,65)}</td>
 								<td>
-								
-								<button class="detailBtn"
-								onclick="pledgeDetail(${activity.postNo})">상세보기</button>
-										</td>
+
+									<button class="detailBtn"
+										onclick="pledgeDetail(${activity.postNo})">상세보기</button>
+								</td>
 							</tr>
 						</c:forEach>
 					</c:if>
@@ -189,38 +190,7 @@
 			</table>
 		</section>
 
-		<section id="alarmList">
-			<h3>수정 요청(내 게시글)</h3>
-			<table>
-				<thead>
-					<tr>
-						<th>날짜</th>
-						<th>카테고리</th>
-						<th>내 댓글</th>
-						<th>상세보기</th>
-					</tr>
-				</thead>
-				<tbody>
-					<!-- 여기에 활동 내역 데이터를 동적으로 추가하세요. -->
-					<c:if test="${not empty list}">
-						<c:forEach var="activity" items="${list}">
-							<tr>
-								<td>${activity.createDate}</td>
-								<td><script>document.write(getCategoryName('${activity.subCategoryNo}'));</script></td>
-								<td>${fn:substring(activity.content,0,65)}</td>
-								<td><button class="detailBtn" onclick="pledgeDetail(${activity.postNo})">상세보기</button></td>
-							</tr>
-						</c:forEach>
-					</c:if>
-					<c:if test="${empty list}">
-						<tr>
-							<td colspan="4">활동 내역이 없습니다.</td>
-						</tr>
-					</c:if>
 
-				</tbody>
-			</table>
-		</section>
 
 		<section id="memberInfo" style="padding: 0px;">
 			<form id="enroll-form" action="update.me" method="POST"
@@ -234,14 +204,14 @@
 						<div id="id-1">
 							<input type="hidden" value="${authentication.userNo}"
 								name="userNo"> <input type="text"
-								placeholder="${authentication.userEmail}" readonly>
+								value="${authentication.userEmail}"
+								placeholder="${member.userEmail}" readonly>
 						</div>
 					</div>
 					<div class="field">
 						<b>비밀번호</b> <input type="password" name="userPwd" class="userpw"
 							id="passwordInput" oninput="updatePasswordNotice()"
-							name="userPwd" placeholder="${authentication.userPwd}"
-							value="${userPwd}" required>
+							name="userPwd" placeholder="${userPwd}" value="${userPwd}">
 					</div>
 					<div class="field">
 						<div class="title">
@@ -261,73 +231,62 @@
 					</div>
 					<div class="field">
 						<b>이름</b> <input type="text" name="userName"
-							placeholder="${authentication.userName}" value="${userName}"
-							required>
+							placeholder="${authentication.userName}"
+							value="${member.userName}">
 					</div>
 					<div class="field">
 						<b>닉네임</b> <input type="text" name="userNickname"
 							placeholder="${authentication.userNickname}"
-							value="${userNickname}" required>
+							value="${member.userNickname}">
 					</div>
 					<div class="field tel-number">
 						<b>휴대전화</b> <input type="tel" name="phone"
-							placeholder="${authentication.phone}" value="${phone}" required>
+							placeholder="${member.phone}" value="${phone}">
 					</div>
 					<!-- 주소입력  -->
 					<div class="field address">
 						<b>주소</b>
 						<div class="zipcode-container">
 							<input type="text" id="sample6_postcode" placeholder="우편번호"
-								name="zipcode" value="${zipcode}" required readonly> <input
-								type="button" onclick="sample6_execDaumPostcode();"
+								name="zipcode" value="${member.zipcode}" required readonly>
+							<input type="button" onclick="sample6_execDaumPostcode();"
 								value="우편번호 찾기" name="zipcodeButton" id="findZipBtn">
 						</div>
 						<div class="address-container">
 							<input type="text" id="sample6_address" name="address1"
 								placeholder="주소" required readonly name="address1"
-								value="${address1}">
+								value="${member.address1}">
 						</div>
 						<div class="details-container">
 							<input type="text" id="sample6_detailAddress" name="address3"
-								placeholder="상세주소" name="address2" value="${address2}">
+								placeholder="상세주소" name="address2" value="${member.address2}">
 							<input type="text" id="sample6_extraAddress" name="address2"
-								placeholder="참고항목" readonly name="address3" value="${address3}"
-								required>
+								placeholder="참고항목" readonly name="address3"
+								value="${member.address3}">
 						</div>
 					</div>
 					<!-- 6. 수정하기 버튼 -->
 					<div class="twoBtn">
 						<button type="submit" id="updateBtn">수정하기</button>
 
-						<button type="button" class="btn btn-danger btn-sm"
+						<button type="submit" class="btn btn-danger btn-sm"
 							data-toggle="modal" data-target="#deleteForm" id="deleteBtn">회원탈퇴</button>
 					</div>
 				</div>
 			</form>
 		</section>
 
-		<!-- 탈퇴 Modal -->
-		<div class="modal" id="deleteForm">
+		<!-- 		탈퇴 Modal -->
+		<div class="modal" id="pwdAuth" style="hegith:250px;">
 			<div class="modal-dialog">
 				<div class="modal-content">
-					<!-- Modal Header -->
+<!-- 					Modal Header -->
 					<div class="modal-header">
-						<h4 class="modal-title">회원탈퇴</h4>
+						<h4 class="modal-title">비밀번호 인증</h4>
 						<button type="button" class="close" data-dismiss="modal">&times;</button>
 					</div>
-					<!-- Modal body -->
-					<form action="delete.me" method="post">
-					<input type="hidden" value="${authentication.userNo}"
-								name="userNo"> 
-						<div class="modal-body" align="center">
-							<div>탈퇴 후 복구가 불가능합니다.</div>
-							<div>정말로 탈퇴하시겠습니까?</div>
-							<br> <label for="reasonInput">탈퇴 사유:</label>
-							<textarea id="reasonInput" name="reason" rows="4" cols="50"
-								required></textarea>
-						</div>
-
-						<input type="hidden" name="userNo" value="${userNo}" readonly>
+<!-- 					Modal body -->
+					<form action="pwdAuth.me" method="post" style="margin-top:50px;">
 						<table class="modalTable">
 							<tr>
 								<td id="tdPwd">비밀번호</td>
@@ -336,7 +295,7 @@
 							</tr>
 						</table>
 						<br>
-						<button type="submit" id="realDelete">탈퇴하기</button>
+						<button class="btn" type="submit" id="pwdAuthCheck">확인</button>
 
 					</form>
 				</div>
@@ -368,32 +327,29 @@
 			// 페이지 로드 시 활동 내역 섹션을 보이도록 설정
 			$("#activityList").show();
 			$("#replyList").show();
-			$("#alarmList").hide();
 			$("#memberInfo").hide();
 
 			// 내활동내역탭을 클릭했을 때
 			$("#activityTab").click(function() {
 				$("#activityList").show();
 				$("#replyList").show();
-				$("#alarmList").hide();
-				$("#memberInfo").hide();
-			});
-
-			// 내 ㅍ 탭을 클릭했을 때
-			$("#alarmTab").click(function() {
-				$("#alarmList").show();
-				$("#activityList").hide();
-				$("#replyList").hide();
 				$("#memberInfo").hide();
 			});
 
 			// 회원정보 탭을 클릭했을 때
 			$("#memberInfoTab").click(function() {
+				$("#pwdAuth").show();
+				
+				$("#replyList").hide();
+			});
+			
+			// 회원정보 탭을 클릭했을 때
+			$("#pwdAuthCheck").click(function() {
 				$("#memberInfo").show();
 				$("#activityList").hide();
+				$("#pwdAuth").hide();
 				$("#replyList").hide();
-				$("#alarmList").hide();
-			});
+			});ghk
 		});
 	</script>
 
@@ -510,7 +466,8 @@
             method: 'POST',
             data: $('#enroll-form').serialize(), // 폼 데이터 직렬화
             success: function(response) {
-            	alert('회원 정보가 업데이트되었습니다.');
+            	alert('회원님의 정보가 수정되었습니다.');
+            	location.reload(); // 페이지 새로고침
             },
             error: function(xhr, status, error) {
                 console.error('회원 정보 업데이트 실패:', error);
@@ -520,15 +477,16 @@
 	
 	
 	// 탈퇴하기
-    document.getElementById('realDelete').addEventListener('click', function(event) {
+    document.getElementById('deleteBtn').addEventListener('click', function(event) {
         event.preventDefault();
 
         $.ajax({
             url: '/trashpedia/member/delete.me', // 업데이트를 처리하는 서버의 엔드포인트
             method: 'POST',
-            data:   //  여기에 현재 로그인한 회우너 정보
+            data:   $('#enroll-form').serialize(), 
             success: function(response) {
             	alert('회원님이 정상적으로 탈퇴되었습니다.');
+            	location.reload(); // 페이지 새로고침
             },
             error: function(xhr, status, error) {
                 console.error('회원 탈퇴실패:', error);
@@ -544,7 +502,7 @@
         }	
 	</script>
 
-	
+
 
 
 
