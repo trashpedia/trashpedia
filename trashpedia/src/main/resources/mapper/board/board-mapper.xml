@@ -177,10 +177,16 @@
 	
 	<!-- 대댓글 등록 -->
 	<insert id="insertNC" parameterType="nestedComment">
-		insert into NESTED_COMMENT(NESTED_COMMENT_NO, COMMENT_NO, USER_NO, "CONTENT", CREATE_DATE, MODIFY_DATE, STATUS)
-		values(SEQ_NCNO.NEXTVAL, #{commentNo}, #{userNo}, #{content},SYSDATE,SYSDATE, DEFAULT)
+		INSERT INTO NESTED_COMMENT(NESTED_COMMENT_NO, COMMENT_NO, USER_NO, "CONTENT", CREATE_DATE, MODIFY_DATE, STATUS)
+		VALUES (SEQ_NCNO.NEXTVAL, #{commentNo}, #{userNo}, #{content},SYSDATE,SYSDATE, DEFAULT)
 	</insert>
-	
+	<!-- 대댓글 조회 -->
+	<select id="viewNC" parameterType="int" resultType="nestedComment">
+		SELECT NC.NESTED_COMMENT_NO, NC.COMMENT_NO, NC.USER_NO, NC."CONTENT", NC.CREATE_DATE, NC.MODIFY_DATE, NC.STATUS, M.USER_NAME
+		FROM NESTED_COMMENT NC
+		LEFT JOIN MEMBER M ON M.USER_NO = NC.USER_NO
+		WHERE NC.COMMENT_NO = #{commentNo}
+	</select>
 	
 	
 

@@ -55,8 +55,6 @@ public class BoardController {
 		List<SubCategory> sc = service.subCategory();
 		List<Post> post = service.categoryList();
 		ModelAndView mav = new ModelAndView();
-		System.out.println("post"+ post);
-		System.out.println("subCategory"+ sc);
 		
 		mav.addObject("bc", bc);
 		mav.addObject("sc", sc);
@@ -273,14 +271,12 @@ public class BoardController {
 	// 댓글수정
 	@PutMapping("/updateComment/{commentNo}")
 	public int updateComment(@RequestBody Comment comment) {
-		System.out.println(comment);
 		return pservice.updateComment(comment);
 	}
 
 	// 댓글삭제
 	@DeleteMapping("/deleteComment/{commentNo}")
 	public int deleteComment(Comment comment) {
-		System.out.println(comment);
 		return pservice.deleteComment(comment);
 	}
 	
@@ -288,15 +284,13 @@ public class BoardController {
 	//대댓글등록
 	@PostMapping("/insertNC")
 	public int insertNC(NestedComment nc) {
-		
-		System.out.println(nc);
 		int result = service.insertNC(nc);
-		
-		System.out.println(result);
-		///System.out.println("??????dfsfd??");
-		
 		return 0;
-		
 	}
-	
+	//대댓글조회
+	@GetMapping("/viewNC/{commentNo}")
+	public List<NestedComment> viewNC( @PathVariable("commentNo") int commentNo, Board b) {
+	    List<NestedComment> NCList = service.viewNC(commentNo);
+	    return NCList; 
+	}
 }

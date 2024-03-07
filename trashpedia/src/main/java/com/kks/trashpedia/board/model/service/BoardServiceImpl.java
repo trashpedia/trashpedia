@@ -12,6 +12,7 @@ import com.kks.trashpedia.board.model.dao.BoardDao;
 import com.kks.trashpedia.board.model.vo.Attachment;
 import com.kks.trashpedia.board.model.vo.BigCategory;
 import com.kks.trashpedia.board.model.vo.Board;
+import com.kks.trashpedia.board.model.vo.Comment;
 import com.kks.trashpedia.board.model.vo.ImgAttachment;
 import com.kks.trashpedia.board.model.vo.NestedComment;
 import com.kks.trashpedia.board.model.vo.Post;
@@ -129,7 +130,17 @@ public class BoardServiceImpl implements BoardService{
 	/*대댓글*/
 	@Override
 	public int insertNC(NestedComment nc) {
-		return dao.insertNC(nc);
+		return dao.insertNC(nc); //삽입
+	}
+
+	@Override
+	public List<NestedComment> viewNC(int commentNo) {
+		return dao.viewNC(commentNo); // 조회
+	}
+
+	@Override
+	public List<Comment> selectCommentList(Board b) {
+		return dao.selectCommentList(b);
 	}
 
 
