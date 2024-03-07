@@ -21,4 +21,6 @@ public class NestedComment {
 	// adminMain - boardCharts
 	private String orderDay;
 	private int countNestedComment;
+	
+	private String userName;
 }

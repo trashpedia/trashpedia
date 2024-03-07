@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import com.kks.trashpedia.board.model.vo.Attachment;
 import com.kks.trashpedia.board.model.vo.BigCategory;
 import com.kks.trashpedia.board.model.vo.Board;
+import com.kks.trashpedia.board.model.vo.Comment;
 import com.kks.trashpedia.board.model.vo.ImgAttachment;
 import com.kks.trashpedia.board.model.vo.NestedComment;
 import com.kks.trashpedia.board.model.vo.Post;
@@ -57,6 +58,8 @@ public interface BoardService {
 			int subCategoryNo);
 
 	/*대댓글*/
-	int insertNC(NestedComment nc);
+	int insertNC(NestedComment nc); // 삽입
+	List<NestedComment> viewNC(int commentNo); // 조회
+	List<Comment> selectCommentList(Board b); //commentNo 가져오기
 
 }

@@ -18,6 +18,7 @@ import org.springframework.stereotype.Repository;
 import com.kks.trashpedia.board.model.vo.Attachment;
 import com.kks.trashpedia.board.model.vo.BigCategory;
 import com.kks.trashpedia.board.model.vo.Board;
+import com.kks.trashpedia.board.model.vo.Comment;
 import com.kks.trashpedia.board.model.vo.ImgAttachment;
 import com.kks.trashpedia.board.model.vo.NestedComment;
 import com.kks.trashpedia.board.model.vo.Post;
@@ -211,6 +212,16 @@ public class BoardDaoImpl implements BoardDao {
 	@Override
 	public int insertNC(NestedComment nc) {
 		return session.insert("boardMapper.insertNC", nc);
+	}
+
+	@Override
+	public List<NestedComment> viewNC(int commentNo) {
+		return session.selectList("boardMapper.viewNC", commentNo);
+	}
+
+	@Override
+	public List<Comment> selectCommentList(Board b) {
+		return session.selectList("boardMapper.viewNC", b);
 	}
 
 

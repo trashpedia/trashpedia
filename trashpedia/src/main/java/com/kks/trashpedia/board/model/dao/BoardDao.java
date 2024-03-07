@@ -60,7 +60,9 @@ public interface BoardDao {
 			int subCategoryNo);
 
 	/*대댓글*/
-	int insertNC(NestedComment nc);
+	int insertNC(NestedComment nc); // 삽입
+	List<NestedComment> viewNC(int commentNo); // 조회
+	List<Comment> selectCommentList(Board b); //commentNo 가져오기
 	
 
 }
