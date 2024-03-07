@@ -38,55 +38,58 @@
 <body>
 	<jsp:include page="../common/header.jsp" />
 	<main>
-		<ul class="tabs">
-			<li class="tab" id="activityTab">일반쓰레기</li>
-			<li class="tab" id="alarmTab">음식물쓰레기</li>
-			<li class="tab" id="memberInfoTab">대형폐기물</li>
-		</ul>
-		<div class="ency-background">
-			<div class="ency-background-black">
-				<div class="encyLogo">
-					<p>쓰레기 백과사전</p>
-				</div>
 
-				<div class="encyContent1">
-					<div class="ency-search-area">
-						<input type="search" class="search-input" placeholder="검색어를 입력하세요"
-							autocomplete="off">
-						<button type="submit" class="search-button" aria-label="Search">search</button>
+		<div class="recently-outer">
+			<!--최근업데이트된 쓰레기 게시물  -->
+				<div id="recently-garbage-slider" class="recently-garbage-outer">
+					<p class="recently-garbage-outer-title"> 최근 업데이트된 쓰레기</p>
+					<div class="recently-garbage-inner">
+						<c:forEach var="post" items="${trashList}">
+							<div class="recently-garbage">
+								<div class="garbage-img-outer">
+									<img class="popular-garbage-img"
+										src="<c:url value='/resources/attachFile/image/${post.changeName}'/>"
+										onclick="trashDetail(${post.trashPostNo})">
+								</div>
+								<p class="recently-garbage-title">${post.trashTitle}</p>
+								<p class="recently-garbage-content">${post.trashInfo}</p>
+							</div>
+						</c:forEach>
 					</div>
 				</div>
 			</div>
-		</div>
 
-		<div class="recently-outer showEvent">
-		
-		<!--최근업데이트된 쓰레기 게시물  -->
-			<div id="recently-garbage-slider" class="recently-garbage-outer">
-				<p id="recently-garbage-outer-title">
-					최근 업데이트된 <strong>쓰레기</strong>
-				</p>
+		<!--인기 쓰레기 게시물  -->
+		<div class="recently-outer">
+			<div id="recently-garbage-slider2" class="recently-garbage-outer">
+				<p class="recently-garbage-outer-title"> 인기쓰레기 </p>
 				<div class="recently-garbage-inner">
 					<c:forEach var="post" items="${trashList}">
 						<div class="recently-garbage">
 							<div class="garbage-img-outer">
-								<img class="recently-garbage-img"
+								<img class="popular-garbage-img"
 									src="<c:url value='/resources/attachFile/image/${post.changeName}'/>"
 									onclick="trashDetail(${post.trashPostNo})">
 							</div>
 							<p class="recently-garbage-title">${post.trashTitle}</p>
 							<p class="recently-garbage-content">${post.trashInfo}</p>
-							
 						</div>
 					</c:forEach>
 				</div>
 			</div>
+		</div>		
+			
+			
+			<%-- <div class="popular-outer">
 		<!--인기 쓰레기 게시물  -->
-			<div class="space"></div>
-			<div id="recently-garbage-slider" class="popular-garbage-outer">
-				<p id="recently-garbage-outer-title">
+			<div id="popular-garbage-slider" class="popular-garbage-outer">
+			
+			
+				<p id="popular-garbage-outer-title">
 					인기 <strong>쓰레기</strong>
 				</p>
+				
+				
 				<div class="recently-garbage-inner">
 					<c:forEach var="post" items="${popularList}">
 						<div class="recently-garbage">
@@ -102,7 +105,12 @@
 				</div>
 				</a>
 			</div>
-		</div>
+		</div> --%>
+	
+		
+		
+			
+	
 	</main>
 	<button id="scrollUpButton">
 		<span class="material-symbols-outlined">arrow_upward</span>
@@ -151,17 +159,13 @@
 	                dots: true,
 	                prevArrow: '<div class="custom-prev"></div>',
 	                nextArrow: '<div class="custom-next"></div>'
-	                // prevArrow: '<button type="button" class="slick-prev">&#9665;</button>',
-	                // nextArrow: '<button type="button" class="slick-next">&#9655;</button>'
 	            });
-	    		
 
-		//정보자료글
-	            $('#information-content-slider').slick({
-	                slidesToShow: 1,
+	            $('#recently-garbage-slider2 .recently-garbage-inner').slick({
+	                slidesToShow: 4,
 	                slidesToScroll: 1,
 	                autoplay: true,
-	                autoplaySpeed: 3000, // 2초마다 슬라이드 전환
+	                autoplaySpeed: 2000, // 2초마다 슬라이드 전환
 	                arrows : true,
 	                dots: true,
 	                prevArrow: '<div class="custom-prev"></div>',

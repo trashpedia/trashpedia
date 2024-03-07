@@ -144,6 +144,12 @@
 		SET STATUS = 'N'
 		WHERE COMMENT_NO = #{commentNo}
 	</update>
+	
+	<!-- 실천서약등록 -->
+	<insert id="insertSignature" parameterType="signature">
+		INSERT INTO SIGNATURE (SIGNATURE_NO, USER_NO, PLEDGE_NO, SIGNATURE_STATUS, CREATE_DATE, MODIFY_DATE)
+		VALUES (SEQ_SNO.NEXTVAL, #{userNo}, #{pledgeNo}, DEFAULT, SYSDATE, SYSDATE )	
+	</insert>
 
 	
 </mapper>

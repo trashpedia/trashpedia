@@ -14,8 +14,9 @@ import com.kks.trashpedia.board.model.vo.Comment;
 import com.kks.trashpedia.board.model.vo.ImgAttachment;
 import com.kks.trashpedia.board.model.vo.Post;
 import com.kks.trashpedia.board.model.vo.SubCategory;
+import com.kks.trashpedia.member.model.vo.Member;
 import com.kks.trashpedia.pledge.model.dao.PledgeDao;
-import com.kks.trashpedia.report.model.vo.Report;
+import com.kks.trashpedia.pledge.model.vo.Signature;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -107,6 +108,12 @@ public class PledgeServiceImpl implements PledgeService{
 	@Override
 	public Page<Post> loadListData(Pageable pageable, int page, String sort, String searchSelect, String searchValue, int subCategoryNo) {
 		return dao.loadListData(pageable, page, sort, searchSelect, searchValue,subCategoryNo);
+	}
+
+	//실천서약 등록
+	@Override
+	public int insertSignature(Signature signature, Member signatureMember) {
+		return dao.insertSignature(signature, signatureMember);
 	}
 	
 

@@ -19,31 +19,34 @@
 <link rel="stylesheet" href="${contextPath}/resources/css/encyclopedia/trashEncyclopediaDetail.css">
 <body>
 	<jsp:include page="../common/header.jsp" />
-		<main>
-			<div class="contentBox">
-				<div class= "content">
-				<div class="imgArea"><img src="<c:url value='/resources/attachFile/image/${trash.changeName}'/>" class="content-img"></div>
+	<main>
+		<div class="contentBox">
+			<div class="content">
+				<div class="imgArea">
+					<img
+						src="<c:url value='/resources/attachFile/image/${trash.changeName}'/>"
+						class="content-img">
+				</div>
 				<div class="trashInfo">
-				
-					<span id="bigCategoryName">${trash.bigCategoryName}</span>
-					<span>></span>
+
+					<span id="bigCategoryName">${trash.bigCategoryName}</span> <span>></span>
 					<span id="subCategoryName">${trash.subCategoryName}</span>
 					<h2 id="trashTitle">${trash.trashTitle}</h2>
 					<h4>버리는 방법</h4>
 					<p id="trashInfo">${trash.trashInfo}</p>
 					<h4>알아두면 좋은점</h4>
-					<p id="trashExtraInfo">${trash.trashExtraInfo}</p>	
-				
-				</div>
-				</div>
-			</div>
-			<div class="updateArea">
-				<div class="updateRequest">
-					<button id="updateBtn">수정요청</button>
+					<p id="trashExtraInfo">${trash.trashExtraInfo}</p>
+
 				</div>
 			</div>
-			
-			<!-- 소분류 카테고리가 같은 쓰레기들 swipper  -->
+		</div>
+		<div class="updateArea">
+			<div class="updateRequest">
+				<button id="updateBtn">수정요청</button>
+			</div>
+		</div>
+
+		<!-- 소분류 카테고리가 같은 쓰레기들 swipper  -->
 		<div class="recently-outer showEvent">
 			<div id="recently-garbage-slider" class="recently-garbage-outer">
 				<p id="recently-garbage-outer-title">
@@ -63,38 +66,36 @@
 					</c:forEach>
 				</div>
 			</div>
-			</div>
-		</main>
+		</div>
+	</main>
 
-			
-			<button id="scrollUpButton">
-				<div class="material-symbols-outlined">arrow_upward</div>
-			</button>
-		
+
+	<button id="scrollUpButton">
+		<div class="material-symbols-outlined">arrow_upward</div>
+	</button>
+
 
 	<jsp:include page="../common/footer.jsp" />
 
 	<script>
 	
-	// IntersectionObserver 설정
-	let observer = new IntersectionObserver((entries) => {
-	  entries.forEach((entry) => {
-	    if (entry.isIntersecting) { // 화면에 나타날 때
-	      $(entry.target).css({
-	        opacity: 1,
-	        transform: 'translate(0, -60px)'
-	      });
-	    } else { // 화면에 나타나지 않을 때
-	      $(entry.target).css({
-	        opacity: 0,
-	        transform: 'none' // 기존의 트랜스폼 효과 제거
-	      });
-	    }
-	  });
-	});
+
+    
+  	//상세페이지로 이동
+    function trashDetail(trashPostNo) {
+    	console.log("상세페이지"+trashPostNo);
+     	location.href = "${contextPath}/trash/trashDetail/" + trashPostNo;
+	  }
  
+    
+	 // 이미지 요소 생성
+    let imgElement = document.createElement('img');
+    imgElement.src = "${contextPath}/resources/attachFile/image/${trash.changeName}";
+    imgElement.className = 'content-img';
+	    
     //스크롤 다운 버튼
     $(document).ready(function() {
+    	
         // 스크롤 다운 버튼 
         $("#scrollDownButton").click(function() {
             $("body, html").animate({ 
@@ -104,7 +105,6 @@
         
         // 상단 이동 버튼
         var scrollUpButton = $('#scrollUpButton');
-
         $(window).scroll(function() {
             if ($(this).scrollTop() > 300) {
                 scrollUpButton.show();
@@ -112,16 +112,27 @@
                 scrollUpButton.hide();
             }
         });
-        
         scrollUpButton.click(function(){
         	$('html,body').animate({scrollTop:0},500);
         	return false;
         });
         
+  		//최근 업데이트 된 쓰레기,인기쓰레기
+        $('#recently-garbage-slider .recently-garbage-inner').slick({
+            slidesToShow: 4,
+            slidesToScroll: 1,
+            autoplay: true,
+            autoplaySpeed: 2000, // 2초마다 슬라이드 전환
+            arrows : true,
+            dots: true,
+            prevArrow: '<div class="custom-prev"></div>',
+            nextArrow: '<div class="custom-next"></div>'
+ 		 });
+        
     });
 
     
-    <!-- 페이지 전환-->
+   /*  <!-- 페이지 전환-->
     
     function navigateToPrevious(trashNo) {
         var previousTrashNo = trashNo - 1;
@@ -133,70 +144,10 @@
         var nextTrashNo = trashNo + 1;
         var nextUrl = "/trashDetail?trashNo=" + nextTrashNo;
         document.getElementById("nextButton").setAttribute("href", nextUrl);
-    }
-    
- // 이미지 요소 생성
-    let imgElement = document.createElement('img');
-    imgElement.src = "${contextPath}/resources/attachFile/image/${trash.changeName}";
-    imgElement.className = 'content-img';
-    
-    
-	$('.showEvent').each(function() {
-	  observer.observe(this);
-	});
-    
-	// 슬라이드
-    $(document).ready(function(){
-    		//최근 업데이트 된 쓰레기
-            $('#recently-garbage-slider .recently-garbage-inner').slick({
-                slidesToShow: 4,
-                slidesToScroll: 1,
-                autoplay: true,
-                autoplaySpeed: 2000, // 2초마다 슬라이드 전환
-                arrows : true,
-                dots: true,
-                prevArrow: '<div class="custom-prev"></div>',
-                nextArrow: '<div class="custom-next"></div>'
-                // prevArrow: '<button type="button" class="slick-prev">&#9665;</button>',
-                // nextArrow: '<button type="button" class="slick-next">&#9655;</button>'
-            });
-	
-    $(document).ready(function() {
-        // 스크롤 다운 버튼 
-        $("#scrollDownButton").click(function() {
-            $("body, html").animate({ 
-                scrollTop: 1160 
-            }, 1100); 
-        });
-        
-        // 상단 이동 버튼
-        var scrollUpButton = $('#scrollUpButton');
+    } 
+    */
 
-        $(window).scroll(function() {
-            if ($(this).scrollTop() > 300) {
-                scrollUpButton.show();
-            } else {
-                scrollUpButton.hide();
-            }
-        });
-        
-        scrollUpButton.click(function(){
-        	$('html,body').animate({scrollTop:0},500);
-        	return false;
-        });
-        
-    });
-    
-  //상세페이지로 이동
-    function trashDetail(trashPostNo) {
-    	console.log("상세페이지"+trashPostNo);
-     	location.href = "${contextPath}/trash/trashDetail/" + trashPostNo;
-    }
 
- 
-
-</script>
-   
-    </script>
+	</script>
 </body>
 </html>

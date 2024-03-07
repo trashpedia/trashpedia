@@ -22,10 +22,7 @@
 			</div>
 			<section class="content-section">
 				<div class="content-container">
-				    <div class="content-title-wrapper">
-				        <div class="content-title">회원 리스트</div>
-				        <div class="content-subtitle">총 <fmt:formatNumber type="number" pattern="#,##0" value="${cam}"/>명</div>
-					</div>
+				    <div class="content-title-wrapper"></div>
 					<div class="filter-wrapper">
 					    <select name="condition" id="filter-select">
 					        <option value="userNo" selected>번호</option>
@@ -85,6 +82,7 @@
 	        filterValue = $(this).val();
 	        $('.user-list').empty();
 	        memberOffset = 0;
+	        getMemberList(0, searchSelect, searchValue);
 	    });
 
 	    function search(){
@@ -105,7 +103,7 @@
 	            success: function(data) {
 	            	if(data.content.length != 0){
 		                memberOffset += 1;
-		                updateMemberTable(data.content);
+		                updateMemberTable(data);
 	            	}
 	            },
 	            error: function(xhr, status, error) {
@@ -115,22 +113,37 @@
 	    }
 
 	    function updateMemberTable(data) {
+	    	let list = data.content;
+	        let title = document.querySelector('.content-title-wrapper');
+	        title.innerHTML = '';
+	        
+	        let div1 = document.createElement('div');
+	        div1.classList.add('content-title');
+	        div1.textContent = '회원 리스트';
+	        
+	        let div2 = document.createElement('div');
+	        div2.classList.add('content-subtitle');
+	        div2.textContent = '총'+data.totalElements+'명';
+	        
+	        title.appendChild(div1);
+	        title.appendChild(div2);
+	        
 	        let userList = document.querySelector('.user-list');
-	        for (let i = 0; i < data.length; i++) {
+	        for (let i = 0; i < list.length; i++) {
 	            let row = document.createElement('tr');
 	            row.classList.add('content-tr');
 	            
 	            let cell1 = document.createElement('td');
-	            cell1.textContent = data[i].userNo;
+	            cell1.textContent = list[i].userNo;
 	            
 	            let cell2 = document.createElement('td');
-	            cell2.textContent = data[i].userEmail;
+	            cell2.textContent = list[i].userEmail;
 	            
 	            let cell3 = document.createElement('td');
-	            cell3.textContent = data[i].userName;
+	            cell3.textContent = list[i].userName;
 	            
 	            let cell4 = document.createElement('td');
-	            cell4.textContent = data[i].userNickname;
+	            cell4.textContent = list[i].userNickname;
 	            
 	            row.appendChild(cell1);
 	            row.appendChild(cell2);
@@ -138,7 +151,7 @@
 	            row.appendChild(cell4);
 	            
 	            row.addEventListener('click', function() {
-	                loadMemberDetail(data[i].userNo);
+	                loadMemberDetail(list[i].userNo);
 	            });
 	            userList.appendChild(row);
 	        }

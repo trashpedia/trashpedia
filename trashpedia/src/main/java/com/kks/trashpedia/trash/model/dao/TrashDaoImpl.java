@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kks.trashpedia.trash.model.vo.Trash;
+import com.kks.trashpedia.trash.model.vo.TrashBigCategory;
 import com.kks.trashpedia.trash.model.vo.TrashPost;
+import com.kks.trashpedia.trash.model.vo.TrashSubCategory;
 
 @Repository
 public class TrashDaoImpl implements TrashDao{
@@ -38,5 +40,20 @@ public class TrashDaoImpl implements TrashDao{
 		Trash t = session.selectOne("trashMapper.bringCategory", trashNo);
 		System.out.println(t);
 		return session.selectList("trashMapper.getSimilarList",t);
+	}
+
+	@Override
+	public List<TrashBigCategory> getBigCategoryList() {
+		return session.selectList("trashMapper.getBigCategoryList");
+	}
+
+	@Override
+	public List<TrashSubCategory> getSubCategoryList() {
+		return session.selectList("trashMapper.getSubCategoryList");
+	}
+
+	@Override
+	public List<Trash> getAllTrashList() {
+		return session.selectList("trashMapper.getAllTrashList");
 	}
 }

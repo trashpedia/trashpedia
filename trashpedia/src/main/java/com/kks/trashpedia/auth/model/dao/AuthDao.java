@@ -52,11 +52,11 @@ public class AuthDao {
 		return false;
 	}
 
-	public int joinMemberSocial(Member m, Long socialId, String sns) {
+	public int joinMemberSocial(Member m, Long socialId, String socialType) {
 		Map<String, Object> param = new HashMap<>();
 		param.put("userNo", m.getUserNo());
 		param.put("socialId", socialId);
-		param.put("sns", sns);
+		param.put("socialType", socialType);
 		return session.insert("auth.joinMemberSocial", param);
 	}
 
