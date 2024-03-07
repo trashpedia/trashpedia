@@ -13,7 +13,8 @@ public class TrashPost {
 	
 	private int trashPostNo;
 	private String trashTitle;
-	private String trashContent;
+	private String trashInfo;
+	private String trashExtraInfo;
 	private Date createDate;
 	private Date modifyDate;
 	private String status;
