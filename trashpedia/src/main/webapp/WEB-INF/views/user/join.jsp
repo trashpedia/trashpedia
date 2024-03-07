@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <c:set var="contextPath" value="<%=request.getContextPath() %>"/>
+<c:set var="formattedPhoneNumber" value="${fn:replace(fn:replace(fn:replace(sns.phone_number, '+82', '0'), '-', ''), ' ', '')}" />
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -15,7 +17,7 @@
 <body>
     <jsp:include page="../common/header.jsp"/>
     <main>
-    <form id="enroll-form" action="${contextPath}/member/join" method="post">
+    <form id="enroll-form" action="${sns != null ? '${contextPath}/member/socialJoin' : '${contextPath}/member/join'}" method="post">
 	    <div class="member">
 	        <div class="logo"><p>회원가입</p></div>
         	<div class="field">
@@ -23,25 +25,52 @@
 	            <div class="id-wrapper">
 	            <div>
 	            	<div class="id-content">
-		                <input type="text" id="id" placeholder="이메일을 입력하세요">
-		                <span class="id-a">@</span>
-		                <input type="text" id="emailDomain">
+		            	<c:if test="${sns != null}">
+			                <input type="text" id="id" placeholder="이메일을 입력하세요" value="${sns != null ? sns.email.split('@')[0] : ''}" disabled>
+			                <span class="id-a">@</span>
+			                <input type="text" id="emailDomain" value="${sns != null ? sns.email.split('@')[1] : ''}" disabled>
+		                </c:if>
+		            	<c:if test="${sns == null}">
+			                <input type="text" id="id" placeholder="이메일을 입력하세요">
+			                <span class="id-a">@</span>
+			                <input type="text" id="emailDomain">
+		                </c:if>
 		                <input type="hidden" id ="hiddenUserEmail" name="userEmail">
+		                <input type="hidden" id ="socialId" name="socialId" value="${socialId}">
+		                <input type="hidden" id ="socialType" name="socialType" value="${socialType}">
 	            	</div>
 	            </div>
-	                <select id="emailSelect" onchange="updateEmailDomain()">
-	                    <option value="직접입력" selected>직접입력</option>
-	                    <option value="naver.com">naver.com</option>
-	                    <option value="gmail.com">gmail.com</option>
-	                    <option value="yahoo.com">yahoo.com</option>
-	                    <option value="daum.net">daum.net</option>
-	                    <option value="hanmail.net">hanmail.net</option>
-	                </select>
-		            <button type="button" onclick="emailCheck()" class="doubleCheckBtn" id ="emailCheckBtn">이메일인증</button>
+	            	<c:if test="${sns != null}">
+		                <select id="emailSelect" onchange="updateEmailDomain()" disabled>
+		                    <option value="직접입력" selected>직접입력</option>
+		                    <option value="naver.com">naver.com</option>
+		                    <option value="gmail.com">gmail.com</option>
+		                    <option value="yahoo.com">yahoo.com</option>
+		                    <option value="daum.net">daum.net</option>
+		                    <option value="hanmail.net">hanmail.net</option>
+		                </select>
+			            <button type="button" onclick="emailCheck()" class="doubleCheckBtn" id ="emailCheckBtn" disabled>이메일인증</button>
+		            </c:if>
+	            	<c:if test="${sns == null}">
+		                <select id="emailSelect" onchange="updateEmailDomain()">
+		                    <option value="직접입력" selected>직접입력</option>
+		                    <option value="naver.com">naver.com</option>
+		                    <option value="gmail.com">gmail.com</option>
+		                    <option value="yahoo.com">yahoo.com</option>
+		                    <option value="daum.net">daum.net</option>
+		                    <option value="hanmail.net">hanmail.net</option>
+		                </select>
+			            <button type="button" onclick="emailCheck()" class="doubleCheckBtn" id ="emailCheckBtn">이메일인증</button>
+		            </c:if>
 	            </div>
 	            <div id="code-input">
 	                <input type="text" id="code" class="code-input" placeholder="코드를 입력하세요">
-		            <button type="button" onclick="codeCheck()" class="doubleCheckBtn" id ="codeCheckBtn">인증확인</button>
+	                <c:if test="${sns != null}">
+		            	<button type="button" onclick="codeCheck()" class="doubleCheckBtn" id ="codeCheckBtn" disabled>인증확인</button>
+		            </c:if>
+	                <c:if test="${sns == null}">
+		            	<button type="button" onclick="codeCheck()" class="doubleCheckBtn" id ="codeCheckBtn">인증확인</button>
+		            </c:if>
 	            </div>
 	        </div>
 	        <div class="field">
@@ -62,18 +91,28 @@
 	        </div>
 	        <div class="field">
 	            <div class="title"><p>* 이름</p></div>
-	            <input type="text" id="userName" name="userName">
+	            <c:if test="${sns != null}">
+	            	<input type="text" id="userName" name="userName" value="${sns.name}" disabled>
+	        	</c:if>
+	            <c:if test="${sns == null}">
+	            	<input type="text" id="userName" name="userName">
+	        	</c:if>
 	        </div>
 	        <div class="field">
 	            <div class="title"><p>닉네임</p></div>
 	            <input type="text" name="userNickname">
-	        </div>
-	       
+        	</div>
 	        <div class="field tel-number">
 	            <div class="title"><p>* 휴대전화</p></div>
 	            <div>
-	                <input type="tel" placeholder="전화번호 입력" name="phone" id="phoneBox">
-	                <input type="button" value="인증번호 받기">
+	            	<c:if test="${sns != null}">
+		                <input type="tel" placeholder="전화번호 입력" name="phone" id="phoneBox" value="${formattedPhoneNumber}" disabled>
+		                <input type="button" value="인증번호 받기">
+		            </c:if>
+	            	<c:if test="${sns == null}">
+		                <input type="tel" placeholder="전화번호 입력" name="phone" id="phoneBox">
+		                <input type="button" value="인증번호 받기">
+		            </c:if>
 	            </div>
 	            <input type="number" placeholder="인증번호를 입력하세요">
 	        </div>
@@ -91,9 +130,7 @@
 	                <input type="text" id="sample6_extraAddress" name="address2" placeholder="참고항목" readonly name="address3">
 	            </div>
 	        </div>
-	        <!-- 6. 가입하기 버튼 -->
 	        <input type="button" value="가입하기" onclick="validateForm()">
-	        <!-- 7. 푸터 -->
 	        <div class="member-footer">
 	            <div>
 	                <a href="#none">이용약관</a>

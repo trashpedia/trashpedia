@@ -26,6 +26,10 @@ public class KakaoUserInfoResponse {
 		private KakaoProfile profile;
 		private Boolean email_needs_agreement;
 		private String email;
+		private Boolean name_needs_agreement;
+		private String name;
+		private Boolean phone_number_needs_agreement;
+		private String phone_number;
 	}
 	
 	@Getter

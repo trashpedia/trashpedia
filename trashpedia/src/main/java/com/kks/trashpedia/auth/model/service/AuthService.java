@@ -4,6 +4,9 @@ import java.io.UnsupportedEncodingException;
 
 import org.springframework.security.core.userdetails.UserDetailsService;
 
+import com.kks.trashpedia.auth.model.dto.KakaoUserInfoResponse;
+import com.kks.trashpedia.member.model.vo.Member;
+
 import jakarta.mail.MessagingException;
 
 public interface AuthService extends UserDetailsService{
@@ -15,5 +18,13 @@ public interface AuthService extends UserDetailsService{
 	String kakaoUrl();
 
 	String kakaoGetToken(String code);
+
+	Member getSocialUser(Long socialId);
+
+	Boolean emailCheck(String userEmail);
+
+	int joinMemberSocial(String userEmail, Long socialId);
+
+	KakaoUserInfoResponse getKakaoProperties(String access_Token);
 	
 }

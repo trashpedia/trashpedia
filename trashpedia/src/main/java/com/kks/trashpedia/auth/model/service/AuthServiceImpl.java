@@ -1,14 +1,11 @@
 package com.kks.trashpedia.auth.model.service;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.Properties;
@@ -20,7 +17,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.kks.trashpedia.auth.model.dao.AuthDao;
+import com.kks.trashpedia.auth.model.dto.KakaoUserInfoResponse;
 import com.kks.trashpedia.auth.model.dto.UserDetail;
+import com.kks.trashpedia.member.model.vo.Member;
 import com.nimbusds.jose.shaded.gson.JsonElement;
 import com.nimbusds.jose.shaded.gson.JsonParser;
 
@@ -63,6 +62,7 @@ public class AuthServiceImpl implements AuthService{
     private String authNum;
     
 	private final AuthDao authDao;
+	private final KakaoUserInfo kakaoUserInfo;
 	
 	@Override
 	public UserDetails loadUserByUsername(String userEmail) throws UsernameNotFoundException {
@@ -236,5 +236,27 @@ public class AuthServiceImpl implements AuthService{
             e.printStackTrace();
         }
         return access_Token;
+	}
+
+	@Override
+	public Member getSocialUser(Long socialId) {
+		return authDao.getSocialUser(socialId, "kakao");
+	}
+
+	@Override
+	public Boolean emailCheck(String userEmail) {
+		return authDao.emailCheck(userEmail);
+	}
+
+	@Override
+	public int joinMemberSocial(String userEmail, Long socialId) {
+		Member m = authDao.getMemberEmail(userEmail);
+		return authDao.joinMemberSocial(m, socialId, "kakao");
+	}
+
+	@Override
+	public KakaoUserInfoResponse getKakaoProperties(String access_Token) {
+		KakaoUserInfoResponse userInfo = kakaoUserInfo.getUserInfo(access_Token);
+		return userInfo;
 	}
 }

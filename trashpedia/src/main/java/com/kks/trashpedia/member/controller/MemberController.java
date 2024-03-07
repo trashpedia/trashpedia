@@ -2,21 +2,18 @@ package com.kks.trashpedia.member.controller;
 
 import java.util.List;
 
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.kks.trashpedia.board.model.vo.Board;
 import com.kks.trashpedia.member.model.service.MemberService;
 import com.kks.trashpedia.member.model.vo.Member;
 
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 
@@ -66,7 +63,7 @@ public class MemberController {
 
 	// 회원가입기능
 	@PostMapping("/join")
-	public ModelAndView joinMember(Member m, HttpServletResponse res) {
+	public ModelAndView joinMember(Member m) {
 		ModelAndView mav = new ModelAndView();
 		String encodedPassword = passwordEncoder.encode(m.getUserPwd());
 		m.setUserPwd(encodedPassword);
@@ -101,23 +98,18 @@ public class MemberController {
 
 	// 업데이트기능
 	@PostMapping("/update.me")
-	public ResponseEntity<String>  updateMember(Member m, HttpSession session, RedirectAttributes ra, HttpServletRequest request) {
+	public ModelAndView updateMember(Member m) {
 		ModelAndView mav = new ModelAndView();
 		int result = service.updateMember(m);
-		String url = "";
 
-		if (result > 0) { // 성공
-			Member updateMember = service.loginMember(m);
-			session.setAttribute("loginUser", updateMember);
-			// 세션 무효화
-//			request.getSession().invalidate();
-			return ResponseEntity.ok("회원 정보가 업데이트되었습니다.");
-//			System.out.println("뭘까 진짜");
+		if (result > 0) {
+			mav.addObject("alert","회원 정보가 업데이트되었습니다. 재로그인 해주세요");
+			mav.setViewName("user/login");
 		} else {
-			return ResponseEntity.badRequest().body("회원 정보 업데이트 실패");
+			mav.addObject("alert","회원 정보 수정에 실패했습니다. 다시 시도해주세요");
+			mav.setViewName("redirect:/member/myPage");
 		}
-
-
+		return mav;
 	}
 
 	@PostMapping("/delete.me")
@@ -138,6 +130,24 @@ public class MemberController {
 			mav.setViewName("redirect:/member/myPage");
 		}
 		return mav;
-
 	}
+	
+	@GetMapping("/socialJoin")
+	public ModelAndView joinSocialMember(Member m, Long socialId, String socialType) {
+		ModelAndView mav = new ModelAndView();
+		String encodedPassword = passwordEncoder.encode(m.getUserPwd());
+		m.setUserPwd(encodedPassword);
+
+		int result = service.joinSocialMember(m, socialId, socialType);
+
+		if (result > 0) {
+			mav.addObject("alert", "회원가입에 성공했습니다");
+			mav.setViewName("redirect:/login");
+		} else {
+			mav.addObject("alert", "회원가입에 실패했습니다");
+			mav.setViewName("redirect:/join");
+		}
+		return mav;
+	}
+	
 }

@@ -35,17 +35,7 @@
 		VALUES(#{userNo},USER)
 	</insert>
 
-
-
-	<select id="loginMember" parameterType="Member"
-		resultType="Member">
-		SELECT *
-		FROM MEMBER
-		WHERE USER_NO = #{userNo} AND STATUS = 'Y'
-	</select>
-
-	<select id="getMember" parameterType="Member"
-		resultType="Member">
+	<select id="getMember" parameterType="Member" resultType="Member">
 		SELECT *
 		FROM MEMBER
 		WHERE USER_No = #{userNo} AND STATUS = 'Y'
@@ -125,6 +115,11 @@
 		SELECT COUNT(*)
 		FROM MEMBER
 		WHERE USER_EMAIL = #{userEmail} AND PHONE = #{phone}
+	</select>
+	<select id="findMember" resultType="member">
+		SELECT USER_NO
+		FROM MEMBER
+		WHERE USER_EMAIL = #{userEmail}
 	</select>
 </mapper>
 
