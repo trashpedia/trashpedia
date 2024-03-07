@@ -24,7 +24,7 @@ public class FileDeleteScheduler {
 	private CommonService service;
 	
 	//파일삭제 스케쥴러
-	@Scheduled(cron = "0 0/10 * * * *")  //매시간 0분에 시작하여 10분 간격으로 실행
+	@Scheduled(cron = "0 0/3 * * * *")  //서버 실행 후 3분 간격으로 실행됨
 	public void deleteFile() {
 		
 		List<String> fileNameList = service.fileNameList();
@@ -39,7 +39,6 @@ public class FileDeleteScheduler {
 			for(File serverFile : fileList) {
 				String fileName = serverFile.getName(); //파일명 가져오기
 				String filePathName = "/resources/attachFile/file/" + fileName;
-				
 				if(!fileNameList.contains(filePathName)) {
 					log.info(fileName+"을 삭제합니다.");
 					count++;
@@ -51,7 +50,7 @@ public class FileDeleteScheduler {
 	}
 	
 	//이미지삭제 스케쥴러
-	@Scheduled(cron = "0 0/10 * * * *")  //매시간 0분에 시작하여 10분 간격으로 실행
+	@Scheduled(cron = "0 0/3 * * * *")  //서버 실행 후 3분 간격으로 실행됨
 	public void deleteImage() {
 		
 		List<String> fileNameList = service.imageNameList();
@@ -66,7 +65,6 @@ public class FileDeleteScheduler {
 			for(File serverFile : fileList) {
 				String fileName = serverFile.getName(); //파일명 가져오기
 				String filePathName = "/resources/attachFile/image/" + fileName;
-				
 				if(!fileNameList.contains(filePathName)) {
 					log.info(fileName+"을 삭제합니다.");
 					count++;

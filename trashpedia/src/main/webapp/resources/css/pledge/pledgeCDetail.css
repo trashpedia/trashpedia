@@ -141,7 +141,6 @@ button{ font-family: 'Noto Sans KR', sans-serif;  }
     text-align: center;
     vertical-align: middle;
     font-size: 13px;
-/*     width: 1000px; */
 	width : 98%;
     margin : 10px auto;
 }
@@ -215,18 +214,24 @@ button{ font-family: 'Noto Sans KR', sans-serif;  }
 #comment-section-table td:nth-child(3){width : 170px; }
 #comment-section-table td:nth-child(4){width : 180px; }
 #comment-section-table input{height: 100%; width : 100%;}
-#comment-section-table #commitment{ height : 65px; }
+#comment-section-table #commitment{  background-color: #f7f7f7; border : 1px solid gray;
+}
 .comment-input {
     margin-bottom: 10px;
     height: 43px;
     width: calc(100% - 90px); /* 등록 버튼의 너비를 고려하여 입력 필드의 너비를 조정합니다. */
     display: inline-block;
 }
+#comment-section-agree {
+	width: 720px;
+	display: flex;
+	font-size: 14px;
+	margin-top : 5px;
+}
 
 /* 실천서약 동참하기 버튼  */
 #comment-button {
     padding: 5px 15px;
-    background: #ff6531;
     background: #59ca59;
     color: #fff;
     border: none;
@@ -235,15 +240,7 @@ button{ font-family: 'Noto Sans KR', sans-serif;  }
     height : 45px;
     font-size : 16px;
     margin : 20px 0;
-    margin-top : 28px;
     border-radius: 25px;
-}
-#comment-section-agree{ 
-	margin-right : 200px;
-	}
-#comment-section-agree label{ 
-	margin : 0 10px;
-	font-size : 14px; 
 }
 
 /* 댓글 수정삭제버튼 */

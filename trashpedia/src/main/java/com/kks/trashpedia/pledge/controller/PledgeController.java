@@ -30,6 +30,7 @@ import com.kks.trashpedia.board.model.vo.Post;
 import com.kks.trashpedia.board.model.vo.SubCategory;
 import com.kks.trashpedia.member.model.vo.Member;
 import com.kks.trashpedia.pledge.model.service.PledgeService;
+import com.kks.trashpedia.pledge.model.vo.Signature;
 import com.kks.trashpedia.report.model.vo.Report;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -237,6 +238,16 @@ public class PledgeController {
 	public int deleteComment(Comment comment) {
 		return service.deleteComment(comment);
 	}
+	
+	// 실천서약등록
+	@PostMapping("/insertSignature")
+	public int insertSignature(Signature signature, Member signatureMember) {
+		return service.insertSignature(signature, signatureMember);
+	}
+	
+	
+	
+	
 
 	
 	

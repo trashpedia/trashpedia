@@ -94,17 +94,16 @@
 								<td><label for="name">이름</label></td>
 								<td><input type="text" id="name" placeholder="홍길동"></td>
 								<td><label for="phoneNumber">휴대전화번호</label></td>
-								<td><input type="number" id="phoneNumber" placeholder="01012341234"></td>
+								<td><input type="text" id="phoneNumber" placeholder="01012341234" maxlength="11"></td>
 							</tr>
 							<tr>
-								<td><label for="commitment">실천서약</label></td>
-								<td colspan="3"><input type="text" id="commitment" placeholder="동참 내용을 간략하게 남겨주세요"></td>
+								<td><label for="commitment">실천서약내용</label></td>
+								<td colspan="3"><input type="text" id="commitment" value="자원순환 실천에 동참합니다." readonly></td>
 							</tr>
 						</table>
 					</div>
 					<div id="comment-section-agree">
 					    <label for="agreePrivacy"> <input type="checkbox" id="agreePrivacy"> (필수) 개인정보 수집 이용에 대한 동의 </label>
-					    <label for="agreeThirdParty"> <input type="checkbox" id="agreeThirdParty"> (필수) 개인정보 제 3자 제공에 대한 동의 </label>
 					</div>
 					<div id="comment-button-outer" style="display:flex; justify-content: center;">
 						<button id="comment-button" onclick="insertSignature()">실천서약 동참하기</button>
@@ -297,19 +296,58 @@
  	   
  	  //실천서약 동참
  	  function insertSignature() {
- 		    var agreePrivacyCheckbox = document.getElementById("agreePrivacy");
+ 		  
+ 		  	var agreePrivacyCheckbox = document.getElementById("agreePrivacy");
+ 		    var nameInput = document.getElementById("name");
+ 		    var phoneNumberInput = document.getElementById("phoneNumber");
+ 		   	var pledgeNo = `${post.postNo}`;
+ 		   
  		    if(loginUser){
- 		    	// 개인정보 수집 이용에 대한 동의 체크 여부 확인
+ 		    	
+	 		   	// 이름, 핸드폰 번호 입력 여부 확인
+	 	        var name = nameInput.value.trim();
+        		var phone = phoneNumberInput.value.trim();
+	 	        
+	 	        if (name === "") {
+	 	            alert("이름을 입력하세요.");
+	 	            return;
+	 	        }
+	 	        if (phone === "") {
+	 	            alert("핸드폰 번호를 입력하세요.");
+	 	            return;
+	 	        }
+ 		    	
+	 	    	// 개인정보 수집 이용에 대한 동의 체크 여부 확인
 	 		    if (!agreePrivacyCheckbox.checked) {
 	 		        alert("개인정보 수집 이용에 대한 동의가 필요합니다.");
 	 		        return;
 	 		    }
-	 		    // 개인정보 제 3자 제공에 대한 동의 체크 여부 확인
-	 		    var agreeThirdPartyCheckbox = document.getElementById("agreeThirdParty");
-	 		    if (!agreeThirdPartyCheckbox.checked) {
-	 		        alert("개인정보 제 3자 제공에 대한 동의가 필요합니다.");
-	 		        return;
-	 		    }
+ 		    	
+	 		   $.ajax({
+	 	            url: "${contextPath}/pledge/insertSignature",  // 실제 서버 엔드포인트로 변경
+	 	            method: "POST",
+	 	            data: {
+	 	                userNo: loginUserNo,
+	 	               	userName: name,
+	 	                phone : phone,
+	 	               	pledgeNo : pledgeNo
+	 	            },
+	 	            success: function(result) {
+	 	        	    if (result == 1) {
+	 	        	        alert("서약에 성공적으로 동참하셨습니다. 감사합니다!");
+	 	        	    } else if (result == 2) {
+	 	        	        alert("입력하신 회원정보가 일치하지 않습니다. 다시 확인해주세요.");
+	 	        	    } else {
+	 	        	        alert("서약 동참에 실패했습니다. 잠시 후 다시 시도해주세요.");
+	 	        	    }
+	 	        	},
+	 	            error: function(xhr, status, error) {
+	 	                console.error("서버 오류:", status, error);
+	 	                alert("서버 응답에 실패했습니다. 다시 시도해주세요.");
+	 	            }
+	 	        });
+ 		    	
+ 		    	
  		    }
  		    else{
 	 		   alert("실천서약에 동참하시려면 로그인이 필요합니다.");
