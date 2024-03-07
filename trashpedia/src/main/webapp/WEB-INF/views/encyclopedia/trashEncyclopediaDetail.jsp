@@ -30,11 +30,16 @@
 					<span id="subCategoryName">${trash.subCategoryName}</span>
 					<h2 id="trashTitle">${trash.trashTitle}</h2>
 					<h4>버리는 방법</h4>
-					<p id="howto">${trash.trashContent}</p>
+					<p id="trashInfo">${trash.trashInfo}</p>
 					<h4>알아두면 좋은점</h4>
-					<p id="know">${trash.trashContent}</p>	
+					<p id="trashExtraInfo">${trash.trashExtraInfo}</p>	
 				
 				</div>
+				</div>
+			</div>
+			<div class="updateArea">
+				<div class="updateRequest">
+					<button id="updateBtn">수정요청</button>
 				</div>
 			</div>
 			
@@ -48,8 +53,9 @@
 					<c:forEach var="post" items="${similarList}">
 						<div class="recently-garbage">
 							<div class="garbage-img-outer">
-								<img class="recently-garbage-img" 
- 									src="<c:url value='/resources/attachFile/image/${post.changeName}'/>"> 
+								<img class="recently-garbage-img"
+									src="<c:url value='/resources/attachFile/image/${post.changeName}'/>"
+									onclick="trashDetail(${post.trashPostNo})">
 							</div>
 							<p class="recently-garbage-title">${post.trashTitle}</p>
 							<p class="recently-garbage-content">${post.trashContent}</p>
@@ -59,10 +65,11 @@
 			</div>
 			</div>
 		</main>
-		
-		<button id="scrollUpButton">
-			<div class="material-symbols-outlined">arrow_upward</div>
-		</button>
+
+			
+			<button id="scrollUpButton">
+				<div class="material-symbols-outlined">arrow_upward</div>
+			</button>
 		
 
 	<jsp:include page="../common/footer.jsp" />
@@ -179,6 +186,12 @@
         });
         
     });
+    
+  //상세페이지로 이동
+    function trashDetail(trashPostNo) {
+    	console.log("상세페이지"+trashPostNo);
+     	location.href = "${contextPath}/trash/trashDetail/" + trashPostNo;
+    }
 
  
 

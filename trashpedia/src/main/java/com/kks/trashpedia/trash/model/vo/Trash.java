@@ -16,6 +16,8 @@ public class Trash {
 	private int subCategoryNo;
 	private int bigCategoryNo;
 	private String status;
+	private String trashInfo;
+	private String trashExtraInfo;
 
 	// 관리자 페이지 쓰레기 관리 - 쓰레기 조회
 	private String bigCategoryName;
