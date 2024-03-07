@@ -30,22 +30,15 @@ public class MemberController {
 	@GetMapping("/myPage")
 	public ModelAndView myPage(HttpServletRequest request) {
 		ModelAndView mav = new ModelAndView();
-		HttpSession Session = request.getSession();
-		Member authentication = (Member) Session.getAttribute("authentication");
-		int userNumber = authentication.getUserNo(); // int 타입의 userNo 가져오기
+		Member authentication = (Member) request.getSession().getAttribute("authentication");
 
-		// userNo를 사용하여 새로운 Member 객체 생성
-		Member m = new Member();
-		m.setUserNo(userNumber);
-		
-		Member member = service.loginMember(m);
-		
-//		session.setAttribute("member", member);
 		if (authentication == null) {
 			mav.addObject("errorMessage", "로그인이 필요합니다.");
 			mav.setViewName("user/login");
 		} else {
 			int userNo = authentication.getUserNo();
+
+			Member member = service.getMember(userNo);
 			List<Board> myPost = service.pledgeList(userNo);
 			List<Board> myComment = service.commentList(userNo);
 
@@ -113,12 +106,42 @@ public class MemberController {
 		int result = service.updateMember(m);
 
 		if (result > 0) {
-			mav.addObject("alert","회원 정보가 업데이트되었습니다. 재로그인 해주세요");
+			mav.addObject("alert", "회원 정보가 업데이트되었습니다. 재로그인 해주세요");
 			mav.setViewName("user/login");
 		} else {
-			mav.addObject("alert","회원 정보 수정에 실패했습니다. 다시 시도해주세요");
+			mav.addObject("alert", "회원 정보 수정에 실패했습니다. 다시 시도해주세요");
 			mav.setViewName("redirect:/member/myPage");
 		}
+		return mav;
+	}
+
+	// 페스워드 확인
+	@PostMapping("/pwdAuth.me")
+	public ModelAndView pwdAuth(Member m) {
+
+		ModelAndView mav = new ModelAndView();
+		
+
+		int userNo = m.getUserNo(); // 접속한 유저번호
+
+		// 사용자가 제출한 비밀번호
+		String submittedPassword = m.getUserPwd(); // 암호화 안됨
+		
+		Member member = service.getMember(userNo); // userNo를 통해 회원 정보를 가져와서
+		
+		String hashedPasswordFromDatabase = member.getUserPwd(); // 암호화된 Pwd
+
+		if (passwordEncoder.matches(submittedPassword, hashedPasswordFromDatabase)) { // 받은 페스워드, 기존암호화된 페스워드 확인
+			// 비밀번호가 일치함
+			mav.addObject("alert", "페스워드 인증성공");
+			mav.setViewName("redirect:/member/myPage");
+			// 로그인 성공 처리
+		} else {
+			// 비밀번호가 일치하지 않음
+			mav.addObject("alert", "패스워드 인증실패");
+			mav.setViewName("redirect:/member/myPage");
+		}
+
 		return mav;
 	}
 
@@ -141,7 +164,7 @@ public class MemberController {
 		}
 		return mav;
 	}
-	
+
 	@GetMapping("/socialJoin")
 	public ModelAndView joinSocialMember(Member m, Long socialId, String socialType) {
 		ModelAndView mav = new ModelAndView();
@@ -159,5 +182,5 @@ public class MemberController {
 		}
 		return mav;
 	}
-	
+
 }
