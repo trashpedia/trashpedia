@@ -5,7 +5,7 @@ main{
     justify-content: center;
 }
 .container{
-    width: 1000px;
+    width: 980px;
     margin-top: 10px;
     margin-bottom: 30px;
     padding: 45px;
@@ -14,7 +14,6 @@ button{ font-family: 'Noto Sans KR', sans-serif;  }
 
 /* 제목 부분 */
 .content-title-outer {
-/* 	border-top: 1px solid #9b9b9b; */
 	text-align: start;
 	margin-top: 10px;
 	padding: 7px 25px;
@@ -38,13 +37,17 @@ button{ font-family: 'Noto Sans KR', sans-serif;  }
 }
 
 /* ---------- 내용 ---------- */
+#thumbNailImg{
+	margin : 15px;
+	width : 700px;
+}
 .toast-custom-viewer{
 	font-family: 'Noto Sans KR', sans-serif;
     box-sizing: border-box;
     width: 80%;
     padding: 20px;
     height: 100%;
-    min-height: 300px;
+    min-height: 150px;
     border: 0;
     font-size: 15px;
     /* resize: none; */
@@ -75,7 +78,6 @@ button{ font-family: 'Noto Sans KR', sans-serif;  }
 	background-color: rgb(249, 249, 249);
 	align-items: center;
 }
-
 .content-attach-inner{ margin-left : 30px; }
 .content-attach-inner p{ 
 	font-size : 13px;
@@ -110,13 +112,12 @@ button{ font-family: 'Noto Sans KR', sans-serif;  }
 .reply-outer-top-area{
     height: 30px;
     line-height: 30px;
-    margin-left: 20px;
+    margin-left: 25px;
     font-size: 20px;
 }
 
 .reply-outer {
     background-color: #fff;
-/*     padding: 10px; */
 }
 .reply_title {
     font-size: 17px;
@@ -140,7 +141,8 @@ button{ font-family: 'Noto Sans KR', sans-serif;  }
     text-align: center;
     vertical-align: middle;
     font-size: 13px;
-    width: 1000px;
+/*     width: 1000px; */
+	width : 98%;
     margin : 10px auto;
 }
 .reply-table-title{
@@ -171,14 +173,12 @@ button{ font-family: 'Noto Sans KR', sans-serif;  }
 	background-color : #259c37;
 	color : white;
 	font-size : 19px;
-	padding : 9px 19px;
+	padding : 9px 30px;
 	font-weight : 500;
 }
-#comment-section-inner{
-	padding : 10px 30px;;
-}
+#comment-section-inner{ padding : 10px;}
 
-/* 댓글 작성 */
+/* 자원순환 실천서약 작성표 */
 .comment-section {
     box-sizing: border-box;
     display: flex;
@@ -189,10 +189,12 @@ button{ font-family: 'Noto Sans KR', sans-serif;  }
     border-radius: 3px;
     background-color:rgb(251, 251, 251);
     flex-wrap: wrap;
-    justify-content: left;
-    width: 100%;
+    justify-content: center;
+    align-items: center;
+    width: 95%;
     margin: 10px auto;
 }
+
 /* 입력 */
 #comment-section-p{
 	color : #fd4000;
@@ -200,35 +202,53 @@ button{ font-family: 'Noto Sans KR', sans-serif;  }
 	font-size : 14px;
 }
 
-/* .comment-section textarea{ */
-/*     border-radius: 1px; */
-/*     border: 1px solid #b3b3b3; */
-/*     outline : none; */
-/*     font-family: 'Noto Sans KR', sans-serif;  */
-/* } */
+/* 실천서약 이름입력 테이블 */
+#comment-section-table{border-collapse: collapse;}
+#comment-section-table td { 
+	height : 26px; 
+	border: none; 
+	padding : 5px 10px; 
+	vertical-align: middle;
+	}
+#comment-section-table td:first-child{width : 130px;}
+#comment-section-table td:nth-child(2){width : 180px; }
+#comment-section-table td:nth-child(3){width : 170px; }
+#comment-section-table td:nth-child(4){width : 180px; }
+#comment-section-table input{height: 100%; width : 100%;}
+#comment-section-table #commitment{ height : 65px; }
 .comment-input {
     margin-bottom: 10px;
     height: 43px;
     width: calc(100% - 90px); /* 등록 버튼의 너비를 고려하여 입력 필드의 너비를 조정합니다. */
     display: inline-block;
 }
-/* 실천서약 동참 버튼  */
-.comment-button {
+
+/* 실천서약 동참하기 버튼  */
+#comment-button {
     padding: 5px 15px;
-    background-color: #82d782;
+    background: #ff6531;
+    background: #59ca59;
     color: #fff;
     border: none;
-    border-radius: 3px;
     cursor: pointer;
-    margin-right: 2px;
-    width : 200px;
+    width : 220px;
+    height : 45px;
+    font-size : 16px;
+    margin : 20px 0;
+    margin-top : 28px;
+    border-radius: 25px;
 }
-
+#comment-section-agree{ 
+	margin-right : 200px;
+	}
+#comment-section-agree label{ 
+	margin : 0 10px;
+	font-size : 14px; 
+}
 
 /* 댓글 수정삭제버튼 */
 .comment-buttons{
     display: flex;
-    /* padding: 6px 15px; */
     justify-content: flex-end;
     margin-top: -20px;
     margin-right : 6px;
@@ -265,8 +285,76 @@ button{ font-family: 'Noto Sans KR', sans-serif;  }
     background-color: rgb(143, 214, 143);
     color : white;
 }
-.pagingBtn:hover{
-    background-color: rgb(99, 199, 99);
-    /* transition: all 0.2s; */
+.pagingBtn:hover{ background-color: rgb(99, 199, 99); }
+
+
+
+
+/* ------ 신고 모달창 ------ */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.6);
 }
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 10px 35px;
+    padding-bottom : 30px;
+    border: 1px solid #888;
+    width: 70%;
+    width : 700px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+/* 모달 닫기 버튼 */
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* 신고 내용 입력창 스타일 */
+.modal textarea {
+    width: 98%;
+    height: 100px;
+    margin-bottom: 10px;
+    resize: none;
+}
+
+#reportButtonContainer {
+    padding-bottom: 20px;
+    margin-right : 10px;
+}
+#reportButton {
+    float: right;
+    padding-top: 5px;
+    width : 160px;
+	height : 30px;
+	background: #aee3ae;
+	color : #47504a;
+	text-align: center;
+	font-weight : 450;
+	font-size : 15px;
+	cursor: pointer;
+}
+
+
+
+
 

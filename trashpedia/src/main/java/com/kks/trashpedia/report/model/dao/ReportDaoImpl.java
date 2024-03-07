@@ -16,6 +16,7 @@ import com.kks.trashpedia.report.model.vo.Report;
 
 @Repository
 public class ReportDaoImpl implements ReportDao{
+	
 	@Autowired
 	private SqlSessionTemplate session;
 
@@ -40,5 +41,19 @@ public class ReportDaoImpl implements ReportDao{
 		int totalCount = session.selectOne("reportMapper.commentReportCount", param);
 		return new PageImpl<>(r, pageable, totalCount);
 	}
+	
+	//기존 게시글 신고이력 확인
+	@Override
+	public Report selectReport(Report report) {
+		return session.selectOne("reportMapper.selectReport",report);
+	}
+
+	//게시글 신고등록
+	@Override
+	public int insertBoardReport(Report report) {
+		return session.insert("reportMapper.insertBoardReport", report);
+	}
+
+
 	
 }

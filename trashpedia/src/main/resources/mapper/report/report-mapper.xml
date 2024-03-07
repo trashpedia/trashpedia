@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="reportMapper">
+
 	<select id="getBoardReportList" resultType="Report">
 		SELECT R.REPORT_NO, P.TITLE, R.REPORT_CONTENT, R.REPORT_DATE, R.PROCESSING_DATE, R.REPORT_TARGET_NO
 		FROM REPORT R
@@ -46,6 +47,7 @@
 				AND REPORT_CONTENT LIKE '%' || #{searchValue} || '%'
 			</if>
 	</select>
+	
 	<select id="getCommentReportList" resultType="Report">
 		SELECT R.REPORT_NO, C.CONTENT, R.REPORT_CONTENT, R.REPORT_DATE, R.PROCESSING_DATE, R.REPORT_TARGET_NO
 		FROM REPORT R
@@ -73,10 +75,32 @@
 				</when>
 			</choose>
 	</select>
+	
 	<select id="commentReportCount" resultType="int">
 		SELECT COUNT(*)
 		FROM REPORT R
 		WHERE REPORT_TYPE = 2 OR REPORT_TYPE = 3
-		
 	</select>
+
+	<!-- 기존 게시글 신고이력 확인 -->
+	<select id="selectReport" resultType="report">
+		SELECT *
+		FROM REPORT
+		WHERE USER_NO = #{userNo}
+			AND REPORT_TYPE = 1
+			AND REPORT_TARGET_NO = #{reportTargetNo}
+			AND STATUS = 'Y'
+	</select>
+
+	<!-- 게시글 신고 -->
+	<insert id="insertBoardReport" parameterType="report">
+		INSERT INTO REPORT
+		VALUES (SEQ_RPNO.NEXTVAL, #{userNo}, #{reportContent} , SYSDATE, 1, #{reportTargetNo} , NULL, NULL, 'Y')
+	</insert>
+	
+	
+	
+	
+	
+	
 </mapper>

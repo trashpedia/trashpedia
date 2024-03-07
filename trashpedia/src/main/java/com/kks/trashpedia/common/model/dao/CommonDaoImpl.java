@@ -1,5 +1,7 @@
 package com.kks.trashpedia.common.model.dao;
 
+import java.util.List;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -69,6 +71,18 @@ public class CommonDaoImpl implements CommonDao{
 	@Override
 	public int deleteImage(Post p) {
 		return session.delete("boardMapper.deleteImage",p);
+	}
+
+	//첨부파일삭제-파일리스트출력
+	@Override
+	public List<String> fileNameList() {
+		return session.selectList("boardMapper.fileNameList");
+	}
+
+	//첨부파일삭제-이미지리스트출력
+	@Override
+	public List<String> imageNameList() {
+		return session.selectList("boardMapper.imageNameList");
 	}
 
 	

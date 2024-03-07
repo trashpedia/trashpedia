@@ -1,6 +1,5 @@
 package com.kks.trashpedia.pledge.controller;
 
-import java.io.PrintWriter;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
@@ -19,7 +18,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -30,13 +28,16 @@ import com.kks.trashpedia.board.model.vo.Comment;
 import com.kks.trashpedia.board.model.vo.ImgAttachment;
 import com.kks.trashpedia.board.model.vo.Post;
 import com.kks.trashpedia.board.model.vo.SubCategory;
-import com.kks.trashpedia.pledge.model.dao.PledgeDao;
+import com.kks.trashpedia.member.model.vo.Member;
 import com.kks.trashpedia.pledge.model.service.PledgeService;
+import com.kks.trashpedia.report.model.vo.Report;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @RestController
 @RequestMapping("/pledge")
 public class PledgeController {
@@ -89,9 +90,11 @@ public class PledgeController {
 			) {
 		
 		ModelAndView mav = new ModelAndView();
+		
 		//글내용 조회
 		Post post = service.pledgeDetail(postNo); 
 		Board b = new Board();
+		
 		
 		//이미지,첨부파일,카테고리
 		ImgAttachment img = service.pledgeDetailImg(post.getBoardNo());
@@ -99,12 +102,38 @@ public class PledgeController {
 		
 		b.setImgAttachment(img);
 		b.setAttachment(attach);
-		
-		b.setBoardNo(post.getBoardNo());
-		b.setUserNo(post.getUserNo());
-	
-		//Member loginUser = (Member) session.getAttribute("loginUser");  
 
+		//조회수 증가
+		Member loginUser = (Member)session.getAttribute("authentication");  
+		if(loginUser != null) {
+			
+			int result = 0;
+			
+			b.setUserNo(loginUser.getUserNo());
+			b.setBoardNo(post.getBoardNo());
+			
+			// 처음 조회일 조회 -> LocalDate로 변환
+			Date hitsDate = service.pledgeHitDate(b);
+			
+			// 조회일이 있을 때
+			if(hitsDate !=null) {
+				//조회날짜와 현재날짜 비교
+				LocalDate hitsLocalDate = hitsDate.toLocalDate();
+				LocalDate currentDate = LocalDate.now();
+				int comparisonResult = hitsLocalDate.compareTo(currentDate); // 적으면 -, 같으면 0, 많으면 +값 
+				// 현재날짜보다 조회날짜가 작을 때
+				if(comparisonResult<0) {
+					result = service.increaseCount(b);
+					post.setHitsNo(post.getHitsNo()+1);
+				}
+			}else {
+				result = service.increaseCount(b);
+				post.setHitsNo(post.getHitsNo()+1);
+			}
+		}
+
+		
+		
 		//조회수
 //		if (loginUser != null) {
 //			userNo = loginUser.getUserNo();
@@ -143,33 +172,16 @@ public class PledgeController {
 //		} else {
 //			System.out.println("조회실패");
 //		}
-//		
-		int result = 0;
-		
-		// 처음 조회일 조회 -> LocalDate로 변환
-		Date hitsDate = service.pledgeHitDate(b);
-		
-		// 조회일이 있을 때
-		if(hitsDate !=null) {
-			//조회날짜와 현재날짜 비교
-			LocalDate hitsLocalDate = hitsDate.toLocalDate();
-			LocalDate currentDate = LocalDate.now();
-			int comparisonResult = hitsLocalDate.compareTo(currentDate); // 적으면 -, 같으면 0, 많으면 +값 
-			// 현재날짜보다 조회날짜가 작을 때
-			if(comparisonResult<0) {
-				result = service.increaseCount(b);
-				post.setHitsNo(post.getHitsNo()+1);
-			}
-		}else {
-			result = service.increaseCount(b);
-			post.setHitsNo(post.getHitsNo()+1);
-		}
 		
 		mav.addObject("attachment", attach);
 		mav.addObject("img", img);
 		mav.addObject("post", post);
-		mav.setViewName("pledge/pledgeDetailView");
 		
+		if(post.getSubCategoryNo()==5) {
+			mav.setViewName("pledge/pledgeCDetailView");
+		}else {
+			mav.setViewName("pledge/pledgeDetailView");
+		}
 		return mav;
 	}
 	
@@ -226,8 +238,6 @@ public class PledgeController {
 		return service.deleteComment(comment);
 	}
 
-	
-	
 	
 	
 	

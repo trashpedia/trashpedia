@@ -15,7 +15,11 @@ import com.kks.trashpedia.board.model.vo.ImgAttachment;
 import com.kks.trashpedia.board.model.vo.Post;
 import com.kks.trashpedia.board.model.vo.SubCategory;
 import com.kks.trashpedia.pledge.model.dao.PledgeDao;
+import com.kks.trashpedia.report.model.vo.Report;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Service
 public class PledgeServiceImpl implements PledgeService{
 	
@@ -104,11 +108,7 @@ public class PledgeServiceImpl implements PledgeService{
 	public Page<Post> loadListData(Pageable pageable, int page, String sort, String searchSelect, String searchValue, int subCategoryNo) {
 		return dao.loadListData(pageable, page, sort, searchSelect, searchValue,subCategoryNo);
 	}
-
-
 	
-
-
 
 	
 }
