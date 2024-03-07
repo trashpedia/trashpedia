@@ -332,210 +332,291 @@ a {
 
 
 
-
-
-
-/* ---------- 댓글 ---------- */
-.reply-outer-top-area{
-    height: 30px;
-    line-height: 30px;
-    margin-left: 35px;
-    font-size: 20px;
-}
-
+/* 전반적인 댓글 영역 스타일링 */
 .reply-outer {
-    background-color: #ffffff;
-    padding: 30px;
-    box-shadow: 1px 2px 5px 1px rgb(240, 243, 240);
-    margin-top: 30px;
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 5px;
+    margin-top: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
-.reply_title {
-    font-size: 20px;
+
+/* 댓글 목록 스타일링 */
+.comment-list {
+    margin-top: 10px;
+}
+
+.comment-item {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+}
+
+.comment-user {
     font-weight: bold;
     color: #333;
-    margin-right: 10px;
 }
 
-.reply_count {
-    font-size: 18px;
-    color: #555;
-    margin-left: 10px;
+.comment-content p {
+    padding: 5px 0;
+    color: #666;
 }
 
-/* 댓글 표 */
-.reply-outer-content-area table{
-    padding: 10px;
-    text-align: center;
-    vertical-align: middle;
-    font-size: 14px;
-    width: 1000px;
-    margin : 10px auto;
+.comment-date {
+    text-align: right;
+    color: #999;
+    font-size: 0.8em;
 }
-.reply-table-title{
-    background-color: #89ddbb;
-    color: white;
-   
-}
-.reply-table tr th{
+
+/* 댓글 버튼 스타일링 */
+.comment-buttons {
+    text-align: right;
     padding-top: 10px;
-    padding-bottom: 10px;
-    vertical-align: middle;
 }
-.reply-table tr,td{ 
+
+.comment-buttons button {
+    background-color: #5acb5a;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 3px;
+    cursor: pointer;
+    margin-left: 5px;
+}
+
+.comment-buttons button:hover {
+    background-color: #4aae4a;
+}
+
+/* 수정 중인 댓글 스타일링 */
+.comment-edit {
+    margin-top: 10px;
+}
+
+.edit-textarea {
+    width: 100%;
     padding: 10px;
-    border-bottom: 1px solid rgb(227, 227, 227);
-}
-.reply-table th:nth-child(1){  width: 200px; }
-.reply-table th:nth-child(2){  width: 600px; }
-.reply-table th:nth-child(3){  width: 200px; }
-
-.reply-table p{
-    white-space: pre-line;
-}
-
-/* 댓글 작성 */
-.comment-section {
-    box-sizing: border-box;
-    display: flex;
-    margin-top: 12px;
-    margin-bottom: 20px;
     border: 1px solid #ddd;
     border-radius: 3px;
-    padding: 18px 25px;
-    background-color: #f9f9f9;
-    flex-wrap: wrap;
-    justify-content: flex-end;
-    width: 97%;
-    margin-left: auto;
-    margin-right: auto;
-}
-.comment-section textarea{
-    border-radius: 1px;
-    border: 1px solid #b3b3b3;
-    outline : none;
-    font-family: 'Noto Sans KR', sans-serif; 
-}
-.comment-input {
-    margin-bottom: 10px;
-    height: 50px;
-    width: calc(100% - 90px); /* 등록 버튼의 너비를 고려하여 입력 필드의 너비를 조정합니다. */
-    display: inline-block;
+    margin-bottom: 5px;
 }
 
-/* 댓글 등록  */
-.comment-button {
+.btn-update {
     padding: 5px 15px;
-    border: 1px solid #73cc73;
-    background-color: white;
-    color: #555;
+    background-color: #4aae4a;
     border: none;
     border-radius: 3px;
-    cursor: pointer;
-    margin-right: 2px;
-}
-/* 댓글 수정삭제버튼 */
-.comment-buttons{
-    display: flex;
-    justify-content: flex-end;
-    margin-top: 0;
-}
-.comment-buttons button{
-    border: 1px solid #73cc73;
-    background-color: white;
-    width: 45px;
-    padding: 3px;
-    margin-right: 5px;
-    border-radius: 5px;
-    color: #555;
-}
-.comment-buttons button:hover{
-    background-color:  #73cc73;
     color: white;
-    transition: all 0.2s;
-}
-
-
-
-/* ----- 페이징 버튼 ----- */
-.paging-button{
-    margin-top: 22px;
-    margin-bottom: 5px;
-    display: flex;
-    justify-content: center;
-}
-
-.pagingBtn{
-    border-radius: 50%;
-    width: 33px;
-    height: 33px;
-    font-size: 13px;
-    border: 0;
     cursor: pointer;
-    margin: 3px;
-    font-weight: 520;
-    border: 1px solid #73cc73;
-    background-color: white;
-    color: rgb(106, 106, 106);
-}
-.pagingBtn:hover{
-    background-color:  #73cc73;
-    color: white;
-    transition: all 0.2s;
 }
 
+.btn-update:hover {
+    background-color: #419941;
+}
 
-
-/* 대댓글 목록 스타일 */
-.nested-comment {
-    background-color: #f9f9f9;
-    margin-left: 20px;
+/* 대댓글 관련 스타일 */
+.nested-comments-container {
+    margin-top: 10px;
     border-left: 3px solid #73cc73;
     padding-left: 10px;
 }
 
-.nested-comment td {
-    padding: 8px;
-    font-size: 1.2rem; /* 대댓글의 글자 크기는 댓글보다 약간 작게 설정 */
+.nested-comment {
+    margin-top: 5px;
 }
 
-/* 대댓글 입력 필드 및 버튼 스타일 */
-.nested-comments-cell {
-    background-color: #f2f2f2;
-    padding: 15px;
-    margin: 10px 0;
-    border-radius: 5px;
+.nested-comment-user {
+    font-weight: bold;
+    color: #333;
 }
 
 .nested-comment-content {
-    width: calc(100% - 100px);
-    padding: 10px;
-    margin-right: 10px;
-    border: 1px solid #b3b3b3;
-    border-radius: 3px;
-    resize: none;
-    font-family: 'Noto Sans KR', sans-serif;
+    padding: 5px 0;
+    color: #666;
 }
 
-.nested-comment-submit {
-    padding: 5px 15px;
-    background-color: #73cc73;
-    border: none;
-    color: white;
-    border-radius: 3px;
-    cursor: pointer;
+.nested-comment-date {
+    text-align: right;
+    color: #999;
+    font-size: 0.8em;
 }
 
-/* 대댓글 삭제 버튼 스타일 */
+.nested-comment-actions {
+    text-align: right;
+    padding-top: 5px;
+}
+
 .btn-delete-nc {
-    margin-left: 10px;
-    padding: 3px 10px;
-    background-color: #f55427;
-    border: none;
+    background-color: #e53e3e;
     color: white;
+    border: none;
+    padding: 5px 10px;
     border-radius: 3px;
     cursor: pointer;
 }
 
 .btn-delete-nc:hover {
-    background-color: #e04a22;
+    background-color: #c53030;
 }
+
+
+
+
+
+
+/* 댓글 타이틀 영역 */
+.reply-outer-top-area {
+    padding-bottom: 15px;
+    border-bottom: 1px solid #e5e5e5;
+    margin-bottom: 15px;
+}
+
+.reply_title {
+    font-weight: bold;
+    font-size: 1.6rem;
+    color: #333;
+}
+
+.reply_count {
+    font-size: 1.4rem;
+    color: #888;
+}
+
+/* 댓글 입력 섹션 */
+.comment-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.comment-input {
+    flex-grow: 1;
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 4px;
+    margin-right: 10px;
+}
+
+.comment-button {
+    padding: 10px 20px;
+    background-color: #5acb5a;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.comment-button:hover {
+    background-color: #4aae4a;
+}
+
+/* 댓글 목록 영역 */
+.reply-outer-content-area {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 5px;
+}
+
+/* 제거: table 기반 구조를 div로 변경 */
+/* .reply-table {
+    width: 100%;
+    border-collapse: collapse;
+} */
+
+/* 제거: .reply-table-title */
+
+/* 댓글 아이템 */
+.comment-item {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.comment-user, .comment-date {
+    color: #888;
+    font-size: 0.9rem;
+}
+
+.comment-content p {
+    color: #555;
+}
+
+/* 기타 댓글 관련 버튼 */
+.btn-reply, .btn-reply-write, .btn-edit, .btn-delete {
+    background-color: #ddd;
+    color: #333;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 3px;
+    cursor: pointer;
+    margin-left: 5px;
+}
+
+.btn-reply:hover, .btn-reply-write:hover, .btn-edit:hover, .btn-delete:hover {
+    background-color: #ccc;
+}
+
+/* '댓글이 없습니다.' 메시지 스타일링 */
+.no-comments {
+    text-align: center;
+    color: #aaa;
+    padding: 20px 0;
+}
+
+
+
+/* 대댓글 입력 필드 스타일링 */
+.nested-comments-cell {
+    margin-top: 15px;
+    padding: 10px;
+    background-color: #f7f7f7;
+    border: 1px solid #ebebeb;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.nested-comment-content {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #dcdcdc;
+    border-radius: 4px;
+    min-height: 80px;
+    resize: vertical;
+    box-sizing: border-box;
+}
+
+.nested-comment-submit {
+    align-self: end;
+    padding: 6px 12px;
+    background-color: #5acb5a;
+    border: none;
+    border-radius: 4px;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.nested-comment-submit:hover {
+    background-color: #49a249;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
