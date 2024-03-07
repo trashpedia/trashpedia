@@ -10,16 +10,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.kks.trashpedia.board.model.vo.Attachment;
-import com.kks.trashpedia.board.model.vo.ImgAttachment;
 import com.kks.trashpedia.trash.model.service.TrashService;
 import com.kks.trashpedia.trash.model.vo.Trash;
 import com.kks.trashpedia.trash.model.vo.TrashPost;
 
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @RestController
 @RequestMapping("/trash")
 public class TrashController {
@@ -39,8 +36,8 @@ public class TrashController {
 		//인기쓰레기
 		List<TrashPost> popularList = service.getPopularList();
 		
+//		log.info(" trash controller: {}", popularList);
 		
-		System.out.println(trashList);
 		modelAndView.addObject("trashList", trashList);
 		modelAndView.addObject("popularList", popularList);
 		modelAndView.setViewName("encyclopedia/trashEncyclopedia");
@@ -49,20 +46,20 @@ public class TrashController {
 	
 	
 	//쓰레기 상세페이지이동
-	@GetMapping("/detail")
+	@GetMapping("/trashDetail/{trashPostNo}")
 	public ModelAndView trashDetail(
-			@RequestParam int trashNo
+			@PathVariable int trashPostNo
 			) {
 		ModelAndView modelAndView = new ModelAndView();
 		
 		//쓰레기 내용 조회
-		Trash trash = service.trashDetail(trashNo);
+		Trash trash = service.trashDetail(trashPostNo);
 		System.out.println(trash);
 		
 		//쓰레기 이미지, 제목, 설명, 대분류, 소분류
 
 		//대분류, 소분류가 같은 쓰레기 
-		List<TrashPost> similarList = service.getSimilarList(trashNo);
+		List<TrashPost> similarList = service.getSimilarList(trashPostNo);
 		System.out.println(similarList);
 		
 		

@@ -30,7 +30,7 @@
         <div class="section-area">
         	<span> <a href="${contextPath}/information/list?bigCategoryNo=3&subCategoryNo=7">홍보교육자료</a></span>
         	<span> <a href="${contextPath}/information/list?bigCategoryNo=3&subCategoryNo=8">제도교육자료</a></span>
-        	<span> <a href="${contextPath}/information/list?bigCategoryNo=3&subCategoryNo=7">정보기타자료</a></span>
+<%--         	<span> <a href="${contextPath}/information/list?bigCategoryNo=3&subCategoryNo=7">정보기타자료</a></span> --%>
         </div>
 
         <div class="content-section">

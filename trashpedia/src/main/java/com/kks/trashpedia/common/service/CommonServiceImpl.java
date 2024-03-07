@@ -1,6 +1,7 @@
 package com.kks.trashpedia.common.service;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -121,6 +122,18 @@ public class CommonServiceImpl implements CommonService{
 			
 		}
 		return result;
+	}
+
+	//파일 삭제용 파일 리스트출력
+	@Override
+	public List<String> fileNameList() {
+		return dao.fileNameList();
+	}
+
+	//파일 삭제용 이미지 리스트 출력
+	@Override
+	public List<String> imageNameList() {
+		return dao.imageNameList();
 	}
 
 	

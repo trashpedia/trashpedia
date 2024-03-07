@@ -69,6 +69,8 @@
 						<a href="${contextPath}/update?bigCategoryNo=${b.bigCategoryNo}&subCategoryNo=${b.subCategoryNo}&postNo=${b.postNo}&type=1">
 							<button class="btn-edit">수정</button></a>
                     	<a href="${contextPath}/board/delete/{postNo}" class="delte">삭제</a>
+                    	<button class="btn-reply" onclick="toggleNestedCommentForm(${comment.commentNo})" data-commentNo="${comment.commentNo}">답글</button>
+                    	
 					</c:if>
                 </div>
             </div>
@@ -101,18 +103,6 @@
 							</tr>
 						</tbody>
 					</table>
-					
-					
-					<!-- 페이징 -->
-					<div class="paging-button">
-						<button class="pagingBtn" id="prevBtn"><</button>
-						<button class="pagingBtn">1</button>
-						<button class="pagingBtn">2</button>
-						<button class="pagingBtn">3</button>
-						<button class="pagingBtn">4</button>
-						<button class="pagingBtn">5</button>
-						<button class="pagingBtn" id="nextBtn">></button>
-					</div>
 				</div>
 			</div>
         </div>
@@ -138,12 +128,15 @@
 
 	    // 댓글 목록 조회 및 표시
 		function selectCommentList(){
+	    	
 		    $.ajax({
 		        url: "${contextPath}/board/selectCommentList",
 		        data: { boardNo: ${b.boardNo}, userNo: ${b.userNo}},
 		        success: function (result) {
-		        	console.log("result" + result);
+		        	console.log("result : " + result);
+		        	
 		            let commentsHtml = ""; // 댓글 목록을 담을 변수
+		            
 		            for (let comment of result) {
 		                commentsHtml += "<tr>";
 		                commentsHtml += "<td>" + comment.userName + "</td>";
@@ -152,21 +145,29 @@
 		                commentsHtml += "<div class='comment-buttons'>" +
 		                                "<button onclick='showCommentUpdateForm("+comment.commentNo+",this)' class='btn-edit'>수정</button>" +
 		                                "<button onclick='deleteComment(" + comment.commentNo + ")' class='btn-delete'>삭제</button>" +
+		                                "<button onclick='toggleReply(" + comment.commentNo + ")' class='btn-reply'>답글보기</button>" +
+		                                
+		                                "<button onclick='toggleReplyInput(" + comment.commentNo + ")' class='btn-reply-write'>답글 작성</button>" +
 		                                "</div></td>";
 		                commentsHtml += "<td>" + comment.modifyDate + "</td>";
 		                commentsHtml += "</tr>";
 		                
 		                if('${authentication.userName}' == comment.userName){
-			                // 여기에 대댓글 입력 필드 및 버튼 추가
-			                commentsHtml += "<tr><td colspan='3' class='nested-comments-cell'>";
-			                commentsHtml += "<textarea class='nested-comment-content' id='nestedCommentContent" + comment.commentNo + "' placeholder='대댓글을 입력하세요'></textarea>";
-			                commentsHtml += "<button onclick='insertNC(" + comment.commentNo + ")' class='nested-comment-submit'>대댓글 등록</button>";
-			                commentsHtml += "</td></tr>";
-			                // 여기에 대댓글 목록 표시 영역 추가
-			                commentsHtml += "<tr><td colspan='3' class='nested-comments-list' id='nestedCommentsList" + comment.commentNo + "'>";
-			                // 대댓글 목록은 여기에 표시됩니다.
+		                	
+		                	
+		                	
+		                	// 대댓글 입력 필드 및 버튼 추가 (초기에 숨김 처리)
+		                	commentsHtml += "<tr style='display: none;' class='nested-comments-cell' id='replyInputArea" + comment.commentNo + "'>";
+		                	commentsHtml += "<td colspan='3'>";
+		                	commentsHtml += "<textarea class='nested-comment-content' id='nestedCommentContent" + comment.commentNo + "' placeholder='대댓글을 입력하세요'></textarea>";
+		                	commentsHtml += "<button onclick='insertNC(" + comment.commentNo + ")' class='nested-comment-submit'>대댓글 등록</button>";
+		                	  // 여기에 대댓글 목록 표시 영역 추가
+			                commentsHtml += "<tr><td style='display: none;' colspan='3' class='nested-comments-list' id='nestedCommentsList" + comment.commentNo + "'>";
+			                commentsHtml += "<button onclick='deleteNC(" + Comment.commentNo + ")' class='btn-delete-nc'>삭제</button>";
 			                commentsHtml += "</td></tr>";
 		                } 
+		             
+		                viewNC(comment.commentNo);
 		            }
 		            $("#replyArea tbody").html(commentsHtml); // 테이블 바디에 댓글 목록 추가
 		            $("#rcount").html(result.length); // 댓글 수 업데이트
@@ -178,29 +179,115 @@
 		}
 		selectCommentList(); // 함수 호출
 		
+
+		// 대댓글 보기 토글 기능
+		function toggleReply(commentNo) {
+		    // 대댓글 목록을 직접 선택합니다.
+		    var nestedCommentsList = document.getElementById('nestedCommentsList' + commentNo);
+		    // 해당 요소가 존재하는지 확인합니다.
+		    if (nestedCommentsList) {
+		        // 요소의 현재 display 상태에 따라 표시 상태를 토글합니다.
+		        if (nestedCommentsList.style.display === 'none') {
+		            nestedCommentsList.style.display = 'block'; // 요소를 표시합니다.
+		        } else {
+		            nestedCommentsList.style.display = 'none'; // 요소를 숨깁니다.
+		        }
+		    } else {
+		        // 요소를 찾을 수 없는 경우 콘솔에 메시지를 출력합니다.
+		        console.log('Nested comments list not found for commentNo:', commentNo);
+		    }
+		}
+
+
+
+		//대댓글 등록 토글
+		function toggleReplyInput(commentNo) {
+		    var replyInputArea = document.getElementById('replyInputArea' + commentNo);
+		    if (replyInputArea.style.display === 'none') {
+		        replyInputArea.style.display = 'block'; // 요소를 표시합니다.
+		    } else {
+		        replyInputArea.style.display = 'none'; // 요소를 숨깁니다.
+		    }
+		}
+
+
+
+
+		//대댓글 조회
+		function viewNC(commentNo){
+			$.ajax({
+				url: "${contextPath}/board/viewNC/"+commentNo,
+				success : function(NCList){
+					let commentsHtml = "";
+					if (NCList && NCList.length > 0) {
+		                for (let nComment of NCList) {
+		                    commentsHtml += "<tr class='nested-comment'>"; // 대댓글을 구분하기 위한 클래스 추가
+		                    commentsHtml += "<td></td>"; // 첫 번째 칼럼은 비워둡니다.
+		                    commentsHtml += "<td>" + nComment.userName + ": " + nComment.content + "</td>"; // 대댓글 내용 표시
+		                    commentsHtml += "<td>" + nComment.modifyDate + "</td>";
+		                    commentsHtml += "</tr>";
+		                }
+		            }
+		            // 대댓글 목록을 해당 댓글의 대댓글 표시 영역에 추가
+		            $('#nestedCommentsList' + commentNo).html(commentsHtml);
+					
+		                
+				},
+				error : function( xhr, status, error){
+					console.log("대댓글 조회 에러 : ", status, error);
+				}
+				
+			})
+		}
+		
+		
+		
+		
 		//대댓글 등록
 		function insertNC(commentNo){
-			
-			console.log('edfdfdf');
-			
+			var content = document.getElementById('nestedCommentContent' + commentNo).value;
 			$.ajax({
 				url : "${contextPath}/board/insertNC",
 				type : 'post',
 				data : {
 					commentNo: commentNo,
 					userNo: loginUserNo,
-					content : $("#nestedCommentContent").val()
-					
+					content : content
 				},
 				success : function(response){
 					alert('대댓글이 등록되었습니다.');
-					selectNestedCommentList(${b.boardNo});
+					selectCommentList(${b.boardNo});
 				},
 				error: function (xhr, status, error) {
 						console.log(" 댓글등록에러:", status, error);
 				} 
 			})
 		}
+		
+		
+		//대댓글 삭제
+		function deleteNC(nCommentNo) {
+		    var result = confirm("대댓글을 삭제하시겠습니까?");
+		    if (result) {
+		        $.ajax({
+		            url: "${contextPath}/board/deleteNC/" + nCommentNo,
+		            type: 'delete',
+		            success: function(response) {
+		                if(response > 0) {
+		                    alert('대댓글이 삭제되었습니다.');
+		                    selectCommentList(); // 댓글 목록을 다시 로드하여 변경사항을 반영
+		                } else {
+		                    alert('대댓글 삭제에 실패했습니다.');
+		                }
+		            },
+		            error: function(xhr, status, error) {
+		                console.log("대댓글 삭제 에러:", status, error);
+		            }
+		        });
+		    }
+		}
+
+		
 
 // 	   댓글등록
 	   function insertComment(){

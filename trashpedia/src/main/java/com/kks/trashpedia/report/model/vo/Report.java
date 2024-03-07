@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 public class Report {
-	private int ReportNo;
+	private int reportNo;
 	private int userNo;
 	private String reportContent;
 	private Date reportDate;

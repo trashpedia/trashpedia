@@ -359,23 +359,6 @@ main .recently-garbage-img{
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /* 스크롤 업버튼 */
 #scrollUpButton{
 	position: fixed;
@@ -391,6 +374,26 @@ main .recently-garbage-img{
     background-color: black;
     display : none;
     -webkit-transition: all .3s;
+}
+
+
+
+/*더보기 버튼*/
+.moreBtnArea{
+	height:100px;
+}
+
+.moreBtnBox{
+	width:150px;
+	margin:auto;
+}
+
+#moreBtn{
+	width:150px;
+	height:40px;
+	border-radius:15px;
+	background-color:white;
+	border:1px solid #4CAF50
 }
 
 

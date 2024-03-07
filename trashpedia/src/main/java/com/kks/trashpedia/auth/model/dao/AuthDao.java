@@ -36,4 +36,31 @@ public class AuthDao {
 		param.put("phone", phone);
 		return session.update("auth.temporaryPwd", param);
 	}
+
+	public Member getSocialUser(Long socialId, String socialType) {
+		Map<String, Object> param = new HashMap<>();
+		param.put("socialId", socialId);
+		param.put("socialType", socialType);
+		return session.selectOne("auth.loadUserByUsernameSocial", param);
+	}
+
+	public Boolean emailCheck(String userEmail) {
+		int result = session.selectOne("auth.emailCheck", userEmail);
+		if(result > 0) {
+			return true;
+		}
+		return false;
+	}
+
+	public int joinMemberSocial(Member m, Long socialId, String sns) {
+		Map<String, Object> param = new HashMap<>();
+		param.put("userNo", m.getUserNo());
+		param.put("socialId", socialId);
+		param.put("sns", sns);
+		return session.insert("auth.joinMemberSocial", param);
+	}
+
+	public Member getMemberEmail(String userEmail) {
+		return session.selectOne("auth.getMemberEmail", userEmail);
+	}
 }

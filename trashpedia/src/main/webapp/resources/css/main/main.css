@@ -166,17 +166,16 @@ main .practice-list li a i {
     flex-wrap: wrap;
     box-sizing: border-box;
     cursor: pointer;
-    max-width: 1100px; /* 최대 너비 지정 (원하는 최대 너비로 수정) */
+    max-width: 1150px; /* 최대 너비 지정 (원하는 최대 너비로 수정) */
     margin: 0 auto;
-    padding-bottom: 10px;
+    padding-bottom: 15px;
 }
 /*  최근 업데이트된 쓰레기사전 슬라이더 */
 main .recently-garbage-outer{
     z-index: 1;
     position: relative;
     top: 0;
-    margin-top: 50px;
-    margin-bottom: 40px;
+    margin-bottom: 50px;
     display: flex;
     flex-direction: column;
     margin: 5px auto;
@@ -188,8 +187,8 @@ main #recently-garbage-outer-title{
     margin-left: 10px;
     font-size: 27px;
     font-weight: 550;
-    margin-bottom: 25px;
-    margin-top: 22px;
+    margin-bottom: 30px;
+    margin-top: 50px;
     text-align: center;
 }
 main .recently-garbage-inner{
@@ -200,7 +199,7 @@ main .recently-garbage-inner{
 }
 /* 쓰레기 게시물 div */
 main .recently-garbage {
-    border-radius: 7px;
+    border-radius: 8px;
     width: 235px;
     height: 275px;
     max-height: 275px;
@@ -214,12 +213,13 @@ main .recently-garbage-title{
     font-weight: 650;
     font-size: 13px;
  	position: absolute;
-	padding: 3px 12px;
+	padding: 2px 13px;
 	bottom : -5px;
 	left : 10px;
 	background-color : rgb(0, 0, 0, 0.4); 
 	color : white;
 	border-radius : 15px;
+	vertical-align: middle;
 }
 /* 슬라이드 이미지 내용 */
 main .recently-garbage-content{

@@ -19,17 +19,11 @@
 </head>
 <body>
 
-	<c:if test="${not empty alert}">
-		<script>
-		    alert("${alert}");
-		</script>
-		<c:remove var="alert" />
-	</c:if>
-
     <jsp:include page="../common/header.jsp"/>
     
     <main>
-    
+<%--     	<input type="hidden" id="subCategoryNo" name="subCategoryNo" value="${param.subCategoryNo}" /> --%>
+    	
         <div class="practice-section">
             <p>실천하기</p>
             <p>Reduce Reuse Recycle Recovery</p>
@@ -100,9 +94,9 @@
     
     	//----- 숫자 카운팅
         // 시작 숫자
-        let currentCount = 0;
+        var currentCount = 0;
         // 목표 숫자
-        let targetCount = parseInt($("#dynamicCount").text().replace(/,/g, ''), 10);
+        var targetCount = parseInt($("#dynamicCount").text().replace(/,/g, ''), 10);
         // 숫자 업데이트
         function updateCount() {
             document.getElementById('dynamicCount').textContent = currentCount.toLocaleString();

@@ -11,7 +11,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 
 import com.kks.trashpedia.board.model.vo.Board;
-import com.kks.trashpedia.board.model.vo.Comment;
 import com.kks.trashpedia.member.model.vo.Member;
 
 @Repository
@@ -31,11 +30,6 @@ public class MemberDaoImpl implements MemberDao {
 	public int joinMember(Member m) {
 		int result = session.insert("memberMapper.joinMember", m);
 		return result;
-	}
-
-	@Override
-	public Member loginMember(Member m) {
-		return session.selectOne("memberMapper.loginMember", m);
 	}
 
 	@Override
@@ -101,5 +95,19 @@ public class MemberDaoImpl implements MemberDao {
 		param.put("userEmail", userEmail);
 		param.put("phone", phone);
 		return session.selectOne("memberMapper.checkEmail", param);
+	}
+
+	@Override
+	public int joinSocialMember(Member m, Long socialId, String socialType) {
+		Map<String, Object> param = new HashMap<>();
+		param.put("socialId", socialId);
+		param.put("socialType", socialType);
+		int result = session.insert("memberMapper.joinMember", m);
+		if(result > 0) {
+			Member member = session.selectOne("memberMapper.findMember",m);
+			param.put("userNo", member.getUserNo());
+			result = session.insert("auth.joinMemberSocial",param);
+		}
+		return result;
 	}
 }

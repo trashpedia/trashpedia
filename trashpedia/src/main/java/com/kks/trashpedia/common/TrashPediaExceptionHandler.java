@@ -6,12 +6,13 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-@ControllerAdvice
+//@ControllerAdvice
 public class TrashPediaExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public String handleException(Exception e, Model model) {
+    	
     	//에러발생이유 로깅
     	e.printStackTrace(); 
 
@@ -21,5 +22,6 @@ public class TrashPediaExceptionHandler {
 
 		// 포워딩할 페이지 설정
         return "forward:/errorPage";
+        
     }
 }	

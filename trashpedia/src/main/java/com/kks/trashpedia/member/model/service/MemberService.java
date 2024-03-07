@@ -11,8 +11,6 @@ public interface MemberService {
 
 	int joinMember(Member m);
 
-	Member loginMember(Member m);
-
 	int updateMember(Member m);
 
 	int deleteMember(Member m);
@@ -27,4 +25,6 @@ public interface MemberService {
 	String findEmail(String userName, String phone);
 
 	int checkEmail(String userEmail, String phone);
+
+	int joinSocialMember(Member m, Long socialId, String socialType);
 }

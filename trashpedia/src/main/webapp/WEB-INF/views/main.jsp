@@ -10,7 +10,7 @@
 <title>TRASHPEDIA</title>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 <!-- css -->
-<link rel="stylesheet" href="resources/css/main/main.css">
+<link rel="stylesheet" href="${contextPath}/resources/css/main/main.css">
 <!-- slick 라이브러리 CSS -->
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
 <!-- slick 라이브러리 테마 CSS (선택사항) -->
@@ -44,9 +44,7 @@
 		</div>
 
 		<div class="recently-outer showEvent">
-			<img src="<c:url value='/resources/image/main/mainImg/main_visual2.png' />">
-<!-- 			<img id="recently-img" -->
-<!-- 				src="https://theskinfood.com/design/skinfood/skinfood/images/dev/sub-slider-bg1.jpg"> -->
+			<img style="width:100%"src="<c:url value='/resources/image/main/mainImg/main_visual.png' />">
 			
 			<div id="recently-garbage-slider" class="recently-garbage-outer">
 				<p id="recently-garbage-outer-title">
