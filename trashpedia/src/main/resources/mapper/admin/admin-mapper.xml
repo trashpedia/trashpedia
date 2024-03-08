@@ -95,7 +95,7 @@
 		ORDER BY
 			<choose>
 				<when test="sort == 'userNo'">
-					USER_NO DESC
+					USER_NO ASC
 				</when>
 				<when test="sort == 'userEmail'">
 					USER_EMAIL ASC
@@ -358,10 +358,10 @@
 		ORDER BY
 			<choose>
 				<when test="sort == 'boardNo'">
-					B.BOARD_NO
+					B.BOARD_NO DESC
 				</when>
 				<when test="sort == 'title'">
-					P.TITLE
+					P.TITLE, BOARD_NO DESC
 				</when>
 			</choose>
 	</select>
@@ -398,16 +398,16 @@
 		ORDER BY
 			<choose>
 				<when test="sort == 'boardNo'">
-					B.BOARD_NO
+					B.BOARD_NO DESC
 				</when>
 				<when test="sort == 'subCategoryName'">
-					SC.SUB_CATEGORY_NAME
+					SC.SUB_CATEGORY_NAME, BOARD_NO DESC
 				</when>
 				<when test="sort == 'title'">
-					P.TITLE
+					P.TITLE, BOARD_NO DESC
 				</when>
 				<when test="sort == 'hit'">
-					hit
+					hit, BOARD_NO DESC
 				</when>
 			</choose>
 	</select>
@@ -468,14 +468,14 @@
 		)
 		ORDER BY
 		<choose>
-			<when test="sort == 'boardNo'">
-				BOARD_NO
+			<when test="sort == 'createDate'">
+				CREATE_DATE DESC
 			</when>
 			<when test="sort == 'subCategoryName'">
-				SUB_CATEGORY_NAME
+				SUB_CATEGORY_NAME, CREATE_DATE DESC
 			</when>
 			<when test="sort == 'title'">
-				TITLE
+				TITLE, CREATE_DATE DESC
 			</when>
 		</choose>
 	</select>
@@ -568,16 +568,16 @@
 		GROUP BY T.TRASH_NO, TBC.BIG_CATEGORY_NAME, TSC.SUB_CATEGORY_NAME, TP.TRASH_TITLE, TP.CREATE_DATE, TP.MODIFY_DATE
 		<choose>
 			<when test="sort == 'trashNo'">
-				ORDER BY T.TRASH_NO, TP.CREATE_DATE
+				ORDER BY T.TRASH_NO DESC
 			</when>
 			<when test="sort == 'subCategoryName'">
-				ORDER BY TSC.SUB_CATEGORY_NAME, TP.CREATE_DATE
+				ORDER BY TSC.SUB_CATEGORY_NAME, TP.TRASH_NO DESC
 			</when>
 			<when test="sort == 'trashTitle'">
-				ORDER BY TP.TRASH_TITLE, TP.CREATE_DATE
+				ORDER BY TP.TRASH_TITLE, TP.TRASH_NO DESC
 			</when>
 			<when test="sort == 'hit'">
-				ORDER BY hit, TP.CREATE_DATE
+				ORDER BY hit, TP.TRASH_NO DESC
 			</when>
 		</choose>
 	</select>
@@ -610,16 +610,16 @@
 		</if>
 		<choose>
 			<when test="sort == 'suggestionNo'">
-				ORDER BY SUGGESTION_NO
+				ORDER BY SUGGESTION_NO DESC
 			</when>
 			<when test="sort == 'suggestionTitle'">
-				ORDER BY SUGGESTION_TITLE, SUGGESTION_NO
+				ORDER BY SUGGESTION_TITLE, SUGGESTION_NO DESC
 			</when>
 			<when test="sort == 'processingStatus'">
-				ORDER BY PROCESSING_STATUS, SUGGESTION_NO
+				ORDER BY PROCESSING_STATUS, SUGGESTION_NO DESC
 			</when>
 			<when test="sort == 'processingDate'">
-				ORDER BY PROCESSING_DATE
+				ORDER BY PROCESSING_DATE DESC
 			</when>
 		</choose>
 	</select>
@@ -655,22 +655,22 @@
 		</if>
 		<choose>
 			<when test="sort == 'requestNo'">
-				ORDER BY REQUEST_NO
+				ORDER BY REQUEST_NO DESC
 			</when>
 			<when test="sort == 'userNo'">
-				ORDER BY R.USER_NO, REQUEST_NO
+				ORDER BY R.USER_NO, REQUEST_NO DESC
 			</when>
 			<when test="sort == 'trashTitle'">
-				ORDER BY TP.TRASH_TITLE, REQUEST_NO
+				ORDER BY TP.TRASH_TITLE, REQUEST_NO DESC
 			</when>
 			<when test="sort == 'requestTitle'">
-				ORDER BY R.REQUEST_TITLE, REQUEST_NO
+				ORDER BY R.REQUEST_TITLE, REQUEST_NO DESC
 			</when>
 			<when test="sort == 'processingStatus'">
-				ORDER BY R.PROCESSING_STATUS, REQUEST_NO
+				ORDER BY R.PROCESSING_STATUS, REQUEST_NO DESC
 			</when>
 			<when test="sort == 'processingDate'">
-				ORDER BY R.PROCESSING_DATE
+				ORDER BY R.PROCESSING_DATE DESC
 			</when>
 		</choose>
 	</select>

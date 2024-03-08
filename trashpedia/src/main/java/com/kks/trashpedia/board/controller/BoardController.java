@@ -282,15 +282,36 @@ public class BoardController {
 	
 	
 	//대댓글등록
+//	@PostMapping("/insertNC")
+//	public int insertNC(NestedComment nc,
+//			@RequestParam String content,
+//			@RequestParam int userNo,
+//			@RequestParam int commentNo
+//			) {
+//		int result = service.insertNC(nc);
+//		return result;
+//	}
+	
 	@PostMapping("/insertNC")
-	public int insertNC(NestedComment nc) {
-		int result = service.insertNC(nc);
-		return 0;
+	public ResponseEntity<Integer> insertNC(@RequestBody NestedComment nc) {
+	    int result = service.insertNC(nc);
+	    return ResponseEntity.ok(result);
 	}
+
+	
+	
+	
 	//대댓글조회
 	@GetMapping("/viewNC/{commentNo}")
 	public List<NestedComment> viewNC( @PathVariable("commentNo") int commentNo, Board b) {
 	    List<NestedComment> NCList = service.viewNC(commentNo);
 	    return NCList; 
 	}
+	
+	//대댓글삭제
+	@DeleteMapping("/deleteNC/{nCommentNo}")
+	public int deleteNC(@PathVariable("nCommentNo")int nCommentNo) {
+		return service.deleteNC(nCommentNo);
+	}
+	
 }

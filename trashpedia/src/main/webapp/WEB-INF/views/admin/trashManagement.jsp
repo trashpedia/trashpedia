@@ -503,15 +503,18 @@
 	        }
 	        userPaging.innerHTML = pagination;
 	    }
-	    
+
+	    function trashWrite(){
+	        location.href="${contextPath}/trash/write";
+	    }
 	    function trashDetail(trashNo){
-	        location.href="/trash/detail?trashNo="+trashNo;
+	        location.href="${contextPath}/trash/detail?trashNo="+trashNo;
 	    }
 	    function trashUpdate(trashNo){
-	        location.href="/trash/update/"+trashNo;
+	        location.href="${contextPath}/trash/update/"+trashNo;
 	    }
 	    function trashDelete(trashNo){
-	        location.href="/trash/delete/"+trashNo;
+	        location.href="${contextPath}/trash/delete/"+trashNo;
 	    }
     </script>
 </body>

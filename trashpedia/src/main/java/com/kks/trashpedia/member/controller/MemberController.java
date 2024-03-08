@@ -118,19 +118,19 @@ public class MemberController {
 	// 페스워드 확인
 	@PostMapping("/pwdAuth.me")
 	public ModelAndView pwdAuth(Member m) {
-
 		ModelAndView mav = new ModelAndView();
 		
-
-		int userNo = m.getUserNo(); // 접속한 유저번호
-
 		// 사용자가 제출한 비밀번호
-		String submittedPassword = m.getUserPwd(); // 암호화 안됨
+		String submittedPassword = m.getUserPwd();
 		
-		Member member = service.getMember(userNo); // userNo를 통해 회원 정보를 가져와서
+		// 화원 정보 가져오기
+		int userNo = m.getUserNo(); // 접속한 유저번호
+		System.out.println(userNo);
+		Member member = service.getMember(userNo);
 		
 		String hashedPasswordFromDatabase = member.getUserPwd(); // 암호화된 Pwd
-
+//		String hashedPasswordFromDatabase = "$2a$10$gwWx8rdlhHFZZx.5NVexFeB1K0/wZ82pFt0HSHUIRTfI5KVWJ3zZW"; // 암호화된 Pwd
+		System.out.println(member);
 		if (passwordEncoder.matches(submittedPassword, hashedPasswordFromDatabase)) { // 받은 페스워드, 기존암호화된 페스워드 확인
 			// 비밀번호가 일치함
 			mav.addObject("alert", "페스워드 인증성공");

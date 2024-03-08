@@ -157,8 +157,8 @@
 					<div class="List">
 						<c:forEach var="post" items="${list}" varStatus="status">
 
-							<a href="${contextPath}/board/community/detail/${post.postNo}">
 
+							<a href="${contextPath}/board/community/detail/${post.postNo}">
 								<div class="Card">
 
 									<div class="Front">
@@ -180,9 +180,8 @@
 										<img class="content-img"
 											src="<c:url value='/resources/attachFile/image/${post.changeName}'/>"
 											alt=""> <span class="clickDetail"
-											data-postNo="${post.postNo}" 
-											style="font-size:18px; font-weight:600;"
-											>${fn:substring(post.content,0,200)}</span>
+											data-postNo="${post.postNo}"
+											style="font-size: 18px; font-weight: 600;">${fn:substring(post.content,0,200)}</span>
 									</div>
 								</div>
 
@@ -194,26 +193,26 @@
 
 					<!-- 3개의 리스트 -->
 
-				<div class="board_page">
-					<c:if test="${boardList.number > 0}">
-						<a href="${contextPath}/board/list?page=${boardList.number - 1}&subCategoryNo=${subCategoryNo}"
-							class="bt prev">&lt;</a>
-					</c:if>
+					<!-- 				<div class="board_page"> -->
+					<%-- 					<c:if test="${boardList.number > 0}"> --%>
+					<%-- 						<a href="${contextPath}/board/list?page=${boardList.number - 1}&subCategoryNo=${subCategoryNo}" --%>
+					<!-- 							class="bt prev">&lt;</a> -->
+					<%-- 					</c:if> --%>
 
-					<c:forEach begin="0" end="${boardList.totalPages - 1}" var="pageNum">
-					    <c:if test="${pageNum >= boardList.number - 5 && pageNum <= boardList.number + 5}">
-					        <a href="${contextPath}/board/list?page=${pageNum}&subCategoryNo=${subCategoryNo}"
-					            class="${pageNum == boardList.number ? 'num on' : 'num'}">${pageNum + 1}
-					        </a>
-					    </c:if>
-					</c:forEach>
+					<%-- 					<c:forEach begin="0" end="${boardList.totalPages - 1}" var="pageNum"> --%>
+					<%-- 					    <c:if test="${pageNum >= boardList.number - 5 && pageNum <= boardList.number + 5}"> --%>
+					<%-- 					        <a href="${contextPath}/board/list?page=${pageNum}&subCategoryNo=${subCategoryNo}" --%>
+					<%-- 					            class="${pageNum == boardList.number ? 'num on' : 'num'}">${pageNum + 1} --%>
+					<!-- 					        </a> -->
+					<%-- 					    </c:if> --%>
+					<%-- 					</c:forEach> --%>
 
 
-					<c:if test="${boardList.number + 1 < boardList.totalPages}">
-						<a href="${contextPath}/board/list?page=${boardList.number + 1}&subCategoryNo=${subCategoryNo}"
-							class="bt next">&gt;</a>
-					</c:if>
-				</div>
+					<%-- 					<c:if test="${boardList.number + 1 < boardList.totalPages}"> --%>
+					<%-- 						<a href="${contextPath}/board/list?page=${boardList.number + 1}&subCategoryNo=${subCategoryNo}" --%>
+					<!-- 							class="bt next">&gt;</a> -->
+					<%-- 					</c:if> --%>
+					<!-- 				</div> -->
 
 				</div>
 			</div>
@@ -270,8 +269,7 @@
 
        
 	
-	    
-	    
+	  
 	    
         //페이징,검색
         var boardFilterValue = 'boardNo';
@@ -304,105 +302,6 @@
 	    	    }
 	    	});
 	    
-
-        
-	    /* 게시글 리스트 조회 */
-// 	    function getBoardList(page, boardSearchSelect, boardSearchValue) {
-// 	        $.ajax({
-// 	            url: '${contextPath}/pledge/loadListData',
-// 	            type: 'GET',
-// 	            dataType: 'json',
-// 	            data: {
-// 	            	page: page, size: 8, sort: boardFilterValue, 
-// 	            	searchSelect: boardSearchSelect, 
-// 	            	searchValue: boardSearchValue,
-// 	            	subCategoryNo : ${subCategoryNo}	
-// 	            },
-// 	            success: function(data) {
-//  	            	if(data.content.length != 0){
-//  		                updateBoardTable(data.content);
-//  		                updateBoardPagination(data);
-//  	            	}
-// 	            },
-// 	            error: function(xhr, status, error) {
-// 	                console.error('Error: ' + error);
-// 	            }
-// 	        });
-// 	    }
-	    
-	    /* 게시글 반복문돌리기 */
-// 	    function updateBoardTable(data) {
-// 		    let userList = document.querySelector('.content-outer');
-// 		    userList.innerHTML = '';
-		
-// 		    for (let i = 0; i < data.length; i++) {
-		    	
-// 		        let post = data[i];
-// 		        let postNo = post.postNo;
-		        
-// 		        // 게시글 요소 생성
-// 		        let postElement = document.createElement('div');
-// 		        postElement.className = 'img-area';
-// 		     	postElement.setAttribute('onclick', 'pledgeDetail(' + postNo + ')');
-		        
-// 		        // 숨겨진 input 요소 추가
-// 		        let titleInput = document.createElement('input');
-// 		        titleInput.type = 'hidden';
-// 		        titleInput.value = post.title;
-		
-// 		        let subCategoryNoInput = document.createElement('input');
-// 		        subCategoryNoInput.type = 'hidden';
-// 		        subCategoryNoInput.name = 'subCategoryNo';
-// 		        subCategoryNoInput.value = post.subCategoryNo;
-		
-// 		        // 이미지 요소 생성
-// 		        let imgElement = document.createElement('img');
-// 		        imgElement.src = '${contextPath}/resources/attachFile/image/' + post.changeName;
-// 		        imgElement.className = 'content-img';
-		
-// 		        // 생성한 요소들을 게시글 요소에 추가
-// 		        postElement.appendChild(titleInput);
-// 		        postElement.appendChild(subCategoryNoInput);
-// 		        postElement.appendChild(imgElement);
-		
-// 		        // 게시글 요소를 userList에 추가
-// 		        userList.appendChild(postElement);
-// 		    }
-// 		}
-
-	    /* 페이징바 추가 */
-// 	    function updateBoardPagination(data) {
-// 	        let userPaging = document.querySelector('.board-pageBar');
-// 	        // userPaging이 null인지 확인
-// 	        if (userPaging) {
-// 	            let pagination = '';
-
-// 	            if (!data.empty) {
-// 	                if (!data.first) {
-// 	                    pagination += '<button class="pagingBtn" onclick="getBoardList(' + (data.number - 1) + ',\'' + boardSearchSelect + '\',\'' + boardSearchValue + '\')"><</button>';
-// 	                }
-// 	                for (let i = 0; i < data.totalPages; i++) {
-// 	                    if (i >= data.number - 5 && i <= data.number + 5) {
-// 	                        pagination += '<button ';
-// 	                        if (i === data.number) {
-// 	                            pagination += 'class="pagingBtn active"';
-// 	                        }
-// 	                        pagination += 'class="pagingBtn" onclick="getBoardList(' + i + ',\'' + boardSearchSelect + '\',\'' + boardSearchValue + '\')">' + (i + 1) + '</button>';
-// 	                    }
-// 	                }
-// 	                if (!data.last) {
-// 	                    pagination += '<button class="pagingBtn" onclick="getBoardList(' + (data.number + 1) + ',\'' + boardSearchSelect + '\',\'' + boardSearchValue + '\')">></button>';
-// 	                }
-// 	            }
-
-// 	            userPaging.innerHTML = pagination;
-// 	        } else {
-// 	            console.error('Error: .board-pageBar element not found.');
-// 	        }
-// 	    }
-        
-
-		
 		
 	</script>
 

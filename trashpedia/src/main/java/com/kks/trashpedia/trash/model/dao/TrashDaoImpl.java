@@ -30,15 +30,13 @@ public class TrashDaoImpl implements TrashDao{
 	@Override
 	public Trash trashDetail(int trashNo) {
 		Trash t = session.selectOne("trashMapper.trashDetail", trashNo);
-		System.out.println(t);
 		return session.selectOne("trashMapper.trashDetail", trashNo);
 	}
 
 
 	@Override
 	public List<TrashPost> getSimilarList(int trashNo) {
-		Trash t = session.selectOne("trashMapper.bringCategory", trashNo);
-		System.out.println(t);
+		Trash t = session.selectOne("trashMapper.bigCategory", trashNo);
 		return session.selectList("trashMapper.getSimilarList",t);
 	}
 
@@ -55,5 +53,20 @@ public class TrashDaoImpl implements TrashDao{
 	@Override
 	public List<Trash> getAllTrashList() {
 		return session.selectList("trashMapper.getAllTrashList");
+	}
+
+	@Override
+	public List<TrashSubCategory> getSubCategoryList(int bigCategoryNo) {
+		return session.selectList("trashMapper.getSubCategoryList", bigCategoryNo);
+	}
+
+	@Override
+	public int writeTrash(TrashPost tp, TrashSubCategory tsc) {
+		int result = 0;
+		int trashPostNo = session.insert("trashMapper.writeTrashPost", tp);
+		if(trashPostNo > 0) {
+			result = session.
+		}
+		return result;
 	}
 }

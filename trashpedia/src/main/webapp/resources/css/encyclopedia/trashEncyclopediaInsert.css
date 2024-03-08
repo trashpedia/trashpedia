@@ -11,19 +11,18 @@ body {
 .contentBox{
 	display: flex;
     justify-content: space-between;
-    width: 1140px;
+    width: 1280px;
     height:600px;
     margin:auto;
     box-sizing: border-box;
 }
-.content-wrapper{
+.content{
 	margin-top:100px;
 	display: flex;
 	height:600px;
 }
-
-.content-wrapper>div{
-	width:50%;
+.imgArea{
+	margin-left:60px;
 }
 
 main img{
@@ -31,6 +30,10 @@ main img{
 	height:500px;
 }
 
+.trashInfo{
+	padding-left:50px;
+	padding-top:10px;
+}
 #subCategoryName{
 	font-size:18px;
 }
@@ -41,6 +44,7 @@ main img{
 
 main span{
 	margin-bottom:10px;
+	padding-left:15px;
 	padding-bottom:0px;
 	}
 
@@ -52,7 +56,6 @@ main span{
 	line-height:1.5;
 	font-size:15px;
 }
-
 #trashExtraInfo{
 	padding-left:18px;
 	padding-top:5px;	
@@ -61,7 +64,7 @@ main span{
 	font-size:15px;
 }
 
-.title{
+main h2{
 	margin-top:5px;
 	font-size:38px;
 	font-weight:500;
@@ -70,59 +73,13 @@ main span{
 	border-bottom:1px solid #EEEEEE;
 }
 
-.subtitle{
+main h4{
 	margin-top:0px;
 	margin-bottom:0px;
 	font-size:20px;
 	font-weight:600;
 	padding:18px;
 	
-}
-
-.category-filter-wrapper>select{
-	width: 150px;
-	height: 30px;
-	font-size: 15px;
-	border: none;
-	padding-left: 10px;
-}
-
-.title-input{
-	width: 100%;
-	font-size: 30px;
-	border: none;
-}
-
-.content{
-	width: 100%;
-	padding: 18px;
-}
-
-.content>textarea{
-	width: 100%;
-	height: 200px;
-	font-size: 15px;
-	border: none;
-	resize: none;
-}
-
-.updateButton{
-	margin-left: 20px;
-	width: 100px;
-	height: 25px;
-	border: 1px solid green;
-	border-radius: 12px;
-	background-color: green;
-	color: white;
-}
-
-.submit-button{
-	width: 100px;
-	height: 30px;
-	border: 1px solid green;
-	border-radius: 12px;
-	background-color: green;
-	color: white;
 }
 
 /* 서브카테고리가 같은 쓰레기 swipper */
@@ -313,6 +270,3 @@ main .recently-garbage-img{
 	border-top:1px solid #EEEEEE;
 }
 
-.form{
-	width: 100%;
-}
