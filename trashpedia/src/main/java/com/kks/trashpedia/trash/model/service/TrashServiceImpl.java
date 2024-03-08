@@ -11,10 +11,13 @@ import com.kks.trashpedia.trash.model.vo.TrashBigCategory;
 import com.kks.trashpedia.trash.model.vo.TrashPost;
 import com.kks.trashpedia.trash.model.vo.TrashSubCategory;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
+@RequiredArgsConstructor
 public class TrashServiceImpl implements TrashService{
-	@Autowired
-	private TrashDao dao;
+
+	private final TrashDao dao;
 
 	//최근 업데이트된 쓰레기
 	@Override
@@ -51,6 +54,16 @@ public class TrashServiceImpl implements TrashService{
 	@Override
 	public List<Trash> getAllTrashList() {
 		return dao.getAllTrashList();
+	}
+
+	@Override
+	public List<TrashSubCategory> getSubCategoryList(int bigCategoryNo) {
+		return dao.getSubCategoryList(bigCategoryNo);
+	}
+
+	@Override
+	public int writeTrash(TrashPost tp, TrashSubCategory tsc) {
+		return dao.writeTrash(tp, tsc);
 	}
 
 

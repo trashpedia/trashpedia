@@ -30,4 +30,8 @@ public interface TrashService {
 	//쓰레기 리스트
 	List<Trash> getAllTrashList();
 
+	List<TrashSubCategory> getSubCategoryList(int bigCategoryNo);
+
+	int writeTrash(TrashPost tp, TrashSubCategory tsc);
+
 }

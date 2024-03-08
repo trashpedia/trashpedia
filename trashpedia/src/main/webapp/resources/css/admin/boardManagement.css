@@ -179,7 +179,7 @@ select {
 	width: 70px;
 	height: 25px;
 	border: none;
-	border-radius: 12px;
+	border-radius: 3px;
 	color: white;
 	background-color: #73cc73;
 	margin-right: 5px;
@@ -314,7 +314,7 @@ select {
 	width: 190px;
 }
 
-.board-search-input, .comment-search-input {
+.announcement-search-input, .board-search-input, .comment-search-input {
 	width: 20%;
 }
 

@@ -30,5 +30,9 @@ public interface TrashDao {
 	//쓰레기 모두 가져오기
 	List<Trash> getAllTrashList();
 
+	List<TrashSubCategory> getSubCategoryList(int bigCategoryNo);
+
+	int writeTrash(TrashPost tp, TrashSubCategory tsc);
+
 
 }
