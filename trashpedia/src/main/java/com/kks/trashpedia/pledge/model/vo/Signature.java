@@ -16,4 +16,6 @@ public class Signature {
 	private String signatureStatus;
 	private Date createDate;
 	private Date modifyDate;
+	
+	private String userName;
 }

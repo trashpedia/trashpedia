@@ -59,8 +59,16 @@ public interface PledgeDao {
 	Page<Post> loadListData(Pageable pageable, int page, String sort, String searchSelect, String searchValue, int subCategoryNo);
 
 	//실천서약 등록
-	int insertSignature(Signature signature, Member signatureMember);
-	
+	int insertSignature(Signature signature);
+
+	//실천서약 조회
+	Signature getSignature(Signature signature);
+
+	//게시글 내 실천서약 조회
+	List<Signature> selectSignatureList(int pledgeNo);
+
+	//총 실천서약수
+	int countSignature();
 
 
 

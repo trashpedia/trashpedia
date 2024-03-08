@@ -28,4 +28,6 @@ public interface MemberDao {
 	int checkEmail(String userEmail, String phone);
 
 	int joinSocialMember(Member m, Long socialId, String socialType);
+
+	Member getMember(Member m);
 }

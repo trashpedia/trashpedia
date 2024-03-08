@@ -110,4 +110,9 @@ public class MemberDaoImpl implements MemberDao {
 		}
 		return result;
 	}
+
+	@Override
+	public Member getMember(Member m) {
+		return session.selectOne("memberMapper.getMember",m);
+	}
 }

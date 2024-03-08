@@ -22,7 +22,6 @@
     <jsp:include page="../common/header.jsp"/>
     
     <main>
-<%--     	<input type="hidden" id="subCategoryNo" name="subCategoryNo" value="${param.subCategoryNo}" /> --%>
     	
         <div class="practice-section">
             <p>실천하기</p>
@@ -30,7 +29,8 @@
         </div>
         <div class="participant-section"> 
             <div class="participant-section-outer">
-                <p>오늘까지 <span class="participant-count" id="dynamicCount">3,128</span>명 참여</p>
+<!--                 <p>오늘까지 <span class="participant-count" id="dynamicCount">3,128</span>명 참여</p> -->
+                <p>오늘까지 <span class="participant-count" id="dynamicCount">${countSignature}</span>명 참여</p>
             </div>
         </div>
         <div class="content-section">

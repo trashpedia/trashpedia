@@ -3,7 +3,6 @@ package com.kks.trashpedia.pledge.model.service;
 import java.sql.Date;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -14,19 +13,22 @@ import com.kks.trashpedia.board.model.vo.Comment;
 import com.kks.trashpedia.board.model.vo.ImgAttachment;
 import com.kks.trashpedia.board.model.vo.Post;
 import com.kks.trashpedia.board.model.vo.SubCategory;
+import com.kks.trashpedia.member.model.dao.MemberDao;
 import com.kks.trashpedia.member.model.vo.Member;
 import com.kks.trashpedia.pledge.model.dao.PledgeDao;
 import com.kks.trashpedia.pledge.model.vo.Signature;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class PledgeServiceImpl implements PledgeService{
 	
-	@Autowired
-	private PledgeDao dao;
-
+	private final PledgeDao dao;
+	private final MemberDao memberDao;
+	
 	//게시글 보기
 	@Override
 	public List<Post> pledgeList(int subCategoryNo) {
@@ -113,7 +115,39 @@ public class PledgeServiceImpl implements PledgeService{
 	//실천서약 등록
 	@Override
 	public int insertSignature(Signature signature, Member signatureMember) {
-		return dao.insertSignature(signature, signatureMember);
+		
+		//로그인한 멤버정보 조회
+		Member member = memberDao.getMember(signatureMember);
+
+		String signatureMemberPhone = signatureMember.getPhone().replaceAll("-", "");
+        String memberPhone = member.getPhone().replaceAll("-", "");
+
+        Signature getSignature = dao.getSignature(signature);
+   
+        // 입력 정보와 로그인 멤버 정보 비교
+        if (signatureMember.getUserName().equals(member.getUserName()) && signatureMemberPhone.equals(memberPhone)) {
+
+        	//이미 서약이 존재하는 경우
+            if(getSignature != null) {
+            	return 2; 
+            }
+            return dao.insertSignature(signature);
+        } else {
+            return 3; // 동일하지 않으면 3 
+        }
+        
+	}
+	
+	// 게시글 내 실천서약조회
+	@Override
+	public List<Signature> selectSignatureList(int pledgeNo) {
+		return dao.selectSignatureList(pledgeNo);
+	}
+
+	//총 실천서약수
+	@Override
+	public int countSignature() {
+		return dao.countSignature();
 	}
 	
 

@@ -63,6 +63,12 @@ public interface PledgeService {
 	//서약등록
 	int insertSignature(Signature signature, Member signatureMember);
 
+	//게시글 내 실천서약조회
+	List<Signature> selectSignatureList(int pledgeNo);
+
+	//총 실천서약수
+	int countSignature();
+
 
 
 }

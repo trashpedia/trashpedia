@@ -75,4 +75,9 @@ public class MemberServiceImpl implements MemberService{
 	public int joinSocialMember(Member m, Long socialId, String socialType) {
 		return dao.joinSocialMember(m, socialId, socialType);
 	}
+
+	@Override
+	public Member getMember(Member m) {
+		return dao.getMember(m);
+	}
 }

@@ -121,25 +121,31 @@ public class PledgeDaoImpl implements PledgeDao{
 		int totalCount = session.selectOne("pledgeMapper.postListCount",param);
 		
 		return new PageImpl<>(posts, pageable, totalCount);
-	
 	}
 
 	//실천서약 등록
 	@Override
-	public int insertSignature(Signature signature,  Member signatureMember) {
-		
-		//멤버 정보 조회
-		Member member = session.selectOne("memberMapper.getMember", signatureMember);
-		
-		String signatureMemberPhone = signatureMember.getPhone().replaceAll("-", "");
-		String memberPhone = member.getPhone().replaceAll("-", "");
-
-		//입력정보와 멤버정보 비교
-		if (signatureMember.getUserName().equals(member.getUserName()) && signatureMemberPhone.equals(memberPhone)) {
-		    return session.insert("pledgeMapper.insertSignature", signature);
-		} else {
-		    return 2;
-		}
+	public int insertSignature(Signature signature) {
+		return session.insert("pledgeMapper.insertSignature", signature);
 	}
+
+	//실천서약 조회
+	@Override
+	public Signature getSignature(Signature signature) {
+		return session.selectOne("pledgeMapper.getSignature",signature);
+	}
+
+	//게시글 내 실천서약 조회
+	@Override
+	public List<Signature> selectSignatureList(int pledgeNo) {
+		return session.selectList("pledgeMapper.selectSignatureList",pledgeNo);
+	}
+
+	//총 실천서약수
+	@Override
+	public int countSignature() {
+		return session.selectOne("pledgeMapper.countSignature");
+	}
+
 
 }
