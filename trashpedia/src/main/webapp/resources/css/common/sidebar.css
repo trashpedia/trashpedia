@@ -1,21 +1,24 @@
 @charset "EUC-KR";
+@import url(//fonts.googleapis.com/earlyaccess/notosanskr.css);
 
 /* 관리자 공통 부분 */
 *{
 	padding:0;
-	font-family: Roboto;
+/* 	font-family: Roboto; */
 }
 
 .body {
-    background: white;
+/*     background: white; */
+    background-color: #f0f0f0;
+    background-color: #efefef;
+    background-image: radial-gradient(white, #efefef);
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
 }
 
-a{
-    color: black;
-}
+a{ color: black; }
+button{ font-family: 'Noto Sans KR', sans-serif !important; }
 
 .content-wrapper{
     min-width:1148px;
@@ -30,17 +33,23 @@ a{
 }
 
 .practice-section {
-    height: 150px;
+	margin-top : 10px;
+    height: 100px;
     width: 100%;
-    background-color: #73cc73;
+/*     background-color: #73cc73; */
+/*     background-color:#9edc9e; */
+/*     background-image: radial-gradient(#73cc73, #9edc9e); */
+    border-radius : 12px;
     color: white;
+    color: #272727;
     font-weight: 700;
     display: flex;
     justify-content: center;
-    align-items: center;
+/*     align-items: center; */
+    align-items: flex-start;
     flex-direction: column;
+    padding-left: 10px;
 }
-
 .practice-section p:first-child {
     font-size: 32px;
     margin-top: 0;
@@ -50,6 +59,8 @@ a{
 .practice-section p:nth-child(2) {
     margin-top: 10px;
     font-size: 18px;
+    font-weight : 600;
+    margin-bottom : 0;
 }
 
 .content-section{
@@ -72,18 +83,25 @@ a{
 
 .sidebar {
     height: 100%;
-    background: rgb(69, 177, 74, 0.3);
+    background: #f3f3f3;
+     background-color: #f1f1f1;
+/*     background-image: radial-gradient(#e0e0e0, #eeeeee); */
+/*     border-right : 1px solid black; */
+    box-shadow: 1px 1px 4px #c0c0c0;
+    font-size : 15px;
     backdrop-filter: blur(12px);
     flex-direction: column;
     align-items: flex-start;
     display: flex;
-	transform: translate(calc(var(--side-bar-width) * -1), 0);
-	transition: .5s;
+	transform: translate(calc(var(--side-bar-width) * -1.1), 0);
+	transition: .6s;
 	border-radius: 20px;
+	z-index : 999;
 }
 
 .sidebar:hover{
 	transform: translate(-10px, 0);
+	z-index : 999;
 }
 
 .sidebar-item {
@@ -100,7 +118,7 @@ a{
 }
 
 .sidebar-li {
-    height: 40px;
+    height: 42px;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -108,5 +126,25 @@ a{
 
 .sidebar-title {
     width: 130px;
-    padding-left: 15px;
+    padding: 0 10px;
+    border-radius: 10px; 
+    font-weight: 530;
+}
+.sidebar-title a{
+	display : flex;
+  	align-items: center;
+  	padding : 8px 4px;
+}
+.sidebar-title:hover{
+	background-color: rgba(230, 230, 230, 0.8);
+}
+.sidebar-title:hover span{
+	color : #3fad3f;
+}
+.sidebar-title span {
+	color: #494949;
+	margin-right: 5px;
+}
+.filter-wrapper select{
+	height : 25px;
 }

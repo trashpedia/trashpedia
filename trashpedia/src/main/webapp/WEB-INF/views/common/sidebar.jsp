@@ -16,27 +16,38 @@
             <ul class="sidebar-ul">
                 <li>
                     <div class="sidebar-li">
-                        <div class="sidebar-title"><a href="${contextPath}/admin">메인</a></div>
+                        <div class="sidebar-title">
+	                        <a href="${contextPath}/admin">
+	                        <span class="material-symbols-outlined"> grid_view</span><span>메인</span></a>
+                        </div>
                     </div>
                 </li>
                 <li>
                     <div class="sidebar-li">
-                        <div class="sidebar-title"><a href="${contextPath}/admin/member">회원 관리</a></div>
+                        <div class="sidebar-title">
+                        <a href="${contextPath}/admin/member"><span class="material-symbols-outlined">patient_list</span><span>회원 관리</span></span></a>
+                        </div>
                     </div>
                 </li>
                 <li>
                     <div class="sidebar-li">
-                        <div class="sidebar-title"><a href="${contextPath}/admin/board">게시글 관리</a></div>
+                        <div class="sidebar-title">
+                        <a href="${contextPath}/admin/board"><span class="material-symbols-outlined">data_check</span><span>게시글 관리</span></a>
+                        </div>
                     </div>
                 </li>
                 <li>
                     <div class="sidebar-li">
-                        <div class="sidebar-title"><a href="${contextPath}/admin/trash">쓰레기 관리</a></div>
+                        <div class="sidebar-title">
+                        <a href="${contextPath}/admin/trash"><span class="material-symbols-outlined">delete_sweep</span><span>쓰레기 관리<span></a>
+                        </div>
                     </div>
                 </li>
                 <li>
                     <div class="sidebar-li">
-                        <div class="sidebar-title"><a href="${contextPath}/admin/report">신고 관리</a></div>
+                        <div class="sidebar-title">
+                        <a href="${contextPath}/admin/report"><span class="material-symbols-outlined">data_alert</span><span>신고 관리</span></a>
+                        </div>
                     </div>
                 </li>
             </ul>

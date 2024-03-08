@@ -57,10 +57,23 @@
 						<a href="${contextPath}/update?bigCategoryNo=${post.bigCategoryNo}&subCategoryNo=${post.subCategoryNo}&postNo=${post.postNo}&type=1">
 							<button class="btn-edit">수정</button></a>
 						<button onclick="confirmDelete(${post.postNo}, ${post.boardNo}, ${post.bigCategoryNo}, ${post.subCategoryNo})">삭제</button>
-					</c:if>						
+					</c:if>			
+					<button class="btn-report" onclick="openReportModal()">신고</button>			
 				</div>
 			</div>
-
+			
+			<!-- 신고 모달창 -->
+			<div id="reportModal" class="modal">
+			    <div class="modal-content">
+			        <span class="close" onclick="closeReportModal()">&times;</span>
+			        <h2>신고 내용</h2>
+			        <textarea id="reportContent" placeholder="신고 내용을 입력하세요"></textarea>
+					<div id="reportButtonContainer">
+						<div id="reportButton" onclick="confirmSubmitReport()">제출</div>
+			        </div>
+			    </div>
+			</div>
+			
 			<!-- 댓글  -->
 			<div class="reply-outer">
 				<div class="reply-outer-top-area">
@@ -251,6 +264,67 @@
  			   })
  		   }
  	   }
+ 	   
+ 	// ------- 신고 모달 -------
+  	  
+		// 모달 열기
+		function openReportModal() {
+			if(loginUser){
+		    	document.getElementById("reportModal").style.display = "block";
+			}else{
+				 alert("로그인이 필요합니다.");
+			}
+		}
+		
+		// 모달 닫기
+		function closeReportModal() {
+		    document.getElementById("reportModal").style.display = "none";
+		}
+		
+	    // 신고 제출 재확인
+	    function confirmSubmitReport() {
+	        var reportContent = document.getElementById("reportContent").value;
+	        if (reportContent.trim() !== "") {
+	            var result = confirm("이 게시글을 신고하시겠습니까?\n확인을 누르면 신고가 제출됩니다.");
+	            if (result) {
+	                submitReport(); // 제출 함수 호출
+	            }
+	        } else {
+	            alert("신고 내용을 입력하세요.");
+	        }
+	    }
+
+	    // 신고 제출
+	    function submitReport() {
+	        var reportContent = document.getElementById("reportContent").value;
+	        var postNo = `${post.postNo}`;
+	        
+	        $.ajax({
+	            url:  "${contextPath}/report/insertBoardReport",
+	            method: "POST",
+	            data: { 
+	            	reportContent: reportContent,
+	            	userNo : loginUserNo,
+	            	reportTargetNo : postNo
+	            },
+	            success: function(result) {
+	            	if(result == 2){
+	            		alert("기존에 제출하신 이력이 있습니다.\n마이페이지에서 진행상황 확인 부탁드립니다.");
+	            	}else if(result==1){
+		                alert("신고가 제출되었습니다 : " + reportContent);
+		                closeReportModal();
+	            	}else{
+	            		alert("신고 제출에 실패했습니다.");	
+	            	}
+	            },
+	            error: function(xhr, status, error) {
+	                console.error("서버 오류:", status, error);
+	                alert("신고 제출에 실패했습니다.");
+	            }
+	        });
+	    }
+ 	   
+ 	   
  	   
     
     </script>
