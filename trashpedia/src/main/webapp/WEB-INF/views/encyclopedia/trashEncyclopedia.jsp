@@ -37,19 +37,36 @@
 
 <body>
 	<jsp:include page="../common/header.jsp" />
-	<main>
 
-		<div class="recently-outer">
+	<main>
+		<div class="ency-background">
+			<div class="ency-background-black">
+				<div class="encyLogo">
+					<p>쓰레기 백과사전</p>
+				</div>
+
+				<div class="encyContent1">
+					<div class="ency-search-area">
+						<input type="search" class="search-input" placeholder="검색어를 입력하세요"
+							autocomplete="off">
+						<button type="submit" class="search-button" aria-label="Search">search</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+ 		<div class="recently-outer">
 			<!--최근업데이트된 쓰레기 게시물  -->
 				<div id="recently-garbage-slider" class="recently-garbage-outer">
 					<p class="recently-garbage-outer-title"> 최근 업데이트된 쓰레기</p>
 					<div class="recently-garbage-inner">
+					
 						<c:forEach var="post" items="${trashList}">
 							<div class="recently-garbage">
 								<div class="garbage-img-outer">
 									<img class="popular-garbage-img"
 										src="<c:url value='/resources/attachFile/image/${post.changeName}'/>"
-										onclick="trashDetail(${post.trashPostNo})">
+										onclick="trashDetail(${post.trashNo})">
 								</div>
 								<p class="recently-garbage-title">${post.trashTitle}</p>
 								<p class="recently-garbage-content">${post.trashInfo}</p>
@@ -69,7 +86,7 @@
 							<div class="garbage-img-outer">
 								<img class="popular-garbage-img"
 									src="<c:url value='/resources/attachFile/image/${post.changeName}'/>"
-									onclick="trashDetail(${post.trashPostNo})">
+									onclick="trashDetail(${post.trashNo})">
 							</div>
 							<p class="recently-garbage-title">${post.trashTitle}</p>
 							<p class="recently-garbage-content">${post.trashInfo}</p>
@@ -77,53 +94,17 @@
 					</c:forEach>
 				</div>
 			</div>
-		</div>		
-			
-			
-			<%-- <div class="popular-outer">
-		<!--인기 쓰레기 게시물  -->
-			<div id="popular-garbage-slider" class="popular-garbage-outer">
-			
-			
-				<p id="popular-garbage-outer-title">
-					인기 <strong>쓰레기</strong>
-				</p>
-				
-				
-				<div class="recently-garbage-inner">
-					<c:forEach var="post" items="${popularList}">
-						<div class="recently-garbage">
-							<div class="garbage-img-outer">
-								<img class="recently-garbage-img"
-									src="<c:url value='/resources/attachFile/image/${post.changeName}'/>"
-									onclick="trashDetail(${post.trashPostNo})">
-							</div>
-							<p class="recently-garbage-title">${post.trashTitle}</p>
-							<p class="recently-garbage-content">${post.trashInfo}</p>
-						</div>
-					</c:forEach>
-				</div>
-				</a>
-			</div>
-		</div> --%>
-	
-		
-		
-			
-	
+		</div>	
 	</main>
 	<button id="scrollUpButton">
 		<span class="material-symbols-outlined">arrow_upward</span>
 	</button>
-	
-			<div class="moreBtnArea">
-				<div class="moreBtnBox">
-					<button id="moreBtn">더알아보기</button>
-				</div>
-			</div>
 
-
-
+	<div class="moreBtnArea">
+		<div class="moreBtnBox">
+			<button id="moreBtn" onclick="redirectToAllList()">더알아보기</button>
+		</div>
+	</div>
 	<jsp:include page="../common/footer.jsp" />
 
 	<script>
@@ -199,15 +180,14 @@
 	        
 	    });
 
-	 
-
 	    //상세페이지로 이동
-	    function trashDetail(trashPostNo) {
-	    	console.log("상세페이지"+trashPostNo);
-	     	location.href = "${contextPath}/trash/trashDetail/" + trashPostNo;
+	    function trashDetail(trashNo) {
+	     	location.href = "${contextPath}/trash/detail?trashNo=" + trashNo;
 	    }
 	    
-	
+	    function redirectToAllList() {
+	        location.href = "${contextPath}/trash/allList";
+	    }
 	</script>
 </body>
 </html>

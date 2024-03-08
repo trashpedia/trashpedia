@@ -38,25 +38,32 @@
 <body>
 	<jsp:include page="../common/header.jsp" />
 	<main>
-		<div class="recently-outer">
-			<div class="contentBox">
-		
-			<%-- <c:forEach var="big" items="${bigCategory}">
-				<div>${big.bigCategoryName}</div>
-				<c:forEach var="sub" items="${subCategory}">
-					<c:if test="${big.bigCategoryNo == sub.bigCategoryNo}">
-						<div>${sub.subCategoryName}</div>
-						<c:forEach var="trash" items="${trash}">
-							<c:if test="${sub.subCategoryNo == trash.subCategoryNo}">
-								<div>${trash.trashNo}</div>
-								<div>${trash.trashTitle}</div>
-								<div>${trash.changeName}</div>
-							</c:if>
-						</c:forEach>
-					</c:if>
-				</c:forEach>
-			</c:forEach> --%>
+	<div class="outer">
+		<div class="contentBox">
+			<div class="content">
+				<c:forEach var="big" items="${bigCategory}">
+					<div>${big.bigCategoryName}</div>
+					<c:forEach var="sub" items="${subCategory}">
+						<c:if test="${big.bigCategoryNo == sub.bigCategoryNo}">
+							<div>${sub.subCategoryName}</div>
+							<c:forEach var="trash" items="${trash}">
+								<c:if test="${sub.subCategoryNo == trash.subCategoryNo}">
+									<div class="imgArea" >
+									<img src="<c:url value='/resources/attachFile/image/${trash.changeName}'/>" class="content-img">
+									</div>
+									
+									<div class="trashInfo">
+										<div id="trashNo"><h4>${trash.trashNo}<h4></div>
+										<div id="trashTitle"><h2>${trash.trashTitle}<h2></div>
+									</div>
+								</c:if>
+							</c:forEach>
+						</c:if>
+					</c:forEach>
+				</c:forEach> 
+			</div>
 		</div>
+	</div> 
 	</main>
 	
 	<button id="scrollUpButton">

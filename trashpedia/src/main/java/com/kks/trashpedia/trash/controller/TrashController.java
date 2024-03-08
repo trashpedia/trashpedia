@@ -56,44 +56,35 @@ public class TrashController {
 	
 	
 	//쓰레기 상세페이지이동
-	@GetMapping("/trashDetail/{trashPostNo}")
-	public ModelAndView trashDetail(
-			@PathVariable int trashPostNo
-			) {
+	@GetMapping("/detail")
+	public ModelAndView trashDetail(@RequestParam int trashNo) {
 		ModelAndView modelAndView = new ModelAndView();
 		
-		//쓰레기 내용 조회
-		Trash trash = service.trashDetail(trashPostNo);
-		System.out.println(trash);
-		
-		//쓰레기 이미지, 제목, 설명, 대분류, 소분류
-
-		//대분류, 소분류가 같은 쓰레기 
-		List<TrashPost> similarList = service.getSimilarList(trashPostNo);
-		System.out.println(similarList); 
-		
+		Trash trash = service.trashDetail(trashNo);
+		List<TrashPost> similarList = service.getSimilarList(trashNo);
 		
 		modelAndView.addObject("similarList", similarList);
 		modelAndView.addObject("trash", trash);
+		modelAndView.addObject("type", "read");
 		modelAndView.setViewName("encyclopedia/trashEncyclopediaDetail");
 		return modelAndView;
 	}
 	
-//	@GetMapping("/allList")
-//	public ModelAndView allTrashList() {
-//		ModelAndView mav = new ModelAndView();
-//		
-//		List<TrashBigCategory> bigCategoryList = service.getBigCategoryList();
-//		List<TrashSubCategory> subCategoryList = service.getSubCategoryList();
-//		List<Trash> trash = service.getAllTrashList();
-//		
-//		mav.addObject("bigCategory",bigCategoryList);
-//		mav.addObject("subCategory",subCategoryList);
-//		mav.addObject("trash",trash);
-//		
-//		mav.setViewName("encyclopedia/trashEncyclopediaResult");
-//		return mav;
-//	}
+	@GetMapping("/allList")
+	public ModelAndView allTrashList() {
+		ModelAndView mav = new ModelAndView();
+		
+		List<TrashBigCategory> bigCategoryList = service.getBigCategoryList();
+		List<TrashSubCategory> subCategoryList = service.getSubCategoryList();
+		List<Trash> trash = service.getAllTrashList();
+		
+		mav.addObject("bigCategory",bigCategoryList);
+		mav.addObject("subCategory",subCategoryList);
+		mav.addObject("trash",trash);
+		
+		mav.setViewName("encyclopedia/trashEncyclopediaResult");
+		return mav;
+	}
 	
 	@GetMapping("/write")
 	public ModelAndView writeTrashPage() {

@@ -1,6 +1,7 @@
 @charset "UTF-8";
 
 body {
+	
 	font-family: 'Arial', sans-serif;
 	margin: 0;
 	padding: 0;
@@ -8,26 +9,35 @@ body {
 	background-color: #FFF;
 }
 
+.outer{
+	margin-top:100px;
+}
+
 .contentBox{
+	
 	display: flex;
     justify-content: space-between;
     width: 1280px;
+    background-color:green;
     height:600px;
     margin:auto;
     box-sizing: border-box;
 }
 .content{
-	margin-top:100px;
 	display: flex;
-	height:600px;
+	height:350px;
+	width:700px;
+	margin:auto;
+	padding:10px;
+	border-bottom: 1px solid #EEEEEE;
 }
 .imgArea{
 	margin-left:60px;
 }
 
 main img{
-	width:500px;
-	height:500px;
+	width:300px;
+	height:300px;
 }
 
 .trashInfo{
@@ -82,143 +92,6 @@ main h4{
 	
 }
 
-/* 서브카테고리가 같은 쓰레기 swipper */
-.recently-outer{
-    position: relative;
-    padding-top: 50px;
-    margin-top: 50px;
-}
-/* 배경이미지 */
-.recently-outer img{
-    top: 0;
-    z-index: 0;
-    height: 620px;
-    width: auto;
-    max-width: 100%;
-}
-#recently-img{
-    min-width: 100%;
-}
-.recently-garbage-inner{
-    display: flex;
-    flex-wrap: wrap;
-    box-sizing: border-box;
-    cursor: pointer;
-    max-width: 1100px; /* 최대 너비 지정 (원하는 최대 너비로 수정) */
-    margin: 0 auto;
-    padding-bottom: 30px;
-    
-}
-/* 최근 쓰레기 슬라이더 */
-main .recently-garbage-outer{
-    z-index: 1;
-    position: relative;
-    top: 0;
-    margin-top: 50px;
-    margin-bottom: 40px;
-    display: flex;
-    flex-direction: column;
-    margin: 5px auto;
-    margin-bottom: 30px !important;
-    
-}
-main #recently-garbage-outer-title{
-    margin-left: 10px;
-    font-size: 30px;
-    font-weight: 550;
-    margin-bottom: 40px;
-    margin-top: 25px;
-    text-align: center;
-}
-main .recently-garbage-inner{
-    display: flex;
-    flex-wrap: wrap;
-    box-sizing: border-box;
-    cursor: pointer;
-}
-/* 쓰레기 게시물 div */
-main .recently-garbage {
-    border-radius: 7px;
-    width: 250px;
-    height: 330px;
-    max-height: 330px;
-    margin: 7px;
-    text-align: center;
-    text-overflow: ellipsis;
-}
-
-/* 슬라이드 이미지 제목 */
-main .recently-garbage-title{  
-    font-weight: 730;
-    font-size: 17px;
-    text-align: left;
-    padding-top: 15px;
-}
-/* 슬라이드 이미지 내용 */
-main .recently-garbage-content{
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-main .recently-garbage p {
-    font-size: 14px;
-    margin: 6px;
-    margin-left: 12px;
-    margin-right: 15px;
-}
-
-main .garbage-img-outer{
-    width: 250px;
-    height: 250px;
-    margin: 2px auto;
-    margin-top: 0px;
-    border-radius: 7px;
-    box-sizing: border-box;
-    display: flex;
-    justify-content: center;
-    overflow: hidden;
-}
-/* 최근쓰레기 이미지 */
-main .recently-garbage-img{
-    object-fit: cover;
-    padding: auto;
-    width: 250px;
-    height: 250px;
-    box-sizing: border-box;
-    background-color: rgb(208, 208, 208);
-    margin-bottom: 5px;
-    transition: all 0.4s ease;
-}
-
-.garbage-img-outer:hover img{
-    transform: scale(1.05);
-    transition: transform 0.4s ease-in-out;
-}
-
-
-/* 슬라이더 좌우 화살표 */
-.custom-prev {
-    background: url('../../image/main/mainImg/left-arrow.svg') no-repeat center center;
-    width: 110px; 
-    height: 110px; 
-    position: absolute;
-    left: -95px;
-    top: 40%;
-    transform: translateY(-50%);
-    cursor: pointer;
-}
-
-.custom-next {
-    background: url('../../image/main/mainImg/right-arrow.svg') no-repeat center center;
-    width: 110px; 
-    height: 110px;
-    position: absolute;
-    right: -93px;
-    top: 40%; 
-    transform: translateY(-50%);
-    cursor: pointer;
-}
-
 
 /* 스크롤 업버튼 */
 #scrollUpButton{
@@ -243,30 +116,5 @@ main .recently-garbage-img{
 	padding-left:3px;
 }
 
-.updateRequest{
-	display:flex;
-	justify-content: end;
-	margin-bottom:50px;
-	margin-right:290px;
-	height:50px;
-	
-}
 
-#updateBtn{
-	width:120px;
-	height:40px;
-	border-radius:10px;
-	border:none;
-	font-size:18px;
-	font-weight:600;
-	color:black;
-	background-color:#d5d5ff;
-	margin-top:50px;
-}
-
-.updateArea{
-	height:100px;
-	margin-top:80px;
-	border-top:1px solid #EEEEEE;
-}
 
