@@ -9,41 +9,103 @@ body {
 	background-color: #FFF;
 }
 
-.outer{
-	margin-top:100px;
+/* ------ 타이틀 부분 ------ */
+.practice-section {
+    height: 150px;
+    width: 100%;
+    background-color: #73cc73;
+    color: white;
+    font-weight: 700;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
 }
 
-.contentBox{
-	
+.practice-section p:first-child {
+    font-size: 31px;
+    margin-top: 0;
+    margin-bottom: 0px;
+}
+
+.practice-section p:nth-child(2) {
+    margin-top: 10px;
+    font-size: 17px;
+}
+
+/* 이동 section   */
+.section-area{
 	display: flex;
-    justify-content: space-between;
-    width: 1280px;
-    background-color:green;
-    height:600px;
-    margin:auto;
-    box-sizing: border-box;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+	width : 100%;
+	height : 50px;
+	border-bottom : 1px solid  #73cc73;
+}
+.section-area span a{
+	margin : 0 42px;
+	font-weight : 530;
+	color  : #4d4e4b;
+	cursor: pointer;
+	font-size : 15px;
+}
+
+.section-area span a:hover{
+	color  : #4fbf4f;
+	-webkit-transition: all .3s;
+}
+
+.outer{
+	width:1280px;
+	margin:auto;
 }
 .content{
-	display: flex;
-	height:350px;
-	width:700px;
 	margin:auto;
-	padding:10px;
-	border-bottom: 1px solid #EEEEEE;
+	/* display: flex; */
+	width:1200px;
+	padding-top:20px;
+	
+}
+
+.topic{
+	margin-top:60px;
+	margin-left:30px;
+}
+
+
+.trashList{
+	margin-top:60px;
+	padding-bottom:20px;
+	display:flex;
+}
+
+.trashDiv{
+	display:flex;
+	margin:auto;
+}
+
+.trash{
+	margin-left:15px;
+	padding:15px;
+/* 	margin:auto; */
+	width:230px;
+	height:310px;
+	border-radius:20px;
+	border:1px solid #d8d8d8;
 }
 .imgArea{
-	margin-left:60px;
+	margin:auto;
+	width:240px;
 }
 
 main img{
-	width:300px;
-	height:300px;
+	margin-left:20px;
+	width:190px;
+	height:190px;
 }
 
-.trashInfo{
-	padding-left:50px;
-	padding-top:10px;
-}
+
 #subCategoryName{
 	font-size:18px;
 }
@@ -58,38 +120,34 @@ main span{
 	padding-bottom:0px;
 	}
 
-#trashInfo{
-	padding-left:18px;
-	padding-top:0px;	
-	padding-bottom:10px;
-	border-bottom:1px solid #EEEEEE;
+.trashInfo{
 	line-height:1.5;
 	font-size:15px;
-}
-#trashExtraInfo{
-	padding-left:18px;
-	padding-top:5px;	
-	padding-bottom:10px;
-	line-height:1.5;
-	font-size:15px;
+	margin-left:25px;
+	margin-top:15px;
 }
 
 main h2{
 	margin-top:5px;
-	font-size:38px;
+	font-size:25px;
 	font-weight:500;
 	margin-bottom:5px;
-	padding:15px;
-	border-bottom:1px solid #EEEEEE;
+	
+}
+
+main h5{
+	margin-top:0px;
+	margin-bottom:0px;
+	font-size:12px;
+	font-weight:500;
+	color:#6d6d6d;
 }
 
 main h4{
-	margin-top:0px;
-	margin-bottom:0px;
+	margin-top:0;
 	font-size:20px;
-	font-weight:600;
-	padding:18px;
-	
+	font-weight:500;
+	margin-bottom:0px;	
 }
 
 
