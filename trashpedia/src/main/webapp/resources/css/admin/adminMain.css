@@ -1,8 +1,12 @@
 @charset "UTF-8";
-
+body{
+	background-color: #f7f7f7!important;
+/* 	  background: linear-gradient(to bottom, #f7f7f7, #d0d0d0) !important; */
+}
 section{
     width: 100%;
 }
+
 
 .statistics-container {
     display: flex;
@@ -39,12 +43,15 @@ section{
     height: 120px;
     padding: 16px;
     border-radius: 12px;
-    border: 1px solid green;
+/*     border: 1px solid green; */
+    background-color: white;
+    box-shadow: 1px 1px 4px #c0c0c0;
 }
 
 .statistics-list-title {
     width: 100%;
-    font-weight: 500;
+    font-weight: 550;
+    color : #4d4d4d;
 }
 
 .list-data {
@@ -56,13 +63,14 @@ section{
 
 .change {
     width: 100%;
-    font-size: 16px;
+    font-size: 15px;
     font-family: Roboto;
-    font-weight: 400;
+    margin-top : 5px;
+    font-weight: 550;
 }
 
 .graph-container-wrapper {
-    padding-top: 10px;
+    padding-top: 20px;
     align-self: stretch;
     justify-content: flex-start;
     align-items: center;
@@ -71,11 +79,13 @@ section{
 }
 
 .graph-container {
-    width: 100%;
-    align-self: stretch;
-    padding: 16px;
-    border-radius: 12px;
-    border: 1px solid green;
+	width: 100%;
+	align-self: stretch;
+	padding: 16px;
+	border-radius: 12px;
+	/*     border: 1px solid green; */
+	background-color: white;
+	box-shadow: 1px 1px 4px #c0c0c0;
 }
 
 .graph-title {

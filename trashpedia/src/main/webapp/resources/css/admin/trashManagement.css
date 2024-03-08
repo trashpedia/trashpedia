@@ -4,6 +4,10 @@
 	width: 100%;
 	padding: 20px;
 	margin-top: 20px;
+	background-image: radial-gradient(#fafafa, white);
+    box-shadow: 1px 1px 4px #c0c0c0;
+    border-radius: 12px;
+    padding-bottom: 40px;
 }
 
 .content-title-wrapper {
@@ -64,7 +68,7 @@
 }
 
 .content-section {
-	padding-bottom: 50px;
+	padding-bottom: 20px;
 }
 
 .member-item-wrapper {
@@ -107,6 +111,7 @@
 }
 
 .search-wrapper {
+	padding-top  : 10px;
 	display: flex;
 	justify-content: center;
 	gap: 5px;

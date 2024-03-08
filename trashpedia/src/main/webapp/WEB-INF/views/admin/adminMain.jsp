@@ -28,17 +28,19 @@
                         <div class="statistics-list">
                             <div class="statistics-list-title">신규 가입자</div>
                             <div class="list-data"><fmt:formatNumber type="number" pattern="#,##0" value="${nm}"/></div>
-							<div class="change">
-								<c:set var="m" value="${nm - om}" />
+							<c:set var="m" value="${nm - om}" />
 								<c:choose>
 								    <c:when test="${m >= 0}">
-								        +<fmt:formatNumber type="number" pattern="#,##0" value="${Math.abs(m)}" />
+										<div class="change" style="color : red;">
+									        +<fmt:formatNumber type="number" pattern="#,##0" value="${Math.abs(m)}" />
+										</div>
 								    </c:when>
 								    <c:otherwise>
-								       -<fmt:formatNumber type="number" pattern="#,##0" value="${Math.abs(m)}" />
+									  	<div class="change" style="color : blue;">
+									       -<fmt:formatNumber type="number" pattern="#,##0" value="${Math.abs(m)}" />
+								       </div>
 								    </c:otherwise>
 								</c:choose>
-							</div>
                         </div>
                         <div class="statistics-list">
                             <div class="statistics-list-title">총 게시글</div>
@@ -47,17 +49,19 @@
                         <div class="statistics-list">
                             <div class="statistics-list-title">신규 게시글</div>
                             <div class="list-data"><fmt:formatNumber type="number" pattern="#,##0" value="${nb}"/></div>
-                            <div class="change">
-								<c:set var="b" value="${nb - ob}" />
+							<c:set var="b" value="${nb - ob}" />
 								<c:choose>
 								    <c:when test="${b >= 0}">
-								        +<fmt:formatNumber type="number" pattern="#,##0" value="${Math.abs(b)}" />
+									    <div class="change" style="color : red;">
+									        +<fmt:formatNumber type="number" pattern="#,##0" value="${Math.abs(b)}" />
+									    </div>
 								    </c:when>
 								    <c:otherwise>
-								       -<fmt:formatNumber type="number" pattern="#,##0" value="${Math.abs(b)}" />
+								    	<div class="change" style="color : blue;">
+								       	-<fmt:formatNumber type="number" pattern="#,##0" value="${Math.abs(b)}" />
+								    	</div>
 								    </c:otherwise>
 								</c:choose>
-							</div>
                         </div>
                     </div>
                     <div class="graph-container-wrapper">

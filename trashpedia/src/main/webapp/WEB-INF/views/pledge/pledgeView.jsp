@@ -36,6 +36,7 @@
         <div class="content-section">
             <div class="content-section-outer">
                 <div class="content-title"> 
+                	<!-- 실천서약,인증 이동 탭  -->
                     <div class="content-tab">
                     	<a href="${contextPath}/pledge/list?bigCategoryNo=2&subCategoryNo=5">
                         	<span id="pledgeBtn" onclick="pledgeShow()"> 실천서약 </span>
@@ -44,6 +45,7 @@
                         	<span id="certificationBtn" onclick="certificationShow()"> 실천인증 </span>
                         </a>
                     </div>
+                    <!-- 검색 -->
                     <div class="content-search">
 	                    <select name="condition" id="board-search-filter-select">
 			                <option value="title" selected>제목</option>
@@ -57,35 +59,26 @@
                     </div>
                 </div>
                 
-                <!-- 실천서약 -->
+                <!-- 게시글 내용 -->
 				<div class="pledge">
 				    <div class="content-outer" id="boardContentOuter"> </div>
 				    <div class="content-outer" id="noPostMessage"><h1>해당하는 게시글이 없습니다.</h1></div>
 				</div>
-                
-                 <!-- 실천인증 -->
-<!--                  <div class="certification">                 	 -->
-<!--                     <div class="content-outer"> -->
-<%-- 						<c:forEach var="post" items="${list}"> --%>
-<%-- 							<div class="img-area" onclick ="pledgeDetail(${post.postNo})"> --%>
-<%-- 							 	<input type="hidden" value="${post.title}"> --%>
-<%-- 							 	<input type="hidden" name="subCategoryNo"value="${post.subCategoryNo} "> --%>
-<%-- 							 	<input type="hidden" name="postNo" value="${post.postNo}"> --%>
-<%-- 							 	<img src="<c:url value='/resources/attachFile/image/${post.changeName}'/>"  class="content-img"> --%>
-<!--                         	</div> -->
-<%--                     	</c:forEach> --%>
-<!--                     </div> -->
-<!--                 </div> -->
-                
-                  <div class="board-pageBar paging-button"></div>
-                
-            </div>
-            <div class="insert-area">
-                <a href="${pageContext.request.contextPath}/write?bigCategoryNo=${bigCategoryNo}&subCategoryNo=${subCategoryNo}&type=1">
-                    <button id="insertButton">게시글 등록하기</button>
-                </a>
-            </div>
-        </div>
+
+				<!-- 페이징바  -->
+				<div class="board-pageBar paging-button"></div>
+
+			</div>
+            <!-- 게시글등록 -->
+			<c:if test="${not empty authentication}">
+				<div class="insert-area">
+					<a
+						href="${pageContext.request.contextPath}/write?bigCategoryNo=${bigCategoryNo}&subCategoryNo=${subCategoryNo}&type=1">
+						<button id="insertButton">게시글 등록하기</button>
+					</a>
+				</div>
+			</c:if>
+		</div>
     </main>
     
     <jsp:include page="../common/footer.jsp"/>

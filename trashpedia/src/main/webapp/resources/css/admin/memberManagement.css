@@ -4,7 +4,10 @@
     width: 50%;
     padding: 20px;
     margin-top: 20px;
-    border: 1px solid green;
+/*     border: 1px solid green; */
+/*     background-color : white; */
+    background-image: radial-gradient(#fafafa, white);
+    box-shadow: 1px 1px 4px #c0c0c0;
     border-radius: 12px;
 }
 

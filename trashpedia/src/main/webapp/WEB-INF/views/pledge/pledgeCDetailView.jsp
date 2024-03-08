@@ -125,9 +125,6 @@
 							</tr>
 						</thead>
 						<tbody>
-<!-- 							<tr> -->
-<!-- 								<td colspan="3">댓글이 없습니다.</td> -->
-<!-- 							</tr> -->
 						</tbody>
 					</table>
 				</div>
@@ -158,141 +155,6 @@
 	            window.location.href = deleteUrl;
 	        } 
 	    }
-	
-	    //댓글목록조회
- 	    function selectCommentList(){
-	    	$.ajax({
-    		 	url: "${contextPath}/pledge/selectCommentList",
-    		    data: { boardNo: ${post.boardNo}, userNo: ${post.userNo}},
-    		    success: function (result) {
-    		        let comments = "";
-    		        for (let comment of result) {
-    		            comments += "<tr>";
-    		            comments += "<td>" + comment.userName + "</td>";
-    		            comments += "<td><p>" + comment.content + "</p>";
-    		            if('${authentication.userName}' == comment.userName){
-	    		            comments += "<div class='comment-buttons'>" +
-	    		                        "<button onclick='showCommentUpdateForm("+comment.commentNo+",this)' class='btn-edit'> 수정 </button>" +
-	    		                        "<button onclick='deleteComment(" + comment.commentNo + ")' class='btn-delete'> 삭제 </button>" +
-	    		                        "</div></td>";
-    		            }
-    		            comments += "<td>" + comment.createDate + "</td>";
-    		            comments += "</tr>";
-    		        }
-    		        $("#replyArea tbody").html(comments);
-    		        $("#rcount").html(result.length);
-    		    },
-    		    error: function (xhr, status, error) {
-    		        console.log(" 댓글조회에러:", status, error);
-    		    }
-	    	})
-	    }
- 	   selectCommentList();
- 	   
- 	   //댓글등록
- 	   function insertComment(){
- 		   
- 		   if(loginUser){
-	 		   $.ajax({
-	 			  url: "${contextPath}/pledge/insertComment",
-	 			  data : {
-	 				 boardNo: ${post.boardNo}, 
-	 				 userNo: loginUserNo,
-	 				 content : $("#replyContent").val()
-	 			  },
-	 			  type : 'post',
-	 			  success : function(result){
-	 				  if(result>0){
-	 					  alert("댓글이 등록되었습니다.");
-	 				  }else{
-	 					  alert("댓글등록이 실패하였습니다.");
-	 				  }
-	 				  $("#replyContent").val("");
-	 				 selectCommentList();
-	 			  },
-	 			  error: function (xhr, status, error) {
-					console.log(" 댓글등록에러:", status, error);
-					}
-	 		   })
- 		   }else{
- 			    alert("댓글을 등록하려면 로그인이 필요합니다.");
- 		   }
- 		  
- 	   }
- 	   
- 	   //댓글수정 form 생성
- 	   function showCommentUpdateForm(commentNo, btn){
- 		   
- 		   // 댓글 수정할 수 있는 textarea 생성
- 		   const textarea = document.createElement("textarea"); 
- 		   textarea.style.width = "100%"; // 너비 100%로 설정
- 		   textarea.style.height = "50px"; // 높이 50px로 설정
- 		   textarea.style.resize = "none"; // 리사이즈 비활성화
- 		   
- 		   const button = document.createElement("button");
- 		   button.innerText = "수정하기";
- 		   button.style.marginTop = "5px"; 
- 		   button.style.backgroundColor = "#5acb5a"; 
- 		   button.style.color = "white";
- 		   button.style.border = '0';
-           button.style.padding = '3px 15px';
- 		   
- 		   //댓글내용 textarea에 복사
- 		   let td = btn.parentElement.parentElement;
- 		   let pTag = td.querySelector('p');
- 		   let content = pTag.innerText;
- 		   textarea.innerHTML = content; 
- 		   
- 		   //td 비우고 새로 추가
- 		   td.innerHTML = "";
- 		   td.append(textarea);
- 		   td.append(button);
- 		   
- 		   button.addEventListener("click",function(){
- 			   updateComment(commentNo,textarea);
- 			})
- 	   }
- 	   
- 	   //댓글수정
- 	   function updateComment(commentNo, textarea){
- 		   let comment = { commentNo, content : textarea.value };
- 		   
- 		   $.ajax({
-				url: "${contextPath}/pledge/updateComment/" + commentNo,
-				data : JSON.stringify(comment),
-				contentType : 'application/json;charset=utf-8',
- 			  	type : 'put',
- 			  	success : function(result){
- 			  		if(result>0){
-						alert("댓글이 수정되었습니다.");
-					}else{
-						alert("댓글수정 실패했습니다.");
-					}
-					selectCommentList(); 
- 			  	},
- 			  	error: function (xhr, status, error) {
- 		            console.error("댓글수정 오류 발생: ", status, error);
- 		        }
- 		   })
- 	   }
- 	   
- 	   //댓글삭제
- 	   function deleteComment(commentNo){
- 		   if(confirm('댓글을 삭제하시겠습니까?')){
- 			   $.ajax({
- 				  url: "${contextPath}/pledge/deleteComment/" + commentNo,
- 				  type : 'delete',
- 				  success : function(result){
- 					  if(result>0){
-						alert("댓글이 삭제되었습니다.");
-						selectCommentList();
-					}else{
-						alert("댓글삭제실패");
-						}
-					}
- 			   })
- 		   }
- 	   }
  	   
  	  //실천서약 동참
  	  function insertSignature() {
@@ -448,7 +310,7 @@
 	            	if(result == 2){
 	            		alert("기존에 제출하신 이력이 있습니다.\n마이페이지에서 진행상황 확인 부탁드립니다.");
 	            	}else if(result==1){
-		                alert("신고가 제출되었습니다: " + reportContent);
+		                alert("신고가 제출되었습니다 : " + reportContent);
 		                closeReportModal();
 	            	}else{
 	            		alert("신고 제출에 실패했습니다.");	

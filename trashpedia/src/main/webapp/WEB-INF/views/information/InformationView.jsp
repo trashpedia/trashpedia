@@ -60,14 +60,16 @@
 
 			<!-- 페이징바  -->
 			<div class="board-pageBar paging-button"></div>
-			
+
 			<!-- 게시글 등록 -->
-			<div class="insert-area">
-				<a
-					href="${pageContext.request.contextPath}/write?bigCategoryNo=${bigCategoryNo}&subCategoryNo=${subCategoryNo}&type=1">
-					<button id="insertButton">게시글 등록 </button>
-				</a>
-			</div>
+			<c:if test="${not empty authentication}">
+				<div class="insert-area">
+					<a
+						href="${pageContext.request.contextPath}/write?bigCategoryNo=${bigCategoryNo}&subCategoryNo=${subCategoryNo}&type=1">
+						<button id="insertButton">게시글 등록</button>
+					</a>
+				</div>
+			</c:if>
 		</div>
     </main>
     
@@ -84,13 +86,6 @@
 	    	  getBoardList(0, boardSearchSelect, boardSearchValue);
 	    });
 	    
-        //누른 option값으로 필터링하기
-// 	    $('#board-filter-select').change(function(){
-// 	    	boardFilterValue = $(this).val();
-// 	    	$('.board-list').empty();  //tbody영역 지우기-비동기일때만
-// 	    	getBoardList(0, boardSearchSelect, boardSearchValue);
-// 	    });
-        
         /* 검색 */
 	    function boardSearch(){
 	    	boardSearchSelect = $('#board-search-filter-select').val();

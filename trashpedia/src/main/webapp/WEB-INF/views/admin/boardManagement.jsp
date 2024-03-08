@@ -21,9 +21,9 @@
 			    <p>board management</p>
 			</div>
 			<section class="content-section">
-                <div class="content-container">
+                <div class="content-container" style="padding-bottom : 50px;">
                 	<div class="content-title-wrapper">
-                    	<div class="content-title">공지사항</div>
+                    	<div  class="content-title">공지사항</div>
 	                   	<div class="filter-wrapper">
 						    <select name="condition" id="announcement-filter-select">
 						        <option value="boardNo" selected>번호</option>
