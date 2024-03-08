@@ -77,7 +77,7 @@ public class BoardDaoImpl implements BoardDao {
 	
 	// 무료 페이지
 	@Override
-	public List<Post> getFreeTrashList(int subCategoryNo) {
+	public List<Post> getFreeTrashList(int subCategoryNo,Pageable pageable, int page) {
 	    try {
 	        return session.selectList("boardMapper.getFreeTrashList",subCategoryNo);
 	    } catch (MyBatisSystemException e) {

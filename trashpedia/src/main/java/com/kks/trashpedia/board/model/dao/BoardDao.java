@@ -32,7 +32,7 @@ public interface BoardDao {
 	
 	
 	/* 무료나눔 */
-	List<Post> getFreeTrashList(int subCategoryNo);
+	List<Post> getFreeTrashList(int subCategoryNo,Pageable pageable, int page);
 
 	ImgAttachment getImageUrlByboardNo(int boardNo);
 

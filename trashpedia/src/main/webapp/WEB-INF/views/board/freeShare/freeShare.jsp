@@ -13,13 +13,8 @@
 
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FREESHARING</title>
-<script src="https://code.jquery.com/jquery-3.7.1.min.js"
-	integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
-	crossorigin="anonymous"></script>
 
 <!-- css -->
 <link rel="stylesheet"
@@ -141,22 +136,29 @@
 
 			<div class="Content">
 				<div class="Container">
-					<div class="Title">
-						<!-- 무료 나눔 게시판 -->
-					</div>
-					<a
-						href="${pageContext.request.contextPath}/write?bigCategoryNo=${bigCategoryNo}&subCategoryNo=${subCategoryNo}&type=1">
-						<button class="btn">글쓰기</button>
-					</a>
 
 
+					<button class="btn">
+						<a
+							href="${pageContext.request.contextPath}/write?bigCategoryNo=${bigCategoryNo}&subCategoryNo=${subCategoryNo}&type=1">
+							글쓰기 </a>
+					</button>
 
 
-					<!-- 3개의 리스트 -->
-
+					<!-- 리스트 -->
 					<div class="List">
 						<c:forEach var="post" items="${list}" varStatus="status">
-
+							<%
+							com.kks.trashpedia.board.model.vo.Post post = (com.kks.trashpedia.board.model.vo.Post) pageContext.getAttribute("post");
+							String content = post.getContent();
+							// "<img>" 태그와 "<br>" 태그 제거
+							content = content.replaceAll("<img[^>]*>|<br\\s*/?>", "");
+							// 콘솔에 값 출력
+							System.out.println("content: " + content);
+							String cleanedContent = content.substring(0, Math.min(content.length(), 200));
+							// 콘솔에 값 출력
+							System.out.println("cleanedContent: " + cleanedContent);
+							%>
 
 							<a href="${contextPath}/board/community/detail/${post.postNo}">
 								<div class="Card">
@@ -181,7 +183,12 @@
 											src="<c:url value='/resources/attachFile/image/${post.changeName}'/>"
 											alt=""> <span class="clickDetail"
 											data-postNo="${post.postNo}"
-											style="font-size: 18px; font-weight: 600;">${fn:substring(post.content,0,200)}</span>
+											style="font-size: 18px; font-weight: 600;"><%=cleanedContent%></span>
+
+
+
+										<%-- 										<span class="clickDetail" data-postNo="${post.postNo}" --%>
+										<%-- 											style="font-size: 18px; font-weight: 600;">${fn:substring(post.content,0,200)}</span> --%>
 									</div>
 								</div>
 
@@ -191,35 +198,41 @@
 
 					</div>
 
-					<!-- 3개의 리스트 -->
-
-					<!-- 				<div class="board_page"> -->
-					<%-- 					<c:if test="${boardList.number > 0}"> --%>
-					<%-- 						<a href="${contextPath}/board/list?page=${boardList.number - 1}&subCategoryNo=${subCategoryNo}" --%>
-					<!-- 							class="bt prev">&lt;</a> -->
-					<%-- 					</c:if> --%>
-
-					<%-- 					<c:forEach begin="0" end="${boardList.totalPages - 1}" var="pageNum"> --%>
-					<%-- 					    <c:if test="${pageNum >= boardList.number - 5 && pageNum <= boardList.number + 5}"> --%>
-					<%-- 					        <a href="${contextPath}/board/list?page=${pageNum}&subCategoryNo=${subCategoryNo}" --%>
-					<%-- 					            class="${pageNum == boardList.number ? 'num on' : 'num'}">${pageNum + 1} --%>
-					<!-- 					        </a> -->
-					<%-- 					    </c:if> --%>
-					<%-- 					</c:forEach> --%>
-
-
-					<%-- 					<c:if test="${boardList.number + 1 < boardList.totalPages}"> --%>
-					<%-- 						<a href="${contextPath}/board/list?page=${boardList.number + 1}&subCategoryNo=${subCategoryNo}" --%>
-					<!-- 							class="bt next">&gt;</a> -->
-					<%-- 					</c:if> --%>
-					<!-- 				</div> -->
-
 				</div>
 			</div>
 
 
 
 
+
+			<!-- 					페이징 버튼 -->
+			<div class="PagingArea paging-button">
+				<!-- 						이전 페이지 버튼 -->
+				<!-- 						현재 페이지가 첫 번째 페이지가 아닌 경우에만 이전 페이지로 이동할 수 있는 버튼을 표시합니다. -->
+				<c:if test="${page gt 0}">
+					<a
+						href="${contextPath}/board/list?subCategoryNo=${subCategoryNo}&page=${page - 1}"
+						class="pagingBtn">&lt;</a>
+				</c:if>
+
+				<!-- 						페이지 번호 표시 -->
+				<c:forEach begin="0" end="${totalPages - 1}" var="pageNum">
+					<!-- 							현재 페이지를 기준으로 좌우 5페이지 범위 내에 있는 페이지만 표시합니다. -->
+					<c:if test="${pageNum ge page - 5 and pageNum le page + 5}">
+						<a
+							href="${contextPath}/board/list?subCategoryNo=${subCategoryNo}&page=${pageNum}"
+							class="${pageNum eq page ? 'pagingBtn on' : 'pagingBtn'}">${pageNum + 1}</a>
+					</c:if>
+				</c:forEach>
+
+				<!-- 						다음 페이지 버튼 -->
+				<!-- 						현재 페이지가 마지막 페이지가 아닌 경우에만 다음 페이지로 이동할 수 있는 버튼을 표시합니다. -->
+				<c:if test="${page + 1 lt totalPages}">
+					<a
+						href="${contextPath}/board/list?subCategoryNo=${subCategoryNo}&page=${page + 1}"
+						class="pagingBtn">&gt;</a>
+				</c:if>
+			</div>
 		</main>
 
 
@@ -227,7 +240,14 @@
 
 	<jsp:include page="../../common/footer.jsp" />
 
+	
 
+
+
+
+
+
+	<!-- 스크립트 -->
 
 	<script>
 
@@ -265,45 +285,8 @@
 				}
 			});
 		}
-		
-
-       
-	
-	  
-	    
-        //페이징,검색
-        var boardFilterValue = 'boardNo';
-	    var boardSearchSelect = null;
-	    var boardSearchValue = null;
-		
-		function pledgeShow() {
-	        $("#pledgeBtn").css("background-color", "#5bbf5b");
-// 	        $("#certificationBtn").css("background-color", "rgb(200, 200, 200)");
-	        localStorage.setItem('selectedTab', 'pledge');
-	        getBoardList(0, boardSearchSelect, boardSearchValue);
-	    }
-	
-	    function certificationShow() {
-	        $("#certificationBtn").css("background-color", "#5bbf5b");
-// 	        $("#pledgeBtn").css("background-color", "rgb(200, 200, 200)");
-	        localStorage.setItem('selectedTab', 'certification');
-	        getBoardList(0, boardSearchSelect, boardSearchValue);
-	    }
-	    
-	    $(document).ready(function () {
-	    	
-	    	  getBoardList(0, boardSearchSelect, boardSearchValue);
-	    	  
-	    	   
-	    	    if (selectedTab === 'pledge') {
-	    	        pledgeShow();
-	    	    } else if (selectedTab === 'certification') {
-	    	        certificationShow();
-	    	    }
-	    	});
-	    
-		
 	</script>
+
 
 	<script type="text/javascript">
 	//상세보기 이동
@@ -311,6 +294,14 @@
 		location.href = "${contextPath}/board/community/detail/${postNo}" + postNo;
 	}
 	
-</script>
+	</script>
+
+
+	<script type="text/javascript">
+
+
+	</script>
+
+	<!-- 스크립트 -->
 </body>
 </html>
