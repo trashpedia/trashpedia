@@ -22,11 +22,11 @@
 				<form action="update/${trash.trashNo}" method="POST" id="enrollForm" class="form" enctype="multipart/form-data">
 			</c:if>
 			<div class="content-wrapper">
-				<div class="imgArea">
+				<div class="img-area">
 					<c:if test="${type == 'read'}">
 						<img src="<c:url value='/resources/attachFile/image/${trash.changeName}'/>" class="content-img">
 					</c:if>
-					<c:if test="${type == 'insert'}">
+					<c:if test="${type != 'read'}">
 						<span>이미지 첨부</span>
 						<button type="button" class="updateButton" id="updateImgInputButton" onclick="$('#imgAttachment').click()">파일선택</button>
 						<span class="nameArea" id="originFileName">${img.originName}</span>
@@ -39,6 +39,7 @@
 						    <img id="thumbNailImg" src="<c:url value='/resources/attachFile/image/${img.changeName}'/>">
 					    </div>
 					    <input type="hidden" name="deleteImg" id="deleteImg" value="" />
+					    <input type="hidden" name="userNo" id="userNo" value="${authentication.userNo}" />
 					</c:if>
 				</div>
 				<div class="trashInfo">
@@ -48,7 +49,7 @@
 							<span>></span>
 							<span id="subCategoryName">${trash.subCategoryName}</span>
 						</c:if>
-						<c:if test="${type == 'insert'}">
+						<c:if test="${type != 'read'}">
 							<select id="bigList" onchange="getSubList()" name="bigCategoryNo">
 								<c:forEach var="big" items="${bigCategory}">
 									<option value="${big.bigCategoryNo}">${big.bigCategoryName}</option>
@@ -62,9 +63,9 @@
 						<c:if test="${type == 'read'}">
 							<div class="title">${trash.trashTitle}</div>
 							<div class="subtitle">버리는 방법</div>
-							<div class="content">${trash.trashInfo}</div>
+							<div class="content"><pre>${trash.trashInfo}</pre></div>
 							<div class="subtitle">알아두면 좋은점</div>
-							<div class="content">${trash.trashExtraInfo}</div>
+							<div class="content"><pre>${trash.trashExtraInfo}</pre></div>
 						</c:if>
 						<c:if test="${type != 'read'}">
 							<div class="title">
@@ -100,9 +101,7 @@
 		</div>
 		<c:if test="${type == 'read'}">
 			<div class="updateArea">
-				<div class="updateRequest">
-					<button id="updateBtn">수정요청</button>
-				</div>
+				<button id="updateBtn">수정요청</button>
 			</div>
 			<div class="recently-outer showEvent">
 				<div id="recently-garbage-slider" class="recently-garbage-outer">

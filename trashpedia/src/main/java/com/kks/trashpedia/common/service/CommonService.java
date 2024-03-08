@@ -38,4 +38,6 @@ public interface CommonService {
 
 	//이미지삭제용 리스트출력
 	List<String> imageNameList();
+
+	int insertFiles(ImgAttachment image);
 }

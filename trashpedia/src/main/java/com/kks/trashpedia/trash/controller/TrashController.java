@@ -1,27 +1,27 @@
 package com.kks.trashpedia.trash.controller;
 
+import java.io.IOException;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.util.UriComponentsBuilder;
 
-import com.kks.trashpedia.board.model.vo.Attachment;
 import com.kks.trashpedia.board.model.vo.ImgAttachment;
+import com.kks.trashpedia.common.FileStore;
+import com.kks.trashpedia.common.service.CommonService;
 import com.kks.trashpedia.trash.model.service.TrashService;
 import com.kks.trashpedia.trash.model.vo.Trash;
 import com.kks.trashpedia.trash.model.vo.TrashBigCategory;
 import com.kks.trashpedia.trash.model.vo.TrashPost;
 import com.kks.trashpedia.trash.model.vo.TrashSubCategory;
 
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -32,6 +32,8 @@ import lombok.extern.slf4j.Slf4j;
 public class TrashController {
 	
 	private final TrashService service;
+	private final FileStore fileStore;
+	private final CommonService commonService;
 	
 
 	// 쓰레기사전 페이지 이동
@@ -103,50 +105,27 @@ public class TrashController {
 	}
 	
 	@PostMapping("/write")
-	public ModelAndView writeTrash(TrashSubCategory tsc, TrashPost tp, @RequestParam("thumbnail") MultipartFile thumbnailImage) {
-		ModelAndView mv = new ModelAndView();
-		int result = service.writeTrash(tp, tsc);
-//
-//		b.setPostNo(postNo);
-//		b.setSubCategoryNo(subcategory.getSubCategoryNo());
-//		
-//		// board 등록
-//		if (postNo > 0) {
-//			
-//			int boardNo = service.createBoard(b);
-//			if (boardNo > 0) { 		
-//				// 첨부파일, 이미지 파일 저장
-//				Attachment attachment = fileStore.storeFile(upfile);
-//				ImgAttachment image = fileStore.storeImage(thumbnailImage);
-//
-//				if (attachment != null) {
-//					attachment.setRefBno(boardNo);
-//					attachment.setFileType(type);
-//				}
-//				if (image != null) {
-//					image.setRefBno(boardNo);
-//					image.setImgType(type);
-//				}
-//				service.insertFiles(attachment, image);
-//				ra.addFlashAttribute("alert", "게시글이 작성되었습니다.");
-//			} else {
-//				ra.addFlashAttribute("alert", "게시글 작성에 실패하셨습니다.");
-//			}
-//		} else {
-//			ra.addFlashAttribute("alert", "게시글 작성에 실패하셨습니다.");
-//		}
-//
-//		String nextUrl = (String) session.getAttribute("lastUrl");
-//		mv.setViewName("redirect:/");
-//
-//		if (nextUrl != null) {
-//			// 첫 번째 path segment만 추출
-//			UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(nextUrl);
-//			String firstPathSegment = builder.build().getPathSegments().get(0);
-//
-//			mv.setViewName("redirect:" + "/" + firstPathSegment + "/list?bigCategoryNo=" + p.getBigCategoryNo()
-//					+ "&subCategoryNo=" + p.getSubCategoryNo());
-//		}
-		return mv;
+	public ModelAndView writeTrash(TrashSubCategory tsc, TrashPost tp, int userNo, HttpSession session, @RequestParam("thumbnail") MultipartFile thumbnailImage) {
+		ModelAndView mav = new ModelAndView("redirect:/admin/trash");
+		int trashNo = service.writeTrash(tp, tsc, userNo);
+		if (trashNo > 0) {
+			ImgAttachment image;
+			try {
+				image = fileStore.storeImage(thumbnailImage);
+				if (image != null) {
+					image.setRefBno(trashNo);
+					image.setImgType(2);
+				}
+				int result = commonService.insertFiles(image);
+				if(result <= 0) {
+					mav.addObject("alert","게시글 작성에 실패했습니다. 다시 시도해주세요");
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		} else {
+			mav.addObject("alert","게시글 작성에 실패했습니다. 다시 시도해주세요");
+		}
+		return mav;
 	};
 }
