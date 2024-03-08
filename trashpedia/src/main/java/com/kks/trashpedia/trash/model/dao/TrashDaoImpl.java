@@ -30,15 +30,13 @@ public class TrashDaoImpl implements TrashDao{
 	@Override
 	public Trash trashDetail(int trashNo) {
 		Trash t = session.selectOne("trashMapper.trashDetail", trashNo);
-		System.out.println(t);
 		return session.selectOne("trashMapper.trashDetail", trashNo);
 	}
 
 
 	@Override
 	public List<TrashPost> getSimilarList(int trashNo) {
-		Trash t = session.selectOne("trashMapper.bringCategory", trashNo);
-		System.out.println(t);
+		Trash t = session.selectOne("trashMapper.bigCategory", trashNo);
 		return session.selectList("trashMapper.getSimilarList",t);
 	}
 
