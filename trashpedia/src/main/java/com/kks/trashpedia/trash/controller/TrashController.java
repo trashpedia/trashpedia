@@ -63,6 +63,8 @@ public class TrashController {
 		Trash trash = service.trashDetail(trashNo);
 		List<TrashPost> similarList = service.getSimilarList(trashNo);
 		
+		
+		
 		modelAndView.addObject("similarList", similarList);
 		modelAndView.addObject("trash", trash);
 		modelAndView.addObject("type", "read");
@@ -82,6 +84,8 @@ public class TrashController {
 		mav.addObject("subCategory",subCategoryList);
 		mav.addObject("trash",trash);
 		
+		System.out.println(trash);
+		System.out.println(subCategoryList);
 		mav.setViewName("encyclopedia/trashEncyclopediaResult");
 		return mav;
 	}

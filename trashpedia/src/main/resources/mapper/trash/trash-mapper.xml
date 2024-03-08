@@ -77,17 +77,15 @@
 	</select>
 	
 	<select id = "getAllTrashList" resultType="trash">
-	    SELECT *
-	    FROM TRASH
+	    SELECT T.TRASH_NO, T.TRASH_POST_NO, USER_NO, T.SUB_CATEGORY_NO,T.STATUS, TP.TRASH_TITLE
+	    FROM TRASH T
+	    LEFT JOIN TRASH_POST TP ON T.TRASH_POST_NO = TP.TRASH_POST_NO
 	</select>
 	
 	<select id ="getSubCategoryList" resultType="TrashSubCategory">
 		SELECT *
 		FROM TRASH_SUB_CATEGORY TSC
 		LEFT JOIN TRASH_BIG_CATEGORY TBC ON TSC.BIG_CATEGORY_NO = TBC.BIG_CATEGORY_NO
-		<if test="#{bigCategoryNo != null}">
-			WHERE TSC.BIG_CATEGORY_NO = #{bigCategoryNo}
-		</if>
 	</select>
 	
 	<insert id="writeTrashPost" parameterType="trashPost" useGeneratedKeys="true">

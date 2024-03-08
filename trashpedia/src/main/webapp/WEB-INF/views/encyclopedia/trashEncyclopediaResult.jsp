@@ -38,14 +38,19 @@
 <body>
 	<jsp:include page="../common/header.jsp" />
 	<main>
-	<div class="outer">
-		<div class="contentBox">
+	    <div class="section-area">
+        	<span> <a href="${contextPath}/information/list?bigCategoryNo=3&subCategoryNo=7">일반쓰레기</a></span>
+        	<span> <a href="${contextPath}/information/list?bigCategoryNo=3&subCategoryNo=8">음식물쓰레기</a></span>
+        	<span> <a href="${contextPath}/information/list?bigCategoryNo=3&subCategoryNo=8">대형폐기물</a></span>
+        </div>
+		<div class="outer">
+			<%-- 		 <div class="contentBox">
 			<div class="content">
 				<c:forEach var="big" items="${bigCategory}">
-					<div>${big.bigCategoryName}</div>
+					<div class="">${big.bigCategoryName}</div>
 					<c:forEach var="sub" items="${subCategory}">
 						<c:if test="${big.bigCategoryNo == sub.bigCategoryNo}">
-							<div>${sub.subCategoryName}</div>
+							<div class="">${sub.subCategoryName}</div>
 							<c:forEach var="trash" items="${trash}">
 								<c:if test="${sub.subCategoryNo == trash.subCategoryNo}">
 									<div class="imgArea" >
@@ -53,8 +58,8 @@
 									</div>
 									
 									<div class="trashInfo">
-										<div id="trashNo"><h4>${trash.trashNo}<h4></div>
-										<div id="trashTitle"><h2>${trash.trashTitle}<h2></div>
+										<div id="trashNo"><h4>${trash.trashNo}</h4></div>
+										<div id="trashTitle"><h2>${trash.trashTitle}</h2></div>
 									</div>
 								</c:if>
 							</c:forEach>
@@ -62,10 +67,43 @@
 					</c:forEach>
 				</c:forEach> 
 			</div>
-		</div>
-	</div> 
+		</div> --%>
+		
+
+    <div class="content">
+        <c:forEach var="big" items="${bigCategory}">
+            <h1 class="topic">${big.bigCategoryName}</h1>
+            <div class="trashList">
+                <c:forEach var="sub" items="${subCategory}">
+                    <c:if test="${big.bigCategoryNo == sub.bigCategoryNo}">
+                        <c:forEach var="trash" items="${trash}">
+                            <c:if test="${sub.subCategoryNo == trash.subCategoryNo}">
+                                <div class="trash">
+                                    <div class="imgArea">
+                                        <img src="<c:url value='/resources/attachFile/image/${trash.changeName}'/>" class="content-img">
+                                    </div>
+                                    <div class="trashInfo">
+                                        <div id="trashCategory">
+                                            <h5>${big.bigCategoryName} > ${sub.subCategoryName}</h5>
+                                        </div>
+                                        <div id="trashNo">
+                                            <h4>trashNo: ${trash.trashNo}</h4>
+                                        </div>
+                                        <div id="trashTitle">
+                                            <h2>${trash.trashTitle}</h2>
+                                        </div>
+                                    </div>
+                                </div>
+                            </c:if>
+                        </c:forEach>
+                    </c:if>
+                </c:forEach>
+            </div>
+        </c:forEach>
+    </div>
+</div>
+
 	</main>
-	
 	<button id="scrollUpButton">
 		<span class="material-symbols-outlined">arrow_upward</span>
 	</button>
