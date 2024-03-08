@@ -34,7 +34,7 @@ public interface BoardService {
 	
 	
 	// 무료 페이지
-	List<Post> getFreeTrashList(int subCategoryNo);
+	List<Post> getFreeTrashList(int subCategoryNo, Pageable pageable, int page);
 	ImgAttachment getImageUrlByboardNo(int boardNo);
 	String getTrashTitleByboardNo(int boardNo);
 	String getTrashContentByboardNo(int boardNo);

@@ -185,34 +185,36 @@ public class BoardController {
 			@RequestParam(value = "searchValue", required = false) String searchValue) {
 		List<BigCategory> bc = service.bigCategory();
 		List<SubCategory> sc = service.subCategory();
-		Page<Board> pages = service.boardList(subCategoryNo, pageable, page, filter, searchSelect, searchValue);
+//		Page<Board> pages = service.boardList(subCategoryNo, pageable, page, filter, searchSelect, searchValue);
+		Page<Board> freeSharePages = service.boardList(subCategoryNo, pageable, page, filter, searchSelect, searchValue);
 		Board b = new Board();
 		
 		
 		ModelAndView mav = new ModelAndView();
 
 		if (subCategoryNo == 4) { // 무료 나눔 게시판
-	        List<Post> boardFreeTrashList = service.getFreeTrashList(subCategoryNo); // 인기 쓰레기 정보 가져오기
+	        List<Post> boardFreeTrashList = service.getFreeTrashList(subCategoryNo,pageable,page); // 인기 쓰레기 정보 가져오기
 
-	        int pageSize = 8; // 페이지당 보여줄 항목 수
+	        int pageSize = 12; // 페이지당 보여줄 항목 수
 	        int totalPages = (int) Math.ceil((double) boardFreeTrashList.size() / pageSize); 
 
 	        // 페이지 번호 및 데이터 전달
-	        mav.addObject("boardList", pages); // 
-	        mav.addObject("totalPages", totalPages); 
+	        mav.addObject("pageSize", pageSize); // 페이지당 보여줄 항목 수
+	        mav.addObject("totalPages", totalPages); // 총페이지
 	        mav.addObject("list", boardFreeTrashList); // 페이지에 표시할 데이터
 			mav.addObject("bigCategoryNo", bc);
 			mav.addObject("subCategoryNo", sc);
 	        mav.setViewName("board/freeShare/freeShare"); // 무료 나눔 게시판 뷰 설정
-	    } else {
-	    	int pageSize = 10;
-	        int totalPages = (int) Math.ceil((double) pages.getSize() / pageSize); // 전체 페이지 수 계산
-			mav.addObject("boardList", pages);
-			mav.addObject("totalPages",totalPages);
-			mav.addObject("bigCategoryNo", bc);
-			mav.addObject("subCategoryNo", sc);
-			mav.setViewName("board/notice/boardList");
-		}
+	    } 
+//		else {
+//	    	int pageSize = 10;
+//	        int totalPages = (int) Math.ceil((double) pages.getSize() / pageSize); // 전체 페이지 수 계산
+//			mav.addObject("boardList", pages);
+//			mav.addObject("totalPages",totalPages);
+//			mav.addObject("bigCategoryNo", bc);
+//			mav.addObject("subCategoryNo", sc);
+//			mav.setViewName("board/notice/boardList");
+//		}
 		return mav;
 	}
 	

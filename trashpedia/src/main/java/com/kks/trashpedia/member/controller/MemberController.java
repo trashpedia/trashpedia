@@ -37,8 +37,10 @@ public class MemberController {
 			mav.setViewName("user/login");
 		} else {
 			int userNo = authentication.getUserNo();
+			Member user=new Member();
+			user.setUserNo( authentication.getUserNo());
 
-			Member member = service.getMember(userNo);
+			Member member = service.getMember(user); // member  형태로	
 			List<Board> myPost = service.pledgeList(userNo);
 			List<Board> myComment = service.commentList(userNo);
 
@@ -125,8 +127,11 @@ public class MemberController {
 		
 		// 화원 정보 가져오기
 		int userNo = m.getUserNo(); // 접속한 유저번호
-		System.out.println(userNo);
-		Member member = service.getMember(userNo);
+		
+		Member user=new Member();
+		user.setUserNo(userNo);
+		
+		Member member = service.getMember(user);
 		
 		String hashedPasswordFromDatabase = member.getUserPwd(); // 암호화된 Pwd
 //		String hashedPasswordFromDatabase = "$2a$10$gwWx8rdlhHFZZx.5NVexFeB1K0/wZ82pFt0HSHUIRTfI5KVWJ3zZW"; // 암호화된 Pwd

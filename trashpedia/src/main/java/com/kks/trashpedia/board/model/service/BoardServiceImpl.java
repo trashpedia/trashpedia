@@ -55,8 +55,8 @@ public class BoardServiceImpl implements BoardService{
 	
 	// 무료 페이지
 	@Override
-	public List<Post> getFreeTrashList(int subCategoryNo) {
-		return dao.getFreeTrashList(subCategoryNo);
+	public List<Post> getFreeTrashList(int subCategoryNo,Pageable pageable, int page) {
+		return dao.getFreeTrashList(subCategoryNo, pageable, page);
 	}
 	
 	@Override
