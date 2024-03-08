@@ -130,7 +130,7 @@
 	    	
 		    $.ajax({
 		        url: "${contextPath}/board/selectCommentList",
-		        data: { boardNo: ${b.boardNo}, userNo: ${b.userNo}},
+		        data: { boardNo: ${b.boardNo} },
 		        success: function (result) {
 		            let commentsHtml = "<div class='comment-list'>"; // 전체 댓글 목록을 감싸는 div 시작
 
@@ -221,7 +221,8 @@
 		                    commentsHtml += "<div class='nested-comment-date'>" + nComment.modifyDate + "</div>"; // 대댓글 날짜
 		                    commentsHtml += "<div class='nested-comment-content'>" + nComment.content + "</div>"; // 대댓글 내용
 		                    commentsHtml += "<div class='nested-comment-actions'>"; // 대댓글 액션 버튼들
-		                    commentsHtml += "<button onclick='deleteNC(" + nComment.commentNo + ")' class='btn-delete-nc'>삭제</button>";
+		                    commentsHtml += "<button onclick='editNC(" + nComment.nestedCommentNo + ")' class='btn-edit-nc'>수정</button>";
+		                    commentsHtml += "<button onclick='deleteNC(" + nComment.nestedCommentNo + ")' class='btn-delete-nc'>삭제</button>";
 		                    commentsHtml += "</div>"; // nested-comment-actions div 종료
 		                    commentsHtml += "</div>"; // nested-comment div 종료
 		                }
@@ -257,7 +258,8 @@
 		        }),
 				success : function(response){
 					alert('대댓글이 등록되었습니다.');
-					selectCommentList(${b.boardNo});
+// 					selectCommentList(${b.boardNo});
+					viewNC(commentNo);
 				},
 				error: function (xhr, status, error) {
 						console.log(" 댓글등록에러:", status, error);
@@ -269,7 +271,6 @@
 		//대댓글 삭제
 		function deleteNC(nCommentNo) {
 			console.log("대댓글번호 : ",nCommentNo);
-// 			console.log("댓글번호 : ",commentNo);
 		    var result = confirm("대댓글을 삭제하시겠습니까?");
 		    if (result) {
 		        $.ajax({
@@ -290,6 +291,9 @@
 		    }
 		}
 
+
+		
+		
 		
 
 // 	   댓글등록

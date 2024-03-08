@@ -279,6 +279,7 @@ public class BoardController {
 	// 댓글삭제
 	@DeleteMapping("/deleteComment/{commentNo}")
 	public int deleteComment(Comment comment) {
+		
 		return pservice.deleteComment(comment);
 	}
 	
