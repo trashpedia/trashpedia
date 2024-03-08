@@ -135,15 +135,14 @@
 							<tr>
 								<td>${activity.createDate}</td>
 								<td><script>document.write(getCategoryName('${activity.subCategoryNo}'));</script></td>
-
-								<td>${fn:substring(activity.content,0,65)}</td>
+								<td>${fn:substring(activity.title, 0, 65)}</td>
 								<td>
-
 									<button class="detailBtn"
 										onclick="pledgeDetail(${activity.postNo})">상세보기</button>
 								</td>
 							</tr>
 						</c:forEach>
+
 					</c:if>
 					<c:if test="${empty activityList}">
 						<tr>
@@ -202,9 +201,8 @@
 					<div class="field">
 						<b>아이디</b>
 						<div id="id-1">
-							<input type="hidden" value="${member.userNo}"
-								name="userNo"> <input type="text"
-								value="${authentication.userEmail}"
+							<input type="hidden" value="${member.userNo}" name="userNo">
+							<input type="text" value="${authentication.userEmail}"
 								placeholder="${member.userEmail}" readonly>
 						</div>
 					</div>
@@ -231,8 +229,7 @@
 					</div>
 					<div class="field">
 						<b>이름</b> <input type="text" name="userName"
-							placeholder="${member.userName}"
-							value="${member.userName}">
+							placeholder="${member.userName}" value="${member.userName}">
 					</div>
 					<div class="field">
 						<b>닉네임</b> <input type="text" name="userNickname"
@@ -277,22 +274,24 @@
 		</section>
 
 		<!-- 		비밀번호 인증 Modal -->
-		<div class="modal" id="pwdAuth" style="hegith:250px;">
+		<div class="modal" id="pwdAuth" style="hegith: 250px;">
 			<div class="modal-dialog">
 				<div class="modal-content">
-<!-- 					Modal Header -->
+					<!-- 					Modal Header -->
 					<div class="modal-header">
 						<h4 class="modal-title">비밀번호 인증</h4>
-						<button type="button" class="close" data-dismiss="modal" id="close">&times;</button>
+						<button type="button" class="close" data-dismiss="modal"
+							id="close">&times;</button>
 					</div>
-<!-- 					Modal body -->
-					<form action="pwdAuth.me" method="post" style="margin-top:50px;" id="pwdAuth-userPwd">
+					<!-- 					Modal body -->
+					<form action="pwdAuth.me" method="post" style="margin-top: 50px;"
+						id="pwdAuth-userPwd">
 						<input type="hidden" value="${authentication.userNo}"
-								name="userNo"> 
+							name="userNo">
 						<table class="modalTable">
 							<tr>
 								<td id="tdPwd">비밀번호</td>
-								
+
 								<td><input type="password" name="userPwd" required
 									id="pwdInput"></td>
 							</tr>
@@ -342,8 +341,8 @@
 			// 회원정보 탭을 클릭했을 때
 			$("#memberInfoTab").click(function() {
 				$("#pwdAuth").show();
-				
-				$("#replyList").hide();
+				$("#activityList").show();
+				$("#replyList").show();
 			});
 			
 			// 회원정보 탭을 클릭했을 때
@@ -489,12 +488,12 @@
         $.ajax({
             url: '/trashpedia/member/pwdAuth.me', 
             method: 'POST',
-            data:   $('#pwdAuth-userPwd').serialize(), 
+            data:   $('#pwdAuth-userPwd').serialize(),
             success: function(response) {
                 alert('페스워드 인증 성공');
                 $("#memberInfo").show();
-                $("#activityList").hide();
                 $("#pwdAuth").hide();
+                $("#activityList").hide();
                 $("#replyList").hide();
             },
             error: function(xhr, status, error) {
