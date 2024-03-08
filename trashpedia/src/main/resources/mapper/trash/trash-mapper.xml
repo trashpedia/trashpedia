@@ -80,11 +80,6 @@
 	    SELECT *
 	    FROM TRASH
 	</select>
-
-	<select id ="getBigCategoryList" resultType="TrashBigCategory">
-		SELECT *
-		FROM TRASH_BIG_CATEGORY
-	</select>
 	
 	<select id ="getSubCategoryList" resultType="TrashSubCategory">
 		SELECT *
