@@ -151,5 +151,28 @@
 		VALUES (SEQ_SNO.NEXTVAL, #{userNo}, #{pledgeNo}, DEFAULT, SYSDATE, SYSDATE )	
 	</insert>
 
+	<!-- 실천서약조회 -->
+	<select id="getSignature" resultType="signature">
+		SELECT *
+		FROM SIGNATURE
+		WHERE USER_NO = #{userNo} AND PLEDGE_NO = #{pledgeNo} AND SIGNATURE_STATUS='Y'
+	</select>
+	
+	<!-- 게시글 내 실천서약조회  -->
+	<select id="selectSignatureList" resultType="signature">
+		SELECT S.USER_NO, PLEDGE_NO, USER_NAME, S.CREATE_DATE
+		FROM SIGNATURE S
+		JOIN MEMBER M ON (S.USER_NO=M.USER_NO)
+		WHERE PLEDGE_NO = #{pledgeNo} AND SIGNATURE_STATUS='Y'
+		ORDER BY SIGNATURE_NO DESC
+	</select>
+	
+	<!-- 총 실천서약 수 조회 -->
+	<select id="countSignature" resultType="int">
+		SELECT COUNT(*)
+		FROM SIGNATURE
+		WHERE SIGNATURE_STATUS='Y'
+	</select>
+
 	
 </mapper>

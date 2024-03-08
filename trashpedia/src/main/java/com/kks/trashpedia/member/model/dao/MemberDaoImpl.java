@@ -112,8 +112,7 @@ public class MemberDaoImpl implements MemberDao {
 	}
 
 	@Override
-	public Member getMember(int userNo) {
-		return session.selectOne("memberMapper.getMember",userNo);
+	public Member getMember(Member m) {
+		return session.selectOne("memberMapper.getMember",m);
 	}
-
 }

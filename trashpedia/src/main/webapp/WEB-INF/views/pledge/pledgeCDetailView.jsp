@@ -125,9 +125,9 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr>
-								<td colspan="3">댓글이 없습니다.</td>
-							</tr>
+<!-- 							<tr> -->
+<!-- 								<td colspan="3">댓글이 없습니다.</td> -->
+<!-- 							</tr> -->
 						</tbody>
 					</table>
 				</div>
@@ -310,10 +310,12 @@
 	 	        
 	 	        if (name === "") {
 	 	            alert("이름을 입력하세요.");
+	 	           	nameInput.focus();
 	 	            return;
 	 	        }
 	 	        if (phone === "") {
 	 	            alert("핸드폰 번호를 입력하세요.");
+	 	           	phoneNumberInput.focus();
 	 	            return;
 	 	        }
  		    	
@@ -334,25 +336,70 @@
 	 	            },
 	 	            success: function(result) {
 	 	        	    if (result == 1) {
-	 	        	        alert("서약에 성공적으로 동참하셨습니다. 감사합니다!");
+	 	        	    	alert("서약에 성공적으로 동참하셨습니다. 감사합니다.");
+	 	        	       	selectSignatureList();
 	 	        	    } else if (result == 2) {
+	 	        	        alert("이미 서약에 참여하셨습니다.");
+	 	        	    }else if (result == 3) {
 	 	        	        alert("입력하신 회원정보가 일치하지 않습니다. 다시 확인해주세요.");
 	 	        	    } else {
 	 	        	        alert("서약 동참에 실패했습니다. 잠시 후 다시 시도해주세요.");
 	 	        	    }
 	 	        	},
 	 	            error: function(xhr, status, error) {
-	 	                console.error("서버 오류:", status, error);
+	 	                console.error("서약참여 오류:", status, error);
 	 	                alert("서버 응답에 실패했습니다. 다시 시도해주세요.");
 	 	            }
 	 	        });
- 		    	
- 		    	
  		    }
  		    else{
 	 		   alert("실천서약에 동참하시려면 로그인이 필요합니다.");
  		    }
  		}
+ 	  
+		// 실천서약 동참 리스트 조회
+		function selectSignatureList(){
+			$.ajax({
+				url : "${contextPath}/pledge/selectSignatureList" ,
+				method: "GET",
+				data:  { pledgeNo: `${post.postNo}` },
+				success:function(result){
+					var htmlString = generateSignatureHTML(result);
+					var tbody = document.getElementById("replyArea").getElementsByTagName("tbody")[0];
+					tbody.innerHTML = htmlString;
+					        
+					// 서약 개수 업데이트
+					document.getElementById("rcount").textContent = result.length;
+				},
+				error: function(xhr, status, error) {
+				    console.error("서약 리스트 조회 오류:", status, error);
+				}
+			});
+		}
+		selectSignatureList();
+ 	  
+		// 서약 목록을 HTML 문자열로 생성
+		function generateSignatureHTML(signatureList) {
+		    if (signatureList.length > 0) {
+		        var htmlString = "";
+		        for (var i = 0; i < signatureList.length; i++) {
+		            
+		        	var signature = signatureList[i];
+		            var hiddenUserName = signature.userName.charAt(0) + '*' + signature.userName.substring(2);
+		            
+		            htmlString += "<tr>";
+		            htmlString += "<td style='height: 20px;'>" + hiddenUserName + "</td>";
+		            htmlString += "<td>" + '자원순환 실천에 동참합니다.' + "</td>";
+		            htmlString += "<td>" + signature.createDate + "</td>";
+		            htmlString += "</tr>";
+		            
+		        }
+		        return htmlString;
+		    } else {
+		        return "<tr><td colspan='3'>댓글이 없습니다.</td></tr>";
+		    }
+		}
+ 	  
  	  
  	  
  	   // ------- 신고 모달 -------

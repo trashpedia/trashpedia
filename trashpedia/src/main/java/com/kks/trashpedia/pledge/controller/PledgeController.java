@@ -51,6 +51,12 @@ public class PledgeController {
 	public ModelAndView pledgeList(int subCategoryNo) {
 		
 		ModelAndView mav = new ModelAndView();
+		
+		int countSignature= service.countSignature();
+		
+		log.info("{}",countSignature);
+		
+		mav.addObject("countSignature", countSignature);
 		mav.setViewName("pledge/pledgeView");
 		return mav;
 	}
@@ -96,7 +102,6 @@ public class PledgeController {
 		Post post = service.pledgeDetail(postNo); 
 		Board b = new Board();
 		
-		
 		//이미지,첨부파일,카테고리
 		ImgAttachment img = service.pledgeDetailImg(post.getBoardNo());
 		Attachment attach = service.pledgeDetailAttach(post.getBoardNo());
@@ -133,13 +138,7 @@ public class PledgeController {
 			}
 		}
 
-		
-		
-		//조회수
-//		if (loginUser != null) {
-//			userNo = loginUser.getUserNo();
-//		}
-//		
+		//조회수		
 //		if(post.getUserNo() != userNo) {
 //			Cookie cookie = null;
 //			Cookie[] cArr = req.getCookies();
@@ -170,8 +169,6 @@ public class PledgeController {
 //				cookie.setMaxAge(1*60*60); //초기화시간
 //				res.addCookie(cookie);
 //			}
-//		} else {
-//			System.out.println("조회실패");
 //		}
 		
 		mav.addObject("attachment", attach);
@@ -198,7 +195,6 @@ public class PledgeController {
 		int bigCategoryNo = subCategory.getBigCategoryNo();
 		
 		//게시글삭제- post & board
-		int result = 0;
 		int result1 = service.pledgeDeletePost(p);
 		int result2 = service.pledgeDeleteBoard(p);
 		
@@ -245,7 +241,11 @@ public class PledgeController {
 		return service.insertSignature(signature, signatureMember);
 	}
 	
-	
+	// 실천서약조회
+	@GetMapping("/selectSignatureList")
+	public List<Signature> selectSignatureList(int pledgeNo ){
+		return service.selectSignatureList(pledgeNo);
+	}
 	
 	
 

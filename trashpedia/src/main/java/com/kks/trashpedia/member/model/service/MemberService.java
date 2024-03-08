@@ -28,6 +28,5 @@ public interface MemberService {
 
 	int joinSocialMember(Member m, Long socialId, String socialType);
 
-	Member getMember(int userNo);
-
+	Member getMember(Member m);
 }

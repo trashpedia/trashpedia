@@ -77,8 +77,7 @@ public class MemberServiceImpl implements MemberService{
 	}
 
 	@Override
-	public Member getMember(int userNo) {
-		return dao.getMember(userNo);
+	public Member getMember(Member m) {
+		return dao.getMember(m);
 	}
-
 }
