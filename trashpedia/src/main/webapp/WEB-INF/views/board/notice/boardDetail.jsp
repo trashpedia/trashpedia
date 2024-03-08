@@ -156,7 +156,8 @@
 		                commentsHtml += "</div>"; // nested-comments-cell div 종료
 
 		                // 대댓글 목록 표시 영역 추가
-		                commentsHtml += "<div class='nested-comments-list' id='nestedCommentsList" + comment.commentNo + "' style='display: none;'></div>"; // nested-comments-list div 종료
+		                
+		                commentsHtml += "<div class='nested-comments-list' id='nestedCommentsList" + comment.commentNo + "' style='display: none;'>  </div>"; // nested-comments-list div 종료
 		            }
 
 		            commentsHtml += "</div>"; // comment-list div 종료
@@ -177,9 +178,11 @@
 		    var nestedCommentsList = document.getElementById('nestedCommentsList' + commentNo);
 		    // 해당 요소가 존재하는지 확인합니다.
 		    if (nestedCommentsList) {
+		    	console.log("대댓글목록 : " + nestedCommentsList)
 		        // 요소의 현재 display 상태에 따라 표시 상태를 토글합니다.
 		        if (nestedCommentsList.style.display === 'none') {
 		            nestedCommentsList.style.display = 'block'; // 요소를 표시합니다.
+		            viewNC(commentNo);
 		        } else {
 		            nestedCommentsList.style.display = 'none'; // 요소를 숨깁니다.
 		        }
@@ -215,8 +218,8 @@
 		                for (let nComment of NCList) {
 		                    commentsHtml += "<div class='nested-comment'>"; // 각 대댓글 항목을 위한 div 시작
 		                    commentsHtml += "<div class='nested-comment-user'>" + nComment.userName + "</div>"; // 대댓글 작성자
-		                    commentsHtml += "<div class='nested-comment-content'>" + nComment.content + "</div>"; // 대댓글 내용
 		                    commentsHtml += "<div class='nested-comment-date'>" + nComment.modifyDate + "</div>"; // 대댓글 날짜
+		                    commentsHtml += "<div class='nested-comment-content'>" + nComment.content + "</div>"; // 대댓글 내용
 		                    commentsHtml += "<div class='nested-comment-actions'>"; // 대댓글 액션 버튼들
 		                    commentsHtml += "<button onclick='deleteNC(" + nComment.commentNo + ")' class='btn-delete-nc'>삭제</button>";
 		                    commentsHtml += "</div>"; // nested-comment-actions div 종료
@@ -245,11 +248,13 @@
 			$.ajax({
 				url : "${contextPath}/board/insertNC",
 				type : 'post',
-				data : {
-					commentNo: commentNo,
-					userNo: loginUserNo,
-					content : content
-				},
+				contentType: "application/json", // 컨텐트 타입 명시
+		        dataType: 'json', // 서버로부터 응답 받을 데이터 타입
+				data : JSON.stringify({
+		            commentNo: commentNo,
+		            userNo: loginUserNo,
+		            content : content
+		        }),
 				success : function(response){
 					alert('대댓글이 등록되었습니다.');
 					selectCommentList(${b.boardNo});
@@ -263,6 +268,8 @@
 		
 		//대댓글 삭제
 		function deleteNC(nCommentNo) {
+			console.log("대댓글번호 : ",nCommentNo);
+// 			console.log("댓글번호 : ",commentNo);
 		    var result = confirm("대댓글을 삭제하시겠습니까?");
 		    if (result) {
 		        $.ajax({

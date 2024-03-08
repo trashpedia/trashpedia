@@ -218,7 +218,6 @@ main{
     width: 100%;
     height: 100%;
     backface-visibility: hidden;
-    transition: transform 1.5s; /* 회전 트랜지션 설정 */
     background-color: rgb(107, 199, 168);
     background-color: #f8f8f8;border-radius: 15px;
     position: relative;
@@ -486,4 +485,5 @@ main{
     width: 200px;
     /* height: 200px; */
 }
+
 

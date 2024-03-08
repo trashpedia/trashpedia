@@ -54,4 +54,19 @@ public class TrashDaoImpl implements TrashDao{
 	public List<Trash> getAllTrashList() {
 		return session.selectList("trashMapper.getAllTrashList");
 	}
+
+	@Override
+	public List<TrashSubCategory> getSubCategoryList(int bigCategoryNo) {
+		return session.selectList("trashMapper.getSubCategoryList", bigCategoryNo);
+	}
+
+	@Override
+	public int writeTrash(TrashPost tp, TrashSubCategory tsc) {
+		int result = 0;
+		int trashPostNo = session.insert("trashMapper.writeTrashPost", tp);
+		if(trashPostNo > 0) {
+			result = session.
+		}
+		return result;
+	}
 }

@@ -134,12 +134,15 @@ th, td {
     border: 1px solid #ddd;
     padding: 5px;
     text-align: center;
+    overflow: hidden;
+    
 }
 
 td {
     border: none;
     border-bottom: 1px solid #ddd;
     font-size: 12px;
+    overflow: hidden;
 }
 
 th {

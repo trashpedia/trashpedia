@@ -61,5 +61,6 @@ public interface BoardService {
 	int insertNC(NestedComment nc); // 삽입
 	List<NestedComment> viewNC(int commentNo); // 조회
 	List<Comment> selectCommentList(Board b); //commentNo 가져오기
+	int deleteNC(int nCommentNo); // 삭제
 
 }

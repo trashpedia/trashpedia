@@ -76,14 +76,30 @@
         FROM TRASH_BIG_CATEGORY
 	</select>
 	
-	<select id = "getSubCategoryList" resultType="TrashSubCategory">
-		SELECT *
-        FROM TRASH_SUB_CATEGORY
-	</select>
-	
 	<select id = "getAllTrashList" resultType="trash">
 	    SELECT *
 	    FROM TRASH
 	</select>
 
+	<select id ="getBigCategoryList" resultType="TrashBigCategory">
+		SELECT *
+		FROM TRASH_BIG_CATEGORY
+	</select>
+	
+	<select id ="getSubCategoryList" resultType="TrashSubCategory">
+		SELECT *
+		FROM TRASH_SUB_CATEGORY TSC
+		LEFT JOIN TRASH_BIG_CATEGORY TBC ON TSC.BIG_CATEGORY_NO = TBC.BIG_CATEGORY_NO
+		<if test="#{bigCategoryNo != null}">
+			WHERE TSC.BIG_CATEGORY_NO = #{bigCategoryNo}
+		</if>
+	</select>
+	
+	<insert id="writeTrashPost" parameterType="trashPost" useGeneratedKeys="true">
+		<selectKey keyProperty="trashPostNo" resultType="int" order="BEFORE">
+			SELECT SEQ_TPNO.NEXTVAL FROM DUAL
+		</selectKey>
+		INSERT INTO TRASH_POST
+		VALUES (#{trashPostNo}, #{trashTitle}, #{trashInfo}, #{trashExtraInfo}, SYSDATE, SYSDATE, DEFAULT)
+	</insert>
 </mapper>
