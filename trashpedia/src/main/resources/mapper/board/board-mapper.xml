@@ -199,6 +199,18 @@
 		LEFT JOIN MEMBER M ON M.USER_NO = NC.USER_NO
 		WHERE NC.COMMENT_NO = #{commentNo}
 	</select>
+	<!-- 대댓글 삭제 -->
+<!-- 	<update id="deleteNC" parameterType="int" > -->
+<!-- 		UPDATE NESTED_COMMENT -->
+<!-- 		SET STATUS = 'N' -->
+<!-- 		WHERE NESTED_COMMENT_NO = #{nCommentNo} -->
+<!-- 	</update> -->
+	
+	<delete id="deleteNC" parameterType="int" >
+		DELETE 
+		FROM NESTED_COMMENT
+		WHERE NESTED_COMMENT_NO = #{nCommentNo}
+	</delete>
 	
 	
 

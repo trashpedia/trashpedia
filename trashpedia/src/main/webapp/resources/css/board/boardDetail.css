@@ -344,6 +344,7 @@ a {
 /* 댓글 목록 스타일링 */
 .comment-list {
     margin-top: 10px;
+    
 }
 
 .comment-item {
@@ -367,7 +368,7 @@ a {
 .comment-date {
     text-align: right;
     color: #999;
-    font-size: 0.8em;
+    font-size: 0.9em;
 }
 
 /* 댓글 버튼 스타일링 */
@@ -377,13 +378,14 @@ a {
 }
 
 .comment-buttons button {
-    background-color: #5acb5a;
+    background-color: #b0bfb0;
     color: white;
     border: none;
     padding: 5px 10px;
     border-radius: 3px;
     cursor: pointer;
     margin-left: 5px;
+    font-size: 10px;
 }
 
 .comment-buttons button:hover {
@@ -426,35 +428,52 @@ a {
 .nested-comment {
     margin-top: 5px;
 }
+.nested-comments-list{
+    display: flex;
+    /* flex-direction: row; */
+    /* justify-content: space-between; */
+    width: 70%;
+    justify-content: right;
+}
+
+
 
 .nested-comment-user {
     font-weight: bold;
     color: #333;
+    font-size: 1.2em;
 }
 
 .nested-comment-content {
     padding: 5px 0;
     color: #666;
+    font-size: 15px;
 }
 
 .nested-comment-date {
-    text-align: right;
+    text-align: left;
     color: #999;
-    font-size: 0.8em;
+    font-size: 1em;
 }
 
 .nested-comment-actions {
     text-align: right;
     padding-top: 5px;
+    margin-bottom: 10px;
+    margin-right: 10px;
 }
-
+.no-nested-comments{
+    margin-bottom: 10px;
+}
 .btn-delete-nc {
-    background-color: #e53e3e;
+    background-color: #745d5d;
+    border-style: 1px solid red;
     color: white;
     border: none;
     padding: 5px 10px;
     border-radius: 3px;
     cursor: pointer;
+    font-size: 10px;
 }
 
 .btn-delete-nc:hover {
@@ -539,11 +558,13 @@ a {
 
 .comment-user, .comment-date {
     color: #888;
-    font-size: 0.9rem;
+    font-size: 1.2rem;
 }
 
 .comment-content p {
     color: #555;
+    margin-left: 20px;
+    font-size: 15px;
 }
 
 /* 기타 댓글 관련 버튼 */
@@ -556,6 +577,9 @@ a {
     cursor: pointer;
     margin-left: 5px;
 }
+
+
+
 
 .btn-reply:hover, .btn-reply-write:hover, .btn-edit:hover, .btn-delete:hover {
     background-color: #ccc;
@@ -602,6 +626,7 @@ a {
     color: white;
     cursor: pointer;
     transition: background-color 0.2s ease-in-out;
+    font-size: 10px;
 }
 
 .nested-comment-submit:hover {
