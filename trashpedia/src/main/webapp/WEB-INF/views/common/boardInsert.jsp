@@ -8,17 +8,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>실천게시글</title>
-	<!-- jQuery -->
-	<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-	<link rel="stylesheet" href="${contextPath}/resources/css/common/boardInsert.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 	<script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
-	<link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css" />
+	<link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css">
+	<link rel="stylesheet" href="${contextPath}/resources/css/common/boardInsert.css">
 </head>
-
 <body>
-
 	<jsp:include page="../common/header.jsp" />
-
 	<main>
 		<c:if test="${empty post}">
 			<form action="${contextPath}/write" id="enrollForm" method="POST" enctype="multipart/form-data" onsubmit="submitForm()">
@@ -26,7 +22,6 @@
 		<c:if test="${!empty post}">
 			<form action="${contextPath}/update" id="enrollForm" method="POST" enctype="multipart/form-data" onsubmit="submitForm()">
 		</c:if>
-
 		<div class="container">
 			<div class="content-category-outer">
 				<span class="container-title"> 
@@ -38,25 +33,22 @@
 				</span> 
 				<span class="categoryName">${category.bigCategoryName}_</span> 
 				<span class="categoryName">${category.subCategoryName} </span>
-				
 				<!-- 넘겨줄 값 --> 
 				<input type="hidden" name="bigCategoryNo" value="${category.bigCategoryNo}"> 
 				<input type="hidden" name="subCategoryNo" value="${category.subCategoryNo}"> 
 				<input type="hidden" name="type" value="${type}">
 				<input type="hidden" name="userNo" value="${authentication.userNo}">
 			</div>
-
 			<div class="content-input-outer">
 				<input name="title" type="text" class="input-title" placeholder="제목을 입력하세요." value="${post.title}" required>
-					<c:if test="${!empty post}">
+				<c:if test="${!empty post}">
 					<div class="content-title-outer">
 						<span>작성자</span> <span class="title-count"> ${post.userName}  &nbsp; &nbsp;| </span> 
 						<span>작성일</span> <span class="title-count"> ${post.createDate}  &nbsp; &nbsp;| </span> 
 						<span>조회수</span> <span class="title-count">${post.hitsNo}</span>
 					</div>
-					</c:if>
+				</c:if>
 			</div>
-
 			<div class="content-outer">
 				<div class="file-input-outer">
 					<table class="content-attach-inner">
@@ -115,9 +107,7 @@
 		</div>
 		</form>
 	</main>
-
 	<jsp:include page="../common/footer.jsp" />
-
 	<script>
 		$(document).ready(function() {
 			 	
