@@ -136,7 +136,8 @@ public class CommonServiceImpl implements CommonService{
 		return dao.imageNameList();
 	}
 
-	
-	
-	
+	@Override
+	public int insertFiles(ImgAttachment image) {
+		return dao.insertImgAttachment(image);
+	}
 }

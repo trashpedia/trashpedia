@@ -24,7 +24,7 @@ public class FileDeleteScheduler {
 	private CommonService service;
 	
 	//파일삭제 스케쥴러
-	@Scheduled(cron = "0 0/3 * * * *")  //서버 실행 후 3분 간격으로 실행됨
+	@Scheduled(cron = "0 0 */12 * * *")  // 서버 실행 후 12시간 간격으로 실행됨
 	public void deleteFile() {
 		
 		List<String> fileNameList = service.fileNameList();

@@ -61,8 +61,7 @@
 	
 	<!-- 쓰레기 상세페이지  -->
 	<select id ="trashDetail" parameterType="int" resultType="trash">
-		SELECT T.TRASH_NO, TSC.SUB_CATEGORY_NAME,TBC.BIG_CATEGORY_NAME, T.STATUS, TP.TRASH_POST_NO
-		, TP.TRASH_TITLE, TP.TRASH_INFO,TP.TRASH_EXTRAINFO, IA.CHANGE_NAME
+		SELECT T.TRASH_NO, TSC.SUB_CATEGORY_NAME, TBC.BIG_CATEGORY_NAME, T.STATUS, TP.TRASH_POST_NO, TP.TRASH_TITLE, TP.TRASH_INFO,TP.TRASH_EXTRAINFO, IA.CHANGE_NAME
 		FROM TRASH T
 		LEFT JOIN TRASH_POST TP ON T.TRASH_POST_NO = TP.TRASH_POST_NO
 		LEFT JOIN IMG_ATTACHMENT IA ON IA.REF_BNO = T.TRASH_NO
@@ -90,11 +89,31 @@
 		</if>
 	</select>
 	
-	<insert id="writeTrashPost" parameterType="trashPost" useGeneratedKeys="true">
-		<selectKey keyProperty="trashPostNo" resultType="int" order="BEFORE">
-			SELECT SEQ_TPNO.NEXTVAL FROM DUAL
-		</selectKey>
-		INSERT INTO TRASH_POST
-		VALUES (#{trashPostNo}, #{trashTitle}, #{trashInfo}, #{trashExtraInfo}, SYSDATE, SYSDATE, DEFAULT)
+	<insert id="writeTrashPost" parameterType="trashPost" useGeneratedKeys="true" keyProperty="trashPostNo">
+	    <selectKey keyProperty="trashPostNo" resultType="int" order="BEFORE">
+	        SELECT SEQ_TPNO.NEXTVAL FROM DUAL
+	    </selectKey>
+	    INSERT INTO TRASH_POST
+	    VALUES (#{trashPostNo}, #{trashTitle}, #{trashInfo}, #{trashExtraInfo}, SYSDATE, SYSDATE, DEFAULT)
 	</insert>
+	
+	<select id="getTrashPostNo" resultType="trashPost">
+		SELECT *
+		FROM TRASH_POST
+		WHERE TRASH_TITLE = #{trashTitle}
+	</select>
+	
+	<insert id="writeTrash" useGeneratedKeys="true" keyProperty="trashNo">
+		<selectKey keyProperty="trashNo" resultType="int" order="BEFORE">
+			SELECT SEQ_TNO.NEXTVAL FROM DUAL
+		</selectKey>
+		INSERT INTO TRASH
+		VALUES(#{trashNo}, #{trashPostNo}, #{userNo}, #{subCategoryNo}, DEFAULT)
+	</insert>
+	
+	<select id="getTrashNo" resultType="trash">
+		SELECT *
+		FROM TRASH
+		WHERE TRASH_POST_NO = #{trashPostNo}
+	</select>
 </mapper>

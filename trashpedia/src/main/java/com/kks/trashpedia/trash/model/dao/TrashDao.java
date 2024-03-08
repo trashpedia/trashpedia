@@ -32,7 +32,7 @@ public interface TrashDao {
 
 	List<TrashSubCategory> getSubCategoryList(int bigCategoryNo);
 
-	int writeTrash(TrashPost tp, TrashSubCategory tsc);
+	int writeTrash(TrashPost tp, TrashSubCategory tsc, int userNo);
 
 
 }

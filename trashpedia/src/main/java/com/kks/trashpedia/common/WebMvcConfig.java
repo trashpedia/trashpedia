@@ -18,7 +18,5 @@ public class WebMvcConfig implements WebMvcConfigurer{
 	                .addPathPatterns("/pledge/**")
 	                .addPathPatterns("/information/**");
 	        		//.errorPage("/error");
-
 	    }
-
 }

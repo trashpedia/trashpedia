@@ -2,7 +2,6 @@ package com.kks.trashpedia.trash.model.service;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kks.trashpedia.trash.model.dao.TrashDao;
@@ -62,8 +61,8 @@ public class TrashServiceImpl implements TrashService{
 	}
 
 	@Override
-	public int writeTrash(TrashPost tp, TrashSubCategory tsc) {
-		return dao.writeTrash(tp, tsc);
+	public int writeTrash(TrashPost tp, TrashSubCategory tsc, int userNo) {
+		return dao.writeTrash(tp, tsc, userNo);
 	}
 
 
