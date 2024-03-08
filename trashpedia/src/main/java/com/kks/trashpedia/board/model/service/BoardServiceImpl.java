@@ -139,8 +139,13 @@ public class BoardServiceImpl implements BoardService{
 	}
 
 	@Override
-	public List<Comment> selectCommentList(Board b) {
+	public List<Comment> selectCommentList(Board b) { //commentNo
 		return dao.selectCommentList(b);
+	}
+
+	@Override 
+	public int deleteNC(int nCommentNo) {
+		return dao.deleteNC(nCommentNo); //삭제
 	}
 
 

@@ -224,6 +224,11 @@ public class BoardDaoImpl implements BoardDao {
 		return session.selectList("boardMapper.viewNC", b);
 	}
 
+	@Override
+	public int deleteNC(int nCommentNo) {
+		return session.delete("boardMapper.deleteNC", nCommentNo);
+	}
+
 
 	
 
