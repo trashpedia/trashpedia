@@ -88,6 +88,11 @@
         DELETE FROM IMG_ATTACHMENT
         WHERE REF_BNO = #{boardNo} AND IMG_TYPE = 1
     </delete>
+    
+    <delete id="deleteImage2">
+        DELETE FROM IMG_ATTACHMENT
+        WHERE REF_BNO = #{boardNo} AND IMG_TYPE = 2
+    </delete>
 
 	<!-- 파일삭제-파일리스트출력 -->
 	<select id="fileNameList" resultType="string">
@@ -392,13 +397,11 @@
 	</select>
 
 	<!-- 게시글 상세조회 - 이미지 -->
-	<select id="getImageUrl" resultType="imgAttachment" parameterType="int">
-		<![CDATA[
+	<select id="getImageUrl" resultType="imgAttachment" parameterType="map">
 		SELECT *
 		FROM IMG_ATTACHMENT IA
-		JOIN BOARD ON BOARD_NO = REF_BNO
+		LEFT JOIN BOARD B ON B.BOARD_NO = IA.REF_BNO
 		WHERE REF_BNO = #{boardNo} AND IMG_TYPE = #{imgType} AND IA.STATUS='Y'
-	    ]]>
 	</select>
 
 	<!-- 게시글 상세조회 - 첨부파일 -->
