@@ -86,13 +86,15 @@ public class BoardController {
 		return mav;
 	}
 	
-	@GetMapping("/delete/{postNo}")
+	@GetMapping("/delete/{postNo}/{subCategoryNo}/{bigCategoryNo}")
 	public ModelAndView boardDelete(Post p, HttpSession session, RedirectAttributes ra,
-			@PathVariable int postNo
+			@PathVariable("postNo") int postNo
+//			@PathVariable("subCategoryNo") int subCategoryNo,
+//			@PathVariable("bigCategoryNo") int bigCategoryNo
 			) {
 		ModelAndView mav = new ModelAndView();
 		SubCategory subCategory = pservice.getCategoryNo(p);
-		
+		System.out.println("post : "+p);
 		int subCategoryNo = subCategory.getSubCategoryNo();
 		int bigCategoryNo = subCategory.getBigCategoryNo();
 		
@@ -106,7 +108,6 @@ public class BoardController {
 		}else {
 			ra.addFlashAttribute("alert", "게시글 삭제에 실패했습니다.");
 		}
-
 		mav.setViewName("redirect:/pledge/list?bigCategoryNo="+bigCategoryNo+"&subCategoryNo="+subCategoryNo);
 		
 		return mav;
@@ -121,12 +122,13 @@ public class BoardController {
 		ModelAndView mav = new ModelAndView();
 		// 글내용 조회
 		Post post = service.getFreeTrashDetail(postNo);
+		service.updateHits(postNo);
 		Board b = new Board();
 
 		// 이미지,첨부파일,카테고리
 		ImgAttachment img = service.getImageUrlByboardNo(post.getBoardNo());
 		Attachment attach = service.getDetailAttach(post.getBoardNo());
-
+		
 		b.setImgAttachment(img);
 		b.setAttachment(attach);
 
@@ -185,9 +187,14 @@ public class BoardController {
 			@RequestParam(value = "searchValue", required = false) String searchValue) {
 		List<BigCategory> bc = service.bigCategory();
 		List<SubCategory> sc = service.subCategory();
-//		Page<Board> pages = service.boardList(subCategoryNo, pageable, page, filter, searchSelect, searchValue);
+		Page<Board> pages = service.boardList(subCategoryNo, pageable, page, filter, searchSelect, searchValue);
+		
 		Page<Board> freeSharePages = service.boardList(subCategoryNo, pageable, page, filter, searchSelect, searchValue);
 		Board b = new Board();
+		System.out.println("pages크기 :" + pages.getSize());
+		System.out.println("전체 Post 인스턴스 수: " + pages.getTotalElements());
+		System.out.println("전체 페이지 수: " + pages.getTotalPages());
+
 		
 		
 		ModelAndView mav = new ModelAndView();
@@ -206,15 +213,20 @@ public class BoardController {
 			mav.addObject("subCategoryNo", sc);
 	        mav.setViewName("board/freeShare/freeShare"); // 무료 나눔 게시판 뷰 설정
 	    } 
-//		else {
+		else {
 //	    	int pageSize = 10;
+	    	int pageSize = pageable.getPageSize(); // 한 페이지당 항목 수
+	    	long totalElements = pages.getTotalElements(); // 총 데이터 항목의 수
+	    	int totalPages = (int) Math.ceil((double) totalElements / pageSize); // 전체 페이지 수 계산
+
 //	        int totalPages = (int) Math.ceil((double) pages.getSize() / pageSize); // 전체 페이지 수 계산
-//			mav.addObject("boardList", pages);
-//			mav.addObject("totalPages",totalPages);
-//			mav.addObject("bigCategoryNo", bc);
-//			mav.addObject("subCategoryNo", sc);
-//			mav.setViewName("board/notice/boardList");
-//		}
+			mav.addObject("boardList", pages);
+			System.out.println("boardList : "+ pages);
+			mav.addObject("totalPages",totalPages);
+			mav.addObject("bigCategoryNo", bc);
+			mav.addObject("subCategoryNo", sc);
+			mav.setViewName("board/notice/boardList");
+		}
 		return mav;
 	}
 	
@@ -246,12 +258,13 @@ public class BoardController {
 	 @GetMapping("community/detail/{postNo}")
 	    public ModelAndView boardDetail(
 	    		@PathVariable int postNo, 
-	    		@RequestParam(value="subCategoryNo", defaultValue="1")int subCategoryNo) {
-		 
-//		 	List<Post> board = service.boardDetail(postNo);
+	    		@RequestParam(value="subCategoryNo", defaultValue="1")int subCategoryNo
+	    		) {
 		ModelAndView mav = new ModelAndView();
+		//게시글 상세정보 조회
 		Post board = service.boardDetail(postNo);
 		mav.addObject("b", board);
+		mav.addObject("postNo",postNo);
 		mav.setViewName("board/notice/boardDetail");
 		return mav;
 	}

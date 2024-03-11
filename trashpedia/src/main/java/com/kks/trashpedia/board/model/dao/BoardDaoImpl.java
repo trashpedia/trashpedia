@@ -229,6 +229,11 @@ public class BoardDaoImpl implements BoardDao {
 		return session.delete("boardMapper.deleteNC", nCommentNo);
 	}
 
+	@Override
+	public int updateHits(int postNo) {
+		return session.update("boardMapper.updateHits", postNo);
+	}
+
 
 	
 

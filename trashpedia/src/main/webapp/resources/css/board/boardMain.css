@@ -66,12 +66,20 @@
 
 
 /* board */
+.idx_board {
+    display: inline-block;
+    vertical-align: top; /* 추가 */
+    width: 46%;
+    height: 320px;
+    /* 나머지 스타일 */
+}
 
 #idx_board_wrap {
     padding: 50px ;
     background: #ffffff;
     margin-top: 100px;
     width: 80%;
+
     /* background-image: linear-gradient(to top , rgb(191, 228, 217), rgb(255, 255, 255)); */
 }
 
