@@ -127,69 +127,6 @@
 			</div>
 		</c:if>
 	</main>
-	
-	<script>
-			 //상세페이지로 이동
-		     	function trashDetail(trashNo) {
-		     		console.log("trashNo:", trashNo);
-				     	location.href = "${contextPath}/trash/detail?trashNo=" + trashNo;
-				  	}
-				let type = '${type}';
-				// 이미지 요소 생성
-			    let imgElement = document.createElement('img');
-			    imgElement.src = "${contextPath}/resources/attachFile/image/${trash.changeName}";
-			    imgElement.className = 'content-img';
-		
-			    $(document).ready(function() {
-			        // 스크롤 다운 버튼 
-			        $("#scrollDownButton").click(function() {
-			            $("body, html").animate({ 
-			                scrollTop: 1160 
-			            }, 1100); 
-			        });
-			        // 상단 이동 버튼
-			        var scrollUpButton = $('#scrollUpButton');
-			        $(window).scroll(function() {
-			            if ($(this).scrollTop() > 300) {
-			                scrollUpButton.show();
-			            } else {
-			                scrollUpButton.hide();
-			            }
-			        });
-			        scrollUpButton.click(function(){
-			        	$('html,body').animate({scrollTop:0},500);
-			        	return false;
-			        });
-			  		//최근 업데이트 된 쓰레기,인기쓰레기
-			        $('#recently-garbage-slider .recently-garbage-inner').slick({
-			            slidesToShow: 4,
-			            slidesToScroll: 1,
-			            autoplay: true,
-			            autoplaySpeed: 2000, // 2초마다 슬라이드 전환
-			            arrows : true,
-			            dots: true,
-			            prevArrow: '<div class="custom-prev"></div>',
-			            nextArrow: '<div class="custom-next"></div>'
-			 		 });
-			    });
-			    /*  <!-- 페이지 전환-->
-			    
-			    function navigateToPrevious(trashNo) {
-			        var previousTrashNo = trashNo - 1;
-			        var previousUrl = "/trashDetail?trashNo=" + previousTrashNo;
-			        document.getElementById("previousButton").setAttribute("href", previousUrl);
-			    }
-			    
-			    function navigateToNext(trashNo) {
-			        var nextTrashNo = trashNo + 1;
-			        var nextUrl = "/trashDetail?trashNo=" + nextTrashNo;
-			        document.getElementById("nextButton").setAttribute("href", nextUrl);
-			    } 
-			    */
-			</script>
-	
-	
-
 	<c:if test="${type == 'read'}">
 		<div id="modal" class="modal">
 		    <div class="modal-content-wrapper">
@@ -286,6 +223,7 @@
 		    	let requestContent = $('#requestContent').val();
 		    	let userNo = ${authentication == null ? 0 : authentication.userNo};
 		    	let trashNo = ${trash.trashNo};
+		    	let modal = $('#modal');
 		    	
 		    	$.ajax({
 		    		url: 'request/write',
@@ -348,7 +286,7 @@
 		    
 		    function getSubList() {
 		    	let bigCategoryNo = document.querySelector("#bigList").value;
-            	let scNo = ${trash.subCategoryNo};
+            	let scNo = ${trash != null ? trash.subCategoryNo : 0};
 		    	
 		    	$.ajax({
 		            url: '${contextPath}/trash/getSubcategoryList',

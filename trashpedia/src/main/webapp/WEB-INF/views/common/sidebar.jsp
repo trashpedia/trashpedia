@@ -64,7 +64,7 @@
                   <li>
                     <div id="sidebar-li-logout" class="sidebar-li-logout">
                         <div class="sidebar-title">
-                        <a href="${contextPath}/admin/report"><span class="material-symbols-outlined">logout</span><span>logout</span></a>
+	                        <a href="${contextPath}/logout"><span class="material-symbols-outlined">logout</span><span>logout</span></a>
                         </div>
                     </div>
                 </li>

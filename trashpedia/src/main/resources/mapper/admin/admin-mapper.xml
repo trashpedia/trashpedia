@@ -4,7 +4,7 @@
 	<select id="allMemberCount" resultType="int">
 		SELECT COUNT(*)
 		FROM MEMBER
-		WHERE GRADE_NO != 1 AND STATUS = 'Y' AND ROLE = 'USER'
+		WHERE GRADE_NO != 1 AND STATUS = 'Y' AND ROLE = 'ROLE_USER'
 	</select>
 	<select id="allBoardCount" resultType="int">
 		SELECT COUNT(*)
@@ -14,12 +14,12 @@
 	<select id="newMemberCount" resultType="int">
 		SELECT COUNT(*)
 		FROM MEMBER
-		WHERE TRUNC(CREATE_DATE) = TRUNC(SYSDATE) AND STATUS = 'Y' AND ROLE = 'USER'
+		WHERE TRUNC(CREATE_DATE) = TRUNC(SYSDATE) AND STATUS = 'Y' AND ROLE = 'ROLE_USER'
 	</select>
 	<select id="oldMemberCount" resultType="int">
 		SELECT COUNT(*)
 		FROM MEMBER
-		WHERE TRUNC(CREATE_DATE) = TRUNC(SYSDATE - 1) AND STATUS = 'Y' AND ROLE = 'USER'
+		WHERE TRUNC(CREATE_DATE) = TRUNC(SYSDATE - 1) AND STATUS = 'Y' AND ROLE = 'ROLE_USER'
 	</select>
 	<select id="newBoardCount" resultType="int">
 		SELECT COUNT(*)

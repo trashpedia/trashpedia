@@ -187,10 +187,14 @@ select {
 	width: 70px;
 	height: 25px;
 	border: none;
-	border-radius: 12px;
-	color: white;
-	background-color: #73cc73;
+	border-radius: 5px;
 	margin-right: 5px;
+	color: #333;
+	border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+	border-bottom-color: #b3b3b3;
+	background-image: linear-gradient(to bottom, #f9f9f9, #e6e6e6);
+	background-repeat: repeat-x;
+	
 }
 
 .delete {

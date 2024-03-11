@@ -25,7 +25,7 @@ public interface MemberService {
 
 	List<Report> reportList(int userNo);
 
-	String findEmail(String userName, String phone);
+	Member findEmail(String userName, String phone);
 
 	int checkEmail(String userEmail, String phone);
 

@@ -26,4 +26,5 @@ public class Post {
 	
 	private int hitsNo;
 	private String userName;
+	private int hits;
 }

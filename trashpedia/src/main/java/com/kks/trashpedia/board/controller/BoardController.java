@@ -83,11 +83,9 @@ public class BoardController {
 		return mav;
 	}
 	
-	@GetMapping("/delete/{postNo}/{subCategoryNo}/{bigCategoryNo}")
-	public ModelAndView boardDelete(Post p, HttpSession session, RedirectAttributes ra,
-			@PathVariable("postNo") int postNo
-//			@PathVariable("subCategoryNo") int subCategoryNo,
-//			@PathVariable("bigCategoryNo") int bigCategoryNo
+	@GetMapping("/delete/{postNo}")
+	public ModelAndView boardDelete(Post p, HttpSession session, RedirectAttributes ra
+//			@PathVariable("postNo") int postNo
 			) {
 		ModelAndView mav = new ModelAndView();
 		SubCategory subCategory = pservice.getCategoryNo(p);
@@ -106,7 +104,7 @@ public class BoardController {
 			ra.addFlashAttribute("alert", "게시글 삭제에 실패했습니다.");
 		}
 
-		mav.setViewName("redirect:/pledge/list?bigCategoryNo=" + bigCategoryNo + "&subCategoryNo=" + subCategoryNo);
+		mav.setViewName("redirect:/board/list?bigCategoryNo=" + bigCategoryNo + "&subCategoryNo=" + subCategoryNo);
 
 		return mav;
 	}
@@ -119,7 +117,8 @@ public class BoardController {
 		// 글내용 조회
 		Post post = service.getFreeTrashDetail(postNo);
 		Board b = new Board();
-
+		Post board = service.boardDetail(postNo);
+		
 		// 이미지,첨부파일,카테고리
 		ImgAttachment img = service.getImageUrl(post.getBoardNo(), 1);
 		Attachment attach = service.getDetailAttach(post.getBoardNo());
@@ -137,10 +136,11 @@ public class BoardController {
 		
 		service.increaseCount(hits);
 
+		mav.addObject("b", board);
 		mav.addObject("attachment", attach);
 		mav.addObject("img", img);
 		mav.addObject("post", post);
-		mav.setViewName("pledge/pledgeDetailView");
+		mav.setViewName("board/notice/boardDetail");
 
 		return mav;
 	}
@@ -171,12 +171,9 @@ public class BoardController {
 		ModelAndView mav = new ModelAndView();
 
 		if (subCategoryNo == 4) { // 무료 나눔 게시판
-//			int pageSize = 10; // 페이지당 보여줄 항목 수
 			int pageSize = 12; // 페이지당 보여줄 항목 수
 			Pageable customPageable = PageRequest.of(page, pageSize, Sort.by("yourSortProperty").descending()); // 새로운
-																												// Pageable
-																												// 객체 생성
-
+			
 			List<Post> boardFreeTrashList = service.getFreeShareList(subCategoryNo, customPageable, page); // 인기 쓰레기 정보 가져오기
 			List<Post> boardFreeTrashTotalList = service.getFreeTrashTotalList(subCategoryNo); // 인기 쓰레기 정보 전부 가져오기
 
