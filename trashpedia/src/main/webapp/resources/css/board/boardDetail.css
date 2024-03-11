@@ -434,7 +434,7 @@ a {
     /* flex-direction: row; */
     /* justify-content: space-between; */
     width: 80%;
-    margin-left: auto;
+    /* margin-left: auto; */
     
 }
 
@@ -581,12 +581,16 @@ a {
     cursor: pointer;
     margin-left: 5px;
 }
+.btn-edit{
+    border: 0;
+  background-color: transparent;
+}
 
 
 
 
 .btn-reply:hover, .btn-reply-write:hover, .btn-edit:hover, .btn-delete:hover {
-    background-color: #ccc;
+    /* background-color: #ccc; */
 }
 
 /* '댓글이 없습니다.' 메시지 스타일링 */

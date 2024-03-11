@@ -83,11 +83,16 @@ public class BoardController {
 		}
 		return mav;
 	}
-
-	@GetMapping("/delete/{postNo}")
-	public ModelAndView boardDelete(Post p, HttpSession session, RedirectAttributes ra, @PathVariable int postNo) {
+	
+	@GetMapping("/delete/{postNo}/{subCategoryNo}/{bigCategoryNo}")
+	public ModelAndView boardDelete(Post p, HttpSession session, RedirectAttributes ra,
+			@PathVariable("postNo") int postNo
+//			@PathVariable("subCategoryNo") int subCategoryNo,
+//			@PathVariable("bigCategoryNo") int bigCategoryNo
+			) {
 		ModelAndView mav = new ModelAndView();
 		SubCategory subCategory = pservice.getCategoryNo(p);
+		System.out.println("post : "+p);
 
 		int subCategoryNo = subCategory.getSubCategoryNo();
 		int bigCategoryNo = subCategory.getBigCategoryNo();
@@ -114,12 +119,13 @@ public class BoardController {
 		ModelAndView mav = new ModelAndView();
 		// 글내용 조회
 		Post post = service.getFreeTrashDetail(postNo);
+		service.updateHits(postNo);
 		Board b = new Board();
 
 		// 이미지,첨부파일,카테고리
 		ImgAttachment img = service.getImageUrl(post.getBoardNo(), 1);
 		Attachment attach = service.getDetailAttach(post.getBoardNo());
-
+		
 		b.setImgAttachment(img);
 		b.setAttachment(attach);
 
@@ -186,12 +192,14 @@ public class BoardController {
 			mav.addObject("list", boardFreeTrashList); // 페이지에 표시할 데이터
 			mav.addObject("bigCategoryNo", bc);
 			mav.addObject("subCategoryNo", sc);
-			mav.setViewName("board/freeShare/freeShare"); // 무료 나눔 게시판 뷰 설정
+
+	    mav.setViewName("board/freeShare/freeShare"); // 무료 나눔 게시판 뷰 설정
 		} else {
 			int pageSize = 10;
 			int totalPages = (int) Math.ceil((double) pages.getSize() / pageSize); // 전체 페이지 수 계산
 			mav.addObject("boardList", pages);
 			mav.addObject("totalPages", totalPages);
+
 			mav.addObject("bigCategoryNo", bc);
 			mav.addObject("subCategoryNo", sc);
 			mav.setViewName("board/notice/boardList");
@@ -218,7 +226,6 @@ public class BoardController {
 		mav.setViewName("board/suggestion/boardList");
 		return mav;
 	}
-
 	// 커뮤니티 상세페이지 이동
 	@GetMapping("community/detail/{postNo}")
 	public ModelAndView boardDetail(@PathVariable int postNo,
@@ -226,8 +233,10 @@ public class BoardController {
 
 //		 	List<Post> board = service.boardDetail(postNo);
 		ModelAndView mav = new ModelAndView();
+		//게시글 상세정보 조회
 		Post board = service.boardDetail(postNo);
 		mav.addObject("b", board);
+		mav.addObject("postNo",postNo);
 		mav.setViewName("board/notice/boardDetail");
 		return mav;
 	}

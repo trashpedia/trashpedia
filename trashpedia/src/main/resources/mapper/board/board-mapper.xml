@@ -106,20 +106,15 @@
 	<!-- 페이징, 목록, 필터 -->
 	<select id="boardList" resultType="post" parameterType="board">
 		SELECT P.POST_NO, P.TITLE, P.CONTENT, P.CREATE_DATE, P.MODIFY_DATE,
-		P.STATUS, B.BOARD_NO, SC.SUB_CATEGORY_NAME, M.USER_NAME, H.HITS_NO
+			P.STATUS, B.BOARD_NO, SC.SUB_CATEGORY_NAME, M.USER_NAME, H.HITS_NO
 		FROM BOARD B
-		LEFT JOIN POST P ON (P.POST_NO = B.POST_NO)
-		LEFT JOIN
-		SUB_CATEGORY SC
-		ON B.SUB_CATEGORY_NO = SC.SUB_CATEGORY_NO
-		LEFT JOIN
-		MEMBER M ON
-		B.USER_NO = M.USER_NO
-		LEFT JOIN HITS H ON B.BOARD_NO =
-		H.BOARD_NO
-		WHERE
-		B.SUB_CATEGORY_NO = #{subCategoryNo}
-		AND P.STATUS='Y'
+			LEFT JOIN POST P ON (P.POST_NO = B.POST_NO)
+			LEFT JOIN SUB_CATEGORY SC ON B.SUB_CATEGORY_NO = SC.SUB_CATEGORY_NO
+			LEFT JOIN MEMBER M ON B.USER_NO = M.USER_NO
+			LEFT JOIN HITS H ON B.BOARD_NO = H.BOARD_NO
+		WHERE B.SUB_CATEGORY_NO = #{subCategoryNo}
+			AND P.STATUS='Y'
+
 		<if test="searchSelect != null">
 			<choose>
 				<when test="searchSelect == 'boardNo'">
@@ -186,7 +181,18 @@
 		AND
 		P.STATUS = 'Y'
 	</select>
+	<!-- 사용자 조회 이력 체크 -->
+	<select id="checkUserViewed" parameterType="map" resultType="int">
+	    SELECT COUNT(*) FROM HITS WHERE BOARD_NO = #{boardNo} AND USER_NO = #{userNo}
+	</select>
+	
+	<!-- 조회수 업데이트 -->
+	<update id="updateHits" parameterType="int">
+	    UPDATE HITS SET HITS_NO = HITS_NO + 1 WHERE BOARD_NO = #{boardNo}
+	</update>
 
+	
+	
 	<!-- 대분류 카테고리 -->
 	<select id="bigCategory" resultType="bigCategory">
 		SELECT *
