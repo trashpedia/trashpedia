@@ -73,17 +73,17 @@ public class AuthController {
 		String access_Token = authService.kakaoGetToken(code);
 		
 		KakaoUserInfoResponse sns = authService.getKakaoProperties(access_Token);
-		Member m = authService.getSocialUser(sns.getId());
+		Member m = authService.getSocialUser(sns.getId(), "kakao");
 		
 		if (m != null) {
 			request.getSession().setAttribute("authentication", m);
 			mav.setViewName("redirect:/");
 		} else {
 			if (authService.emailCheck(sns.getKakao_account().getEmail())) {
-				int result = authService.joinMemberSocial(sns.getKakao_account().getEmail(), sns.getId());
+				int result = authService.joinMemberSocial(sns.getKakao_account().getEmail(), sns.getId(), "kakao");
 
 				if (result > 0) {
-					m = authService.getSocialUser(sns.getId());
+					m = authService.getSocialUser(sns.getId(), "kakao");
 					request.getSession().setAttribute("alert", "기존에 가입한 " + m.getUserEmail() + "과 연동되었습니다.");
 					request.getSession().setAttribute("authentication", m);
 					mav.setViewName("redirect:/");
@@ -115,17 +115,17 @@ public class AuthController {
     	String access_Token = authService.naverGetToken(code);
     	
     	NaverUserInfoResponse sns = authService.getNaverProperties(access_Token);
-    	Member m = authService.getSocialUser(sns.getResponse().getId());
+    	Member m = authService.getSocialUser(sns.getResponse().getId(), "naver");
     	
     	if (m != null) {
     		request.getSession().setAttribute("authentication", m);
     		mav.setViewName("redirect:/");
     	} else {
     		if (authService.emailCheck(sns.getResponse().getEmail())) {
-    			int result = authService.joinMemberSocial(sns.getResponse().getEmail(), sns.getResponse().getId());
+    			int result = authService.joinMemberSocial(sns.getResponse().getEmail(), sns.getResponse().getId(), "naver");
     			
     			if (result > 0) {
-    				m = authService.getSocialUser(sns.getResponse().getId());
+    				m = authService.getSocialUser(sns.getResponse().getId(), "naver");
     				request.getSession().setAttribute("alert", "기존에 가입한 " + m.getUserEmail() + "과 연동되었습니다.");
     				request.getSession().setAttribute("authentication", m);
     				mav.setViewName("redirect:/");

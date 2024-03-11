@@ -105,10 +105,11 @@ public class MemberDaoImpl implements MemberDao {
 	}
 
 	@Override
-	public int joinSocialMember(Member m, Long socialId, String socialType) {
+	public int joinSocialMember(Member m, String socialId, String socialType) {
 		Map<String, Object> param = new HashMap<>();
 		param.put("socialId", socialId);
 		param.put("socialType", socialType);
+		System.out.println("m : "+m);
 		int result = session.insert("memberMapper.joinMember", m);
 		if(result > 0) {
 			Member member = session.selectOne("memberMapper.findMember",m);

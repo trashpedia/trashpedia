@@ -21,27 +21,37 @@ public interface BoardDao {
 
 	Page<Board> boardList(int subCategoryNo, Pageable pageable, int page, String filter, String searchSelect, String searchValue);
 
-	Post boardDetail(int postNo);
+	Board boardDetail(int postNo);
 
-	List<BigCategory> bigCategory();
+	List<BigCategory> allBigCategory();
 
-	List<SubCategory> subCategory();
+	List<SubCategory> allSubCategory();
 
-	List<Post> categoryList();
+	List<Board> allBoardList();
+	
+	SubCategory getSubCategoryNo(Post p);
+
+	int deleteBoard(Post p);
+	
+	ImgAttachment getImageUrl(int boardNo, int imgType);
+	
+	Attachment getDetailAttach(int boardNo, int fileType);
+	
+	
+	
+	
+	
+	
+	
 	
 	/* 무료나눔 */
 	List<Post> getFreeTrashList(int subCategoryNo,Pageable pageable, int page);
 	
 	List<Post> getFreeTrashTotalList(int subCategoryNo);
 
-	ImgAttachment getImageUrl(int boardNo, int imgType);
-
-	String getTrashTitleByboardNo(int boardNo);
-
-	String getTrashContentByboardNo(int boardNo);
+	
 
 	Post getFreeTrashDetail(int boardNo);
-	
 
 	String getTrashWriterByboardNo(int boardNo);
 
@@ -49,7 +59,7 @@ public interface BoardDao {
 
 	Date getTrashViewsByboardNo(int boardNo);
 
-	Attachment getDetailAttach(int boardNo);
+	
 
 	void increaseCount(Hits hits);
 
@@ -64,4 +74,5 @@ public interface BoardDao {
 	int deleteNC(int nCommentNo); //삭제
 
 	int increaseUserPoint(int userNo, int amount, String pointContent);
+
 }

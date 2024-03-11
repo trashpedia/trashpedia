@@ -20,11 +20,9 @@ public interface AuthService extends UserDetailsService{
 
 	String kakaoGetToken(String code);
 
-	Member getSocialUser(Long socialId);
-
 	Boolean emailCheck(String userEmail);
 
-	int joinMemberSocial(String userEmail, Long socialId);
+	int joinMemberSocial(String userEmail, String socialId, String socialType);
 
 	KakaoUserInfoResponse getKakaoProperties(String access_Token);
 
@@ -34,8 +32,5 @@ public interface AuthService extends UserDetailsService{
 
 	NaverUserInfoResponse getNaverProperties(String access_Token);
 
-	Member getSocialUser(String id);
-
-	int joinMemberSocial(String email, String id);
-	
+	Member getSocialUser(String id, String socialType);
 }

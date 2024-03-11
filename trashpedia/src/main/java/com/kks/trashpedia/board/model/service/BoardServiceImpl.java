@@ -3,7 +3,6 @@ package com.kks.trashpedia.board.model.service;
 import java.sql.Date;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -19,43 +18,63 @@ import com.kks.trashpedia.board.model.vo.NestedComment;
 import com.kks.trashpedia.board.model.vo.Post;
 import com.kks.trashpedia.board.model.vo.SubCategory;
 
+import lombok.RequiredArgsConstructor;
+
 
 @Service
+@RequiredArgsConstructor
 public class BoardServiceImpl implements BoardService{
 	
-	@Autowired
-	private BoardDao dao;
+	private final BoardDao dao;
 
 	@Override
-	public Post boardDetail(int postNo) {
-		return dao.boardDetail(postNo);
+	public Board boardDetail(int boardNo) {
+		return dao.boardDetail(boardNo);
 	}
 
 	@Override
-	public Page<Board> boardList(int subCategoryNo, Pageable pageable, int page, String filter, String searchSelect,
-			String searchValue) {
+	public Page<Board> boardList(int subCategoryNo, Pageable pageable, int page, String filter, String searchSelect, String searchValue) {
 		return dao.boardList(subCategoryNo, pageable, page, filter, searchSelect, searchValue);
 	}
 
 	@Override
-	public List<BigCategory> bigCategory() {
-		return dao.bigCategory();
+	public List<BigCategory> allBigCategory() {
+		return dao.allBigCategory();
 	}
 	@Override
-	public List<SubCategory> subCategory() {
-		return dao.subCategory();
+	public List<SubCategory> allSubCategory() {
+		return dao.allSubCategory();
 	}
 
 	@Override
-	public List<Post> categoryList() {
-		return dao.categoryList();
+	public List<Board> allBoardList() {
+		return dao.allBoardList();
 	}
 	
-	// 무료 페이지
 	@Override
-	public List<Post> getFreeShareList(int subCategoryNo,Pageable pageable, int page) {
-		return dao.getFreeTrashList(subCategoryNo, pageable, page);
+	public SubCategory getSubCategoryNo(Post p) {
+		return dao.getSubCategoryNo(p);
 	}
+
+	@Override
+	public int deleteBoard(Post p) {
+		return dao.deleteBoard(p);
+	}
+	
+	@Override
+	public ImgAttachment getImageUrl(int boardNo, int imgType) {
+		return dao.getImageUrl(boardNo, imgType);
+	}
+	
+	//게시글 상세-첨부파일
+	@Override
+	public Attachment getDetailAttach(int boardNo, int fileType) {
+		return dao.getDetailAttach(boardNo, fileType);
+	}
+	
+
+	
+	
 	
 	@Override
 	public Post getPostByTitle(String title) {
@@ -68,26 +87,8 @@ public class BoardServiceImpl implements BoardService{
 		return dao.getFreeTrashDetail(postNo);
 	}
 
-	@Override
-	public ImgAttachment getImageUrl(int boardNo, int imgType) {
-		return dao.getImageUrl(boardNo, imgType);
-	}
-	
-	//게시글 상세-첨부파일
-	@Override
-	public Attachment getDetailAttach(int boardNo) {
-		return dao.getDetailAttach(boardNo);
-	}
 
-	@Override
-	public String getTrashTitleByboardNo(int boardNo) {
-		return dao.getTrashTitleByboardNo(boardNo);
-	}
 
-	@Override
-	public String getTrashContentByboardNo(int boardNo) {
-		return dao.getTrashContentByboardNo(boardNo);
-	}
 	// 무료 페이지
 	@Override
 	public String getTrashWriterByboardNo(int boardNo) {
