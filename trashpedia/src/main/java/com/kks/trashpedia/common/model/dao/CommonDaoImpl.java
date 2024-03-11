@@ -12,12 +12,14 @@ import com.kks.trashpedia.board.model.vo.ImgAttachment;
 import com.kks.trashpedia.board.model.vo.Post;
 import com.kks.trashpedia.board.model.vo.SubCategory;
 
+import lombok.RequiredArgsConstructor;
+
 
 @Repository
+@RequiredArgsConstructor
 public class CommonDaoImpl implements CommonDao{
 	
-	@Autowired
-	private SqlSessionTemplate session;
+	private final SqlSessionTemplate session;
 
 	//카테고리 가지고오기
 	@Override
@@ -85,8 +87,8 @@ public class CommonDaoImpl implements CommonDao{
 		return session.selectList("boardMapper.imageNameList");
 	}
 
-	
-	
-	
-	
+	@Override
+	public void deleteImage(int trashNo) {
+		session.update("boardMapper.deleteImage2", trashNo);
+	}
 }

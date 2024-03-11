@@ -63,4 +63,19 @@ public class AuthDao {
 	public Member getMemberEmail(String userEmail) {
 		return session.selectOne("auth.getMemberEmail", userEmail);
 	}
+
+	public Member getSocialUser(String id, String socialType) {
+		Map<String, Object> param = new HashMap<>();
+		param.put("socialId", id);
+		param.put("socialType", socialType);
+		return session.selectOne("auth.loadUserByUsernameSocial", param);
+	}
+
+	public int joinMemberSocial(Member m, String id, String socialType) {
+		Map<String, Object> param = new HashMap<>();
+		param.put("userNo", m.getUserNo());
+		param.put("socialId", id);
+		param.put("socialType", socialType);
+		return session.insert("auth.joinMemberSocial", param);
+	}
 }

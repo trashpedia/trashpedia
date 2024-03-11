@@ -9,42 +9,24 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Dictonary</title>
 </head>
-<!-- jQuery -->
-<script src="https://code.jquery.com/jquery-3.7.1.min.js"
-	integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
-	crossorigin="anonymous"></script>
-<!--Swiper-->
-<link rel="stylesheet"
-	href="https://unpkg.com/swiper@6.8.4/swiper-bundle.min.css" />
-<script src="https://unpkg.com/swiper@6.8.4/swiper-bundle.min.js"></script>
-<!-- GoogleFonts -->
-<link rel="stylesheet"
-	href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-<!-- css -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/swiper@6.8.4/swiper-bundle.min.css" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 <link rel="stylesheet" href="${contextPath}/resources/css/encyclopedia/trashEncyclopedia.css">
 
-<!-- slick 라이브러리 CSS -->
-<link rel="stylesheet" type="text/css"
-	href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
-<!-- slick 라이브러리 테마 CSS (선택사항) -->
-<link rel="stylesheet" type="text/css"
-	href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css" />
-<!-- slick 라이브러리 JS -->
-<script type="text/javascript"
-	src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css" />
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
 
 <body>
 	<jsp:include page="../common/header.jsp" />
-
 	<main>
 		<div class="ency-background">
 			<div class="ency-background-black">
 				<div class="encyLogo">
 					<p>쓰레기 백과사전</p>
 				</div>
-
 				<div class="encyContent1">
 					<div class="ency-search-area">
 						<input type="search" class="search-input" placeholder="검색어를 입력하세요"
@@ -54,13 +36,10 @@
 				</div>
 			</div>
 		</div>
-		
  		<div class="recently-outer">
-			<!--최근업데이트된 쓰레기 게시물  -->
 				<div id="recently-garbage-slider" class="recently-garbage-outer">
 					<p class="recently-garbage-outer-title"> 최근 업데이트된 쓰레기</p>
 					<div class="recently-garbage-inner">
-					
 						<c:forEach var="post" items="${trashList}">
 							<div class="recently-garbage">
 								<div class="garbage-img-outer">
@@ -75,8 +54,6 @@
 					</div>
 				</div>
 			</div>
-
-		<!--인기 쓰레기 게시물  -->
 		<div class="recently-outer">
 			<div id="recently-garbage-slider2" class="recently-garbage-outer">
 				<p class="recently-garbage-outer-title"> 인기쓰레기 </p>
@@ -84,9 +61,7 @@
 					<c:forEach var="post" items="${trashList}">
 						<div class="recently-garbage">
 							<div class="garbage-img-outer">
-								<img class="popular-garbage-img"
-									src="<c:url value='/resources/attachFile/image/${post.changeName}'/>"
-									onclick="trashDetail(${post.trashNo})">
+								<img class="popular-garbage-img" src="<c:url value='/resources/attachFile/image/${post.changeName}'/>" onclick="trashDetail(${post.trashNo})">
 							</div>
 							<p class="recently-garbage-title">${post.trashTitle}</p>
 							<p class="recently-garbage-content">${post.trashInfo}</p>
@@ -99,14 +74,12 @@
 	<button id="scrollUpButton">
 		<span class="material-symbols-outlined">arrow_upward</span>
 	</button>
-
 	<div class="moreBtnArea">
 		<div class="moreBtnBox">
 			<button id="moreBtn" onclick="redirectToAllList()">더알아보기</button>
 		</div>
 	</div>
 	<jsp:include page="../common/footer.jsp" />
-
 	<script>
 		let observer = new IntersectionObserver((entries) => {
 		  entries.forEach((entry) => {

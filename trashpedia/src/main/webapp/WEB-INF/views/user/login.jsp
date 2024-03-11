@@ -29,7 +29,7 @@
 				</div>
 				<div class="social-login-wrapper">
 					<img alt="카카오 로그인" src="${contextPath}/resources/image/user/kakao_login_medium_wide.png" onclick="location.href='${contextPath}/kakao/login'" class="kakao-login">
-					<button id="go-naver">네이버로 로그인</button>
+					<img alt="네이버 로그인" src="${contextPath}/resources/image/user/naver_login_green.png" onclick="location.href='${contextPath}/naver/login'" class="naver-login">
 				</div>
 			</div>
 		</section>
@@ -41,7 +41,6 @@
 				<div id="findForm" style="position: relative;">
 					<input type="text" class="input-login in" id="userName" placeholder="이름을 입력해주세요">
 					<input type="text" class="input-login in" id="phone" placeholder="휴대폰번호를 입력해주세요">
-					<!-- <button class="verificationButton" id="verificationBtn">인증하기</button> -->
 				</div>
 				<input type="button" class="btn" id="findEmailBtn" value="아이디 찾기" onclick="findEmail()">
 				<div class="a-findId-2">
@@ -72,9 +71,6 @@
 	</main>
 	<jsp:include page="../common/footer.jsp" />
 	<script>
-// 		Kakao.init('613219f2943fa9cbe4fff314968bf471');
-// 		console.log(Kakao.isInitialized());
-// 		Kakao.isInitialized();
 		let userPwd = '';
 		
 		$(document).ready(function() {

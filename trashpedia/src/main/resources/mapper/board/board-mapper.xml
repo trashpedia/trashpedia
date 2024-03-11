@@ -34,7 +34,8 @@
 			SELECT SEQ_BNO.NEXTVAL FROM DUAL
 		</selectKey>
 		INSERT INTO BOARD
-		VALUES (#{boardNo}, #{postNo}, #{userNo}, #{subCategoryNo},
+		VALUES (#{boardNo}, #{postNo}, #{userNo},
+		#{subCategoryNo},
 		'Y')
 	</insert>
 
@@ -51,23 +52,29 @@
 		VALUES (SEQ_IATTNO.NEXTVAL,
 		#{refBno},#{originName},#{changeName},1,#{imgType},SYSDATE,SYSDATE,'Y')
 	</insert>
-	
+
 	<!-- 게시글 수정 - 기존글조회 -->
 	<select id="getPost" parameterType="int" resultType="post">
-		SELECT 	P.POST_NO, P.TITLE, P.CONTENT, P.CREATE_DATE, P.MODIFY_DATE, B.USER_NO,B.BOARD_NO, USER_NAME
+		SELECT
+		P.POST_NO, P.TITLE, P.CONTENT, P.CREATE_DATE, P.MODIFY_DATE,
+		B.USER_NO,B.BOARD_NO, USER_NAME
 		FROM POST P
-		LEFT JOIN BOARD B ON P.POST_NO = B.POST_NO
+		LEFT JOIN BOARD B ON
+		P.POST_NO = B.POST_NO
 		LEFT JOIN MEMBER M ON M.USER_NO = B.USER_NO
-		WHERE P.POST_NO = #{postNo}
+		WHERE
+		P.POST_NO = #{postNo}
 	</select>
-	
+
 	<!-- 게시글 수정 -->
 	<update id="updatePost" parameterType="post">
-		UPDATE POST 
-		SET TITLE = #{title},
-			CONTENT = #{content},
-			MODIFY_DATE = SYSDATE
-		WHERE POST_NO = #{postNo}
+		UPDATE POST
+		SET TITLE =
+		#{title},
+		CONTENT = #{content},
+		MODIFY_DATE = SYSDATE
+		WHERE POST_NO =
+		#{postNo}
 	</update>
 
 	<!--첨부파일삭제 -->
@@ -79,37 +86,35 @@
     <!--이미지삭제  -->
     <delete id="deleteImage">
         DELETE FROM IMG_ATTACHMENT
-        WHERE REF_BNO = #{boardNo} AND FILE_TYPE = 1
+        WHERE REF_BNO = #{boardNo} AND IMG_TYPE = 1
     </delete>
-	
-	<!-- 파일삭제-파일리스트출력  -->
+
+	<!-- 파일삭제-파일리스트출력 -->
 	<select id="fileNameList" resultType="string">
-		SELECT '/resources/attachFile/file/' || CHANGE_NAME 
+		SELECT
+		'/resources/attachFile/file/' || CHANGE_NAME
 		FROM ATTACHMENT
 	</select>
-	
-	<!-- 파일삭제-이미지리스트출력  -->
+
+	<!-- 파일삭제-이미지리스트출력 -->
 	<select id="imageNameList" resultType="string">
-		SELECT '/resources/attachFile/image/' || CHANGE_NAME 
+		SELECT
+		'/resources/attachFile/image/' || CHANGE_NAME
 		FROM IMG_ATTACHMENT
 	</select>
-	
-	
 
 	<!-- 페이징, 목록, 필터 -->
 	<select id="boardList" resultType="post" parameterType="board">
 		SELECT P.POST_NO, P.TITLE, P.CONTENT, P.CREATE_DATE, P.MODIFY_DATE,
-		P.STATUS, B.BOARD_NO, SC.SUB_CATEGORY_NAME, M.USER_NAME, H.HITS_NO
+			P.STATUS, B.BOARD_NO, SC.SUB_CATEGORY_NAME, M.USER_NAME, H.HITS_NO
 		FROM BOARD B
-		LEFT JOIN POST P ON (P.POST_NO = B.POST_NO)
-		LEFT JOIN SUB_CATEGORY SC
-		ON B.SUB_CATEGORY_NO = SC.SUB_CATEGORY_NO
-		LEFT JOIN MEMBER M ON
-		B.USER_NO = M.USER_NO
-		LEFT JOIN HITS H ON B.BOARD_NO = H.BOARD_NO
-		WHERE
-		B.SUB_CATEGORY_NO = #{subCategoryNo}
-		AND P.STATUS='Y'
+			LEFT JOIN POST P ON (P.POST_NO = B.POST_NO)
+			LEFT JOIN SUB_CATEGORY SC ON B.SUB_CATEGORY_NO = SC.SUB_CATEGORY_NO
+			LEFT JOIN MEMBER M ON B.USER_NO = M.USER_NO
+			LEFT JOIN HITS H ON B.BOARD_NO = H.BOARD_NO
+		WHERE B.SUB_CATEGORY_NO = #{subCategoryNo}
+			AND P.STATUS='Y'
+
 		<if test="searchSelect != null">
 			<choose>
 				<when test="searchSelect == 'boardNo'">
@@ -128,9 +133,11 @@
 				ORDER BY P.CREATE_DATE DESC
 			</when>
 			<when test="filter == 'hitCount'">
-				ORDER BY (SELECT COUNT(*) 
-							FROM HITS 
-							WHERE HITS.BOARD_NO = B.BOARD_NO)
+
+				ORDER BY (SELECT COUNT(*)
+				FROM HITS
+				WHERE HITS.BOARD_NO
+				= B.BOARD_NO)
 				DESC
 			</when>
 			<otherwise>
@@ -139,26 +146,53 @@
 		</choose>
 	</select>
 
-
 	<select id="boardCount" resultType="int">
 		SELECT COUNT(*)
-		FROM POST
+		FROM BOARD B
+		LEFT JOIN POST P ON P.POST_NO = B.POST_NO
+		WHERE B.SUB_CATEGORY_NO = #{subCategoryNo} AND P.STATUS = 'Y'
+		<choose>
+			<when test="searchSelect == 'boardNo'">
+				AND B.BOARD_NO = #{searchValue}
+			</when>
+			<when test="searchSelect == 'title'">
+				AND P.TITLE LIKE '%' || #{searchValue} || '%'
+			</when>
+			<when test="searchSelect == 'content'">
+				AND P.CONTENT LIKE '%' || #{searchValue} || '%'
+			</when>
+		</choose>
 	</select>
-
 
 	<!-- 상세페이지 -->
 	<select id="boardDetail" parameterType="int" resultType="post">
 		SELECT
-			P.POST_NO, P.TITLE, P.CONTENT, P.CREATE_DATE, P.MODIFY_DATE,
-			B.USER_NO, B.BOARD_NO, SC.SUB_CATEGORY_NO, SC.BIG_CATEGORY_NO, USER_NAME
+		P.POST_NO, P.TITLE, P.CONTENT, P.CREATE_DATE, P.MODIFY_DATE,
+		B.USER_NO, B.BOARD_NO, SC.SUB_CATEGORY_NO, SC.BIG_CATEGORY_NO,
+		USER_NAME
 		FROM POST P
-			LEFT JOIN BOARD B ON P.POST_NO = B.POST_NO
-			LEFT JOIN MEMBER M ON B.USER_NO = M.USER_NO
-			LEFT JOIN SUB_CATEGORY SC ON B.SUB_CATEGORY_NO = SC.SUB_CATEGORY_NO
-		WHERE P.POST_NO = #{postNo} 
-			AND P.STATUS = 'Y'
+		LEFT JOIN BOARD B ON P.POST_NO = B.POST_NO
+		LEFT
+		JOIN MEMBER M ON B.USER_NO = M.USER_NO
+		LEFT JOIN SUB_CATEGORY SC ON
+		B.SUB_CATEGORY_NO = SC.SUB_CATEGORY_NO
+		WHERE
+		P.POST_NO = #{postNo}
+		AND
+		P.STATUS = 'Y'
 	</select>
+	<!-- 사용자 조회 이력 체크 -->
+	<select id="checkUserViewed" parameterType="map" resultType="int">
+	    SELECT COUNT(*) FROM HITS WHERE BOARD_NO = #{boardNo} AND USER_NO = #{userNo}
+	</select>
+	
+	<!-- 조회수 업데이트 -->
+	<update id="updateHits" parameterType="int">
+	    UPDATE HITS SET HITS_NO = HITS_NO + 1 WHERE BOARD_NO = #{boardNo}
+	</update>
 
+	
+	
 	<!-- 대분류 카테고리 -->
 	<select id="bigCategory" resultType="bigCategory">
 		SELECT *
@@ -170,78 +204,148 @@
 		SELECT *
 		FROM SUB_CATEGORY
 	</select>
-	
-	
-
 
 	<!-- 카테고리 글목록 리스트 -->
 	<select id="categoryList" resultType="post">
 		SELECT POST_NO, TITLE, USER_NAME, CREATE_DATE, SUB_CATEGORY_NO
 		FROM (
-		    SELECT P.POST_NO, P.TITLE, M.USER_NAME, P.CREATE_DATE, B.SUB_CATEGORY_NO,
-		           ROW_NUMBER() OVER(PARTITION BY B.SUB_CATEGORY_NO ORDER BY P.CREATE_DATE DESC) AS RN
-		    FROM BOARD B
-		    LEFT JOIN POST P ON B.POST_NO = P.POST_NO
-		    LEFT JOIN MEMBER M ON B.USER_NO = M.USER_NO
-		    LEFT JOIN SUB_CATEGORY SC ON B.SUB_CATEGORY_NO = SC.SUB_CATEGORY_NO
-		) WHERE RN <![CDATA[<=]]> 4
+		SELECT P.POST_NO, P.TITLE, M.USER_NAME, P.CREATE_DATE,
+		B.SUB_CATEGORY_NO,
+		ROW_NUMBER() OVER(PARTITION BY B.SUB_CATEGORY_NO
+		ORDER BY P.CREATE_DATE DESC) AS
+		RN
+		FROM BOARD B
+		LEFT JOIN POST P ON
+		B.POST_NO = P.POST_NO
+		LEFT JOIN MEMBER M ON B.USER_NO = M.USER_NO
+		LEFT
+		JOIN SUB_CATEGORY SC ON B.SUB_CATEGORY_NO = SC.SUB_CATEGORY_NO
+		) WHERE
+		RN <![CDATA[<=]]>
+		4
 		ORDER BY SUB_CATEGORY_NO, CREATE_DATE DESC
 	</select>
-	
+
 	<!-- 대댓글 등록 -->
 	<insert id="insertNC" parameterType="nestedComment">
-		INSERT INTO NESTED_COMMENT(NESTED_COMMENT_NO, COMMENT_NO, USER_NO, "CONTENT", CREATE_DATE, MODIFY_DATE, STATUS)
-		VALUES (SEQ_NCNO.NEXTVAL, #{commentNo}, #{userNo}, #{content}, SYSDATE, SYSDATE, DEFAULT)
+		INSERT INTO
+		NESTED_COMMENT(NESTED_COMMENT_NO, COMMENT_NO, USER_NO, "CONTENT",
+		CREATE_DATE, MODIFY_DATE, STATUS)
+		VALUES (SEQ_NCNO.NEXTVAL,
+		#{commentNo}, #{userNo}, #{content}, SYSDATE, SYSDATE, DEFAULT)
 	</insert>
 	<!-- 대댓글 조회 -->
-	<select id="viewNC" parameterType="int" resultType="nestedComment">
-		SELECT NC.NESTED_COMMENT_NO, NC.COMMENT_NO, NC.USER_NO, NC."CONTENT", NC.CREATE_DATE, NC.MODIFY_DATE, NC.STATUS, M.USER_NAME
+	<select id="viewNC" parameterType="int"
+		resultType="nestedComment">
+		SELECT NC.NESTED_COMMENT_NO, NC.COMMENT_NO, NC.USER_NO,
+		NC."CONTENT", NC.CREATE_DATE, NC.MODIFY_DATE, NC.STATUS, M.USER_NAME
 		FROM NESTED_COMMENT NC
 		LEFT JOIN MEMBER M ON M.USER_NO = NC.USER_NO
 		WHERE NC.COMMENT_NO = #{commentNo}
 	</select>
 	<!-- 대댓글 삭제 -->
-<!-- 	<update id="deleteNC" parameterType="int" > -->
-<!-- 		UPDATE NESTED_COMMENT -->
-<!-- 		SET STATUS = 'N' -->
-<!-- 		WHERE NESTED_COMMENT_NO = #{nCommentNo} -->
-<!-- 	</update> -->
-	
-	<delete id="deleteNC" parameterType="int" >
-		DELETE 
+	<!-- <update id="deleteNC" parameterType="int" > -->
+	<!-- UPDATE NESTED_COMMENT -->
+	<!-- SET STATUS = 'N' -->
+	<!-- WHERE NESTED_COMMENT_NO = #{nCommentNo} -->
+	<!-- </update> -->
+
+	<delete id="deleteNC" parameterType="int">
+		DELETE
 		FROM NESTED_COMMENT
 		WHERE NESTED_COMMENT_NO = #{nCommentNo}
 	</delete>
-	
-	
-
-
-
 	<!-- 무료 나눔 페이지 관련 쿼리문 -->
 
-	<!-- 쓰레기 리스트 -->
-	<select id="getFreeTrashList" resultType="Post">
-		SELECT POST_NO, TITLE,
-		CONTENT, P.CREATE_DATE, P.MODIFY_DATE,
-		USER_NO, BOARD_NO,
-		SC.SUB_CATEGORY_NO, SC.BIG_CATEGORY_NO, IA.CHANGE_NAME
+	<!-- 무료 페이지 정보 -->
+	<select id="getFreeTrashList" resultType="Post"
+		parameterType="java.util.Map">
+		SELECT * FROM (
+		SELECT
+		P.POST_NO,
+		TITLE,
+		CONTENT,
+		P.CREATE_DATE,
+		P.MODIFY_DATE,
+		USER_NO,
+		BOARD_NO,
+		SC.SUB_CATEGORY_NO,
+		SC.BIG_CATEGORY_NO,
+		IA.CHANGE_NAME,
+		ROWNUM AS RN
 		FROM
 		POST P
-		LEFT
-		JOIN BOARD B USING (POST_NO)
+		LEFT JOIN
+		BOARD B ON P.POST_NO = B.POST_NO
 		LEFT JOIN IMG_ATTACHMENT IA ON
-		(B.BOARD_NO
-		= IA.REF_BNO)
-		LEFT JOIN SUB_CATEGORY SC ON
-		B.SUB_CATEGORY_NO =
-		SC.SUB_CATEGORY_NO
-		WHERE B. SUB_CATEGORY_NO =
-		#{subCategoryNo}
+		B.BOARD_NO = IA.REF_BNO
+		LEFT JOIN SUB_CATEGORY SC ON B.SUB_CATEGORY_NO
+		= SC.SUB_CATEGORY_NO
+		WHERE
+		B.SUB_CATEGORY_NO = #{subCategoryNo}
 		AND
 		IMG_LEVEL = 1
 		AND P.STATUS = 'Y'
-		ORDER BY POST_NO DESC
+		ORDER BY
+		P.POST_NO DESC
+		)
+		WHERE RN BETWEEN
+		#{startRow} AND #{endRow}
 	</select>
+
+	<!-- 무료 페이지 총 정보 -->
+	<select id="getFreeTrashTotalList" resultType="Post"
+		parameterType="int">
+		SELECT * FROM (
+		SELECT
+		P.POST_NO,
+		TITLE,
+		CONTENT,
+		P.CREATE_DATE,
+		P.MODIFY_DATE,
+		USER_NO,
+		BOARD_NO,
+		SC.SUB_CATEGORY_NO,
+		SC.BIG_CATEGORY_NO,
+		IA.CHANGE_NAME,
+		ROWNUM AS RN
+		FROM
+		POST P
+		LEFT JOIN BOARD B ON P.POST_NO = B.POST_NO
+		LEFT JOIN IMG_ATTACHMENT IA ON B.BOARD_NO = IA.REF_BNO
+		LEFT JOIN SUB_CATEGORY SC ON B.SUB_CATEGORY_NO = SC.SUB_CATEGORY_NO
+		WHERE
+		B.SUB_CATEGORY_NO = #{subCategoryNo}
+		AND IMG_LEVEL = 1
+		AND P.STATUS = 'Y'
+		ORDER BY
+		P.POST_NO DESC)
+	</select>
+
+
+	<!-- <select id="getFreeTrashList" resultType="Post"> -->
+	<!-- SELECT POST_NO, TITLE, -->
+	<!-- CONTENT, P.CREATE_DATE, P.MODIFY_DATE, -->
+	<!-- USER_NO, BOARD_NO, -->
+	<!-- SC.SUB_CATEGORY_NO, SC.BIG_CATEGORY_NO, IA.CHANGE_NAME -->
+	<!-- FROM -->
+	<!-- POST P -->
+	<!-- LEFT -->
+	<!-- JOIN BOARD B USING (POST_NO) -->
+	<!-- LEFT JOIN IMG_ATTACHMENT IA ON -->
+	<!-- (B.BOARD_NO -->
+	<!-- = IA.REF_BNO) -->
+	<!-- LEFT JOIN SUB_CATEGORY SC ON -->
+	<!-- B.SUB_CATEGORY_NO = -->
+	<!-- SC.SUB_CATEGORY_NO -->
+	<!-- WHERE B. SUB_CATEGORY_NO = -->
+	<!-- #{subCategoryNo} -->
+	<!-- AND -->
+	<!-- IMG_LEVEL = 1 -->
+	<!-- AND P.STATUS = 'Y' -->
+	<!-- ORDER BY POST_NO DESC -->
+	<!-- </select> -->
+
 
 	<select id="getPostByTitle" resultType="Post">
 		SELECT POST_NO, TITLE,
@@ -288,20 +392,17 @@
 	</select>
 
 	<!-- 게시글 상세조회 - 이미지 -->
-	<select id="getImageUrlByboardNo" resultType="imgAttachment"
-		parameterType="int">
+	<select id="getImageUrl" resultType="imgAttachment" parameterType="int">
 		<![CDATA[
 		SELECT *
 		FROM IMG_ATTACHMENT IA
 		JOIN BOARD ON BOARD_NO = REF_BNO
-		WHERE REF_BNO = #{boardNo} AND IA.STATUS='Y'
-
+		WHERE REF_BNO = #{boardNo} AND IMG_TYPE = #{imgType} AND IA.STATUS='Y'
 	    ]]>
 	</select>
 
 	<!-- 게시글 상세조회 - 첨부파일 -->
-	<select id="getDetailAttach" parameterType="int"
-		resultType="Attachment">
+	<select id="getDetailAttach" parameterType="int" resultType="Attachment">
 		SELECT *
 		FROM ATTACHMENT A
 		JOIN BOARD ON BOARD_NO = REF_BNO
@@ -309,29 +410,15 @@
 	</select>
 
 	<!-- 조회일 조회 -->
-	<select id="getHitDate" parameterType="board"
-		resultType="java.sql.Date">
-		SELECT CREATE_DATE
-		FROM (
-		SELECT CREATE_DATE
+	<select id="getHitDate" parameterType="hits" resultType="hits">
+		SELECT *
 		FROM HITS
-		WHERE
-		BOARD_NO = #{boardNo} AND USER_NO = #{userNo}
-		ORDER BY CREATE_DATE DESC
-		)
-		WHERE ROWNUM = 1
+		WHERE BOARD_NO = #{boardNo} AND USER_IP = ${userIp} AND TRUNC(CREATE_DATE) = TRUNC(SYSDATE)
 	</select>
 
 <!-- 	게시글 조회수 증가 -->
-	<insert id="increaseCount" parameterType="board">
+	<insert id="increaseCount" parameterType="hits">
 		INSERT INTO HITS
-		(HITS_NO, BOARD_NO, USER_NO, CREATE_DATE)
-		VALUES (SEQ_HITNO.NEXTVAL,
-		#{boardNo}, #{userNo}, SYSDATE)
+		VALUES(SEQ_HITNO.NEXTVAL, #{boardNo}, #{userIp}, SYSDATE) 
 	</insert>
-
-
-
-
-
 </mapper>

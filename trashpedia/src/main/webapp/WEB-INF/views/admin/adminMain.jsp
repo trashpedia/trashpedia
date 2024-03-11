@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
     <link rel="stylesheet" href="${contextPath}/resources/css/admin/adminMain.css">
 </head>
-<jsp:include page="../common/header.jsp"/>
+<%-- <jsp:include page="../common/header.jsp"/> --%>
 <body class="body">
     <jsp:include page="../common/sidebar.jsp"/>
     <div class="content-wrapper">
@@ -22,11 +22,15 @@
                 <div class="statistics-container">
                     <div class="statistics-list-wrapper">
                         <div class="statistics-list">
-                            <div class="statistics-list-title">총 가입자</div>
+                            <div class="statistics-list-title">
+                            	<span class="material-symbols-outlined">group</span>총 가입자
+                            </div>
                             <div class="list-data"><fmt:formatNumber type="number" pattern="#,##0" value="${am}"/></div>
                         </div>
                         <div class="statistics-list">
-                            <div class="statistics-list-title">신규 가입자</div>
+                            <div class="statistics-list-title">
+                            	<span class="material-symbols-outlined">person_add</span>신규 가입자
+                            </div>
                             <div class="list-data"><fmt:formatNumber type="number" pattern="#,##0" value="${nm}"/></div>
 							<c:set var="m" value="${nm - om}" />
 								<c:choose>
@@ -43,11 +47,15 @@
 								</c:choose>
                         </div>
                         <div class="statistics-list">
-                            <div class="statistics-list-title">총 게시글</div>
+                            <div class="statistics-list-title">
+                           		<span class="material-symbols-outlined">contract</span>총 게시글
+                            </div>
                             <div class="list-data"><fmt:formatNumber type="number" pattern="#,##0" value="${ab}"/></div>
                         </div>
                         <div class="statistics-list">
-                            <div class="statistics-list-title">신규 게시글</div>
+                            <div class="statistics-list-title">
+                            	<span class="material-symbols-outlined">post_add</span>신규 게시글
+                            </div>
                             <div class="list-data"><fmt:formatNumber type="number" pattern="#,##0" value="${nb}"/></div>
 							<c:set var="b" value="${nb - ob}" />
 								<c:choose>
@@ -137,6 +145,7 @@
                     </div>
                 </div>
             </section> -->
+            
         </div>
     </div>
     <script>

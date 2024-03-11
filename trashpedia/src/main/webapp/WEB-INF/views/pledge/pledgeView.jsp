@@ -29,7 +29,6 @@
         </div>
         <div class="participant-section"> 
             <div class="participant-section-outer">
-<!--                 <p>오늘까지 <span class="participant-count" id="dynamicCount">3,128</span>명 참여</p> -->
                 <p>오늘까지 <span class="participant-count" id="dynamicCount">${countSignature}</span>명 참여</p>
             </div>
         </div>
@@ -211,10 +210,15 @@
 		        imgElement.src = '${contextPath}/resources/attachFile/image/' + post.changeName;
 		        imgElement.className = 'content-img';
 		
+		     	// .ico-clone 생성
+		        let icoClone = document.createElement('span');
+		        icoClone.className = 'ico-clone';
+		        
 		        // 생성한 요소들을 게시글 요소에 추가
 		        postElement.appendChild(titleInput);
 		        postElement.appendChild(subCategoryNoInput);
 		        postElement.appendChild(imgElement);
+		        postElement.appendChild(icoClone);
 		
 		        // 게시글 요소를 userList에 추가
 		        userList.appendChild(postElement);

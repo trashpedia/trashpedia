@@ -12,6 +12,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.kks.trashpedia.auth.filter.LoginFilter;
 
@@ -37,9 +38,8 @@ public class WebSecurityConfig {
 		.formLogin((auth) -> auth.disable())
 		.httpBasic((auth) -> auth.disable())
 		.authorizeHttpRequests((auth) -> auth
-				.requestMatchers("/**").permitAll()
-				.requestMatchers("/login", "/", "/join").permitAll()
-				.requestMatchers("/admin").hasRole("ADMIN"))
+//				.requestMatchers("/admin/**").hasRole("ADMIN")
+				.anyRequest().permitAll())
 		.logout((logout) -> logout
 				.logoutUrl("/logout")
 				.logoutSuccessUrl("/")
@@ -62,5 +62,4 @@ public class WebSecurityConfig {
     AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
-
 }

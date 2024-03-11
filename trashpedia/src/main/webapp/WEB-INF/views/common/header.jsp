@@ -68,7 +68,7 @@
                             <a href="https://www.re.or.kr/comm/searchPickupGISPage.do?enpri_pick_gubun_category1=01#" target="_blank">집앞폐가전수거함</a>
                         </div>
                     </li>
-                    <c:if test="${authentication.role == 'ADMIN'}">
+                    <c:if test="${authentication.role == 'ROLE_ADMIN'}">
 	                    <li id="menu-garbage-collection">
 	                        <div class="header-menu-div">
 	                            <a href="${contextPath}/admin">관리자</a>
@@ -86,13 +86,14 @@
                </c:if>
                	<c:if test="${authentication != null}">
                     <!-- 로그인 했을 때 보이기 1-->
-                    <li><span class="material-symbols-outlined icon">login</span><a href="${contextPath}/logout">logout</a> </li>
+                    <li><span class="material-symbols-outlined icon">logout</span><a href="${contextPath}/logout">logout</a> </li>
                     <li><span class="material-symbols-outlined icon">person</span><a href="${contextPath}/member/myPage">MyPage</a> </li>
              	</c:if> 
                     <li id="header-search-icon" ><span class="material-symbols-outlined icon">search</span><a>Search</a></li>
                 </ul>
             </div>
         </div>
+        
     <!-- 검색 팝업 -->
     <div class="search-pop-up">
         <div class="header-logo">
@@ -100,18 +101,20 @@
         </div>
         <span id="pop-up-X">x</span>
         <span>Search For Trash</span>
-        <div class="search-area">
-            <input type="search" class="search-input" placeholder="검색어를 입력하세요" autocomplete="off">
-            <button type="submit" class="search-button" aria-label="Search">search</button>
-        </div>  
+        <form method="get" action="${contextPath}/trash/allList">
+	        <div class="search-area">
+	            <input type="search" name="keyword" class="search-input" placeholder="검색어를 입력하세요" autocomplete="off">
+	            <button type="submit" class="search-button" aria-label="Search">search</button>
+	        </div>
+        </form>
         <div class="search-span">
             <ul> 
                 <span> Popular <strong> #TAG </strong></span>
                 <li>이불</li>
                 <li>우산</li>
-                <li>습기제거제</li>
-                <li>그릇</li>
-                <li>매트리스</li>
+                <li>아보카도</li>
+                <li>소금</li>
+                <li>노트북배터리</li>
                 <li>쌀</li>
             </ul>
         </div>

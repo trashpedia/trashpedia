@@ -19,6 +19,7 @@ import com.kks.trashpedia.board.model.vo.Attachment;
 import com.kks.trashpedia.board.model.vo.BigCategory;
 import com.kks.trashpedia.board.model.vo.Board;
 import com.kks.trashpedia.board.model.vo.Comment;
+import com.kks.trashpedia.board.model.vo.Hits;
 import com.kks.trashpedia.board.model.vo.ImgAttachment;
 import com.kks.trashpedia.board.model.vo.NestedComment;
 import com.kks.trashpedia.board.model.vo.Post;
@@ -43,15 +44,10 @@ public class BoardDaoImpl implements BoardDao {
 		param.put("searchSelect", searchSelect);
 		param.put("searchValue", searchValue);
 		param.put("subCategoryNo", subCategoryNo);
-		List<Board> pages = session.selectList("boardMapper.boardList", param,
-				new RowBounds(page*pageable.getPageSize(), pageable.getPageSize()));
+		List<Board> pages = session.selectList("boardMapper.boardList", param, new RowBounds(page*pageable.getPageSize(), pageable.getPageSize()));
 		int totalCount = session.selectOne("boardMapper.boardCount", param);
 		return new PageImpl<>(pages, pageable, totalCount);
 	}
-	
-	
-
-	
 
 	@Override
 	public List<BigCategory> bigCategory() {
@@ -68,18 +64,29 @@ public class BoardDaoImpl implements BoardDao {
 		return session.selectList("boardMapper.categoryList");
 	}
 	
-	
-	
-	
-	
-	
-	
-	
 	// 무료 페이지
 	@Override
-	public List<Post> getFreeTrashList(int subCategoryNo,Pageable pageable, int page) {
+	public List<Post> getFreeTrashList(int subCategoryNo, Pageable pageable, int page) {
+	    int pageSize = pageable.getPageSize(); // 페이지당 항목 수
+	    int pageNum = page; //  가져올 페이지 번호 
+
+	    // 페이지 번호를 기반으로 startRow와 endRow 계산
+	    int startRow = pageNum * pageSize;
+	    int endRow = (pageNum + 1) * pageSize;
+
+	    
+	    
+	    System.out.println("pageSize:"+pageSize);
+	    System.out.println("pageNum: "+pageNum);
+	    System.out.println("startRow: "+startRow);
+	    System.out.println("endRow: "+endRow);
+	    
 	    try {
-	        return session.selectList("boardMapper.getFreeTrashList",subCategoryNo);
+	        Map<String, Object> parameters = new HashMap<>();
+	        parameters.put("subCategoryNo", subCategoryNo);
+	        parameters.put("startRow", startRow);
+	        parameters.put("endRow", endRow);
+	        return session.selectList("boardMapper.getFreeTrashList", parameters);
 	    } catch (MyBatisSystemException e) {
 	        // 예외 처리: 로깅하고 사용자에게 오류 메시지 반환 또는 기본값 반환
 	        e.printStackTrace();
@@ -87,6 +94,11 @@ public class BoardDaoImpl implements BoardDao {
 	    }
 	}
 	
+	@Override
+	public List<Post> getFreeTrashTotalList(int subCategoryNo) {
+		return session.selectList("boardMapper.getFreeTrashTotalList", subCategoryNo);
+	}
+
 	@Override
 	public Post getPostByTitle(String title) {
 		return session.selectOne("boardMapper.getPostByTitle",title);
@@ -98,7 +110,6 @@ public class BoardDaoImpl implements BoardDao {
 		try {
 			return session.selectOne("boardMapper.getFreeTrashDetail", postNo);
 		} catch (MyBatisSystemException e) {
-			// 예외 처리: 로깅하고 사용자에게 오류 메시지 반환
 			e.printStackTrace();
 			return null; // 또는 적절한 오류 처리
 		}
@@ -106,13 +117,15 @@ public class BoardDaoImpl implements BoardDao {
 	
 	//게시글 상세-이미지
 	@Override
-	public ImgAttachment getImageUrlByboardNo(int boardNo) {
+	public ImgAttachment getImageUrl(int boardNo, int imgType) {
 		try {
-			return session.selectOne("boardMapper.getImageUrlByboardNo", boardNo);
+			Map<String, Object> param = new HashMap<>();
+			param.put("boardNo", boardNo);
+			param.put("imgType", imgType);
+			return session.selectOne("boardMapper.getImageUrl", param);
 		} catch (MyBatisSystemException e) {
-			// 예외 처리: 로깅하고 사용자에게 오류 메시지 반환
 			e.printStackTrace();
-			return null; // 또는 적절한 오류 처리
+			return null;
 		}
 	}
 	
@@ -127,7 +140,6 @@ public class BoardDaoImpl implements BoardDao {
 		try {
 			return session.selectOne("boardMapper.getTrashTitleByboardNo()", boardNo);
 		} catch (MyBatisSystemException e) {
-			// 예외 처리: 로깅하고 사용자에게 오류 메시지 반환
 			e.printStackTrace();
 			return null; // 또는 적절한 오류 처리
 		}
@@ -143,13 +155,8 @@ public class BoardDaoImpl implements BoardDao {
 			return null; // 또는 적절한 오류 처리
 		}
 	}
-
-	
-	
-	
 	
 	// 무료 상세 페이지
-
 	@Override
 	public String getTrashWriterByboardNo(int boardNo) {
 		try {
@@ -160,6 +167,8 @@ public class BoardDaoImpl implements BoardDao {
 			return null; // 또는 적절한 오류 처리
 		}
 	}
+	
+	
 
 	@Override
 	public String getTrashCreateByboardNo(int boardNo) {
@@ -182,21 +191,18 @@ public class BoardDaoImpl implements BoardDao {
 			return null; // 또는 적절한 오류 처리
 		}
 	}
-	//처음 조회일 조회
-	@Override
-	public Date pledgeHitDate(Board b) {
-		return session.selectOne("boardMapper.getHitDate", b);
-	}
 	
 	//게시글 조회수 증가
 	@Override
-	public int increaseCount(Board b) {
-		return session.update("boardMapper.increaseCount", b);
+	public void increaseCount(Hits hits) {
+		List<Hits> list = session.selectList("boardMapper.getHitDate",hits);
+		if(list.size() == 0) {
+			session.update("boardMapper.increaseCount", hits);
+		}
 	}
 
 	@Override
-	public Page<Post> loadListData(Pageable pageable, int page, String sort, String searchSelect, String searchValue,
-			int subCategoryNo) {
+	public Page<Post> loadListData(Pageable pageable, int page, String sort, String searchSelect, String searchValue, int subCategoryNo) {
 		Map<String, Object> param = new HashMap<>();
 		param.put("sort", sort);
 		param.put("searchSelect", searchSelect);
@@ -228,8 +234,4 @@ public class BoardDaoImpl implements BoardDao {
 	public int deleteNC(int nCommentNo) {
 		return session.delete("boardMapper.deleteNC", nCommentNo);
 	}
-
-
-	
-
 }

@@ -2,6 +2,20 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="pledgeMapper">
 	
+	<!-- 메인페이지 실천서약 조회 -->
+	<select id="pledgeList" resultType="post">
+		SELECT *
+		FROM(
+			SELECT POST_NO,TITLE, CONTENT, IA.CHANGE_NAME
+			FROM POST P
+			LEFT JOIN BOARD B USING (POST_NO)
+			LEFT JOIN IMG_ATTACHMENT IA ON (B.BOARD_NO = IA.REF_BNO)
+			LEFT JOIN SUB_CATEGORY SC ON B.SUB_CATEGORY_NO = SC.SUB_CATEGORY_NO
+			WHERE SC.SUB_CATEGORY_NO= #{subCategory}
+			ORDER BY POST_NO DESC)
+		WHERE ROWNUM BETWEEN 1 AND 9
+	</select>
+	
 	<!-- 게시글 리스트조회-페이징,검색 -->
 	<select id="pledgeListData" resultType="post"> 
 		SELECT POST_NO, TITLE, CONTENT, P.CREATE_DATE, P.MODIFY_DATE,

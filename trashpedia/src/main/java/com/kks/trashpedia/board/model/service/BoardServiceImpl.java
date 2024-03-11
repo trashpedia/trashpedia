@@ -13,6 +13,7 @@ import com.kks.trashpedia.board.model.vo.Attachment;
 import com.kks.trashpedia.board.model.vo.BigCategory;
 import com.kks.trashpedia.board.model.vo.Board;
 import com.kks.trashpedia.board.model.vo.Comment;
+import com.kks.trashpedia.board.model.vo.Hits;
 import com.kks.trashpedia.board.model.vo.ImgAttachment;
 import com.kks.trashpedia.board.model.vo.NestedComment;
 import com.kks.trashpedia.board.model.vo.Post;
@@ -50,12 +51,9 @@ public class BoardServiceImpl implements BoardService{
 		return dao.categoryList();
 	}
 	
-	
-	
-	
 	// 무료 페이지
 	@Override
-	public List<Post> getFreeTrashList(int subCategoryNo,Pageable pageable, int page) {
+	public List<Post> getFreeShareList(int subCategoryNo,Pageable pageable, int page) {
 		return dao.getFreeTrashList(subCategoryNo, pageable, page);
 	}
 	
@@ -71,8 +69,8 @@ public class BoardServiceImpl implements BoardService{
 	}
 
 	@Override
-	public ImgAttachment getImageUrlByboardNo(int boardNo) {
-		return dao.getImageUrlByboardNo(boardNo);
+	public ImgAttachment getImageUrl(int boardNo, int imgType) {
+		return dao.getImageUrl(boardNo, imgType);
 	}
 	
 	//게시글 상세-첨부파일
@@ -91,12 +89,15 @@ public class BoardServiceImpl implements BoardService{
 		return dao.getTrashContentByboardNo(boardNo);
 	}
 	// 무료 페이지
-
-
 	@Override
 	public String getTrashWriterByboardNo(int boardNo) {
 		return dao.getTrashWriterByboardNo(boardNo);
 	}
+	@Override
+	public List<Post> getFreeTrashTotalList(int subCategoryNo) {
+		return dao.getFreeTrashTotalList(subCategoryNo);
+	}
+
 
 	@Override
 	public String getTrashCreateByboardNo(int boardNo) {
@@ -107,16 +108,11 @@ public class BoardServiceImpl implements BoardService{
 	public Date getTrashViewsByboardNo(int boardNo) {
 		return dao.getTrashViewsByboardNo(boardNo);
 	}
-	
-	// 처음 조회일 조회
-	@Override
-	public Date pledgeHitDate(Board b) {
-		return dao.pledgeHitDate(b);
-	}
+
 	//게시글 조회수 증가
 	@Override
-	public int increaseCount(Board b) {
-		return dao.increaseCount(b);
+	public void increaseCount(Hits hits) {
+		dao.increaseCount(hits);
 	}
 
 	//게시글조회-페이징,검색
@@ -147,6 +143,12 @@ public class BoardServiceImpl implements BoardService{
 	public int deleteNC(int nCommentNo) {
 		return dao.deleteNC(nCommentNo); //삭제
 	}
+
+	@Override
+	public int updateHits(int postNo) {
+		return dao.updateHits(postNo);
+	}
+
 
 
 	

@@ -100,7 +100,6 @@
 	            }
 	        });
 	    });
-
 	    $("#foodWasteLink").click(function() {
 	        $(".trashList").hide(); // 모든 쓰레기 목록 숨기기
 	        // 음식물쓰레기 목록 보이기
@@ -129,8 +128,7 @@
 	                $(this).text("");
 	            }
 	        });
-	        
-	        
+
 	    });
 
 	    // 대분류 카테고리 링크 클릭 시 이벤트 처리
@@ -157,14 +155,6 @@
 	function trashDetail(trashNo) {
 	    location.href = "${contextPath}/trash/detail?trashNo=" + trashNo;
 	}
-	
-	
 	</script>
 </body>
 </html>
-
-
-
-
-
-

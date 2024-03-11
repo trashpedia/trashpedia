@@ -11,13 +11,13 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <link rel="stylesheet" href="${contextPath}/resources/css/admin/boardManagement.css">
 </head>
-<jsp:include page="../common/header.jsp"/>
+<%-- <jsp:include page="../common/header.jsp"/> --%>
 <body class="body">
     <jsp:include page="../common/sidebar.jsp"/>
     <div class="content-wrapper">
         <div class="content">
             <div class="practice-section">
-			    <p>게시글 관리</p>
+			    <p id="practice-section-title"><span class="material-symbols-outlined">data_check</span>게시글 관리</p>
 			    <p>board management</p>
 			</div>
 			<section class="content-section">
@@ -214,7 +214,7 @@
 	                    } else if (endpoint === 'announcement') {
 	                    	updateAnnouncementTable(data.content);
 	                    }
-	                    updatePagination(data, endpoint, searchSelect, searchValue);
+	                    updatePagination(data, endpoint, filterValue, searchSelect, searchValue);
 	                }
 	            },
 	            error: function(xhr, status, error) {
@@ -223,14 +223,14 @@
 	        });
 	    }
 	    
-	    function updatePagination(data, endpoint, searchSelect, searchValue) {
+	    function updatePagination(data, endpoint, filterValue, searchSelect, searchValue) {
 	        let pagingClass = '.' + endpoint.toLowerCase() + '-pageBar';
 	        let userPaging = document.querySelector(pagingClass);
 	        let pagination = '';
 	        
 	        if (!data.empty) {
 	            if (!data.first) {
-	                pagination += '<div onclick="getDataList(\'' + endpoint + '\',' + (data.number - 1) + ',\'' + boardFilterValue + '\',\'' + searchSelect + '\',\'' + searchValue + '\')">이전</div>';
+	                pagination += '<div onclick="getDataList(\'' + endpoint + '\',' + (data.number - 1) + ',\'' + filterValue + '\',\'' + searchSelect + '\',\'' + searchValue + '\')">이전</div>';
 	            }
 	            for (let i = 0; i < data.totalPages; i++) {
 	                if (i >= data.number - 5 && i <= data.number + 5) {
@@ -238,11 +238,11 @@
 	                    if (i === data.number) {
 	                        pagination += ' class="active"';
 	                    }
-	                    pagination += ' onclick="getDataList(\'' + endpoint + '\',' + i + ',\'' + boardFilterValue + '\',\'' + searchSelect + '\',\'' + searchValue + '\')">' + (i + 1) + '</div>';
+	                    pagination += ' onclick="getDataList(\'' + endpoint + '\',' + i + ',\'' + filterValue + '\',\'' + searchSelect + '\',\'' + searchValue + '\')">' + (i + 1) + '</div>';
 	                }
 	            }
 	            if (!data.last) {
-	                pagination += '<div onclick="getDataList(\'' + endpoint + '\',' + (data.number + 1) + ',\'' + boardFilterValue + '\',\'' + searchSelect + '\',\'' + searchValue + '\')">다음</div>';
+	                pagination += '<div onclick="getDataList(\'' + endpoint + '\',' + (data.number + 1) + ',\'' + filterValue + '\',\'' + searchSelect + '\',\'' + searchValue + '\')">다음</div>';
 	            }
 	        }
 	        userPaging.innerHTML = pagination;

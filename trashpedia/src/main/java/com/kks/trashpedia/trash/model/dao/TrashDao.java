@@ -1,9 +1,12 @@
 package com.kks.trashpedia.trash.model.dao;
 
 import java.util.List;
+import java.util.Map;
 
+import com.kks.trashpedia.trash.model.vo.Request;
 import com.kks.trashpedia.trash.model.vo.Trash;
 import com.kks.trashpedia.trash.model.vo.TrashBigCategory;
+import com.kks.trashpedia.trash.model.vo.TrashHits;
 import com.kks.trashpedia.trash.model.vo.TrashPost;
 import com.kks.trashpedia.trash.model.vo.TrashSubCategory;
 
@@ -22,17 +25,29 @@ public interface TrashDao {
 	Trash trashDetail(int trashNo);
 
 	//대분류 리스트 가져오기
-	List<TrashBigCategory> getBigCategoryList();
+	List<TrashBigCategory> getAllBigCategoryList();
 
 	//소분류 리스트 가져오기
-	List<TrashSubCategory> getSubCategoryList();
+	List<TrashSubCategory> getAllSubCategoryList();
 
 	//쓰레기 모두 가져오기
-	List<Trash> getAllTrashList();
+	List<Trash> getAllTrashList(Map<String, Object> map);
 
 	List<TrashSubCategory> getSubCategoryList(int bigCategoryNo);
 
 	int writeTrash(TrashPost tp, TrashSubCategory tsc, int userNo);
 
+	int deleteTrash(int trashNo);
 
+	int undeleteTrash(int trashNo);
+
+	int updateTrash(Trash trash, TrashPost trashPost);
+
+	int writeRequest(Request r);
+
+	Request getRequest(int requestNo);
+
+	int processingRequest(Request request);
+
+	void upCount(TrashHits trashHits);
 }
