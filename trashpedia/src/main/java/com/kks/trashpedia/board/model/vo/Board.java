@@ -39,7 +39,7 @@ public class Board {
 	
 	private String userName;
 	
-	private int hit;
+	private int hits;
 	
 	private int bigCateogoryNo;
 	

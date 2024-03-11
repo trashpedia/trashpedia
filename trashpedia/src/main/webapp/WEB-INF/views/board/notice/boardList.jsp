@@ -79,6 +79,7 @@
 						<div class="writer">글쓴이</div>
 						<div class="date">작성일</div>
 						<div class="count">조회</div>
+						
 					</div>
 					<c:forEach var="board" items="${boardList.content}" varStatus="status">
 						<div id="boardDetailDiv" onclick="boardDetail(${board.postNo})">
@@ -94,12 +95,12 @@
 							</div>
 							<div class="writer">${board.userName}</div>
 							<div class="date">${board.createDate}</div>
-							<div class="count">${board.hitsNo}</div>
+							<div class="count">${board.hits}</div>
 						</div>
 					</c:forEach>
 				</div>
 				<div class="insert-area">
-	                <a href="${pageContext.request.contextPath}/write?bigCategoryNo=${bigCategoryNo}&subCategoryNo=${subCategoryNo}&type=1">
+	                <a href="${pageContext.request.contextPath}/write?bigCategoryNo=1&subCategoryNo=${subCategoryNo}&type=1">
 	                    <button id="insertButton"class="comment-buttons">게시글 등록하기</button>
 	                </a>
             	</div>
@@ -108,13 +109,15 @@
 						<a href="${contextPath}/board/list?page=${boardList.number - 1}&subCategoryNo=${subCategoryNo}"
 							class="bt prev">&lt;</a>
 					</c:if>
-					<c:forEach begin="0" end="${boardList.totalPages - 1}" var="pageNum">
-					    <c:if test="${pageNum >= boardList.number - 5 && pageNum <= boardList.number + 5}">
-					        <a href="${contextPath}/board/list?page=${pageNum}&subCategoryNo=${subCategoryNo}"
-					            class="${pageNum == boardList.number ? 'num on' : 'num'}">${pageNum + 1}
-					        </a>
-					    </c:if>
-					</c:forEach>
+					<c:if test="${boardList.totalPages > 0}">
+						<c:forEach begin="0" end="${boardList.totalPages - 1}" var="pageNum">
+						    <c:if test="${pageNum >= boardList.number - 5 && pageNum <= boardList.number + 5}">
+						        <a href="${contextPath}/board/list?page=${pageNum}&subCategoryNo=${subCategoryNo}"
+						            class="${pageNum == boardList.number ? 'num on' : 'num'}">${pageNum + 1}
+						        </a>
+						    </c:if>
+						</c:forEach>
+					</c:if>
 					<c:if test="${boardList.number + 1 < boardList.totalPages}">
 						<a href="${contextPath}/board/list?page=${boardList.number + 1}&subCategoryNo=${subCategoryNo}"
 							class="bt next">&gt;</a>
@@ -125,6 +128,7 @@
 	</main>
 	<jsp:include page="../../common/footer.jsp" />
 	<script>
+	
 	function boardSearch() {
 	    var searchSelect = $('#searchSelect').val();
 	    var searchValue = $('#searchValue').val();
@@ -146,8 +150,34 @@
 	// 	<a href="${contextPath}/board/community/detail/${board.postNo}">
     // 상세페이지 이동
     function boardDetail(postNo) {
-    	location.href = "${contextPath}/board/community/detail/" + postNo;
+    	location.href = "${contextPath}/board/detail/" + postNo;
 	}
+    
+    
+    
+    
+    $('#filter').change(function() {
+        var filter = $(this).val();
+        $.ajax({
+            url: '${contextPath}/board/list',
+            type: 'GET',
+            data: {
+                subCategoryNo: ${subCategoryNo},
+                filter: filter,
+                page: 0
+            },
+            success: function(response) {
+                // 성공적으로 데이터를 받아온 경우, 페이지 내용을 업데이트합니다.
+                // 예를 들어, 받아온 HTML을 특정 div에 삽입할 수 있습니다.
+                // $('#boardList').html(response);
+            },
+            error: function(xhr, status, error) {
+                // 오류 처리
+                alert("데이터를 불러오는 데 실패했습니다.");
+            }
+        });
+    });
+
 	</script>
 </body>
 </html>
