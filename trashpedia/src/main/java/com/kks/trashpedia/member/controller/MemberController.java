@@ -122,10 +122,8 @@ public class MemberController {
 	public ModelAndView pwdAuth(Member m) {
 		ModelAndView mav = new ModelAndView();
 		
-		// 사용자가 제출한 비밀번호
 		String submittedPassword = m.getUserPwd();
 		
-		// 화원 정보 가져오기
 		int userNo = m.getUserNo(); // 접속한 유저번호
 		
 		Member user=new Member();
@@ -133,9 +131,7 @@ public class MemberController {
 		
 		Member member = service.getMember(user);
 		
-		String hashedPasswordFromDatabase = member.getUserPwd(); // 암호화된 Pwd
-//		String hashedPasswordFromDatabase = "$2a$10$gwWx8rdlhHFZZx.5NVexFeB1K0/wZ82pFt0HSHUIRTfI5KVWJ3zZW"; // 암호화된 Pwd
-		System.out.println(member);
+		String hashedPasswordFromDatabase = member.getUserPwd();
 		if (passwordEncoder.matches(submittedPassword, hashedPasswordFromDatabase)) { // 받은 페스워드, 기존암호화된 페스워드 확인
 			// 비밀번호가 일치함
 			mav.addObject("alert", "페스워드 인증성공");

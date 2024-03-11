@@ -100,12 +100,9 @@
 		WHERE TBC.BIG_CATEGORY_NO = #{bigCategoryNo}
 	</select>
 	
-	<insert id="writeTrashPost" parameterType="trashPost" useGeneratedKeys="true" keyProperty="trashPostNo">
-	    <selectKey keyProperty="trashPostNo" resultType="int" order="BEFORE">
-	        SELECT SEQ_TPNO.NEXTVAL FROM DUAL
-	    </selectKey>
+	<insert id="writeTrashPost" parameterType="trashPost">
 	    INSERT INTO TRASH_POST
-	    VALUES (#{trashPostNo}, #{trashTitle}, #{trashInfo}, #{trashExtraInfo}, SYSDATE, SYSDATE, DEFAULT)
+		VALUES (SEQ_TPNO.NEXTVAL, #{trashTitle}, #{trashInfo}, #{trashExtraInfo}, SYSDATE, SYSDATE, DEFAULT)
 	</insert>
 	
 	<select id="getTrashPostNo" resultType="trashPost">
@@ -114,12 +111,9 @@
 		WHERE TRASH_TITLE = #{trashTitle}
 	</select>
 	
-	<insert id="writeTrash" useGeneratedKeys="true" keyProperty="trashNo">
-		<selectKey keyProperty="trashNo" resultType="int" order="BEFORE">
-			SELECT SEQ_TNO.NEXTVAL FROM DUAL
-		</selectKey>
+	<insert id="writeTrash" parameterType="trash">
 		INSERT INTO TRASH
-		VALUES(#{trashNo}, #{trashPostNo}, #{userNo}, #{subCategoryNo}, DEFAULT)
+		VALUES(SEQ_TNO.NEXTVAL, #{trashPostNo}, #{userNo}, #{subCategoryNo}, DEFAULT)
 	</insert>
 	
 	<select id="getTrashNo" resultType="trash">
