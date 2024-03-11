@@ -7,7 +7,9 @@ main {
 
 /* ------ 실천서약 타이틀 부분 ------ */
 .practice-section {
-    height: 150px;
+	background: url(../../image/main/mainImg/pledge1.jpg);
+/*     height: 150px; */
+    height: 360px;
     width: 100%;
     background-color: #73cc73;
     color: white;
@@ -19,8 +21,8 @@ main {
 }
 
 .practice-section p:first-child {
-    font-size: 32px;
-    margin-top: 0;
+    font-size: 50px;
+    margin-top: 45px;
     margin-bottom: 0px;
 }
 
@@ -165,6 +167,7 @@ main {
     display: inline-block;
     margin: 15px;
     overflow: hidden;
+    position : relative;
 }
 
 .content-img {
@@ -194,6 +197,22 @@ main {
 	display: none; 
 	padding : 200px;
 }
+
+.ico-clone {
+    display: inline-block;
+    background: rgba(0, 0, 0, 0.5) url(../../image/pledgeImg/ico-clone.png) no-repeat 45% 45%;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    color: #fff;
+    text-align: center;
+    line-height: 26px;
+    position: absolute;
+    top: 16px;
+    right: 16px;
+}
+
+
 
 
 /* ----- 페이징 버튼 ----- */

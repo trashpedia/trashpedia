@@ -58,5 +58,5 @@ public interface BoardService {
 	List<Comment> selectCommentList(Board b); //commentNo 가져오기
 	int deleteNC(int nCommentNo); // 삭제
 
-
+	List<Post> getFreeTrashTotalList(int subCategoryNo);
 }

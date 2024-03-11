@@ -31,6 +31,8 @@ public interface BoardDao {
 	
 	/* 무료나눔 */
 	List<Post> getFreeTrashList(int subCategoryNo,Pageable pageable, int page);
+	
+	List<Post> getFreeTrashTotalList(int subCategoryNo);
 
 	ImgAttachment getImageUrl(int boardNo, int imgType);
 
@@ -39,6 +41,7 @@ public interface BoardDao {
 	String getTrashContentByboardNo(int boardNo);
 
 	Post getFreeTrashDetail(int boardNo);
+	
 
 	String getTrashWriterByboardNo(int boardNo);
 

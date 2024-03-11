@@ -75,10 +75,16 @@
         FROM TRASH_BIG_CATEGORY
 	</select>
 	
+	<!-- 쓰레기 전체리스트  -->
 	<select id = "getAllTrashList" resultType="trash">
-	    SELECT T.TRASH_NO, T.TRASH_POST_NO, USER_NO, T.SUB_CATEGORY_NO,T.STATUS, TP.TRASH_TITLE
+	    SELECT T.TRASH_NO, T.TRASH_POST_NO, USER_NO, T.SUB_CATEGORY_NO,T.STATUS, TP.TRASH_TITLE, IA.CHANGE_NAME
 	    FROM TRASH T
 	    LEFT JOIN TRASH_POST TP ON T.TRASH_POST_NO = TP.TRASH_POST_NO
+	    LEFT JOIN IMG_ATTACHMENT IA ON IA.REF_BNO = T.TRASH_POST_NO
+	    WHERE T.STATUS='Y'
+	    <if test="keyword !=null and keyword != ''">
+		    AND TRASH_TITLE LIKE  '%${keyword}%' 
+	    </if>
 	</select>
 	
 	<select id ="getAllSubCategoryList" resultType="TrashSubCategory">

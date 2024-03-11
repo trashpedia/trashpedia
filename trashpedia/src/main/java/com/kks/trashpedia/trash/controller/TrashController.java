@@ -2,6 +2,7 @@ package com.kks.trashpedia.trash.controller;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -82,7 +83,7 @@ public class TrashController {
 	}
 	
 	@GetMapping("/allList")
-	public ModelAndView allTrashList() {
+	public ModelAndView allTrashList(@RequestParam Map<String,Object> map) {
 		ModelAndView mav = new ModelAndView();
 		
 		List<TrashBigCategory> bigCategoryList = service.getAllBigCategoryList();

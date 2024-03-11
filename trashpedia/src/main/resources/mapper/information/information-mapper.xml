@@ -46,6 +46,21 @@
 		</if>
 	</select>
 	
+	<!-- 홍보자료글 게시글 조회 - 메인페이지용  -->
+	<select id="getinformationList" resultType="post">
+		SELECT *
+		FROM (
+				SELECT POST_NO, TITLE, CONTENT, USER_NO, BOARD_NO, SC.SUB_CATEGORY_NO, SC.BIG_CATEGORY_NO, IA.CHANGE_NAME
+				FROM POST P
+				LEFT JOIN BOARD B USING (POST_NO)
+				LEFT JOIN IMG_ATTACHMENT IA ON (B.BOARD_NO = IA.REF_BNO)
+				LEFT JOIN SUB_CATEGORY SC ON B.SUB_CATEGORY_NO = SC.SUB_CATEGORY_NO
+				WHERE P.STATUS='Y' AND SC.SUB_CATEGORY_NO = 7
+		        ORDER BY POST_NO DESC
+				)
+		WHERE ROWNUM BETWEEN 1 AND 3
+	</select>
+	
 	
 
 	

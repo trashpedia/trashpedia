@@ -1,6 +1,7 @@
 package com.kks.trashpedia.trash.model.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
@@ -53,8 +54,8 @@ public class TrashServiceImpl implements TrashService{
 	}
 
 	@Override
-	public List<Trash> getAllTrashList() {
-		return dao.getAllTrashList();
+	public List<Trash> getAllTrashList(Map<String, Object> map) {
+		return dao.getAllTrashList(map);
 	}
 
 	@Override

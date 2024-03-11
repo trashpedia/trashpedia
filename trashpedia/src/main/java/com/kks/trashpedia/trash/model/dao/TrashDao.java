@@ -1,6 +1,7 @@
 package com.kks.trashpedia.trash.model.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import com.kks.trashpedia.trash.model.vo.Request;
 import com.kks.trashpedia.trash.model.vo.Trash;
@@ -30,7 +31,7 @@ public interface TrashDao {
 	List<TrashSubCategory> getAllSubCategoryList();
 
 	//쓰레기 모두 가져오기
-	List<Trash> getAllTrashList();
+	List<Trash> getAllTrashList(Map<String, Object> map);
 
 	List<TrashSubCategory> getSubCategoryList(int bigCategoryNo);
 

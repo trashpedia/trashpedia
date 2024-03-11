@@ -36,6 +36,12 @@ public class InformationDaoImpl  implements InformationDao{
 		return new PageImpl<>(posts, pageable, totalCount);
 		
 	}
+
+	//홍보자료 게시글 가져오기- 메인페이지용
+	@Override
+	public List<Post> getinformationList(int subCategoryNo) {
+		return session.selectList("getinformationList",subCategoryNo);
+	}
 	
 	
 	

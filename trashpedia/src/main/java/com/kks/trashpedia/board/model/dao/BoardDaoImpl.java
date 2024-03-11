@@ -66,9 +66,27 @@ public class BoardDaoImpl implements BoardDao {
 	
 	// 무료 페이지
 	@Override
-	public List<Post> getFreeTrashList(int subCategoryNo,Pageable pageable, int page) {
+	public List<Post> getFreeTrashList(int subCategoryNo, Pageable pageable, int page) {
+	    int pageSize = pageable.getPageSize(); // 페이지당 항목 수
+	    int pageNum = page; //  가져올 페이지 번호 
+
+	    // 페이지 번호를 기반으로 startRow와 endRow 계산
+	    int startRow = pageNum * pageSize;
+	    int endRow = (pageNum + 1) * pageSize;
+
+	    
+	    
+	    System.out.println("pageSize:"+pageSize);
+	    System.out.println("pageNum: "+pageNum);
+	    System.out.println("startRow: "+startRow);
+	    System.out.println("endRow: "+endRow);
+	    
 	    try {
-	        return session.selectList("boardMapper.getFreeTrashList",subCategoryNo);
+	        Map<String, Object> parameters = new HashMap<>();
+	        parameters.put("subCategoryNo", subCategoryNo);
+	        parameters.put("startRow", startRow);
+	        parameters.put("endRow", endRow);
+	        return session.selectList("boardMapper.getFreeTrashList", parameters);
 	    } catch (MyBatisSystemException e) {
 	        // 예외 처리: 로깅하고 사용자에게 오류 메시지 반환 또는 기본값 반환
 	        e.printStackTrace();
@@ -76,6 +94,11 @@ public class BoardDaoImpl implements BoardDao {
 	    }
 	}
 	
+	@Override
+	public List<Post> getFreeTrashTotalList(int subCategoryNo) {
+		return session.selectList("boardMapper.getFreeTrashTotalList", subCategoryNo);
+	}
+
 	@Override
 	public Post getPostByTitle(String title) {
 		return session.selectOne("boardMapper.getPostByTitle",title);
@@ -144,6 +167,8 @@ public class BoardDaoImpl implements BoardDao {
 			return null; // 또는 적절한 오류 처리
 		}
 	}
+	
+	
 
 	@Override
 	public String getTrashCreateByboardNo(int boardNo) {

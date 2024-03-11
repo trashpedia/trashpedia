@@ -11,7 +11,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <link rel="stylesheet" href="${contextPath}/resources/css/admin/memberManagementDetail.css">
 </head>
-<jsp:include page="../common/header.jsp"/>
+<%-- <jsp:include page="../common/header.jsp"/> --%>
 <body class="body">
     <jsp:include page="../common/sidebar.jsp"/>
     <div class="content-wrapper">

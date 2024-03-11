@@ -54,8 +54,6 @@ public class PledgeController {
 		
 		int countSignature= service.countSignature();
 		
-		log.info("{}",countSignature);
-		
 		mav.addObject("countSignature", countSignature);
 		mav.setViewName("pledge/pledgeView");
 		return mav;

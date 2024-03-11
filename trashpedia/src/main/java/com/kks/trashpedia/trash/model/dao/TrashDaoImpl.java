@@ -56,8 +56,8 @@ public class TrashDaoImpl implements TrashDao{
 	}
 
 	@Override
-	public List<Trash> getAllTrashList() {
-		return session.selectList("trashMapper.getAllTrashList");
+	public List<Trash> getAllTrashList(Map<String, Object> map) {
+		return session.selectList("trashMapper.getAllTrashList",map);
 	}
 
 	@Override
