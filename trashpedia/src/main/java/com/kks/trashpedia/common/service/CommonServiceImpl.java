@@ -3,7 +3,6 @@ package com.kks.trashpedia.common.service;
 import java.io.IOException;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -15,19 +14,15 @@ import com.kks.trashpedia.board.model.vo.Post;
 import com.kks.trashpedia.board.model.vo.SubCategory;
 import com.kks.trashpedia.common.FileStore;
 import com.kks.trashpedia.common.model.dao.CommonDao;
-import com.kks.trashpedia.pledge.model.service.PledgeServiceImpl;
+
+import lombok.RequiredArgsConstructor;
 
 @Service
+@RequiredArgsConstructor
 public class CommonServiceImpl implements CommonService{
 	
-	@Autowired
-	private CommonDao dao;
-	
-	@Autowired
-	private FileStore fileStore;
-	
-	@Autowired
-	private PledgeServiceImpl pService;
+	private final CommonDao dao;
+	private final FileStore fileStore;
 	
 	//카테고리 가지고오기
 	@Override
@@ -62,7 +57,6 @@ public class CommonServiceImpl implements CommonService{
 		if(image != null) {
 			result2 = dao.insertImgAttachment(image);
 		}
-				
 		return result1*result2;
 	}
 
@@ -71,7 +65,6 @@ public class CommonServiceImpl implements CommonService{
 	public Post getPost(int postNo) {
 		return dao.getPost(postNo);
 	}
-
 
 	//첨부파일 삭제
 	@Override
@@ -84,7 +77,6 @@ public class CommonServiceImpl implements CommonService{
 	public int deleteImage(Post p) {
 		return dao.deleteImage(p);
 	}
-
 
 	// 게시글 수정
 	@Transactional(rollbackFor= {Exception.class})
@@ -139,5 +131,10 @@ public class CommonServiceImpl implements CommonService{
 	@Override
 	public int insertFiles(ImgAttachment image) {
 		return dao.insertImgAttachment(image);
+	}
+
+	@Override
+	public void deleteImage(int trashNo) {
+		dao.deleteImage(trashNo);
 	}
 }

@@ -6,7 +6,7 @@ BEGIN
         a := SEQ_MNO.NEXTVAL;
         INSERT INTO MEMBER VALUES (
             a,
-            'USER',
+            'ROLE_USER',
             DEFAULT,
             'user' || a || '@a.com',
             'user' || a,

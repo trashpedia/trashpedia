@@ -2,13 +2,13 @@ package com.kks.trashpedia.admin.controller;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,22 +27,16 @@ import com.kks.trashpedia.trash.model.vo.Request;
 import com.kks.trashpedia.trash.model.vo.Suggestion;
 import com.kks.trashpedia.trash.model.vo.Trash;
 
-@Secured("ROLE_ADMIN")
+import lombok.RequiredArgsConstructor;
+
 @RestController
 @RequestMapping("/admin")
+@RequiredArgsConstructor
 public class AdminController {
-	@Autowired
-	private adminService service;
-	@Autowired
-	private ReportService rService;
+
+	private final adminService service;
+	private final ReportService rService;
 	
-	// 관리자 로그인
-	@GetMapping("/login")
-	public ModelAndView adminLogin() {
-		ModelAndView mav = new ModelAndView();
-		mav.setViewName("admin/adminLogin");
-		return mav;
-	}
 	// 메인페이지
 	@GetMapping("")
 	public ModelAndView adminMain() {

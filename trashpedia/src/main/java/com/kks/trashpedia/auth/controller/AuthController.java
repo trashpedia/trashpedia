@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kks.trashpedia.auth.model.dto.KakaoUserInfoResponse;
+import com.kks.trashpedia.auth.model.dto.NaverUserInfoResponse;
 import com.kks.trashpedia.auth.model.service.AuthService;
 import com.kks.trashpedia.member.model.vo.Member;
 
@@ -97,5 +98,48 @@ public class AuthController {
 			}
 		}
 		return mav;
+    }
+
+    @GetMapping("/naver/login")
+    public void naverLogin(HttpServletResponse response) {
+    	try {
+    		response.sendRedirect(authService.naverUrl());
+    	} catch (IOException e) {
+    		e.printStackTrace();
+    	}
+    }
+    
+    @GetMapping("/naver/callback")
+    public ModelAndView checkNaverLogin(String code, String state, HttpServletRequest request) {
+    	ModelAndView mav = new ModelAndView();
+    	String access_Token = authService.naverGetToken(code);
+    	
+    	NaverUserInfoResponse sns = authService.getNaverProperties(access_Token);
+    	Member m = authService.getSocialUser(sns.getResponse().getId());
+    	
+    	if (m != null) {
+    		request.getSession().setAttribute("authentication", m);
+    		mav.setViewName("redirect:/");
+    	} else {
+    		if (authService.emailCheck(sns.getResponse().getEmail())) {
+    			int result = authService.joinMemberSocial(sns.getResponse().getEmail(), sns.getResponse().getId());
+    			
+    			if (result > 0) {
+    				m = authService.getSocialUser(sns.getResponse().getId());
+    				request.getSession().setAttribute("alert", "기존에 가입한 " + m.getUserEmail() + "과 연동되었습니다.");
+    				request.getSession().setAttribute("authentication", m);
+    				mav.setViewName("redirect:/");
+    			}
+    		} else {
+    			System.out.println(sns.getResponse());
+    			request.getSession().setAttribute("sns", sns.getResponse());
+    			request.getSession().setAttribute("socialId", sns.getResponse().getId());
+    			request.getSession().setAttribute("socialType", "naver");
+    			request.getSession().setAttribute("alert", "추가 정보를 입력하여 회원가입을 완료해주세요");
+    			mav.setViewName("user/join");
+    			mav.setViewName("redirect:/member/join");
+    		}
+    	}
+    	return mav;
     }
 }

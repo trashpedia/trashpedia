@@ -1,10 +1,7 @@
 package com.kks.trashpedia.board.controller;
 
-import java.sql.Date;
-import java.time.LocalDate;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -28,6 +25,7 @@ import com.kks.trashpedia.board.model.vo.Attachment;
 import com.kks.trashpedia.board.model.vo.BigCategory;
 import com.kks.trashpedia.board.model.vo.Board;
 import com.kks.trashpedia.board.model.vo.Comment;
+import com.kks.trashpedia.board.model.vo.Hits;
 import com.kks.trashpedia.board.model.vo.ImgAttachment;
 import com.kks.trashpedia.board.model.vo.NestedComment;
 import com.kks.trashpedia.board.model.vo.Post;
@@ -38,14 +36,15 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
+import lombok.RequiredArgsConstructor;
+
 @RestController
 @RequestMapping("/board")
+@RequiredArgsConstructor
 public class BoardController {
 
-	@Autowired
-	private BoardService service;
-	@Autowired
-	private PledgeService pservice;
+	private final BoardService service;
+	private final PledgeService pservice;
 
 	// 게시판 메인페이지 이동
 	@GetMapping("")
@@ -92,9 +91,8 @@ public class BoardController {
 
 		int subCategoryNo = subCategory.getSubCategoryNo();
 		int bigCategoryNo = subCategory.getBigCategoryNo();
-
-		// 게시글삭제- post & board
-//		int result = 0;
+		
+		//게시글삭제- post & board
 		int result1 = pservice.pledgeDeletePost(p);
 		int result2 = pservice.pledgeDeleteBoard(p);
 
@@ -111,8 +109,7 @@ public class BoardController {
 
 	// 게시글 상세 페이지 이동
 	@GetMapping("/detail/{postNo}")
-	public ModelAndView boardFreeShareDetail(@PathVariable int postNo, HttpServletRequest req, HttpServletResponse res,
-			HttpSession session) {
+	public ModelAndView boardFreeShareDetail(@PathVariable int postNo, HttpServletRequest req, HttpServletResponse res, HttpSession session) {
 
 		ModelAndView mav = new ModelAndView();
 		// 글내용 조회
@@ -120,7 +117,7 @@ public class BoardController {
 		Board b = new Board();
 
 		// 이미지,첨부파일,카테고리
-		ImgAttachment img = service.getImageUrlByboardNo(post.getBoardNo());
+		ImgAttachment img = service.getImageUrl(post.getBoardNo(), 1);
 		Attachment attach = service.getDetailAttach(post.getBoardNo());
 
 		b.setImgAttachment(img);
@@ -129,27 +126,12 @@ public class BoardController {
 		b.setBoardNo(post.getBoardNo());
 		b.setUserNo(post.getUserNo());
 
-//		
-		int result = 0;
-
-		// 처음 조회일 조회 -> LocalDate로 변환
-		Date hitsDate = service.pledgeHitDate(b);
-
-		// 조회일이 있을 때
-		if (hitsDate != null) {
-			// 조회날짜와 현재날짜 비교
-			LocalDate hitsLocalDate = hitsDate.toLocalDate();
-			LocalDate currentDate = LocalDate.now();
-			int comparisonResult = hitsLocalDate.compareTo(currentDate); // 적으면 -, 같으면 0, 많으면 +값
-			// 현재날짜보다 조회날짜가 작을 때
-			if (comparisonResult < 0) {
-				result = service.increaseCount(b);
-				post.setHitsNo(post.getHitsNo() + 1);
-			}
-		} else {
-			result = service.increaseCount(b);
-			post.setHitsNo(post.getHitsNo() + 1);
-		}
+		String userIp = (String) req.getSession().getAttribute("ip");
+		Hits hits = new Hits();
+		hits.setUserIp(userIp);
+		hits.setBoardNo(post.getBoardNo());
+		
+		service.increaseCount(hits);
 
 		mav.addObject("attachment", attach);
 		mav.addObject("img", img);
@@ -162,7 +144,6 @@ public class BoardController {
 	// 게시글 등록하기 페이지 이동
 	@GetMapping("/insert")
 	public ModelAndView pledgeInsert() {
-
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("pledge/pledgeInsert");
 
@@ -171,7 +152,7 @@ public class BoardController {
 
 	// 공지사항 목록페이지 이동
 	@GetMapping("/list")
-	public ModelAndView boardNotice(
+	public ModelAndView boardList(
 			@PageableDefault(size = 10, sort = "boardNo", direction = Sort.Direction.DESC) Pageable pageable,
 			@RequestParam int subCategoryNo, @RequestParam(value = "page", defaultValue = "0") int page,
 			@RequestParam(value = "filter", defaultValue = "0") String filter,
@@ -179,6 +160,7 @@ public class BoardController {
 			@RequestParam(value = "searchValue", required = false) String searchValue) {
 		List<BigCategory> bc = service.bigCategory();
 		List<SubCategory> sc = service.subCategory();
+
 		Page<Board> pages = service.boardList(subCategoryNo, pageable, page, filter, searchSelect, searchValue);
 		Board b = new Board();
 

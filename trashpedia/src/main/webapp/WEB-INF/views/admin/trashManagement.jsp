@@ -65,7 +65,7 @@
 			<section class="content-section">
                 <div class="content-container">
                 	<div class="content-title-wrapper">
-                    	<div class="content-title">요청</div>
+                    	<div class="content-title">건의</div>
 	                   	<div class="filter-wrapper">
 						    <select name="condition" id="suggestion-filter-select">
 						        <option value="suggestionNo" selected>번호</option>
@@ -92,7 +92,7 @@
 					<div class="search-wrapper">
 						<select name="condition" id="suggestion-search-filter-select">
 			                <option value="suggestionNo" selected>번호</option>
-			                <option value="userNo">요청자 번호</option>
+			                <option value="userNo">건의자 번호</option>
 			                <option value="suggestionTitle">제목</option>
 						</select>
 						<input type="search" class="search-input suggestion-search-input" placeholder="검색어를 입력하세요">
@@ -104,7 +104,7 @@
 			<section class="content-section">
                 <div class="content-container">
                 	<div class="content-title-wrapper">
-                    	<div class="content-title">건의</div>
+                    	<div class="content-title">요청</div>
 	                   	<div class="filter-wrapper">
 						    <select name="condition" id="request-filter-select">
 						        <option value="requestNo" selected>번호</option>
@@ -143,6 +143,9 @@
 					</div>
                 	<div class="request-pageBar pageBar"></div>
                 </div>
+                <div id="modal" class="modal">
+				    <div class="modal-content-wrapper"></div>
+				</div>
 			</section>
         </div>
     </div>
@@ -266,16 +269,26 @@
 	        	button2.setAttribute('value', '수정');
 	        	button2.classList.add('detail-button');
 	        	button2.addEventListener('click', function() {
-	        	    trashUpdate(data[i].trashNo);
+	        	    trashUpdate(data[i].trashNo, 'move');
 	        	});
 	        	
 	            let button3 = document.createElement('input');
 	        	button3.setAttribute('type', 'button');
-	        	button3.setAttribute('value', '삭제');
 	        	button3.classList.add('detail-button');
-	        	button3.addEventListener('click', function() {
-	        	    trashDelete(data[i].trashNo);
-	        	});
+
+	        	if(data[i].status == 'Y'){
+		        	button3.setAttribute('value', '삭제');
+		        	button3.classList.add('delete');
+		        	button3.addEventListener('click', function() {
+		        	    trashDelete(data[i].trashNo, $(this));
+		        	});
+	        	} else{
+		        	button3.setAttribute('value', '원복');
+		        	button3.classList.add('undelete');
+		        	button3.addEventListener('click', function() {
+		        	    trashUndelete(data[i].trashNo, $(this));
+		        	});
+	        	}
 	        	
 	        	cell8.appendChild(button1);
 	        	cell8.appendChild(button2);
@@ -441,13 +454,13 @@
 	            cell2.innerHTML = data[i].trashTitle;
 	            
 	            let cell3 = document.createElement('td');
-	            cell3.textContent = data[i].userNo;
+	            cell3.textContent = data[i].userName;
 	            
 	            let cell4 = document.createElement('td');
 	            cell4.textContent = data[i].requestTitle;
 	
 	            let cell5 = document.createElement('td');
-	            cell5.textContent = data[i].createTitle;
+	            cell5.textContent = data[i].createDate;
 	            
 	            let cell6 = document.createElement('td');
 	            cell6.textContent = data[i].processingStatus;
@@ -510,11 +523,136 @@
 	    function trashDetail(trashNo){
 	        location.href="${contextPath}/trash/detail?trashNo="+trashNo;
 	    }
-	    function trashUpdate(trashNo){
-	        location.href="${contextPath}/trash/update/"+trashNo;
+	    function trashUpdate(trashNo, type) {
+	        if (type === 'move') {
+	            location.href = "${contextPath}/trash/update/" + trashNo;
+	        } else if (type === 'blank') {
+	            window.open("${contextPath}/trash/update/" + trashNo);
+	        }
 	    }
-	    function trashDelete(trashNo){
-	        location.href="${contextPath}/trash/delete/"+trashNo;
+	    function trashDelete(trashNo, buttonElement){
+	        $.ajax({
+	            url: '${contextPath}/trash/delete/'+trashNo,
+	            type: 'GET',
+	            success: function(data) {
+	            	if(data > 0){
+						alert("삭제에 성공했습니다");
+                        let parent = buttonElement.parent();
+                        buttonElement.remove();
+                        let button = document.createElement('input');
+                    	button.setAttribute('type', 'button');
+                    	button.classList.add('detail-button');
+       	            	button.setAttribute('value', '원복');
+       	            	button.classList.add('undelete');
+       	            	button.addEventListener('click', function() {
+      	            	    trashUndelete(trashNo, $(this));
+                        });
+       	            	parent.append(button);
+	            	}
+	            },
+	            error: function(xhr, status, error) {
+	                console.error('Error: ' + error);
+	            }
+	        });
+	    }
+	    function trashUndelete(trashNo, buttonElement){
+	        $.ajax({
+	            url: '${contextPath}/trash/undelete/'+trashNo,
+	            type: 'GET',
+	            success: function(data) {
+	            	if(data > 0){
+						alert("원복에 성공했습니다");
+                        let parent = buttonElement.parent();
+                        buttonElement.remove();
+                        let button = document.createElement('input');
+                    	button.setAttribute('type', 'button');
+                    	button.classList.add('detail-button');
+       	            	button.setAttribute('value', '삭제');
+       	            	button.classList.add('delete');
+       	            	button.addEventListener('click', function() {
+      	            	    trashDelete(trashNo, $(this));
+                        });
+       	            	parent.append(button);
+	            	}
+	            },
+	            error: function(xhr, status, error) {
+	                console.error('Error: ' + error);
+	            }
+	        });
+	    }
+	    
+	    function requestDetail(requestNo){
+	        $('#modal').show();
+	        
+	        $('#closeModalBtn').click(function(){
+	            $('#modal').hide();
+	        });
+
+	        $(document).mouseup(function(e){
+	            let modalContent = $('.modal-content-wrapper');
+	            let modal = $('#modal');
+	            if (!modalContent.is(e.target) && modalContent.has(e.target).length === 0 && !$('#closeModalBtn').is(e.target)) {
+	                $('#requestTitle').val('');
+	                $('#requestContent').val('');
+	                modal.hide();
+	            }
+	        });
+	        
+	        $.ajax({
+	            url: '${contextPath}/trash/request/' + requestNo,
+	            type: 'GET',
+	            success: function(data) {
+	                if (data != null) {
+	                    let mcw = document.querySelector('.modal-content-wrapper');
+	                    let processingContentHTML = '';
+	                    if (data.processingStatus == "N") {
+	                        processingContentHTML = '<textarea id="processingContent" name="processingContent" placeholder="처리 내용을 입력하세요"></textarea>';
+	                    } else {
+	                        processingContentHTML = '<pre> 처리 내용 : ' + data.processingContent + '</pre>';
+	                    }
+	                    let htmlContent =
+	                        '<div>' +
+	                        '<div class="modal-title">수정 요청</div>' +
+	                        '<div> 요청일 : ' + data.createDate + '</div>' +
+	                        '<div class="request-title"> 제목 : ' + data.requestTitle + '</div>' +
+	                        '<div class="request-content">' +
+	                        '<pre> 요청 내용 : ' + data.requestContent + '</pre>' +
+	                        '</div>' +
+	                        '<div class="request-content">' + processingContentHTML + '</div>';
+	                    if (data.processingStatus == "N") {
+	                        htmlContent +=
+	                            '<button id="updateBtn" class="requestBtn" onclick="trashUpdate(' + data.trashNo + ',\'blank\')">쓰레기 수정하기</button>' +
+	                            '<button id="processingBtn" class="requestBtn" onclick="processingRequest(' + data.requestNo + ')">처리하기</button>';
+	                    } else {
+	                        htmlContent += '<button id="trashBtn" class="requestBtn" onclick="trashDetail(' + data.trashNo + ')">게시글 보기</button>';
+	                    }
+	                    htmlContent += '</div></div>';
+	                    mcw.innerHTML = htmlContent;
+	                }
+	            }
+	        });
+	    }
+	    
+	    function processingRequest(requestNo){
+	    	let processingContent = document.querySelector('#processingContent').value;
+	    	if(processingContent.trim() === ""){
+	    		alert("내용을 입력해주세요");
+	    		$('#processingContent').focus();
+	    		return;
+	    	}
+	    	$.ajax({
+	        	url: '${contextPath}/trash/request/update',
+	        	type: 'GET',
+	        	data:{requestNo, processingContent},
+	        	success: function(data){
+		        	if(data > 0){
+						alert("처리 완료했습니다.");
+						$('#modal').hide();
+		        	} else {
+		        		alert("처리에 실패했습니다. 다시시도해주세요.");
+		        	}
+	        	}
+	        });
 	    }
     </script>
 </body>

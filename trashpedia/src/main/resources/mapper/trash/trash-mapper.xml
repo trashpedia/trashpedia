@@ -61,16 +61,16 @@
 	
 	<!-- 쓰레기 상세페이지  -->
 	<select id ="trashDetail" parameterType="int" resultType="trash">
-		SELECT T.TRASH_NO, TSC.SUB_CATEGORY_NAME, TBC.BIG_CATEGORY_NAME, T.STATUS, TP.TRASH_POST_NO, TP.TRASH_TITLE, TP.TRASH_INFO,TP.TRASH_EXTRAINFO, IA.CHANGE_NAME
+		SELECT T.TRASH_NO, TSC.SUB_CATEGORY_NAME, TBC.BIG_CATEGORY_NAME, TSC.SUB_CATEGORY_NO, TBC.BIG_CATEGORY_NO, T.STATUS, TP.TRASH_POST_NO, TP.TRASH_TITLE, TP.TRASH_INFO,TP.TRASH_EXTRAINFO, IA.CHANGE_NAME, T.TRASH_POST_NO
 		FROM TRASH T
 		LEFT JOIN TRASH_POST TP ON T.TRASH_POST_NO = TP.TRASH_POST_NO
 		LEFT JOIN IMG_ATTACHMENT IA ON IA.REF_BNO = T.TRASH_NO
 		LEFT JOIN TRASH_SUB_CATEGORY TSC ON TSC.SUB_CATEGORY_NO = T.SUB_CATEGORY_NO
 		LEFT JOIN TRASH_BIG_CATEGORY TBC ON TBC.BIG_CATEGORY_NO = TSC.BIG_CATEGORY_NO
-		WHERE T.TRASH_NO = #{trashNo} AND IA.IMG_TYPE = 2 AND IA.REF_BNO = #{trashNo}
+		WHERE T.TRASH_NO = #{trashNo} AND IA.IMG_TYPE = 2 AND IA.REF_BNO = #{trashNo} AND IA.STATUS = 'Y'
 	</select>
 	
-	<select id = "getBigCategoryList" resultType="TrashBigCategory">
+	<select id = "getAllBigCategoryList" resultType="TrashBigCategory">
 		SELECT *
         FROM TRASH_BIG_CATEGORY
 	</select>
@@ -87,10 +87,17 @@
 	    </if>
 	</select>
 	
+	<select id ="getAllSubCategoryList" resultType="TrashSubCategory">
+		SELECT *
+		FROM TRASH_SUB_CATEGORY TSC
+		LEFT JOIN TRASH_BIG_CATEGORY TBC ON TSC.BIG_CATEGORY_NO = TBC.BIG_CATEGORY_NO
+	</select>
+	
 	<select id ="getSubCategoryList" resultType="TrashSubCategory">
 		SELECT *
 		FROM TRASH_SUB_CATEGORY TSC
 		LEFT JOIN TRASH_BIG_CATEGORY TBC ON TSC.BIG_CATEGORY_NO = TBC.BIG_CATEGORY_NO
+		WHERE TBC.BIG_CATEGORY_NO = #{bigCategoryNo}
 	</select>
 	
 	<insert id="writeTrashPost" parameterType="trashPost" useGeneratedKeys="true" keyProperty="trashPostNo">
@@ -120,4 +127,78 @@
 		FROM TRASH
 		WHERE TRASH_POST_NO = #{trashPostNo}
 	</select>
+	
+	<update id="deleteTrash" parameterType="int">
+		UPDATE TRASH_POST
+		SET STATUS = 'N'
+		WHERE TRASH_POST_NO = #{trashPostNo}
+	</update>
+
+	<update id="undeleteTrash" parameterType="int">
+		UPDATE TRASH_POST
+		SET STATUS = 'Y'
+		WHERE TRASH_POST_NO = #{trashPostNo}
+	</update>
+	
+	<select id="getTrash" parameterType="trash" resultType="trash">
+		SELECT *
+		FROM TRASH
+		WHERE TRASH_NO = #{trashNo}
+	</select>
+	
+	<select id="getTrashPost" parameterType="int" resultType="trashPost">
+		SELECT *
+		FROM TRASH_POST
+		WHERE TRASH_POST_NO = #{trashPostNo}
+	</select>
+	
+	<update id="updateTrash" parameterType="trash">
+		UPDATE TRASH
+		SET 
+		TRASH_POST_NO = #{trashPostNo},
+		USER_NO = #{userNo},
+		SUB_CATEGORY_NO = #{subCategoryNo}
+		WHERE TRASH_NO = #{trashNo}
+	</update>
+
+	<update id="updateTrashPost" parameterType="trashPost">
+		UPDATE TRASH_POST
+		SET
+		TRASH_TITLE = #{trashTitle},
+		TRASH_INFO = #{trashInfo},
+		TRASH_EXTRAINFO = #{trashExtraInfo},
+		MODIFY_DATE = SYSDATE
+		WHERE TRASH_POST_NO = #{trashPostNo}
+	</update>
+	
+	<insert id="writeRequest" parameterType="request">
+		INSERT INTO REQUEST
+		VALUES(SEQ_RQNO.NEXTVAL, #{trashNo}, #{userNo}, #{requestTitle}, #{requestContent}, SYSDATE, DEFAULT, NULL, NULL)
+	</insert>
+	
+	<select id="getRequest" parameterType="int" resultType="request">
+		SELECT *
+		FROM REQUEST
+		WHERE REQUEST_NO = #{requestNo}
+	</select>
+	
+	<update id="processingRequest" parameterType="request">
+		UPDATE REQUEST
+		SET
+		PROCESSING_CONTENT = #{processingContent},
+		PROCESSING_STATUS = 'Y',
+		PROCESSING_DATE = SYSDATE
+		WHERE REQUEST_NO = #{requestNo}
+	</update>
+	
+	<select id="getHits" parameterType="trashHits" resultType="trashHits">
+		SELECT *
+		FROM TRASH_HITS
+		WHERE TRASH_NO = #{trashNo} AND USER_IP = ${userIp} AND TRUNC(CREATE_DATE) = TRUNC(SYSDATE)
+	</select>
+	
+	<insert id="upCount">
+		INSERT INTO TRASH_HITS
+		VALUES(SEQ_THNO.NEXTVAL, #{userIp}, #{trashNo}, SYSDATE)
+	</insert>
 </mapper>

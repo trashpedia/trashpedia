@@ -13,6 +13,7 @@ import com.kks.trashpedia.pledge.model.service.PledgeService;
 import com.kks.trashpedia.trash.model.service.TrashService;
 import com.kks.trashpedia.trash.model.vo.TrashPost;
 
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -34,9 +35,12 @@ public class HomeController {
 	private InformationService informationService;
 	
 	@GetMapping("/")
-	public ModelAndView home() {
-		
+	public ModelAndView home(HttpServletRequest request) {
+		String ip = getClientIpAddress(request);
+		System.out.println("접속한 유저 ip : "+ip);
 		ModelAndView mav = new ModelAndView();
+		
+		request.getSession().setAttribute("ip", ip);
 		
 		// 최근 업데이트된 쓰레기
 		List<TrashPost> recentlyTrashList = trashService.getRecentlyTrashList(); 
@@ -53,15 +57,42 @@ public class HomeController {
 		// 실천인증
 		List<Post> pledgeList = pledgeService.pledgeList(6);
 		mav.addObject("pledgeList",pledgeList);
-		
-		
-		
+
 		mav.setViewName("main");
 		return mav;
 	}
 	
-	
-	
-	
-	
+	public static String getClientIpAddress(HttpServletRequest request) {
+		String ipAddress = request.getHeader("X-Forwarded-For");
+        if (ipAddress == null || ipAddress.isEmpty() || "unknown".equalsIgnoreCase(ipAddress)) {
+            ipAddress = request.getHeader("Proxy-Client-IP");
+        }
+        if (ipAddress == null || ipAddress.isEmpty() || "unknown".equalsIgnoreCase(ipAddress)) {
+            ipAddress = request.getHeader("WL-Proxy-Client-IP");
+        }
+        if (ipAddress == null || ipAddress.isEmpty() || "unknown".equalsIgnoreCase(ipAddress)) {
+            ipAddress = request.getHeader("HTTP_X_FORWARDED_FOR");
+        }
+        if (ipAddress == null || ipAddress.isEmpty() || "unknown".equalsIgnoreCase(ipAddress)) {
+            ipAddress = request.getHeader("HTTP_X_FORWARDED");
+        }
+        if (ipAddress == null || ipAddress.isEmpty() || "unknown".equalsIgnoreCase(ipAddress)) {
+            ipAddress = request.getHeader("HTTP_X_CLUSTER_CLIENT_IP");
+        }
+        if (ipAddress == null || ipAddress.isEmpty() || "unknown".equalsIgnoreCase(ipAddress)) {
+            ipAddress = request.getHeader("HTTP_CLIENT_IP");
+        }
+        if (ipAddress == null || ipAddress.isEmpty() || "unknown".equalsIgnoreCase(ipAddress)) {
+            ipAddress = request.getHeader("REMOTE_ADDR");
+        }
+        if (ipAddress == null || ipAddress.isEmpty() || "unknown".equalsIgnoreCase(ipAddress)) {
+            ipAddress = request.getRemoteAddr();
+        }
+        
+        if (ipAddress.contains(":")) {
+            ipAddress = ipAddress.split(":")[0];
+        }
+        
+        return ipAddress;
+    }
 }

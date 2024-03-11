@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Data
 public class TrashHits {
 	private int hitsNo;
-	private int userNo;
+	private String userIp;
 	private int trashNo;
 	private Date createDate;
 }
