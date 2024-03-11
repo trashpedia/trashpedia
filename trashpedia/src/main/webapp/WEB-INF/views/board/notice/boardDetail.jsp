@@ -44,7 +44,7 @@
                             <dd>${b.hits}</dd>
                         </dl>
                     </div>
-                    <div class="cont">${b.content}</div>
+                    <div class="toast-custom-viewer"></div>
                 </div>
                 <div class="bt_wrap">
                     <a href="${contextPath}/board/list?bigCategoryNo=1&subCategoryNo=${b.subCategoryNo}" class="on">목록</a>
@@ -84,6 +84,13 @@
     </main>
      <jsp:include page="../../common/footer.jsp" />
      <script>
+     	//에디터 뷰어
+  		const editor = toastui.Editor.factory({
+            el : document.querySelector(".toast-custom-viewer"),
+            viewer:true,
+            initialValue :  `${b.content}`
+        });
+ 
   		const loginUser = `${authentication}`;
 		const loginUserNo = `${authentication.userNo}`;
   		
