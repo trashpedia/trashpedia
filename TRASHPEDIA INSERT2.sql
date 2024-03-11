@@ -156,6 +156,43 @@ BEGIN
 END;
 /
 
+-- 서명
+DECLARE
+    a NUMBER;
+BEGIN
+    FOR i IN 1..100 LOOP
+        a := SEQ_SNO.NEXTVAL;
+        INSERT INTO SIGNATURE VALUES (
+            a,
+            2,
+            55,
+            DEFAULT,
+            SYSDATE,
+            SYSDATE
+        );
+    END LOOP;
+    COMMIT;
+END;
+/
+
+-- 조회수 증가
+DECLARE
+    a NUMBER;
+BEGIN
+    FOR i IN 1..100 LOOP
+        INSERT INTO HITS VALUES (
+            a,
+            2,
+            55,
+            DEFAULT,
+            SYSDATE,
+            SYSDATE
+        );
+    END LOOP;
+    COMMIT;
+END;
+/
+
 INSERT INTO TRASH_POST VALUES(
 SEQ_TPNO.NEXTVAL, 
 '소금',
