@@ -178,7 +178,8 @@
 	
 	<select id="getRequest" parameterType="int" resultType="request">
 		SELECT *
-		FROM REQUEST
+		FROM REQUEST R
+		JOIN MEMBER M ON R.USER_NO = M.USER_NO 
 		WHERE REQUEST_NO = #{requestNo}
 	</select>
 	

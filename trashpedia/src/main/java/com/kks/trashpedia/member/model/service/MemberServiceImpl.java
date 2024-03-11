@@ -62,7 +62,7 @@ public class MemberServiceImpl implements MemberService{
 	}
 
 	@Override
-	public String findEmail(String userName, String phone) {
+	public Member findEmail(String userName, String phone) {
 		return dao.findEmail(userName, phone);
 	}
 

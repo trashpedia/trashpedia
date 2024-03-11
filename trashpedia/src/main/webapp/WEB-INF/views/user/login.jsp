@@ -139,7 +139,7 @@
 	            data: {userName : userName, phone : phone},
 	            success: function(data) {
 	            	if(data != ""){
-	            		alert("가입하신 이메일은 "+data+"입니다.");
+	            		alert("가입하신 이메일은 "+data.userEmail+"입니다.");
 	            		location.href="${contextPath}/login"
 	            	} else {
 	            		alert("해당 정보로 가입한 이메일을 찾을 수 없습니다. 다시입력해주세요");

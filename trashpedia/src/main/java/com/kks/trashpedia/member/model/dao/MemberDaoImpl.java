@@ -82,7 +82,7 @@ public class MemberDaoImpl implements MemberDao {
 	}
 
 	@Override
-	public String findEmail(String userName, String phone) {
+	public Member findEmail(String userName, String phone) {
 		Map<String, Object> param = new HashMap<>();
 		param.put("userName", userName);
 		param.put("phone", phone);

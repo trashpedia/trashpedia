@@ -85,8 +85,8 @@ public class MemberController {
 	}
 
 	@GetMapping("/findEmail")
-	public String findEmail(String userName, String phone) {
-		String userEmail = service.findEmail(userName, phone);
+	public Member findEmail(String userName, String phone) {
+		Member userEmail = service.findEmail(userName, phone);
 		if (userEmail != null) {
 			return userEmail;
 		} else {
