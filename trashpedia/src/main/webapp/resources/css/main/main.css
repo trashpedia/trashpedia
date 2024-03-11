@@ -285,21 +285,96 @@ main .recently-garbage-img{
     cursor: pointer;
 }
 
-/* 밴드 이미지 */
-.slide-style-tape {
-    position: absolute;
-    display: inline-block;
-    width: 130px;
-    height: 120px;
-    background-image: url("https://theskinfood.com/design/skinfood/skinfood/images/dev/bg-tape.png");
-    background-repeat: no-repeat;
-    background-size: 100% auto;
-    align-items: center;
-    top: 15%;
-    left: 18%;
-    transform: translate(-20%, -20%);
-    z-index: 3;
+
+/* 정보자료글 부분 */
+.information-outer{
+    width: 800px;
+    margin: 35px auto;
+    margin-top : 150px;
+    padding : 25px;
 }
+.information-outer-title{
+	color: black;
+	font-size : 38px;
+	margin-left : 30px;
+}
+.information-content-outer{
+	margin : 20px;
+    display: flex !important;
+    flex-direction: row;
+    overflow: hidden; 
+    cursor: pointer;
+}
+/* 정보자료글 텍스트 */
+.information-text-outer{
+	padding : 15px;
+	padding-left : 35px;
+}
+.information-text-outer p{
+	margin : 0;
+	line-height: 1.8;
+}
+.information-title{
+	font-weight : 630;
+	font-size : 21px;
+	max-width : 330px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	letter-spacing: -0.025em;
+}
+.information-content {
+	white-space: pre-line;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	max-width: 100%;
+	font-size: 18px;
+}
+
+
+/* 자원순환 서약 이미지  */
+.pledge-outer{
+	margin : 150px 0px;
+	padding : 35px 0px;
+}
+#pledge-slider-p{
+	text-align: center;
+    color: rgb(66 93 72);
+    font-size: 31px;
+    font-weight: 600;
+    margin-top: 3px;
+    letter-spacing: -0.01em;
+}
+.pledge-img-outer{
+	display : flex;
+	justify-content: center;
+}
+.pledge-img-outer img{
+	width : 1400px;
+}
+.pledge-outer  #recently-garbage-outer-title {
+	margin-top : 10px;
+}
+.pledge-outer .garbage-img-outer{
+	width : 255px;
+	height : 255px;
+}
+.mainMoreA {
+	padding-top : 10px;
+    text-align: center;
+}
+.mainMoreA a{
+    display: inline-block;
+    border-radius: 28px;
+    border: 2px solid #026447;
+    line-height: 55px;
+    padding: 0 75px;
+    font-size: 18px;
+    color: #fff;
+    background: #39A47A;
+    border: 2px solid #39A47A;
+}
+
 
 /* ----- 환경을 위한 습관 문구 부분 ----- */
 main .content-outer {
@@ -341,37 +416,6 @@ main .content-outer span {
     font-weight: 660;
     color: #0b6648;
 }
-
-
-/* 정보자료글 부분 */
-.information-outer{
-    width: 800px;
-    margin: 35px auto;
-    margin-top : 150px;
-    padding : 25px;
-}
-.information-outer-title{
-	color: black;
-	font-size : 38px;
-	margin-left : 30px;
-}
-
-.information-content-outer{
-	margin : 20px;
-    display: flex !important;
-    flex-direction: row;
-}
-
-/* 정보자료글 텍스트 */
-.information-text-outer{
-	padding-left : 20px;
-	font-size : 20px;
-}
-.information-title{
-	font-weight : 600;
-}
-
-
 
 
 /* ---------- 공지사항 및 인스타 게시글 부분 ---------- */
@@ -458,6 +502,7 @@ main .green-img {
 .instagram-posts-list .post-container {
     position: relative;
     width: calc(33.33% - 10px);
+    cursor: pointer;
 }
 
 .instagram-posts-list .post-container img {

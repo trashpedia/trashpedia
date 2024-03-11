@@ -26,18 +26,15 @@ import com.kks.trashpedia.common.service.CommonService;
 import com.kks.trashpedia.pledge.model.service.PledgeService;
 
 import jakarta.servlet.http.HttpSession;
+import lombok.RequiredArgsConstructor;
 
 @RestController
+@RequiredArgsConstructor
 public class CommonController {
 	
-	@Autowired
-	private CommonService service;
-	
-	@Autowired
-	private PledgeService pService;
-	
-	@Autowired
-	private FileStore fileStore;
+	private final CommonService service;
+	private final PledgeService pService;
+	private final FileStore fileStore;
 	
 	//에러페이지 이동
 	@GetMapping("/errorPage")
@@ -70,9 +67,7 @@ public class CommonController {
 			@RequestParam("upfile") MultipartFile upfile,
 			@RequestParam int type
 			) throws IOException {
-
 		ModelAndView mv = new ModelAndView();
-		
 		// post 등록
 		int postNo = service.createPost(p);
 
@@ -81,7 +76,6 @@ public class CommonController {
 		
 		// board 등록
 		if (postNo > 0) {
-			
 			int boardNo = service.createBoard(b);
 			if (boardNo > 0) { 		
 				// 첨부파일, 이미지 파일 저장
@@ -104,7 +98,6 @@ public class CommonController {
 		} else {
 			ra.addFlashAttribute("alert", "게시글 작성에 실패하셨습니다.");
 		}
-
 		String nextUrl = (String) session.getAttribute("lastUrl");
 		mv.setViewName("redirect:/");
 
@@ -127,7 +120,6 @@ public class CommonController {
 		UrlResource url = new UrlResource("file:" + fileStore.getFullPath2(filename));
 	    return url;
 	}
-	
 	
 	//게시글수정 페이지이동
 	@GetMapping("/update")
@@ -187,7 +179,6 @@ public class CommonController {
 		return mv;
 	}
 	
-	
 	// 목록으로 돌아가기
 	@GetMapping("/returnList")
 	public ModelAndView returnList(
@@ -207,8 +198,5 @@ public class CommonController {
 	                + "&subCategoryNo=" + subcategory.getSubCategoryNo());
 	    }
 	    return mv;
-
 	}
-
-	
 }

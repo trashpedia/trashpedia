@@ -7,8 +7,10 @@ import java.util.Map;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.kks.trashpedia.trash.model.vo.Request;
 import com.kks.trashpedia.trash.model.vo.Trash;
 import com.kks.trashpedia.trash.model.vo.TrashBigCategory;
+import com.kks.trashpedia.trash.model.vo.TrashHits;
 import com.kks.trashpedia.trash.model.vo.TrashPost;
 import com.kks.trashpedia.trash.model.vo.TrashSubCategory;
 
@@ -44,18 +46,18 @@ public class TrashDaoImpl implements TrashDao{
 	}
 
 	@Override
-	public List<TrashBigCategory> getBigCategoryList() {
-		return session.selectList("trashMapper.getBigCategoryList");
+	public List<TrashBigCategory> getAllBigCategoryList() {
+		return session.selectList("trashMapper.getAllBigCategoryList");
 	}
 
 	@Override
-	public List<TrashSubCategory> getSubCategoryList() {
-		return session.selectList("trashMapper.getSubCategoryList");
+	public List<TrashSubCategory> getAllSubCategoryList() {
+		return session.selectList("trashMapper.getAllSubCategoryList");
 	}
 
 	@Override
-	public List<Trash> getAllTrashList() {
-		return session.selectList("trashMapper.getAllTrashList");
+	public List<Trash> getAllTrashList(Map<String, Object> map) {
+		return session.selectList("trashMapper.getAllTrashList",map);
 	}
 
 	@Override
@@ -82,5 +84,58 @@ public class TrashDaoImpl implements TrashDao{
 			}
 		}
 		return trashNo;
+	}
+
+	@Override
+	public int deleteTrash(int trashNo) {
+		Trash trash = session.selectOne("trashMapper.trashDetail",trashNo);
+		int trashPostNo = trash.getTrashPostNo();
+		return session.update("trashMapper.deleteTrash",trashPostNo);
+	}
+
+	@Override
+	public int undeleteTrash(int trashNo) {
+		Trash trash = session.selectOne("trashMapper.trashDetail",trashNo);
+		int trashPostNo = trash.getTrashPostNo();
+		return session.update("trashMapper.undeleteTrash",trashPostNo);
+	}
+
+	@Override
+	public int updateTrash(Trash trash, TrashPost trashPost) {
+		Trash getTrash = session.selectOne("trashMapper.getTrash", trash);
+		trash.setTrashPostNo(getTrash.getTrashPostNo());
+		int trashPostNo = getTrash.getTrashPostNo();
+		int result = session.update("trashMapper.updateTrash", trash);
+		if(result > 0) {
+			TrashPost gtp = session.selectOne("trashMapper.getTrashPost", trashPostNo);
+			trashPost.setTrashPostNo(gtp.getTrashPostNo());
+			trashPost.setCreateDate(gtp.getCreateDate());
+			trashPost.setStatus(gtp.getStatus());
+			result = session.update("trashMapper.updateTrashPost", trashPost);
+		}
+		return result;
+	}
+
+	@Override
+	public int writeRequest(Request r) {
+		return session.insert("trashMapper.writeRequest",r);
+	}
+
+	@Override
+	public Request getRequest(int requestNo) {
+		return session.selectOne("trashMapper.getRequest",requestNo);
+	}
+
+	@Override
+	public int processingRequest(Request request) {
+		return session.update("trashMapper.processingRequest", request);
+	}
+
+	@Override
+	public void upCount(TrashHits trashHits) {
+		List<TrashHits> list = session.selectList("trashMapper.getHits", trashHits);
+		if(list.size() == 0) {
+			session.insert("trashMapper.upCount",trashHits);
+		}
 	}
 }

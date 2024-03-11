@@ -10,7 +10,7 @@
     position: relative;
     margin: 0 auto;
     width: 1759.99px;
-    min-height: 1690px;
+    min-height: 1790px;
     /* height: 1790px; */
     height: 100%;
     display: flex;
@@ -128,8 +128,9 @@ main{
     gap: 110px; 
     display: inline-flex;
     flex-wrap: wrap; /* 요소들이 가로로 쌓인 후에는 줄 바꿈 */
-  	background-color: #eee;
-    /* border-bottom: 5px solid rgb(184, 212, 91); */
+/*   	background-color: #eee; */
+/*     border-bottom: 5px solid rgb(184, 212, 91); */
+	border:2px solid #5bbf5b;
     overflow:hidden;
 }
 

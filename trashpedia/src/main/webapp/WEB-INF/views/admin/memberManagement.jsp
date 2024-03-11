@@ -11,14 +11,14 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <link rel="stylesheet" href="${contextPath}/resources/css/admin/memberManagement.css">
 </head>
-<jsp:include page="../common/header.jsp"/>
+<%-- <jsp:include page="../common/header.jsp"/> --%>
 <body class="body">
     <jsp:include page="../common/sidebar.jsp"/>
     <div class="content-wrapper">
         <div class="content">
 			<div class="practice-section">
-			    <p>회원관리</p>
-			    <p>member management</p>
+			    <p id="practice-section-title"><span class="material-symbols-outlined">patient_list</span>회원관리</p>
+			    <p>Member management</p>
 			</div>
 			<section class="content-section">
 				<div class="content-container">

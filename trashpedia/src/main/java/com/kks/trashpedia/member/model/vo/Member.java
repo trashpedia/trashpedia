@@ -38,6 +38,5 @@ public class Member {
 	
 //	admin memberManagement Detail
 	private String gradeName;
-	private String roleName;
 	private int point;
 }

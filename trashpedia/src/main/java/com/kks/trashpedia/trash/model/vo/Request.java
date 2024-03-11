@@ -19,4 +19,7 @@ public class Request {
 	private String processingStatus;
 	private String processingContent;
 	private Date processingDate;
+	
+	private String trashTitle;
+	private String userName;
 }

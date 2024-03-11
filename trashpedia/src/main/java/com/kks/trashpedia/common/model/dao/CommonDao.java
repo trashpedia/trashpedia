@@ -43,4 +43,6 @@ public interface CommonDao {
 	//파일삭제-이미지리스트출력
 	List<String> imageNameList();
 
+	void deleteImage(int trashNo);
+
 }

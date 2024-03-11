@@ -40,4 +40,6 @@ public interface CommonService {
 	List<String> imageNameList();
 
 	int insertFiles(ImgAttachment image);
+
+	void deleteImage(int trashNo);
 }

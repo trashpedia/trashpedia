@@ -23,6 +23,6 @@ public class TrashPost {
 	private String changeName;
 	private String bigCategoryName;
 	private String subCategoryName;
-	private int trashHits; //조회수
+	private int trashHits;
 	
 }

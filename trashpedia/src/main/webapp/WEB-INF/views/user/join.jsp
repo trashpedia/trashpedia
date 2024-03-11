@@ -2,7 +2,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <c:set var="contextPath" value="<%=request.getContextPath() %>"/>
-<c:set var="formattedPhoneNumber" value="${fn:replace(fn:replace(fn:replace(sns.phone_number, '+82', '0'), '-', ''), ' ', '')}" />
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -105,6 +104,12 @@
 	        <div class="field tel-number">
 	            <div class="title"><p>* 휴대전화</p></div>
 	            <div>
+	            	<c:if test="${socialType == 'kakao'}">
+						<c:set var="formattedPhoneNumber" value="${fn:replace(fn:replace(fn:replace(sns.phone_number, '+82', '0'), '-', ''), ' ', '')}" />
+					</c:if>
+					<c:if test="${socialType == 'naver'}">
+						<c:set var="formattedPhoneNumber" value="${fn:replace(fn:replace(sns.mobile, '-', ''), ' ', '')}" />
+					</c:if>
 	            	<c:if test="${sns != null}">
 		                <input type="tel" placeholder="전화번호 입력" name="phone" id="phone" value="${formattedPhoneNumber}" disabled>
 		                <input type="button" value="인증번호 받기">

@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <c:set var="contextPath" value="<%=request.getContextPath()%>" />
@@ -9,42 +8,23 @@
 </c:url>
 <c:set var="subCategoryNo" value="${param.subCategoryNo}" />
 <c:set var="bigCategoryNo" value="${param.bigCategoryNo}" />
-
 <!DOCTYPE html>
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>커뮤니티</title>
-<link rel="stylesheet"
-	href="${contextPath}/resources/css/board/boardList.css">
-<!-- jQuery -->
-<script src="https://code.jquery.com/jquery-3.7.1.min.js"
-	integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
-	crossorigin="anonymous"></script>
-
+	<link rel="stylesheet" href="${contextPath}/resources/css/board/boardList.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
-
-
 <body>
-	<c:if test="${not empty alert}">
-		<script>
-			alert("${alert}");
-		</script>
-		<c:remove var="alert" />
-	</c:if>
-
 	<jsp:include page="../../common/header.jsp" />
-
-
 	<main class="board_html">
-
 		<!--실천서약 타이틀 부분-->
 		<div class="practice-section">
 			<p>커뮤니티</p>
 			<p>Reduce Reuse Recycle Recovery</p>
 		</div>
-
 		<!--list-->
 		<div class="board_wrap">
 			<div class="board_title">
@@ -62,10 +42,8 @@
 						<strong>무료나눔게시판</strong>
 					</c:when>
 				</c:choose>
-
 				<p>빠르고 정확한 정보를 안내해드립니다.</p>
 			</div>
-
 			<%-- ${contextPath}/board/list?subCategoryNo=${sc.subCategoryNo}&filter=createDate&searchSelect=&searchValue=&page=0 --%>
 			<!-- 검색 폼 추가 -->
 			<!-- 			<div class="search-form"> -->
@@ -75,7 +53,6 @@
 			<!-- 					<button type="submit">검색</button> -->
 			<!-- 				</form> -->
 			<!-- 			</div> -->
-
 			 <div class="search-form">
 				<div class="search_form_right">
 					<select id="searchSelect">
@@ -93,7 +70,6 @@
 					</select>
 				</div>
 		    </div>
-
 			<div class="board_list_wrap">
 				<div class="board_list">
 					<div class="top">
@@ -104,7 +80,6 @@
 						<div class="date">작성일</div>
 						<div class="count">조회</div>
 					</div>
-
 					<c:forEach var="board" items="${boardList.content}" varStatus="status">
 						<div id="boardDetailDiv" onclick="boardDetail(${board.postNo})">
 							<div class="num">${board.postNo}</div>
@@ -122,21 +97,17 @@
 							<div class="count">${board.hitsNo}</div>
 						</div>
 					</c:forEach>
-
 				</div>
-				
 				<div class="insert-area">
 	                <a href="${pageContext.request.contextPath}/write?bigCategoryNo=${bigCategoryNo}&subCategoryNo=${subCategoryNo}&type=1">
 	                    <button id="insertButton"class="comment-buttons">게시글 등록하기</button>
 	                </a>
             	</div>
-            	
 				<div class="board_page">
 					<c:if test="${boardList.number > 0}">
 						<a href="${contextPath}/board/list?page=${boardList.number - 1}&subCategoryNo=${subCategoryNo}"
 							class="bt prev">&lt;</a>
 					</c:if>
-
 					<c:forEach begin="0" end="${boardList.totalPages - 1}" var="pageNum">
 					    <c:if test="${pageNum >= boardList.number - 5 && pageNum <= boardList.number + 5}">
 					        <a href="${contextPath}/board/list?page=${pageNum}&subCategoryNo=${subCategoryNo}"
@@ -144,20 +115,15 @@
 					        </a>
 					    </c:if>
 					</c:forEach>
-
-
 					<c:if test="${boardList.number + 1 < boardList.totalPages}">
 						<a href="${contextPath}/board/list?page=${boardList.number + 1}&subCategoryNo=${subCategoryNo}"
 							class="bt next">&gt;</a>
 					</c:if>
 				</div>
-				
 			</div>
 		</div>
 	</main>
-
 	<jsp:include page="../../common/footer.jsp" />
-
 	<script>
 	function boardSearch() {
 	    var searchSelect = $('#searchSelect').val();
@@ -182,8 +148,6 @@
     function boardDetail(postNo) {
     	location.href = "${contextPath}/board/community/detail/" + postNo;
 	}
-	
-
 	</script>
 </body>
 </html>
