@@ -78,18 +78,16 @@
 	</update>
 
 	<!--첨부파일삭제 -->
-	<delete id="deleteAttach">
-		DELETE FROM ATTACHMENT
-		WHERE REF_BNO = #{boardNo} AND
-		FILE_TYPE = 1
-	</delete>
-
-	<!--이미지삭제 -->
-	<delete id="deleteImage">
-		DELETE FROM IMG_ATTACHMENT
-		WHERE REF_BNO = #{boardNo}
-		AND FILE_TYPE = 1
-	</delete>
+    <delete id="deleteAttach">
+        DELETE FROM ATTACHMENT
+        WHERE REF_BNO = #{boardNo} AND FILE_TYPE = 1
+    </delete>
+    
+    <!--이미지삭제  -->
+    <delete id="deleteImage">
+        DELETE FROM IMG_ATTACHMENT
+        WHERE REF_BNO = #{boardNo} AND IMG_TYPE = 1
+    </delete>
 
 	<!-- 파일삭제-파일리스트출력 -->
 	<select id="fileNameList" resultType="string">

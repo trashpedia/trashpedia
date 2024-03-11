@@ -9,6 +9,8 @@ body {
 	background-color: #FFF;
 }
 
+
+
 /* ------ 타이틀 부분 ------ */
 .practice-section {
     height: 150px;
@@ -57,52 +59,64 @@ body {
 }
 
 .outer{
+	display:block;
 	width:1280px;
 	margin:auto;
 }
 .content{
+
 	margin:auto;
-	/* display: flex; */
 	width:1200px;
 	padding-top:20px;
 	
-}
+	
+}	
 
 .topic{
 	margin-top:60px;
 	margin-left:30px;
+	text-align:center;
+	border-bottom: 4px solid 4fbf4f;
 }
 
 
 .trashList{
 	margin-top:60px;
-	padding-bottom:20px;
+	padding-bottom:40px;
 	display:flex;
+	margin-left:20px;
+	flex-wrap: wrap;
+	margin-bottom:200px;
+	border-bottom:1px solid #d9d9d9;
 }
 
 .trashDiv{
 	display:flex;
-	margin:auto;
+	
 }
 
 .trash{
+	margin-bottom:20px;
 	margin-left:15px;
 	padding:15px;
-/* 	margin:auto; */
-	width:230px;
-	height:310px;
+	width:240px;
+	height:320px;
 	border-radius:20px;
-	border:1px solid #d8d8d8;
+/* 	 */
+	
 }
 .imgArea{
 	margin:auto;
-	width:240px;
+	width:250px;
+	
 }
 
 main img{
 	margin-left:20px;
-	width:190px;
-	height:190px;
+	width:240px;
+	height:240px;
+	border-radius:20px;
+	border:2px solid #d8d8d8;
 }
 
 

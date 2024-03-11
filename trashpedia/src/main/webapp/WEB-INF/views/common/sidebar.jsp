@@ -6,7 +6,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Header</title>
+    <title>adminSidebar</title>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <link rel="stylesheet" href="${contextPath}/resources/css/common/sidebar.css">
 </head>
 <body>
@@ -15,10 +16,20 @@
         <div class="sidebar-item">
             <ul class="sidebar-ul">
                 <li>
+	                 <div class="sidebar-li-main">
+                        <div id="sidebar-title-main" class="sidebar-title">
+	                        <a href="${contextPath}/">
+	                        <SPAN>TRASHPEDIA</SPAN>
+<!-- 	                        <span class="material-symbols-outlined">home</span> -->
+	                        </a>
+                        </div>
+                    </div>
+                </li>
+                <li>
                     <div class="sidebar-li">
                         <div class="sidebar-title">
 	                        <a href="${contextPath}/admin">
-	                        <span class="material-symbols-outlined"> grid_view</span><span>메인</span></a>
+	                        <span class="material-symbols-outlined"> grid_view</span><span>대시보드</span></a>
                         </div>
                     </div>
                 </li>
@@ -47,6 +58,13 @@
                     <div class="sidebar-li">
                         <div class="sidebar-title">
                         <a href="${contextPath}/admin/report"><span class="material-symbols-outlined">data_alert</span><span>신고 관리</span></a>
+                        </div>
+                    </div>
+                </li>
+                  <li>
+                    <div id="sidebar-li-logout" class="sidebar-li-logout">
+                        <div class="sidebar-title">
+                        <a href="${contextPath}/admin/report"><span class="material-symbols-outlined">logout</span><span>logout</span></a>
                         </div>
                     </div>
                 </li>

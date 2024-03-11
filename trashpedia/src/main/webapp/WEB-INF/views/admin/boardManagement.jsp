@@ -11,13 +11,13 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <link rel="stylesheet" href="${contextPath}/resources/css/admin/boardManagement.css">
 </head>
-<jsp:include page="../common/header.jsp"/>
+<%-- <jsp:include page="../common/header.jsp"/> --%>
 <body class="body">
     <jsp:include page="../common/sidebar.jsp"/>
     <div class="content-wrapper">
         <div class="content">
             <div class="practice-section">
-			    <p>게시글 관리</p>
+			    <p id="practice-section-title"><span class="material-symbols-outlined">data_check</span>게시글 관리</p>
 			    <p>board management</p>
 			</div>
 			<section class="content-section">
