@@ -49,13 +49,13 @@
                             <dt>글쓴이</dt>
                             <dd>${b.userName}</dd>
                         </dl>
-                        <dl>
+                        <dl>	
                             <dt>작성일</dt>
                             <dd>${b.createDate}</dd>
                         </dl>
                         <dl>
                             <dt>조회</dt>
-                            <dd>33</dd>
+                            <dd>${b.hits}</dd>
                         </dl>
                     </div>
                     <div class="cont">
@@ -67,13 +67,15 @@
                     <!-- 게시글 작성자만 수정/삭제 가능  -->
 					<c:if test="${b.userName == authentication.userName}">
 						<a href="${contextPath}/update?bigCategoryNo=${b.bigCategoryNo}&subCategoryNo=${b.subCategoryNo}&postNo=${b.postNo}&type=1">
-							<button class="btn-edit">수정</button></a>
-                    	<a href="${contextPath}/board/delete/{postNo}" class="delte">삭제</a>
-                    	<button class="btn-reply" onclick="toggleNestedCommentForm(${comment.commentNo})" data-commentNo="${comment.commentNo}">답글</button>
-                    	
+							수정</a>
+<%--                     	<a href="${contextPath}/board/delete/${b.postNo}" +"?boardNo="+${b.boardNo}" class="delte">삭제</a> --%>
+<%--                     	<a href="${contextPath}/board/delete/${b.postNo}?bigCategoryNo=${b.bigCategoryNo}&subCategoryNo=${b.subCategoryNo}" class="delte">삭제</a> --%>
+						<button onclick="confirmDelete(${b.postNo}, ${b.boardNo})">삭제</button>
 					</c:if>
                 </div>
             </div>
+                                	
+            
             <div class="reply-outer">
 				<div class="reply-outer-top-area">
 					<span class="reply_title"> 댓글 </span> | <span class="reply_count"
@@ -124,6 +126,15 @@
   		const loginUser = `${authentication}`;
 		const loginUserNo = `${authentication.userNo}`;
   		
+		 // 게시글삭제확인
+	    function confirmDelete(postNo, boardNo, bigCategoryNo, subCategoryNo) {
+	        var result = confirm("게시글을 삭제하시겠습니까?");
+	        if (result) {
+	            var deleteUrl = "${contextPath}/board/delete/" + postNo + "?boardNo=" + boardNo;
+	            window.location.href = deleteUrl;
+	        } 
+	    }
+		
 
 	    // 댓글 목록 조회 및 표시
 		function selectCommentList(){
@@ -221,7 +232,7 @@
 		                    commentsHtml += "<div class='nested-comment-date'>" + nComment.modifyDate + "</div>"; // 대댓글 날짜
 		                    commentsHtml += "<div class='nested-comment-content'>" + nComment.content + "</div>"; // 대댓글 내용
 		                    commentsHtml += "<div class='nested-comment-actions'>"; // 대댓글 액션 버튼들
-		                    commentsHtml += "<button onclick='editNC(" + nComment.nestedCommentNo + ")' class='btn-edit-nc'>수정</button>";
+// 		                    commentsHtml += "<button onclick='editNC(" + nComment.nestedCommentNo + ")' class='btn-edit-nc'>수정</button>";
 		                    commentsHtml += "<button onclick='deleteNC(" + nComment.nestedCommentNo + ")' class='btn-delete-nc'>삭제</button>";
 		                    commentsHtml += "</div>"; // nested-comment-actions div 종료
 		                    commentsHtml += "</div>"; // nested-comment div 종료
