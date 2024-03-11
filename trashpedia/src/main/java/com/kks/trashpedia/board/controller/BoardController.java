@@ -35,7 +35,6 @@ import com.kks.trashpedia.pledge.model.service.PledgeService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -119,7 +118,6 @@ public class BoardController {
 		ModelAndView mav = new ModelAndView();
 		// 글내용 조회
 		Post post = service.getFreeTrashDetail(postNo);
-		service.updateHits(postNo);
 		Board b = new Board();
 
 		// 이미지,첨부파일,카테고리
@@ -179,7 +177,7 @@ public class BoardController {
 																												// Pageable
 																												// 객체 생성
 
-			List<Post> boardFreeTrashList = service.getFreeTrashList(subCategoryNo, customPageable, page); // 인기 쓰레기 정보 가져오기
+			List<Post> boardFreeTrashList = service.getFreeShareList(subCategoryNo, customPageable, page); // 인기 쓰레기 정보 가져오기
 			List<Post> boardFreeTrashTotalList = service.getFreeTrashTotalList(subCategoryNo); // 인기 쓰레기 정보 전부 가져오기
 
 			int totalPages = (int) Math.ceil((double) boardFreeTrashTotalList.size() / pageSize); // 전체 페이지 수 계산

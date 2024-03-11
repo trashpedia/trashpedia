@@ -88,7 +88,7 @@ public class TrashController {
 		
 		List<TrashBigCategory> bigCategoryList = service.getAllBigCategoryList();
 		List<TrashSubCategory> subCategoryList = service.getAllSubCategoryList();
-		List<Trash> trash = service.getAllTrashList();
+		List<Trash> trash = service.getAllTrashList(map);
 		
 		mav.addObject("bigCategory",bigCategoryList);
 		mav.addObject("subCategory",subCategoryList);
