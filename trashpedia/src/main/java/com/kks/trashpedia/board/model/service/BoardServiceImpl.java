@@ -143,14 +143,4 @@ public class BoardServiceImpl implements BoardService{
 	public int deleteNC(int nCommentNo) {
 		return dao.deleteNC(nCommentNo); //삭제
 	}
-
-	@Override
-	public int updateHits(int postNo) {
-		return dao.updateHits(postNo);
-	}
-
-
-
-	
-	
 }
