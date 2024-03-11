@@ -171,7 +171,7 @@ public class MemberController {
 	}
 	
 	@PostMapping("/socialJoin")
-	public ModelAndView joinSocialMember(Member m, Long socialId, String socialType) {
+	public ModelAndView joinSocialMember(HttpSession session, Member m, String socialId, String socialType) {
 		System.out.println(m);
 		ModelAndView mav = new ModelAndView();
 		String encodedPassword = passwordEncoder.encode(m.getUserPwd());
@@ -180,13 +180,12 @@ public class MemberController {
 		int result = service.joinSocialMember(m, socialId, socialType);
 
 		if (result > 0) {
-			mav.addObject("alert", "회원가입에 성공했습니다");
+			session.setAttribute("alert", "회원가입에 성공했습니다");
 			mav.setViewName("redirect:/login");
 		} else {
-			mav.addObject("alert", "회원가입에 실패했습니다");
+			session.setAttribute("alert", "회원가입에 실패했습니다");
 			mav.setViewName("redirect:/join");
 		}
 		return mav;
 	}
-
 }

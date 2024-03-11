@@ -6,7 +6,7 @@ import lombok.ToString;
 @Getter
 @ToString
 public class KakaoUserInfoResponse {
-	private Long id;
+	private String id;
 	private Boolean has_signed_up;
 	private String connected_at;
 	private String synched_at;

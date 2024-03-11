@@ -79,7 +79,7 @@ public class MemberServiceImpl implements MemberService{
 	}
 
 	@Override
-	public int joinSocialMember(Member m, Long socialId, String socialType) {
+	public int joinSocialMember(Member m, String socialId, String socialType) {
 		return dao.joinSocialMember(m, socialId, socialType);
 	}
 

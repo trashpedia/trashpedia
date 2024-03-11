@@ -94,14 +94,15 @@ input[type="button"] {
 }
 
 .sidebar-wrapper {
-    position: fixed;
+/*     position: fixed; */
+	position : absolute;
     left: 0;
     height: 100%
 }
 
 .sidebar {
+	min-height : 100%;
     height: 100%;
-/*     box-shadow: 1px 1px 4px #c0c0c0; */
     background: #f1f1f1;
 	background-color: #f9f9f9;
 	background-color: rgb(260, 260, 260, 0.8);
@@ -119,7 +120,6 @@ input[type="button"] {
 }
 
 .sidebar:hover{
-/* 	transform: translate(-10px, 0); */
 	z-index : 999;
 }
 
@@ -136,7 +136,7 @@ input[type="button"] {
 }
 #sidebar-li-logout {
 	position: relative;
-	top : 500px;
+	top :475px;
 	left : 10px;
 }
 #sidebar-li-logout span{
@@ -183,7 +183,6 @@ input[type="button"] {
 /* 	background-color: #e6e6e6; */
 	background-image: linear-gradient(to bottom, #f8fcff, #f4f0f0);
 	background-repeat: repeat-x;
-/* 	border-right : 3px solid  #3fad3f; */
 }
 .sidebar-li:hover span{
 	color : #0b5fac;

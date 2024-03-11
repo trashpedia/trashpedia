@@ -19,23 +19,22 @@ import com.kks.trashpedia.board.model.vo.SubCategory;
 
 public interface BoardService {
 	/* 페이징 */
-	Page<Board> boardList(int subCategoryNo, Pageable pageable, int page, String filter, String searchSelect,
-			String searchValue);
+	Page<Board> boardList(int subCategoryNo, Pageable pageable, int page, String filter, String searchSelect, String searchValue);
 
 	/* 게시판 상세 */
-	Post boardDetail(int postNo);
+	Board boardDetail(int boardNo);
 
 	/* 카테고리 */
-	List<BigCategory> bigCategory();
-	List<SubCategory> subCategory();
-	List<Post> categoryList();
+	List<BigCategory> allBigCategory();
+	List<SubCategory> allSubCategory();
+	List<Board> allBoardList();
 	
-	// 무료 페이지
-	List<Post> getFreeShareList(int subCategoryNo, Pageable pageable, int page);
+	SubCategory getSubCategoryNo(Post p);
+	
+	int deleteBoard(Post p);
+	
 	ImgAttachment getImageUrl(int boardNo, int imgType);
-	String getTrashTitleByboardNo(int boardNo);
-	String getTrashContentByboardNo(int boardNo);
-	// 무료 페이지
+	Attachment getDetailAttach(int boardNo, int fileType);
 
 	// 무료 상세 페이지
 	Post getFreeTrashDetail(int boardNo);
@@ -43,14 +42,13 @@ public interface BoardService {
 	String getTrashCreateByboardNo(int boardNo);
 	Date getTrashViewsByboardNo(int boardNo);
 
-	Attachment getDetailAttach(int boardNo);
+	
 
 	void increaseCount(Hits hits);
 
 	Post getPostByTitle(String title);
 
-	Page<Post> loadListData(Pageable pageable, int page, String sort, String searchSelect, String searchValue,
-			int subCategoryNo);
+	Page<Post> loadListData(Pageable pageable, int page, String sort, String searchSelect, String searchValue, int subCategoryNo);
 
 	/*대댓글*/
 	int insertNC(NestedComment nc); // 삽입
@@ -61,4 +59,5 @@ public interface BoardService {
 	List<Post> getFreeTrashTotalList(int subCategoryNo);
 
 	int increaseUserPoint(int userNo, int amount, String pointContent);
+
 }

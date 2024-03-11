@@ -32,8 +32,8 @@ public class BoardDaoImpl implements BoardDao {
 	private SqlSessionTemplate session;
 
 	@Override
-	public Post boardDetail(int postNo) {
-		return session.selectOne("boardMapper.boardDetail", postNo);
+	public Board boardDetail(int boardNo) {
+		return session.selectOne("boardMapper.boardDetail", boardNo);
 	}
 
 	@Override
@@ -50,19 +50,58 @@ public class BoardDaoImpl implements BoardDao {
 	}
 
 	@Override
-	public List<BigCategory> bigCategory() {
-		return session.selectList("boardMapper.bigCategory");
+	public List<BigCategory> allBigCategory() {
+		return session.selectList("boardMapper.allBigCategory");
 	}
 
 	@Override
-	public List<SubCategory> subCategory() {
-		return session.selectList("boardMapper.subCategory");
+	public List<SubCategory> allSubCategory() {
+		return session.selectList("boardMapper.allSubCategory");
 	}
 
 	@Override
-	public List<Post> categoryList() {
-		return session.selectList("boardMapper.categoryList");
+	public List<Board> allBoardList() {
+		return session.selectList("boardMapper.allBoardList");
 	}
+	
+	@Override
+	public SubCategory getSubCategoryNo(Post p) {
+		return session.selectOne("boardMapper.getSubCategoryNo", p);
+	}
+
+	@Override
+	public int deleteBoard(Post p) {
+		Board b = session.selectOne("boardMapper.getBoard", p);
+		int boardNo = b.getBoardNo();
+		int postNo = p.getPostNo();
+		int result = 0;
+		result = session.update("boardMapper.deleteBoard", boardNo);
+		if(result > 0) {
+			result = session.update("boardMapper.deletePost", postNo);
+		}
+		return result;
+	}
+	
+	@Override
+	public ImgAttachment getImageUrl(int boardNo, int imgType) {
+		Map<String, Object> param = new HashMap<>();
+		param.put("boardNo", boardNo);
+		param.put("imgType", imgType);
+		return session.selectOne("boardMapper.getImageUrl", param);
+	}
+	
+	@Override
+	public Attachment getDetailAttach(int boardNo, int fileType) {
+		Map<String, Object> param = new HashMap<>();
+		param.put("boardNo", boardNo);
+		param.put("imgType", fileType);
+		return  session.selectOne("boardMapper.getDetailAttach", param);
+	}
+	
+	
+	
+	
+	
 	
 	// 무료 페이지
 	@Override
@@ -74,12 +113,6 @@ public class BoardDaoImpl implements BoardDao {
 	    int startRow = pageNum * pageSize;
 	    int endRow = (pageNum + 1) * pageSize;
 
-	    
-	    
-	    System.out.println("pageSize:"+pageSize);
-	    System.out.println("pageNum: "+pageNum);
-	    System.out.println("startRow: "+startRow);
-	    System.out.println("endRow: "+endRow);
 	    
 	    try {
 	        Map<String, Object> parameters = new HashMap<>();
@@ -116,46 +149,8 @@ public class BoardDaoImpl implements BoardDao {
 	}
 	
 	//게시글 상세-이미지
-	@Override
-	public ImgAttachment getImageUrl(int boardNo, int imgType) {
-		try {
-			Map<String, Object> param = new HashMap<>();
-			param.put("boardNo", boardNo);
-			param.put("imgType", imgType);
-			return session.selectOne("boardMapper.getImageUrl", param);
-		} catch (MyBatisSystemException e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
 	
-	//게시글 상세-첨부파일
-	@Override
-	public Attachment getDetailAttach(int boardNo) {
-		return  session.selectOne("boardMapper.getDetailAttach", boardNo);
-	}
 
-	@Override
-	public String getTrashTitleByboardNo(int boardNo) {
-		try {
-			return session.selectOne("boardMapper.getTrashTitleByboardNo()", boardNo);
-		} catch (MyBatisSystemException e) {
-			e.printStackTrace();
-			return null; // 또는 적절한 오류 처리
-		}
-	}
-
-	@Override
-	public String getTrashContentByboardNo(int boardNo) {
-		try {
-			return session.selectOne("boardMapper.getTrashContentByboardNo", boardNo);
-		} catch (MyBatisSystemException e) {
-			// 예외 처리: 로깅하고 사용자에게 오류 메시지 반환
-			e.printStackTrace();
-			return null; // 또는 적절한 오류 처리
-		}
-	}
-	
 	// 무료 상세 페이지
 	@Override
 	public String getTrashWriterByboardNo(int boardNo) {
@@ -250,4 +245,5 @@ public class BoardDaoImpl implements BoardDao {
 		        return 0; 
 		    }
 	}
+
 }
