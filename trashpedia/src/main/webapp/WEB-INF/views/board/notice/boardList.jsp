@@ -44,15 +44,6 @@
 				</c:choose>
 				<p>빠르고 정확한 정보를 안내해드립니다.</p>
 			</div>
-			<%-- ${contextPath}/board/list?subCategoryNo=${sc.subCategoryNo}&filter=createDate&searchSelect=&searchValue=&page=0 --%>
-			<!-- 검색 폼 추가 -->
-			<!-- 			<div class="search-form"> -->
-			<%-- 				<form action="${contextPath}/board/list" method="get"> --%>
-			<%-- 					<input type="hidden" name="subCategoryNo" value="${subCategoryNo}"> --%>
-			<!-- 					<input type="text" name="searchValue" placeholder="검색어를 입력하세요" aria-label="검색"> -->
-			<!-- 					<button type="submit">검색</button> -->
-			<!-- 				</form> -->
-			<!-- 			</div> -->
 			 <div class="search-form">
 				<div class="search_form_right">
 					<select id="searchSelect">
@@ -79,19 +70,15 @@
 						<div class="writer">글쓴이</div>
 						<div class="date">작성일</div>
 						<div class="count">조회</div>
-						
 					</div>
 					<c:forEach var="board" items="${boardList.content}" varStatus="status">
 						<div id="boardDetailDiv" onclick="boardDetail(${board.postNo})">
 							<div class="num">${board.postNo}</div>
 							<div class="title">
-								<p>${fn:substring(board.title, 0, 8)}${fn:length(board.title) > 8 ? '' : ''}
-								</p>
+								<p>${fn:substring(board.title, 0, 8)}${fn:length(board.title) > 8 ? '' : ''}</p>
 							</div>
 							<div class="content">
-								<p>
-									${fn:substring(board.content, 0, 100)}${fn:length(board.content) > 100 ? '...' : ''}
-								</p>
+								<p>${fn:substring(board.content, 0, 100)}${fn:length(board.content) > 100 ? '...' : ''}</p>
 							</div>
 							<div class="writer">${board.userName}</div>
 							<div class="date">${board.createDate}</div>
@@ -128,7 +115,6 @@
 	</main>
 	<jsp:include page="../../common/footer.jsp" />
 	<script>
-	
 	function boardSearch() {
 	    var searchSelect = $('#searchSelect').val();
 	    var searchValue = $('#searchValue').val();
@@ -154,8 +140,6 @@
 	}
     
     
-    
-    
     $('#filter').change(function() {
         var filter = $(this).val();
         $.ajax({
@@ -177,7 +161,6 @@
             }
         });
     });
-
 	</script>
 </body>
 </html>

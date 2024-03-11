@@ -1,9 +1,9 @@
 package com.kks.trashpedia.board.controller;
 
+import java.net.http.HttpRequest;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -33,7 +33,6 @@ import com.kks.trashpedia.board.model.vo.SubCategory;
 import com.kks.trashpedia.pledge.model.service.PledgeService;
 
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 
@@ -48,24 +47,16 @@ public class BoardController {
 	// 게시판 메인페이지 이동
 	@GetMapping("")
 	public ModelAndView boardMain() {
-		List<BigCategory> bc = service.bigCategory();
-		List<SubCategory> sc = service.subCategory();
-		List<Post> post = service.categoryList();
+		List<BigCategory> bc = service.allBigCategory();
+		List<SubCategory> sc = service.allSubCategory();
+		List<Board> board = service.allBoardList();
 		ModelAndView mav = new ModelAndView();
 
 		mav.addObject("bc", bc);
 		mav.addObject("sc", sc);
-		mav.addObject("post", post);
+		mav.addObject("board", board);
 
 		mav.setViewName("board/boardMain");
-		return mav;
-	}
-
-	// 게시글 수정 페이지 이동
-	@GetMapping("/modify")
-	public ModelAndView pledgeModify() {
-		ModelAndView mav = new ModelAndView();
-		mav.setViewName("board/notice/boardModify");
 		return mav;
 	}
 
@@ -73,73 +64,57 @@ public class BoardController {
 	@GetMapping("/searchByTitle")
 	public ModelAndView searchByTitle(@RequestParam String title) {
 		ModelAndView mav = new ModelAndView();
-		Post post = service.getPostByTitle(title); // 제목으로 게시물 조회
+		Post post = service.getPostByTitle(title);
 		if (post != null) {
 			mav.setViewName("pledge/pledgeDetailView");
 		} else {
-			// 게시물이 없을 경우 처리
-			mav.setViewName("errorPage"); // 에러 페이지로 이동하거나 다른 방식으로 처리
+			mav.setViewName("errorPage");
 		}
 		return mav;
 	}
 	
 	@GetMapping("/delete/{postNo}")
-	public ModelAndView boardDelete(Post p, HttpSession session, RedirectAttributes ra
-//			@PathVariable("postNo") int postNo
-			) {
+	public ModelAndView boardDelete(Post p, HttpSession session, RedirectAttributes ra) {
 		ModelAndView mav = new ModelAndView();
-		SubCategory subCategory = pservice.getCategoryNo(p);
-		System.out.println("post : "+p);
+		SubCategory subCategory = service.getSubCategoryNo(p);
 
 		int subCategoryNo = subCategory.getSubCategoryNo();
-		int bigCategoryNo = subCategory.getBigCategoryNo();
 		
-		//게시글삭제- post & board
-		int result1 = pservice.pledgeDeletePost(p);
-		int result2 = pservice.pledgeDeleteBoard(p);
+		int result = service.deleteBoard(p);
 
-		if (result1 * result2 > 0) {
+		if (result > 0) {
 			ra.addFlashAttribute("alert", "게시글이 삭제되었습니다.");
 		} else {
 			ra.addFlashAttribute("alert", "게시글 삭제에 실패했습니다.");
 		}
-
-		mav.setViewName("redirect:/board/list?bigCategoryNo=" + bigCategoryNo + "&subCategoryNo=" + subCategoryNo);
-
+		mav.setViewName("redirect:/board/list?subCategoryNo=" + subCategoryNo);
 		return mav;
 	}
 
 	// 게시글 상세 페이지 이동
-	@GetMapping("/detail/{postNo}")
-	public ModelAndView boardFreeShareDetail(@PathVariable int postNo, HttpServletRequest req, HttpServletResponse res, HttpSession session) {
+	@GetMapping("/detail/{boardNo}")
+	public ModelAndView boardFreeShareDetail(@PathVariable int boardNo, HttpServletRequest req) {
 
 		ModelAndView mav = new ModelAndView();
-		// 글내용 조회
-		Post post = service.getFreeTrashDetail(postNo);
-		Board b = new Board();
-		Post board = service.boardDetail(postNo);
+		Board board = service.boardDetail(boardNo);
 		
 		// 이미지,첨부파일,카테고리
-		ImgAttachment img = service.getImageUrl(post.getBoardNo(), 1);
-		Attachment attach = service.getDetailAttach(post.getBoardNo());
+		ImgAttachment img = service.getImageUrl(board.getBoardNo(), 1);
+		Attachment attach = service.getDetailAttach(board.getBoardNo(), 1);
 		
-		b.setImgAttachment(img);
-		b.setAttachment(attach);
-
-		b.setBoardNo(post.getBoardNo());
-		b.setUserNo(post.getUserNo());
+		board.setImgAttachment(img);
+		board.setAttachment(attach);
 
 		String userIp = (String) req.getSession().getAttribute("ip");
 		Hits hits = new Hits();
 		hits.setUserIp(userIp);
-		hits.setBoardNo(post.getBoardNo());
+		hits.setBoardNo(board.getBoardNo());
 		
 		service.increaseCount(hits);
 
 		mav.addObject("b", board);
 		mav.addObject("attachment", attach);
 		mav.addObject("img", img);
-		mav.addObject("post", post);
 		mav.setViewName("board/notice/boardDetail");
 
 		return mav;
@@ -162,41 +137,13 @@ public class BoardController {
 			@RequestParam(value = "filter", defaultValue = "0") String filter,
 			@RequestParam(value = "searchSelect", required = false) String searchSelect,
 			@RequestParam(value = "searchValue", required = false) String searchValue) {
-		List<BigCategory> bc = service.bigCategory();
-		List<SubCategory> sc = service.subCategory();
-
-		Page<Board> pages = service.boardList(subCategoryNo, pageable, page, filter, searchSelect, searchValue);
-		Board b = new Board();
 
 		ModelAndView mav = new ModelAndView();
-
-		if (subCategoryNo == 4) { // 무료 나눔 게시판
-			int pageSize = 12; // 페이지당 보여줄 항목 수
-			Pageable customPageable = PageRequest.of(page, pageSize, Sort.by("yourSortProperty").descending()); // 새로운
-			
-			List<Post> boardFreeTrashList = service.getFreeShareList(subCategoryNo, customPageable, page); // 인기 쓰레기 정보 가져오기
-			List<Post> boardFreeTrashTotalList = service.getFreeTrashTotalList(subCategoryNo); // 인기 쓰레기 정보 전부 가져오기
-
-			int totalPages = (int) Math.ceil((double) boardFreeTrashTotalList.size() / pageSize); // 전체 페이지 수 계산
-			System.out.println("boardFreeTrashTotalList.size:" + boardFreeTrashTotalList.size());
-			System.out.println("totalPages:" + totalPages);
-
-			// 페이지 번호 및 데이터 전달
-			mav.addObject("pageSize", pageSize); // 페이지당 보여줄 항목 수
-			mav.addObject("totalPages", totalPages); // 총페이지
-			mav.addObject("list", boardFreeTrashList); // 페이지에 표시할 데이터
-			mav.addObject("bigCategoryNo", bc);
-			mav.addObject("subCategoryNo", sc);
-
-	    mav.setViewName("board/freeShare/freeShare"); // 무료 나눔 게시판 뷰 설정
+		Page<Board> pages = service.boardList(subCategoryNo, pageable, page, filter, searchSelect, searchValue);
+		mav.addObject("boardList", pages);
+		if (subCategoryNo == 4) {
+			mav.setViewName("board/freeShare/freeShare");
 		} else {
-			int pageSize = 10;
-			int totalPages = (int) Math.ceil((double) pages.getSize() / pageSize); // 전체 페이지 수 계산
-			mav.addObject("boardList", pages);
-			mav.addObject("totalPages", totalPages);
-
-			mav.addObject("bigCategoryNo", bc);
-			mav.addObject("subCategoryNo", sc);
 			mav.setViewName("board/notice/boardList");
 		}
 		return mav;
@@ -221,21 +168,7 @@ public class BoardController {
 		mav.setViewName("board/suggestion/boardList");
 		return mav;
 	}
-	// 커뮤니티 상세페이지 이동
-	@GetMapping("community/detail/{postNo}")
-	public ModelAndView boardDetail(@PathVariable int postNo,
-			@RequestParam(value = "subCategoryNo", defaultValue = "1") int subCategoryNo) {
-
-//		 	List<Post> board = service.boardDetail(postNo);
-		ModelAndView mav = new ModelAndView();
-		//게시글 상세정보 조회
-		Post board = service.boardDetail(postNo);
-		mav.addObject("b", board);
-		mav.addObject("postNo",postNo);
-		mav.setViewName("board/notice/boardDetail");
-		return mav;
-	}
-
+	
 	// 댓글목록 조회
 	@GetMapping("/selectCommentList")
 	public List<Comment> selectCommentList(Board b) {

@@ -41,8 +41,10 @@ public class Board {
 	
 	private int hits;
 	
-	private int bigCateogoryNo;
+	private int bigCategoryNo;
 	
 	private ImgAttachment imgAttachment; //첨부이미지
 	private Attachment attachment; //첨부파일
+	
+	private String changeName;
 }

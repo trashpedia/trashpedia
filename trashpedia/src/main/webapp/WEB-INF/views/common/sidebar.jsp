@@ -11,6 +11,12 @@
     <link rel="stylesheet" href="${contextPath}/resources/css/common/sidebar.css">
 </head>
 <body>
+<c:if test="${not empty alert}">
+		<script>
+		    alert("${alert}");
+		</script>
+		<c:remove var="alert" />
+	</c:if>
 <div class="sidebar-wrapper">
     <div class="sidebar">
         <div class="sidebar-item">

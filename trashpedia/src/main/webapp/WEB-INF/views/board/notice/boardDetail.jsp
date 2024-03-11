@@ -3,43 +3,29 @@
 <c:set var="contextPath" value="<%=request.getContextPath() %>"/>
 <c:set var="subCategoryNo" value="${param.subCategoryNo}" />
 <c:set var="bigCategoryNo" value="${param.bigCategoryNo}" />
-<c:set var="postNo" value="${param.postNo}"/>
+<c:set var="boardNo" value="${param.boardNo}"/>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>공지사항</title>
+    <title>board detail</title>
     <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css" />
     <link rel="stylesheet" href="${contextPath}/resources/css/board/boardDetail.css">
-	<!-- jQuery -->
-	<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
-
-
 <body>
-
     <jsp:include page="../../common/header.jsp" />
-
     <main class="board_html">   
-
-         <!-- 타이틀 부분-->
          <div class="practice-section">
             <p>커뮤니티</p>
             <p>Reduce Reuse Recycle Recovery</p>
         </div>
-  
-        <!--view-->
         <div class="board_wrap">
-            <div class="board_title">
-                <strong>상세게시글</strong>
-                <p></p>
-            </div>
+            <div class="board_title"><strong>상세게시글</strong></div>
             <div class="board_view_wrap">
                 <div class="board_view">
-                    <div class="title">
-                        ${b.title}
-                    </div>
+                    <div class="title">${b.title}</div>
                     <div class="info">
                         <dl>
                             <dt>번호</dt>
@@ -58,19 +44,13 @@
                             <dd>${b.hits}</dd>
                         </dl>
                     </div>
-                    <div class="cont">
-                       ${b.content}
-                    </div>
+                    <div class="cont">${b.content}</div>
                 </div>
                 <div class="bt_wrap">
                     <a href="${contextPath}/board/list?bigCategoryNo=1&subCategoryNo=${b.subCategoryNo}" class="on">목록</a>
-                    <!-- 게시글 작성자만 수정/삭제 가능  -->
 					<c:if test="${b.userName == authentication.userName}">
-						<a href="${contextPath}/update?bigCategoryNo=${b.bigCategoryNo}&subCategoryNo=${b.subCategoryNo}&postNo=${b.postNo}&type=1">
-							수정</a>
-<%--                     	<a href="${contextPath}/board/delete/${b.postNo}" +"?boardNo="+${b.boardNo}" class="delte">삭제</a> --%>
-<%--                     	<a href="${contextPath}/board/delete/${b.postNo}?bigCategoryNo=${b.bigCategoryNo}&subCategoryNo=${b.subCategoryNo}" class="delte">삭제</a> --%>
-						<button onclick="confirmDelete(${b.postNo}, ${b.boardNo})">삭제</button>
+						<a href="${contextPath}/update?subCategoryNo=${b.subCategoryNo}&postNo=${b.postNo}&type=1">수정</a>
+						<button onclick="confirmDelete(${b.postNo})">삭제</button>
 					</c:if>
                 </div>
             </div>
@@ -78,18 +58,13 @@
             
             <div class="reply-outer">
 				<div class="reply-outer-top-area">
-					<span class="reply_title"> 댓글 </span> | <span class="reply_count"
-						id="rcount">224</span>
+					<span class="reply_title"> 댓글 </span> | <span class="reply_count" id="rcount">224</span>
 				</div>
-
-				<!-- 댓글 작성 -->
 				<div class="comment-section">
 					<textarea class="comment-input" name="replyContent" id="replyContent" rows="2" cols="50"
 						style="resize: none; width: 100%;" placeholder="댓글을 입력하세요"></textarea>
 					<button class="comment-button" onclick="insertComment()">등록</button>
 				</div>
-		
-
 				<div class="reply-outer-content-area">
 					<div class="reply-area" id="replyArea">
 					    <div class="reply-table-title">
@@ -103,42 +78,26 @@
 					        </div>
 					    </div>
 					</div>
-
 				</div>
 			</div>
         </div>
-
-        
-
     </main>
      <jsp:include page="../../common/footer.jsp" />
-
      <script>
-  // 게시글삭제확인
-//  	    function confirmDelete(postNo, boardNo, bigCategoryNo, subCategoryNo) {
-// 	        var result = confirm("게시글을 삭제하시겠습니까?");
-// 	        if (result) {
-// 	            var deleteUrl = "${contextPath}/pledge/delete/" + postNo + "?boardNo=" + boardNo;
-// 	            window.location.href = deleteUrl;
-// 	        } 
-// 	    } 
-	
   		const loginUser = `${authentication}`;
 		const loginUserNo = `${authentication.userNo}`;
   		
 		 // 게시글삭제확인
-	    function confirmDelete(postNo, boardNo, bigCategoryNo, subCategoryNo) {
+	    function confirmDelete(postNo) {
 	        var result = confirm("게시글을 삭제하시겠습니까?");
 	        if (result) {
-	            var deleteUrl = "${contextPath}/board/delete/" + postNo + "?boardNo=" + boardNo;
+	            var deleteUrl = "${contextPath}/board/delete/" + postNo;
 	            window.location.href = deleteUrl;
 	        } 
 	    }
-		
 
 	    // 댓글 목록 조회 및 표시
 		function selectCommentList(){
-	    	
 		    $.ajax({
 		        url: "${contextPath}/board/selectCommentList",
 		        data: { boardNo: ${b.boardNo} },
@@ -167,7 +126,6 @@
 		                commentsHtml += "</div>"; // nested-comments-cell div 종료
 
 		                // 대댓글 목록 표시 영역 추가
-		                
 		                commentsHtml += "<div class='nested-comments-list' id='nestedCommentsList" + comment.commentNo + "' style='display: none;'>  </div>"; // nested-comments-list div 종료
 		            }
 
@@ -182,7 +140,6 @@
 		}
 		selectCommentList(); // 함수 호출
 		
-
 		// 대댓글 보기 토글 기능
 		function toggleReply(commentNo) {
 		    // 대댓글 목록을 직접 선택합니다.
@@ -203,8 +160,6 @@
 		    }
 		}
 
-
-
 		//대댓글 등록 토글
 		function toggleReplyInput(commentNo) {
 		    var replyInputArea = document.getElementById('replyInputArea' + commentNo);
@@ -215,16 +170,12 @@
 		    }
 		}
 
-
-
-
 		// 대댓글 조회
 		function viewNC(commentNo) {
 		    $.ajax({
 		        url: "${contextPath}/board/viewNC/" + commentNo,
 		        success: function (NCList) {
 		            let commentsHtml = "<div class='nested-comments-container'>"; // 대댓글 목록을 감싸는 div 시작
-
 		            if (NCList && NCList.length > 0) {
 		                for (let nComment of NCList) {
 		                    commentsHtml += "<div class='nested-comment'>"; // 각 대댓글 항목을 위한 div 시작
@@ -250,10 +201,6 @@
 		    });
 		}
 
-		
-		
-		
-		
 		//대댓글 등록
 		function insertNC(commentNo){
 			var content = document.getElementById('nestedCommentContent' + commentNo).value;
@@ -278,7 +225,6 @@
 			})
 		}
 		
-		
 		//대댓글 삭제
 		function deleteNC(nCommentNo) {
 			console.log("대댓글번호 : ",nCommentNo);
@@ -301,11 +247,6 @@
 		        });
 		    }
 		}
-
-
-		
-		
-		
 
 // 	   댓글등록
 	   function insertComment(){
@@ -369,11 +310,9 @@
 	       });
 	   }
 
-	   
 // 	   댓글수정
 	   function updateComment(commentNo, textarea){
 		   let comment = { commentNo, content : textarea.value };
-		   
 		   $.ajax({
 				url: "${contextPath}/board/updateComment/" + commentNo,
 				data : JSON.stringify(comment),
@@ -393,7 +332,6 @@
 		   })
 	   }
 	   
-	   
 // 	   댓글삭제
 	   function deleteComment(commentNo){
 		   if(confirm('댓글을 삭제하시겠습니까?')){
@@ -411,7 +349,6 @@
 			   })
 		   }
 	   }
-	   
     </script>
 </body>
 </html> 

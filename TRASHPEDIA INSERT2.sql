@@ -42,8 +42,8 @@ BEGIN
         c := SEQ_BNO.NEXTVAL;
         INSERT INTO POST VALUES (
             a,
-            '제목입니다' || a,
-            '<h2>게시글 입니다</h2><h1>test</h1><h3><br></h3><h3>test</h3><h4>test</h4><h5>test</h5><h6>test</h6><p>test</p><p><br></p><p><strong>test</strong></p><p><br></p><p><em>test</em></p><p><br></p><p><del>test</del></p><p><br></p><p>test</p><div contenteditable="false"><hr></div><p><br></p><blockquote><p>test</p></blockquote><ul><li><p>test1</p></li><li><p>test2</p></li><li><p>test3</p></li></ul><ol><li><p>tset1</p></li><li><p>test2</p></li></ol><ul><li class="task-list-item checked" data-task="true" data-task-checked="true"><p>test1</p></li><li class="task-list-item" data-task="true"><p>tset2</p></li><li class="task-list-item checked" data-task="true" data-task-checked="true"><p>test3</p></li></ul><table><thead><tr><th><p>번호</p></th><th><p>제목</p></th><th><p>내용</p></th></tr></thead><tbody><tr><td><p>1</p></td><td><p>test</p></td><td><p>test</p></td></tr></tbody></table>',
+            '확인용 게시글입니다',
+            '확인용 게시글 내용입니다.',
             SYSDATE,
             NULL,
             'Y'

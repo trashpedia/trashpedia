@@ -249,19 +249,8 @@ public class AuthServiceImpl implements AuthService{
 	}
 
 	@Override
-	public Member getSocialUser(Long socialId) {
-		return authDao.getSocialUser(socialId, "kakao");
-	}
-
-	@Override
 	public Boolean emailCheck(String userEmail) {
 		return authDao.emailCheck(userEmail);
-	}
-
-	@Override
-	public int joinMemberSocial(String userEmail, Long socialId) {
-		Member m = authDao.getMemberEmail(userEmail);
-		return authDao.joinMemberSocial(m, socialId, "kakao");
 	}
 
 	@Override
@@ -327,13 +316,13 @@ public class AuthServiceImpl implements AuthService{
 	}
 
 	@Override
-	public Member getSocialUser(String id) {
-		return authDao.getSocialUser(id, "naver");
+	public Member getSocialUser(String socialId, String socialType) {
+		return authDao.getSocialUser(socialId, socialType);
 	}
 
 	@Override
-	public int joinMemberSocial(String userEmail, String id) {
+	public int joinMemberSocial(String userEmail, String id, String socialType) {
 		Member m = authDao.getMemberEmail(userEmail);
-		return authDao.joinMemberSocial(m, id, "naver");
+		return authDao.joinMemberSocial(m, id, socialType);
 	}
 }

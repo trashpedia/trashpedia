@@ -37,7 +37,7 @@ public class AuthDao {
 		return session.update("auth.temporaryPwd", param);
 	}
 
-	public Member getSocialUser(Long socialId, String socialType) {
+	public Member getSocialUser(String socialId, String socialType) {
 		Map<String, Object> param = new HashMap<>();
 		param.put("socialId", socialId);
 		param.put("socialType", socialType);
@@ -52,7 +52,7 @@ public class AuthDao {
 		return false;
 	}
 
-	public int joinMemberSocial(Member m, Long socialId, String socialType) {
+	public int joinMemberSocial(Member m, String socialId, String socialType) {
 		Map<String, Object> param = new HashMap<>();
 		param.put("userNo", m.getUserNo());
 		param.put("socialId", socialId);
@@ -62,20 +62,5 @@ public class AuthDao {
 
 	public Member getMemberEmail(String userEmail) {
 		return session.selectOne("auth.getMemberEmail", userEmail);
-	}
-
-	public Member getSocialUser(String id, String socialType) {
-		Map<String, Object> param = new HashMap<>();
-		param.put("socialId", id);
-		param.put("socialType", socialType);
-		return session.selectOne("auth.loadUserByUsernameSocial", param);
-	}
-
-	public int joinMemberSocial(Member m, String id, String socialType) {
-		Map<String, Object> param = new HashMap<>();
-		param.put("userNo", m.getUserNo());
-		param.put("socialId", id);
-		param.put("socialType", socialType);
-		return session.insert("auth.joinMemberSocial", param);
 	}
 }
