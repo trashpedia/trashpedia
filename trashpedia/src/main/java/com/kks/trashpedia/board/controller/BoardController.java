@@ -292,5 +292,15 @@ public class BoardController {
 	public int deleteNC(@PathVariable("nCommentNo") int nCommentNo) {
 		return service.deleteNC(nCommentNo);
 	}
+	
+	// 회원의 댓글작성시 point를 증가시키는 함수
+	@PostMapping("/increaseUserPoint")
+	public ResponseEntity<Integer> increaseUserPoint(@RequestParam int userNo,
+	                                                 @RequestParam int amount,
+	                                                 @RequestParam String pointContent) {
+	    int result = service.increaseUserPoint(userNo, amount, pointContent);
+	    return ResponseEntity.ok(result);
+	}
+
 
 }

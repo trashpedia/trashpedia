@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import com.kks.trashpedia.board.model.vo.Board;
 import com.kks.trashpedia.member.model.vo.Member;
+import com.kks.trashpedia.report.model.vo.Report;
 
 @Repository
 public class MemberDaoImpl implements MemberDao {
@@ -69,16 +70,22 @@ public class MemberDaoImpl implements MemberDao {
 	}
 
 	// 마이페이지
-	// 게시판
+	// 내 게시판
 	@Override
 	public List<Board> pledgeList(int userNo) {
 		return session.selectList("memberMapper.pledgeList", userNo);
 	}
 
-	// 댓글
+	// 내 댓글
 	@Override
 	public List<Board> commentList(int userNo) {
 		return session.selectList("memberMapper.commentList", userNo);
+	}
+	
+	// 내 신고 리스트
+	@Override
+	public List<Report> reportList(int userNo) {
+		return session.selectList("memberMapper.reportList", userNo);
 	}
 
 	@Override
@@ -115,4 +122,6 @@ public class MemberDaoImpl implements MemberDao {
 	public Member getMember(Member m) {
 		return session.selectOne("memberMapper.getMember",m);
 	}
+
+
 }

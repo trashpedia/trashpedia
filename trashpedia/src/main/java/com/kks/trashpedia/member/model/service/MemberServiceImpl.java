@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.kks.trashpedia.board.model.vo.Board;
 import com.kks.trashpedia.member.model.dao.MemberDao;
 import com.kks.trashpedia.member.model.vo.Member;
+import com.kks.trashpedia.report.model.vo.Report;
 
 import lombok.RequiredArgsConstructor;
 
@@ -49,16 +50,22 @@ public class MemberServiceImpl implements MemberService{
 	}
 
 	// 마이페이지 
-	// 게시글
+	// 내 게시글
 	@Override
 	public List<Board> pledgeList(int userNo) {
 		return dao.pledgeList(userNo);
 	}
 
-	// 댓글
+	// 내 댓글 리스트
 	@Override
 	public List<Board> commentList(int userNo) {
 		return dao.commentList(userNo);
+	}
+	
+	// 내 신고 리스트
+	@Override
+	public List<Report> reportList(int userNo) {
+		return dao.reportList(userNo);
 	}
 
 	@Override
@@ -80,4 +87,6 @@ public class MemberServiceImpl implements MemberService{
 	public Member getMember(Member m) {
 		return dao.getMember(m);
 	}
+
+
 }

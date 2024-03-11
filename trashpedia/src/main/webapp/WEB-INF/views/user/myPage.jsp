@@ -33,6 +33,55 @@
 	console.log(authentication);
 // 	console.log(member);
 
+		$(document).ready(function() {
+			// 페이지 로드 시 활동 내역 섹션을 보이도록 설정
+			$("#activityList").show();
+			$("#replyList").show();
+			$("#memberInfo").hide();
+			$("#reportList").hide();
+
+			// 내활동내역탭을 클릭했을 때
+			$("#activityTab").click(function() {
+				$("#activityList").show();
+				$("#replyList").show();
+				$("#memberInfo").hide();
+				$("#reportList").hide();
+			});
+			
+			// 내 신고내역탭을 클릭했을 때
+			$("#reportTab").click(function() {
+				$("#activityList").hide();
+				$("#replyList").hide();
+				$("#memberInfo").hide();
+				$("#reportList").show();
+			});
+			
+			$("#reportDetail").click(function(){
+				$("#activityList").hide();
+				$("#replyList").hide();
+				$("#memberInfo").hide();
+				$("#reportList").show();
+				$("#reportComment").show();
+			});
+
+			// 회원정보 탭을 클릭했을 때
+			$("#memberInfoTab").click(function() {
+				$("#pwdAuth").show();
+				$("#activityList").show();
+				$("#replyList").show();
+				$("#reportList").hide();
+			});
+			
+			$("#reportclose").click(function(){
+				$("#reportComment").hide();
+			});
+			
+			
+			$("#close").click(function(){
+				$("#pwdAuth").hide();
+			});
+		});
+
 // 카테고리
     function getCategoryName(categoryNumber) {
         switch(categoryNumber) {
@@ -55,6 +104,27 @@
             default:
                 return "Unknown";
         }
+    }
+    
+    function boardDetail(postNo, subCategory){
+        switch(subCategory) {
+            case '1':
+            case '2':
+            case '3':
+            case '4':
+                location.href= "${contextPath}/board/community/detail/" + postNo;
+                break;
+            case '5':
+            case '6':
+                location.href= "${contextPath}/pledge/detail/" + postNo;
+                break;
+            case '7':
+            case '8':
+                location.href= "${contextPath}/information/detail/" + postNo;
+                break;
+            default:
+                console.error("Unknown subCategory: " + subCategory);
+        }   
     }
 </script>
 
@@ -113,11 +183,13 @@
 		</div>
 		<ul class="tabs">
 			<li class="tab" id="activityTab">내 활동 내역</a>
+			<li class="tab" id="reportTab">내 신고 내역</a>
 			<li class="tab" id="memberInfoTab">내 정보 수정</a>
 		</ul>
 
 		<!-- 내 게시글 리스트 -->
-		<section id="activityList">
+		<section id="activityList"
+			style="max-height: 800px; overflow-y: auto; scroll-margin-top: 50px;">
 			<h3>활동 내역(내 게시글)</h3>
 			<table>
 				<thead>
@@ -138,7 +210,7 @@
 								<td>${fn:substring(activity.title, 0, 65)}</td>
 								<td>
 									<button class="detailBtn"
-										onclick="pledgeDetail(${activity.postNo})">상세보기</button>
+										onclick="boardDetail(${activity.postNo}, '${activity.subCategoryNo}')">상세보기</button>
 								</td>
 							</tr>
 						</c:forEach>
@@ -154,8 +226,50 @@
 				</tbody>
 			</table>
 		</section>
+
+		<!-- 내 신고 리스트  -->
+		<section id="reportList"
+			style="max-height: 800px; overflow-y: auto; scroll-margin-top: 50px;">
+			<h3>활동 내역(내 댓글)</h3>
+			<table>
+				<thead>
+					<tr>
+						<th>신고일</th>
+						<th>처리일</th>
+						<th>내 신고내용</th>
+						<th>처리내용</th>
+					</tr>
+				</thead>
+				<tbody>
+					<!-- 여기에 활동 내역 데이터를 동적으로 추가하세요. -->
+					<c:if test="${not empty reportList}">
+						<c:forEach var="activity" items="${reportList}">
+							<tr>
+								<td>${activity.reportDate}</td>
+								<td>${activity.processingDate}</td>
+								<td>${fn:substring(activity.reportContent,0,65)}</td>
+								<%-- <td>${fn:substring(activity.processingContent,0,65)}</td> --%>
+								<td><button class="detailBtn" id="reportDetail" style="box-sizing:border"
+										onclick="reportDetail(${activity.processingContent})">상세보기</button></td>
+							</tr>
+						</c:forEach>
+					</c:if>
+					<c:if test="${empty list}">
+						<tr>
+							<td colspan="4">활동 내역이 없습니다.</td>
+						</tr>
+					</c:if>
+
+				</tbody>
+			</table>
+		</section>
+
+
+
+
 		<!-- 댓글리스트  -->
-		<section id="replyList">
+		<section id="replyList"
+			style="max-height: 800px; overflow-y: auto; scroll-margin-top: 50px;">
 			<h3>활동 내역(내 댓글)</h3>
 			<table>
 				<thead>
@@ -175,7 +289,7 @@
 								<td><script>document.write(getCategoryName('${activity.subCategoryNo}'));</script></td>
 								<td>${fn:substring(activity.content,0,65)}</td>
 								<td><button class="detailBtn"
-										onclick="pledgeDetail(${activity.postNo})">상세보기</button></td>
+										onclick="boardDetail(${activity.postNo}, '${activity.subCategoryNo}')">상세보기</button></td>
 							</tr>
 						</c:forEach>
 					</c:if>
@@ -209,7 +323,7 @@
 					<div class="field">
 						<b>비밀번호</b> <input type="password" name="userPwd" class="userpw"
 							id="passwordInput" oninput="updatePasswordNotice()"
-							name="userPwd" placeholder="${userPwd}" value="${userPwd}">
+							name="userPwd" placeholder="${member.userPwd}" value="${member.userPwd}">
 					</div>
 					<div class="field">
 						<div class="title">
@@ -238,7 +352,7 @@
 					</div>
 					<div class="field tel-number">
 						<b>휴대전화</b> <input type="tel" name="phone"
-							placeholder="${member.phone}" value="${phone}">
+							placeholder="${member.phone}" value="${member.phone}">
 					</div>
 					<!-- 주소입력  -->
 					<div class="field address">
@@ -273,6 +387,36 @@
 			</form>
 		</section>
 
+		<!-- 신고내용 / 신고처리내용 인증 Modal -->
+		<div class="modal" id="reportComment" style="hegith: 250px;">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<!-- 					Modal Header -->
+					<div class="modal-header">
+						<h4 class="modal-title">신고처리 내용</h4>
+						<button type="button" class="close" data-dismiss="modal"
+							id="reportclose">&times;</button>
+					</div>
+					<!-- 					Modal body -->
+					<form action="pwdAuth.me" method="post" style="margin-top: 50px;"
+						id="pwdAuth-userPwd">
+
+						<table class="modalTable">
+							<tr>
+						
+
+								<input style="border: 1px solid black; height: 200px" readonly value="${processingContentInput}">
+							</tr>
+						</table>
+						<br>
+
+
+					</form>
+				</div>`
+			</div>
+		</div>
+
+
 		<!-- 		비밀번호 인증 Modal -->
 		<div class="modal" id="pwdAuth" style="hegith: 250px;">
 			<div class="modal-dialog">
@@ -303,6 +447,8 @@
 				</div>
 			</div>
 		</div>
+
+
 	</main>
 
 
@@ -330,12 +476,30 @@
 			$("#activityList").show();
 			$("#replyList").show();
 			$("#memberInfo").hide();
+			$("#reportList").hide();
 
 			// 내활동내역탭을 클릭했을 때
 			$("#activityTab").click(function() {
 				$("#activityList").show();
 				$("#replyList").show();
 				$("#memberInfo").hide();
+				$("#reportList").hide();
+			});
+			
+			// 내 신고내역탭을 클릭했을 때
+			$("#reportTab").click(function() {
+				$("#activityList").hide();
+				$("#replyList").hide();
+				$("#memberInfo").hide();
+				$("#reportList").show();
+			});
+			
+			$("#reportDetail").click(function(){
+				$("#activityList").hide();
+				$("#replyList").hide();
+				$("#memberInfo").hide();
+				$("#reportList").show();
+				$("#reportComment").show();
 			});
 
 			// 회원정보 탭을 클릭했을 때
@@ -343,19 +507,17 @@
 				$("#pwdAuth").show();
 				$("#activityList").show();
 				$("#replyList").show();
+				$("#reportList").hide();
 			});
 			
-			// 회원정보 탭을 클릭했을 때
-// 			$("#pwdAuthCheck").click(function() {
-// 				$("#memberInfo").show();
-// 				$("#activityList").hide();
-// 				$("#pwdAuth").hide();
-// 				$("#replyList").hide();
-// 			});
+			$("#reportclose").click(function(){
+				$("#reportComment").hide();
+			});
+			
 			
 			$("#close").click(function(){
 				$("#pwdAuth").hide();
-			})
+			});
 		});
 	</script>
 
@@ -522,12 +684,16 @@
     });
 	</script>
 
-	<script type="text/javascript">
-		//상세보기 이동
-		function pledgeDetail(postNo){
-        	location.href= "${contextPath}/board/community/detail/${postNo}"+postNo;
-        }	
+	<script>
+ 
+
+    	function reportDetail(processingContent){
+				
+    	   document.getElementById('processingContentInput').value = processingContent;
+    	        
+    	}
 	</script>
+
 
 
 

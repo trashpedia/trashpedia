@@ -12,6 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.kks.trashpedia.board.model.vo.Board;
 import com.kks.trashpedia.member.model.service.MemberService;
 import com.kks.trashpedia.member.model.vo.Member;
+import com.kks.trashpedia.report.model.vo.Report;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -42,11 +43,14 @@ public class MemberController {
 
 			Member member = service.getMember(user); // member  형태로	
 			List<Board> myPost = service.pledgeList(userNo);
+			List<Report> reportList=service.reportList(userNo);
 			List<Board> myComment = service.commentList(userNo);
-
+			
+			
 			mav.addObject("member", member);
 			mav.addObject("authentication", authentication);
 			mav.addObject("myPost", myPost);
+			mav.addObject("reportList", reportList);
 			mav.addObject("myComment", myComment);
 			mav.setViewName("user/myPage");
 		}
