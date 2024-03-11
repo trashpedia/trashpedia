@@ -28,14 +28,12 @@
             </div>
 
             <div class="content-outer">
-
                 <div id="writeBoard-content"></div>
                 <div class="post-buttons">
 					<a href="${contextPath}/pledge/list"><button class="btn-list">목록</button></a>
                     <a href="${contextPath}/pledge/modify"><button class="btn-edit">수정</button></a>
                     <a href=""><button class="btn-delete">삭제</button></a>
                 </div>
-    
             </div>
 
         </div>

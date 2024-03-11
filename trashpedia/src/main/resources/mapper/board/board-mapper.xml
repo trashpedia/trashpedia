@@ -79,7 +79,7 @@
     <!--이미지삭제  -->
     <delete id="deleteImage">
         DELETE FROM IMG_ATTACHMENT
-        WHERE REF_BNO = #{boardNo} AND FILE_TYPE = 1
+        WHERE REF_BNO = #{boardNo} AND IMG_TYPE = 1
     </delete>
 	
 	<!-- 파일삭제-파일리스트출력  -->

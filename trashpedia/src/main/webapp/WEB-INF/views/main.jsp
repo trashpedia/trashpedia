@@ -88,54 +88,73 @@
 		</div>
 		
 
-		<!-- 정보자료글 -->
+		<!-- 정보자료글-홍보교육자료 -->
 		<div class="information-outer showEvent">
-			<a class="information-outer-title" href=""><strong>정보자료글</strong></a> <img
-				src="https://theskinfood.com/design/skinfood/skinfood/images/dev/common-arrow-anchor.png">
+			<a class="information-outer-title" href=""><strong>홍보교육자료</strong>
+				<img src="<c:url value='/resources/image/main/mainImg/common-arrow-anchor.png'/>">
+			</a> 
 
-			<div id="information-content-slider">
-			
-				<div class="information-content-outer">
-					<div class="information-image-outer">
-						<img class="information-image-element"
-							src="https://skinfood.img15.kr/data/content/spec/carrot/carrot_carotene_pad_refill30_570_2.png"
-							height="363">
-					</div>
-					<div class="information-text-outer">
-						<p class="information-title">정보자료글 제목 수정중</p>
-						<p class="information-content">정보자료게시글dlqsldlf 정보자료게시글dlqsldlf
-							정보자료게시글dlqsldlf 정보자료게시글dlqsldlf 정보자료게시글dlqsldlf 수정수정
-							수정해야함
-						</p>
-					</div>
-				</div>
-				<div class="information-content-outer">
-					<div class="information-image-outer">
-						<img class="anibanner_image_element"
-							src="https://skinfood.img15.kr/data/content/spec/carrot/carrot_carotene_pad_refill30_570_2.png"
-							height="36\3">
-					</div>
-					<div class="information-text-outer">
-						<p class="information-title">정보자료글 제목</p>
-						<p class="information-content">정보자료게시글dlqsldlf 정보자료게시글dlqsldlf
-							정보자료게시글dlqsldlf 정보자료게시글dlqsldlf 정보자료게시글dlqsldlf</p>
-					</div>
-				</div>
-				<div class="information-content-outer">
-					<div class="information-image-outer">
-						<img class="anibanner_image_element"
-							src="https://skinfood.img15.kr/data/content/spec/carrot/carrot_carotene_pad_refill30_570_2.png"
-							height="363">
-					</div>
-					<div class="information-text-outer">
-						<p class="information-title">정보자료글 제목</p>
-						<p class="information-content">정보자료게시글dlqsldlf 정보자료게시글dlqsldlf
-							정보자료게시글dlqsldlf 정보자료게시글dlqsldlf 정보자료게시글dlqsldlf</p>
-					</div>
-				</div>
+			<div id="information-content-slider" >
+				<c:choose>
+					<c:when test="${not empty informationList}">
+						<c:forEach var="post" items="${informationList}">
+							<div class="information-content-outer" onclick="informationDetail(${post.postNo})">
+								<div class="information-image-outer">
+									<img class="information-image-element" height="400" src="<c:url value='/resources/attachFile/image/${post.changeName}'/>">
+								</div>
+								<div class="information-text-outer">
+									<p class="information-title">${post.title}</p>
+									<p class="information-content">
+									    <c:out value="${post.content.replaceAll('<.*?>', '').replaceAll('&lt;', '<').replaceAll('&gt;', '>')}" />
+									</p>
+								</div>
+							</div>
+						</c:forEach>
+					</c:when>
+					<c:otherwise>
+						<div class="information-content-outer">
+							<p>게시글이 없습니다.</p>
+						</div>
+					</c:otherwise>
+				</c:choose>
 			</div>
 		</div>
-		
+
+		<!-- 실천인증 슬라이더  -->
+		<div class="pledge-outer recently-outer showEvent" style="background-color : #ebf3d3">
+			<div class="pledge-img-outer">
+				<img src="<c:url value='/resources/image/main/mainImg/자원순환.png' />">
+			</div>
+			<div id="pledge-slider" class="recently-garbage-outer">
+				<p id="pledge-slider-p"> 아래 실천하고 있는 자원순환 서약 이미지를 클릭한 다음 서명에 동참해주세요! </p>
+
+				<div class="recently-garbage-inner">
+					<c:choose>
+						<c:when test="${not empty pledgeCList}">
+							<c:forEach var="post" items="${pledgeCList}">
+								<div class="recently-garbage">
+									<div class="garbage-img-outer">
+										<img class="popular-garbage-img"
+											src="<c:url value='/resources/attachFile/image/${post.changeName}'/>"
+											onclick="pledgeDetail(${post.postNo})">
+									</div>
+								</div>
+							</c:forEach>
+						</c:when>
+						<c:otherwise>
+							<div class="recently-garbage">
+								<p>게시글이 없습니다.</p>
+							</div>
+						</c:otherwise>
+					</c:choose>
+				</div>
+				
+				<div class="mainMoreA">
+					<a href="${contextPath}/pledge/list?bigCategoryNo=2&subCategoryNo=5">더보기</a>
+				</div>
+			</div>
+
+		</div>
 
 
 		<div class="showEvent">
@@ -146,8 +165,6 @@
 		</div>
 
 		<!-- 배경이미지 -->
-<!-- 		<img class="green-img" src="https://www.recycling-info.or.kr/act4r/images/main/main_2023/btmSection.jpg"> -->
-		<!-- <img class="green-img" src="../../image/main/mainImg/greenBackImg.jpg'"> -->
 		<img class="green-img" src="<c:url value='/resources/image/main/mainImg/greenBackImg.jpg' />" alt="Green Background Image">
 		
 		<!-- 공지사항 / 실천서약 -->
@@ -170,136 +187,33 @@
 					</div>
 				</div>
 
-				<!-- 오른쪽: 인스타 게시글 리스트 -->
+				<!-- 오른쪽: 실천인증 게시글 리스트 -->
 				<div id="instagramPostsDiv">
-					<span class="post-title">SNS 실천인증</span> <span class="more-btn">
+					<span class="post-title">자원순환 실천인증</span> <span class="more-btn">
 					 <a href="${contextPath}/pledge/list?bigCategoryNo=2&subCategoryNo=6">더보기</a></span>
 					<div class="instagram-posts-list">
-						<div class="post-container">
-							<img
-								src="https://t-cdn.taglive.net/photo/050192f7bb26a3e1dd7d34c6c4c7afa2/3297760710192953672_63251027837.jpg"
-								alt="Instagram Image"> <span class="insta-logo"> <img
-								class="snsimg"
-								src="https://www.recycling-info.or.kr/act4r/taglive_img/instagram.png"
-								social-name="instagram" alt="instagram">
-							</span>
-							<div class="post-overlay">
-								<p>아침 시간 짬 내어 들린 곳_ 가까운 곳에 이런 공간이 있음에 감사함을 🧡 아이들 책, 내 책 골라
-									담고_ 차 한잔 마시며 사색의 시간을 💚 오늘도 행복 가득 충전_ 아이들과 함께 이 마음 나누기 💛 🌱
-									아이들이 자라는 곳 🌱 🌳책나무_해운대좌동점🌳</p>
-							</div>
-						</div>
-						<div class="post-container">
-							<img
-								src="https://t-cdn.taglive.net/photo/050192f7bb26a3e1dd7d34c6c4c7afa2/3298804392930982370_61814787753.jpg"
-								alt="Instagram Image"> <span class="insta-logo"> <img
-								class="snsimg"
-								src="https://www.recycling-info.or.kr/act4r/taglive_img/instagram.png"
-								social-name="instagram" alt="instagram">
-							</span>
-							<div class="post-overlay">
-								<p>반려동물 키우는 친구에게 공유❤️ 환경까지 생각한 병뚜껑 키링과 함께 귀여운 내 반려동물 사진을 평생
-									볼 수 있다구요🥰 병뚜껑 키링은 반려동물의 털 색과 비슷하게 제작됩니다! (원하시는 색깔로 조합) 하루 사진
-									촬영한다고 하니까 급하게 펌핑한다고 운동하네요 ㅋㅋㅋ 아 나도 운동해야하는데..ㅎ #고양이키링 #업사이클링
-									#업사이클링키링 #키링 #키링추천 #반려동물키링</p>
-							</div>
-						</div>
-						<div class="post-container">
-							<img
-								src="https://t-cdn.taglive.net/photo/050192f7bb26a3e1dd7d34c6c4c7afa2/3298683826808403425_2225123815.jpg"
-								alt="Instagram Image"> <span class="insta-logo"> <img
-								class="snsimg"
-								src="https://www.recycling-info.or.kr/act4r/taglive_img/instagram.png"
-								social-name="instagram" alt="instagram">
-							</span>
-							<div class="post-overlay">
-								<p>[광명업사이클아트센터와 친환경 설 보내기] 설 연휴 첫날인 오늘도 광명업사이클아트센터에 많은
-									관람객분들이 찾아주셨어요. 입장하자마자 뚱땅뚱땅 업사이클 악기에 홀린 아이들과 전시장의 할머니 솜이불 작품을 보며
-									고향을 떠올리는 엄마 아빠의 모습을 볼 수 있었어요. 항상 광명업사이클아트센터를 지켜봐 주시는 인친 여러분들에게
-									친환경 설 보내는 방법을 공유드릴게요.</p>
-							</div>
-						</div>
-						<div class="post-container">
-							<img
-								src="https://t-cdn.taglive.net/photo/050192f7bb26a3e1dd7d34c6c4c7afa2/3297960836188181445_4232363173.jpg"
-								alt="Instagram Image"> <span class="insta-logo"> <img
-								class="snsimg"
-								src="https://www.recycling-info.or.kr/act4r/taglive_img/instagram.png"
-								social-name="instagram" alt="instagram">
-							</span>
-							<div class="post-overlay">
-								<p>Q. 브리타 필터는 어떻게 재활용 되나요? A. 이온교환수지, 초정밀입상활성탄 ▶️ 산업수 처리시설
-									본체(P.P), 그물망 ▶️ 세척과 원료화 작업을 거쳐 재활용됩니다!!</p>
-							</div>
-						</div>
-						<div class="post-container">
-							<img
-								src="https://t-cdn.taglive.net/photo/050192f7bb26a3e1dd7d34c6c4c7afa2/3298016368311745260_56235218013.jpg"
-								alt="Instagram Image"> <span class="insta-logo"> <img
-								class="snsimg"
-								src="https://www.recycling-info.or.kr/act4r/taglive_img/instagram.png"
-								social-name="instagram" alt="instagram">
-							</span>
-							<div class="post-overlay">
-								<p>🌍금손 중학생의 작품🌍 가게에 모인 종이캐리어와 컵홀더가 들어오는 것 대비 순환이 안 되어서
-									고민이던 차에 가져가시겠다고 하셨어요! 흔쾌히 드렸는데 이렇게 DM을 받았습니다😭 캐리어로 종량제봉투 정리는
-									물론 신발정리, 다용도 정리함까지! 그리고 컵홀더로는 고양이 놀이터도 만들어줬어요 금손인 그녀🧡</p>
-							</div>
-						</div>
-						<div class="post-container">
-							<img src="https://via.placeholder.com/200" alt="Instagram Image">
-							<span class="insta-logo"> <img class="snsimg"
-								src="https://www.recycling-info.or.kr/act4r/taglive_img/instagram.png"
-								social-name="instagram" alt="instagram">
-							</span>
-							<div class="post-overlay">
-								<p>게시글 내용</p>
-							</div>
-						</div>
-						<div class="post-container">
-							<img
-								src="https://t-cdn.taglive.net/photo/050192f7bb26a3e1dd7d34c6c4c7afa2/3298804392930982370_61814787753.jpg"
-								alt="Instagram Image"> <span class="insta-logo"> <img
-								class="snsimg"
-								src="https://www.recycling-info.or.kr/act4r/taglive_img/instagram.png"
-								social-name="instagram" alt="instagram">
-							</span>
-							<div class="post-overlay">
-								<p>반려동물 키우는 친구에게 공유❤️ 환경까지 생각한 병뚜껑 키링과 함께 귀여운 내 반려동물 사진을 평생
-									볼 수 있다구요🥰 병뚜껑 키링은 반려동물의 털 색과 비슷하게 제작됩니다! (원하시는 색깔로 조합) 하루 사진
-									촬영한다고 하니까 급하게 펌핑한다고 운동하네요 ㅋㅋㅋ 아 나도 운동해야하는데..ㅎ #고양이키링 #업사이클링
-									#업사이클링키링 #키링 #키링추천 #반려동물키링</p>
-							</div>
-						</div>
-						<div class="post-container">
-							<img
-								src="https://t-cdn.taglive.net/photo/050192f7bb26a3e1dd7d34c6c4c7afa2/3298683826808403425_2225123815.jpg"
-								alt="Instagram Image"> <span class="insta-logo"> <img
-								class="snsimg"
-								src="https://www.recycling-info.or.kr/act4r/taglive_img/instagram.png"
-								social-name="instagram" alt="instagram">
-							</span>
-							<div class="post-overlay">
-								<p>[광명업사이클아트센터와 친환경 설 보내기] 설 연휴 첫날인 오늘도 광명업사이클아트센터에 많은
-									관람객분들이 찾아주셨어요. 입장하자마자 뚱땅뚱땅 업사이클 악기에 홀린 아이들과 전시장의 할머니 솜이불 작품을 보며
-									고향을 떠올리는 엄마 아빠의 모습을 볼 수 있었어요. 항상 광명업사이클아트센터를 지켜봐 주시는 인친 여러분들에게
-									친환경 설 보내는 방법을 공유드릴게요.</p>
-							</div>
-						</div>
-						<div class="post-container">
-							<img
-								src="https://t-cdn.taglive.net/photo/050192f7bb26a3e1dd7d34c6c4c7afa2/3297960836188181445_4232363173.jpg"
-								alt="Instagram Image"> <span class="insta-logo"> <img
-								class="snsimg"
-								src="https://www.recycling-info.or.kr/act4r/taglive_img/instagram.png"
-								social-name="instagram" alt="instagram">
-							</span>
-							<div class="post-overlay">
-								<p>Q. 브리타 필터는 어떻게 재활용 되나요? A. 이온교환수지, 초정밀입상활성탄 ▶️ 산업수 처리시설
-									본체(P.P), 그물망 ▶️ 세척과 원료화 작업을 거쳐 재활용됩니다!!</p>
-							</div>
-						</div>
-
+					
+						<c:choose>
+							<c:when test="${not empty pledgeList}">
+								<c:forEach var="post" items="${pledgeList}">
+									<div class="post-container" onclick="pledgeDetail(${post.postNo})">
+										<img src="<c:url value='/resources/attachFile/image/${post.changeName}'/>" alt="Instagram Image"> 
+											<span class="insta-logo"> 
+											<img class="snsimg" src="https://www.recycling-info.or.kr/act4r/taglive_img/instagram.png"
+											social-name="instagram" alt="instagram">
+										</span>
+									 <div class="post-overlay">
+							            <p><c:out value="${post.content.replaceAll('<.*?>', '').replaceAll('&lt;', '<').replaceAll('&gt;', '>')}" /></p>
+							        </div>
+									</div>
+								</c:forEach>
+							</c:when>
+							<c:otherwise>
+								<div class="post-container">
+									<p>게시글이 없습니다.</p>
+								</div>
+							</c:otherwise>
+						</c:choose>
 					</div>
 				</div>
 
@@ -341,7 +255,7 @@
     
 	    // 슬라이드
 	    $(document).ready(function(){
-	    		//최근 업데이트 된 쓰레기
+	    		//최근 업데이트 된 쓰레기사전
 	            $('#recently-garbage-slider .recently-garbage-inner').slick({
 	                slidesToShow: 4,
 	                slidesToScroll: 1,
@@ -362,6 +276,16 @@
 	                dots: true,
 	                prevArrow: '<div class="custom-prev"></div>',
 	                nextArrow: '<div class="custom-next"></div>'
+	            });
+	          // 자원순환 서약 이미지
+	            $('#pledge-slider .recently-garbage-inner').slick({
+	                slidesToShow: 4,
+	                slidesToScroll: 1,
+	                autoplay: true,
+	                autoplaySpeed: 3000
+// 	                arrows : true,
+// 	                prevArrow: '<div class="custom-prev"></div>',
+// 	                nextArrow: '<div class="custom-next"></div>'
 	            });
 	    });
 	
@@ -389,7 +313,6 @@
 	        	$('html,body').animate({scrollTop:0},600);
 	        	return false;
 	        });
-	        
 	    });
 	    
 
@@ -447,6 +370,23 @@
 	            });
 	        }).scroll();
 	    });
+	    
+	    
+	    // 쓰레기사전 상세페이지로 이동
+	    function trashDetail(trashNo) {
+	     	location.href = "${contextPath}/trash/detail?trashNo=" + trashNo;
+	    }
+	    
+	    // 홍보교육자료 상세보기페이지 이동
+	    function informationDetail(postNo) {
+	    	location.href = "${contextPath}/information/detail/" + postNo;
+    	}
+	    
+	    // 상세페이지 이동
+	    function pledgeDetail(postNo) {
+	    	location.href = "${contextPath}/pledge/detail/" + postNo;
+    	}
+	    
 	    
 	    
     </script>
