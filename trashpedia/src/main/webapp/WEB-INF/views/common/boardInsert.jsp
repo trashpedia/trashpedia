@@ -40,7 +40,7 @@
 				<input type="hidden" name="userNo" value="${authentication.userNo}">
 			</div>
 			<div class="content-input-outer">
-				<input name="title" type="text" class="input-title" placeholder="제목을 입력하세요." value="${post.title}" required>
+				<input name="title" type="text" class="input-title" placeholder="제목을 입력하세요." value="${post.title}" maxlength="30" required>
 				<c:if test="${!empty post}">
 					<div class="content-title-outer">
 						<span>작성자</span> <span class="title-count"> ${post.userName}  &nbsp; &nbsp;| </span> 
