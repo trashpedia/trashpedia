@@ -158,7 +158,7 @@
 	        // 스크롤 다운 버튼 
 	        $("#scrollDownButton").click(function() {
 	            $("body, html").animate({ 
-	                scrollTop: 1160 
+	                scrollTop: 950 
 	            }, 1100); 
 	        });
 	        

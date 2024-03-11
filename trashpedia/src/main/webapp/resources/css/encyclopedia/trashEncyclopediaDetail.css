@@ -30,6 +30,7 @@ body {
 main img {
 	width: 500px;
 	height: 500px;
+	margin-right:40px;
 }
 
 .img-area{
@@ -68,8 +69,13 @@ main span {
 	font-size: 15px;
 }
 
+.content{
+	line-height: 1.5;
+	padding:0;
+}
+
 .inner-content-wrapper>div{
-	padding: 30px 0 20px;
+	padding: 20px 0 10px;
 }
 
 .inner-content-wrapper pre{

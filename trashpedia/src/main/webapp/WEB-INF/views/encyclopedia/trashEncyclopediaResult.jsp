@@ -36,116 +36,128 @@
 	src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
 
 <body>
-	<jsp:include page="../common/header.jsp" />
-	<main>
-	    <div class="section-area">
-        	<span> <a href="${contextPath}/information/list?bigCategoryNo=3&subCategoryNo=7">일반쓰레기</a></span>
-        	<span> <a href="${contextPath}/information/list?bigCategoryNo=3&subCategoryNo=8">음식물쓰레기</a></span>
-        	<span> <a href="${contextPath}/information/list?bigCategoryNo=3&subCategoryNo=8">대형폐기물</a></span>
+	 <jsp:include page="../common/header.jsp" />
+    <main>
+        <div class="section-area">
+            <span> <a href="${contextPath}/trash/allList">전체보기</a></span>
+            <span> <a href="#" id="generalTrashLink">일반쓰레기</a></span>
+            <span> <a href="#" id="foodWasteLink">음식물쓰레기</a></span>
+            <span> <a href="#" id="largeWasteLink">대형폐기물</a></span>
         </div>
-		<div class="outer">
-			<%-- 		 <div class="contentBox">
-			<div class="content">
-				<c:forEach var="big" items="${bigCategory}">
-					<div class="">${big.bigCategoryName}</div>
-					<c:forEach var="sub" items="${subCategory}">
-						<c:if test="${big.bigCategoryNo == sub.bigCategoryNo}">
-							<div class="">${sub.subCategoryName}</div>
-							<c:forEach var="trash" items="${trash}">
-								<c:if test="${sub.subCategoryNo == trash.subCategoryNo}">
-									<div class="imgArea" >
-									<img src="<c:url value='/resources/attachFile/image/${trash.changeName}'/>" class="content-img">
-									</div>
-									
-									<div class="trashInfo">
-										<div id="trashNo"><h4>${trash.trashNo}</h4></div>
-										<div id="trashTitle"><h2>${trash.trashTitle}</h2></div>
-									</div>
-								</c:if>
-							</c:forEach>
-						</c:if>
-					</c:forEach>
-				</c:forEach> 
-			</div>
-		</div> --%>
-		
-
-    <div class="content">
-        <c:forEach var="big" items="${bigCategory}">
-            <h1 class="topic">${big.bigCategoryName}</h1>
-            <div class="trashList">
-                <c:forEach var="sub" items="${subCategory}">
-                    <c:if test="${big.bigCategoryNo == sub.bigCategoryNo}">
-                        <c:forEach var="trash" items="${trash}">
-                            <c:if test="${sub.subCategoryNo == trash.subCategoryNo}">
-                                <div class="trash">
-                                    <div class="imgArea">
-                                        <img src="<c:url value='/resources/attachFile/image/${trash.changeName}'/>" class="content-img">
-                                    </div>
-                                    <div class="trashInfo">
-                                        <div id="trashCategory">
-                                            <h5>${big.bigCategoryName} > ${sub.subCategoryName}</h5>
+        <div class="outer">
+            <div class="content">
+                <c:forEach var="big" items="${bigCategory}">
+                    <h1 class="topic">${big.bigCategoryName}</h1>
+                    <div class="trashList" id="trashList_${big.bigCategoryNo}">
+                        <c:forEach var="sub" items="${subCategory}">
+                            <c:if test="${big.bigCategoryNo == sub.bigCategoryNo}">
+                                <c:forEach var="trash" items="${trash}">
+                                    <c:if test="${sub.subCategoryNo == trash.subCategoryNo}">
+                                        <div class="trash">
+                                            <div class="imgArea">
+                                                <img src="<c:url value='/resources/attachFile/image/${trash.changeName}'/>"
+                                                    onclick="trashDetail(${trash.trashNo})">
+                                            </div>
+                                            <div class="trashInfo">
+                                                <div id="trashCategory">
+                                                    <h5>${big.bigCategoryName} > ${sub.subCategoryName}</h5>
+                                                </div>
+                                                <div id="trashNo">
+                                                    <h4>trashNo: ${trash.trashNo}</h4>
+                                                </div>
+                                                <div id="trashTitle">
+                                                    <h2>${trash.trashTitle}</h2>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div id="trashNo">
-                                            <h4>trashNo: ${trash.trashNo}</h4>
-                                        </div>
-                                        <div id="trashTitle">
-                                            <h2>${trash.trashTitle}</h2>
-                                        </div>
-                                    </div>
-                                </div>
+                                    </c:if>
+                                </c:forEach>
                             </c:if>
                         </c:forEach>
-                    </c:if>
+                    </div>
                 </c:forEach>
             </div>
-        </c:forEach>
-    </div>
-</div>
+        </div>
+    </main>
+    <button id="scrollUpButton">
+        <span class="material-symbols-outlined">arrow_upward</span>
+    </button>
 
-	</main>
-	<button id="scrollUpButton">
-		<span class="material-symbols-outlined">arrow_upward</span>
-	</button>
-	
-	<jsp:include page="../common/footer.jsp" />
+    <jsp:include page="../common/footer.jsp" />
 
 	<script>
-		
-	    $(document).ready(function() {
-	        // 스크롤 다운 버튼 
-	        $("#scrollDownButton").click(function() {
-	            $("body, html").animate({ 
-	                scrollTop: 1160 
-	            }, 1100); 
-	        });
-	        
-	        // 상단 이동 버튼
-	        var scrollUpButton = $('#scrollUpButton');
+	$(document).ready(function() {
+	    $("#generalTrashLink").click(function() {
+	        $(".trashList").hide(); // 모든 쓰레기 목록 숨기기
+	        $("#trashList_1").show(); // 일반쓰레기 목록 보이기
 
-	        $(window).scroll(function() {
-	            if ($(this).scrollTop() > 300) {
-	                scrollUpButton.show();
+	        // 대분류 이름 업데이트
+	        $(".topic").each(function() {
+	            if ($(this).next(".trashList").attr("id") === "trashList_1") {
+	                $(this).text("일반쓰레기");
 	            } else {
-	                scrollUpButton.hide();
+	                $(this).text("");
+	            }
+	        });
+	    });
+
+	    $("#foodWasteLink").click(function() {
+	        $(".trashList").hide(); // 모든 쓰레기 목록 숨기기
+	        // 음식물쓰레기 목록 보이기
+	        $("#trashList_2").show();
+
+	        // 대분류 이름 업데이트
+	        $(".topic").each(function() {
+	            if ($(this).next(".trashList").attr("id") === "trashList_2") {
+	                $(this).text("음식물쓰레기");
+	            } else {
+	                $(this).text("");
+	            }
+	        });
+	    });
+
+	    $("#largeWasteLink").click(function() {
+	        $(".trashList").hide(); // 모든 쓰레기 목록 숨기기
+	        // 대형폐기물 목록 보이기
+	        $("#trashList_3").show();
+
+	        // 대분류 이름 업데이트
+	        $(".topic").each(function() {
+	            if ($(this).next(".trashList").attr("id") === "trashList_3") {
+	                $(this).text("대형폐기물");
+	            } else {
+	                $(this).text("");
 	            }
 	        });
 	        
-	        scrollUpButton.click(function(){
-	        	$('html,body').animate({scrollTop:0},500);
-	        	return false;
-	        });
 	        
 	    });
 
-	 
+	    // 대분류 카테고리 링크 클릭 시 이벤트 처리
+	    $(".category-link").click(function() {
+	        var bigCategoryNo = $(this).data("big-category-no"); // 선택한 대분류 카테고리 번호 가져오기
+	        var bigCategoryName = $(this).text(); // 선택한 대분류 카테고리 이름 가져오기
 
-	    //상세페이지로 이동
-	    function trashDetail(trashPostNo) {
-	    	console.log("상세페이지"+trashPostNo);
-	     	location.href = "${contextPath}/trash/trashDetail/" + trashPostNo;
-	    }
-	    
+	        // 대분류 이름 업데이트
+	        $(".topic").text("");
+
+	        // 선택한 대분류 카테고리에 해당하는 쓰레기 목록 보이기
+	        $("#trashList_" + bigCategoryNo).show();
+
+	        // 대분류 이름 업데이트
+	        $(".topic").each(function() {
+	            if ($(this).next(".trashList").attr("id") === "trashList_" + bigCategoryNo) {
+	                $(this).text(bigCategoryName);
+	            }
+	        });
+	    });
+	});
+
+	// 상세페이지로 이동
+	function trashDetail(trashNo) {
+	    location.href = "${contextPath}/trash/detail?trashNo=" + trashNo;
+	}
+	
 	
 	</script>
 </body>
