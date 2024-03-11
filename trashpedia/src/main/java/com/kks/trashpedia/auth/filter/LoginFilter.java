@@ -1,12 +1,15 @@
 package com.kks.trashpedia.auth.filter;
 
 import java.io.IOException;
+import java.util.List;
 
+import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.util.StringUtils;
 
 import com.kks.trashpedia.member.model.vo.Member;
 
@@ -51,7 +54,6 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter{
 	
 	@Override
     protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) {
-		System.out.println("로그인 실패");
 		try {
 			response.sendRedirect(request.getContextPath()+"/login");
 			request.getSession().setAttribute("alert", "로그인에 실패했습니다. 다시 시도해주세요");

@@ -68,7 +68,7 @@
                             <a href="https://www.re.or.kr/comm/searchPickupGISPage.do?enpri_pick_gubun_category1=01#" target="_blank">집앞폐가전수거함</a>
                         </div>
                     </li>
-                    <c:if test="${authentication.role == 'ADMIN'}">
+                    <c:if test="${authentication.role == 'ROLE_ADMIN'}">
 	                    <li id="menu-garbage-collection">
 	                        <div class="header-menu-div">
 	                            <a href="${contextPath}/admin">관리자</a>

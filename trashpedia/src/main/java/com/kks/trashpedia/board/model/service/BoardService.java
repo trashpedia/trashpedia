@@ -10,6 +10,7 @@ import com.kks.trashpedia.board.model.vo.Attachment;
 import com.kks.trashpedia.board.model.vo.BigCategory;
 import com.kks.trashpedia.board.model.vo.Board;
 import com.kks.trashpedia.board.model.vo.Comment;
+import com.kks.trashpedia.board.model.vo.Hits;
 import com.kks.trashpedia.board.model.vo.ImgAttachment;
 import com.kks.trashpedia.board.model.vo.NestedComment;
 import com.kks.trashpedia.board.model.vo.Post;
@@ -28,14 +29,10 @@ public interface BoardService {
 	List<BigCategory> bigCategory();
 	List<SubCategory> subCategory();
 	List<Post> categoryList();
-
-	
-	
-	
 	
 	// 무료 페이지
-	List<Post> getFreeTrashList(int subCategoryNo, Pageable pageable, int page);
-	ImgAttachment getImageUrlByboardNo(int boardNo);
+	List<Post> getFreeShareList(int subCategoryNo, Pageable pageable, int page);
+	ImgAttachment getImageUrl(int boardNo, int imgType);
 	String getTrashTitleByboardNo(int boardNo);
 	String getTrashContentByboardNo(int boardNo);
 	// 무료 페이지
@@ -48,9 +45,7 @@ public interface BoardService {
 
 	Attachment getDetailAttach(int boardNo);
 
-	Date pledgeHitDate(Board b);
-
-	int increaseCount(Board b);
+	void increaseCount(Hits hits);
 
 	Post getPostByTitle(String title);
 
@@ -62,5 +57,6 @@ public interface BoardService {
 	List<NestedComment> viewNC(int commentNo); // 조회
 	List<Comment> selectCommentList(Board b); //commentNo 가져오기
 	int deleteNC(int nCommentNo); // 삭제
+
 
 }

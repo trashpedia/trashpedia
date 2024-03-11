@@ -11,7 +11,7 @@ import com.kks.trashpedia.board.model.vo.BigCategory;
 import com.kks.trashpedia.board.model.vo.Board;
 
 import com.kks.trashpedia.board.model.vo.Comment;
-
+import com.kks.trashpedia.board.model.vo.Hits;
 import com.kks.trashpedia.board.model.vo.ImgAttachment;
 import com.kks.trashpedia.board.model.vo.NestedComment;
 import com.kks.trashpedia.board.model.vo.Post;
@@ -29,12 +29,10 @@ public interface BoardDao {
 
 	List<Post> categoryList();
 	
-	
-	
 	/* 무료나눔 */
 	List<Post> getFreeTrashList(int subCategoryNo,Pageable pageable, int page);
 
-	ImgAttachment getImageUrlByboardNo(int boardNo);
+	ImgAttachment getImageUrl(int boardNo, int imgType);
 
 	String getTrashTitleByboardNo(int boardNo);
 
@@ -50,20 +48,15 @@ public interface BoardDao {
 
 	Attachment getDetailAttach(int boardNo);
 
-	Date pledgeHitDate(Board b);
-
-	int increaseCount(Board b);
+	void increaseCount(Hits hits);
 
 	Post getPostByTitle(String title);
 
-	Page<Post> loadListData(Pageable pageable, int page, String sort, String searchSelect, String searchValue,
-			int subCategoryNo);
+	Page<Post> loadListData(Pageable pageable, int page, String sort, String searchSelect, String searchValue, int subCategoryNo);
 
 	/*대댓글*/
 	int insertNC(NestedComment nc); // 삽입
 	List<NestedComment> viewNC(int commentNo); // 조회
 	List<Comment> selectCommentList(Board b); //commentNo 가져오기
 	int deleteNC(int nCommentNo); //삭제
-	
-
 }

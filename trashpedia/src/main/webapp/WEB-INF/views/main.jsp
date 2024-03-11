@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:set var="contextPath" value="<%=request.getContextPath() %>"/>
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" xmlns:th="https://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -24,7 +24,6 @@
 
 	<div class="backgroundImg">
 		<div class="backgroundImg-black">
-
 			<h2 class="scroll_on type_bottom">TRASHPEDIA</h2>
 			<h4 class="scroll_on type_bottom">잘 버리는 일부터 시작하세요</h4>
 			<h4 class="scroll_on type_bottom">모두를 위한 정보 플랫폼</h4>

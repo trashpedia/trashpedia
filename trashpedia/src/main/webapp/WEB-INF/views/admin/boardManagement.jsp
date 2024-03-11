@@ -214,7 +214,7 @@
 	                    } else if (endpoint === 'announcement') {
 	                    	updateAnnouncementTable(data.content);
 	                    }
-	                    updatePagination(data, endpoint, searchSelect, searchValue);
+	                    updatePagination(data, endpoint, filterValue, searchSelect, searchValue);
 	                }
 	            },
 	            error: function(xhr, status, error) {
@@ -223,14 +223,14 @@
 	        });
 	    }
 	    
-	    function updatePagination(data, endpoint, searchSelect, searchValue) {
+	    function updatePagination(data, endpoint, filterValue, searchSelect, searchValue) {
 	        let pagingClass = '.' + endpoint.toLowerCase() + '-pageBar';
 	        let userPaging = document.querySelector(pagingClass);
 	        let pagination = '';
 	        
 	        if (!data.empty) {
 	            if (!data.first) {
-	                pagination += '<div onclick="getDataList(\'' + endpoint + '\',' + (data.number - 1) + ',\'' + boardFilterValue + '\',\'' + searchSelect + '\',\'' + searchValue + '\')">이전</div>';
+	                pagination += '<div onclick="getDataList(\'' + endpoint + '\',' + (data.number - 1) + ',\'' + filterValue + '\',\'' + searchSelect + '\',\'' + searchValue + '\')">이전</div>';
 	            }
 	            for (let i = 0; i < data.totalPages; i++) {
 	                if (i >= data.number - 5 && i <= data.number + 5) {
@@ -238,11 +238,11 @@
 	                    if (i === data.number) {
 	                        pagination += ' class="active"';
 	                    }
-	                    pagination += ' onclick="getDataList(\'' + endpoint + '\',' + i + ',\'' + boardFilterValue + '\',\'' + searchSelect + '\',\'' + searchValue + '\')">' + (i + 1) + '</div>';
+	                    pagination += ' onclick="getDataList(\'' + endpoint + '\',' + i + ',\'' + filterValue + '\',\'' + searchSelect + '\',\'' + searchValue + '\')">' + (i + 1) + '</div>';
 	                }
 	            }
 	            if (!data.last) {
-	                pagination += '<div onclick="getDataList(\'' + endpoint + '\',' + (data.number + 1) + ',\'' + boardFilterValue + '\',\'' + searchSelect + '\',\'' + searchValue + '\')">다음</div>';
+	                pagination += '<div onclick="getDataList(\'' + endpoint + '\',' + (data.number + 1) + ',\'' + filterValue + '\',\'' + searchSelect + '\',\'' + searchValue + '\')">다음</div>';
 	            }
 	        }
 	        userPaging.innerHTML = pagination;

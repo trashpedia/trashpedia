@@ -2,8 +2,10 @@ package com.kks.trashpedia.trash.model.service;
 
 import java.util.List;
 
+import com.kks.trashpedia.trash.model.vo.Request;
 import com.kks.trashpedia.trash.model.vo.Trash;
 import com.kks.trashpedia.trash.model.vo.TrashBigCategory;
+import com.kks.trashpedia.trash.model.vo.TrashHits;
 import com.kks.trashpedia.trash.model.vo.TrashPost;
 import com.kks.trashpedia.trash.model.vo.TrashSubCategory;
 
@@ -22,10 +24,10 @@ public interface TrashService {
 	List<TrashPost> getSimilarList(int trashNo);
 
 	//대분류
-	List<TrashBigCategory> getBigCategoryList();
+	List<TrashBigCategory> getAllBigCategoryList();
 
 	//소분류
-	List<TrashSubCategory> getSubCategoryList();
+	List<TrashSubCategory> getAllSubCategoryList();
 
 	//쓰레기 리스트
 	List<Trash> getAllTrashList();
@@ -34,4 +36,17 @@ public interface TrashService {
 
 	int writeTrash(TrashPost tp, TrashSubCategory tsc, int userNo);
 
+	int deleteTrash(int trashNo);
+
+	int undeleteTrash(int trashNo);
+
+	int updateTrashPost(Trash trash, TrashPost trashPost);
+
+	int writeRequest(Request r);
+
+	Request getRequest(int requestNo);
+
+	int processingRequest(Request request);
+
+	void upCount(TrashHits trashHits);
 }

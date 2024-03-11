@@ -12,6 +12,6 @@ import lombok.NoArgsConstructor;
 public class Hits {
 	private int hitsNo;
 	private int boardNo;
-	private int userNo;
+	private String userIp;
 	private Date createDate;
 }

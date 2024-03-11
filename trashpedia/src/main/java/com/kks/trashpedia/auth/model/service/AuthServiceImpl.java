@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import com.kks.trashpedia.auth.model.dao.AuthDao;
 import com.kks.trashpedia.auth.model.dto.KakaoUserInfoResponse;
+import com.kks.trashpedia.auth.model.dto.NaverUserInfoResponse;
 import com.kks.trashpedia.auth.model.dto.UserDetail;
 import com.kks.trashpedia.member.model.vo.Member;
 import com.nimbusds.jose.shaded.gson.JsonElement;
@@ -58,11 +59,20 @@ public class AuthServiceImpl implements AuthService{
 
     @Value("${kakao.redirect.uri}")
     private String KAKAO_REDIRECT_URI;
+
+    @Value("${naver.client.id}")
+    private String NAVER_CLIENT_ID;
+    
+    @Value("${naver.client.secret}")
+    private String NAVER_CLIENT_SECRET;
+    
+    @Value("${naver.redirect.uri}")
+    private String NAVER_REDIRECT_URI;
 	
     private String authNum;
     
 	private final AuthDao authDao;
-	private final KakaoUserInfo kakaoUserInfo;
+	private final UserInfo getUserInfo;
 	
 	@Override
 	public UserDetails loadUserByUsername(String userEmail) throws UsernameNotFoundException {
@@ -256,7 +266,74 @@ public class AuthServiceImpl implements AuthService{
 
 	@Override
 	public KakaoUserInfoResponse getKakaoProperties(String access_Token) {
-		KakaoUserInfoResponse userInfo = kakaoUserInfo.getUserInfo(access_Token);
+		KakaoUserInfoResponse userInfo = getUserInfo.getKakaoUserInfo(access_Token);
 		return userInfo;
+	}
+
+	@Override
+	public String naverUrl() {
+		return "https://nid.naver.com/oauth2.0/authorize"
+                + "?client_id=" + NAVER_CLIENT_ID
+                + "&redirect_uri=" + NAVER_REDIRECT_URI
+                + "&response_type=code"
+                + "&state=1234";
+	}
+
+	@Override
+	public String naverGetToken(String code) {
+		String access_Token = "";
+    	String refresh_Token = "";
+    	String reqURL = "https://nid.naver.com/oauth2.0/token";
+    	
+    	try {
+            URL url = new URL(reqURL);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("POST");
+            conn.setDoOutput(true);
+
+            String jsonInputString = "grant_type=authorization_code"
+                + "&client_id=" + URLEncoder.encode(NAVER_CLIENT_ID, "UTF-8")
+                + "&redirect_uri=" + URLEncoder.encode(NAVER_REDIRECT_URI, "UTF-8")
+                + "&client_secret=" + URLEncoder.encode(NAVER_CLIENT_SECRET, "UTF-8")
+                + "&state=1234"
+                + "&code=" + URLEncoder.encode(code, "UTF-8");
+
+            try (OutputStream os = conn.getOutputStream()) {
+                byte[] input = jsonInputString.getBytes("UTF-8");
+                os.write(input, 0, input.length);
+            }
+
+            try (BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"))) {
+                StringBuilder response = new StringBuilder();
+                String responseLine = null;
+                while ((responseLine = br.readLine()) != null) {
+                    response.append(responseLine.trim());
+                }
+
+                JsonElement element = JsonParser.parseString(response.toString());
+                access_Token = element.getAsJsonObject().get("access_token").getAsString();
+                refresh_Token = element.getAsJsonObject().get("refresh_token").getAsString();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return access_Token;
+	}
+
+	@Override
+	public NaverUserInfoResponse getNaverProperties(String access_Token) {
+		NaverUserInfoResponse userInfo = getUserInfo.getNaverUserInfo(access_Token);
+		return userInfo;
+	}
+
+	@Override
+	public Member getSocialUser(String id) {
+		return authDao.getSocialUser(id, "naver");
+	}
+
+	@Override
+	public int joinMemberSocial(String userEmail, String id) {
+		Member m = authDao.getMemberEmail(userEmail);
+		return authDao.joinMemberSocial(m, id, "naver");
 	}
 }

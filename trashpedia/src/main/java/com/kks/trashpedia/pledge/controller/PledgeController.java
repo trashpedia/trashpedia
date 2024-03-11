@@ -1,10 +1,7 @@
 package com.kks.trashpedia.pledge.controller;
 
-import java.sql.Date;
-import java.time.LocalDate;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -22,29 +19,32 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.kks.trashpedia.board.model.service.BoardService;
 import com.kks.trashpedia.board.model.vo.Attachment;
 import com.kks.trashpedia.board.model.vo.Board;
 import com.kks.trashpedia.board.model.vo.Comment;
+import com.kks.trashpedia.board.model.vo.Hits;
 import com.kks.trashpedia.board.model.vo.ImgAttachment;
 import com.kks.trashpedia.board.model.vo.Post;
 import com.kks.trashpedia.board.model.vo.SubCategory;
 import com.kks.trashpedia.member.model.vo.Member;
 import com.kks.trashpedia.pledge.model.service.PledgeService;
 import com.kks.trashpedia.pledge.model.vo.Signature;
-import com.kks.trashpedia.report.model.vo.Report;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/pledge")
 public class PledgeController {
 	
-	@Autowired
-	private PledgeService service;
+	private final PledgeService service;
+	private final BoardService boardService;
 
 	//실천서약 페이지 이동
 	@GetMapping("/list")
@@ -108,69 +108,16 @@ public class PledgeController {
 		
 		b.setImgAttachment(img);
 		b.setAttachment(attach);
-
-		//조회수 증가
-		Member loginUser = (Member)session.getAttribute("authentication");  
-		if(loginUser != null) {
 			
-			int result = 0;
-			
-			b.setUserNo(loginUser.getUserNo());
-			b.setBoardNo(post.getBoardNo());
-			
-			// 처음 조회일 조회 -> LocalDate로 변환
-			Date hitsDate = service.pledgeHitDate(b);
-			
-			// 조회일이 있을 때
-			if(hitsDate !=null) {
-				//조회날짜와 현재날짜 비교
-				LocalDate hitsLocalDate = hitsDate.toLocalDate();
-				LocalDate currentDate = LocalDate.now();
-				int comparisonResult = hitsLocalDate.compareTo(currentDate); // 적으면 -, 같으면 0, 많으면 +값 
-				// 현재날짜보다 조회날짜가 작을 때
-				if(comparisonResult<0) {
-					result = service.increaseCount(b);
-					post.setHitsNo(post.getHitsNo()+1);
-				}
-			}else {
-				result = service.increaseCount(b);
-				post.setHitsNo(post.getHitsNo()+1);
-			}
-		}
-
-		//조회수		
-//		if(post.getUserNo() != userNo) {
-//			Cookie cookie = null;
-//			Cookie[] cArr = req.getCookies();
-//			
-//			if(cArr != null && cArr.length > 0) {
-//				for(Cookie c : cArr) {
-//					if("readBoardNo".equals(c.getName())) {
-//						cookie = c;
-//						break;
-//					}
-//				}
-//			}
-//			int result = 0;
-//			if(cookie == null) {
-//				cookie = new Cookie("readBoardNo", boardNo + "");
-//				result = service.increaseCount(boardNo);
-//			} else {
-//				String[] arr = cookie.getValue().split("/");
-//				List<String> list = Arrays.asList(arr);
-//				if(list.indexOf(boardNo+"") == -1) {
-//					result = service.increaseCount(boardNo);
-//					cookie.setValue(cookie.getValue()+"/"+boardNo);
-//				}
-//			}
-//			if(result>0) {
-//				post.setHitsNo(post.getHitsNo()+1);
-//				cookie.setPath(req.getContextPath());
-//				cookie.setMaxAge(1*60*60); //초기화시간
-//				res.addCookie(cookie);
-//			}
-//		}
+		b.setBoardNo(post.getBoardNo());
 		
+		String userIp = (String) req.getSession().getAttribute("ip");
+		Hits hits = new Hits();
+		hits.setUserIp(userIp);
+		hits.setBoardNo(post.getBoardNo());
+		
+		boardService.increaseCount(hits);
+			
 		mav.addObject("attachment", attach);
 		mav.addObject("img", img);
 		mav.addObject("post", post);

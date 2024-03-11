@@ -84,33 +84,11 @@
     border-radius: 5px;
 }
 
-#go-kakao{
-    background-color: #fbff00;
-    border: none;
-    margin-bottom: 8px;
-    color: rgb(54, 54, 54);
-    font-weight: 700;
-    width: 350px;
-    height: 40px;
-    border-radius: 5px;
-}
-
 .social-login-wrapper{
 	display: flex;
     flex-direction: column;
     align-items: center;
     gap: 10px;
-}
-
-#go-naver{
-    background-color:#00D337;
-    border: none;
-    margin-bottom: 8px;
-    color: rgb(255, 255, 255);
-    font-weight: 700;
-    width: 350px;
-    height: 40px;
-    border-radius: 5px;
 }
 
 main a {
@@ -218,4 +196,8 @@ main a {
     line-height: 15px;
     color: #f45452;
     letter-spacing: -0.025em;
+}
+
+.naver-login{
+	width: 300px;
 }

@@ -81,6 +81,11 @@
         DELETE FROM IMG_ATTACHMENT
         WHERE REF_BNO = #{boardNo} AND FILE_TYPE = 1
     </delete>
+    
+    <delete id="deleteImage2" parameterType="int">
+    	DELETE FROM IMG_ATTACHMENT
+    	WHERE REF_BNO = #{trashNo} AND IMG_TYPE = 2
+    </delete>
 	
 	<!-- 파일삭제-파일리스트출력  -->
 	<select id="fileNameList" resultType="string">
@@ -94,8 +99,6 @@
 		FROM IMG_ATTACHMENT
 	</select>
 	
-	
-
 	<!-- 페이징, 목록, 필터 -->
 	<select id="boardList" resultType="post" parameterType="board">
 		SELECT P.POST_NO, P.TITLE, P.CONTENT, P.CREATE_DATE, P.MODIFY_DATE,
@@ -128,10 +131,7 @@
 				ORDER BY P.CREATE_DATE DESC
 			</when>
 			<when test="filter == 'hitCount'">
-				ORDER BY (SELECT COUNT(*) 
-							FROM HITS 
-							WHERE HITS.BOARD_NO = B.BOARD_NO)
-				DESC
+				ORDER BY (SELECT COUNT(*) FROM HITS WHERE HITS.BOARD_NO = B.BOARD_NO) DESC
 			</when>
 			<otherwise>
 				ORDER BY P.POST_NO DESC
@@ -139,12 +139,23 @@
 		</choose>
 	</select>
 
-
 	<select id="boardCount" resultType="int">
 		SELECT COUNT(*)
-		FROM POST
+		FROM BOARD B
+		LEFT JOIN POST P ON P.POST_NO = B.POST_NO
+		WHERE B.SUB_CATEGORY_NO = #{subCategoryNo} AND P.STATUS = 'Y'
+		<choose>
+			<when test="searchSelect == 'boardNo'">
+				AND B.BOARD_NO = #{searchValue}
+			</when>
+			<when test="searchSelect == 'title'">
+				AND P.TITLE LIKE '%' || #{searchValue} || '%'
+			</when>
+			<when test="searchSelect == 'content'">
+				AND P.CONTENT LIKE '%' || #{searchValue} || '%'
+			</when>
+		</choose>
 	</select>
-
 
 	<!-- 상세페이지 -->
 	<select id="boardDetail" parameterType="int" resultType="post">
@@ -170,9 +181,6 @@
 		SELECT *
 		FROM SUB_CATEGORY
 	</select>
-	
-	
-
 
 	<!-- 카테고리 글목록 리스트 -->
 	<select id="categoryList" resultType="post">
@@ -212,13 +220,8 @@
 		FROM NESTED_COMMENT
 		WHERE NESTED_COMMENT_NO = #{nCommentNo}
 	</delete>
-	
-	
-
-
 
 	<!-- 무료 나눔 페이지 관련 쿼리문 -->
-
 	<!-- 쓰레기 리스트 -->
 	<select id="getFreeTrashList" resultType="Post">
 		SELECT POST_NO, TITLE,
@@ -288,20 +291,17 @@
 	</select>
 
 	<!-- 게시글 상세조회 - 이미지 -->
-	<select id="getImageUrlByboardNo" resultType="imgAttachment"
-		parameterType="int">
+	<select id="getImageUrl" resultType="imgAttachment" parameterType="int">
 		<![CDATA[
 		SELECT *
 		FROM IMG_ATTACHMENT IA
 		JOIN BOARD ON BOARD_NO = REF_BNO
-		WHERE REF_BNO = #{boardNo} AND IA.STATUS='Y'
-
+		WHERE REF_BNO = #{boardNo} AND IMG_TYPE = #{imgType} AND IA.STATUS='Y'
 	    ]]>
 	</select>
 
 	<!-- 게시글 상세조회 - 첨부파일 -->
-	<select id="getDetailAttach" parameterType="int"
-		resultType="Attachment">
+	<select id="getDetailAttach" parameterType="int" resultType="Attachment">
 		SELECT *
 		FROM ATTACHMENT A
 		JOIN BOARD ON BOARD_NO = REF_BNO
@@ -309,29 +309,15 @@
 	</select>
 
 	<!-- 조회일 조회 -->
-	<select id="getHitDate" parameterType="board"
-		resultType="java.sql.Date">
-		SELECT CREATE_DATE
-		FROM (
-		SELECT CREATE_DATE
+	<select id="getHitDate" parameterType="hits" resultType="hits">
+		SELECT *
 		FROM HITS
-		WHERE
-		BOARD_NO = #{boardNo} AND USER_NO = #{userNo}
-		ORDER BY CREATE_DATE DESC
-		)
-		WHERE ROWNUM = 1
+		WHERE BOARD_NO = #{boardNo} AND USER_IP = ${userIp} AND TRUNC(CREATE_DATE) = TRUNC(SYSDATE)
 	</select>
 
 <!-- 	게시글 조회수 증가 -->
-	<insert id="increaseCount" parameterType="board">
+	<insert id="increaseCount" parameterType="hits">
 		INSERT INTO HITS
-		(HITS_NO, BOARD_NO, USER_NO, CREATE_DATE)
-		VALUES (SEQ_HITNO.NEXTVAL,
-		#{boardNo}, #{userNo}, SYSDATE)
+		VALUES(SEQ_HITNO.NEXTVAL, #{boardNo}, #{userIp}, SYSDATE) 
 	</insert>
-
-
-
-
-
 </mapper>

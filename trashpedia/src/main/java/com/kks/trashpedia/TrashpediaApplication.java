@@ -11,5 +11,4 @@ public class TrashpediaApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(TrashpediaApplication.class, args);
 	}
-
 }
