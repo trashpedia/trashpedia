@@ -79,7 +79,7 @@
 	<select id="getMemberList" resultType="member">
 		SELECT USER_NO, USER_EMAIL, USER_NAME, USER_NICKNAME
 		FROM MEMBER
-		WHERE ROLE = 'USER'
+		WHERE ROLE = 'ROLE_USER'
 			<if test="searchSelect == 'userNo'">
 				AND TO_CHAR(USER_NO) LIKE '%' || #{searchValue} || '%'
 			</if>

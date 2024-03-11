@@ -327,7 +327,7 @@
 	            cell3.textContent = data[i].title;
 	            
 	            let cell4 = document.createElement('td');
-	            cell4.textContent = data[i].hit;
+	            cell4.textContent = data[i].hits;
 
 	            let cell5 = document.createElement('td');
 	            cell5.textContent = data[i].createDate;
@@ -403,7 +403,7 @@
 	            cell5.textContent = data[i].createDate;
 	            
 	            let cell6 = document.createElement('td');
-	            cell6.textContent = data[i].nestedCommentNo;
+	            cell6.textContent = data[i].modifyDate;
 
 	            let cell7 = document.createElement('td');
 	            cell7.textContent = data[i].status;
