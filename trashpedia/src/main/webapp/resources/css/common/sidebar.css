@@ -14,8 +14,6 @@ li{ list-style-type: none; }
     padding: 0;
     display: flex;
     font-family: 'Noto Sans KR', sans-serif;
-    /*     background-color: #f0f0f0; */
-/*     background-color: #f2fafd; */
     background-color: #f8f8ff;
 /*     background-image: radial-gradient(white, rgb(245, 245, 245)); */
 /*     background-image: radial-gradient(white, #f8f8ff); */
@@ -185,9 +183,7 @@ input[type="button"] {
 /* 	background-color: #e6e6e6; */
 	background-image: linear-gradient(to bottom, #f8fcff, #f4f0f0);
 	background-repeat: repeat-x;
-/* 	border-right : 3px solid  #2f2f2f; */
 /* 	border-right : 3px solid  #3fad3f; */
-/* 	border-right : 4px solid  #0566be; */
 }
 .sidebar-li:hover span{
 	color : #0b5fac;

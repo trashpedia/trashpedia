@@ -1,7 +1,5 @@
 package com.kks.trashpedia.information.controller;
 
-import java.sql.Date;
-import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,9 +16,11 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.kks.trashpedia.board.model.service.BoardService;
 import com.kks.trashpedia.board.model.vo.Attachment;
 import com.kks.trashpedia.board.model.vo.Board;
 import com.kks.trashpedia.board.model.vo.Comment;
+import com.kks.trashpedia.board.model.vo.Hits;
 import com.kks.trashpedia.board.model.vo.ImgAttachment;
 import com.kks.trashpedia.board.model.vo.Post;
 import com.kks.trashpedia.board.model.vo.SubCategory;
@@ -40,6 +40,9 @@ public class InformationController {
 	
 	@Autowired
 	private PledgeService pService;
+	
+	@Autowired
+	private BoardService boardService;
 	
 	// 정보자료글 페이지 이동
 	@GetMapping("/list")
@@ -82,24 +85,33 @@ public class InformationController {
 
 		int result = 0;
 
-		// 처음 조회일 조회 -> LocalDate로 변환
-		Date hitsDate = pService.pledgeHitDate(b);
-
-		// 조회일이 있을 때
-		if (hitsDate != null) {
-			// 조회날짜와 현재날짜 비교
-			LocalDate hitsLocalDate = hitsDate.toLocalDate();
-			LocalDate currentDate = LocalDate.now();
-			int comparisonResult = hitsLocalDate.compareTo(currentDate); // 적으면 -, 같으면 0, 많으면 +값
-			// 현재날짜보다 조회날짜가 작을 때
-			if (comparisonResult < 0) {
-				result = pService.increaseCount(b);
-				post.setHitsNo(post.getHitsNo() + 1);
-			}
-		} else {
-			result = pService.increaseCount(b);
-			post.setHitsNo(post.getHitsNo() + 1);
-		}
+		
+		String userIp = (String) req.getSession().getAttribute("ip");
+		Hits hits = new Hits();
+		hits.setUserIp(userIp);
+		hits.setBoardNo(post.getBoardNo());
+		
+		boardService.increaseCount(hits);
+		
+		
+//		// 처음 조회일 조회 -> LocalDate로 변환
+//		Date hitsDate = pService.pledgeHitDate(b);
+//
+//		// 조회일이 있을 때
+//		if (hitsDate != null) {
+//			// 조회날짜와 현재날짜 비교
+//			LocalDate hitsLocalDate = hitsDate.toLocalDate();
+//			LocalDate currentDate = LocalDate.now();
+//			int comparisonResult = hitsLocalDate.compareTo(currentDate); // 적으면 -, 같으면 0, 많으면 +값
+//			// 현재날짜보다 조회날짜가 작을 때
+//			if (comparisonResult < 0) {
+//				result = pService.increaseCount(b);
+//				post.setHitsNo(post.getHitsNo() + 1);
+//			}
+//		} else {
+//			result = pService.increaseCount(b);
+//			post.setHitsNo(post.getHitsNo() + 1);
+//		}
 
 		mav.addObject("attachment", attach);
 		mav.addObject("img", img);

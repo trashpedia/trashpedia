@@ -611,10 +611,10 @@
 	                        processingContentHTML = '<pre> 처리 내용 : ' + data.processingContent + '</pre>';
 	                    }
 	                    let htmlContent =
-	                        '<div>' +
+	                        '<div style="width : 100%;">' +
 	                        '<div class="modal-title">수정 요청</div>' +
-	                        '<div> 요청일 : ' + data.createDate + '</div>' +
 	                        '<div class="request-title"> 제목 : ' + data.requestTitle + '</div>' +
+	                        '<div class="request-date"> <span><strong> 요청자 </strong> '+ data.userName + '</span> <span> | <strong> 요청일 </strong> ' + data.createDate + '</span> </div>' +
 	                        '<div class="request-content">' +
 	                        '<pre> 요청 내용 : ' + data.requestContent + '</pre>' +
 	                        '</div>' +
