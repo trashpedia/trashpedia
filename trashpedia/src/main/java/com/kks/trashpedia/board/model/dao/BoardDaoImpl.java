@@ -234,4 +234,20 @@ public class BoardDaoImpl implements BoardDao {
 	public int deleteNC(int nCommentNo) {
 		return session.delete("boardMapper.deleteNC", nCommentNo);
 	}
+
+	// 댓글 작성시 포인트 증가
+	@Override
+	public int increaseUserPoint(int userNo, int amount, String pointContent) {
+		   try {
+		        Map<String, Object> param = new HashMap<>();
+		        param.put("userNo", userNo);
+		        param.put("amount", amount);
+		        param.put("pointContent", pointContent);
+		        return session.insert("boardMapper.increaseUserPoint", param);
+		    } catch (MyBatisSystemException e) {
+		        // 예외 처리: 로깅하고 사용자에게 오류 메시지 반환 또는 기본값 반환
+		        e.printStackTrace();
+		        return 0; 
+		    }
+	}
 }

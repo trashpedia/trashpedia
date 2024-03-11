@@ -59,4 +59,6 @@ public interface BoardService {
 	int deleteNC(int nCommentNo); // 삭제
 
 	List<Post> getFreeTrashTotalList(int subCategoryNo);
+
+	int increaseUserPoint(int userNo, int amount, String pointContent);
 }

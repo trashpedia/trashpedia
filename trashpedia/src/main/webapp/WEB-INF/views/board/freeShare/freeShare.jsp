@@ -158,7 +158,7 @@
 							content = content.replaceAll("<img[^>]*>|<br\\s*/?>", "");
 							// 콘솔에 값 출력
 // 							System.out.println("content: " + content);
-							String cleanedContent = content.substring(0, Math.min(content.length(), 200));
+							String cleanedContent = content.substring(0, Math.min(content.length(), 550));
 							// 콘솔에 값 출력
 // 							System.out.println("cleanedContent: " + cleanedContent);
 							%>
@@ -173,7 +173,7 @@
 										</div>
 
 										<div class="TextContent">
-											<div class="Subtitle">제목: ${post.title}</div>
+											<div class="Subtitle">제목: ${fn:substring(post.title,0,11)}</div>
 											<div class="Subtitle">작성일: ${post.createDate}</div>
 											<div class="Subtitle">조회: ${post.hitsNo}</div>
 

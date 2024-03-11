@@ -62,4 +62,6 @@ public interface BoardDao {
 	List<NestedComment> viewNC(int commentNo); // 조회
 	List<Comment> selectCommentList(Board b); //commentNo 가져오기
 	int deleteNC(int nCommentNo); //삭제
+
+	int increaseUserPoint(int userNo, int amount, String pointContent);
 }

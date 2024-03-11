@@ -35,10 +35,12 @@
 		VALUES(#{userNo},USER)
 	</insert>
 
-	<select id="getMember" parameterType="Member" resultType="Member">
+	<select id="getMember" parameterType="Member"
+		resultType="Member">
 		SELECT *
 		FROM MEMBER
-		WHERE USER_No = #{userNo} AND STATUS = 'Y'
+		WHERE USER_No = #{userNo} AND STATUS =
+		'Y'
 	</select>
 	<update id="updateMember" parameterType="member">
 		UPDATE MEMBER
@@ -85,6 +87,28 @@
 		AND P.STATUS = 'Y'
 		ORDER BY B.POST_NO DESC
 	</select>
+	<!-- 내 신고 리스트 조회 -->
+	<select id="reportList" parameterType="int" resultType="Report">
+		SELECT
+		REPORT_NO,
+		R.USER_NO,
+		REPORT_CONTENT,
+		REPORT_DATE,
+		REPORT_TYPE,
+		REPORT_TARGET_NO,
+		PROCESSING_CONTENT,
+		PROCESSING_DATE,
+		R.STATUS
+		FROM MEMBER M
+		INNER JOIN
+		REPORT R ON M.USER_NO=R.USER_NO
+		WHERE
+		R.USER_NO=#{userNo}
+		AND M.STATUS = 'Y'
+		AND
+		R.STATUS = 'Y'
+		ORDER BY R.REPORT_NO DESC
+	</select>
 
 	<!-- 댓글 조회 -->
 	<select id="commentList" parameterType="int" resultType="Board">
@@ -106,6 +130,8 @@
 		ORDER
 		BY C.COMMENT_NO DESC
 	</select>
+
+
 	<select id="findEmail" resultType="member">
 		SELECT USER_EMAIL
 		FROM MEMBER

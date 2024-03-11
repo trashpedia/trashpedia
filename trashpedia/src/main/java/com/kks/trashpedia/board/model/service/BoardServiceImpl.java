@@ -143,4 +143,10 @@ public class BoardServiceImpl implements BoardService{
 	public int deleteNC(int nCommentNo) {
 		return dao.deleteNC(nCommentNo); //삭제
 	}
+
+	// 댓글 point증가
+	@Override
+	public int increaseUserPoint(int userNo, int amount, String pointContent) {
+		return dao.increaseUserPoint(userNo,amount,pointContent); //삭제
+	}
 }

@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.kks.trashpedia.board.model.vo.Board;
 import com.kks.trashpedia.member.model.vo.Member;
+import com.kks.trashpedia.report.model.vo.Report;
 
 public interface MemberDao {
 
@@ -23,6 +24,8 @@ public interface MemberDao {
 
 	List<Board> commentList(int userNo);
 
+	List<Report> reportList(int userNo);
+	
 	String findEmail(String userName, String phone);
 
 	int checkEmail(String userEmail, String phone);
@@ -30,4 +33,5 @@ public interface MemberDao {
 	int joinSocialMember(Member m, Long socialId, String socialType);
 
 	Member getMember(Member m);
+
 }
