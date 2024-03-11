@@ -10,10 +10,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>공지사항</title>
-    <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css" />
     <link rel="stylesheet" href="${contextPath}/resources/css/board/boardDetail.css">
 	<!-- jQuery -->
 	<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+	<!-- toast ui editor css -->
+	<script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
+	<link rel="stylesheet" href="https://uicdn.toast.com/editor/3.0.2/toastui-editor.min.css" >
 </head>
 
 
@@ -58,9 +60,10 @@
                             <dd>${b.hits}</dd>
                         </dl>
                     </div>
-                    <div class="cont">
-                       ${b.content}
-                    </div>
+                    <div class="toast-custom-viewer"></div>
+<!--                     <div class="cont"> -->
+<%--                        ${b.content} --%>
+<!--                     </div> -->
                 </div>
                 <div class="bt_wrap">
                     <a href="${contextPath}/board/list?bigCategoryNo=1&subCategoryNo=${b.subCategoryNo}" class="on">목록</a>
@@ -114,14 +117,13 @@
      <jsp:include page="../../common/footer.jsp" />
 
      <script>
-  // 게시글삭제확인
-//  	    function confirmDelete(postNo, boardNo, bigCategoryNo, subCategoryNo) {
-// 	        var result = confirm("게시글을 삭제하시겠습니까?");
-// 	        if (result) {
-// 	            var deleteUrl = "${contextPath}/pledge/delete/" + postNo + "?boardNo=" + boardNo;
-// 	            window.location.href = deleteUrl;
-// 	        } 
-// 	    } 
+     	//에디터 뷰어
+  		const editor = toastui.Editor.factory({
+            el : document.querySelector(".toast-custom-viewer"),
+            viewer:true,
+            initialValue :  `${b.content}`
+        });
+  
 	
   		const loginUser = `${authentication}`;
 		const loginUserNo = `${authentication.userNo}`;

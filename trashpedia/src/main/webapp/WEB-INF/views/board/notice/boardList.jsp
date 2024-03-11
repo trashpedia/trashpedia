@@ -75,7 +75,7 @@
 					<div class="top">
 						<div class="num">번호</div>
 						<div class="title">제목</div>
-						<div class="content">내용</div>
+<!-- 						<div class="content">내용</div> -->
 						<div class="writer">글쓴이</div>
 						<div class="date">작성일</div>
 						<div class="count">조회</div>
@@ -84,15 +84,7 @@
 					<c:forEach var="board" items="${boardList.content}" varStatus="status">
 						<div id="boardDetailDiv" onclick="boardDetail(${board.postNo})">
 							<div class="num">${board.postNo}</div>
-							<div class="title">
-								<p>${fn:substring(board.title, 0, 8)}${fn:length(board.title) > 8 ? '' : ''}
-								</p>
-							</div>
-							<div class="content">
-								<p>
-									${fn:substring(board.content, 0, 100)}${fn:length(board.content) > 100 ? '...' : ''}
-								</p>
-							</div>
+							<div class="title"><p>${board.title}</p></div>
 							<div class="writer">${board.userName}</div>
 							<div class="date">${board.createDate}</div>
 							<div class="count">${board.hits}</div>
