@@ -33,6 +33,8 @@ public interface BoardDao {
 	
 	/* 무료나눔 */
 	List<Post> getFreeTrashList(int subCategoryNo,Pageable pageable, int page);
+	
+	List<Post> getFreeTrashTotalList(int subCategoryNo);
 
 	ImgAttachment getImageUrlByboardNo(int boardNo);
 
@@ -41,6 +43,7 @@ public interface BoardDao {
 	String getTrashContentByboardNo(int boardNo);
 
 	Post getFreeTrashDetail(int boardNo);
+	
 
 	String getTrashWriterByboardNo(int boardNo);
 
@@ -64,6 +67,8 @@ public interface BoardDao {
 	List<NestedComment> viewNC(int commentNo); // 조회
 	List<Comment> selectCommentList(Board b); //commentNo 가져오기
 	int deleteNC(int nCommentNo); //삭제
+
+
 	
 
 }

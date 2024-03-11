@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -37,8 +38,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-
-
 @RestController
 @RequestMapping("/board")
 public class BoardController {
@@ -55,11 +54,11 @@ public class BoardController {
 		List<SubCategory> sc = service.subCategory();
 		List<Post> post = service.categoryList();
 		ModelAndView mav = new ModelAndView();
-		
+
 		mav.addObject("bc", bc);
 		mav.addObject("sc", sc);
 		mav.addObject("post", post);
-		
+
 		mav.setViewName("board/boardMain");
 		return mav;
 	}
@@ -85,34 +84,31 @@ public class BoardController {
 		}
 		return mav;
 	}
-	
+
 	@GetMapping("/delete/{postNo}")
-	public ModelAndView boardDelete(Post p, HttpSession session, RedirectAttributes ra,
-			@PathVariable int postNo
-			) {
+	public ModelAndView boardDelete(Post p, HttpSession session, RedirectAttributes ra, @PathVariable int postNo) {
 		ModelAndView mav = new ModelAndView();
 		SubCategory subCategory = pservice.getCategoryNo(p);
-		
+
 		int subCategoryNo = subCategory.getSubCategoryNo();
 		int bigCategoryNo = subCategory.getBigCategoryNo();
-		
-		//게시글삭제- post & board
+
+		// 게시글삭제- post & board
 //		int result = 0;
 		int result1 = pservice.pledgeDeletePost(p);
 		int result2 = pservice.pledgeDeleteBoard(p);
-		
-		if(result1*result2>0) {
+
+		if (result1 * result2 > 0) {
 			ra.addFlashAttribute("alert", "게시글이 삭제되었습니다.");
-		}else {
+		} else {
 			ra.addFlashAttribute("alert", "게시글 삭제에 실패했습니다.");
 		}
 
-		mav.setViewName("redirect:/pledge/list?bigCategoryNo="+bigCategoryNo+"&subCategoryNo="+subCategoryNo);
-		
+		mav.setViewName("redirect:/pledge/list?bigCategoryNo=" + bigCategoryNo + "&subCategoryNo=" + subCategoryNo);
+
 		return mav;
 	}
 
-	
 	// 게시글 상세 페이지 이동
 	@GetMapping("/detail/{postNo}")
 	public ModelAndView boardFreeShareDetail(@PathVariable int postNo, HttpServletRequest req, HttpServletResponse res,
@@ -162,8 +158,6 @@ public class BoardController {
 
 		return mav;
 	}
-	
-
 
 	// 게시글 등록하기 페이지 이동
 	@GetMapping("/insert")
@@ -185,52 +179,53 @@ public class BoardController {
 			@RequestParam(value = "searchValue", required = false) String searchValue) {
 		List<BigCategory> bc = service.bigCategory();
 		List<SubCategory> sc = service.subCategory();
-//		Page<Board> pages = service.boardList(subCategoryNo, pageable, page, filter, searchSelect, searchValue);
-		Page<Board> freeSharePages = service.boardList(subCategoryNo, pageable, page, filter, searchSelect, searchValue);
+		Page<Board> pages = service.boardList(subCategoryNo, pageable, page, filter, searchSelect, searchValue);
 		Board b = new Board();
-		
-		
+
 		ModelAndView mav = new ModelAndView();
 
 		if (subCategoryNo == 4) { // 무료 나눔 게시판
-	        List<Post> boardFreeTrashList = service.getFreeTrashList(subCategoryNo,pageable,page); // 인기 쓰레기 정보 가져오기
+//			int pageSize = 10; // 페이지당 보여줄 항목 수
+			int pageSize = 12; // 페이지당 보여줄 항목 수
+			Pageable customPageable = PageRequest.of(page, pageSize, Sort.by("yourSortProperty").descending()); // 새로운
+																												// Pageable
+																												// 객체 생성
 
-	        int pageSize = 12; // 페이지당 보여줄 항목 수
-	        int totalPages = (int) Math.ceil((double) boardFreeTrashList.size() / pageSize); 
+			List<Post> boardFreeTrashList = service.getFreeTrashList(subCategoryNo, customPageable, page); // 인기 쓰레기 정보 가져오기
+			List<Post> boardFreeTrashTotalList = service.getFreeTrashTotalList(subCategoryNo); // 인기 쓰레기 정보 전부 가져오기
 
-	        // 페이지 번호 및 데이터 전달
-	        mav.addObject("pageSize", pageSize); // 페이지당 보여줄 항목 수
-	        mav.addObject("totalPages", totalPages); // 총페이지
-	        mav.addObject("list", boardFreeTrashList); // 페이지에 표시할 데이터
+			int totalPages = (int) Math.ceil((double) boardFreeTrashTotalList.size() / pageSize); // 전체 페이지 수 계산
+			System.out.println("boardFreeTrashTotalList.size:" + boardFreeTrashTotalList.size());
+			System.out.println("totalPages:" + totalPages);
+
+			// 페이지 번호 및 데이터 전달
+			mav.addObject("pageSize", pageSize); // 페이지당 보여줄 항목 수
+			mav.addObject("totalPages", totalPages); // 총페이지
+			mav.addObject("list", boardFreeTrashList); // 페이지에 표시할 데이터
 			mav.addObject("bigCategoryNo", bc);
 			mav.addObject("subCategoryNo", sc);
-	        mav.setViewName("board/freeShare/freeShare"); // 무료 나눔 게시판 뷰 설정
-	    } 
-//		else {
-//	    	int pageSize = 10;
-//	        int totalPages = (int) Math.ceil((double) pages.getSize() / pageSize); // 전체 페이지 수 계산
-//			mav.addObject("boardList", pages);
-//			mav.addObject("totalPages",totalPages);
-//			mav.addObject("bigCategoryNo", bc);
-//			mav.addObject("subCategoryNo", sc);
-//			mav.setViewName("board/notice/boardList");
-//		}
+			mav.setViewName("board/freeShare/freeShare"); // 무료 나눔 게시판 뷰 설정
+		} else {
+			int pageSize = 10;
+			int totalPages = (int) Math.ceil((double) pages.getSize() / pageSize); // 전체 페이지 수 계산
+			mav.addObject("boardList", pages);
+			mav.addObject("totalPages", totalPages);
+			mav.addObject("bigCategoryNo", bc);
+			mav.addObject("subCategoryNo", sc);
+			mav.setViewName("board/notice/boardList");
+		}
 		return mav;
 	}
-	
-	
-	//페이지 보기 & 페이징,검색
+
+	// 페이지 보기 & 페이징,검색
 	@GetMapping("/loadListData")
-	public ResponseEntity<Page<Post>> loadListData( 
-			@RequestParam int subCategoryNo,
-			@PageableDefault(size=12, sort="id", direction=Sort.Direction.DESC) Pageable pageable,
-			@RequestParam int page,
-			@RequestParam String sort,
-			@RequestParam String searchSelect,
-			@RequestParam String searchValue){
-		
-		Page<Post> pages = service.loadListData(pageable,page,sort,searchSelect,searchValue,subCategoryNo);
-		
+	public ResponseEntity<Page<Post>> loadListData(@RequestParam int subCategoryNo,
+			@PageableDefault(size = 12, sort = "id", direction = Sort.Direction.DESC) Pageable pageable,
+			@RequestParam int page, @RequestParam String sort, @RequestParam String searchSelect,
+			@RequestParam String searchValue) {
+
+		Page<Post> pages = service.loadListData(pageable, page, sort, searchSelect, searchValue, subCategoryNo);
+
 		return ResponseEntity.ok(pages);
 	}
 
@@ -241,13 +236,12 @@ public class BoardController {
 		mav.setViewName("board/suggestion/boardList");
 		return mav;
 	}
-	
-	//커뮤니티 상세페이지 이동
-	 @GetMapping("community/detail/{postNo}")
-	    public ModelAndView boardDetail(
-	    		@PathVariable int postNo, 
-	    		@RequestParam(value="subCategoryNo", defaultValue="1")int subCategoryNo) {
-		 
+
+	// 커뮤니티 상세페이지 이동
+	@GetMapping("community/detail/{postNo}")
+	public ModelAndView boardDetail(@PathVariable int postNo,
+			@RequestParam(value = "subCategoryNo", defaultValue = "1") int subCategoryNo) {
+
 //		 	List<Post> board = service.boardDetail(postNo);
 		ModelAndView mav = new ModelAndView();
 		Post board = service.boardDetail(postNo);
@@ -279,12 +273,11 @@ public class BoardController {
 	// 댓글삭제
 	@DeleteMapping("/deleteComment/{commentNo}")
 	public int deleteComment(Comment comment) {
-		
+
 		return pservice.deleteComment(comment);
 	}
-	
-	
-	//대댓글등록
+
+	// 대댓글등록
 //	@PostMapping("/insertNC")
 //	public int insertNC(NestedComment nc,
 //			@RequestParam String content,
@@ -294,27 +287,24 @@ public class BoardController {
 //		int result = service.insertNC(nc);
 //		return result;
 //	}
-	
+
 	@PostMapping("/insertNC")
 	public ResponseEntity<Integer> insertNC(@RequestBody NestedComment nc) {
-	    int result = service.insertNC(nc);
-	    return ResponseEntity.ok(result);
+		int result = service.insertNC(nc);
+		return ResponseEntity.ok(result);
 	}
 
-	
-	
-	
-	//대댓글조회
+	// 대댓글조회
 	@GetMapping("/viewNC/{commentNo}")
-	public List<NestedComment> viewNC( @PathVariable("commentNo") int commentNo, Board b) {
-	    List<NestedComment> NCList = service.viewNC(commentNo);
-	    return NCList; 
+	public List<NestedComment> viewNC(@PathVariable("commentNo") int commentNo, Board b) {
+		List<NestedComment> NCList = service.viewNC(commentNo);
+		return NCList;
 	}
-	
-	//대댓글삭제
+
+	// 대댓글삭제
 	@DeleteMapping("/deleteNC/{nCommentNo}")
-	public int deleteNC(@PathVariable("nCommentNo")int nCommentNo) {
+	public int deleteNC(@PathVariable("nCommentNo") int nCommentNo) {
 		return service.deleteNC(nCommentNo);
 	}
-	
+
 }

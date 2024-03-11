@@ -147,17 +147,20 @@
 
 					<!-- 리스트 -->
 					<div class="List">
-						<c:forEach var="post" items="${list}" varStatus="status">
+						<%-- 						<c:forEach var="post" items="${list}" varStatus="status"> --%>
+<%-- 						<c:forEach var="post" items="${list}" varStatus="status" begin="0"end="${empty list ? 0 : fn:length(list) - 1}"> --%>
+						<c:forEach var="post" items="${list}" >
+
 							<%
 							com.kks.trashpedia.board.model.vo.Post post = (com.kks.trashpedia.board.model.vo.Post) pageContext.getAttribute("post");
 							String content = post.getContent();
 							// "<img>" 태그와 "<br>" 태그 제거
 							content = content.replaceAll("<img[^>]*>|<br\\s*/?>", "");
 							// 콘솔에 값 출력
-							System.out.println("content: " + content);
+// 							System.out.println("content: " + content);
 							String cleanedContent = content.substring(0, Math.min(content.length(), 200));
 							// 콘솔에 값 출력
-							System.out.println("cleanedContent: " + cleanedContent);
+// 							System.out.println("cleanedContent: " + cleanedContent);
 							%>
 
 							<a href="${contextPath}/board/community/detail/${post.postNo}">
@@ -211,16 +214,27 @@
 				<!-- 						현재 페이지가 첫 번째 페이지가 아닌 경우에만 이전 페이지로 이동할 수 있는 버튼을 표시합니다. -->
 				<c:if test="${page gt 0}">
 					<a
-						href="${contextPath}/board/list?subCategoryNo=${subCategoryNo}&page=${page - 1}"
+						href="${contextPath}/board/list?page=${page - 1}&subCategoryNo=${subCategoryNo}"
 						class="pagingBtn">&lt;</a>
 				</c:if>
 
-				<!-- 						페이지 번호 표시 -->
+
+				<c:choose>
+					<c:when test="${totalPages > 1}">
+						<c:set var="endValue" value="${totalPages - 1}" />
+					</c:when>
+					<c:otherwise>
+						<c:set var="endValue" value="0" />
+					</c:otherwise>
+				</c:choose>
+
+				<!-- 페이지 번호 표시 -->
+
 				<c:forEach begin="0" end="${totalPages - 1}" var="pageNum">
 					<!-- 							현재 페이지를 기준으로 좌우 5페이지 범위 내에 있는 페이지만 표시합니다. -->
 					<c:if test="${pageNum ge page - 5 and pageNum le page + 5}">
 						<a
-							href="${contextPath}/board/list?subCategoryNo=${subCategoryNo}&page=${pageNum}"
+							href="${contextPath}/board/list?page=${pageNum}&subCategoryNo=${subCategoryNo}"
 							class="${pageNum eq page ? 'pagingBtn on' : 'pagingBtn'}">${pageNum + 1}</a>
 					</c:if>
 				</c:forEach>
@@ -229,7 +243,7 @@
 				<!-- 						현재 페이지가 마지막 페이지가 아닌 경우에만 다음 페이지로 이동할 수 있는 버튼을 표시합니다. -->
 				<c:if test="${page + 1 lt totalPages}">
 					<a
-						href="${contextPath}/board/list?subCategoryNo=${subCategoryNo}&page=${page + 1}"
+						href="${contextPath}/board/list?page=${page + 1}&subCategoryNo=${subCategoryNo}"
 						class="pagingBtn">&gt;</a>
 				</c:if>
 			</div>
@@ -238,16 +252,7 @@
 
 	</div>
 
-	<jsp:include page="../../common/footer.jsp" />
-
-	
-
-
-
-
-
-
-	<!-- 스크립트 -->
+	<jsp:include page="../../common/footer.jsp" /><!-- 스크립트 -->
 
 	<script>
 
