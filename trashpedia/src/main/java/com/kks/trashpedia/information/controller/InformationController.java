@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.kks.trashpedia.GetClientIpAddress;
 import com.kks.trashpedia.board.model.service.BoardService;
 import com.kks.trashpedia.board.model.vo.Attachment;
 import com.kks.trashpedia.board.model.vo.Board;
@@ -83,36 +84,13 @@ public class InformationController {
 		b.setBoardNo(post.getBoardNo());
 		b.setUserNo(post.getUserNo());
 
-		int result = 0;
-
-		
-		String userIp = (String) req.getSession().getAttribute("ip");
+		String ip = GetClientIpAddress.getClientIpAddress(req);
 		Hits hits = new Hits();
-		hits.setUserIp(userIp);
+		hits.setUserIp(ip);
 		hits.setBoardNo(post.getBoardNo());
 		
 		boardService.increaseCount(hits);
 		
-		
-//		// 처음 조회일 조회 -> LocalDate로 변환
-//		Date hitsDate = pService.pledgeHitDate(b);
-//
-//		// 조회일이 있을 때
-//		if (hitsDate != null) {
-//			// 조회날짜와 현재날짜 비교
-//			LocalDate hitsLocalDate = hitsDate.toLocalDate();
-//			LocalDate currentDate = LocalDate.now();
-//			int comparisonResult = hitsLocalDate.compareTo(currentDate); // 적으면 -, 같으면 0, 많으면 +값
-//			// 현재날짜보다 조회날짜가 작을 때
-//			if (comparisonResult < 0) {
-//				result = pService.increaseCount(b);
-//				post.setHitsNo(post.getHitsNo() + 1);
-//			}
-//		} else {
-//			result = pService.increaseCount(b);
-//			post.setHitsNo(post.getHitsNo() + 1);
-//		}
-
 		mav.addObject("attachment", attach);
 		mav.addObject("img", img);
 		mav.addObject("post", post);
@@ -129,10 +107,7 @@ public class InformationController {
 		SubCategory subCategory = pService.getCategoryNo(p);
 		
 		int subCategoryNo = subCategory.getSubCategoryNo();
-		int bigCategoryNo = subCategory.getBigCategoryNo();
 		
-		//게시글삭제- post & board
-		int result = 0;
 		int result1 = pService.pledgeDeletePost(p);
 		int result2 = pService.pledgeDeleteBoard(p);
 		
@@ -142,7 +117,7 @@ public class InformationController {
 			ra.addFlashAttribute("alert", "게시글 삭제에 실패했습니다.");
 		}
 
-		mav.setViewName("redirect:/information/list?bigCategoryNo="+bigCategoryNo+"&subCategoryNo="+subCategoryNo);
+		mav.setViewName("redirect:/information/list?&subCategoryNo="+subCategoryNo);
 		
 		return mav;
 		
@@ -154,8 +129,4 @@ public class InformationController {
 		List<Comment> commentList = pService.selectCommentList(b);
 		return commentList;
 	}
-	
-	
-	
-	
 }
