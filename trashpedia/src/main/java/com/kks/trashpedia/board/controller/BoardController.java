@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.kks.trashpedia.GetClientIpAddress;
 import com.kks.trashpedia.board.model.service.BoardService;
 import com.kks.trashpedia.board.model.vo.Attachment;
 import com.kks.trashpedia.board.model.vo.BigCategory;
@@ -104,15 +105,13 @@ public class BoardController {
 
 		board.setImgAttachment(img);
 		board.setAttachment(attach);
-
-		String userIp = (String) req.getSession().getAttribute("ip");
-		if (userIp != null) {
-			Hits hits = new Hits();
-			hits.setUserIp(userIp);
-			hits.setBoardNo(board.getBoardNo());
-
-			service.increaseCount(hits);
-		}
+		
+		String ip = GetClientIpAddress.getClientIpAddress(req);
+		Hits hits = new Hits();
+		hits.setUserIp(ip);
+		hits.setBoardNo(board.getBoardNo());
+			
+		service.increaseCount(hits);
 
 		mav.addObject("b", board);
 		mav.addObject("attachment", attach);
@@ -198,17 +197,6 @@ public class BoardController {
 		return pservice.deleteComment(comment);
 	}
 
-	// 대댓글등록
-//	@PostMapping("/insertNC")
-//	public int insertNC(NestedComment nc,
-//			@RequestParam String content,
-//			@RequestParam int userNo,
-//			@RequestParam int commentNo
-//			) {
-//		int result = service.insertNC(nc);
-//		return result;
-//	}
-
 	@PostMapping("/insertNC")
 	public ResponseEntity<Integer> insertNC(@RequestBody NestedComment nc) {
 		int result = service.insertNC(nc);
@@ -235,5 +223,4 @@ public class BoardController {
 		int result = service.increaseUserPoint(userNo, amount, pointContent);
 		return ResponseEntity.ok(result);
 	}
-
 }
