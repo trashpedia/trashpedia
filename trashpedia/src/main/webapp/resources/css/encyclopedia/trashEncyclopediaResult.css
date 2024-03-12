@@ -9,6 +9,13 @@ body {
 	background-color: #FFF;
 }
 
+.noSerach{
+	margin:auto;
+	text-align:center;
+	font-size:40px;
+	font-weight:600;
+	padding-top:200px;
+}
 
 
 /* ------ 타이틀 부분 ------ */
