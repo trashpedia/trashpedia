@@ -3,7 +3,6 @@ package com.kks.trashpedia.common.model.dao;
 import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kks.trashpedia.board.model.vo.Attachment;

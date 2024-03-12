@@ -7,7 +7,6 @@ import java.util.Map;
 
 import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -19,18 +18,15 @@ import com.kks.trashpedia.board.model.vo.Comment;
 import com.kks.trashpedia.board.model.vo.ImgAttachment;
 import com.kks.trashpedia.board.model.vo.Post;
 import com.kks.trashpedia.board.model.vo.SubCategory;
-import com.kks.trashpedia.member.model.vo.Member;
 import com.kks.trashpedia.pledge.model.vo.Signature;
-import com.kks.trashpedia.report.model.vo.Report;
 
-import lombok.extern.slf4j.Slf4j;
+import lombok.RequiredArgsConstructor;
 
-@Slf4j
 @Repository
+@RequiredArgsConstructor
 public class PledgeDaoImpl implements PledgeDao{
 	
-	@Autowired
-	private SqlSessionTemplate session;
+	private final SqlSessionTemplate session;
 
 	//실천서약 게시글 조회
 	@Override

@@ -12,9 +12,7 @@ import com.kks.trashpedia.board.model.vo.Comment;
 import com.kks.trashpedia.board.model.vo.ImgAttachment;
 import com.kks.trashpedia.board.model.vo.Post;
 import com.kks.trashpedia.board.model.vo.SubCategory;
-import com.kks.trashpedia.member.model.vo.Member;
 import com.kks.trashpedia.pledge.model.vo.Signature;
-import com.kks.trashpedia.report.model.vo.Report;
 
 public interface PledgeDao {
 
