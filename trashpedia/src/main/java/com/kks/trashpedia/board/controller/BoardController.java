@@ -3,6 +3,8 @@ package com.kks.trashpedia.board.controller;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -71,7 +73,7 @@ public class BoardController {
 		}
 		return mav;
 	}
-	
+
 	@GetMapping("/delete/{postNo}")
 	public ModelAndView boardDelete(Post p, HttpSession session, RedirectAttributes ra) {
 		ModelAndView mav = new ModelAndView();
@@ -95,20 +97,20 @@ public class BoardController {
 
 		ModelAndView mav = new ModelAndView();
 		Board board = service.boardDetail(boardNo);
-		
+
 		// 이미지,첨부파일,카테고리
 		ImgAttachment img = service.getImageUrl(board.getBoardNo(), 1);
 		Attachment attach = service.getDetailAttach(board.getBoardNo(), 1);
-		
+
 		board.setImgAttachment(img);
 		board.setAttachment(attach);
 
 		String userIp = (String) req.getSession().getAttribute("ip");
-		if(userIp != null) {
+		if (userIp != null) {
 			Hits hits = new Hits();
 			hits.setUserIp(userIp);
 			hits.setBoardNo(board.getBoardNo());
-			
+
 			service.increaseCount(hits);
 		}
 
@@ -140,7 +142,22 @@ public class BoardController {
 		Page<Board> pages = service.boardList(subCategoryNo, pageable, page, filter, searchSelect, searchValue);
 		mav.addObject("boardList", pages);
 		if (subCategoryNo == 4) {
+			 // 지우면안돼요.
+			Pageable freeSharePageable = PageRequest.of(pageable.getPageNumber(), 12, pageable.getSort()); // 지우면안돼요.
+																											// 12개 쓸거임
+			Page<Board> freeSharePages = service.boardList(subCategoryNo, freeSharePageable, page, filter, searchSelect,
+					searchValue);
+
+			List<Board> content = freeSharePages.getContent();
+			for (Board board : content) {
+				String cleanedContent = board.getContent().replaceAll("<img[^>]*>", ""); // 이미지 태그를 제거함
+				board.setContent(cleanedContent);
+			}
+		    // freeSharePages 객체에 이미지 태그가 제거된 내용을 반영
+		    freeSharePages = new PageImpl<>(content, freeSharePages.getPageable(), freeSharePages.getTotalElements());
+			mav.addObject("boardList", freeSharePages);
 			mav.setViewName("board/freeShare/freeShare");
+			 // 지우면안돼요.
 		} else {
 			mav.setViewName("board/notice/boardList");
 		}
@@ -154,7 +171,7 @@ public class BoardController {
 		mav.setViewName("board/suggestion/boardList");
 		return mav;
 	}
-	
+
 	// 댓글목록 조회
 	@GetMapping("/selectCommentList")
 	public List<Comment> selectCommentList(Board b) {
@@ -210,15 +227,13 @@ public class BoardController {
 	public int deleteNC(@PathVariable("nCommentNo") int nCommentNo) {
 		return service.deleteNC(nCommentNo);
 	}
-	
+
 	// 회원의 댓글작성시 point를 증가시키는 함수
 	@PostMapping("/increaseUserPoint")
-	public ResponseEntity<Integer> increaseUserPoint(@RequestParam int userNo,
-	                                                 @RequestParam int amount,
-	                                                 @RequestParam String pointContent) {
-	    int result = service.increaseUserPoint(userNo, amount, pointContent);
-	    return ResponseEntity.ok(result);
+	public ResponseEntity<Integer> increaseUserPoint(@RequestParam int userNo, @RequestParam int amount,
+			@RequestParam String pointContent) {
+		int result = service.increaseUserPoint(userNo, amount, pointContent);
+		return ResponseEntity.ok(result);
 	}
-
 
 }
