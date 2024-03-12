@@ -27,13 +27,13 @@
 				<div class="encyLogo">
 					<p>쓰레기 백과사전</p>
 				</div>
-				<div class="encyContent1">
-					<div class="ency-search-area">
-						<input type="search" class="search-input" placeholder="검색어를 입력하세요"
-							autocomplete="off">
-						<button type="submit" class="search-button" aria-label="Search">search</button>
-					</div>
-				</div>
+				
+				<form method="get" action="${contextPath}/trash/allList">
+			        <div class="ency-search-area">
+			            <input type="search" name="keyword" class="search-input" placeholder="검색어를 입력하세요" autocomplete="off">
+			            <button type="submit" class="search-button" aria-label="Search">search</button>
+			        </div>
+		        </form>
 			</div>
 		</div>
  		<div class="recently-outer">
@@ -81,6 +81,8 @@
 	</div>
 	<jsp:include page="../common/footer.jsp" />
 	<script>
+	
+	
 	
 	 // 스크롤 변화에 따른 header 스타일 변경
 	$(window).scroll(function() {
