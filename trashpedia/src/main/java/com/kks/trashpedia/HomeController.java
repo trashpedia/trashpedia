@@ -14,9 +14,7 @@ import com.kks.trashpedia.trash.model.vo.TrashPost;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 @RestController
 @RequiredArgsConstructor
 public class HomeController {

@@ -673,19 +673,20 @@
 	            cell1.textContent = data[i].reportNo;
 	            
 	            let cell2 = document.createElement('td');
-	            cell2.innerHTML = data[i].reportType;
+	            if(data[i].reportType == 1){
+		            cell2.innerHTML = '게시글';
+	            } else {
+		            cell2.innerHTML = '댓글';
+	            }
 	            
 	            let cell3 = document.createElement('td');
 	            cell3.textContent = data[i].reportContent;
-	            
 	            let cell4 = document.createElement('td');
-	            cell4.textContent = data[i].processingDate;
-
+	            cell4.textContent = data[i].processingContent;
 	            let cell5 = document.createElement('td');
-	            cell4.textContent = data[i].reportDate;
-
+	            cell5.textContent = data[i].processingDate;
 	            let cell6 = document.createElement('td');
-	            cell4.textContent = data[i].status;
+	            cell6.textContent = data[i].status;
 	            
 	            row.appendChild(cell1);
 	            row.appendChild(cell2);

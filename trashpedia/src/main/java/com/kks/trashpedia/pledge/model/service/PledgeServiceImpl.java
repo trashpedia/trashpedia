@@ -19,9 +19,7 @@ import com.kks.trashpedia.pledge.model.dao.PledgeDao;
 import com.kks.trashpedia.pledge.model.vo.Signature;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 @Service
 @RequiredArgsConstructor
 public class PledgeServiceImpl implements PledgeService{
