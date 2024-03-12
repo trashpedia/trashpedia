@@ -24,8 +24,6 @@
     font-size: 18px;
 }
 
-
-
 /* ------detail ------ */
 
 * {
@@ -418,6 +416,7 @@ a {
     border: 1px solid #ddd;
     border-radius: 3px;
     margin-bottom: 5px;
+    resize: none;
 }
 
 .btn-update {
@@ -449,9 +448,7 @@ a {
     /* justify-content: space-between; */
     width: 80%;
     /* margin-left: auto; */
-    
 }
-
 
 
 .nested-comment-user {
@@ -492,6 +489,17 @@ a {
     font-size: 10px;
 }
 
+.btn-edit-nc{
+	background-color: #745d5d;
+    border-style: 1px solid red;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 10px;
+}
+
 .btn-delete-nc:hover {
     background-color: #c53030;
 }
@@ -523,7 +531,7 @@ a {
 .comment-section {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-end;
     margin-bottom: 20px;
 }
 
@@ -543,7 +551,7 @@ a {
     border: none;
     border-radius: 4px;
     cursor: pointer;
-    height: 75px;
+    height: 35px;
 }
 
 .comment-button:hover {
@@ -631,12 +639,12 @@ a {
 }
 
 .nested-comment-content {
-    width: 100%;
+    width: 800px;
     padding: 8px;
     border: 1px solid #dcdcdc;
     border-radius: 4px;
     min-height: 80px;
-    resize: vertical;
+    resize: none;
     box-sizing: border-box;
 }
 
@@ -655,16 +663,3 @@ a {
 .nested-comment-submit:hover {
     background-color: #49a249;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-

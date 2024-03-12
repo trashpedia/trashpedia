@@ -23,4 +23,9 @@ public class Report {
 	// 관리자 페이지 신고 관리
 	private String title;
 	private int boardNo;
+	
+	private String content;
+	private int commentNo;
+	private int nestedCommentNo;
+	private String userName;
 }

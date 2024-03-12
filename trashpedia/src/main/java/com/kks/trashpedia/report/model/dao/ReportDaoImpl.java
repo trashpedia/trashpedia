@@ -6,20 +6,29 @@ import java.util.Map;
 
 import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
+import com.kks.trashpedia.board.model.vo.Post;
 import com.kks.trashpedia.report.model.vo.Report;
 
+import lombok.RequiredArgsConstructor;
+
 @Repository
+@RequiredArgsConstructor
 public class ReportDaoImpl implements ReportDao{
 	
-	@Autowired
-	private SqlSessionTemplate session;
+	private final SqlSessionTemplate session;
 
+	@Override
+	public Report getReport(int reportNo) {
+		Report report = session.selectOne("reportMapper.getReport", reportNo);
+		report = session.selectOne("reportMapper.getReportDetail", report);
+		return report;
+	}
+	
 	@Override
 	public Page<Report> getBoardReportList(Pageable pageable, int page, String sort, String searchSelect, String searchValue) {
 		Map<String, Object> param = new HashMap<>();
@@ -54,6 +63,32 @@ public class ReportDaoImpl implements ReportDao{
 		return session.insert("reportMapper.insertBoardReport", report);
 	}
 
+	@Override
+	public int processingReport(Report report) {
+		return session.update("reportMapper.processingReport", report);
+	}
 
-	
+	@Override
+	public int deleteProcessingReport(Report report) {
+		int result = 0;
+		if(report.getReportType() == 1) {
+			int boardNo = report.getReportTargetNo();
+			Post post = session.selectOne("adminMapper.getPost", boardNo);
+			int postNo = post.getPostNo();
+			result = session.delete("boardMapper.deleteBoard", boardNo);
+			if(result > 0) {
+				result = session.delete("boardMapper.deletePost", postNo);
+			}
+		}else if(report.getReportType() == 2) {
+			int commentNo = report.getReportTargetNo();
+			result = session.delete("adminMapper.deleteComment", commentNo);
+		} else {
+			int nestedCommentNo = report.getReportTargetNo();
+			result = session.delete("adminMapper.deleteNestedComment", nestedCommentNo);
+		}
+		if(result > 0) {
+			return session.update("reportMapper.processingReport", report);
+		}
+		return result;
+	}
 }

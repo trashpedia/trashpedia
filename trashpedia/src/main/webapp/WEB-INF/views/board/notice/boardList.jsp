@@ -4,10 +4,16 @@
 <c:set var="contextPath" value="<%=request.getContextPath()%>" />
 <c:url var="currentUrl" value="/trashpedia/pledge/list">
 	<c:param name="subCategoryNo" value="${currentSubCategoryNo}" />
-	<c:param name="bigCategoryNo" value="${currentBigCategoryNo}" />
+	<c:param name="searchSelect" value="${searchSelect}" />
+	<c:param name="searchValue" value="${searchValue}" />
+	<c:param name="filter" value="${filter}" />
+	<c:param name="page" value="${page}" />
 </c:url>
 <c:set var="subCategoryNo" value="${param.subCategoryNo}" />
-<c:set var="bigCategoryNo" value="${param.bigCategoryNo}" />
+<c:set var="searchSelect" value="${param.searchSelect}" />
+<c:set var="searchValue" value="${param.searchValue}" />
+<c:set var="filter" value="${param.filter}" />
+<c:set var="page" value="${param.page}" />
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -56,8 +62,8 @@
 				</div>
 				<div class="search_form_left">
 					<select id="filter">
-						<option value="createDate">작성일</option>
-						<option value="hitCount">조회수</option>
+						<option value="createDate" ${filter == 'createDate' ? 'selected' : ''}>작성일</option>
+						<option value="hits" ${filter == 'hits' ? 'selected' : ''}>조회수</option>
 					</select>
 				</div>
 		    </div>
@@ -80,81 +86,65 @@
 						</div>
 					</c:forEach>
 				</div>
-				<div class="insert-area">
-	                <a href="${pageContext.request.contextPath}/write?bigCategoryNo=1&subCategoryNo=${subCategoryNo}&type=1">
-	                    <button id="insertButton"class="comment-buttons">게시글 등록하기</button>
-	                </a>
-            	</div>
+				<c:if test="${authentication != null}">
+					<div class="insert-area">
+		                <a href="${pageContext.request.contextPath}/write?subCategoryNo=${subCategoryNo}&type=1">
+		                    <button id="insertButton"class="comment-buttons">게시글 등록하기</button>
+		                </a>
+	            	</div>
+				</c:if>
 				<div class="board_page">
-					<c:if test="${boardList.number > 0}">
-						<a href="${contextPath}/board/list?page=${boardList.number - 1}&subCategoryNo=${subCategoryNo}"
-							class="bt prev">&lt;</a>
-					</c:if>
-					<c:if test="${boardList.totalPages > 0}">
-						<c:forEach begin="0" end="${boardList.totalPages - 1}" var="pageNum">
-						    <c:if test="${pageNum >= boardList.number - 5 && pageNum <= boardList.number + 5}">
-						        <a href="${contextPath}/board/list?page=${pageNum}&subCategoryNo=${subCategoryNo}"
-						            class="${pageNum == boardList.number ? 'num on' : 'num'}">${pageNum + 1}
-						        </a>
-						    </c:if>
-						</c:forEach>
-					</c:if>
-					<c:if test="${boardList.number + 1 < boardList.totalPages}">
-						<a href="${contextPath}/board/list?page=${boardList.number + 1}&subCategoryNo=${subCategoryNo}"
-							class="bt next">&gt;</a>
-					</c:if>
+				    <c:if test="${boardList.number > 0}">
+				        <a href="${contextPath}/board/list?searchSelect=${searchSelect}&searchValue=${searchValue}&subCategoryNo=${subCategoryNo}&filter=${filter}&page=${boardList.number - 1}"
+				            class="bt prev">&lt;</a>
+				    </c:if>
+				    <c:if test="${boardList.totalPages > 0}">
+				        <c:forEach begin="0" end="${boardList.totalPages - 1}" var="pageNum">
+				            <c:if test="${pageNum >= boardList.number - 5 && pageNum <= boardList.number + 5}">
+				                <a href="${contextPath}/board/list?searchSelect=${searchSelect}&searchValue=${searchValue}&subCategoryNo=${subCategoryNo}&filter=${filter}&page=${pageNum}"
+				                    class="${pageNum == boardList.number ? 'num on' : 'num'}">${pageNum + 1}
+				                </a>
+				            </c:if>
+				        </c:forEach>
+				    </c:if>
+				    <c:if test="${boardList.number + 1 < boardList.totalPages}">
+				        <a href="${contextPath}/board/list?searchSelect=${searchSelect}&searchValue=${searchValue}&subCategoryNo=${subCategoryNo}&filter=${filter}&page=${boardList.number + 1}"
+				            class="bt next">&gt;</a>
+				    </c:if>
 				</div>
 			</div>
 		</div>
 	</main>
 	<jsp:include page="../../common/footer.jsp" />
 	<script>
-	function boardSearch() {
-	    var searchSelect = $('#searchSelect').val();
-	    var searchValue = $('#searchValue').val();
 	    var subCategoryNo = ${subCategoryNo};
+	    var searchSelect = "${not empty searchSelect ? searchSelect : ''}";
+	    var searchValue = "${not empty searchValue ? searchValue : ''}";
+	    var filter = "${not empty filter ? filter : 'createDate'}";
+	    var page = ${not empty page ? page : 0};
 	    
-	    var filter = $('#filter').val();
-
-	    location.href = '${contextPath}/board/list?searchSelect=' + searchSelect + '&searchValue=' + searchValue + '&subCategoryNo=' + subCategoryNo + '&filter=' + filter + '&page=0';
-	}
+	    $(document).ready(function() {
+	        $('.content').each(function() {
+	            var htmlContent = $(this).html();
+	            var textContent = $('<div>').html(htmlContent).text();
+	            $(this).text(textContent);
+	        });
+	    });
 	
-	$(document).ready(function() {
-		$('.content').each(function() {
-			var htmlContent = $(this).html(); // HTML 내용을 가져옵니다.
-			var textContent = $('<div>').html(htmlContent).text(); // HTML 태그를 제거합니다.
-			$(this).text(textContent); // 순수 텍스트로 내용을 변경합니다.
-		});
-	});
+	    function boardSearch() {
+	        var searchSelect = $('#searchSelect').val();
+	        var searchValue = $('#searchValue').val();
+	        location.href = '${contextPath}/board/list?searchSelect=' + searchSelect + '&searchValue=' + searchValue + '&subCategoryNo=' + subCategoryNo + '&filter=' + filter + '&page=0';
+	    }
 	
-	// 	<a href="${contextPath}/board/community/detail/${board.postNo}">
-    // 상세페이지 이동
-    function boardDetail(boardNo) {
-    	location.href = "${contextPath}/board/detail/" + boardNo;
-	}
-    
-    
-    $('#filter').change(function() {
-        var filter = $(this).val();
-        $.ajax({
-            url: '${contextPath}/board/list',
-            type: 'GET',
-            data: {
-                subCategoryNo: ${subCategoryNo},
-                filter: filter,
-                page: 0
-            },
-            success: function(response) {
-                // 성공적으로 데이터를 받아온 경우, 페이지 내용을 업데이트합니다.
-                // 예를 들어, 받아온 HTML을 특정 div에 삽입할 수 있습니다.
-                // $('#boardList').html(response);
-            },
-            error: function(xhr, status, error) {
-                // 오류 처리
-                alert("데이터를 불러오는 데 실패했습니다.");
-            }
-        });
-    });
+	    function boardDetail(boardNo) {
+	        location.href = "${contextPath}/board/detail/" + boardNo;
+	    }
+	
+	    $('#filter').change(function() {
+	        var filter = $('#filter').val();
+	        location.href = '${contextPath}/board/list?searchSelect=' + searchSelect + '&searchValue=' + searchValue + '&subCategoryNo=' + subCategoryNo + '&filter=' + filter + '&page=0';
+	    });
 	</script>
 </body>
 </html>

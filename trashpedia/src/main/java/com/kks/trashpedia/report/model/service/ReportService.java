@@ -17,5 +17,11 @@ public interface ReportService {
 	//게시글 신고등록
 	public int insertBoardReport(Report report);
 
+	Report getReport(int reportNo);
+
+	int processingReport(Report report);
+
+	int deleteProcessingReport(Report report);
+
 
 }

@@ -1,6 +1,5 @@
 package com.kks.trashpedia.report.model.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -8,11 +7,19 @@ import org.springframework.stereotype.Service;
 import com.kks.trashpedia.report.model.dao.ReportDao;
 import com.kks.trashpedia.report.model.vo.Report;
 
-@Service
-public class ReportServiceImpl implements ReportService{
-	@Autowired
-	private ReportDao dao;
+import lombok.RequiredArgsConstructor;
 
+@Service
+@RequiredArgsConstructor
+public class ReportServiceImpl implements ReportService{
+	
+	private final ReportDao dao;
+
+	@Override
+	public Report getReport(int reportNo) {
+		return dao.getReport(reportNo);
+	}
+	
 	@Override
 	public Page<Report> getBoardReportList(Pageable pageable, int page, String sort, String searchSelect, String searchValue) {
 		return dao.getBoardReportList(pageable, page, sort, searchSelect, searchValue);
@@ -34,6 +41,14 @@ public class ReportServiceImpl implements ReportService{
 	public int insertBoardReport(Report report) {
 		return dao.insertBoardReport(report);
 	}
-	
-	
+
+	@Override
+	public int processingReport(Report report) {
+		return dao.processingReport(report);
+	}
+
+	@Override
+	public int deleteProcessingReport(Report report) {
+		return dao.deleteProcessingReport(report);
+	}
 }

@@ -12,13 +12,14 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <link rel="stylesheet" href="${contextPath}/resources/css/admin/trashManagement.css">
 </head>
-<%-- <jsp:include page="../common/header.jsp"/> --%>
 <body class="body">
     <jsp:include page="../common/sidebar.jsp"/>
     <div class="content-wrapper">
         <div class="content">
             <div class="practice-section">
-			    <p id="practice-section-title"><span class="material-symbols-outlined">delete_sweep</span>쓰레기 관리</p>
+			    <p id="practice-section-title">
+			    	<span class="material-symbols-outlined">delete_sweep</span>쓰레기 관리
+			    </p>
 			    <p>trash management</p>
 			</div>
 			<section class="content-section">
@@ -62,45 +63,45 @@
                 	<div class="trash-pageBar pageBar"></div>
                 </div>
 			</section>
-			<section class="content-section">
-                <div class="content-container">
-                	<div class="content-title-wrapper">
-                    	<div class="content-title">건의</div>
-	                   	<div class="filter-wrapper">
-						    <select name="condition" id="suggestion-filter-select">
-						        <option value="suggestionNo" selected>번호</option>
-						        <option value="suggestionTitle">제목</option>
-						        <option value="processingStatus">처리상태</option>
-						        <option value="processingDate">처리일</option>
-						    </select>
-						</div>
-                   	</div>
-					<table class="long-table suggestion-table">
-					    <thead class="long-thead suggestion-thead">
-					    	<tr class="long-tr">
-					    		<th>번호</th>
-                                <th>요청자 번호</th>
-                                <th>제목</th>
-                                <th>작성일</th>
-                                <th>처리상태</th>
-                                <th>처리일</th>
-                                <th>비고</th>
-					    	</tr>
-					    </thead>
-					    <tbody class="long-tbody suggestion-list"></tbody>
-					</table>
-					<div class="search-wrapper">
-						<select name="condition" id="suggestion-search-filter-select">
-			                <option value="suggestionNo" selected>번호</option>
-			                <option value="userNo">건의자 번호</option>
-			                <option value="suggestionTitle">제목</option>
-						</select>
-						<input type="search" class="search-input suggestion-search-input" placeholder="검색어를 입력하세요">
-						<input type="button" class="search-button suggestion-search-button" value="검색" onclick="suggestionSearch()">
-					</div>
-                	<div class="suggestion-pageBar pageBar"></div>
-                </div>
-			</section>
+<!-- 			<section class="content-section"> -->
+<!--                 <div class="content-container"> -->
+<!--                 	<div class="content-title-wrapper"> -->
+<!--                     	<div class="content-title">건의</div> -->
+<!-- 	                   	<div class="filter-wrapper"> -->
+<!-- 						    <select name="condition" id="suggestion-filter-select"> -->
+<!-- 						        <option value="suggestionNo" selected>번호</option> -->
+<!-- 						        <option value="suggestionTitle">제목</option> -->
+<!-- 						        <option value="processingStatus">처리상태</option> -->
+<!-- 						        <option value="processingDate">처리일</option> -->
+<!-- 						    </select> -->
+<!-- 						</div> -->
+<!--                    	</div> -->
+<!-- 					<table class="long-table suggestion-table"> -->
+<!-- 					    <thead class="long-thead suggestion-thead"> -->
+<!-- 					    	<tr class="long-tr"> -->
+<!-- 					    		<th>번호</th> -->
+<!--                                 <th>요청자 번호</th> -->
+<!--                                 <th>제목</th> -->
+<!--                                 <th>작성일</th> -->
+<!--                                 <th>처리상태</th> -->
+<!--                                 <th>처리일</th> -->
+<!--                                 <th>비고</th> -->
+<!-- 					    	</tr> -->
+<!-- 					    </thead> -->
+<!-- 					    <tbody class="long-tbody suggestion-list"></tbody> -->
+<!-- 					</table> -->
+<!-- 					<div class="search-wrapper"> -->
+<!-- 						<select name="condition" id="suggestion-search-filter-select"> -->
+<!-- 			                <option value="suggestionNo" selected>번호</option> -->
+<!-- 			                <option value="userNo">건의자 번호</option> -->
+<!-- 			                <option value="suggestionTitle">제목</option> -->
+<!-- 						</select> -->
+<!-- 						<input type="search" class="search-input suggestion-search-input" placeholder="검색어를 입력하세요"> -->
+<!-- 						<input type="button" class="search-button suggestion-search-button" value="검색" onclick="suggestionSearch()"> -->
+<!-- 					</div> -->
+<!--                 	<div class="suggestion-pageBar pageBar"></div> -->
+<!--                 </div> -->
+<!-- 			</section> -->
 			<section class="content-section">
                 <div class="content-container">
                 	<div class="content-title-wrapper">

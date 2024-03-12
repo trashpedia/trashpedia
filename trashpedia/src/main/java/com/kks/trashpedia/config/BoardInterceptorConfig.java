@@ -17,6 +17,5 @@ public class BoardInterceptorConfig implements WebMvcConfigurer{
 	                .addPathPatterns("/board/**")
 	                .addPathPatterns("/pledge/**")
 	                .addPathPatterns("/information/**");
-	        		//.errorPage("/error");
 	    }
 }

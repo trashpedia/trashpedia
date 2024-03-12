@@ -64,17 +64,17 @@ public class TrashController {
 	
 	//쓰레기 상세페이지이동
 	@GetMapping("/detail")
-	public ModelAndView trashDetail(TrashHits trashHits, HttpServletRequest request) {
+	public ModelAndView trashDetail(TrashHits trashHits, int trashNo, HttpServletRequest request) {
 		ModelAndView modelAndView = new ModelAndView();
 		
 		String userIp = (String) request.getSession().getAttribute("ip");
-		trashHits.setUserIp(userIp);
-		service.upCount(trashHits);
-		int trashNo = trashHits.getTrashNo();
+		if(userIp != null) {
+			trashHits.setUserIp(userIp);
+			service.upCount(trashHits);
+		}
 		
 		Trash trash = service.trashDetail(trashNo);
 		List<TrashPost> similarList = service.getSimilarList(trashNo);
-		
 		modelAndView.addObject("similarList", similarList);
 		modelAndView.addObject("trash", trash);
 		modelAndView.addObject("type", "read");
@@ -173,9 +173,9 @@ public class TrashController {
 		if (result > 0) {
 			ImgAttachment image;
 			try {
-				commonService.deleteImage(trashNo);
 				image = fileStore.storeImage(thumbnailImage);
 				if (image != null) {
+					commonService.deleteImage(trashNo);
 					image.setRefBno(trashNo);
 					image.setImgType(2);
 					result = commonService.insertFiles(image);

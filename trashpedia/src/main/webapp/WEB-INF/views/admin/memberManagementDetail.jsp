@@ -74,7 +74,25 @@
 	                <div class="member-item-wrapper">
                         <div class="member-item">
                             <div class="member-item-title">주소</div>
-                            <div class="member-item-subtitle">${not empty m.address1 ? m.zipcode + ' ' + m.address1 + ' ' + m.address2 + ' ' + m.address3 : '정보 없음'}</div>
+                            <div class="member-item-subtitle address">
+                            	<c:if test="${not empty m.zipcode}">
+	                            	<div>
+									    ${not empty m.zipcode ? m.zipcode : ''}
+	                            	</div>
+	                            	<div>
+									    ${not empty m.address1 ? m.address1 : ''}
+	                            	</div>
+	                            	<div>
+									    ${not empty m.address2 ? m.address2 : ''}
+	                            	</div>
+	                            	<div>
+									    ${not empty m.address3 ? m.address3 : ''}
+	                            	</div>
+                            	</c:if>
+                            	<c:if test="${empty m.zipcode}">
+                            		<div>정보 없음</div>
+                            	</c:if>
+                            </div>
                         </div>
                     </div>
             	</div>
