@@ -390,7 +390,7 @@
 	<select id="getHitDate" parameterType="hits" resultType="hits">
 		SELECT *
 		FROM HITS
-		WHERE BOARD_NO = #{boardNo} AND USER_IP = ${userIp} AND TRUNC(CREATE_DATE) = TRUNC(SYSDATE)
+		WHERE BOARD_NO = #{boardNo} AND USER_IP = '${userIp}' AND TRUNC(CREATE_DATE) = TRUNC(SYSDATE)
 	</select>
 
 <!-- 	게시글 조회수 증가 -->
