@@ -20,8 +20,8 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @RequiredArgsConstructor
 public class HomeController {
-	
-	private  final TrashService trashService;
+  
+	private final TrashService trashService;
 	private final PledgeService pledgeService;
 	private final InformationService informationService;
 	

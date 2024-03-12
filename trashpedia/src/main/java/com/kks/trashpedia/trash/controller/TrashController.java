@@ -54,12 +54,17 @@ public class TrashController {
 		//인기쓰레기
 		List<TrashPost> popularList = service.getPopularList();
 		
-//		log.info(" trash controller: {}", popularList);
-		
 		modelAndView.addObject("trashList", trashList);
 		modelAndView.addObject("popularList", popularList);
 		modelAndView.setViewName("encyclopedia/trashEncyclopedia");
 		return modelAndView;
+	}
+
+	//헤더 검색팝업창 인기쓰레기
+	@GetMapping("/popularlist")
+	public List<TrashPost> popularList() {
+		List<TrashPost> popularList = service.getPopularList();
+		return popularList;
 	}
 	
 	

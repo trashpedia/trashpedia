@@ -108,15 +108,15 @@
 	        </div>
         </form>
         <div class="search-span">
-            <ul> 
-                <span> Popular <strong> #TAG </strong></span>
-                <li>이불</li>
-                <li>우산</li>
-                <li>아보카도</li>
-                <li>소금</li>
-                <li>노트북배터리</li>
-                <li>쌀</li>
-            </ul>
+<!--             <ul>  -->
+<!--                 <span> Popular <strong> #TAG </strong></span> -->
+<!--                 <li>이불</li> -->
+<!--                 <li>우산</li> -->
+<!--                 <li>아보카도</li> -->
+<!--                 <li>소금</li> -->
+<!--                 <li>노트북배터리</li> -->
+<!--                 <li>쌀</li> -->
+<!--             </ul> -->
         </div>
     </div>
     </header>
@@ -131,26 +131,51 @@
             document.querySelector('.search-pop-up').classList.toggle('active');
         });
 
-     
         // 검색 팝업창 올라가기
         document.getElementById('pop-up-X').addEventListener('click', function() {
             document.querySelector('.search-pop-up').classList.toggle('active');
         });
-
-        // 검색팝업 태그 클릭시 검색창에 입력
-        var tagList = document.querySelectorAll('.search-span li');
-        tagList.forEach(function(tag) {
-            tag.addEventListener('click', function() {
-                document.querySelector('.search-input').value = tag.textContent;
-            })
-        });
+        
+        // 검색 팝업창 인기쓰레기 
+		function fetchData() {
+		    var xhr = new XMLHttpRequest();
+		    xhr.open("GET", "${contextPath}/trash/popularlist", true);
+		    xhr.onreadystatechange = function () {
+		        if (xhr.readyState === 4 && xhr.status === 200) {
+		            var response = JSON.parse(xhr.responseText);
+		            var search = document.querySelector(".search-span");
+		            var ul = document.createElement("ul");
+		            var span = document.createElement("span");
+		            var strong = document.createElement("strong");
+		
+		            span.textContent = " Popular ";
+		            strong.textContent = " #TAG ";
+		            span.appendChild(strong);
+		
+		            ul.appendChild(span);
+		
+		            response.forEach(function (data) {
+		                var li = document.createElement("li");
+		                li.textContent = data.trashTitle;
+		                //li누르면 input창에 value값 입력
+		                li.addEventListener('click', function() {
+		               		document.querySelector('.search-input').value = data.trashTitle;
+		                })
+		                ul.appendChild(li);
+		            });
+		            search.innerHTML = ''; // Clear the existing content
+		            search.appendChild(ul);
+		        }
+		    };
+		    xhr.send();
+		}
+		fetchData();
 
         // 스크롤 변화에 따른 header 스타일 변경
         window.addEventListener('scroll', function() {
             // 스크롤 위치가 50보다 크면 배경색 변경
             if (window.scrollY > 50) {
-                header.style.backgroundColor = 'rgba(255, 255, 255, 0.8)';
-                // header.style.backdropFilter = 'blur(5px)';
+                header.style.backgroundColor = 'rgba(255, 255, 255, 0.7)';
             } else {
                 // 마우스 오버 상태가 아닐 때만 기본 색상으로 변경
                 if (!header.classList.contains('header-mouseover')) {
@@ -158,6 +183,7 @@
                 }
             }
         });
+  
     </script>
 </body>
 </html>
