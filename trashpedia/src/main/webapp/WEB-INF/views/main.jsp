@@ -71,16 +71,6 @@
 							</div>
 						</c:otherwise>
 					</c:choose>
-					
-<!-- 					<div class="recently-garbage"> -->
-<!-- 						<div class="garbage-img-outer"> -->
-<!-- 							<img class="recently-garbage-img" -->
-<!-- 								src="https://blisgo.com/wp-content/uploads/elementor/thumbs/%E1%84%8A%E1%85%A1%E1%86%AF-%E1%84%87%E1%85%A1%E1%86%B8-qad46pf66xxu6kwhcbtq0696eqgc2m8a3en2ef5g5c.jpg"> -->
-<!-- 							<p class="recently-garbage-title">쌀</p> -->
-<!-- 						</div> -->
-<!-- 						<p class="recently-garbage-content">생쌀이나 취사된 밥은 모두 음식물 쓰레기로 -->
-<!-- 							버려요.</p> -->
-<!-- 					</div> -->
 				</div>
 			</div>
 
@@ -155,69 +145,67 @@
 
 		</div>
 
-
 		<div class="showEvent">
-		<div class="content-outer">
-			<p id="contentP1">환경을 위한 습관</p>
-			<p id="contentP2">함께하는 자원순환의 첫 걸음</p>
-			<p id="contentP3"> Go Green with <span>TRESHPEDIA</span> </p>
-		</div>
-
-		<!-- 배경이미지 -->
-		<img class="green-img" src="<c:url value='/resources/image/main/mainImg/greenBackImg.jpg' />" alt="Green Background Image">
-		
-		<!-- 공지사항 / 실천서약 -->
-		<div id="popularPost">
-
-			<div id="popularPostBack">
-				<section class="backSection"></section>
+			<div class="content-outer">
+				<p id="contentP1">환경을 위한 습관</p>
+				<p id="contentP2">함께하는 자원순환의 첫 걸음</p>
+				<p id="contentP3"> Go Green with <span>TRESHPEDIA</span> </p>
 			</div>
-
-			<div class="posts-container">
-
-				<!-- 왼쪽: 공지게시글-->
-				<div id="noticePostsDiv">
-					<span class="post-title">공지사항</span> <span class="more-btn"><a
-						href="#">더보기</a></span>
-					<div class="noticePostImg">
-						<a href="#"> <img
-							src="https://www.recycling-info.or.kr/act4r/cmm/image/view.do?id=agenfileupload_202310260443191071&ext=jpg">
-						</a>
-					</div>
+	
+			<!-- 배경이미지 -->
+			<img class="green-img" src="<c:url value='/resources/image/main/mainImg/greenBackImg.jpg' />" alt="Green Background Image">
+			
+			<!-- 공지사항 / 실천서약 -->
+			<div id="popularPost">
+	
+				<div id="popularPostBack">
+					<section class="backSection"></section>
 				</div>
-
-				<!-- 오른쪽: 실천인증 게시글 리스트 -->
-				<div id="instagramPostsDiv">
-					<span class="post-title">자원순환 실천인증</span> <span class="more-btn">
-					 <a href="${contextPath}/pledge/list?bigCategoryNo=2&subCategoryNo=6">더보기</a></span>
-					<div class="instagram-posts-list">
-					
-						<c:choose>
-							<c:when test="${not empty pledgeList}">
-								<c:forEach var="post" items="${pledgeList}">
-									<div class="post-container" onclick="pledgeDetail(${post.postNo})">
-										<img src="<c:url value='/resources/attachFile/image/${post.changeName}'/>" alt="Instagram Image"> 
-											<span class="insta-logo"> 
-											<img class="snsimg" src="https://www.recycling-info.or.kr/act4r/taglive_img/instagram.png"
-											social-name="instagram" alt="instagram">
-										</span>
-									 <div class="post-overlay">
-							            <p><c:out value="${post.content.replaceAll('<.*?>', '').replaceAll('&lt;', '<').replaceAll('&gt;', '>')}" /></p>
-							        </div>
+	
+				<div class="posts-container">
+	
+					<!-- 왼쪽: 공지게시글-->
+					<div id="noticePostsDiv">
+						<span class="post-title">공지사항</span> 
+						<span class="more-btn"><a href="${contextPath}/board/list?bigCategoryNo=1&subCategoryNo=1">더보기</a></span>
+						<div class="noticePostImg">
+							<a href="${contextPath}/board/list?bigCategoryNo=1&subCategoryNo=1"> 
+								<img src="https://www.recycling-info.or.kr/act4r/cmm/image/view.do?id=agenfileupload_202310260443191071&ext=jpg">
+							</a>
+						</div>
+					</div>
+	
+					<!-- 오른쪽: 실천인증 게시글 리스트 -->
+					<div id="instagramPostsDiv">
+						<span class="post-title">자원순환 실천인증</span> <span class="more-btn">
+						 <a href="${contextPath}/pledge/list?bigCategoryNo=2&subCategoryNo=6">더보기</a></span>
+						<div class="instagram-posts-list">
+							<c:choose>
+								<c:when test="${not empty pledgeList}">
+									<c:forEach var="post" items="${pledgeList}">
+										<div class="post-container" onclick="pledgeDetail(${post.postNo})">
+											<img src="<c:url value='/resources/attachFile/image/${post.changeName}'/>" alt="Instagram Image"> 
+												<span class="insta-logo"> 
+												<img class="snsimg" src="https://www.recycling-info.or.kr/act4r/taglive_img/instagram.png"
+												social-name="instagram" alt="instagram">
+											</span>
+										 <div class="post-overlay">
+								            <p><c:out value="${post.content.replaceAll('<.*?>', '').replaceAll('&lt;', '<').replaceAll('&gt;', '>')}" /></p>
+								        </div>
+										</div>
+									</c:forEach>
+								</c:when>
+								<c:otherwise>
+									<div class="post-container">
+										<p>게시글이 없습니다.</p>
 									</div>
-								</c:forEach>
-							</c:when>
-							<c:otherwise>
-								<div class="post-container">
-									<p>게시글이 없습니다.</p>
-								</div>
-							</c:otherwise>
-						</c:choose>
+								</c:otherwise>
+							</c:choose>
+						</div>
 					</div>
+	
 				</div>
-
 			</div>
-		</div>
 		</div>
 
 	</main>
@@ -248,7 +236,7 @@
 		});
 	
 		$('.showEvent').each(function() {
-		  observer.observe(this);
+			observer.observe(this);
 		});
 	    
     
@@ -294,9 +282,8 @@
 	        $("#scrollDownButton").click(function() {
 	            $("body, html").animate({ 
 	                scrollTop: 1200 
-	            }, 1300); 
+	            }, 1800); 
 	        });
-	        
 	        // 상단 이동 버튼
 	        var scrollUpButton = $('#scrollUpButton');
 
