@@ -13,7 +13,6 @@
     <link rel="stylesheet" href="${contextPath}/resources/css/common/header.css">
 </head>
 <body>
-	
 	<c:if test="${not empty alert}">
 		<script>
 		    alert("${alert}");
@@ -80,12 +79,12 @@
             <div class="header-search header-search-main">
                <ul class="header-right">
               	<c:if test="${authentication == null}">
-	                <!-- 로그인 안했을 때 보이기 -->
+	                <!-- 로그인 전 -->
                     <li><span class="material-symbols-outlined icon">login</span><a href="${contextPath}/login">login</a> </li>
                     <li><span class="material-symbols-outlined icon">person </span><a href="${contextPath}/member/join">Signup</a></li>
                </c:if>
                	<c:if test="${authentication != null}">
-                    <!-- 로그인 했을 때 보이기 1-->
+                    <!-- 로그인 후-->
                     <li><span class="material-symbols-outlined icon">logout</span><a href="${contextPath}/logout">logout</a> </li>
                     <li><span class="material-symbols-outlined icon">person</span><a href="${contextPath}/member/myPage">MyPage</a> </li>
              	</c:if> 
@@ -108,15 +107,6 @@
 	        </div>
         </form>
         <div class="search-span">
-<!--             <ul>  -->
-<!--                 <span> Popular <strong> #TAG </strong></span> -->
-<!--                 <li>이불</li> -->
-<!--                 <li>우산</li> -->
-<!--                 <li>아보카도</li> -->
-<!--                 <li>소금</li> -->
-<!--                 <li>노트북배터리</li> -->
-<!--                 <li>쌀</li> -->
-<!--             </ul> -->
         </div>
     </div>
     </header>

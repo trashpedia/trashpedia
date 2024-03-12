@@ -13,7 +13,7 @@ public class BoardInterceptorConfig implements WebMvcConfigurer{
 		  
 		  	//BoardInterceptor 등록 - 파일 수정/등록 시 사용
 	        registry.addInterceptor(new BoardInterceptor())
-	                .addPathPatterns("/trash/**")
+//	                .addPathPatterns("/trash/**")
 	                .addPathPatterns("/board/**")
 	                .addPathPatterns("/pledge/**")
 	                .addPathPatterns("/information/**");
