@@ -20,11 +20,6 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 public class HomeController {
 	
-//	@GetMapping("/")
-//	public String home() {
-//		return "main";
-//	}
-	
 	@Autowired
 	private  TrashService trashService;
 	

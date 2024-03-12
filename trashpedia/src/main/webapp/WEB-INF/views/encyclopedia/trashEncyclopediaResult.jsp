@@ -17,12 +17,8 @@
 <link rel="stylesheet"
 	href="https://unpkg.com/swiper@6.8.4/swiper-bundle.min.css" />
 <script src="https://unpkg.com/swiper@6.8.4/swiper-bundle.min.js"></script>
-<!-- GoogleFonts -->
-<link rel="stylesheet"
-	href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 <!-- css -->
 <link rel="stylesheet" href="${contextPath}/resources/css/encyclopedia/trashEncyclopediaResult.css">
-
 <!-- slick 라이브러리 CSS -->
 <link rel="stylesheet" type="text/css"
 	href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />

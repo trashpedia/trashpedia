@@ -73,9 +73,7 @@
 					</c:choose>
 				</div>
 			</div>
-
 		</div>
-		
 
 		<!-- 정보자료글-홍보교육자료 -->
 		<div class="information-outer showEvent">
@@ -270,9 +268,6 @@
 	                slidesToScroll: 1,
 	                autoplay: true,
 	                autoplaySpeed: 3000
-// 	                arrows : true,
-// 	                prevArrow: '<div class="custom-prev"></div>',
-// 	                nextArrow: '<div class="custom-next"></div>'
 	            });
 	    });
 	
@@ -357,7 +352,6 @@
 	        }).scroll();
 	    });
 	    
-	    
 	    // 쓰레기사전 상세페이지로 이동
 	    function trashDetail(trashNo) {
 	     	location.href = "${contextPath}/trash/detail?trashNo=" + trashNo;
@@ -372,8 +366,6 @@
 	    function pledgeDetail(postNo) {
 	    	location.href = "${contextPath}/pledge/detail/" + postNo;
     	}
-	    
-	    
 	    
     </script>
 
