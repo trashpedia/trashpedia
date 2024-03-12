@@ -81,6 +81,36 @@
 	</div>
 	<jsp:include page="../common/footer.jsp" />
 	<script>
+	
+	 // 스크롤 변화에 따른 header 스타일 변경
+	$(window).scroll(function() {
+	  var header = $('.header');
+	  var headerLinks = $('.header-nav ul li a');
+	  var headerRightLink = $('.header-right li a, .header-right li span');
+	
+	  if ($(window).scrollTop() > 100) {
+	    header.addClass('header-scroll');
+	    headerLinks.css({
+	      color: 'black',
+	    });
+	    headerRightLink.css({
+	      color: 'rgb(88, 88, 88)',
+	    });
+	  } else {
+	    header.removeClass('header-scroll');
+	    headerLinks.css({
+	      color: '',
+	      fontWeight: ''
+	    });
+	    headerRightLink.css({
+	      color: '',
+	      fontWeight: ''
+	    });
+	  }
+	});
+	 
+	 
+	 
 		let observer = new IntersectionObserver((entries) => {
 		  entries.forEach((entry) => {
 		    if (entry.isIntersecting) { // 화면에 나타날 때
@@ -161,6 +191,9 @@
 	    function redirectToAllList() {
 	        location.href = "${contextPath}/trash/allList";
 	    }
+	    
+	   
+	    
 	</script>
 </body>
 </html>
