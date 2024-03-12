@@ -81,6 +81,7 @@ body {
  
  /* 쓰레기 검색부분  */
 .ency-background{
+	margin-top:-100px;
 	background-image:url('../../image/encyclopedia/쓰레기메인1.png');
 	position: relative;
     background-size: cover; 
@@ -437,3 +438,36 @@ main .popular-garbage-img{
 	background-color:white;
 	border:1px solid #4CAF50
 }
+
+
+/* ------------- 헤더 메인페이지 스타일 적용 ------------- */
+
+header{
+    background-color : none;
+    transition: background-color 0.3s ease-in-out;
+}
+
+header .header-nav li a{
+    color: rgba(255, 255, 255, 0.8);
+    font-weight: 600;
+}
+/* .header-nav .header-menu-ul>li>a{
+	color: inherit !important;
+    font-weight: 600;
+} */
+
+header .header-nav li a:hover{
+    color: #6eb76e !important;
+    -webkit-transition: all .3s !important;
+}
+
+/* 헤더 오른쪽 부분 */
+header .header-search-main{
+    color: rgb(190, 190, 190);
+    font-weight: 600;
+    font-size: 13px;
+}
+
+header .header-right li,.header-right li a {
+    color: rgba(203, 203, 203, 0.9);
+} 
