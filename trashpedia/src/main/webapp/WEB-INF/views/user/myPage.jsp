@@ -56,13 +56,13 @@
 				$("#reportList").show();
 			});
 			
-			$("#reportDetail").click(function(){
-				$("#activityList").hide();
-				$("#replyList").hide();
-				$("#memberInfo").hide();
-				$("#reportList").show();
-				$("#reportComment").show();
-			});
+// 			$("#reportDetail").click(function(){
+// 				$("#activityList").hide();
+// 				$("#replyList").hide();
+// 				$("#memberInfo").hide();
+// 				$("#reportList").show();
+// 				$("#reportComment").show();
+// 			});
 
 			// 회원정보 탭을 클릭했을 때
 			$("#memberInfoTab").click(function() {
@@ -230,7 +230,7 @@
 		<!-- 내 신고 리스트  -->
 		<section id="reportList"
 			style="max-height: 800px; overflow-y: auto; scroll-margin-top: 50px;">
-			<h3>활동 내역(내 댓글)</h3>
+			<h3>내 신고 내역</h3>
 			<table>
 				<thead>
 					<tr>
@@ -249,8 +249,9 @@
 								<td>${activity.processingDate}</td>
 								<td>${fn:substring(activity.reportContent,0,65)}</td>
 								<%-- <td>${fn:substring(activity.processingContent,0,65)}</td> --%>
-								<td><button class="detailBtn" id="reportDetail" style="box-sizing:border"
-										onclick="reportDetail(${activity.processingContent})">상세보기</button></td>
+								<td><button class="detailBtn" id="reportDetail"
+										style="box-sizing: border"
+										onclick="reportDetail('${activity.processingContent}')">상세보기</button></td>
 							</tr>
 						</c:forEach>
 					</c:if>
@@ -323,7 +324,8 @@
 					<div class="field">
 						<b>비밀번호</b> <input type="password" name="userPwd" class="userpw"
 							id="passwordInput" oninput="updatePasswordNotice()"
-							name="userPwd" placeholder="${member.userPwd}" value="${member.userPwd}">
+							name="userPwd">
+							
 					</div>
 					<div class="field">
 						<div class="title">
@@ -352,7 +354,7 @@
 					</div>
 					<div class="field tel-number">
 						<b>휴대전화</b> <input type="tel" name="phone"
-							placeholder="${member.phone}" value="${member.phone}">
+							placeholder="'- 없이 입력해주세요.'" value="${member.phone}">
 					</div>
 					<!-- 주소입력  -->
 					<div class="field address">
@@ -387,34 +389,40 @@
 			</form>
 		</section>
 
+
+
+
+
+
+
 		<!-- 신고내용 / 신고처리내용 인증 Modal -->
-		<div class="modal" id="reportComment" style="hegith: 250px;">
+		<div class="modal" id="reportComment" style="height: 550px; widht:300px;">
 			<div class="modal-dialog">
 				<div class="modal-content">
-					<!-- 					Modal Header -->
+					<!-- Modal Header -->
 					<div class="modal-header">
 						<h4 class="modal-title">신고처리 내용</h4>
 						<button type="button" class="close" data-dismiss="modal"
 							id="reportclose">&times;</button>
 					</div>
-					<!-- 					Modal body -->
-					<form action="pwdAuth.me" method="post" style="margin-top: 50px;"
-						id="pwdAuth-userPwd">
-
+					<!-- Modal body -->
+					<div action="" method="post" style="margin-top: 20px;">
 						<table class="modalTable">
 							<tr>
-						
-
-								<input style="border: 1px solid black; height: 200px" readonly value="${processingContentInput}">
+							
+								<td><input id="processingContentInput"
+									style="border: 1px solid black; width:400px; max-height: 200px; margin-bottom:20px; text-align: left; vertical-align: top;
+									font-size:18px; letter-spacing: 2px; box-sizing: border; " 
+									value="${processingContent}" readonly>
+								</td>
 							</tr>
 						</table>
 						<br>
-
-
-					</form>
-				</div>`
+					</div>
+				</div>
 			</div>
 		</div>
+
 
 
 		<!-- 		비밀번호 인증 Modal -->
@@ -687,11 +695,11 @@
 	<script>
  
 
-    	function reportDetail(processingContent){
-				
-    	   document.getElementById('processingContentInput').value = processingContent;
-    	        
-    	}
+    function reportDetail(processingContent) {
+        document.getElementById('processingContentInput').value = processingContent;
+        console.log(processingContent);
+        $('#reportComment').modal('show');
+    }
 	</script>
 
 

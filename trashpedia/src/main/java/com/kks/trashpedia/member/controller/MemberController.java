@@ -2,6 +2,8 @@ package com.kks.trashpedia.member.controller;
 
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -45,7 +47,7 @@ public class MemberController {
 			List<Board> myPost = service.pledgeList(userNo);
 			List<Report> reportList=service.reportList(userNo);
 			List<Board> myComment = service.commentList(userNo);
-			
+//			System.out.println(reportList);
 			
 			mav.addObject("member", member);
 			mav.addObject("authentication", authentication);
@@ -106,14 +108,16 @@ public class MemberController {
 
 	// 업데이트기능
 	@PostMapping("/update.me")
-	public ModelAndView updateMember(Member m) {
+	public ModelAndView updateMember(Member m,  HttpSession session) {
 
 		ModelAndView mav = new ModelAndView();
 		int result = service.updateMember(m);
 
 		if (result > 0) {
 			mav.addObject("alert", "회원 정보가 업데이트되었습니다. 재로그인 해주세요");
-			mav.setViewName("user/login");
+			 // 업데이트된 정보를 세션에 저장합니다.
+//			session.setAttribute("authentication", result);
+			mav.setViewName("redirect:/login");
 		} else {
 			mav.addObject("alert", "회원 정보 수정에 실패했습니다. 다시 시도해주세요");
 			mav.setViewName("redirect:/member/myPage");
@@ -123,31 +127,36 @@ public class MemberController {
 
 	// 페스워드 확인
 	@PostMapping("/pwdAuth.me")
-	public ModelAndView pwdAuth(Member m) {
+	public ResponseEntity<String> pwdAuth(Member m) {
 		ModelAndView mav = new ModelAndView();
 		
-		String submittedPassword = m.getUserPwd();
-		
+		String submittedPassword = m.getUserPwd(); //받은 패스워드
+
 		int userNo = m.getUserNo(); // 접속한 유저번호
+
 		
 		Member user=new Member();
-		user.setUserNo(userNo);
+		user.setUserNo(userNo); // userNo제외 빈 객체
+
 		
-		Member member = service.getMember(user);
+		Member member = service.getMember(user); // 접속중인 유저 정보
+
 		
 		String hashedPasswordFromDatabase = member.getUserPwd();
 		if (passwordEncoder.matches(submittedPassword, hashedPasswordFromDatabase)) { // 받은 페스워드, 기존암호화된 페스워드 확인
 			// 비밀번호가 일치함
-			mav.addObject("alert", "페스워드 인증성공");
-			mav.setViewName("redirect:/member/myPage");
+//			mav.addObject("alert", "페스워드 인증성공");
+//			mav.setViewName("redirect:/member/myPage");
+			return ResponseEntity.ok("success");
 			// 로그인 성공 처리
 		} else {
 			// 비밀번호가 일치하지 않음
-			mav.addObject("alert", "패스워드 인증실패");
-			mav.setViewName("redirect:/member/myPage");
+//			mav.addObject("alert", "패스워드 인증실패");
+//			mav.setViewName("redirect:/member/myPage");
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("failure");
 		}
 
-		return mav;
+//		return mav;
 	}
 
 	@PostMapping("/delete.me")

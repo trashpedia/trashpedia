@@ -36,21 +36,27 @@ public class MemberDaoImpl implements MemberDao {
 	@Override
 	public int updateMember(Member m) {
 
-		// 회원 정보 가져오기
+		System.out.println("매개 m: "+m);
+		
 		Member member = session.selectOne("memberMapper.getMember", m);
-
-		// 가져온 회원 정보가 null인 경우 예외 발생
-
+		System.out.println("기존 member: "+member);
+		
 		// 회원 정보 업데이트
-		member.setUserPwd(passwordEncoder.encode(m.getUserPwd()));
+		if(m.getUserPwd() == null || m.getUserPwd().equals("")) {
+			member.setUserPwd(member.getUserPwd());
+		}else {
+			member.setUserPwd(passwordEncoder.encode(m.getUserPwd()));
+		}
+	
+		// 회원 정보 업데이트
 		member.setUserName(m.getUserName());
 		member.setUserNickname(m.getUserNickname());
-		member.setPhone(m.getPhone());
+		member.setPhone(m.getPhone().replaceAll("[^0-9]", ""));
 		member.setZipcode(m.getZipcode());
 		member.setAddress1(m.getAddress1());
 		member.setAddress2(m.getAddress2());
 		member.setAddress3(m.getAddress3());
-
+		System.out.println("업데이트된 member: "+member);
 		// 회원 정보 업데이트 실행
 		return session.update("memberMapper.updateMember", member);
 

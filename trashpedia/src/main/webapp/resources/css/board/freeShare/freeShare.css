@@ -119,7 +119,7 @@ main{
 }
 
 .Content .Container .List{
-    max-height: 1370px;
+    height: 1376.4px;
     align-self: stretch; 
     padding-top: 20px; 
     padding-bottom: 20px; 
@@ -397,7 +397,7 @@ main{
     width: 361px; 
     height: 40px; 
     /* left: 539px;  */
-    top: 1627px; 
+    top: 1677px; 
     position: absolute;
     display: flex;
     flex-direction: row;
@@ -423,6 +423,8 @@ main{
     padding: 10px 20px;
     padding-bottom: 35px;
     color: rgb(67, 121, 103);;
+    
+    
 }
 .PagingArea #btn:hover{
     background-color: rgb(107, 199, 168);

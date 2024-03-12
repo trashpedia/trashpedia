@@ -106,6 +106,8 @@
 	font-weight: 500;
 	background-color: #73cc73;
 	color: white;
+	justify-content:center;
+	font-size:29px;
 }
 </style>
 <script type="text/javascript">
