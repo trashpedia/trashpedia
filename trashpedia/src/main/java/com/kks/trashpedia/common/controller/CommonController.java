@@ -24,6 +24,7 @@ import com.kks.trashpedia.common.FileStore;
 import com.kks.trashpedia.common.service.CommonService;
 import com.kks.trashpedia.pledge.model.service.PledgeService;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 
@@ -45,7 +46,11 @@ public class CommonController {
 	
 	//카테고리 정보 가지고오기
 	@GetMapping("/write")
-	public ModelAndView getCategory(SubCategory subcate, int type) {
+	public ModelAndView getCategory(SubCategory subcate, int type, HttpServletRequest request) {
+		
+		String nextUrl = request.getHeader("referer");
+		request.getSession().setAttribute("nextUrl", nextUrl);
+		
 		ModelAndView mv = new ModelAndView();
 		SubCategory category = service.getSubCategory(subcate);
 		mv.addObject("category",category);
@@ -67,6 +72,10 @@ public class CommonController {
 			@RequestParam int type
 			) throws IOException {
 		ModelAndView mv = new ModelAndView();
+		
+		//session에 담긴 마지막 url가지고오기
+		String nextUrl = (String) session.getAttribute("nextUrl");
+		
 		// post 등록
 		int postNo = service.createPost(p);
 
@@ -97,16 +106,10 @@ public class CommonController {
 		} else {
 			ra.addFlashAttribute("alert", "게시글 작성에 실패하셨습니다.");
 		}
-		String nextUrl = (String) session.getAttribute("lastUrl");
-		mv.setViewName("redirect:/");
+		mv.setViewName("redirect:"+nextUrl);
 
 		if (nextUrl != null) {
-			// 첫 번째 path segment만 추출
-			UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(nextUrl);
-			String firstPathSegment = builder.build().getPathSegments().get(0);
-
-			mv.setViewName("redirect:" + "/" + firstPathSegment + "/list?bigCategoryNo=" + p.getBigCategoryNo()
-					+ "&subCategoryNo=" + p.getSubCategoryNo());
+			mv.setViewName("redirect:/");
 		}
 		return mv;
 	}
@@ -122,12 +125,15 @@ public class CommonController {
 	
 	//게시글수정 페이지이동
 	@GetMapping("/update")
-	public ModelAndView updatePostPage(@RequestParam int type,SubCategory subcate, Board b) {
+	public ModelAndView updatePostPage(@RequestParam int type,SubCategory subcate, Board b, HttpServletRequest request) {
 		
 		ModelAndView mv = new ModelAndView();
 		SubCategory category = service.getSubCategory(subcate);
-		
 		Post post = service.getPost(b.getPostNo());
+		
+		// 수정누르기 전 마지막 url담기
+		String nextUrl = request.getHeader("referer");
+		request.getSession().setAttribute("nextUrl", nextUrl);
 		
 		//이미지,첨부파일,카테고리
 		ImgAttachment img = pService.pledgeDetailImg(post.getBoardNo());
@@ -159,29 +165,28 @@ public class CommonController {
 			) throws IOException {
 		
 		int result = service.updatePost(p, deleteImg, deleteFile, upfile, thumbnailImage,type);
+		
+		//session에 담긴 마지막 url가지고오기
+		String nextUrl = (String) session.getAttribute("nextUrl");
 	    
 		if (result > 0) {
 			ra.addFlashAttribute("alert", "게시글이 수정되었습니다.");
 		} else {
 			ra.addFlashAttribute("alert", "게시글 수정에 실패했습니다.");
 		}
-		String nextUrl = (String) session.getAttribute("lastUrl");
+
+		mv.setViewName("redirect:"+nextUrl);
 
 		if (nextUrl != null) {
-			// 첫 번째 path segment만 추출
-			UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(nextUrl);
-			String firstPathSegment = builder.build().getPathSegments().get(0);
-
-			mv.setViewName("redirect:" + "/" + firstPathSegment + "/list?bigCategoryNo=" + p.getBigCategoryNo()
-					+ "&subCategoryNo=" + p.getSubCategoryNo());
+			mv.setViewName("redirect:/");
 		}
+		
 		return mv;
 	}
 	
 	// 목록으로 돌아가기
 	@GetMapping("/returnList")
-	public ModelAndView returnList(
-	        SubCategory subcategory, ModelAndView mv, RedirectAttributes ra, HttpSession session) {
+	public ModelAndView returnList( SubCategory subcategory, ModelAndView mv, RedirectAttributes ra, HttpSession session ) {
 
 	    String nextUrl = (String) session.getAttribute("lastUrl");
 
