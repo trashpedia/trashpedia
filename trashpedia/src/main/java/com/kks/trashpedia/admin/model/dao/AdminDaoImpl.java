@@ -17,6 +17,7 @@ import org.springframework.stereotype.Repository;
 import com.kks.trashpedia.board.model.vo.Board;
 import com.kks.trashpedia.board.model.vo.Comment;
 import com.kks.trashpedia.board.model.vo.NestedComment;
+import com.kks.trashpedia.board.model.vo.Post;
 import com.kks.trashpedia.member.model.vo.Member;
 import com.kks.trashpedia.point.model.vo.PointHistory;
 import com.kks.trashpedia.report.model.vo.Report;
@@ -230,12 +231,24 @@ public class AdminDaoImpl implements AdminDao{
 	
 	@Override
 	public int deleteBoard(int boardNo) {
-		return session.update("adminMapper.deleteBoard",boardNo);
+		Post post = session.selectOne("adminMapper.getPost",boardNo);
+		int postNo = post.getPostNo();
+		int result = session.update("adminMapper.deletePost",postNo);
+		if(result > 0) {
+			result = session.update("adminMapper.deleteBoard",boardNo);
+		}
+		return result;
 	}
 
 	@Override
 	public int undeleteBoard(int boardNo) {
-		return session.update("adminMapper.undeleteBoard",boardNo);
+		Post post = session.selectOne("adminMapper.getPost",boardNo);
+		int postNo = post.getPostNo();
+		int result = session.update("adminMapper.undeletePost",postNo);
+		if(result > 0) {
+			result = session.update("adminMapper.undeleteBoard",boardNo);
+		}
+		return result;
 	}
 
 	@Override

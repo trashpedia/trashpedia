@@ -2,8 +2,49 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="reportMapper">
 
+	<select id="getReport" parameterType="int" resultType="report">
+		SELECT *
+		FROM REPORT R
+		WHERE REPORT_NO = #{reportNo}
+	</select>
+	
+	<select id="getReportDetail" parameterType="report" resultType="report">
+		<choose>
+			<when test="reportType == 1">
+				SELECT R.REPORT_NO, M.USER_NAME, P.TITLE, R.REPORT_CONTENT, R.REPORT_DATE, R.PROCESSING_CONTENT, R.PROCESSING_DATE, R.REPORT_TARGET_NO, B.BOARD_NO, R.REPORT_TYPE, R.STATUS
+				FROM REPORT R
+				LEFT JOIN MEMBER M ON R.USER_NO = M.USER_NO
+				LEFT JOIN BOARD B ON R.REPORT_TARGET_NO = B.BOARD_NO
+				LEFT JOIN POST P ON P.POST_NO = B.POST_NO
+				WHERE REPORT_TYPE = 1 AND REPORT_NO = #{reportNo}
+			</when>
+			<when test="reportType == 2">
+				SELECT B.BOARD_NO, R.REPORT_NO, M.USER_NAME, COALESCE(C.CONTENT, NC.CONTENT) AS CONTENT,
+				R.REPORT_CONTENT, R.PROCESSING_CONTENT, R.REPORT_DATE, R.PROCESSING_DATE, R.REPORT_TARGET_NO, R.REPORT_TYPE, R.STATUS
+				FROM REPORT R
+				LEFT JOIN MEMBER M ON R.USER_NO = M.USER_NO
+				LEFT JOIN "COMMENT" C ON R.REPORT_TARGET_NO = C.COMMENT_NO AND R.REPORT_TYPE = 2
+				LEFT JOIN NESTED_COMMENT NC ON R.REPORT_TARGET_NO = NC.NESTED_COMMENT_NO AND R.REPORT_TYPE = 3
+				LEFT JOIN BOARD B ON B.BOARD_NO = COALESCE(C.BOARD_NO, NC.COMMENT_NO)
+				LEFT JOIN POST P ON P.POST_NO = B.POST_NO
+				WHERE REPORT_TYPE = 2 AND REPORT_NO = #{reportNo}
+			</when>
+			<when test="reportType == 3">
+				SELECT B.BOARD_NO, R.REPORT_NO, M.USER_NAME, COALESCE(C.CONTENT, NC.CONTENT) AS CONTENT,
+				R.REPORT_CONTENT, R.REPORT_DATE, R.PROCESSING_CONTENT, R.PROCESSING_DATE, R.REPORT_TARGET_NO, R.REPORT_TYPE, R.STATUS
+				FROM REPORT R
+				LEFT JOIN MEMBER M ON R.USER_NO = M.USER_NO
+				LEFT JOIN "COMMENT" C ON R.REPORT_TARGET_NO = C.COMMENT_NO AND R.REPORT_TYPE = 2
+				LEFT JOIN NESTED_COMMENT NC ON R.REPORT_TARGET_NO = NC.NESTED_COMMENT_NO AND R.REPORT_TYPE = 3
+				LEFT JOIN BOARD B ON B.BOARD_NO = COALESCE(C.BOARD_NO, NC.COMMENT_NO)
+				LEFT JOIN POST P ON P.POST_NO = B.POST_NO
+				WHERE REPORT_TYPE = 3 AND REPORT_NO = #{reportNo}
+			</when>
+		</choose>
+	</select>
+	
 	<select id="getBoardReportList" resultType="Report">
-		SELECT R.REPORT_NO, P.TITLE, R.REPORT_CONTENT, R.REPORT_DATE, R.PROCESSING_DATE, R.REPORT_TARGET_NO
+		SELECT R.REPORT_NO, P.TITLE, R.REPORT_CONTENT, R.REPORT_DATE, R.PROCESSING_DATE, R.REPORT_TARGET_NO, B.BOARD_NO
 		FROM REPORT R
 		LEFT JOIN BOARD B ON R.REPORT_TARGET_NO = B.BOARD_NO
 		LEFT JOIN POST P ON P.POST_NO = B.POST_NO
@@ -15,21 +56,21 @@
 				AND P.TITLE LIKE '%' || #{searchValue} || '%'
 			</if>
 			<if test="searchSelect == 'reportContent'">
-				AND REPORT_CONTENT LIKE '%' || #{searchValue} || '%'
+				AND R.REPORT_CONTENT LIKE '%' || #{searchValue} || '%'
+			</if>
+			<if test="searchSelect == 'processingDate'">
+				AND R.PROCESSING_DATE LIKE '%' || #{searchValue} || '%'
 			</if>
 		ORDER BY
 			<choose>
 				<when test="sort == 'reportNo'">
-					R.REPORT_NO
+					R.REPORT_NO DESC
 				</when>
 				<when test="sort == 'title'">
-					P.TITLE
-				</when>
-				<when test="sort == 'content'">
-					P.CONTENT
+					P.TITLE ASC
 				</when>
 				<when test="sort == 'processingDate'">
-					PROCESSING_DATE
+					PROCESSING_DATE DESC
 				</when>
 			</choose>
 	</select>
@@ -43,17 +84,17 @@
 			<if test="searchSelect == 'title'">
 				AND P.TITLE LIKE '%' || #{searchValue} || '%'
 			</if>
-			<if test="searchSelect == 'reportContent'">
-				AND REPORT_CONTENT LIKE '%' || #{searchValue} || '%'
+			<if test="searchSelect == 'processingDate'">
+				AND PROCESSING_DATE LIKE '%' || #{searchValue} || '%'
 			</if>
 	</select>
 	
 	<select id="getCommentReportList" resultType="Report">
-		SELECT R.REPORT_NO, C.CONTENT, R.REPORT_CONTENT, R.REPORT_DATE, R.PROCESSING_DATE, R.REPORT_TARGET_NO
+		SELECT B.BOARD_NO, R.REPORT_NO, C.COMMENT_NO, NC.NESTED_COMMENT_NO, COALESCE(C.CONTENT, NC.CONTENT) AS CONTENT, R.REPORT_CONTENT, R.REPORT_DATE, R.PROCESSING_DATE, R.REPORT_TARGET_NO
 		FROM REPORT R
-		LEFT JOIN "COMMENT" C ON R.REPORT_TARGET_NO = C.COMMENT_NO
-		LEFT JOIN NESTED_COMMENT NC ON R.REPORT_TARGET_NO = NC.COMMENT_NO
-		LEFT JOIN BOARD B ON B.BOARD_NO = C.BOARD_NO
+		LEFT JOIN "COMMENT" C ON R.REPORT_TARGET_NO = C.COMMENT_NO AND R.REPORT_TYPE = 2
+		LEFT JOIN NESTED_COMMENT NC ON R.REPORT_TARGET_NO = NC.NESTED_COMMENT_NO AND R.REPORT_TYPE = 3
+		LEFT JOIN BOARD B ON B.BOARD_NO = COALESCE(C.BOARD_NO, NC.COMMENT_NO)
 		LEFT JOIN POST P ON P.POST_NO = B.POST_NO
 		WHERE REPORT_TYPE = 2 OR REPORT_TYPE = 3
 			<if test="searchSelect == 'reportNo'">
@@ -63,23 +104,29 @@
 				AND R.REPORT_CONTENT LIKE '%' || #{searchValue} || '%'
 			</if>
 		ORDER BY
-			<choose>
-				<when test="sort == 'reportNo'">
-					R.REPORT_NO
-				</when>
-				<when test="sort == 'content'">
-					C.CONTENT
-				</when>
-				<when test="sort == 'processingDate'">
-					PROCESSING_DATE
-				</when>
-			</choose>
+		<choose>
+			<when test="sort == 'reportNo'">
+				R.REPORT_NO DESC
+			</when>
+			<when test="sort == 'content'">
+				CONTENT ASC
+			</when>
+			<when test="sort == 'processingDate'">
+				PROCESSING_DATE DESC
+			</when>
+		</choose>
 	</select>
 	
 	<select id="commentReportCount" resultType="int">
 		SELECT COUNT(*)
 		FROM REPORT R
 		WHERE REPORT_TYPE = 2 OR REPORT_TYPE = 3
+		<if test="searchSelect == 'reportNo'">
+			AND TO_CHAR(REPORT_NO) LIKE '%' || #{searchValue} || '%'
+		</if>
+		<if test="searchSelect == 'reportContent'">
+			AND R.REPORT_CONTENT LIKE '%' || #{searchValue} || '%'
+		</if>
 	</select>
 
 	<!-- 기존 게시글 신고이력 확인 -->
@@ -98,6 +145,11 @@
 		VALUES (SEQ_RPNO.NEXTVAL, #{userNo}, #{reportContent} , SYSDATE, 1, #{reportTargetNo} , NULL, NULL, 'Y')
 	</insert>
 	
-	
-	
+	<update id="processingReport" parameterType="report">
+		UPDATE REPORT
+		SET PROCESSING_CONTENT = #{processingContent},
+		PROCESSING_DATE = SYSDATE,
+		STATUS = 'N'
+		WHERE REPORT_NO = #{reportNo}
+	</update>
 </mapper>

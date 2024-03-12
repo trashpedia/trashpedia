@@ -75,77 +75,15 @@
                     <div class="graph-container-wrapper">
                         <div class="graph-container">
                             <div id="member_chart_div"></div>
-<!--                             <div class="tab-group"> -->
-<!--                                 <input type="button" value="일"> -->
-<!--                                 <input type="button" value="주"> -->
-<!--                                 <input type="button" value="월"> -->
-<!--                             </div> -->
                         </div>
                     </div>
                     <div class="graph-container-wrapper">
                         <div class="graph-container">
                             <div id="board_chart_div"></div>
-<!--                             <div class="tab-group"> -->
-<!--                                 <input type="button" value="일"> -->
-<!--                                 <input type="button" value="주"> -->
-<!--                                 <input type="button" value="월"> -->
-<!--                             </div> -->
                         </div>
                     </div>
                 </div>
             </section>
-            <!-- <section class="section">
-                <div class="container">
-                    <div class="title">최근 활동</div>
-                    <div class="member-list">
-                        <div class="row">
-                            <div class="article">
-                                <div class="imageContainer">
-                                    <div class="image"></div>
-                                </div>
-                                <div class="frame">
-                                    <div class="title">루피</div>
-                                    <div class="subtitle">roopy</div>
-                                    <div class="subtitle">신규가입</div>
-                                    <div class="user">
-                                        <div class="avatar-wrapper">
-                                            <div class="avatar"></div>
-                                            <div class="frame">
-                                                <div class="title">Admin</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="article">
-                                <div class="imageContainer">
-                                    <div class="image"></div>
-                                </div>
-                                <div class="frame">
-                                    <div class="title">신규 게시글</div>
-                                    <div class="subtitle">루피</div>
-                                    <div class="subtitle">야 싸우자</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="article">
-                                <div class="imageContainer">
-                                    <div class="image"></div>
-                                </div>
-                                <div class="frame">
-                                    <div class="title">신규 오쓰완</div>
-                                    <div class="subtitle">Product A</div>
-                                    <div class="subtitle">호호홓 오늘의 분리수거 완</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section> -->
-            
         </div>
     </div>
     <script>
@@ -185,6 +123,30 @@
 	        });
 	    }
 	    // 게시글/댓글 그래프
+	    function processData(data) {
+		    var groupedData = new Map();
+		
+		    data.forEach(function(item) {
+		        var orderDay = item.orderDay;
+		        var countBoard = item.countBoard;
+		        var countComment = item.countComment;
+		
+		        if (groupedData.has(orderDay)) {
+		            var existingData = groupedData.get(orderDay);
+		            existingData.countBoard += countBoard;
+		            existingData.countComment += countComment;
+		        } else {
+		            groupedData.set(orderDay, { orderDay: orderDay, countBoard: countBoard, countComment: countComment });
+		        }
+		    });
+		    var processedData = Array.from(groupedData.values());
+		
+		    processedData.sort(function(a, b) {
+		        return a.orderDay - b.orderDay;
+		    });
+		    return processedData;
+		}
+	    
 	    google.charts.load('current', {'packages':['corechart']});
 	    google.charts.setOnLoadCallback(drawBoardChart);
 	
@@ -194,14 +156,16 @@
 	            type: 'GET',
 	            dataType: 'json',
 	            success: function(data) {
+	            	var processedData = processData(data);
+	    			console.log(processedData);
+
 	                var chartData = new google.visualization.DataTable();
-	                chartData.addColumn('number', '일별 게시 수');
+	                chartData.addColumn('number', '일별');
 	                chartData.addColumn('number', '게시글');
 	                chartData.addColumn('number', '댓글');
-	                
-	                data.forEach(function(item) {
-	                    var orderDay = parseInt(item.orderDay);
-	                    chartData.addRow([orderDay, item.countBoard, item.countComment]);
+					
+	                processedData.forEach(function(item) {
+	                    chartData.addRow([item.orderDay, item.countBoard, item.countComment]);
 	                });
 
 	                var options = {

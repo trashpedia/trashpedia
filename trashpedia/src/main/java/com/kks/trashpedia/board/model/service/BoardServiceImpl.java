@@ -116,13 +116,6 @@ public class BoardServiceImpl implements BoardService{
 		dao.increaseCount(hits);
 	}
 
-	//게시글조회-페이징,검색
-	@Override
-	public Page<Post> loadListData(Pageable pageable, int page, String sort, String searchSelect, String searchValue,
-			int subCategoryNo) {
-		return dao.loadListData(pageable, page, sort, searchSelect, searchValue,subCategoryNo);
-	
-	}
 
 	/*대댓글*/
 	@Override

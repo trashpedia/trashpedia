@@ -104,6 +104,11 @@ tbody tr{
 	gap: 20px;
 }
 
+.address{
+	display: flex;
+    justify-content: center;
+}
+
 .search-wrapper {
 	display: flex;
 	justify-content: center;
@@ -158,7 +163,7 @@ select {
 }
 
 .subtitle {
-	width: 400px;
+	width: 370px;
 	padding-left: 10px;
 }
 

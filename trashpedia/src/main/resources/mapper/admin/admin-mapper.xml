@@ -111,7 +111,7 @@
 	<select id="getCountAllMember" resultType="int">
 		SELECT COUNT(*)
 		FROM MEMBER
-		WHERE STATUS = 'Y' AND ROLE = 'USER'
+		WHERE STATUS = 'Y' AND ROLE = 'ROLE_USER'
 		<if test="searchSelect == 'userNo'">
 			AND TO_CHAR(USER_NO) LIKE '%' || #{searchValue} || '%'
 		</if>
@@ -407,7 +407,7 @@
 					P.TITLE, BOARD_NO DESC
 				</when>
 				<when test="sort == 'hit'">
-					hit, BOARD_NO DESC
+					hit DESC, BOARD_NO DESC
 				</when>
 			</choose>
 	</select>
@@ -425,6 +425,12 @@
 		<if test="searchSelect == 'content'">
 			WHERE P.CONTENT LIKE '%' || #{searchValue} || '%'
 		</if>
+	</select>
+	<select id="getPost" parameterType="int" resultType="post">
+		SELECT P.POST_NO
+		FROM POST P
+		LEFT JOIN BOARD B ON P.POST_NO = B.POST_NO
+		WHERE B.BOARD_NO = #{boardNo}
 	</select>
 	<select id="getCommentList" resultType="comment">
 		SELECT COMMENT_NO, NESTED_COMMENT_NO, BOARD_NO, SUB_CATEGORY_NAME, TITLE, CONTENT, CREATE_DATE, MODIFY_DATE, STATUS
@@ -519,10 +525,20 @@
 		) AS total_count
 		FROM DUAL
 	</select>
+	<update id="deletePost" parameterType="int">
+		UPDATE POST
+		SET STATUS = 'N'
+		WHERE POST_NO = #{postNo}
+	</update>
 	<update id="deleteBoard" parameterType="int">
 		UPDATE BOARD
 		SET STATUS = 'N'
 		WHERE BOARD_NO = #{boardNo}
+	</update>
+	<update id="undeletePost" parameterType="int">
+		UPDATE POST
+		SET STATUS = 'Y'
+		WHERE POST_NO = #{postNo}
 	</update>
 	<update id="undeleteBoard" parameterType="int">
 		UPDATE BOARD
@@ -577,7 +593,7 @@
 				ORDER BY TP.TRASH_TITLE, T.TRASH_NO DESC
 			</when>
 			<when test="sort == 'hit'">
-				ORDER BY hit, T.TRASH_NO DESC
+				ORDER BY hit DESC, T.TRASH_NO DESC
 			</when>
 		</choose>
 	</select>

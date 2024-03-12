@@ -65,7 +65,6 @@ public interface BoardDao {
 
 	Post getPostByTitle(String title);
 
-	Page<Post> loadListData(Pageable pageable, int page, String sort, String searchSelect, String searchValue, int subCategoryNo);
 
 	/*대댓글*/
 	int insertNC(NestedComment nc); // 삽입

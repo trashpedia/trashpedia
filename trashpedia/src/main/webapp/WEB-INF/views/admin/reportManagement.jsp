@@ -11,7 +11,6 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <link rel="stylesheet" href="${contextPath}/resources/css/admin/reportManagement.css">
 </head>
-<%-- <jsp:include page="../common/header.jsp"/> --%>
 <body class="body">
     <jsp:include page="../common/sidebar.jsp"/>
     <div class="content-wrapper">
@@ -28,7 +27,6 @@
 						    <select name="condition" id="board-filter-select">
 						        <option value="reportNo" selected>번호</option>
 						        <option value="title">제목</option>
-						        <option value="content">내용</option>
 						        <option value="processingDate">처리일</option>
 						    </select>
 						</div>
@@ -93,6 +91,9 @@
 					</div>
                 	<div class="comment-pageBar pageBar"></div>
                 </div>
+                <div id="modal" class="modal">
+				    <div class="modal-content-wrapper"></div>
+				</div>
 			</section>
         </div>
     </div>
@@ -193,7 +194,7 @@
 	            row.classList.add('long-tr');
 
 	            let cell1 = document.createElement('td');
-	            cell1.textContent = data[i].boardNo;
+	            cell1.textContent = data[i].reportNo;
 	            
 	            let cell2 = document.createElement('td');
 	            cell2.innerHTML = data[i].title;
@@ -214,7 +215,7 @@
             	button1.setAttribute('value', '상세보기');
             	button1.classList.add('detail-button');
             	button1.addEventListener('click', function() {
-            	    boardDetail(data[i].boardNo);
+            	    reportDetail(data[i].reportNo);
             	});
             	
             	cell6.appendChild(button1);
@@ -238,7 +239,7 @@
 	            row.classList.add('comment-long-tr');
 
 	            let cell1 = document.createElement('td');
-	            cell1.textContent = data[i].boardNo;
+	            cell1.textContent = data[i].reportNo;
 	            
 	            let cell2 = document.createElement('td');
 	            cell2.innerHTML = data[i].content;
@@ -259,7 +260,7 @@
             	button1.setAttribute('value', '상세보기');
             	button1.classList.add('detail-button');
             	button1.addEventListener('click', function() {
-            	    boardDetail(data[i].boardNo);
+            	    reportDetail(data[i].reportNo);
             	});
             	
             	cell6.appendChild(button1);
@@ -274,157 +275,117 @@
 	            userList.appendChild(row);
 	        }
 	    }
-	    
-        function boardDetail(boardNo){
-            location.href = "${contextPath}/board/detail/"+boardNo;
-        }
         
-        function boardDelete(boardNo) {
-        	let $this = $(this);
-            if (confirm("정말로 이 게시글을 삭제하시겠습니까?")) {
+        function reportDetail(reportNo){
+	        $('#modal').show();
+	        
+	        $('#closeModalBtn').click(function(){
+	            $('#modal').hide();
+	        });
+
+	        $(document).mouseup(function(e){
+	            let modalContent = $('.modal-content-wrapper');
+	            let modal = $('#modal');
+	            if (!modalContent.is(e.target) && modalContent.has(e.target).length === 0 && !$('#closeModalBtn').is(e.target)) {
+	                $('#reportTitle').val('');
+	                $('#reportContent').val('');
+	                modal.hide();
+	            }
+	        });
+	        
+	        $.ajax({
+	            url: '${contextPath}/report/' + reportNo,
+	            type: 'GET',
+	            success: function(data) {
+	                if (data != null) {
+	                    let mcw = document.querySelector('.modal-content-wrapper');
+	                    let processingContentHTML = '';
+	                    if (data.status == "Y") {
+	                        processingContentHTML = '<textarea id="processingContent" name="processingContent" placeholder="처리 내용을 입력하세요"></textarea>';
+	                    } else {
+	                        processingContentHTML = '<pre> 처리 내용 : ' + data.processingContent + '</pre>';
+	                    }
+	                    let htmlContent =
+	                        '<div style="width : 100%;">' +
+	                        '<div class="modal-title">신고 상세보기</div>' +
+	                        '<div class="request-title">내용 : ' + data.reportContent + '</div>' +
+	                        '<div class="request-date"> <span><strong> 요청자 </strong> '+ data.userName + '</span> <span> | <strong> 요청일 </strong> ' + data.reportDate + '</span> </div>' +
+	                        '<div class="request-content">' +
+	                        '</div>' +
+	                        '<div class="request-content">' + processingContentHTML + '</div>';
+	                    if (data.status == "Y") {
+	                        htmlContent += '<button id="updateBtn" class="requestBtn" onclick="boardDetail(' + data.boardNo + ')">확인하기</button>' +
+                       		'<button id="processingBtn" class="requestBtn" onclick="processingReport(' + data.reportNo + ')">처리하기</button>' +
+                            '<button id="processingBtn" class="requestBtn" onclick="processingDelete(' + data.reportNo + ',' + data.reportType + ',' + data.reportTargetNo + ')">삭제 후 처리하기</button>';
+	                    }
+	                    htmlContent += '</div></div>';
+	                    mcw.innerHTML = htmlContent;
+	                }
+	            }
+	        });
+	    }
+        
+        function boardDetail(trashNo) {
+            window.open("${contextPath}/board/detail/" + trashNo);
+	    }
+        
+        function processingReport(reportNo){
+        	let processingContent = $("#processingContent").val();
+        	if(processingContent.trim() == null){
+        		alert("처리 내용을 입력해주세요");
+        		return;
+        	}
+        	if (confirm("삭제없이 처리하시겠습니까?")) {
+        		console.log(processingContent);
                 $.ajax({
-                    url: '${contextPath}/admin/delete/board',
-                    type: 'GET',
-                    data: { boardNo },
+                    url: '${contextPath}/report/processing/'+reportNo,
+                    type: 'POST',
+                    data: {processingContent},
                     success: function(data) {
                     	if (data > 0) {
-                            alert("게시글 삭제에 성공했습니다");
-                            $this.removeClass('delete').addClass('undelete');
-                            $(`.undelete[value='${boardNo}']`).attr('value', '원복');
+                            alert("처리 완료되었습니다");
+                            $("#processingContent").val('');
+                            $('#modal').hide();
+                            modal
                     	} else {
-                            alert("게시글 삭제에 실패했습니다. 로그를 확인하세요");
+                            alert("처리에 실패했습니다. 로그를 확인하세요");
                         }
                     },
                     error: function(xhr, status, error) {
-                        alert("게시글 삭제에 실패했습니다. 로그를 확인하세요");
+                        alert("처리에 실패했습니다. 로그를 확인하세요");
                         console.error('Error: ' + error);
                     }
                 });
             }
         }
-        
-        function boardUndelete(boardNo) {
-        	let $this = $(this);
-            if (confirm("정말로 이 게시글을 복원하시겠습니까?")) {
+
+        function processingDelete(reportNo, reportType, reportTargetNo){
+        	let processingContent = $("#processingContent").val();
+        	if(processingContent.trim() == null){
+        		alert("처리 내용을 입력해주세요");
+        		return;
+        	}
+        	if (confirm("삭제와 같이 처리하시겠습니까?")) {
                 $.ajax({
-                    url: '${contextPath}/admin/unDelete/board',
-                    type: 'GET',
-                    data: { boardNo },
+                    url: '${contextPath}/report/deleteProcessing/'+reportNo,
+                    type: 'POST',
+                    data: {processingContent, reportType, reportTargetNo},
                     success: function(data) {
                     	if (data > 0) {
-                            alert("게시글 복원에 성공했습니다");
-                            $this.removeClass('undelete').addClass('delete');
-                            $(`.delete[value='${boardNo}']`).attr('value', '삭제');
+                            alert("처리 완료되었습니다");
+                            $("#processingContent").val('');
+                            $('#modal').hide();
+                            modal
                     	} else {
-                            alert("게시글 원복에 실패했습니다. 로그를 확인하세요");
+                            alert("처리에 실패했습니다. 로그를 확인하세요");
                         }
                     },
                     error: function(xhr, status, error) {
-                        alert("게시글 원복에 실패했습니다. 로그를 확인하세요");
+                        alert("처리에 실패했습니다. 로그를 확인하세요");
                         console.error('Error: ' + error);
                     }
                 });
             }
-        }
-        
-        function commentDelete(commentNo) {
-        	let $this = $(this);
-            if (confirm("정말로 이 댓글을 삭제하시겠습니까?")) {
-                $.ajax({
-                    url: '${contextPath}/admin/delete/comment',
-                    type: 'GET',
-                    data: { commentNo },
-                    success: function(data) {
-                    	if (data > 0) {
-                            alert("댓글 삭제에 성공했습니다");
-                            $this.removeClass('delete').addClass('undelete');
-                            $(`.undelete[value='${commentNo}']`).attr('value', '원복');
-                    	} else {
-                            alert("댓글 삭제에 실패했습니다. 로그를 확인하세요");
-                        }
-                    },
-                    error: function(xhr, status, error) {
-                        alert("댓글 삭제에 실패했습니다. 로그를 확인하세요");
-                        console.error('Error: ' + error);
-                    }
-                });
-            }
-        }
-        
-        function commentUndelete(commentNo) {
-        	let $this = $(this);
-            if (confirm("정말로 이 댓글을 복원하시겠습니까?")) {
-                $.ajax({
-                    url: '${contextPath}/admin/unDelete/comment',
-                    type: 'GET',
-                    data: { commentNo },
-                    success: function(data) {
-                    	if (data > 0) {
-                            alert("댓글 복원에 성공했습니다");
-                            $this.removeClass('undelete').addClass('delete');
-                            $(`.delete[value='${commentNo}']`).attr('value', '삭제');
-                    	} else {
-                            alert("댓글 원복에 실패했습니다. 로그를 확인하세요");
-                        }
-                    },
-                    error: function(xhr, status, error) {
-                        alert("댓글 원복에 실패했습니다. 로그를 확인하세요");
-                        console.error('Error: ' + error);
-                    }
-                });
-            }
-        }
-        
-        function nestedCommentDelete(nestedCommentNo) {
-        	let $this = $(this);
-            if (confirm("정말로 이 댓글을 삭제하시겠습니까?")) {
-                $.ajax({
-                    url: '${contextPath}/admin/delete/nestedComment',
-                    type: 'GET',
-                    data: { nestedCommentNo },
-                    success: function(data) {
-                    	if (data > 0) {
-                            alert("댓글 삭제에 성공했습니다");
-                            $this.removeClass('delete').addClass('undelete');
-                            $(`.undelete[value='${nestedCommentNo}']`).attr('value', '원복');
-                    	} else {
-                            alert("댓글 삭제에 실패했습니다. 로그를 확인하세요");
-                        }
-                    },
-                    error: function(xhr, status, error) {
-                        alert("댓글 삭제에 실패했습니다. 로그를 확인하세요");
-                        console.error('Error: ' + error);
-                    }
-                });
-            }
-        }
-        
-        function nestedCommentUndelete(nestedCommentNo) {
-        	let $this = $(this);
-            if (confirm("정말로 이 댓글을 복원하시겠습니까?")) {
-                $.ajax({
-                    url: '${contextPath}/admin/unDelete/nestedComment',
-                    type: 'GET',
-                    data: { nestedCommentNo },
-                    success: function(data) {
-                    	if (data > 0) {
-                            alert("댓글 복원에 성공했습니다");
-                            $this.removeClass('undelete').addClass('delete');
-                            $(`.delete[value='${nestedCommentNo}']`).attr('value', '삭제');
-                    	} else {
-                            alert("댓글 원복에 실패했습니다. 로그를 확인하세요");
-                        }
-                    },
-                    error: function(xhr, status, error) {
-                        alert("댓글 원복에 실패했습니다. 로그를 확인하세요");
-                        console.error('Error: ' + error);
-                    }
-                });
-            }
-        }
-        
-        function announcementWrite(){
-        	location.href="${contextPath}/board/write";
         }
     </script>
 </body>

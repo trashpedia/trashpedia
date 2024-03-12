@@ -45,6 +45,12 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter{
 				.point(o.getPoint())
 				.build();
 		try {
+			String currentUrl = request.getRequestURI(); 
+	        String contextPath = request.getContextPath();
+	        String url = currentUrl.substring(contextPath.length());
+	        System.out.println("currentUrl : "+currentUrl);
+	        System.out.println("contextPath : "+contextPath);
+	        System.out.println("url : "+url);
 			request.getSession().setAttribute("authentication", m);
 			response.sendRedirect(request.getContextPath()+"/");
 		} catch (IOException e) {

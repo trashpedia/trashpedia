@@ -10,10 +10,9 @@ public class LoginInterceptor implements HandlerInterceptor {
 	@Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String currentUrl = request.getRequestURI(); 
-       
         String contextPath = request.getContextPath();
-        String url = currentUrl.substring(contextPath.length()  );
-       
+        String url = currentUrl.substring(contextPath.length());
+        System.out.println("currentUrl : "+currentUrl);
         request.getSession().setAttribute("lastUrl", url);
         return true;
     }

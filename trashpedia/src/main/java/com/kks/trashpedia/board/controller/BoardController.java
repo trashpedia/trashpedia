@@ -1,6 +1,5 @@
 package com.kks.trashpedia.board.controller;
 
-import java.net.http.HttpRequest;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
@@ -79,7 +78,6 @@ public class BoardController {
 		SubCategory subCategory = service.getSubCategoryNo(p);
 
 		int subCategoryNo = subCategory.getSubCategoryNo();
-		
 		int result = service.deleteBoard(p);
 
 		if (result > 0) {
@@ -106,11 +104,13 @@ public class BoardController {
 		board.setAttachment(attach);
 
 		String userIp = (String) req.getSession().getAttribute("ip");
-		Hits hits = new Hits();
-		hits.setUserIp(userIp);
-		hits.setBoardNo(board.getBoardNo());
-		
-		service.increaseCount(hits);
+		if(userIp != null) {
+			Hits hits = new Hits();
+			hits.setUserIp(userIp);
+			hits.setBoardNo(board.getBoardNo());
+			
+			service.increaseCount(hits);
+		}
 
 		mav.addObject("b", board);
 		mav.addObject("attachment", attach);
@@ -122,10 +122,9 @@ public class BoardController {
 
 	// 게시글 등록하기 페이지 이동
 	@GetMapping("/insert")
-	public ModelAndView pledgeInsert() {
+	public ModelAndView boardInsert() {
 		ModelAndView mav = new ModelAndView();
-		mav.setViewName("pledge/pledgeInsert");
-
+		mav.setViewName("common/boardInsert");
 		return mav;
 	}
 
@@ -137,7 +136,6 @@ public class BoardController {
 			@RequestParam(value = "filter", defaultValue = "0") String filter,
 			@RequestParam(value = "searchSelect", required = false) String searchSelect,
 			@RequestParam(value = "searchValue", required = false) String searchValue) {
-
 		ModelAndView mav = new ModelAndView();
 		Page<Board> pages = service.boardList(subCategoryNo, pageable, page, filter, searchSelect, searchValue);
 		mav.addObject("boardList", pages);
@@ -147,18 +145,6 @@ public class BoardController {
 			mav.setViewName("board/notice/boardList");
 		}
 		return mav;
-	}
-
-	// 페이지 보기 & 페이징,검색
-	@GetMapping("/loadListData")
-	public ResponseEntity<Page<Post>> loadListData(@RequestParam int subCategoryNo,
-			@PageableDefault(size = 12, sort = "id", direction = Sort.Direction.DESC) Pageable pageable,
-			@RequestParam int page, @RequestParam String sort, @RequestParam String searchSelect,
-			@RequestParam String searchValue) {
-
-		Page<Post> pages = service.loadListData(pageable, page, sort, searchSelect, searchValue, subCategoryNo);
-
-		return ResponseEntity.ok(pages);
 	}
 
 	// 건의게시판 페이지 이동
@@ -179,7 +165,6 @@ public class BoardController {
 	// 댓글등록
 	@PostMapping("/insertComment")
 	public int insertComment(Comment c) {
-		int result = 0;
 		return pservice.insertComment(c);
 	}
 

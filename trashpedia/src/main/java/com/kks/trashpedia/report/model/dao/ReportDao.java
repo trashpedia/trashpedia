@@ -16,4 +16,10 @@ public interface ReportDao {
 
 	//게시글 신고등록
 	int insertBoardReport(Report report);
+
+	Report getReport(int reportNo);
+
+	int processingReport(Report report);
+
+	int deleteProcessingReport(Report report);
 }
