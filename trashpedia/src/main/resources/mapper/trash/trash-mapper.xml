@@ -196,6 +196,6 @@
 	
 	<insert id="upCount">
 		INSERT INTO TRASH_HITS
-		VALUES(SEQ_THNO.NEXTVAL, #{userIp}, #{trashNo}, SYSDATE)
+		VALUES(SEQ_THNO.NEXTVAL, '${userIp}', #{trashNo}, SYSDATE)
 	</insert>
 </mapper>

@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.kks.trashpedia.GetClientIpAddress;
 import com.kks.trashpedia.board.model.service.BoardService;
 import com.kks.trashpedia.board.model.vo.Attachment;
 import com.kks.trashpedia.board.model.vo.Board;
@@ -109,9 +110,9 @@ public class PledgeController {
 			
 		b.setBoardNo(post.getBoardNo());
 		
-		String userIp = (String) req.getSession().getAttribute("ip");
+		String ip = GetClientIpAddress.getClientIpAddress(req);
 		Hits hits = new Hits();
-		hits.setUserIp(userIp);
+		hits.setUserIp(ip);
 		hits.setBoardNo(post.getBoardNo());
 		
 		boardService.increaseCount(hits);

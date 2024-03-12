@@ -190,6 +190,7 @@ public class BoardDaoImpl implements BoardDao {
 	//게시글 조회수 증가
 	@Override
 	public void increaseCount(Hits hits) {
+		System.out.println(hits);
 		List<Hits> list = session.selectList("boardMapper.getHitDate",hits);
 		if(list.size() == 0) {
 			session.update("boardMapper.increaseCount", hits);

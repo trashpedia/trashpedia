@@ -9,28 +9,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Dictonary</title>
 </head>
-<!-- jQuery -->
-<script src="https://code.jquery.com/jquery-3.7.1.min.js"
-	integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
-	crossorigin="anonymous"></script>
-<!--Swiper-->
-<link rel="stylesheet"
-	href="https://unpkg.com/swiper@6.8.4/swiper-bundle.min.css" />
-<script src="https://unpkg.com/swiper@6.8.4/swiper-bundle.min.js"></script>
-<!-- css -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <link rel="stylesheet" href="${contextPath}/resources/css/encyclopedia/trashEncyclopediaResult.css">
-<!-- slick 라이브러리 CSS -->
-<link rel="stylesheet" type="text/css"
-	href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
-<!-- slick 라이브러리 테마 CSS (선택사항) -->
-<link rel="stylesheet" type="text/css"
-	href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css" />
-<!-- slick 라이브러리 JS -->
-<script type="text/javascript"
-	src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
-
 <body>
 	 <jsp:include page="../common/header.jsp" />
     <main>
@@ -42,8 +22,9 @@
         </div>
         <div class="outer">
             <div class="content">
+		        <c:if test="${not empty trash}">
                 <c:forEach var="big" items="${bigCategory}">
-                    <h1 class="topic">${big.bigCategoryName}</h1>
+                    <h1 class="topic topic_${big.bigCategoryNo}">${big.bigCategoryName}</h1>
                     <div class="trashList" id="trashList_${big.bigCategoryNo}">
                         <c:forEach var="sub" items="${subCategory}">
                             <c:if test="${big.bigCategoryNo == sub.bigCategoryNo}">
@@ -72,6 +53,10 @@
                         </c:forEach>
                     </div>
                 </c:forEach>
+		        </c:if>
+		        <c:if test="${empty trash}">
+		        	<div class="noSerach">검색결과가 없습니다</div>
+		        </c:if>
             </div>
         </div>
     </main>
@@ -145,12 +130,26 @@
 	            }
 	        });
 	    });
+	    
+	    if ($("#trashList_1").children().length == 0) {
+			$("#trashList_1").hide();
+			$(".topic_1").hide();
+	    }
+	    if ($("#trashList_2").children().length == 0) {
+			$("#trashList_2").hide();
+			$(".topic_2").hide();
+	    }
+	    if ($("#trashList_3").children().length == 0) {
+			$("#trashList_3").hide();
+			$(".topic_3").hide();
+	    }
 	});
 
 	// 상세페이지로 이동
 	function trashDetail(trashNo) {
 	    location.href = "${contextPath}/trash/detail?trashNo=" + trashNo;
 	}
+
 	</script>
 </body>
 </html>

@@ -115,8 +115,6 @@ public class MemberController {
 
 		if (result > 0) {
 			mav.addObject("alert", "회원 정보가 업데이트되었습니다. 재로그인 해주세요");
-			 // 업데이트된 정보를 세션에 저장합니다.
-//			session.setAttribute("authentication", result);
 			mav.setViewName("redirect:/login");
 		} else {
 			mav.addObject("alert", "회원 정보 수정에 실패했습니다. 다시 시도해주세요");
@@ -128,35 +126,20 @@ public class MemberController {
 	// 페스워드 확인
 	@PostMapping("/pwdAuth.me")
 	public ResponseEntity<String> pwdAuth(Member m) {
-		ModelAndView mav = new ModelAndView();
-		
 		String submittedPassword = m.getUserPwd(); //받은 패스워드
-
 		int userNo = m.getUserNo(); // 접속한 유저번호
-
 		
 		Member user=new Member();
 		user.setUserNo(userNo); // userNo제외 빈 객체
-
 		
 		Member member = service.getMember(user); // 접속중인 유저 정보
-
 		
 		String hashedPasswordFromDatabase = member.getUserPwd();
 		if (passwordEncoder.matches(submittedPassword, hashedPasswordFromDatabase)) { // 받은 페스워드, 기존암호화된 페스워드 확인
-			// 비밀번호가 일치함
-//			mav.addObject("alert", "페스워드 인증성공");
-//			mav.setViewName("redirect:/member/myPage");
 			return ResponseEntity.ok("success");
-			// 로그인 성공 처리
 		} else {
-			// 비밀번호가 일치하지 않음
-//			mav.addObject("alert", "패스워드 인증실패");
-//			mav.setViewName("redirect:/member/myPage");
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("failure");
 		}
-
-//		return mav;
 	}
 
 	@PostMapping("/delete.me")
@@ -164,17 +147,10 @@ public class MemberController {
 		ModelAndView mav = new ModelAndView();
 
 		int result = service.deleteMember(m);
-		System.out.print(m.getUserNo());
 		if (result > 0) {
-			// 회원 정보를 삭제한 경우 세션에서 로그인된 회원 정보를 삭제
-//			session.removeAttribute("loginUser");
-			mav.setViewName("redirect:/");
-//			request.getSession().invalidate();
-			// 세션 무효화
-
+			mav.setViewName("redirect:/logout");
 		} else {
-			// 탈퇴 실패 시 처리할 내용
-			mav.setViewName("redirect:/");
+			mav.setViewName("user/mypage");
 		}
 		return mav;
 	}

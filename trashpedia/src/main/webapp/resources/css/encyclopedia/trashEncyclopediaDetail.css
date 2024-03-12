@@ -58,12 +58,17 @@ main span {
 }
 
 #trashInfo {
+
 	padding-left: 18px;
 	padding-top: 0px;
 	padding-bottom: 10px;
 	border-bottom: 1px solid #EEEEEE;
 	line-height: 1.5;
 	font-size: 15px;
+}
+
+.trashInfo{
+	margin-top:70px;
 }
 
 #trashExtraInfo {

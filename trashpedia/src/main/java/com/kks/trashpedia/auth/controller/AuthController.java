@@ -27,8 +27,10 @@ public class AuthController {
 	private final AuthService authService;
 
 	@GetMapping("/login")
-    public ModelAndView loginForm() {
+    public ModelAndView loginForm(HttpServletRequest request) {
         ModelAndView mav = new ModelAndView("user/login");
+        String referrer = request.getHeader("referer");
+        request.getSession().setAttribute("nextUrl", referrer);
         return mav;
     }
 	
@@ -59,7 +61,7 @@ public class AuthController {
     }
     
     @GetMapping("/kakao/login")
-    public void kakaoLogin(HttpServletResponse response) {
+    public void kakaoLogin(HttpServletResponse response, HttpServletRequest request) {
     	try {
 			response.sendRedirect(authService.kakaoUrl());
 		} catch (IOException e) {
@@ -77,7 +79,11 @@ public class AuthController {
 		
 		if (m != null) {
 			request.getSession().setAttribute("authentication", m);
-			mav.setViewName("redirect:/");
+			String nextUrl = (String)request.getSession().getAttribute("nextUrl");
+			System.out.println(nextUrl);
+			request.getSession().setAttribute("nextUrl", "");
+			request.getSession().setAttribute("authentication", m);
+			mav.setViewName("redirect:"+nextUrl);
 		} else {
 			if (authService.emailCheck(sns.getKakao_account().getEmail())) {
 				int result = authService.joinMemberSocial(sns.getKakao_account().getEmail(), sns.getId(), "kakao");
@@ -101,7 +107,7 @@ public class AuthController {
     }
 
     @GetMapping("/naver/login")
-    public void naverLogin(HttpServletResponse response) {
+    public void naverLogin(HttpServletResponse response, HttpServletRequest request) {
     	try {
     		response.sendRedirect(authService.naverUrl());
     	} catch (IOException e) {
@@ -119,7 +125,10 @@ public class AuthController {
     	
     	if (m != null) {
     		request.getSession().setAttribute("authentication", m);
-    		mav.setViewName("redirect:/");
+			String nextUrl = (String)request.getSession().getAttribute("nextUrl");
+			request.getSession().setAttribute("nextUrl", "");
+    		request.getSession().setAttribute("authentication", m);
+    		mav.setViewName("redirect:"+nextUrl);
     	} else {
     		if (authService.emailCheck(sns.getResponse().getEmail())) {
     			int result = authService.joinMemberSocial(sns.getResponse().getEmail(), sns.getResponse().getId(), "naver");
@@ -131,7 +140,6 @@ public class AuthController {
     				mav.setViewName("redirect:/");
     			}
     		} else {
-    			System.out.println(sns.getResponse());
     			request.getSession().setAttribute("sns", sns.getResponse());
     			request.getSession().setAttribute("socialId", sns.getResponse().getId());
     			request.getSession().setAttribute("socialType", "naver");

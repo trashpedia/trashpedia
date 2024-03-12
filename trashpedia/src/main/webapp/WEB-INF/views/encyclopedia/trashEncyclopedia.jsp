@@ -27,20 +27,19 @@
 					<p>쓰레기 백과사전</p>
 				</div>
 				<div class="encyContent1">
-					<div class="ency-search-area">
-						<input type="search" class="search-input" placeholder="검색어를 입력하세요"
-							autocomplete="off">
-						<button type="submit" class="search-button" aria-label="Search">search</button>
-					</div>
-					
+						<form method="get" action="${contextPath}/trash/allList">
+			        <div class="ency-search-area">
+			            <input type="search" name="keyword" class="search-input" placeholder="검색어를 입력하세요" autocomplete="off">
+			            <button type="submit" class="search-button" aria-label="Search">search</button>
+			        </div>
+		        </form>
 					<div class="content-tab">
 						<ul class="temp-tab" style="float: left; list-style: none; position: relative; width: 1150px;" aria-hidden="false">
 							<c:forEach var="post" items="${popularList}">
 					            <li><a onclick="trashDetail(${post.trashNo})" href="#" data-cont="thumb">${post.trashTitle}</a></li>
 							</c:forEach>
-				        </ul>
-			        </div>
-					
+            </ul>
+          </div>
 				</div>
 			</div>
 		</div>
@@ -88,7 +87,6 @@
 		</div>
 	</div>
 	<jsp:include page="../common/footer.jsp" />
-	
 	<script>
 	 	// 스크롤 변화에 따른 header 스타일 변경
 		$(window).scroll(function() {

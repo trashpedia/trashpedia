@@ -3,6 +3,8 @@ package com.kks.trashpedia.board.controller;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.kks.trashpedia.GetClientIpAddress;
 import com.kks.trashpedia.board.model.service.BoardService;
 import com.kks.trashpedia.board.model.vo.Attachment;
 import com.kks.trashpedia.board.model.vo.BigCategory;
@@ -71,7 +74,7 @@ public class BoardController {
 		}
 		return mav;
 	}
-	
+
 	@GetMapping("/delete/{postNo}")
 	public ModelAndView boardDelete(Post p, HttpSession session, RedirectAttributes ra) {
 		ModelAndView mav = new ModelAndView();
@@ -95,22 +98,20 @@ public class BoardController {
 
 		ModelAndView mav = new ModelAndView();
 		Board board = service.boardDetail(boardNo);
-		
+
 		// 이미지,첨부파일,카테고리
 		ImgAttachment img = service.getImageUrl(board.getBoardNo(), 1);
 		Attachment attach = service.getDetailAttach(board.getBoardNo(), 1);
-		
+
 		board.setImgAttachment(img);
 		board.setAttachment(attach);
-
-		String userIp = (String) req.getSession().getAttribute("ip");
-		if(userIp != null) {
-			Hits hits = new Hits();
-			hits.setUserIp(userIp);
-			hits.setBoardNo(board.getBoardNo());
+		
+		String ip = GetClientIpAddress.getClientIpAddress(req);
+		Hits hits = new Hits();
+		hits.setUserIp(ip);
+		hits.setBoardNo(board.getBoardNo());
 			
-			service.increaseCount(hits);
-		}
+		service.increaseCount(hits);
 
 		mav.addObject("b", board);
 		mav.addObject("attachment", attach);
@@ -140,7 +141,22 @@ public class BoardController {
 		Page<Board> pages = service.boardList(subCategoryNo, pageable, page, filter, searchSelect, searchValue);
 		mav.addObject("boardList", pages);
 		if (subCategoryNo == 4) {
+			 // 지우면안돼요.
+			Pageable freeSharePageable = PageRequest.of(pageable.getPageNumber(), 12, pageable.getSort()); // 지우면안돼요.
+																											// 12개 쓸거임
+			Page<Board> freeSharePages = service.boardList(subCategoryNo, freeSharePageable, page, filter, searchSelect,
+					searchValue);
+
+			List<Board> content = freeSharePages.getContent();
+			for (Board board : content) {
+				String cleanedContent = board.getContent().replaceAll("<img[^>]*>", ""); // 이미지 태그를 제거함
+				board.setContent(cleanedContent);
+			}
+		    // freeSharePages 객체에 이미지 태그가 제거된 내용을 반영
+		    freeSharePages = new PageImpl<>(content, freeSharePages.getPageable(), freeSharePages.getTotalElements());
+			mav.addObject("boardList", freeSharePages);
 			mav.setViewName("board/freeShare/freeShare");
+			 // 지우면안돼요.
 		} else {
 			mav.setViewName("board/notice/boardList");
 		}
@@ -154,7 +170,7 @@ public class BoardController {
 		mav.setViewName("board/suggestion/boardList");
 		return mav;
 	}
-	
+
 	// 댓글목록 조회
 	@GetMapping("/selectCommentList")
 	public List<Comment> selectCommentList(Board b) {
@@ -181,17 +197,6 @@ public class BoardController {
 		return pservice.deleteComment(comment);
 	}
 
-	// 대댓글등록
-//	@PostMapping("/insertNC")
-//	public int insertNC(NestedComment nc,
-//			@RequestParam String content,
-//			@RequestParam int userNo,
-//			@RequestParam int commentNo
-//			) {
-//		int result = service.insertNC(nc);
-//		return result;
-//	}
-
 	@PostMapping("/insertNC")
 	public ResponseEntity<Integer> insertNC(@RequestBody NestedComment nc) {
 		int result = service.insertNC(nc);
@@ -210,15 +215,12 @@ public class BoardController {
 	public int deleteNC(@PathVariable("nCommentNo") int nCommentNo) {
 		return service.deleteNC(nCommentNo);
 	}
-	
+
 	// 회원의 댓글작성시 point를 증가시키는 함수
 	@PostMapping("/increaseUserPoint")
-	public ResponseEntity<Integer> increaseUserPoint(@RequestParam int userNo,
-	                                                 @RequestParam int amount,
-	                                                 @RequestParam String pointContent) {
-	    int result = service.increaseUserPoint(userNo, amount, pointContent);
-	    return ResponseEntity.ok(result);
+	public ResponseEntity<Integer> increaseUserPoint(@RequestParam int userNo, @RequestParam int amount,
+			@RequestParam String pointContent) {
+		int result = service.increaseUserPoint(userNo, amount, pointContent);
+		return ResponseEntity.ok(result);
 	}
-
-
 }

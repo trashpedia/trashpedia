@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.kks.trashpedia.GetClientIpAddress;
 import com.kks.trashpedia.board.model.service.BoardService;
 import com.kks.trashpedia.board.model.vo.ImgAttachment;
 import com.kks.trashpedia.common.FileStore;
@@ -72,11 +73,9 @@ public class TrashController {
 	public ModelAndView trashDetail(TrashHits trashHits, int trashNo, HttpServletRequest request) {
 		ModelAndView modelAndView = new ModelAndView();
 		
-		String userIp = (String) request.getSession().getAttribute("ip");
-		if(userIp != null) {
-			trashHits.setUserIp(userIp);
-			service.upCount(trashHits);
-		}
+		String ip = GetClientIpAddress.getClientIpAddress(request);
+		trashHits.setUserIp(ip);
+		service.upCount(trashHits);
 		
 		Trash trash = service.trashDetail(trashNo);
 		List<TrashPost> similarList = service.getSimilarList(trashNo);

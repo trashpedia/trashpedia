@@ -86,7 +86,7 @@
 						</div>
 					</c:forEach>
 				</div>
-				<c:if test="${authentication != null}">
+				<c:if test="${authentication != null && subCategoryNo != 1}">
 					<div class="insert-area">
 		                <a href="${pageContext.request.contextPath}/write?subCategoryNo=${subCategoryNo}&type=1">
 		                    <button id="insertButton"class="comment-buttons">게시글 등록하기</button>

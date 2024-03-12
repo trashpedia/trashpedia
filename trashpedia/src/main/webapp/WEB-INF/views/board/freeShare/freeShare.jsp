@@ -17,6 +17,7 @@
 <head>
 
 <!-- css -->
+<%-- <link rel="icon" href="${contextPath}/resources/attachFile/file/75f5b171-8811-4c1a-b49a-ae231dac679b.png"> --%>
 <link rel="stylesheet"
 	href="${contextPath}/resources/css/board/boardList.css">
 <link rel="stylesheet"
@@ -112,7 +113,7 @@
 </style>
 <script>
 	//상세보기 이동
-	function goToFreeShareDetail(postNo) {location.href = "${contextPath}/board/community/detail/${postNo}" + postNo;}
+	function goToFreeShareDetail(postNo) {location.href = "${contextPath}/board/detail/${postNo}" + postNo;}
 </script>
 </head>
 <body>
@@ -128,7 +129,7 @@
 					<button class="btn" onclick="location.href='${pageContext.request.contextPath}/write?subCategoryNo=${subCategoryNo}&type=1'">글쓰기</button>
 					<div class="List">
 						<c:forEach var="post" items="${boardList.content}" >
-							<div class="Card" onclick="location.href='${contextPath}/board/community/detail/${post.postNo}'">
+							<div class="Card" onclick="location.href='${contextPath}/board/detail/${post.postNo}'">
 								<div class="Front">
 									<div class="Image">
 										<img class="content-img" src="<c:url value='/resources/attachFile/image/${post.changeName}'/>">
@@ -140,8 +141,10 @@
 									</div>
 								</div>
 								<div class="Back" onclick="goToFreeShareDetail(${post.postNo})" data-postNo="${post.postNo}">
-									<img class="content-img" src="<c:url value='/resources/attachFile/image/${post.changeName}'/>" alt="">
-									<span class="clickDetail" data-postNo="${post.postNo}" style="font-size: 18px; font-weight: 600;">${post.content}</span>
+									<img class="content-img" src="<c:url value='/resources/attachFile/image/${post.changeName}'/ >" alt="" style="position:relative; top:-10px;">
+									<span class="clickDetail" data-postNo="${post.postNo}" style="font-size: 18px; font-weight: 600;">
+										${post.content}
+									</span>
 								</div>
 							</div>
 						</c:forEach>
@@ -205,7 +208,7 @@
 	<script type="text/javascript">
 	//상세보기 이동
 	function goToFreeShareDetail(postNo) {
-		location.href = "${contextPath}/board/community/detail/${postNo}" + postNo;
+		location.href = "${contextPath}/board/detail/${postNo}" + postNo;
 	}
 	
 	</script>
