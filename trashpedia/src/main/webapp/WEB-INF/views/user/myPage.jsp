@@ -112,7 +112,7 @@
             case '2':
             case '3':
             case '4':
-                location.href= "${contextPath}/board/community/detail/" + postNo;
+                location.href= "${contextPath}/board/detail/" + postNo;
                 break;
             case '5':
             case '6':
@@ -196,7 +196,7 @@
 					<tr>
 						<th>날짜</th>
 						<th>카테고리</th>
-						<th>내가쓴글</th>
+						<th>내가 쓴글</th>
 						<th>상세보기</th>
 					</tr>
 				</thead>
@@ -216,7 +216,7 @@
 						</c:forEach>
 
 					</c:if>
-					<c:if test="${empty activityList}">
+					<c:if test="${empty myPost}">
 						<tr>
 							<td colspan="4">활동 내역이 없습니다.</td>
 						</tr>
@@ -255,7 +255,7 @@
 							</tr>
 						</c:forEach>
 					</c:if>
-					<c:if test="${empty list}">
+					<c:if test="${empty reportList}">
 						<tr>
 							<td colspan="4">활동 내역이 없습니다.</td>
 						</tr>
@@ -294,7 +294,7 @@
 							</tr>
 						</c:forEach>
 					</c:if>
-					<c:if test="${empty list}">
+					<c:if test="${empty myComment}">
 						<tr>
 							<td colspan="4">활동 내역이 없습니다.</td>
 						</tr>
