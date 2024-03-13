@@ -325,8 +325,8 @@
 	        });
 	    }
         
-        function boardDetail(trashNo) {
-            window.open("${contextPath}/board/detail/" + trashNo);
+        function boardDetail(boardNo) {
+            window.open("${contextPath}/board/detail/" + boardNo);
 	    }
         
         function processingReport(reportNo){
