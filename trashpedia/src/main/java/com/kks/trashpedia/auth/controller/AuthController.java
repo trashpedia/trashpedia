@@ -30,9 +30,10 @@ public class AuthController {
     public ModelAndView loginForm(HttpServletRequest request) {
         ModelAndView mav = new ModelAndView("user/login");
         String referer = request.getHeader("referer");
-        if(referer != "http://localhost:8085/trashpedia/member/join") {
-        	request.getSession().setAttribute("nextUrl", referer);
+        if (!referer.endsWith("/trashpedia/member/join") && !referer.endsWith("/trashpedia/login")) {
+            request.getSession().setAttribute("nextUrl", referer);
         }
+        System.out.println(referer);
         return mav;
     }
 	
@@ -139,7 +140,7 @@ public class AuthController {
     				request.getSession().setAttribute("alert", "기존에 가입한 " + m.getUserEmail() + "과 연동되었습니다.");
     				request.getSession().setAttribute("authentication", m);
     				mav.setViewName("redirect:/");
-    			}
+    			} 
     		} else {
     			request.getSession().setAttribute("sns", sns.getResponse());
     			request.getSession().setAttribute("socialId", sns.getResponse().getId());
