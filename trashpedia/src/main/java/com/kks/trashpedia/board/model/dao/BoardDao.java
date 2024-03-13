@@ -1,6 +1,5 @@
 package com.kks.trashpedia.board.model.dao;
 
-import java.sql.Date;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
@@ -9,7 +8,6 @@ import org.springframework.data.domain.Pageable;
 import com.kks.trashpedia.board.model.vo.Attachment;
 import com.kks.trashpedia.board.model.vo.BigCategory;
 import com.kks.trashpedia.board.model.vo.Board;
-
 import com.kks.trashpedia.board.model.vo.Comment;
 import com.kks.trashpedia.board.model.vo.Hits;
 import com.kks.trashpedia.board.model.vo.ImgAttachment;
@@ -37,34 +35,9 @@ public interface BoardDao {
 	
 	Attachment getDetailAttach(int boardNo, int fileType);
 	
-	
-	
-	
-	
-	
-	
-	
-	/* 무료나눔 */
-	List<Post> getFreeTrashList(int subCategoryNo,Pageable pageable, int page);
-	
-	List<Post> getFreeTrashTotalList(int subCategoryNo);
-
-	
-
-	Post getFreeTrashDetail(int boardNo);
-
-	String getTrashWriterByboardNo(int boardNo);
-
-	String getTrashCreateByboardNo(int boardNo);
-
-	Date getTrashViewsByboardNo(int boardNo);
-
-	
-
 	void increaseCount(Hits hits);
 
 	Post getPostByTitle(String title);
-
 
 	/*대댓글*/
 	int insertNC(NestedComment nc); // 삽입

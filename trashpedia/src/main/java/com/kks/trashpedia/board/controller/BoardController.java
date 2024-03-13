@@ -140,20 +140,6 @@ public class BoardController {
 		ModelAndView mav = new ModelAndView();
 		Page<Board> pages = service.boardList(subCategoryNo, pageable, page, filter, searchSelect, searchValue);
 		mav.addObject("boardList", pages);
-//		if (subCategoryNo == 4) {
-//			Pageable freeSharePageable = PageRequest.of(pageable.getPageNumber(), 12, pageable.getSort());
-//			Page<Board> freeSharePages = service.boardList(subCategoryNo, freeSharePageable, page, filter, searchSelect, searchValue);
-//
-//			List<Board> content = freeSharePages.getContent();
-//			for (Board board : content) {
-//				String cleanedContent = board.getContent().replaceAll("<img[^>]*>", "");
-//				board.setContent(cleanedContent);
-//			}
-//		    freeSharePages = new PageImpl<>(content, freeSharePages.getPageable(), freeSharePages.getTotalElements());
-//			mav.addObject("boardList", freeSharePages);
-//			mav.setViewName("board/freeShare/freeShare");
-//		} else {
-//		}
 		mav.setViewName("board/notice/boardList");
 		return mav;
 	}

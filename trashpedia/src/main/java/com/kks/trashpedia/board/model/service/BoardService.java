@@ -1,6 +1,5 @@
 package com.kks.trashpedia.board.model.service;
 
-import java.sql.Date;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
@@ -36,18 +35,9 @@ public interface BoardService {
 	ImgAttachment getImageUrl(int boardNo, int imgType);
 	Attachment getDetailAttach(int boardNo, int fileType);
 
-	// 무료 상세 페이지
-	Post getFreeTrashDetail(int boardNo);
-	String getTrashWriterByboardNo(int boardNo);
-	String getTrashCreateByboardNo(int boardNo);
-	Date getTrashViewsByboardNo(int boardNo);
-
-	
-
 	void increaseCount(Hits hits);
 
 	Post getPostByTitle(String title);
-
 
 	/*대댓글*/
 	int insertNC(NestedComment nc); // 삽입
@@ -55,10 +45,7 @@ public interface BoardService {
 	List<Comment> selectCommentList(Board b); //commentNo 가져오기
 	int deleteNC(int nCommentNo); // 삭제
 
-	List<Post> getFreeTrashTotalList(int subCategoryNo);
-
 	int increaseUserPoint(int userNo, int amount, String pointContent);
 
 	int updateNC(NestedComment nestedComment);
-
 }
