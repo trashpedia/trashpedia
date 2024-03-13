@@ -64,7 +64,7 @@
 			<c:if test="${not empty authentication}">
 				<div class="insert-area">
 					<a
-						href="${pageContext.request.contextPath}/write?bigCategoryNo=${bigCategoryNo}&subCategoryNo=${subCategoryNo}&type=1">
+						href="${pageContext.request.contextPath}/write?subCategoryNo=${subCategoryNo}&type=1">
 						<button id="insertButton">게시글 등록</button>
 					</a>
 				</div>
