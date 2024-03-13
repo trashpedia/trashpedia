@@ -26,7 +26,6 @@ import lombok.RequiredArgsConstructor;
 public class MemberController {
 
 	private final PasswordEncoder passwordEncoder;
-
 	private final MemberService service;
 
 	// 마이페이지 이동

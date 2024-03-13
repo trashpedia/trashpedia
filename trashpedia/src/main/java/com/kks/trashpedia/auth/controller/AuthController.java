@@ -29,8 +29,10 @@ public class AuthController {
 	@GetMapping("/login")
     public ModelAndView loginForm(HttpServletRequest request) {
         ModelAndView mav = new ModelAndView("user/login");
-        String referrer = request.getHeader("referer");
-        request.getSession().setAttribute("nextUrl", referrer);
+        String referer = request.getHeader("referer");
+        if(referer != "http://localhost:8085/trashpedia/member/join") {
+        	request.getSession().setAttribute("nextUrl", referer);
+        }
         return mav;
     }
 	
@@ -80,7 +82,6 @@ public class AuthController {
 		if (m != null) {
 			request.getSession().setAttribute("authentication", m);
 			String nextUrl = (String)request.getSession().getAttribute("nextUrl");
-			System.out.println(nextUrl);
 			request.getSession().setAttribute("nextUrl", "");
 			request.getSession().setAttribute("authentication", m);
 			mav.setViewName("redirect:"+nextUrl);

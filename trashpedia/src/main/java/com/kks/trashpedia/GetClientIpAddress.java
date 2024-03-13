@@ -29,11 +29,9 @@ public class GetClientIpAddress {
         if (ipAddress == null || ipAddress.isEmpty() || "unknown".equalsIgnoreCase(ipAddress)) {
             ipAddress = request.getRemoteAddr();
         }
-        
         if (ipAddress.contains(":")) {
             ipAddress = ipAddress.split(":")[0];
         }
-        
         return ipAddress;
     }
 }

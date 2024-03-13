@@ -48,7 +48,6 @@ public class PledgeController {
 	//실천서약 페이지 이동
 	@GetMapping("/list")
 	public ModelAndView pledgeList(int subCategoryNo) {
-		
 		ModelAndView mav = new ModelAndView();
 		
 		int countSignature= service.countSignature();
@@ -190,10 +189,4 @@ public class PledgeController {
 	public List<Signature> selectSignatureList(int pledgeNo ){
 		return service.selectSignatureList(pledgeNo);
 	}
-	
-	
-
-	
-	
-	
 }

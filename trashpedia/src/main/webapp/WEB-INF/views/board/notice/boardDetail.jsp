@@ -184,7 +184,6 @@
 		                    commentsHtml += "<div class='nested-comment-content'>" + nComment.content + "</div>";
 		                    commentsHtml += "<div class='nested-comment-actions'>";
 		                    if(nComment.userNo == loginUserNo){
-// 		                    	commentsHtml += "<button onclick='showNCommentUpdateForm(" + nComment.nestedCommentNo  , nComment.content +", this)' class='btn-edit-nc'>수정</button>";
 		                    	commentsHtml += "<button onclick='showNCommentUpdateForm(" + nComment.nestedCommentNo + ", \"" + nComment.content.replace(/"/g, '&quot;') + "\", this)' class='btn-edit-nc'>수정</button>";
 		                    }
 		                    commentsHtml += "<button onclick='deleteNC(" + nComment.nestedCommentNo + ")' class='btn-delete-nc'>삭제</button>";
@@ -250,30 +249,20 @@
 		    }
 		}
 		
-		//대댓글 수정폼
 		function showNCommentUpdateForm(nestedCommentNo, nestedContent, btn) {
 			
 			var $nestedCommentDiv = $(btn).closest('.nested-comment');
 
-		    // 기존 내용을 숨기고 textarea로 대체합니다.
 		    $nestedCommentDiv.find('.nested-comment-content').hide();
-		    // 이미 textarea가 존재하지 않는 경우에만 추가합니다.
 		    if ($nestedCommentDiv.find('.edit-textarea').length === 0) {
 		        var textareaHtml = '<textarea class="edit-textarea">' + nestedContent + '</textarea>';
-		        // "저장" 버튼을 추가합니다.
-		        var saveButtonHtml = '<button class="btn-save-nc" onclick="saveNCommentUpdate(' + nestedCommentNo + ', this)">저장</button>';
-		        // textarea와 "저장" 버튼을 .nested-comment-actions 요소 앞에 삽입합니다.
+		        var saveButtonHtml = '<button class="btn-edit-nc" onclick="saveNCommentUpdate(' + nestedCommentNo + ')">저장</button>';
 		        $nestedCommentDiv.find('.nested-comment-actions').prepend(textareaHtml + saveButtonHtml);
-		        
 		    }
-
-// 		       updateButton.addEventListener("click", function() {
-// 		           updateComment(commentNo, textarea);
-// 		       });
-		   }
+		}
 		
 		//대댓글 수정
-		function editNC(nCommentNo) {
+		function saveNCommentUpdate(nCommentNo) {
 		    if (result) {
 		        $.ajax({
 		            url: "${contextPath}/board/editNC/" + nCommentNo,

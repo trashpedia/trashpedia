@@ -94,8 +94,7 @@ input[type="button"] {
 }
 
 .sidebar-wrapper {
-/*     position: fixed; */
-	position : absolute;
+    position: fixed;
     left: 0;
     height: 100%
 }
