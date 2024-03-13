@@ -215,6 +215,13 @@ public class BoardController {
 	public int deleteNC(@PathVariable("nCommentNo") int nCommentNo) {
 		return service.deleteNC(nCommentNo);
 	}
+	
+	// 대댓글 수정
+	@PostMapping("/updateNC/{nestedCommentNo}")
+	public int updateNC(NestedComment nestedComment) {
+		return service.updateNC(nestedComment);
+	}
+	
 
 	// 회원의 댓글작성시 point를 증가시키는 함수
 	@PostMapping("/increaseUserPoint")

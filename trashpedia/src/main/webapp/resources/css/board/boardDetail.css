@@ -437,6 +437,7 @@ a {
     margin-top: 10px;
     border-left: 3px solid #afbaaf;
     padding-left: 10px;
+    /* width: 80%; */
 }
 
 .nested-comment {
@@ -487,6 +488,7 @@ a {
     border-radius: 3px;
     cursor: pointer;
     font-size: 10px;
+    margin-left: 7px;
 }
 
 .btn-edit-nc{
@@ -498,9 +500,23 @@ a {
     border-radius: 3px;
     cursor: pointer;
     font-size: 10px;
+    margin-left: 7px;
+}
+.btn-save-nc{
+    background-color: #745d5d;
+    border-style: 1px solid red;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 10px;
+}
+.btn-edit-nc :hover{
+    background-color: red;
 }
 
-.btn-delete-nc:hover {
+.btn-delete-nc :hover {
     background-color: #c53030;
 }
 

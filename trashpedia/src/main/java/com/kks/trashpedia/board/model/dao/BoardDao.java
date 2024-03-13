@@ -74,4 +74,6 @@ public interface BoardDao {
 
 	int increaseUserPoint(int userNo, int amount, String pointContent);
 
+	int updateNc(NestedComment nestedComment);
+
 }
