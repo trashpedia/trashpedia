@@ -107,8 +107,8 @@
 	font-weight: 500;
 	background-color: #73cc73;
 	color: white;
-	justify-content:center;
-	font-size:29px;
+	justify-content: center;
+	font-size: 29px;
 }
 </style>
 <script>
@@ -126,25 +126,33 @@
 		<main>
 			<div class="Content">
 				<div class="Container">
-					<button class="btn" onclick="location.href='${pageContext.request.contextPath}/write?subCategoryNo=${subCategoryNo}&type=1'">글쓰기</button>
+					<button class="btn"
+						onclick="location.href='${pageContext.request.contextPath}/write?subCategoryNo=${subCategoryNo}&type=1'">글쓰기</button>
 					<div class="List">
-						<c:forEach var="post" items="${boardList.content}" >
-							<div class="Card" onclick="location.href='${contextPath}/board/detail/${post.postNo}'">
+						<c:forEach var="post" items="${boardList.content}">
+							<div class="Card"
+								onclick="location.href='${contextPath}/board/detail/${post.postNo}'">
 								<div class="Front">
 									<div class="Image">
-										<img class="content-img" src="<c:url value='/resources/attachFile/image/${post.changeName}'/>">
+										<img class="content-img"
+											src="<c:url value='/resources/attachFile/image/${post.changeName}'/>">
+
 									</div>
 									<div class="TextContent">
-										<div class="Subtitle">제목: ${fn:substring(post.title,0,11)}</div>
+										<div class="Subtitle">제목:
+											${fn:substring(post.title,0,11)}</div>
 										<div class="Subtitle">작성일: ${post.createDate}</div>
 										<div class="Subtitle">조회: ${post.hits}</div>
 									</div>
 								</div>
-								<div class="Back" onclick="goToFreeShareDetail(${post.postNo})" data-postNo="${post.postNo}">
-									<img class="content-img" src="<c:url value='/resources/attachFile/image/${post.changeName}'/ >" alt="" style="position:relative; top:-10px;">
-									<span class="clickDetail" data-postNo="${post.postNo}" style="font-size: 18px; font-weight: 600;">
-										${post.content}
-									</span>
+								<div class="Back" onclick="goToFreeShareDetail(${post.postNo})"
+									data-postNo="${post.postNo}">
+									<img class="content-img"
+										src="<c:url value='/resources/attachFile/image/${post.changeName}'/>"
+										alt="" style="position: relative; top: -10px;"> <span
+										class="clickDetail" data-postNo="${post.postNo}"
+										style="font-size: 18px; font-weight: 600;">
+										${post.content} </span>
 								</div>
 							</div>
 						</c:forEach>
@@ -153,17 +161,25 @@
 			</div>
 			<div class="PagingArea paging-button">
 				<c:if test="${boardList.number > 0}">
-					<a href="${contextPath}/board/list?page=${boardList.number - 1}&subCategoryNo=${subCategoryNo}" class="pagingBtn">&lt;</a>
+					<a
+						href="${contextPath}/board/list?page=${boardList.number - 1}&subCategoryNo=${subCategoryNo}"
+						class="pagingBtn">&lt;</a>
 				</c:if>
 				<c:if test="${boardList.totalPages > 0}">
-					<c:forEach begin="0" end="${boardList.totalPages - 1}" var="pageNum">
-						<c:if test="${pageNum >= boardList.number - 5 && pageNum <= boardList.number + 5}">
-							<a href="${contextPath}/board/list?page=${pageNum}&subCategoryNo=${subCategoryNo}" class="${pageNum == boardList.number ? 'pagingBtn on' : 'pagingBtn'}">${pageNum + 1}</a>
+					<c:forEach begin="0" end="${boardList.totalPages - 1}"
+						var="pageNum">
+						<c:if
+							test="${pageNum >= boardList.number - 5 && pageNum <= boardList.number + 5}">
+							<a
+								href="${contextPath}/board/list?page=${pageNum}&subCategoryNo=${subCategoryNo}"
+								class="${pageNum == boardList.number ? 'pagingBtn on' : 'pagingBtn'}">${pageNum + 1}</a>
 						</c:if>
 					</c:forEach>
 				</c:if>
 				<c:if test="${boardList.number + 1 < boardList.totalPages}">
-					<a href="${contextPath}/board/list?page=${boardList.number + 1}&subCategoryNo=${subCategoryNo}" class="pagingBtn">&gt;</a>
+					<a
+						href="${contextPath}/board/list?page=${boardList.number + 1}&subCategoryNo=${subCategoryNo}"
+						class="pagingBtn">&gt;</a>
 				</c:if>
 			</div>
 		</main>
