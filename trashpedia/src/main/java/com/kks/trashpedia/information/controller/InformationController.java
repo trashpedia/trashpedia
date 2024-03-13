@@ -31,19 +31,16 @@ import com.kks.trashpedia.pledge.model.service.PledgeService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/information")
+@RequiredArgsConstructor
 public class InformationController {
 
-	@Autowired
-	private InformationService service;
-	
-	@Autowired
-	private PledgeService pService;
-	
-	@Autowired
-	private BoardService boardService;
+	private final InformationService service;
+	private final PledgeService pService;
+	private final BoardService boardService;
 	
 	// 정보자료글 페이지 이동
 	@GetMapping("/list")

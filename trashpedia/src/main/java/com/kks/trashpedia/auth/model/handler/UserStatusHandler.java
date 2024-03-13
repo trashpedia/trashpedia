@@ -17,8 +17,7 @@ import com.kks.trashpedia.auth.model.vo.UserStatus;
 public class UserStatusHandler extends BaseTypeHandler<UserStatus>{
 
 	@Override
-	public void setNonNullParameter(PreparedStatement ps, int i, UserStatus parameter, JdbcType jdbcType)
-			throws SQLException {
+	public void setNonNullParameter(PreparedStatement ps, int i, UserStatus parameter, JdbcType jdbcType) throws SQLException {
 		ps.setInt(i, Integer.parseInt(parameter.getUserStatus()));
 	}
 

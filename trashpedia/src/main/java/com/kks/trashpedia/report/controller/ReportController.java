@@ -41,13 +41,11 @@ public class ReportController {
 	
 	@PostMapping("/processing/{reportNo}")
 	public int processingReport(Report report) {
-		System.out.println(report);
 		return service.processingReport(report);
 	}
 	
 	@PostMapping("/deleteProcessing/{reportNo}")
 	public int deleteProcessingReport(Report report) {
-		System.out.println(report);
 		return service.deleteProcessingReport(report);
 	}
 }

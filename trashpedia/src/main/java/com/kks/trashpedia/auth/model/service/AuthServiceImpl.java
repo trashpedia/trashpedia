@@ -90,16 +90,12 @@ public class AuthServiceImpl implements AuthService{
 
         for (int i = 0; i < 8; i++) {
             int idx = random.nextInt(3);
-
             switch (idx) {
-                case 0:
-                    key.append((char) ((int) random.nextInt(26) + 97));
+                case 0: key.append((char) ((int) random.nextInt(26) + 97));
                     break;
-                case 1:
-                    key.append((char) ((int) random.nextInt(26) + 65));
+                case 1: key.append((char) ((int) random.nextInt(26) + 65));
                     break;
-                case 2:
-                    key.append(random.nextInt(9));
+                case 2: key.append(random.nextInt(9));
                     break;
             }
         }

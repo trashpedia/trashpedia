@@ -10,5 +10,4 @@ public class PointController {
 	@Autowired
 	private PointService service;
 	
-	
 }

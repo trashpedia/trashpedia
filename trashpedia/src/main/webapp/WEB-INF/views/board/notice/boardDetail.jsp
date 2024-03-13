@@ -247,8 +247,7 @@
 		            }
 		        });
 		    }
-		}
-		
+    }
 		//대댓글 수정폼
 		function showNCommentUpdateForm(nestedCommentNo, nestedContent, btn, commentNo) {
 			

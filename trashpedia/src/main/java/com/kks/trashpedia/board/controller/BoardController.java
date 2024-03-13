@@ -141,22 +141,17 @@ public class BoardController {
 		Page<Board> pages = service.boardList(subCategoryNo, pageable, page, filter, searchSelect, searchValue);
 		mav.addObject("boardList", pages);
 		if (subCategoryNo == 4) {
-			 // 지우면안돼요.
-			Pageable freeSharePageable = PageRequest.of(pageable.getPageNumber(), 12, pageable.getSort()); // 지우면안돼요.
-																											// 12개 쓸거임
-			Page<Board> freeSharePages = service.boardList(subCategoryNo, freeSharePageable, page, filter, searchSelect,
-					searchValue);
+			Pageable freeSharePageable = PageRequest.of(pageable.getPageNumber(), 12, pageable.getSort());
+			Page<Board> freeSharePages = service.boardList(subCategoryNo, freeSharePageable, page, filter, searchSelect, searchValue);
 
 			List<Board> content = freeSharePages.getContent();
 			for (Board board : content) {
-				String cleanedContent = board.getContent().replaceAll("<img[^>]*>", ""); // 이미지 태그를 제거함
+				String cleanedContent = board.getContent().replaceAll("<img[^>]*>", "");
 				board.setContent(cleanedContent);
 			}
-		    // freeSharePages 객체에 이미지 태그가 제거된 내용을 반영
 		    freeSharePages = new PageImpl<>(content, freeSharePages.getPageable(), freeSharePages.getTotalElements());
 			mav.addObject("boardList", freeSharePages);
 			mav.setViewName("board/freeShare/freeShare");
-			 // 지우면안돼요.
 		} else {
 			mav.setViewName("board/notice/boardList");
 		}
@@ -193,7 +188,6 @@ public class BoardController {
 	// 댓글삭제
 	@DeleteMapping("/deleteComment/{commentNo}")
 	public int deleteComment(Comment comment) {
-
 		return pservice.deleteComment(comment);
 	}
 
