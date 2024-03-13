@@ -1,6 +1,5 @@
 package com.kks.trashpedia.board.model.service;
 
-import java.sql.Date;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
@@ -72,50 +71,16 @@ public class BoardServiceImpl implements BoardService{
 		return dao.getDetailAttach(boardNo, fileType);
 	}
 	
-
-	
-	
-	
 	@Override
 	public Post getPostByTitle(String title) {
 		return dao.getPostByTitle(title);
 	}
 	
-	// 무료 상세
-	@Override
-	public Post getFreeTrashDetail(int postNo) {
-		return dao.getFreeTrashDetail(postNo);
-	}
-
-
-
-	// 무료 페이지
-	@Override
-	public String getTrashWriterByboardNo(int boardNo) {
-		return dao.getTrashWriterByboardNo(boardNo);
-	}
-	@Override
-	public List<Post> getFreeTrashTotalList(int subCategoryNo) {
-		return dao.getFreeTrashTotalList(subCategoryNo);
-	}
-
-
-	@Override
-	public String getTrashCreateByboardNo(int boardNo) {
-		return dao.getTrashCreateByboardNo(boardNo);
-	}
-
-	@Override
-	public Date getTrashViewsByboardNo(int boardNo) {
-		return dao.getTrashViewsByboardNo(boardNo);
-	}
-
 	//게시글 조회수 증가
 	@Override
 	public void increaseCount(Hits hits) {
 		dao.increaseCount(hits);
 	}
-
 
 	/*대댓글*/
 	@Override

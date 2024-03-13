@@ -357,9 +357,6 @@
 		<if test="searchSelect == 'title'">
 			AND P.TITLE LIKE '%' || #{searchValue} || '%'
 		</if>
-		<if test="searchSelect == 'content'">
-			AND P.CONTENT LIKE '%' || #{searchValue} || '%'
-		</if>
 		ORDER BY
 			<choose>
 				<when test="sort == 'boardNo'">
@@ -373,15 +370,14 @@
 	<select id="announcementListCount" resultType="int">
 		SELECT COUNT(*)
 		FROM BOARD B
-		WHERE SUB_CATEGORY_NO = 1
+		LEFT JOIN POST P ON P.POST_NO = B.POST_NO
+		LEFT JOIN SUB_CATEGORY SC ON B.SUB_CATEGORY_NO = SC.SUB_CATEGORY_NO
+		WHERE SC.SUB_CATEGORY_NO = 1
 		<if test="searchSelect == 'boardNo'">
 			AND TO_CHAR(B.BOARD_NO) LIKE '%' || #{searchValue} || '%'
 		</if>
 		<if test="searchSelect == 'title'">
 			AND P.TITLE LIKE '%' || #{searchValue} || '%'
-		</if>
-		<if test="searchSelect == 'content'">
-			AND P.CONTENT LIKE '%' || #{searchValue} || '%'
 		</if>
 	</select>
 	<select id="getBoardList" resultType="Board">
