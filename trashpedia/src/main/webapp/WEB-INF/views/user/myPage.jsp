@@ -16,6 +16,34 @@
 <script	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 <!-- 다음 우편번호서비스 API  -->
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+
+
+<script type="text/javascript">
+
+// 카테고리 (랜더링문제로 올림)
+function getCategoryName(categoryNumber) {
+    switch(categoryNumber) {
+        case '1':
+            return "공지게시판";
+        case '2':
+            return "일반게시판";
+        case '3':
+            return "건의게시판";
+        case '4':
+            return "무료나눔게시판";
+        case '5':
+            return "실천서약";
+        case '6':
+            return "실천인증";
+        case '7':
+            return "홍보교육자료";
+        case '8':
+            return "제도교육자료";
+        default:
+            return "Unknown";
+    }
+}
+</script>
 </head>
 <body class="body-login">
 	<jsp:include page="../common/header.jsp" />
@@ -271,31 +299,7 @@
 	<jsp:include page="../common/footer.jsp" />
 
 	<script>
-		
-		// 카테고리
-	    function getCategoryName(categoryNumber) {
-	        switch(categoryNumber) {
-	            case '1':
-	                return "공지게시판";
-	            case '2':
-	                return "일반게시판";
-	            case '3':
-	                return "건의게시판";
-	            case '4':
-	                return "무료나눔게시판";
-	            case '5':
-	                return "실천서약";
-	            case '6':
-	                return "실천인증";
-	            case '7':
-	                return "홍보교육자료";
-	            case '8':
-	                return "제도교육자료";
-	            default:
-	                return "Unknown";
-	        }
-	    }
-	    
+
 	    function boardDetail(postNo, subCategory){
 	        switch(subCategory) {
 	            case '1':
