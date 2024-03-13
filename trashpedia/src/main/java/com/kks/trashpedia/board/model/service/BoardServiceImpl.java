@@ -143,4 +143,9 @@ public class BoardServiceImpl implements BoardService{
 	public int increaseUserPoint(int userNo, int amount, String pointContent) {
 		return dao.increaseUserPoint(userNo,amount,pointContent); //삭제
 	}
+
+	@Override
+	public int updateNC(NestedComment nestedComment) {
+		return dao.updateNc(nestedComment);
+	}
 }

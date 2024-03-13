@@ -59,4 +59,6 @@ public interface BoardService {
 
 	int increaseUserPoint(int userNo, int amount, String pointContent);
 
+	int updateNC(NestedComment nestedComment);
+
 }

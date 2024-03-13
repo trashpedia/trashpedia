@@ -234,4 +234,9 @@ public class BoardDaoImpl implements BoardDao {
 		    }
 	}
 
+	@Override
+	public int updateNc(NestedComment nestedComment) {
+		return session.update("boardMapper.updateNC", nestedComment);
+	}
+
 }

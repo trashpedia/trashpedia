@@ -184,7 +184,7 @@
 		                    commentsHtml += "<div class='nested-comment-content'>" + nComment.content + "</div>";
 		                    commentsHtml += "<div class='nested-comment-actions'>";
 		                    if(nComment.userNo == loginUserNo){
-		                    	commentsHtml += "<button onclick='showNCommentUpdateForm(" + nComment.nestedCommentNo + ", \"" + nComment.content.replace(/"/g, '&quot;') + "\", this)' class='btn-edit-nc'>수정</button>";
+		                    	commentsHtml += "<button onclick='showNCommentUpdateForm(" + nComment.nestedCommentNo + ", \"" + nComment.content.replace(/"/g, '&quot;') + "\", this, "+ commentNo +")' class='btn-edit-nc'>수정</button>";
 		                    }
 		                    commentsHtml += "<button onclick='deleteNC(" + nComment.nestedCommentNo + ")' class='btn-delete-nc'>삭제</button>";
 		                    commentsHtml += "</div>";
@@ -247,42 +247,41 @@
 		            }
 		        });
 		    }
-		}
-		
-		function showNCommentUpdateForm(nestedCommentNo, nestedContent, btn) {
+    }
+		//대댓글 수정폼
+		function showNCommentUpdateForm(nestedCommentNo, nestedContent, btn, commentNo) {
 			
 			var $nestedCommentDiv = $(btn).closest('.nested-comment');
-
+			
+			$nestedCommentDiv.find('.btn-edit-nc').hide();
 		    $nestedCommentDiv.find('.nested-comment-content').hide();
 		    if ($nestedCommentDiv.find('.edit-textarea').length === 0) {
 		        var textareaHtml = '<textarea class="edit-textarea">' + nestedContent + '</textarea>';
-		        var saveButtonHtml = '<button class="btn-edit-nc" onclick="saveNCommentUpdate(' + nestedCommentNo + ')">저장</button>';
+		        var saveButtonHtml = '<button class="btn-save-nc" onclick="updateNC(' + nestedCommentNo + ','+ commentNo +')">저장</button>';
 		        $nestedCommentDiv.find('.nested-comment-actions').prepend(textareaHtml + saveButtonHtml);
 		    }
 		}
 		
 		//대댓글 수정
-		function saveNCommentUpdate(nCommentNo) {
-		    if (result) {
-		        $.ajax({
-		            url: "${contextPath}/board/editNC/" + nCommentNo,
-		            type: 'delete',
-		            success: function(response) {
-		                if(response > 0) {
-		                    alert('대댓글이 삭제되었습니다.');
-		                    selectCommentList();
-		                    $('#nestedCommentsList'+nCommentNo).css('display', 'block');
-		                } else {
-		                    alert('대댓글 삭제에 실패했습니다.');
-		                }
-		            },
-		            error: function(xhr, status, error) {
-		                console.log("대댓글 삭제 에러:", status, error);
-		            }
-		        });
-		    }
+		function updateNC(nestedCommentNo, commentNo) {
+			let content = document.querySelector(".edit-textarea").value;
+	        $.ajax({
+	            url: "${contextPath}/board/updateNC/" + nestedCommentNo,
+	            type: 'post',
+	            data:{content},
+	            success: function(data) {
+	                if(data > 0) {
+	                    alert('댓글이 수정되었습니다.');
+	                    viewNC(commentNo);
+	                } else {
+	                    alert('댓글 수정에 실패했습니다.');
+	                }
+	            },
+	            error: function(xhr, status, error) {
+	                console.log("댓글 수정 에러:", status, error);
+	            }
+	        });
 		}
-		
 		
 		
 	//댓글등록
