@@ -398,4 +398,10 @@
 		INSERT INTO HITS
 		VALUES(SEQ_HITNO.NEXTVAL, #{boardNo}, #{userIp}, SYSDATE) 
 	</insert>
+	
+	<update id="updateNC" parameterType="nestedComment">
+		UPDATE NESTED_COMMENT
+		SET CONTENT = #{content}
+		WHERE NESTED_COMMENT_NO = #{nestedCommentNo}
+	</update>
 </mapper>
