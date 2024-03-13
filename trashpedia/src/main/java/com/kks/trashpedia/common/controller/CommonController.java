@@ -106,9 +106,9 @@ public class CommonController {
 		} else {
 			ra.addFlashAttribute("alert", "게시글 작성에 실패하셨습니다.");
 		}
-		mv.setViewName("redirect:"+nextUrl);
-
 		if (nextUrl != null) {
+			mv.setViewName("redirect:"+nextUrl);
+		} else {
 			mv.setViewName("redirect:/");
 		}
 		return mv;
